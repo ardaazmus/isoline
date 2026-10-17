@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { useI18n } from "@/i18n/provider";
-import { buildPathway, maccCurve, measureEffect, RATE_15C, RATE_WB2C, requiredReduction, targetGap, type Measure } from "@/lib/calc/pathway";
+import { buildPathway, maccCurve, measureEffect, pathwayRates, RATE_15C, RATE_WB2C, requiredReduction, targetGap, type Measure } from "@/lib/calc/pathway";
 import { FiguresRow, InputGroup, PageHeader, ToolLayout } from "@/components/shell";
 import { Figure, LegendItem } from "@/components/figure";
 import { LineChart, MaccChart } from "@/components/charts";
@@ -26,6 +26,7 @@ function Inner() {
   const [d, set, client] = useTool("pathway");
   const [tab, setTab] = useState<"base" | "measures" | "actuals">("base");
   const rows = useMemo(() => buildPathway(d, 2050), [d]);
+  const rates = pathwayRates(d);
   const x = rows.map((r) => r.year);
   const gap = targetGap(rows, d.targetYear);
   const target = rows.find((r) => r.year === d.targetYear);
@@ -68,6 +69,16 @@ function Inner() {
               <InputGroup title={t("pathway.baseYear")}>
                 <NumberField label={t("pathway.baseYearLabel")} value={d.baseYear} min={2015} max={2030} onChange={(v) => set({ ...d, baseYear: Math.round(v) })} />
                 <NumberField label={t("pathway.baseS12")} unit="tCO₂e" value={d.baseScope12} min={0} onChange={(v) => set({ ...d, baseScope12: v })} />
+                <NumberField
+                  label={t("pathway.scope2Share")}
+                  percent
+                  nullable
+                  min={0}
+                  max={1}
+                  value={d.scope2Share ?? NaN}
+                  onChange={(v) => set({ ...d, scope2Share: Number.isFinite(v) ? v : undefined })}
+                  hint={t("pathway.scope2ShareHint")}
+                />
                 <NumberField label={t("pathway.baseS3")} unit="tCO₂e" value={d.baseScope3} min={0} onChange={(v) => set({ ...d, baseScope3: v })} />
                 <NumberField label={t("pathway.targetYear")} value={d.targetYear} min={d.baseYear + 1} max={2050} onChange={(v) => set({ ...d, targetYear: Math.round(v) })} hint={t("pathway.targetYearHint")} />
                 <NumberField label={t("pathway.bau")} percent value={d.bauGrowth} onChange={(v) => set({ ...d, bauGrowth: v })} />
@@ -123,7 +134,7 @@ function Inner() {
           pulseKey={Math.round(gap)}
           items={[
             { label: t("pathway.figBase", { year: d.baseYear }), value: fmt.compact(base), trend: rows.filter((r) => r.year <= d.targetYear).map((r) => r.withMeasures), mark: 0 },
-            { label: t("pathway.figTarget", { year: d.targetYear }), value: fmt.compact(target?.target15 ?? 0), trend: rows.filter((r) => r.year <= d.targetYear).map((r) => r.target15), mark: d.targetYear - d.baseYear, note: t("pathway.figTargetNote", { pct: fmt.percent(requiredReduction(d.baseYear, d.targetYear, RATE_15C), 0) }) },
+            { label: t("pathway.figTarget", { year: d.targetYear }), value: fmt.compact(target?.target15 ?? 0), trend: rows.filter((r) => r.year <= d.targetYear).map((r) => r.target15), mark: d.targetYear - d.baseYear, note: t("pathway.figTargetNote", { pct: fmt.percent(requiredReduction(d.baseYear, d.targetYear, rates.scope12), 0) }) },
             { label: t("pathway.figPlan", { year: d.targetYear }), value: fmt.compact(target?.withMeasures ?? 0), tone: gap > 0 ? "crit" : "ok", trend: rows.filter((r) => r.year <= d.targetYear).map((r) => r.withMeasures), mark: d.targetYear - d.baseYear },
             { label: t("pathway.figAbatement", { year: d.targetYear }), value: fmt.compact(abatementAtTarget), trend: rows.filter((r) => r.year <= d.targetYear).map((r) => r.abatement), mark: d.targetYear - d.baseYear },
           ]}
@@ -241,7 +252,7 @@ function Inner() {
         <div className="glass flex min-w-0 flex-col gap-3 p-5 md:p-6">
           <SectionTitle>{t("common.notes")}</SectionTitle>
           <NoteList prefix="pathway.notes" keys={["rates", "netzero", "v2", "ndc", "macc"]} />
-          <p className="text-[13px] text-[var(--ink-3)]">{t("pathway.rateLine", { r15: fmt.percent(RATE_15C), rwb: fmt.percent(RATE_WB2C) })}</p>
+          <p className="text-[13px] text-[var(--ink-3)]">{t("pathway.rateLine", { year: d.baseYear, r15: fmt.percent(rates.scope12, 2), rwb: fmt.percent(rates.wb2c, 2), min15: fmt.percent(RATE_15C), minwb: fmt.percent(RATE_WB2C) })}</p>
         </div>
       </ToolLayout>
     </>

@@ -302,6 +302,16 @@
     "addProduct": "Add product",
     "productName": "Product name",
     "cn": "CN code",
+    "cnStatus": {
+      "covered": "Covered by CBAM · {sector}",
+      "partial": "Partly covered · {sector}",
+      "partialDetail": "Only part of this code is in Annex I. Enter the full 8-digit CN code or check it against Annex I.",
+      "notCovered": "Not covered by CBAM",
+      "notCoveredDetail": "This CN code is not listed in Annex I of Reg. 2023/956.",
+      "invalid": "Code not recognised",
+      "invalidDetail": "Enter a CN code with at least 4 digits (e.g. 7208 51 20).",
+      "sectorMismatch": "Annex I lists this code under {sector}; check the selected sector."
+    },
     "sector": "Sector",
     "tonnes": "Exports to the EU (2026)",
     "growth": "Annual volume change",
@@ -309,7 +319,7 @@
     "useDefaultHint": "Without verified installation data, the EU default value plus the year's mark-up applies.",
     "seeDirect": "Direct embedded emissions",
     "seeIndirect": "Indirect embedded emissions",
-    "noIndirect": "Indirect emissions do not count for this sector.",
+    "noIndirect": "Indirect emissions do not count for this good.",
     "defaultSee": "EU default value",
     "benchmark": "Free-allocation benchmark",
     "boundary": "Goods and installation, EU exports",
@@ -333,6 +343,7 @@
     "defaultValues": "default value",
     "verifiedValues": "verified data",
     "colShare": "Paid share",
+    "cscfAssumed": "The CSCF for 2031–2033 is not yet determined; the free-allocation adjustment assumes 1.",
     "colTonnes": "Tonnes",
     "colGross": "Embedded tCO₂e",
     "colFaa": "Allocation adjustment",
@@ -340,13 +351,13 @@
     "colCost": "Cost (€)",
     "colCostTry": "Cost (TRY)",
     "notes": {
-      "deMinimis": "Importers below 50 tonnes net mass per year (steel, aluminium, fertilisers and cement combined) are exempt; crossing the threshold brings the whole year's imports into scope. Electricity and hydrogen have no threshold.",
-      "indirect": "Indirect (electricity) emissions count only for cement and fertilisers; for steel, sinter's indirect emissions carry through as a precursor.",
+      "deMinimis": "Imports by an EU importer whose net mass does not exceed 50 tonnes in total in a calendar year are exempt (Art. 2a, Annex VII; exactly 50 tonnes is still exempt); once exceeded, all of that year's imports are in scope. There is no threshold for electricity and hydrogen.",
+      "indirect": "Indirect (electricity) emissions count for cement, fertilisers and agglomerated iron ore (CN 2601 12 00); other iron and steel, aluminium, hydrogen and electricity use direct emissions only (Reg. 2023/956 Annex II).",
       "markup": "Default values carry a mark-up: 10 % in 2026, 20 % in 2027, 30 % from 2028; 1 % for fertilisers.",
-      "deduction": "EU rules for deducting the carbon price paid in the country of origin are still in draft (13.05.2026); this line is an estimate.",
+      "deduction": "The carbon price paid in the country of origin can be deducted only for actual (verified) emissions (Art. 9(1)); with default values only the Commission's yearly default carbon prices can be used and none are published yet, so default-value lines get no deduction. The implementing rules are still a draft as of 17.10.2026 (Ares(2026)4841230); this line is an estimate.",
       "holding": "From 2027, at each quarter end, certificates covering at least 50 % of year-to-date embedded emissions must be held.",
       "penalty": "The standard penalty is €100 per certificate not surrendered.",
-      "csCf": "The cross-sectoral correction factor (CSCF) is not applied; take the benchmark and route mapping from Implementing Regulation 2025/2620."
+      "csCf": "Free allocation adjustment = mass × CBAM factor × CSCF × benchmark (Implementing Regulation 2025/2620). The CSCF is 100 % for each year 2026–2030 (Implementing Decision (EU) 2026/1862); 2031–2033 are not yet determined and use 1. Take the benchmark and route mapping from the 2025/2620 annex."
     },
     "sampleWarning": "Benchmarks and default values for the sample client are illustrative, not official. For a real calculation enter the values for your CN code and route from Implementing Regulations 2025/2620 and 2025/2621."
   },
@@ -447,7 +458,7 @@
       "grid": "Location-based scope 2 uses the ETKB 2023 consumption-point factors: transmission 0.436, distribution 0.469 tCO₂e/MWh.",
       "market": "No residual-mix factor is published for Türkiye; uncovered electricity uses the grid factor and the report should say so.",
       "scope3": "Scope 3 factors are entered by the user and each line records its source.",
-      "gwp": "Refrigerants use IPCC AR6 GWP100; state the GWP set in the report.",
+      "gwp": "Refrigerants use IPCC AR6 GWP100 (Table 7.SM.7, e.g. SF₆ 24,300, R-134a 1,530); state the GWP set in the report.",
       "tsrs": "Under TSRS 2, scope 3 is not required in the first two reporting years; TSRS 2 GHG amendments apply from 2027."
     }
   },
@@ -508,6 +519,8 @@
     "baseYear": "Base year",
     "baseYearLabel": "Base year",
     "baseS12": "Scope 1+2",
+    "scope2Share": "Scope 2 share of scope 1+2 (optional)",
+    "scope2ShareHint": "Base-year scope 2 emissions as a share of scope 1+2. Scope 2 reaches net zero by 2040, so a higher share raises the minimum rate. Leave empty to treat it all as scope 1.",
     "baseS3": "Scope 3",
     "targetYear": "Near-term target year",
     "targetYearHint": "SBTi near-term targets cover 5–10 years from submission.",
@@ -539,9 +552,9 @@
     "maccCaption": "Bar width is annual abatement, height is cost per tonne; the dashed line is the reference carbon price.",
     "carbonPriceRef": "Reference carbon price €80/t",
     "boundary": "Corporate, S1+2+3",
-    "rateLine": "Linear reduction rates used: {r15} a year for scope 1+2 (1.5 °C), {rwb} a year for scope 3 (well-below 2 °C).",
+    "rateLine": "Linear reduction rates used in the chart (base year {year}): {r15} a year for scope 1+2 (1.5 °C) and {rwb} a year for scope 3 (well-below 2 °C). The SBTi minimums are {min15} and {minwb}; the rate rises with a later base year and a higher scope 2 share.",
     "notes": {
-      "rates": "Near-term targets use SBTi linear absolute contraction: at least 4.2 % a year for scope 1+2 and 2.5 % for scope 3.",
+      "rates": "Near-term targets use SBTi linear absolute contraction. The minimum rates are 4.2 % a year for scope 1+2 and 2.5 % for scope 3; under the Net-Zero Standard V1.3.1 Method Appendix (14.04.2026) the rate rises dynamically with the base year (e.g. scope 3, base year 2024: 2.88 %). If the scope 2 share field is left empty, scope 1+2 is treated as all scope 1, which gives the lowest rate; entering the share gives the real minimum.",
       "netzero": "The long-term net-zero path assumes at least 90 % absolute reduction from the base year by 2050, with residuals neutralised.",
       "v2": "SBTi Net-Zero Standard V2.0 takes effect on 31.01.2027; its final methods arrive in Q4 2026, so V2 parameters are not modelled yet.",
       "ndc": "Türkiye's NDC 3.0 targets at most 643 MtCO₂e in 2035 and net zero by 2053; mind the scale difference when comparing.",
@@ -799,7 +812,7 @@
         "status_two_years": "Entering scope requires the regulated status in at least two periods.",
         "small_fi_relief": "Unlisted financial institutions with no more than one branch or 250 employees are outside mandatory scope during the scope 3 relief.",
         "below_thresholds": "Two of three criteria were not exceeded in two consecutive periods; TSRS may be applied voluntarily.",
-        "threshold_transition_review": "KGK has not illustrated how the new thresholds (1 bn / 2 bn / 500) apply to 2023–2024 reference years; cross-check with KGK's SÜHA tool.",
+        "threshold_transition_review": "The KGK decision (Official Gazette 16.01.2026, 33139) applies the new thresholds (1 bn / 2 bn / 500) to accounting periods starting on or after 1 January 2025; no official text explains how they apply to the 2023–2024 reference years. Cross-check with KGK's SÜHA tool.",
         "relief_comparatives": "Comparative information is not required in the first reporting period.",
         "relief_climate_first": "The first year may cover climate-related risks and opportunities only (climate first).",
         "relief_timing": "First-year reports may be published with the interim report or within 9 months of period end.",
@@ -822,7 +835,7 @@
       "cbam": {
         "no_sector": "No CBAM goods exported to the EU.",
         "operator_data": "Your EU importer needs verified embedded emissions per installation and good for its declaration.",
-        "de_minimis_check": "Under 50 tonnes a year per EU buyer may be exempt; check the total per buyer.",
+        "de_minimis_check": "Imports up to 50 tonnes a year in total per EU importer may be exempt; check the total per buyer.",
         "default_markup": "Without verified data, default values apply with a 10 % mark-up in 2026 rising to 30 % from 2028.",
         "downstream_2028": "An extension to downstream goods such as screws, wire and tubes is under negotiation for 2028."
       },
@@ -1034,7 +1047,7 @@
       "spk_urf_kybf": "Forms published on KAP, with year-on-year differences.",
       "spk_sustainability": "Principle-based compliance on a comply-or-explain basis.",
       "tsrs_link": "Indicators in the annual report match the TSRS report.",
-      "bddk_content": "Additional BRSA information for banks; content to be confirmed.",
+      "bddk_content": "BRSA regulation Art. 6: introduction (summary financials, shareholding, management's assessment, staff and branches), management and corporate governance (committees, risk-group transactions, outsourced services) and financial information and risk management (audit committee assessment, independent audit report, five-year summary). Publish by the end of May of the following year; the regulation has no sustainability annex.",
       "auditor_consistency": "Consistency of financial information with the audited statements."
     }
   },

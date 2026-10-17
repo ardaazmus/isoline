@@ -302,6 +302,16 @@
     "addProduct": "Ürün ekle",
     "productName": "Ürün adı",
     "cn": "KN kodu",
+    "cnStatus": {
+      "covered": "SKDM kapsamında · {sector}",
+      "partial": "Kısmen kapsamda · {sector}",
+      "partialDetail": "Bu kodun yalnız bir bölümü Ek I'de. Tam 8 haneli KN kodunu girin ya da Ek I ile kontrol edin.",
+      "notCovered": "SKDM kapsamı dışında",
+      "notCoveredDetail": "Bu KN kodu Tüzük 2023/956 Ek I'de yer almıyor.",
+      "invalid": "Kod tanınmadı",
+      "invalidDetail": "En az 4 haneli bir KN kodu girin (ör. 7208 51 20).",
+      "sectorMismatch": "Ek I bu kodu {sector} sektöründe sayıyor; seçili sektörü kontrol edin."
+    },
     "sector": "Sektör",
     "tonnes": "AB'ye ihracat (2026)",
     "growth": "Yıllık hacim değişimi",
@@ -309,7 +319,7 @@
     "useDefaultHint": "Doğrulanmış tesis verisi yoksa AB varsayılan değeri ve yılın işaret payı kullanılır.",
     "seeDirect": "Doğrudan gömülü emisyon",
     "seeIndirect": "Dolaylı gömülü emisyon",
-    "noIndirect": "Bu sektörde dolaylı emisyon SKDM hesabına girmez.",
+    "noIndirect": "Bu ürün için dolaylı emisyon SKDM hesabına girmez.",
     "defaultSee": "AB varsayılan değeri",
     "benchmark": "Ücretsiz tahsis kıyas değeri",
     "boundary": "Ürün ve tesis, AB'ye ihracat",
@@ -333,6 +343,7 @@
     "defaultValues": "varsayılan değer",
     "verifiedValues": "doğrulanmış veri",
     "colShare": "Ödenen pay",
+    "cscfAssumed": "2031–2033 için CSCF henüz belirlenmedi; ücretsiz tahsis düzeltmesinde 1 varsayıldı.",
     "colTonnes": "Ton",
     "colGross": "Gömülü tCO₂e",
     "colFaa": "Tahsis düzeltmesi",
@@ -340,13 +351,13 @@
     "colCost": "Maliyet (€)",
     "colCostTry": "Maliyet (TL)",
     "notes": {
-      "deMinimis": "AB'deki ithalatçı başına yıllık 50 ton net kütlenin altı (demir-çelik, alüminyum, gübre ve çimento toplamı) muaftır; eşik aşılırsa o yılın tüm ithalatı kapsama girer. Elektrik ve hidrojende eşik yoktur.",
-      "indirect": "Dolaylı (elektrik) emisyonlar yalnız çimento ve gübrede hesaba girer; demir-çelikte sinter cevherinin dolaylı emisyonu öncül olarak taşınır.",
+      "deMinimis": "AB'deki ithalatçı başına takvim yılında toplam net kütlesi 50 tonu aşmayan ithalat muaftır (Md. 2a, Ek VII; tam 50 ton da muaf); eşik aşılırsa o yılın tüm ithalatı kapsama girer. Elektrik ve hidrojende eşik yoktur.",
+      "indirect": "Dolaylı (elektrik) emisyonlar çimento, gübre ve aglomere demir cevherinde (KN 2601 12 00) hesaba girer; diğer demir-çelik, alüminyum, hidrojen ve elektrik yalnız doğrudan emisyonla hesaplanır (Tüzük 2023/956 Ek II).",
       "markup": "Varsayılan değerlere işaret payı eklenir: 2026'da %10, 2027'de %20, 2028'den itibaren %30; gübrede %1.",
-      "deduction": "Menşe ülkede ödenen karbon fiyatının düşülmesine ilişkin AB uygulama kuralları taslak aşamasındadır (13.05.2026); bu satır tahmini sonuç verir.",
+      "deduction": "Menşe ülkede ödenen karbon fiyatı yalnız gerçek (doğrulanmış) emisyonlarda düşülebilir (Md. 9(1)); varsayılan değerlerde yalnız Komisyon'un yıllık varsayılan karbon fiyatlarıyla mümkündür ve bunlar henüz yayımlanmadı, bu yüzden varsayılan değer satırlarında düşüm 0 alınır. Uygulama tüzüğü 17.10.2026 itibarıyla taslaktır (Ares(2026)4841230); bu satır tahmini sonuç verir.",
       "holding": "2027'den itibaren her çeyrek sonunda, yıl başından beri ithal edilen gömülü emisyonun en az %50'si kadar sertifika hesapta tutulmalıdır.",
       "penalty": "Teslim edilmeyen her sertifika için standart ceza ton başına €100'dür.",
-      "csCf": "Sektörler arası düzeltme katsayısı (CSCF) bu projeksiyonda uygulanmaz; kıyas değeri ve rota eşlemesi Uygulama Tüzüğü 2025/2620 ekinden alınmalıdır."
+      "csCf": "Ücretsiz tahsis düzeltmesi = kütle × SKDM faktörü × CSCF × kıyas değeri (Uygulama Tüzüğü 2025/2620). CSCF 2026–2030 için her yıl %100'dür (Uygulama Kararı (AB) 2026/1862); 2031–2033 için henüz belirlenmediğinden 1 alınır. Kıyas değeri ve rota eşlemesi 2025/2620 ekinden alınmalıdır."
     },
     "sampleWarning": "Örnek müşterideki kıyas ve varsayılan değerler gösterim amaçlıdır, resmi değer değildir. Gerçek hesap için ürününüzün KN kodu ve üretim rotasına ait değerleri Uygulama Tüzükleri 2025/2620 ve 2025/2621'den girin."
   },
@@ -447,7 +458,7 @@
       "grid": "Konum bazlı Kapsam 2 için ETKB 2023 tüketim noktası faktörleri kullanılır: iletim 0,436, dağıtım 0,469 tCO₂e/MWh.",
       "market": "Türkiye için yayımlanmış kalıntı karışım faktörü yoktur; belgelenmeyen elektrik için şebeke faktörü kullanılır ve bu durum raporda açıklanmalıdır.",
       "scope3": "Kapsam 3 faktörleri kullanıcı tarafından girilir ve kaynağı her satırda kayıt altına alınır.",
-      "gwp": "Soğutucu gazlarda IPCC AR6 GWP100 değerleri kullanılır; kullanılan GWP seti raporda belirtilmelidir.",
+      "gwp": "Soğutucu gazlarda IPCC AR6 GWP100 değerleri kullanılır (Tablo 7.SM.7; ör. SF₆ 24.300, R-134a 1.530); kullanılan GWP seti raporda belirtilmelidir.",
       "tsrs": "TSRS 2 kapsamında ilk iki raporlama yılı için Kapsam 3 açıklaması zorunlu değildir; 2027'den itibaren TSRS 2 sera gazı değişiklikleri uygulanır."
     }
   },
@@ -508,6 +519,8 @@
     "baseYear": "Baz yıl",
     "baseYearLabel": "Baz yıl",
     "baseS12": "Kapsam 1+2",
+    "scope2Share": "Kapsam 2'nin K1+2 içindeki payı (isteğe bağlı)",
+    "scope2ShareHint": "Baz yıl Kapsam 2 emisyonunun Kapsam 1+2 toplamına oranı. Kapsam 2 hedefi 2040'ta net sıfıra ulaştığı için pay arttıkça asgari oran yükselir. Boş bırakılırsa tamamı Kapsam 1 sayılır.",
     "baseS3": "Kapsam 3",
     "targetYear": "Yakın vadeli hedef yılı",
     "targetYearHint": "SBTi yakın vadeli hedefleri gönderimden itibaren 5–10 yılı kapsar.",
@@ -539,9 +552,9 @@
     "maccCaption": "Sütun genişliği yıllık azaltımı, yüksekliği ton başına maliyeti gösterir; kesikli çizgi referans karbon fiyatıdır.",
     "carbonPriceRef": "Referans karbon fiyatı €80/t",
     "boundary": "Kurumsal, K1+2+3",
-    "rateLine": "Kullanılan doğrusal azaltım oranları: Kapsam 1+2 için yılda {r15} (1,5 °C), Kapsam 3 için yılda {rwb} (iyi 2 °C altı).",
+    "rateLine": "Grafikte kullanılan doğrusal azaltım oranları (baz yıl {year}): Kapsam 1+2 için yılda {r15} (1,5 °C), Kapsam 3 için yılda {rwb} (iyi 2 °C altı). SBTi asgarisi sırasıyla {min15} ve {minwb}; oran baz yıl yenidikçe ve Kapsam 2 payı arttıkça yükselir.",
     "notes": {
-      "rates": "Yakın vadeli hedefler SBTi kriterlerine göre doğrusal mutlak azaltımla hesaplanır: Kapsam 1+2 için yılda en az %4,2, Kapsam 3 için en az %2,5.",
+      "rates": "Yakın vadeli hedefler SBTi doğrusal mutlak azaltım yöntemiyle hesaplanır. Asgari oranlar Kapsam 1+2 için yılda %4,2, Kapsam 3 için %2,5'tir; Net-Sıfır Standardı V1.3.1 Yöntem Eki'ne (14.04.2026) göre oran baz yıla göre dinamik olarak artar (ör. Kapsam 3, baz yıl 2024: %2,88). Kapsam 2 payı alanı boş bırakılırsa Kapsam 1+2 tamamen Kapsam 1 sayılır ve en düşük oran çıkar; payı girmek gerçek asgari oranı verir.",
       "netzero": "Uzun vadeli net sıfır yolu 2050'ye kadar baz yıla göre en az %90 mutlak azaltımı ve kalan emisyonların kalıcı giderimini varsayar.",
       "v2": "SBTi Net-Sıfır Standardı V2.0, 31.01.2027'de yürürlüğe girer; nihai yöntemler 2026'nın 4. çeyreğinde yayımlanacağından V2 parametreleri henüz modellenmedi.",
       "ndc": "Türkiye'nin NDC 3.0 hedefi 2035'te en fazla 643 MtCO₂e ve 2053'te net sıfırdır; şirket yolunu ülke hedefiyle karşılaştırırken ölçek farkını dikkate alın.",
@@ -799,7 +812,7 @@
         "status_two_years": "Kapsama girmek için kapsamdaki kuruluş niteliğinin en az iki dönem taşınması gerekir.",
         "small_fi_relief": "Payları borsada işlem görmeyen ve 1 şubeyi ya da 250 çalışanı aşmayan finansal kuruluşlar Kapsam 3 muafiyeti süresince zorunlu kapsam dışındadır.",
         "below_thresholds": "Üç ölçütten en az ikisi art arda iki dönem aşılmadı; TSRS gönüllü uygulanabilir.",
-        "threshold_transition_review": "Yeni eşiklerin (1 milyar / 2 milyar / 500) 2023–2024 referans yıllarına uygulanışı için KGK örneği yok; KGK SÜHA aracıyla çapraz kontrol önerilir.",
+        "threshold_transition_review": "KGK kararı (RG 16.01.2026, 33139) yeni eşikleri (1 milyar / 2 milyar / 500) “1/1/2025 tarihinde veya sonrasında başlayan hesap dönemlerinde” uygular; 2023–2024 referans yıllarına nasıl uygulanacağı hiçbir resmî metinde açıklanmamıştır. KGK SÜHA aracıyla çapraz kontrol önerilir.",
         "relief_comparatives": "İlk raporlama döneminde karşılaştırmalı bilgi sunulması zorunlu değildir.",
         "relief_climate_first": "İlk yıl yalnız iklimle ilgili risk ve fırsatlar raporlanabilir (önce iklim).",
         "relief_timing": "İlk yıl rapor, ara dönem raporla birlikte veya dönem sonundan itibaren 9 ay içinde yayımlanabilir.",
@@ -822,7 +835,7 @@
       "cbam": {
         "no_sector": "AB'ye SKDM kapsamlı ürün ihracatı yok.",
         "operator_data": "AB'deki ithalatçınızın beyanı için tesis ve ürün bazında doğrulanmış gömülü emisyon verisi sağlamanız gerekir.",
-        "de_minimis_check": "AB alıcısı başına yıllık 50 ton altı muaf olabilir; alıcı bazında toplamı kontrol edin.",
+        "de_minimis_check": "AB'deki ithalatçı başına yıllık toplam 50 tonu aşmayan ithalat muaf olabilir; alıcı bazında toplamı kontrol edin.",
         "default_markup": "Doğrulanmış veri sağlanmazsa varsayılan değerler 2026'da %10, 2028'den itibaren %30 işaret payıyla uygulanır.",
         "downstream_2028": "Vida, tel, boru gibi alt ürünlere genişleme önerisi 2028'den itibaren müzakerede."
       },
@@ -1034,7 +1047,7 @@
       "spk_urf_kybf": "KAP'ta yayımlanan formlar, önceki yılla fark analizi.",
       "spk_sustainability": "Uygula ya da açıkla yaklaşımıyla ilke bazlı uyum.",
       "tsrs_link": "Faaliyet raporundaki göstergelerin TSRS raporuyla aynı olması.",
-      "bddk_content": "Bankalar için BDDK yönetmeliğindeki ek bilgiler; içerik ayrıca doğrulanmalı.",
+      "bddk_content": "BDDK yönetmeliği Md. 6: sunuş (özet finansal bilgiler, ortaklık yapısı, yönetim değerlendirmesi, personel ve şube), yönetim ve kurumsal yönetim (komiteler, risk grubu işlemleri, destek hizmetleri) ve finansal bilgiler ile risk yönetimi (denetim komitesi değerlendirmesi, bağımsız denetim raporu, beş yıllık özet). Rapor en geç izleyen yılın Mayıs sonuna kadar yayımlanır; yönetmelikte sürdürülebilirlik eki yoktur.",
       "auditor_consistency": "Finansal bilgilerin denetlenmiş tablolarla tutarlılığı."
     }
   },

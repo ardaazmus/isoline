@@ -1,10 +1,21 @@
 import { describe, expect, it } from "vitest";
 import fc from "fast-check";
-import { etsCategory, freeAllocation, lateReportFine, projectEts } from "./ets";
-import { computeInventory, electricityMarket, fuelEmissions, GWP_AR6, refrigerantEmissions, type Inventory } from "./ghg";
-import { buildPathway, linearTarget, maccCurve, netZeroPath, requiredReduction, RATE_15C } from "./pathway";
+import { etsCategory, freeAllocation, isPilotYear, lastBusinessDayOfNovember, lateReportFine, pilotAdjustedFine, projectEts } from "./ets";
+import { computeInventory, electricityMarket, FUELS, fuelEmissions, GWP_AR6, refrigerantEmissions, type Inventory } from "./ghg";
+import {
+  buildPathway,
+  combinedScope12Rate,
+  dynamicRate,
+  linearTarget,
+  maccCurve,
+  netZeroPath,
+  pathwayRates,
+  requiredReduction,
+  RATE_15C,
+  RATE_WB2C,
+} from "./pathway";
 import { classify, environment, safetyRates, taxonomyKpis, workforce } from "./indicators";
-import { criteriaMet, cbam, csrd, evaluate, trEts, tsrs, type Profile } from "./applicability";
+import { criteriaMet, cbam, csddd, csrd, evaluate, trEts, tsrs, type Profile } from "./applicability";
 
 describe("TR ETS", () => {
   it("classifies installations by annual emissions", () => {
@@ -29,6 +40,25 @@ describe("TR ETS", () => {
     expect(rows[0].cost).toBe(0);
     expect(rows[1].deficit).toBe(110_000);
     expect(rows[1].cost).toBe(110_000_000);
+    // Climate Law Art. 14/4-c: 2 × price per missing allowance; provisional Art. 1(1): −80 % in the pilot
+    expect(rows[1].nonSurrenderPenalty).toBeCloseTo(110_000 * 1000 * 2 * 0.2);
+  });
+  it("reduces fines by 80 % only in the 2026–2027 pilot", () => {
+    expect(isPilotYear(2026)).toBe(true);
+    expect(isPilotYear(2028)).toBe(false);
+    expect(pilotAdjustedFine(627_450, 2027)).toBeCloseTo(125_490);
+    expect(pilotAdjustedFine(627_450, 2028)).toBe(627_450);
+  });
+  it("keeps the RG 33353 Art. 35/1-a fine table", () => {
+    expect(lateReportFine(250_000)).toBe(2 * 1_254_900);
+    expect(lateReportFine(250_001)).toBe(2 * 2_509_800);
+    expect(lateReportFine(2_000_000)).toBe(2 * 4_392_150);
+    expect(lateReportFine(2_000_001)).toBe(2 * 6_274_500);
+  });
+  it("puts the surrender deadline on the last business day of November", () => {
+    expect(lastBusinessDayOfNovember(2027)).toBe("2027-11-30");
+    expect(lastBusinessDayOfNovember(2030)).toBe("2030-11-29");
+    expect(lastBusinessDayOfNovember(2031)).toBe("2031-11-28");
   });
 });
 
@@ -40,6 +70,22 @@ describe("GHG inventory", () => {
   it("uses AR6 GWPs for refrigerant blends", () => {
     expect(GWP_AR6["R-410A"]).toBeCloseTo(2255.5);
     expect(refrigerantEmissions({ id: "r", gas: "R-134a", leakedKg: 10, quality: "measured" })).toBeCloseTo(15.3);
+  });
+  it("matches AR6 Table 7.SM.7 GWP100 values", () => {
+    expect(GWP_AR6).toMatchObject({ "R-134a": 1530, "R-32": 771, "R-125": 3740, "R-143a": 5810, SF6: 24300 });
+    // 0.44 × 3740 + 0.52 × 5810 + 0.04 × 1530
+    expect(GWP_AR6["R-404A"]).toBeCloseTo(4728);
+  });
+  it("derives fuel defaults from IPCC 2006 Vol. 2 Tables 1.2 and 1.4", () => {
+    // NCV in TJ/Gg = GJ/t; per-litre values use the stated densities (diesel 0.84, gasoline 0.745 kg/L)
+    expect(FUELS.diesel.ncv).toBeCloseTo((43.0 * 0.84) / 1000, 6);
+    expect(FUELS.gasoline.ncv).toBeCloseTo((44.3 * 0.745) / 1000, 4);
+    expect(FUELS.lpg.ncv).toBeCloseTo(47.3 / 1000, 6);
+    expect(FUELS.fuel_oil.ncv).toBeCloseTo(40.4 / 1000, 6);
+    expect(FUELS.coal.ncv).toBe(25.8);
+    expect(FUELS.lignite.ncv).toBe(11.9);
+    const ef = Object.fromEntries(Object.values(FUELS).map((f) => [f.id, f.ef]));
+    expect(ef).toEqual({ natural_gas: 56.1, diesel: 74.1, gasoline: 69.3, lpg: 63.1, fuel_oil: 77.4, coal: 94.6, lignite: 101.0 });
   });
   it("counts certified renewable MWh at zero in market-based scope 2", () => {
     const line = { id: "e", label: "", mwh: 1000, connection: "distribution" as const, certifiedMwh: 400, supplierFactor: null, quality: "measured" as const };
@@ -69,6 +115,35 @@ describe("pathways", () => {
   it("1.5 °C needs 42 % in ten years", () => {
     expect(requiredReduction(2024, 2034, RATE_15C)).toBeCloseTo(0.42);
     expect(linearTarget(1000, 2024, 2034, RATE_15C)).toBeCloseTo(580);
+  });
+  it("reproduces the SBTi CNZS V1.3.1 Method Appendix Table 1 reference rates", () => {
+    const pct = (x: number) => Math.round(x * 10_000) / 100;
+    expect([2024, 2025, 2026].map((y) => pct(combinedScope12Rate(y, y + 5, 0.5)))).toEqual([4.86, 5.13, 5.45]);
+    expect([2024, 2025, 2026].map((y) => pct(combinedScope12Rate(y, y + 5, 0)))).toEqual([4.2, 4.2, 4.2]);
+    expect([2024, 2025, 2026].map((y) => pct(combinedScope12Rate(y, y + 5, 1)))).toEqual([6.25, 6.67, 7.14]);
+    expect([2024, 2025, 2026].map((y) => pct(dynamicRate("scope3_15c", y, y + 5)))).toEqual([4.2, 4.2, 4.2]);
+    expect([2024, 2025, 2026].map((y) => pct(dynamicRate("scope3_wb2c", y, y + 5)))).toEqual([2.88, 3, 3.13]);
+  });
+  it("never goes below the LARR minimums of 4.2 % and 2.5 %", () => {
+    expect(dynamicRate("scope3_wb2c", 2015, 2025)).toBe(RATE_WB2C);
+    expect(dynamicRate("scope1", 2015, 2025)).toBe(RATE_15C);
+  });
+  it("adjusts for a most recent year later than the base year (Eq. 1–5)", () => {
+    // Scope 2, BY 2022, MRY 2024 with equal emissions, TY 2030: TA_i = 100 %/16 × 6 = 37.5 %, rate = 37.5 % / 8
+    expect(dynamicRate("scope2", 2022, 2030, { mostRecentYear: 2024 })).toBeCloseTo(0.375 / 8, 10);
+    // emissions already 10 % lower in MRY: TA_c = (100 − 90 × 0.625) / 100 = 43.75 %
+    expect(dynamicRate("scope2", 2022, 2030, { mostRecentYear: 2024, baseEmissions: 100, mostRecentEmissions: 90 })).toBeCloseTo(0.4375 / 8, 10);
+    // the floor still applies after the conversion (WB2C: 75 %/26 × 6 / 8 ≈ 2.16 % → 2.5 %)
+    expect(dynamicRate("scope3_wb2c", 2022, 2030, { mostRecentYear: 2024 })).toBe(RATE_WB2C);
+  });
+  it("applies the dynamic rates in the pathway", () => {
+    const input = { baseYear: 2024, baseScope12: 1000, baseScope3: 1000, targetYear: 2034, bauGrowth: 0, measures: [], actuals: [] };
+    const rates = pathwayRates(input);
+    expect(rates.scope12).toBe(RATE_15C);
+    expect(rates.wb2c).toBeCloseTo(0.75 / 26, 10);
+    const row = buildPathway(input).find((r) => r.year === 2034)!;
+    expect(row.target15).toBeCloseTo(1000 * (1 - 0.042 * 10) + 1000 * (1 - (0.75 / 26) * 10), 6);
+    expect(pathwayRates({ ...input, scope2Share: 0.5 }).scope12).toBeCloseTo((0.9 / 26 + 1 / 16) / 2, 10);
   });
   it("net-zero path ends at 10 % residual", () => {
     expect(netZeroPath(1000, 2024, 2050)).toBeCloseTo(100);
@@ -175,6 +250,27 @@ describe("applicability", () => {
     const f = trEts(base);
     expect(f.status).toBe("required");
     expect(f.dates.some((d) => d.key === "ets_monitoring_plan")).toBe(true);
+    // RG 33353 provisional Art. 3: first monitoring plan within 2 months of 27.08.2026
+    expect(f.dates.find((d) => d.key === "ets_monitoring_plan")!.date).toBe("2026-10-27");
+  });
+  it("dates ETS reports on 30 April and surrender on the last business day of November", () => {
+    const f = trEts({ ...base, reportingYear: 2029 });
+    expect(f.dates.find((d) => d.key === "ets_report")!.date).toBe("2030-04-30");
+    expect(f.dates.find((d) => d.key === "ets_surrender")!.date).toBe("2030-11-29");
+  });
+  it("flags the CBAM de minimis check up to and including 50 t", () => {
+    expect(cbam({ ...base, euExportTonnes: 50 }).notes).toContain("cbam.de_minimis_check");
+    expect(cbam({ ...base, euExportTonnes: 51 }).notes).not.toContain("cbam.de_minimis_check");
+  });
+  it("applies the Omnibus I thresholds: more than 1,000 employees and €450 m turnover", () => {
+    const eu = { ...base, euEntity: true, euCsrdCustomers: false };
+    expect(csrd({ ...eu, employeesGroup: 1001, worldwideTurnoverEur: 450_000_001 }).status).toBe("required");
+    expect(csrd({ ...eu, employeesGroup: 1000, worldwideTurnoverEur: 900e6 }).status).toBe("not_applicable");
+    expect(csrd({ ...eu, employeesGroup: 5000, worldwideTurnoverEur: 450e6 }).status).toBe("not_applicable");
+    expect(csddd({ ...eu, employeesGroup: 5001, worldwideTurnoverEur: 1_500_000_001 }).dates[0].date).toBe("2029-07-26");
+  });
+  it("keeps the TSRS threshold transition under review for 2025", () => {
+    expect(tsrs({ ...base, reportingYear: 2025, firstTsrsYear: 2025 }).notes).toContain("tsrs.threshold_transition_review");
   });
   it("treats a Turkish exporter as indirectly affected by CBAM and CSRD", () => {
     expect(cbam(base).status).toBe("indirect");
@@ -184,6 +280,12 @@ describe("applicability", () => {
     const f = csrd({ ...base, euTurnoverEur: 500e6, euSubsidiaryTurnoverEur: 250e6 });
     expect(f.status).toBe("required");
     expect(f.firstYear).toBe(2028);
+  });
+  it("marks the sources verified against primary texts in October 2026 as official", async () => {
+    const { SOURCES } = await import("@/data/sources");
+    const verified = ["kgk_scope_2026", "bddk_ar", "cbam_reg", "cbam_factor", "cbam_faa", "cbam_cscf", "cbam_deduction_draft", "csrd_omnibus", "ipcc_2006", "ipcc_ar6_gwp", "sbti_criteria", "tr_ets_reg", "kpk_2026_1", "climate_law"];
+    verified.forEach((id) => expect(SOURCES[id]?.confidence, id).toBe("official"));
+    expect(SOURCES.kgk_scope_2026.url).toContain("20260116-3.pdf");
   });
   it("every finding cites at least one known source", async () => {
     const { SOURCES } = await import("@/data/sources");

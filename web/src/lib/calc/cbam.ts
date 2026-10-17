@@ -1,20 +1,27 @@
 /**
  * EU CBAM (SKDM) obligation projection, definitive period.
- * Formula (Guidance No. 3, Eq. 55–63; Reg. 2023/956 Art. 31):
- *   gross_y        = tonnes_y × SEE_y                       (tCO₂e)
- *   FAA_y          = tonnes_y × BM × CBAMfactor_y           (free allocation adjustment)
- *   deduction_y    = paidCarbonPrice€ × gross_y / price_y    (Art. 9, rules still draft)
+ * Formula (Guidance No. 3, Eq. 55–63; Reg. 2023/956 Art. 31; Impl. Reg. 2025/2620 Annex Eq. 1–6):
+ *   gross_y        = tonnes_y × SEE_y                              (tCO₂e)
+ *   FAA_y          = tonnes_y × CBAMfactor_y × CSCF_y × BM          (free allocation adjustment)
+ *   deduction_y    = paidCarbonPrice€ × gross_y / price_y           (Art. 9; actual emissions only)
  *   certificates_y = max(0, gross_y − FAA_y − deduction_y)
  *   cost_y         = certificates_y × price_y
- * SEE counts indirect emissions only for cement and fertilisers.
+ * SEE counts indirect emissions only for cement, fertilisers and agglomerated iron ore (not in Annex II).
  * When default values are used, the year's mark-up is added (2026 10%, 2027 20%, 2028+ 30%; fertilisers 1%).
+ * Art. 9(1) allows the origin carbon-price deduction only for actual emissions; with default values only
+ * yearly default carbon prices may be used (Art. 9(4)), and none are published yet, so the default route
+ * gets no deduction. The Art. 9(5) implementing rules are still a draft (Ares(2026)4841230, not adopted).
  */
 
 export type CbamSector = "iron_steel" | "aluminium" | "cement" | "fertilisers" | "hydrogen" | "electricity";
 
 export const CBAM_SECTORS: CbamSector[] = ["iron_steel", "aluminium", "cement", "fertilisers", "hydrogen", "electricity"];
 
-/** Share of free allocation EU producers still receive (CBAM factor). Importer pays the complement. */
+/**
+ * Share of free allocation EU producers still receive (CBAM factor). Importer pays the complement.
+ * Directive 2003/87/EC Art. 10a(1a), inserted by Directive (EU) 2023/959: 97,5 % in 2026 … 14 % in 2033,
+ * no CBAM factor from 2034.
+ */
 export const CBAM_FACTOR: Record<number, number> = {
   2026: 0.975,
   2027: 0.95,
@@ -26,6 +33,12 @@ export const CBAM_FACTOR: Record<number, number> = {
   2033: 0.14,
   2034: 0,
 };
+
+/**
+ * Cross-sectoral correction factor (CSCF) per year, Commission Implementing Decision (EU) 2026/1862:
+ * 100 % for each year of the allocation period 2026–2030. Later years are not determined yet.
+ */
+export const CSCF: Record<number, number> = { 2026: 1, 2027: 1, 2028: 1, 2029: 1, 2030: 1 };
 
 export const FIRST_YEAR = 2026;
 export const LAST_YEAR = 2034;
@@ -46,6 +59,15 @@ export function cbamFactor(year: number): number {
   return CBAM_FACTOR[year];
 }
 
+/** CSCF for the year; years without a published decision (2031+) fall back to 1 (see cscfDetermined). */
+export function cscf(year: number): number {
+  return CSCF[year] ?? 1;
+}
+
+export function cscfDetermined(year: number): boolean {
+  return year in CSCF;
+}
+
 export function defaultMarkup(year: number, sector: CbamSector): number {
   if (sector === "fertilisers") return 0.01;
   if (year <= 2026) return 0.1;
@@ -53,8 +75,98 @@ export function defaultMarkup(year: number, sector: CbamSector): number {
   return 0.3;
 }
 
-export function countsIndirect(sector: CbamSector): boolean {
-  return sector === "cement" || sector === "fertilisers";
+/**
+ * Indirect emissions count for goods not listed in Annex II of Reg. 2023/956: cement, fertilisers and,
+ * within iron and steel, agglomerated iron ore (CN 2601 12 00).
+ */
+export function countsIndirect(sector: CbamSector, cn = ""): boolean {
+  if (sector === "cement" || sector === "fertilisers") return true;
+  return sector === "iron_steel" && cnDigits(cn).startsWith("26011200");
+}
+
+type AnnexRow = { code: string; sector: CbamSector; except?: string[]; ex?: boolean };
+
+/**
+ * Reg. 2023/956 Annex I (consolidated 20.10.2025), CN codes as printed; spaces removed.
+ * "ex" rows cover only part of the code (2507 00 80: other kaolinic clays except non-calcined ones).
+ */
+export const CBAM_ANNEX_I: AnnexRow[] = [
+  { code: "25070080", sector: "cement", ex: true },
+  { code: "25231000", sector: "cement" },
+  { code: "25232100", sector: "cement" },
+  { code: "25232900", sector: "cement" },
+  { code: "25233000", sector: "cement" },
+  { code: "25239000", sector: "cement" },
+  { code: "27160000", sector: "electricity" },
+  { code: "28080000", sector: "fertilisers" },
+  { code: "2814", sector: "fertilisers" },
+  { code: "28342100", sector: "fertilisers" },
+  { code: "3102", sector: "fertilisers" },
+  { code: "3105", sector: "fertilisers", except: ["31056000"] },
+  {
+    code: "72",
+    sector: "iron_steel",
+    except: ["72022", "72023000", "72025000", "72027000", "72028000", "72029100", "72029200", "72029300", "720299", "7204"],
+  },
+  { code: "26011200", sector: "iron_steel" },
+  { code: "7301", sector: "iron_steel" },
+  { code: "7302", sector: "iron_steel" },
+  { code: "730300", sector: "iron_steel" },
+  { code: "7304", sector: "iron_steel" },
+  { code: "7305", sector: "iron_steel" },
+  { code: "7306", sector: "iron_steel" },
+  { code: "7307", sector: "iron_steel" },
+  { code: "7308", sector: "iron_steel" },
+  { code: "730900", sector: "iron_steel" },
+  { code: "7310", sector: "iron_steel" },
+  { code: "731100", sector: "iron_steel" },
+  { code: "7318", sector: "iron_steel" },
+  { code: "7326", sector: "iron_steel" },
+  { code: "7601", sector: "aluminium" },
+  { code: "7603", sector: "aluminium" },
+  { code: "7604", sector: "aluminium" },
+  { code: "7605", sector: "aluminium" },
+  { code: "7606", sector: "aluminium" },
+  { code: "7607", sector: "aluminium" },
+  { code: "7608", sector: "aluminium" },
+  { code: "76090000", sector: "aluminium" },
+  { code: "7610", sector: "aluminium" },
+  { code: "76110000", sector: "aluminium" },
+  { code: "7612", sector: "aluminium" },
+  { code: "76130000", sector: "aluminium" },
+  { code: "7614", sector: "aluminium" },
+  { code: "7616", sector: "aluminium" },
+  { code: "28041000", sector: "hydrogen" },
+];
+
+function cnDigits(cn: string): string {
+  return cn.replace(/\D/g, "");
+}
+
+export type CnCoverage =
+  | { status: "covered"; sector: CbamSector }
+  /** The entered code is broader than an Annex I row or an exclusion, or the row is an "ex" row: check the full 8-digit code. */
+  | { status: "partial"; sector: CbamSector }
+  | { status: "not_covered" }
+  /** Fewer than 4 digits: cannot be matched. */
+  | { status: "invalid" };
+
+/** Whether a CN code falls under CBAM Annex I. */
+export function cnCoverage(cn: string): CnCoverage {
+  const d = cnDigits(cn);
+  if (d.length < 4) return { status: "invalid" };
+  let partial: CbamSector | null = null;
+  for (const row of CBAM_ANNEX_I) {
+    if (d.startsWith(row.code)) {
+      const except = row.except ?? [];
+      if (except.some((e) => d.startsWith(e))) continue;
+      if (row.ex || except.some((e) => e.startsWith(d))) partial ??= row.sector;
+      else return { status: "covered", sector: row.sector };
+    } else if (row.code.startsWith(d)) {
+      partial ??= row.sector;
+    }
+  }
+  return partial ? { status: "partial", sector: partial } : { status: "not_covered" };
 }
 
 export type CbamProduct = {
@@ -104,7 +216,7 @@ export type CbamYear = {
 
 export function effectiveSee(p: CbamProduct, year: number, mode: "actual" | "default" = p.useDefault ? "default" : "actual"): number {
   if (mode === "default") return Math.max(0, p.defaultSee) * (1 + defaultMarkup(year, p.sector));
-  const indirect = countsIndirect(p.sector) ? Math.max(0, p.seeIndirect) : 0;
+  const indirect = countsIndirect(p.sector, p.cn) ? Math.max(0, p.seeIndirect) : 0;
   return Math.max(0, p.seeDirect) + indirect;
 }
 
@@ -120,14 +232,17 @@ export function projectProduct(
   to = LAST_YEAR,
 ): CbamYear[] {
   const rows: CbamYear[] = [];
+  const route = mode ?? (p.useDefault ? "default" : "actual");
   for (let year = from; year <= to; year++) {
     const tonnes = Math.max(0, p.tonnes) * Math.pow(1 + p.growth, year - FIRST_YEAR);
-    const see = effectiveSee(p, year, mode);
+    const see = effectiveSee(p, year, route);
     const gross = tonnes * see;
     const factor = cbamFactor(year);
-    const faa = Math.min(gross, tonnes * Math.max(0, p.benchmark) * factor);
+    const faa = Math.min(gross, tonnes * Math.max(0, p.benchmark) * factor * cscf(year));
     const price = priceFor(s, year);
-    const deduction = price > 0 ? Math.min(gross - faa, (Math.max(0, s.originCarbonPrice) * gross) / price) : 0;
+    // Art. 9(1): actual emissions only; the default route would need yearly default carbon prices (Art. 9(4)).
+    const deduction =
+      route === "actual" && price > 0 ? Math.min(gross - faa, (Math.max(0, s.originCarbonPrice) * gross) / price) : 0;
     const certificates = Math.max(0, gross - faa - deduction);
     const cost = certificates * price;
     rows.push({
@@ -179,8 +294,11 @@ export function quarterlyHolding(netYearCertificates: number, quarter: 1 | 2 | 3
   return Math.max(0, netYearCertificates) * (quarter / 4) * 0.5;
 }
 
-/** EU importers below 50 t/year (steel, aluminium, fertilisers, cement combined) are exempt; electricity and hydrogen have no threshold. */
+/**
+ * Art. 2a and Annex VII: an importer whose net mass "does not cumulatively exceed" 50 t in the calendar
+ * year is exempt, so exactly 50 t is still exempt. Art. 2a(4): not applicable to electricity or hydrogen.
+ */
 export function deMinimisExempt(sector: CbamSector, importerAnnualTonnes: number): boolean {
   if (sector === "electricity" || sector === "hydrogen") return false;
-  return importerAnnualTonnes < DE_MINIMIS_TONNES;
+  return importerAnnualTonnes <= DE_MINIMIS_TONNES;
 }

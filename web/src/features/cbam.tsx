@@ -3,11 +3,11 @@
 import { useMemo } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { useI18n } from "@/i18n/provider";
-import { CBAM_PRICES_2026, CBAM_SECTORS, cbamFactor, countsIndirect, projectPortfolio, projectProduct, type CbamProduct, type CbamSector } from "@/lib/calc/cbam";
+import { CBAM_PRICES_2026, CBAM_SECTORS, cbamFactor, cnCoverage, countsIndirect, cscfDetermined, projectPortfolio, projectProduct, type CbamProduct, type CbamSector } from "@/lib/calc/cbam";
 import { FiguresRow, InputGroup, PageHeader, ToolLayout } from "@/components/shell";
 import { Figure, LegendItem } from "@/components/figure";
 import { StackedBars } from "@/components/charts";
-import { Button, Callout, NumberField, SelectField, TextField, Toggle } from "@/components/ui";
+import { Button, Callout, NumberField, SelectField, StatusMark, TextField, Toggle } from "@/components/ui";
 import { Hydrated, KeyDates, NoteList, SectionTitle, ToolActions, useTool } from "./common";
 
 const SOURCES = ["cbam_reg", "cbam_factor", "cbam_guidance3", "cbam_price", "cbam_faa"];
@@ -70,6 +70,7 @@ function Inner() {
                   <TextField label={t("cbam.cn")} value={p.cn} onChange={(v) => setProduct(p.id, { cn: v })} />
                   <SelectField<CbamSector> label={t("cbam.sector")} value={p.sector} onChange={(v) => setProduct(p.id, { sector: v })} options={CBAM_SECTORS.map((s) => ({ value: s, label: t(`sectors.${s}`) }))} />
                 </div>
+                <CnStatus cn={p.cn} sector={p.sector} />
                 <div className="grid grid-cols-2 gap-4">
                   <NumberField label={t("cbam.tonnes")} unit="t" value={p.tonnes} onChange={(v) => setProduct(p.id, { tonnes: v })} min={0} />
                   <NumberField label={t("cbam.growth")} percent value={p.growth} onChange={(v) => setProduct(p.id, { growth: v })} />
@@ -77,7 +78,7 @@ function Inner() {
                 <Toggle label={t("cbam.useDefault")} hint={t("cbam.useDefaultHint")} checked={p.useDefault} onChange={(v) => setProduct(p.id, { useDefault: v })} />
                 <div className="grid grid-cols-2 gap-4">
                   <NumberField label={t("cbam.seeDirect")} unit="t/t" value={p.seeDirect} onChange={(v) => setProduct(p.id, { seeDirect: v })} min={0} />
-                  {countsIndirect(p.sector) ? (
+                  {countsIndirect(p.sector, p.cn) ? (
                     <NumberField label={t("cbam.seeIndirect")} unit="t/t" value={p.seeIndirect} onChange={(v) => setProduct(p.id, { seeIndirect: v })} min={0} />
                   ) : (
                     <p className="self-end pb-1 text-[12px] text-[var(--ink-3)]">{t("cbam.noIndirect")}</p>
@@ -222,8 +223,41 @@ function Inner() {
   );
 }
 
+/** Status under the CN field: Annex I coverage of the entered code (Reg. 2023/956). */
+function CnStatus({ cn, sector }: { cn: string; sector: CbamSector }) {
+  const { t } = useI18n();
+  if (!cn.trim()) return null;
+  const c = cnCoverage(cn);
+  const sectorName = "sector" in c ? t(`sectors.${c.sector}`) : "";
+  const mark =
+    c.status === "covered" ? (
+      <StatusMark kind="required" label={t("cbam.cnStatus.covered", { sector: sectorName })} />
+    ) : c.status === "partial" ? (
+      <StatusMark kind="review" label={t("cbam.cnStatus.partial", { sector: sectorName })} />
+    ) : c.status === "not_covered" ? (
+      <StatusMark kind="na" label={t("cbam.cnStatus.notCovered")} />
+    ) : (
+      <StatusMark kind="review" label={t("cbam.cnStatus.invalid")} />
+    );
+  const detail =
+    c.status === "partial" ? t("cbam.cnStatus.partialDetail") : c.status === "not_covered" ? t("cbam.cnStatus.notCoveredDetail") : c.status === "invalid" ? t("cbam.cnStatus.invalidDetail") : null;
+  return (
+    <div className="-mt-1 flex flex-col gap-1" aria-live="polite">
+      {mark}
+      {detail && <p className="text-[12px] leading-snug text-[var(--ink-3)]">{detail}</p>}
+      {"sector" in c && c.sector !== sector && <p className="text-[12px] leading-snug text-[var(--warn)]">{t("cbam.cnStatus.sectorMismatch", { sector: sectorName })}</p>}
+    </div>
+  );
+}
+
+/** Years whose free-allocation adjustment uses an assumed CSCF of 1 (no Commission decision yet). */
+function cscfAssumed(year: number): boolean {
+  return cbamFactor(year) > 0 && !cscfDetermined(year);
+}
+
 function CbamTable({ rows, eurTry }: { rows: ReturnType<typeof projectPortfolio>; eurTry: number }) {
   const { t, fmt } = useI18n();
+  const assumed = rows.some((r) => cscfAssumed(r.year));
   return (
     <table className="report-table text-[13.5px]">
       <thead>
@@ -242,7 +276,14 @@ function CbamTable({ rows, eurTry }: { rows: ReturnType<typeof projectPortfolio>
       <tbody>
         {rows.map((r) => (
           <tr key={r.year}>
-            <td className="num">{r.year}</td>
+            <td className="num">
+              {r.year}
+              {cscfAssumed(r.year) && (
+                <sup className="ml-0.5 text-[var(--warn)]" title={t("cbam.cscfAssumed")}>
+                  *
+                </sup>
+              )}
+            </td>
             <td className="r num">{fmt.percent(1 - cbamFactor(r.year))}</td>
             <td className="r num">{fmt.number(r.tonnes)}</td>
             <td className="r num">{fmt.number(r.gross)}</td>
@@ -260,6 +301,13 @@ function CbamTable({ rows, eurTry }: { rows: ReturnType<typeof projectPortfolio>
           <td className="r num">{fmt.number(rows.reduce((s, r) => s + r.cost, 0))}</td>
           <td className="r num">{fmt.number(rows.reduce((s, r) => s + r.cost, 0) * eurTry)}</td>
         </tr>
+        {assumed && (
+          <tr>
+            <td colSpan={9} className="text-[12px] font-normal text-[var(--ink-3)]">
+              <span className="text-[var(--warn)]">*</span> {t("cbam.cscfAssumed")}
+            </td>
+          </tr>
+        )}
       </tfoot>
     </table>
   );

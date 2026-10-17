@@ -3,7 +3,8 @@
  * Every rule returns a status, the first year it bites, the key dates and the source ids behind it.
  * Rules that the research could not verify are returned with status "review" (expert confirmation).
  */
-import { etsCategory, inEts, PILOT_SECTORS, type PilotSector } from "./ets";
+import { DE_MINIMIS_TONNES } from "./cbam";
+import { etsCategory, inEts, lastBusinessDayOfNovember, PILOT_SECTORS, type PilotSector } from "./ets";
 
 export type EntityType =
   | "listed"
@@ -105,7 +106,8 @@ export function tsrs(p: Profile): Finding {
   if (!inScope) {
     return { id: "tsrs", status: "voluntary", dates: [], notes: [...notes, "tsrs.below_thresholds"], sources };
   }
-  // Applying the new thresholds to reference years before 2025 is not explained by KGK: flag for review.
+  // KGK decision 13.01.2026 (RG 33139) applies the new thresholds to accounting periods starting on or after
+  // 1.1.2025; no primary text says how they apply to the 2023–2024 reference years: flag for review.
   if (y === 2025) notes.push("tsrs.threshold_transition_review");
   return withReliefs(p, { id: "tsrs", status: "required", firstYear: y, dates: [], notes, sources });
 }
@@ -160,7 +162,7 @@ export function cbam(p: Profile): Finding {
     { key: "cbam_first_declaration", date: "2027-09-30" },
   ];
   const notes = ["cbam.operator_data"];
-  if (p.euExportTonnes < 50 && !p.cbamSectors.some((s) => s === "electricity" || s === "hydrogen")) notes.push("cbam.de_minimis_check");
+  if (p.euExportTonnes <= DE_MINIMIS_TONNES &&!p.cbamSectors.some((s) => s === "electricity" || s === "hydrogen")) notes.push("cbam.de_minimis_check");
   notes.push("cbam.default_markup");
   if (p.cbamSectors.some((s) => s === "iron_steel" || s === "aluminium")) notes.push("cbam.downstream_2028");
   return { id: "cbam", status: "indirect", firstYear: 2026, dates, notes, sources };
@@ -173,7 +175,7 @@ export function trEts(p: Profile): Finding {
   const pilot = inEts(cat) && (PILOT_SECTORS as readonly string[]).includes(p.pilotSector);
   const dates = [
     { key: "ets_report", date: `${p.reportingYear + 1}-04-30` },
-    { key: "ets_surrender", date: `${p.reportingYear + 1}-11-30` },
+    { key: "ets_surrender", date: lastBusinessDayOfNovember(p.reportingYear + 1) },
   ];
   if (!inEts(cat)) return { id: "tr_ets", status: "required", firstYear: 2026, dates, notes: ["ets.category_a"], sources };
   if (pilot) {

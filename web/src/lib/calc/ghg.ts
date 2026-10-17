@@ -18,7 +18,12 @@ export type FuelDefault = {
   ef: number;
 };
 
-/** NCVs: IPCC TJ/Gg defaults converted with typical densities (diesel 0.84 kg/L, gasoline 0.745 kg/L); natural gas 34.5 MJ/Sm³ is a typical network value. */
+/**
+ * NCVs: IPCC 2006 Vol. 2 Table 1.2 TJ/Gg defaults (gas/diesel oil 43.0, motor gasoline 44.3, LPG 47.3,
+ * residual fuel oil 40.4, other bituminous coal 25.8, lignite 11.9) converted with typical densities
+ * (diesel 0.84 kg/L, gasoline 0.745 kg/L — assumptions, not IPCC values). Natural gas 34.5 MJ/Sm³ is a
+ * typical network value; IPCC gives 48.0 TJ/Gg on a mass basis only. EFs: Table 1.4 defaults.
+ */
 export const FUELS: Record<FuelId, FuelDefault> = {
   natural_gas: { id: "natural_gas", unit: "Sm3", ncv: 0.0345, ef: 56.1 },
   diesel: { id: "diesel", unit: "L", ncv: 0.03612, ef: 74.1 },
@@ -29,7 +34,12 @@ export const FUELS: Record<FuelId, FuelDefault> = {
   lignite: { id: "lignite", unit: "t", ncv: 11.9, ef: 101.0 },
 };
 
-/** GWP100, IPCC AR6. Blends computed from components (R-410A = 50 % R-32 + 50 % R-125; R-404A = 44 % R-125 + 52 % R-143a + 4 % R-134a). */
+/**
+ * GWP100, IPCC AR6 WG1 Chapter 7 Supplementary Material, Table 7.SM.7 (published version, SF₆ with the
+ * 1,000-year lifetime of Section 2.2.4.3; same values in the GHG Protocol AR6 list of August 2024).
+ * Blends computed from components (R-410A = 50 % R-32 + 50 % R-125; R-404A = 44 % R-125 + 52 % R-143a
+ * + 4 % R-134a; blend compositions are ASHRAE 34 values, not re-verified).
+ */
 export const GWP_AR6: Record<string, number> = {
   "R-134a": 1530,
   "R-32": 771,
@@ -37,7 +47,7 @@ export const GWP_AR6: Record<string, number> = {
   "R-143a": 5810,
   "R-410A": 0.5 * 771 + 0.5 * 3740,
   "R-404A": 0.44 * 3740 + 0.52 * 5810 + 0.04 * 1530,
-  SF6: 25200,
+  SF6: 24300,
 };
 
 /** ETKB 2023 consumption-point factors, tCO₂e/MWh (published 26.12.2025). */
