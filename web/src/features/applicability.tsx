@@ -53,6 +53,9 @@ function Inner() {
               <NumberField label={t("app.reportingYear")} value={p.reportingYear} min={2024} max={2032} onChange={(v) => up({ reportingYear: Math.round(v) })} />
               <NumberField label={t("app.firstTsrsYear")} nullable value={p.firstTsrsYear ?? NaN} hint={t("app.firstTsrsHint")} onChange={(v) => up({ firstTsrsYear: Number.isFinite(v) ? Math.round(v) : null })} />
               <NumberField label={t("app.branches")} value={p.branches} min={0} onChange={(v) => up({ branches: Math.round(v) })} />
+              {(p.entityType === "bank" || p.entityType === "nonbank_fi") && (
+                <Toggle label={t("app.sharesListed")} hint={t("app.sharesListedHint")} checked={p.sharesListed ?? false} onChange={(v) => up({ sharesListed: v })} />
+              )}
             </InputGroup>
             {([0, 1] as const).map((i) => (
               <InputGroup key={i} title={t("app.yearFigures", { year: p.reportingYear - 2 + i })}>
@@ -68,6 +71,9 @@ function Inner() {
               <NumberField label={t("app.employeesGroup")} value={p.employeesGroup} min={0} onChange={(v) => up({ employeesGroup: Math.round(v) })} />
               <NumberField label={t("app.worldwideTurnover")} unit="€" value={p.worldwideTurnoverEur} min={0} onChange={(v) => up({ worldwideTurnoverEur: v })} />
               <NumberField label={t("app.euTurnover")} unit="€" value={p.euTurnoverEur} min={0} onChange={(v) => up({ euTurnoverEur: v })} />
+              {!p.euEntity && (
+                <NumberField label={t("app.euTurnoverPrev")} unit="€" hint={t("app.euTurnoverPrevHint")} value={p.euTurnoverPrevEur ?? p.euTurnoverEur} min={0} onChange={(v) => up({ euTurnoverPrevEur: v })} />
+              )}
               <NumberField label={t("app.euSubsidiary")} unit="€" value={p.euSubsidiaryTurnoverEur} min={0} onChange={(v) => up({ euSubsidiaryTurnoverEur: v })} />
               <Toggle label={t("app.euCustomers")} hint={t("app.euCustomersHint")} checked={p.euCsrdCustomers} onChange={(v) => up({ euCsrdCustomers: v })} />
             </InputGroup>

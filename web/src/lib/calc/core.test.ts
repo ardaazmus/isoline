@@ -276,6 +276,17 @@ describe("applicability", () => {
     expect(cbam(base).status).toBe("indirect");
     expect(csrd(base).status).toBe("indirect");
   });
+  it("exempts small unlisted banks only during the scope 3 relief years", () => {
+    const small = { ...base, entityType: "bank" as const, sharesListed: false, branches: 1, firstTsrsYear: null, reportingYear: 2026 };
+    expect(tsrs(small).status).toBe("voluntary");
+    expect(tsrs({ ...small, firstTsrsYear: 2024 }).status).toBe("required");
+    expect(tsrs({ ...small, sharesListed: true }).status).toBe("required");
+    expect(tsrs({ ...small, branches: 12, history: [base.history[0], { ...base.history[1], employees: 900 }] }).status).toBe("required");
+  });
+  it("requires EU turnover above €450 m in both of the last two years for a non-EU parent", () => {
+    const f = csrd({ ...base, euTurnoverEur: 500e6, euTurnoverPrevEur: 430e6, euSubsidiaryTurnoverEur: 250e6 });
+    expect(f.status).not.toBe("required");
+  });
   it("puts a non-EU parent with large EU business in CSRD scope from FY2028", () => {
     const f = csrd({ ...base, euTurnoverEur: 500e6, euSubsidiaryTurnoverEur: 250e6 });
     expect(f.status).toBe("required");

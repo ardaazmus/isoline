@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* Layout concept: a blue, layered glass workspace — frosted bento tiles on a grain-washed blue ground,
-   each page opening on a cobalt grain band that states the result. Families are depths of blue. */
+   each page opening on a cobalt grain band that states the result. Tool families carry map-layer hue ramps. */
 :root {
   /* Blue hierarchy */
   --b-900: #0e1a46;
@@ -37,22 +37,24 @@
   --on-band: #ffffff;
   --on-band-2: rgba(255, 255, 255, 0.84);
 
-  /* Family slots, all in the blue hierarchy: reporting = navy, carbon = cobalt, environment = sky, people = indigo */
+  /* Family colour hierarchy: map-layer hues over the blue world, each a 4-step ramp (strong → mid → light → wash).
+     reporting = navy, carbon = contour sienna, environment = hydro blue, people & governance = forest green */
   --report: #172a6e;
   --report-2: #4f6ef0;
-  --report-wash: #e6ecff;
-  --carbon: #2f4fe0;
-  --carbon-2: #7f9cff;
-  --carbon-3: #cfdaff;
-  --carbon-wash: #eef2ff;
-  --hydro: #1679c8;
-  --hydro-2: #5aaee8;
-  --hydro-3: #bfe0f7;
-  --hydro-wash: #ecf6fd;
-  --forest: #5b43d6;
-  --forest-2: #8f7cee;
-  --forest-3: #d8d0fa;
-  --forest-wash: #f2effd;
+  --report-3: #cfdaff;
+  --report-wash: #eef2ff;
+  --carbon: #b4531f;
+  --carbon-2: #dc8746;
+  --carbon-3: #f2c49c;
+  --carbon-wash: #fcefe4;
+  --hydro: #0c74b0;
+  --hydro-2: #3ea2d8;
+  --hydro-3: #a9d8f2;
+  --hydro-wash: #e7f4fc;
+  --forest: #2e7a47;
+  --forest-2: #5fa872;
+  --forest-3: #b7dcbf;
+  --forest-wash: #e9f5ec;
 
   /* State (meaning only) */
   --warn: #9a5a06;
@@ -68,100 +70,6 @@
   color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --b-50: #121d47;
-    --b-100: #1a2758;
-    --b-200: #26346a;
-    --b-300: #3a4f9a;
-    --b-700: #a9bcff;
-    --ground: #070d26;
-    --accent-ink: #b9c8ff;
-    --paper: #0d1638;
-    --paper-2: #121d47;
-    --paper-3: #1a2758;
-    --ink: #e9eeff;
-    --ink-2: #b7c3ec;
-    --ink-3: #8f9dcc;
-    --rule: #26346a;
-    --rule-strong: #a9bcff;
-    --focus: #7f9cff;
-    --glass: rgba(20, 30, 72, 0.6);
-    --glass-strong: rgba(20, 30, 72, 0.8);
-    --glass-stroke: rgba(169, 188, 255, 0.18);
-    --glass-shadow: 0 18px 40px -22px rgba(0, 0, 0, 0.7);
-    --glass-inset: inset 0 1px 0 rgba(169, 188, 255, 0.12);
-    --band-from: #2140b8;
-    --band-to: #5b6fd8;
-    --report: #a9bcff;
-    --report-2: #7f9cff;
-    --report-wash: #1a2758;
-    --carbon: #7f9cff;
-    --carbon-2: #4f6ef0;
-    --carbon-3: #2b3f8f;
-    --carbon-wash: #16214f;
-    --hydro: #5aaee8;
-    --hydro-2: #2f86c8;
-    --hydro-3: #1d4f78;
-    --hydro-wash: #102a44;
-    --forest: #a594f4;
-    --forest-2: #7a63e6;
-    --forest-3: #3c2f86;
-    --forest-wash: #1c1747;
-    --warn: #e7b25e;
-    --warn-wash: #2c2312;
-    --crit: #f08a86;
-    --crit-wash: #331616;
-    --ok: #6fd3a0;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --b-50: #121d47;
-  --b-100: #1a2758;
-  --b-200: #26346a;
-  --b-300: #3a4f9a;
-  --b-700: #a9bcff;
-  --ground: #070d26;
-  --accent-ink: #b9c8ff;
-  --paper: #0d1638;
-  --paper-2: #121d47;
-  --paper-3: #1a2758;
-  --ink: #e9eeff;
-  --ink-2: #b7c3ec;
-  --ink-3: #8f9dcc;
-  --rule: #26346a;
-  --rule-strong: #a9bcff;
-  --focus: #7f9cff;
-  --glass: rgba(20, 30, 72, 0.6);
-  --glass-strong: rgba(20, 30, 72, 0.8);
-  --glass-stroke: rgba(169, 188, 255, 0.18);
-  --glass-shadow: 0 18px 40px -22px rgba(0, 0, 0, 0.7);
-  --glass-inset: inset 0 1px 0 rgba(169, 188, 255, 0.12);
-  --band-from: #2140b8;
-  --band-to: #5b6fd8;
-  --report: #a9bcff;
-  --report-2: #7f9cff;
-  --report-wash: #1a2758;
-  --carbon: #7f9cff;
-  --carbon-2: #4f6ef0;
-  --carbon-3: #2b3f8f;
-  --carbon-wash: #16214f;
-  --hydro: #5aaee8;
-  --hydro-2: #2f86c8;
-  --hydro-3: #1d4f78;
-  --hydro-wash: #102a44;
-  --forest: #a594f4;
-  --forest-2: #7a63e6;
-  --forest-3: #3c2f86;
-  --forest-wash: #1c1747;
-  --warn: #e7b25e;
-  --warn-wash: #2c2312;
-  --crit: #f08a86;
-  --crit-wash: #331616;
-  --ok: #6fd3a0;
-  color-scheme: dark;
-}
 
 @theme inline {
   --color-paper: var(--paper);
@@ -296,26 +204,26 @@ h3 {
   --fam-2: var(--carbon-2);
   --fam-3: var(--carbon-3);
   --fam-wash: var(--carbon-wash);
-  --fam-solid: #2f4fe0;
+  --fam-solid: #b4531f;
 }
 [data-family="hydro"] {
   --fam: var(--hydro);
   --fam-2: var(--hydro-2);
   --fam-3: var(--hydro-3);
   --fam-wash: var(--hydro-wash);
-  --fam-solid: #1679c8;
+  --fam-solid: #0c74b0;
 }
 [data-family="forest"] {
   --fam: var(--forest);
   --fam-2: var(--forest-2);
   --fam-3: var(--forest-3);
   --fam-wash: var(--forest-wash);
-  --fam-solid: #5b43d6;
+  --fam-solid: #2e7a47;
 }
 [data-family="report"] {
   --fam: var(--report);
   --fam-2: var(--report-2);
-  --fam-3: var(--b-200);
+  --fam-3: var(--report-3);
   --fam-wash: var(--report-wash);
   --fam-solid: #1f3a9e;
 }

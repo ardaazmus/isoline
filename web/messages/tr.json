@@ -460,6 +460,30 @@
       "scope3": "Kapsam 3 faktörleri kullanıcı tarafından girilir ve kaynağı her satırda kayıt altına alınır.",
       "gwp": "Soğutucu gazlarda IPCC AR6 GWP100 değerleri kullanılır (Tablo 7.SM.7; ör. SF₆ 24.300, R-134a 1.530); kullanılan GWP seti raporda belirtilmelidir.",
       "tsrs": "TSRS 2 kapsamında ilk iki raporlama yılı için Kapsam 3 açıklaması zorunlu değildir; 2027'den itibaren TSRS 2 sera gazı değişiklikleri uygulanır."
+    },
+    "import": {
+      "title": "Toplu veri (CSV)",
+      "hint": "Yakıt, proses, soğutucu, elektrik ve Kapsam 3 satırlarını Excel'de doldurup CSV olarak yükleyin. Ondalık için virgül veya nokta kullanın.",
+      "template": "Şablonu indir",
+      "upload": "CSV yükle",
+      "preview": "{file}: {rows} satırdan {n} kalem okundu.",
+      "counts": "Yakıt {fuels} · proses {process} · soğutucu {ref} · elektrik {el} · Kapsam 3 {s3}",
+      "row": "Satır {row}:",
+      "append": "Envantere ekle",
+      "replace": "Envanteri değiştir",
+      "appended": "{n} kalem envantere eklendi.",
+      "replaced": "Envanter {n} kalemle değiştirildi.",
+      "err": {
+        "empty": "Dosya boş.",
+        "missingColumns": "Gerekli sütunlar yok: {cols}. Şablonu indirip başlık satırını kullanın.",
+        "badAmount": "miktar okunamadı ({value}).",
+        "badFuel": "yakıt türü tanınmadı ({value}); kullanılabilir: {allowed}.",
+        "badGas": "gaz tanınmadı ({value}); kullanılabilir: {allowed}.",
+        "badConnection": "bağlantı noktası transmission ya da distribution olmalı ({value}).",
+        "badCategory": "Kapsam 3 kategorisi 1–15 arası olmalı ({value}).",
+        "badFactor": "emisyon faktörü okunamadı ({value}).",
+        "badType": "satır türü tanınmadı ({value}); fuel, process, refrigerant, electricity veya scope3 olmalı."
+      }
     }
   },
   "ets": {
@@ -810,7 +834,7 @@
         "watchlist": "Yakın İzleme Pazarı ve nitelikli yatırımcıya satışlı Girişim Sermayesi Pazarı şirketleri zorunlu kapsam dışındadır; TSRS gönüllü uygulanabilir.",
         "not_listed_type": "Kuruluş türü KGK'nın zorunlu kapsam listesinde değil; TSRS gönüllü uygulanabilir.",
         "status_two_years": "Kapsama girmek için kapsamdaki kuruluş niteliğinin en az iki dönem taşınması gerekir.",
-        "small_fi_relief": "Payları borsada işlem görmeyen ve 1 şubeyi ya da 250 çalışanı aşmayan finansal kuruluşlar Kapsam 3 muafiyeti süresince zorunlu kapsam dışındadır.",
+        "small_fi_relief": "Payları borsada işlem görmeyen ve önceki yıl sonunda 1 şubeyi ya da 250 çalışanı aşmayan banka ve finansal kuruluşlar, Kapsam 3 muafiyeti süresince (ilk iki raporlama yılı) zorunlu kapsam dışındadır; gönüllü raporlayabilir.",
         "below_thresholds": "Üç ölçütten en az ikisi art arda iki dönem aşılmadı; TSRS gönüllü uygulanabilir.",
         "threshold_transition_review": "KGK kararı (RG 16.01.2026, 33139) yeni eşikleri (1 milyar / 2 milyar / 500) “1/1/2025 tarihinde veya sonrasında başlayan hesap dönemlerinde” uygular; 2023–2024 referans yıllarına nasıl uygulanacağı hiçbir resmî metinde açıklanmamıştır. KGK SÜHA aracıyla çapraz kontrol önerilir.",
         "relief_comparatives": "İlk raporlama döneminde karşılaştırmalı bilgi sunulması zorunlu değildir.",
@@ -873,7 +897,11 @@
       "energy": {
         "manager": "Yıllık 1.000 TEP ve üzeri tüketen sanayi işletmeleri enerji yöneticisi atar ve yıllık bildirim yapar."
       }
-    }
+    },
+    "sharesListed": "Payları borsada işlem görüyor",
+    "sharesListedHint": "Borsada işlem görmeyen, 1 şubeyi veya 250 çalışanı aşmayan finansal kuruluşlar Kapsam 3 muafiyeti süresince zorunlu kapsam dışındadır.",
+    "euTurnoverPrev": "AB'de net ciro (önceki yıl)",
+    "euTurnoverPrevHint": "AB dışı ana şirket kuralı, AB cirosunun son iki yılın her birinde 450 milyon €'yu aşmasını ister."
   },
   "reg": {
     "result": "Önümüzdeki 90 günde {n} kritik tarih var; ilki {next} ({date}).",

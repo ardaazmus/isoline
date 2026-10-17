@@ -26,6 +26,8 @@ export type Profile = {
   /** BIST Yıldız/Ana/Alt market (SPK sustainability template). */
   bistMainMarkets: boolean;
   branches: number;
+  /** Shares traded on Borsa İstanbul (banks and other financial institutions). Missing = listed only when entityType is "listed". */
+  sharesListed?: boolean;
   /** Figures for the two years before the reporting year (index 0 = Y-2, 1 = Y-1). */
   history: [YearFigures, YearFigures];
   /** Years the entity already had the regulated status before the reporting year (Y-2, Y-1). */
@@ -35,6 +37,8 @@ export type Profile = {
   // EU exposure
   euEntity: boolean;
   euTurnoverEur: number;
+  /** EU net turnover in the year before; Omnibus I Art. 40a requires > €450 m in each of the last two years. Missing = same as euTurnoverEur. */
+  euTurnoverPrevEur?: number;
   euSubsidiaryTurnoverEur: number;
   worldwideTurnoverEur: number;
   employeesGroup: number;
@@ -83,6 +87,7 @@ export function tsrs(p: Profile): Finding {
   const sources = ["kgk_scope_decision", "kgk_scope_2026", "kgk_decision_tree"];
   const notes: string[] = [];
   if (p.entityType === "bank") {
+    if (smallUnlistedFiRelief(p)) return { id: "tsrs", status: "voluntary", dates: [], notes: ["tsrs.small_fi_relief"], sources };
     return withReliefs(p, { id: "tsrs", status: "required", firstYear: 2024, dates: [], notes: ["tsrs.bank_always"], sources });
   }
   if (p.entityType === "bank_tmsf") {
@@ -96,11 +101,7 @@ export function tsrs(p: Profile): Finding {
   const met = [criteriaMet(p.history[0], y), criteriaMet(p.history[1], y)];
   const inScope = statusBoth && met[0] >= 2 && met[1] >= 2;
   if (!statusBoth) notes.push("tsrs.status_two_years");
-  if (
-    inScope &&
-    p.entityType === "nonbank_fi" &&
-    (p.branches <= 1 || p.history[1].employees <= 250)
-  ) {
+  if (inScope && p.entityType === "nonbank_fi" && smallUnlistedFiRelief(p)) {
     return { id: "tsrs", status: "voluntary", dates: [], notes: ["tsrs.small_fi_relief"], sources };
   }
   if (!inScope) {
@@ -110,6 +111,20 @@ export function tsrs(p: Profile): Finding {
   // 1.1.2025; no primary text says how they apply to the 2023–2024 reference years: flag for review.
   if (y === 2025) notes.push("tsrs.threshold_transition_review");
   return withReliefs(p, { id: "tsrs", status: "required", firstYear: y, dates: [], notes, sources });
+}
+
+/**
+ * KGK scope decision (temporary provision): banks and non-bank financial institutions whose shares are not
+ * traded on the exchange and that had no more than 1 branch or 250 employees at the previous year end are not
+ * subject to mandatory reporting while the scope 3 relief runs (the first two TSRS reporting years).
+ */
+export function smallUnlistedFiRelief(p: Profile): boolean {
+  if (p.entityType !== "bank" && p.entityType !== "nonbank_fi") return false;
+  if (p.sharesListed ?? false) return false;
+  const small = p.branches <= 1 || p.history[1].employees <= 250;
+  const first = p.firstTsrsYear ?? p.reportingYear;
+  const inScope3Relief = p.reportingYear - first <= 1;
+  return small && inScope3Relief;
 }
 
 function withReliefs(p: Profile, f: Finding): Finding {
@@ -130,7 +145,8 @@ export function csrd(p: Profile): Finding {
   if (p.euEntity && p.employeesGroup > 1000 && p.worldwideTurnoverEur > 450_000_000) {
     return { id: "csrd", status: "required", firstYear: 2027, dates: [{ key: "csrd_first_report", date: "2028-01-01" }, { key: "esrs_2026_in_force", date: "2026-11-10" }], notes: ["csrd.eu_large"], sources };
   }
-  if (!p.euEntity && p.euTurnoverEur > 450_000_000 && p.euSubsidiaryTurnoverEur > 200_000_000) {
+  const euTwoYears = p.euTurnoverEur > 450_000_000 && (p.euTurnoverPrevEur ?? p.euTurnoverEur) > 450_000_000;
+  if (!p.euEntity && euTwoYears && p.euSubsidiaryTurnoverEur > 200_000_000) {
     return { id: "csrd", status: "required", firstYear: 2028, dates: [{ key: "csrd_nonEU_first_report", date: "2029-01-01" }], notes: ["csrd.non_eu_parent"], sources };
   }
   if (p.euCsrdCustomers) {

@@ -272,7 +272,7 @@ export function FiguresRow({ items, pulseKey }: { items: { label: string; value:
           <div
             key={it.label}
             className={cn("glass flex min-w-0 flex-col gap-2 p-4 md:p-5", lead && "border-transparent text-white")}
-            style={lead ? { background: "linear-gradient(150deg, var(--fam-solid, #2f4fe0) 0%, color-mix(in srgb, var(--fam-solid, #2f4fe0) 70%, #7f9cff) 100%)" } : undefined}
+            style={lead ? { background: "linear-gradient(150deg, var(--fam-solid, #2f4fe0) 0%, color-mix(in srgb, var(--fam-solid, #2f4fe0) 55%, var(--fam-2, #7f9cff)) 100%)" } : undefined}
           >
             <span className={cn("text-[12.5px] font-medium", lead ? "text-white/80" : "text-[var(--ink-3)]")}>{it.label}</span>
             <span

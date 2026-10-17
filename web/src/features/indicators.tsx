@@ -64,7 +64,7 @@ function EnvInner() {
             { label: t("env.figEnergy"), value: fmt.compact(r.energyToe), note: t("env.figEnergyNote", { mwh: fmt.compact(r.energyMwh) }), tone: "fam" },
             { label: t("env.figRenewable"), value: fmt.percent(r.renewableShare) },
             { label: t("env.figWater"), value: fmt.compact(r.waterConsumption), note: "m³" },
-            { label: t("env.figRecovery"), value: fmt.percent(r.wasteRecoveryRate), tone: "ok" },
+            { label: t("env.figRecovery"), value: fmt.percent(r.wasteRecoveryRate), tone: "fam" },
           ]}
         />
         <div className="grid gap-10 lg:grid-cols-3">

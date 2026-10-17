@@ -1,88 +1,824 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-17T00:00:00Z",
+  "generatedAt": "2026-10-17T12:00:00Z",
   "title": "Design System: Isoline",
   "extensions": {
     "colorMeta": {
-      "navy-deep": { "role": "primary", "displayName": "Deep Navy", "canonical": "#0e1a46", "dark": "#0e1a46", "tonalRamp": ["#0e1a46", "#172a6e", "#2140b8", "#2f4fe0", "#4f6ef0", "#7f9cff", "#a9bcff", "#cfdaff"] },
-      "navy": { "role": "primary", "displayName": "Navy", "canonical": "#172a6e", "tonalRamp": ["#0e1a46", "#172a6e", "#2140b8", "#2f4fe0", "#4f6ef0", "#7f9cff", "#a9bcff", "#cfdaff"] },
-      "cobalt-deep": { "role": "primary", "displayName": "Deep Cobalt", "canonical": "#2140b8", "dark": "#a9bcff", "tonalRamp": ["#0e1a46", "#172a6e", "#2140b8", "#2f4fe0", "#4f6ef0", "#7f9cff", "#a9bcff", "#cfdaff"] },
-      "cobalt": { "role": "primary", "displayName": "Survey Cobalt", "canonical": "#2f4fe0", "tonalRamp": ["#0e1a46", "#172a6e", "#2140b8", "#2f4fe0", "#4f6ef0", "#7f9cff", "#a9bcff", "#cfdaff"] },
-      "cobalt-soft": { "role": "primary", "displayName": "Soft Cobalt", "canonical": "#4f6ef0", "tonalRamp": ["#0e1a46", "#172a6e", "#2140b8", "#2f4fe0", "#4f6ef0", "#7f9cff", "#a9bcff", "#cfdaff"] },
-      "periwinkle": { "role": "secondary", "displayName": "Periwinkle", "canonical": "#7f9cff", "tonalRamp": ["#172a6e", "#2140b8", "#2f4fe0", "#4f6ef0", "#7f9cff", "#a9bcff", "#cfdaff", "#e6ecff"] },
-      "periwinkle-pale": { "role": "secondary", "displayName": "Pale Periwinkle", "canonical": "#a9bcff", "dark": "#3a4f9a", "tonalRamp": ["#172a6e", "#2140b8", "#2f4fe0", "#4f6ef0", "#7f9cff", "#a9bcff", "#cfdaff", "#e6ecff"] },
-      "ice": { "role": "secondary", "displayName": "Ice", "canonical": "#cfdaff", "dark": "#26346a", "tonalRamp": ["#2140b8", "#4f6ef0", "#7f9cff", "#a9bcff", "#cfdaff", "#e6ecff", "#f4f7ff", "#ffffff"] },
-      "ice-wash": { "role": "secondary", "displayName": "Ice Wash", "canonical": "#e6ecff", "dark": "#1a2758", "tonalRamp": ["#2140b8", "#4f6ef0", "#7f9cff", "#a9bcff", "#cfdaff", "#e6ecff", "#f4f7ff", "#ffffff"] },
-      "ice-mist": { "role": "secondary", "displayName": "Ice Mist", "canonical": "#f4f7ff", "dark": "#121d47", "tonalRamp": ["#2140b8", "#4f6ef0", "#7f9cff", "#a9bcff", "#cfdaff", "#e6ecff", "#f4f7ff", "#ffffff"] },
-      "ground": { "role": "neutral", "displayName": "Blue Ground", "canonical": "#d9e2fd", "dark": "#070d26", "tonalRamp": ["#070d26", "#0e1a46", "#26346a", "#5c6894", "#a9bcff", "#cfdaff", "#d9e2fd", "#f4f7ff"] },
-      "accent-ink": { "role": "primary", "displayName": "Accent Ink", "canonical": "#2443c9", "dark": "#b9c8ff", "tonalRamp": ["#0e1a46", "#172a6e", "#2443c9", "#2f4fe0", "#4f6ef0", "#7f9cff", "#b9c8ff", "#e6ecff"] },
-      "paper": { "role": "neutral", "displayName": "Paper", "canonical": "#ffffff", "dark": "#0d1638", "tonalRamp": ["#0d1638", "#121d47", "#1a2758", "#5c6894", "#dbe3f7", "#e6ecff", "#f4f7ff", "#ffffff"] },
-      "ink": { "role": "neutral", "displayName": "Navy Ink", "canonical": "#0e1a46", "dark": "#e9eeff", "tonalRamp": ["#0e1a46", "#3b4a78", "#5c6894", "#8f9dcc", "#b7c3ec", "#dbe3f7", "#e9eeff", "#ffffff"] },
-      "ink-2": { "role": "neutral", "displayName": "Slate Ink", "canonical": "#3b4a78", "dark": "#b7c3ec", "tonalRamp": ["#0e1a46", "#3b4a78", "#5c6894", "#8f9dcc", "#b7c3ec", "#dbe3f7", "#e9eeff", "#ffffff"] },
-      "ink-3": { "role": "neutral", "displayName": "Muted Ink", "canonical": "#5c6894", "dark": "#8f9dcc", "tonalRamp": ["#0e1a46", "#3b4a78", "#5c6894", "#8f9dcc", "#b7c3ec", "#dbe3f7", "#e9eeff", "#ffffff"] },
-      "rule": { "role": "neutral", "displayName": "Hairline", "canonical": "#dbe3f7", "dark": "#26346a", "tonalRamp": ["#26346a", "#3a4f9a", "#5c6894", "#a9bcff", "#cfdaff", "#dbe3f7", "#e6ecff", "#f4f7ff"] },
-      "family-report": { "role": "tertiary", "displayName": "Reporting Navy", "canonical": "#172a6e", "dark": "#a9bcff", "tonalRamp": ["#0e1a46", "#172a6e", "#1f3a9e", "#4f6ef0", "#7f9cff", "#a9bcff", "#cfdaff", "#e6ecff"] },
-      "family-carbon": { "role": "tertiary", "displayName": "Carbon Cobalt", "canonical": "#2f4fe0", "dark": "#7f9cff", "tonalRamp": ["#16214f", "#2b3f8f", "#2f4fe0", "#4f6ef0", "#7f9cff", "#a9bcff", "#cfdaff", "#eef2ff"] },
-      "family-hydro": { "role": "tertiary", "displayName": "Environment Sky", "canonical": "#1679c8", "dark": "#5aaee8", "tonalRamp": ["#102a44", "#1d4f78", "#1679c8", "#2f86c8", "#5aaee8", "#8fc7ef", "#bfe0f7", "#ecf6fd"] },
-      "family-hydro-wash": { "role": "tertiary", "displayName": "Sky Wash", "canonical": "#ecf6fd", "dark": "#102a44", "tonalRamp": ["#102a44", "#1d4f78", "#1679c8", "#2f86c8", "#5aaee8", "#8fc7ef", "#bfe0f7", "#ecf6fd"] },
-      "family-forest": { "role": "tertiary", "displayName": "People Indigo", "canonical": "#5b43d6", "dark": "#a594f4", "tonalRamp": ["#1c1747", "#3c2f86", "#5b43d6", "#7a63e6", "#8f7cee", "#a594f4", "#d8d0fa", "#f2effd"] },
-      "family-forest-pale": { "role": "tertiary", "displayName": "Indigo Pale (1.5°C band)", "canonical": "#d8d0fa", "dark": "#3c2f86", "tonalRamp": ["#1c1747", "#3c2f86", "#5b43d6", "#7a63e6", "#8f7cee", "#a594f4", "#d8d0fa", "#f2effd"] },
-      "family-forest-wash": { "role": "tertiary", "displayName": "Indigo Wash (WB2C band)", "canonical": "#f2effd", "dark": "#1c1747", "tonalRamp": ["#1c1747", "#3c2f86", "#5b43d6", "#7a63e6", "#8f7cee", "#a594f4", "#d8d0fa", "#f2effd"] },
-      "warn": { "role": "state", "displayName": "Amber Review", "canonical": "#9a5a06", "dark": "#e7b25e", "tonalRamp": ["#2c2312", "#5a3604", "#9a5a06", "#c27a1a", "#e7b25e", "#f2d29c", "#f8e6c6", "#fdf3e2"] },
-      "warn-wash": { "role": "state", "displayName": "Amber Wash", "canonical": "#fdf3e2", "dark": "#2c2312", "tonalRamp": ["#2c2312", "#5a3604", "#9a5a06", "#c27a1a", "#e7b25e", "#f2d29c", "#f8e6c6", "#fdf3e2"] },
-      "crit": { "role": "state", "displayName": "Signal Red", "canonical": "#c0302e", "dark": "#f08a86", "tonalRamp": ["#331616", "#6e1a19", "#c0302e", "#d9524f", "#f08a86", "#f6b4b1", "#fad6d4", "#fdeceb"] },
-      "crit-wash": { "role": "state", "displayName": "Red Wash", "canonical": "#fdeceb", "dark": "#331616", "tonalRamp": ["#331616", "#6e1a19", "#c0302e", "#d9524f", "#f08a86", "#f6b4b1", "#fad6d4", "#fdeceb"] },
-      "ok": { "role": "state", "displayName": "Ledger Green", "canonical": "#157a4a", "dark": "#6fd3a0", "tonalRamp": ["#0a2a1a", "#0f4d2f", "#157a4a", "#2a9a63", "#6fd3a0", "#a3e4c2", "#d1f2e1", "#ecfaf3"] }
+      "navy-deep": {
+        "role": "primary",
+        "displayName": "Deep Navy",
+        "canonical": "#0e1a46",
+        "tonalRamp": [
+          "#0e1a46",
+          "#172a6e",
+          "#2140b8",
+          "#2f4fe0",
+          "#4f6ef0",
+          "#7f9cff",
+          "#a9bcff",
+          "#cfdaff"
+        ]
+      },
+      "navy": {
+        "role": "primary",
+        "displayName": "Navy",
+        "canonical": "#172a6e",
+        "tonalRamp": [
+          "#0e1a46",
+          "#172a6e",
+          "#2140b8",
+          "#2f4fe0",
+          "#4f6ef0",
+          "#7f9cff",
+          "#a9bcff",
+          "#cfdaff"
+        ]
+      },
+      "cobalt-deep": {
+        "role": "primary",
+        "displayName": "Deep Cobalt",
+        "canonical": "#2140b8",
+        "tonalRamp": [
+          "#0e1a46",
+          "#172a6e",
+          "#2140b8",
+          "#2f4fe0",
+          "#4f6ef0",
+          "#7f9cff",
+          "#a9bcff",
+          "#cfdaff"
+        ]
+      },
+      "cobalt": {
+        "role": "primary",
+        "displayName": "Survey Cobalt",
+        "canonical": "#2f4fe0",
+        "tonalRamp": [
+          "#0e1a46",
+          "#172a6e",
+          "#2140b8",
+          "#2f4fe0",
+          "#4f6ef0",
+          "#7f9cff",
+          "#a9bcff",
+          "#cfdaff"
+        ]
+      },
+      "cobalt-soft": {
+        "role": "primary",
+        "displayName": "Soft Cobalt",
+        "canonical": "#4f6ef0",
+        "tonalRamp": [
+          "#0e1a46",
+          "#172a6e",
+          "#2140b8",
+          "#2f4fe0",
+          "#4f6ef0",
+          "#7f9cff",
+          "#a9bcff",
+          "#cfdaff"
+        ]
+      },
+      "periwinkle": {
+        "role": "secondary",
+        "displayName": "Periwinkle",
+        "canonical": "#7f9cff",
+        "tonalRamp": [
+          "#172a6e",
+          "#2140b8",
+          "#2f4fe0",
+          "#4f6ef0",
+          "#7f9cff",
+          "#a9bcff",
+          "#cfdaff",
+          "#e6ecff"
+        ]
+      },
+      "periwinkle-pale": {
+        "role": "secondary",
+        "displayName": "Pale Periwinkle",
+        "canonical": "#a9bcff",
+        "tonalRamp": [
+          "#172a6e",
+          "#2140b8",
+          "#2f4fe0",
+          "#4f6ef0",
+          "#7f9cff",
+          "#a9bcff",
+          "#cfdaff",
+          "#e6ecff"
+        ]
+      },
+      "ice": {
+        "role": "secondary",
+        "displayName": "Ice",
+        "canonical": "#cfdaff",
+        "tonalRamp": [
+          "#2140b8",
+          "#4f6ef0",
+          "#7f9cff",
+          "#a9bcff",
+          "#cfdaff",
+          "#e6ecff",
+          "#f4f7ff",
+          "#ffffff"
+        ]
+      },
+      "ice-wash": {
+        "role": "secondary",
+        "displayName": "Ice Wash",
+        "canonical": "#e6ecff",
+        "tonalRamp": [
+          "#2140b8",
+          "#4f6ef0",
+          "#7f9cff",
+          "#a9bcff",
+          "#cfdaff",
+          "#e6ecff",
+          "#f4f7ff",
+          "#ffffff"
+        ]
+      },
+      "ice-mist": {
+        "role": "secondary",
+        "displayName": "Ice Mist",
+        "canonical": "#f4f7ff",
+        "tonalRamp": [
+          "#2140b8",
+          "#4f6ef0",
+          "#7f9cff",
+          "#a9bcff",
+          "#cfdaff",
+          "#e6ecff",
+          "#f4f7ff",
+          "#ffffff"
+        ]
+      },
+      "ground": {
+        "role": "neutral",
+        "displayName": "Blue Ground",
+        "canonical": "#d9e2fd",
+        "tonalRamp": [
+          "#070d26",
+          "#0e1a46",
+          "#26346a",
+          "#5c6894",
+          "#a9bcff",
+          "#cfdaff",
+          "#d9e2fd",
+          "#f4f7ff"
+        ]
+      },
+      "accent-ink": {
+        "role": "primary",
+        "displayName": "Accent Ink",
+        "canonical": "#2443c9",
+        "tonalRamp": [
+          "#0e1a46",
+          "#172a6e",
+          "#2443c9",
+          "#2f4fe0",
+          "#4f6ef0",
+          "#7f9cff",
+          "#b9c8ff",
+          "#e6ecff"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#0d1638",
+          "#121d47",
+          "#1a2758",
+          "#5c6894",
+          "#dbe3f7",
+          "#e6ecff",
+          "#f4f7ff",
+          "#ffffff"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Navy Ink",
+        "canonical": "#0e1a46",
+        "tonalRamp": [
+          "#0e1a46",
+          "#3b4a78",
+          "#5c6894",
+          "#8f9dcc",
+          "#b7c3ec",
+          "#dbe3f7",
+          "#e9eeff",
+          "#ffffff"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Slate Ink",
+        "canonical": "#3b4a78",
+        "tonalRamp": [
+          "#0e1a46",
+          "#3b4a78",
+          "#5c6894",
+          "#8f9dcc",
+          "#b7c3ec",
+          "#dbe3f7",
+          "#e9eeff",
+          "#ffffff"
+        ]
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Muted Ink",
+        "canonical": "#5c6894",
+        "tonalRamp": [
+          "#0e1a46",
+          "#3b4a78",
+          "#5c6894",
+          "#8f9dcc",
+          "#b7c3ec",
+          "#dbe3f7",
+          "#e9eeff",
+          "#ffffff"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#dbe3f7",
+        "tonalRamp": [
+          "#26346a",
+          "#3a4f9a",
+          "#5c6894",
+          "#a9bcff",
+          "#cfdaff",
+          "#dbe3f7",
+          "#e6ecff",
+          "#f4f7ff"
+        ]
+      },
+      "report": {
+        "role": "tertiary",
+        "displayName": "Reporting Navy (strong)",
+        "canonical": "#172a6e",
+        "tonalRamp": [
+          "#0e1a46",
+          "#172a6e",
+          "#1f3a9e",
+          "#2f4fe0",
+          "#4f6ef0",
+          "#a9bcff",
+          "#cfdaff",
+          "#eef2ff"
+        ]
+      },
+      "report-2": {
+        "role": "tertiary",
+        "displayName": "Reporting Navy (mid)",
+        "canonical": "#4f6ef0",
+        "tonalRamp": [
+          "#0e1a46",
+          "#172a6e",
+          "#1f3a9e",
+          "#2f4fe0",
+          "#4f6ef0",
+          "#a9bcff",
+          "#cfdaff",
+          "#eef2ff"
+        ]
+      },
+      "report-3": {
+        "role": "tertiary",
+        "displayName": "Reporting Navy (light)",
+        "canonical": "#cfdaff",
+        "tonalRamp": [
+          "#0e1a46",
+          "#172a6e",
+          "#1f3a9e",
+          "#2f4fe0",
+          "#4f6ef0",
+          "#a9bcff",
+          "#cfdaff",
+          "#eef2ff"
+        ]
+      },
+      "report-wash": {
+        "role": "tertiary",
+        "displayName": "Reporting Navy (wash)",
+        "canonical": "#eef2ff",
+        "tonalRamp": [
+          "#0e1a46",
+          "#172a6e",
+          "#1f3a9e",
+          "#2f4fe0",
+          "#4f6ef0",
+          "#a9bcff",
+          "#cfdaff",
+          "#eef2ff"
+        ]
+      },
+      "report-solid": {
+        "role": "tertiary",
+        "displayName": "Reporting Navy (lead-tile solid)",
+        "canonical": "#1f3a9e",
+        "tonalRamp": [
+          "#0e1a46",
+          "#172a6e",
+          "#1f3a9e",
+          "#2f4fe0",
+          "#4f6ef0",
+          "#a9bcff",
+          "#cfdaff",
+          "#eef2ff"
+        ]
+      },
+      "carbon": {
+        "role": "tertiary",
+        "displayName": "Carbon Contour Sienna (strong)",
+        "canonical": "#b4531f",
+        "tonalRamp": [
+          "#3d1a08",
+          "#6e2f10",
+          "#b4531f",
+          "#c96a30",
+          "#dc8746",
+          "#f2c49c",
+          "#f8ddc6",
+          "#fcefe4"
+        ]
+      },
+      "carbon-2": {
+        "role": "tertiary",
+        "displayName": "Carbon Contour Sienna (mid)",
+        "canonical": "#dc8746",
+        "tonalRamp": [
+          "#3d1a08",
+          "#6e2f10",
+          "#b4531f",
+          "#c96a30",
+          "#dc8746",
+          "#f2c49c",
+          "#f8ddc6",
+          "#fcefe4"
+        ]
+      },
+      "carbon-3": {
+        "role": "tertiary",
+        "displayName": "Carbon Contour Sienna (light)",
+        "canonical": "#f2c49c",
+        "tonalRamp": [
+          "#3d1a08",
+          "#6e2f10",
+          "#b4531f",
+          "#c96a30",
+          "#dc8746",
+          "#f2c49c",
+          "#f8ddc6",
+          "#fcefe4"
+        ]
+      },
+      "carbon-wash": {
+        "role": "tertiary",
+        "displayName": "Carbon Contour Sienna (wash)",
+        "canonical": "#fcefe4",
+        "tonalRamp": [
+          "#3d1a08",
+          "#6e2f10",
+          "#b4531f",
+          "#c96a30",
+          "#dc8746",
+          "#f2c49c",
+          "#f8ddc6",
+          "#fcefe4"
+        ]
+      },
+      "hydro": {
+        "role": "tertiary",
+        "displayName": "Environment Hydro Blue (strong)",
+        "canonical": "#0c74b0",
+        "tonalRamp": [
+          "#062a40",
+          "#09507a",
+          "#0c74b0",
+          "#2489c4",
+          "#3ea2d8",
+          "#a9d8f2",
+          "#cde9f8",
+          "#e7f4fc"
+        ]
+      },
+      "hydro-2": {
+        "role": "tertiary",
+        "displayName": "Environment Hydro Blue (mid)",
+        "canonical": "#3ea2d8",
+        "tonalRamp": [
+          "#062a40",
+          "#09507a",
+          "#0c74b0",
+          "#2489c4",
+          "#3ea2d8",
+          "#a9d8f2",
+          "#cde9f8",
+          "#e7f4fc"
+        ]
+      },
+      "hydro-3": {
+        "role": "tertiary",
+        "displayName": "Environment Hydro Blue (light)",
+        "canonical": "#a9d8f2",
+        "tonalRamp": [
+          "#062a40",
+          "#09507a",
+          "#0c74b0",
+          "#2489c4",
+          "#3ea2d8",
+          "#a9d8f2",
+          "#cde9f8",
+          "#e7f4fc"
+        ]
+      },
+      "hydro-wash": {
+        "role": "tertiary",
+        "displayName": "Environment Hydro Blue (wash)",
+        "canonical": "#e7f4fc",
+        "tonalRamp": [
+          "#062a40",
+          "#09507a",
+          "#0c74b0",
+          "#2489c4",
+          "#3ea2d8",
+          "#a9d8f2",
+          "#cde9f8",
+          "#e7f4fc"
+        ]
+      },
+      "forest": {
+        "role": "tertiary",
+        "displayName": "People & Governance Forest (strong)",
+        "canonical": "#2e7a47",
+        "tonalRamp": [
+          "#0f2b19",
+          "#1d4f2e",
+          "#2e7a47",
+          "#46905c",
+          "#5fa872",
+          "#b7dcbf",
+          "#d3eadb",
+          "#e9f5ec"
+        ]
+      },
+      "forest-2": {
+        "role": "tertiary",
+        "displayName": "People & Governance Forest (mid)",
+        "canonical": "#5fa872",
+        "tonalRamp": [
+          "#0f2b19",
+          "#1d4f2e",
+          "#2e7a47",
+          "#46905c",
+          "#5fa872",
+          "#b7dcbf",
+          "#d3eadb",
+          "#e9f5ec"
+        ]
+      },
+      "forest-3": {
+        "role": "tertiary",
+        "displayName": "People & Governance Forest (light)",
+        "canonical": "#b7dcbf",
+        "tonalRamp": [
+          "#0f2b19",
+          "#1d4f2e",
+          "#2e7a47",
+          "#46905c",
+          "#5fa872",
+          "#b7dcbf",
+          "#d3eadb",
+          "#e9f5ec"
+        ]
+      },
+      "forest-wash": {
+        "role": "tertiary",
+        "displayName": "People & Governance Forest (wash)",
+        "canonical": "#e9f5ec",
+        "tonalRamp": [
+          "#0f2b19",
+          "#1d4f2e",
+          "#2e7a47",
+          "#46905c",
+          "#5fa872",
+          "#b7dcbf",
+          "#d3eadb",
+          "#e9f5ec"
+        ]
+      },
+      "warn": {
+        "role": "state",
+        "displayName": "Amber Review",
+        "canonical": "#9a5a06",
+        "tonalRamp": [
+          "#2c2312",
+          "#5a3604",
+          "#9a5a06",
+          "#c27a1a",
+          "#e7b25e",
+          "#f2d29c",
+          "#f8e6c6",
+          "#fdf3e2"
+        ]
+      },
+      "warn-wash": {
+        "role": "state",
+        "displayName": "Amber Wash",
+        "canonical": "#fdf3e2",
+        "tonalRamp": [
+          "#2c2312",
+          "#5a3604",
+          "#9a5a06",
+          "#c27a1a",
+          "#e7b25e",
+          "#f2d29c",
+          "#f8e6c6",
+          "#fdf3e2"
+        ]
+      },
+      "crit": {
+        "role": "state",
+        "displayName": "Signal Red",
+        "canonical": "#c0302e",
+        "tonalRamp": [
+          "#331616",
+          "#6e1a19",
+          "#c0302e",
+          "#d9524f",
+          "#f08a86",
+          "#f6b4b1",
+          "#fad6d4",
+          "#fdeceb"
+        ]
+      },
+      "crit-wash": {
+        "role": "state",
+        "displayName": "Red Wash",
+        "canonical": "#fdeceb",
+        "tonalRamp": [
+          "#331616",
+          "#6e1a19",
+          "#c0302e",
+          "#d9524f",
+          "#f08a86",
+          "#f6b4b1",
+          "#fad6d4",
+          "#fdeceb"
+        ]
+      },
+      "ok": {
+        "role": "state",
+        "displayName": "Ledger Green",
+        "canonical": "#157a4a",
+        "tonalRamp": [
+          "#0a2a1a",
+          "#0f4d2f",
+          "#157a4a",
+          "#2a9a63",
+          "#6fd3a0",
+          "#a3e4c2",
+          "#d1f2e1",
+          "#ecfaf3"
+        ]
+      }
     },
     "typographyMeta": {
-      "display": { "displayName": "Display", "purpose": "Page title inside the result band only; 26px, 34px from md." },
-      "figure": { "displayName": "Figure", "purpose": "Governing numbers; 28px, 32px at @md container, 38px at @5xl. Light weight, tabular lining." },
-      "headline": { "displayName": "Headline", "purpose": "Section heads in detail panels." },
-      "title": { "displayName": "Title", "purpose": "Tile and chart titles (14-16px); buttons use the same semibold at 13-14px." },
-      "lede": { "displayName": "Lede", "purpose": "One-sentence result in the band; 16px, 18px from md, 84% white, max 66ch." },
-      "body": { "displayName": "Body", "purpose": "Running text at 15px/1.5; controls and lists at 14-14.5px." },
-      "small": { "displayName": "Small", "purpose": "Field labels, hints, legends, captions, source-note text." },
-      "label": { "displayName": "Label", "purpose": "Uppercase functional metadata: input-group legends, rail group names, source-note keys, table headers." }
+      "display": {
+        "displayName": "Display",
+        "purpose": "Page title inside the result band only; 26px, 34px from md."
+      },
+      "figure": {
+        "displayName": "Figure",
+        "purpose": "Governing numbers; 28px, 32px at @md container, 38px at @5xl. Light weight, tabular lining; may take the family strong colour."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section heads in detail panels."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Tile and chart titles (14-16px); buttons use the same semibold at 13-14px."
+      },
+      "lede": {
+        "displayName": "Lede",
+        "purpose": "One-sentence result in the band; 16px, 18px from md, 84% white, max 66ch."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running text at 15px/1.5; controls and lists at 14-14.5px."
+      },
+      "small": {
+        "displayName": "Small",
+        "purpose": "Field labels, hints, legends, captions, source-note text."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Uppercase functional metadata: input-group legends, rail group names, source-note keys, table headers."
+      }
     },
     "shadows": [
-      { "name": "glass-float", "value": "0 18px 40px -22px rgba(31,52,160,0.38), 0 2px 6px -3px rgba(31,52,160,0.12), inset 0 1px 0 rgba(255,255,255,0.9)", "purpose": "Every glass tile, the rail and chrome pills. Dark: 0 18px 40px -22px rgba(0,0,0,0.7), inset 0 1px 0 rgba(169,188,255,0.12)." },
-      { "name": "band-glow", "value": "0 30px 60px -32px rgba(33,55,157,0.65)", "purpose": "The result band only." },
-      { "name": "primary-press", "value": "0 10px 24px -12px rgba(47,79,224,0.8)", "purpose": "Primary buttons." },
-      { "name": "selected-tab", "value": "0 6px 16px -10px rgba(31,52,160,0.6)", "purpose": "Active segment in segmented tabs." },
-      { "name": "selected-nav", "value": "0 8px 20px -14px rgba(31,52,160,0.7)", "purpose": "Active rail item." },
-      { "name": "lifted-node", "value": "0 24px 44px -20px rgba(31,52,160,0.75)", "purpose": "Selected journey node, with -4px rise and 2px cobalt ring offset 2px." },
-      { "name": "input-focus-halo", "value": "0 0 0 3px color-mix(in srgb, #7f9cff 35%, transparent)", "purpose": "Field focus, paired with a cobalt border." }
+      {
+        "name": "glass-float",
+        "value": "0 18px 40px -22px rgba(31,52,160,0.38), 0 2px 6px -3px rgba(31,52,160,0.12), inset 0 1px 0 rgba(255,255,255,0.9)",
+        "purpose": "Every glass tile, the rail and chrome pills."
+      },
+      {
+        "name": "band-glow",
+        "value": "0 30px 60px -32px rgba(33,55,157,0.65)",
+        "purpose": "The result band only."
+      },
+      {
+        "name": "primary-press",
+        "value": "0 10px 24px -12px rgba(47,79,224,0.8)",
+        "purpose": "Primary buttons."
+      },
+      {
+        "name": "selected-tab",
+        "value": "0 6px 16px -10px rgba(31,52,160,0.6)",
+        "purpose": "Active segment in segmented tabs."
+      },
+      {
+        "name": "selected-nav",
+        "value": "0 8px 20px -14px rgba(31,52,160,0.7)",
+        "purpose": "Active rail item."
+      },
+      {
+        "name": "lifted-node",
+        "value": "0 24px 44px -20px rgba(31,52,160,0.75)",
+        "purpose": "Selected journey node, with -4px rise and 2px cobalt ring offset 2px."
+      },
+      {
+        "name": "input-focus-halo",
+        "value": "0 0 0 3px color-mix(in srgb, #7f9cff 35%, transparent)",
+        "purpose": "Field focus, paired with a cobalt border."
+      }
     ],
     "materials": [
-      { "name": "glass", "value": "background: rgba(255,255,255,0.58); backdrop-filter: blur(14px) saturate(1.4); border: 1px solid rgba(255,255,255,0.92); border-radius: 18px", "purpose": "Bento tiles, rail, chrome, inputs panel. Strong variant 0.8 white. Dark: rgba(20,30,72,0.6) with 18% periwinkle stroke." },
-      { "name": "result-band", "value": "linear-gradient(160deg, #2f4fe0 0%, #2f4fe0 42%, #7f9cff 100%) + grain overlay 0.32 (mix-blend overlay) + radial-gradient(closest-side, rgba(255,255,255,0.28), transparent) at lower right", "purpose": "Opening statement of every page. Dark: #2140b8 to #5b6fd8." },
-      { "name": "ground", "value": "four radial blooms (periwinkle 66% top-right, pale periwinkle 50% left, indigo-2 32% bottom, ice 45% center) over linear-gradient(160deg) on #d9e2fd, background-attachment fixed, grain overlay 0.14", "purpose": "Page base under all glass." },
-      { "name": "grain", "value": "SVG feTurbulence fractalNoise baseFrequency 0.75, 3 octaves, desaturated, 220px tile", "purpose": "Ground (0.14) and band (0.32) only." },
-      { "name": "lead-figure", "value": "linear-gradient(150deg, var(--fam-solid) 0%, color-mix(in srgb, var(--fam-solid) 70%, #7f9cff) 100%)", "purpose": "First tile of each figure row; white text, no border." }
+      {
+        "name": "glass",
+        "value": "background: rgba(255,255,255,0.58); backdrop-filter: blur(14px) saturate(1.4); border: 1px solid rgba(255,255,255,0.92); border-radius: 18px",
+        "purpose": "Bento tiles, rail, chrome, inputs panel. Strong variant 0.8 white (tooltips, active nodes, import preview)."
+      },
+      {
+        "name": "result-band",
+        "value": "linear-gradient(160deg, #2f4fe0 0%, #2f4fe0 42%, #7f9cff 100%) + grain overlay 0.32 (mix-blend overlay) + radial-gradient(closest-side, rgba(255,255,255,0.28), transparent) at lower right",
+        "purpose": "Opening statement of every page; stays cobalt on every family."
+      },
+      {
+        "name": "ground",
+        "value": "four radial blooms (periwinkle 66% top-right, pale periwinkle 50% left, forest-2 32% bottom, ice 45% center) over linear-gradient(160deg, pale periwinkle 70% mixed into ground, ground at 45%, forest-2 22% mixed into ground) on #d9e2fd, background-attachment fixed, grain overlay 0.14",
+        "purpose": "Page base under all glass."
+      },
+      {
+        "name": "grain",
+        "value": "SVG feTurbulence fractalNoise baseFrequency 0.75, 3 octaves, desaturated, 220px tile",
+        "purpose": "Ground (0.14) and band (0.32) only."
+      },
+      {
+        "name": "lead-figure",
+        "value": "linear-gradient(150deg, var(--fam-solid) 0%, color-mix(in srgb, var(--fam-solid) 55%, var(--fam-2)) 100%)",
+        "purpose": "First tile of each figure row; white text, no border. fam-solid: carbon #b4531f, hydro #0c74b0, forest #2e7a47, report #1f3a9e."
+      },
+      {
+        "name": "mini-bar-strip",
+        "value": "bars with 2px radius; marked bar var(--fam-solid), others color-mix(in srgb, var(--fam-solid) 28%, transparent); on the lead tile #fff and rgba(255,255,255,0.45)",
+        "purpose": "Trend strip under each figure."
+      }
     ],
     "motion": [
-      { "name": "ease-out-expo", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Authored motion and field transitions." },
-      { "name": "state", "value": "150-160ms", "purpose": "Button, field, toggle and tab state changes." },
-      { "name": "rail-drawer", "value": "transform 200ms", "purpose": "Mobile rail slide-in." },
-      { "name": "rule-draw", "value": "scaleX 0 to 1, 620ms ease-out-expo, origin left", "purpose": "White rule under the lead figure when the result changes." },
-      { "name": "flow-rise", "value": "translateY(10px) scale(0.97) to none, 520ms ease-out-expo, 70ms stagger", "purpose": "Journey nodes entering." },
-      { "name": "flow-march", "value": "stroke-dashoffset to -26, 1.6s linear infinite", "purpose": "Pending journey paths (dash 6 7)." },
-      { "name": "flow-particles", "value": "SVG animateMotion, 3 particles, 2.2s (next pending) or 3.2s (next done)", "purpose": "Completed journey paths." },
-      { "name": "flow-spin", "value": "rotate 360deg, 2.4s linear infinite", "purpose": "In-progress stage icon." },
-      { "name": "progress-fill", "value": "width 700ms", "purpose": "Band progress bar on the journey page." },
-      { "name": "reduced-motion", "value": "all keyframe animations off, particles hidden, transition-duration 0ms", "purpose": "prefers-reduced-motion: reduce." }
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Authored motion and field transitions."
+      },
+      {
+        "name": "state",
+        "value": "150-160ms",
+        "purpose": "Button, field, toggle and tab state changes."
+      },
+      {
+        "name": "rail-drawer",
+        "value": "transform 200ms",
+        "purpose": "Mobile rail slide-in."
+      },
+      {
+        "name": "rule-draw",
+        "value": "scaleX 0 to 1, 620ms ease-out-expo, origin left",
+        "purpose": "White rule under the lead figure when the result changes."
+      },
+      {
+        "name": "flow-rise",
+        "value": "translateY(10px) scale(0.97) to none, 520ms ease-out-expo, 70ms stagger",
+        "purpose": "Journey nodes entering."
+      },
+      {
+        "name": "flow-march",
+        "value": "stroke-dashoffset to -26, 1.6s linear infinite",
+        "purpose": "Pending journey paths (dash 6 7)."
+      },
+      {
+        "name": "flow-particles",
+        "value": "SVG animateMotion, 3 particles, 2.2s (next pending) or 3.2s (next done)",
+        "purpose": "Completed journey paths."
+      },
+      {
+        "name": "flow-spin",
+        "value": "rotate 360deg, 2.4s linear infinite",
+        "purpose": "In-progress stage icon."
+      },
+      {
+        "name": "progress-fill",
+        "value": "width 700ms",
+        "purpose": "Band progress bar on the journey page."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "all keyframe animations off, particles hidden, transition-duration 0ms",
+        "purpose": "prefers-reduced-motion: reduce."
+      }
     ],
     "breakpoints": [
-      { "name": "sm", "value": "640px" },
-      { "name": "md", "value": "768px" },
-      { "name": "lg", "value": "1024px", "purpose": "Rail becomes sticky; drawer below." },
-      { "name": "xl", "value": "1280px", "purpose": "Tool split 340px inputs + results; overview 12-column bento." },
-      { "name": "@md container", "value": "28rem", "purpose": "Figure size 32px." },
-      { "name": "@3xl container", "value": "48rem", "purpose": "Figure row 4 columns." },
-      { "name": "@5xl container", "value": "64rem", "purpose": "Figure size 38px." }
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px",
+        "purpose": "Rail becomes sticky; drawer below."
+      },
+      {
+        "name": "xl",
+        "value": "1280px",
+        "purpose": "Tool split 340px inputs + results; overview 12-column bento."
+      },
+      {
+        "name": "@md container",
+        "value": "28rem",
+        "purpose": "Figure size 32px."
+      },
+      {
+        "name": "@3xl container",
+        "value": "48rem",
+        "purpose": "Figure row 4 columns."
+      },
+      {
+        "name": "@5xl container",
+        "value": "64rem",
+        "purpose": "Figure size 38px."
+      }
     ],
-    "themes": {
-      "dark": "Follows prefers-color-scheme unless :root[data-theme='light']; forced by :root[data-theme='dark']. Ground #070d26, paper #0d1638, ink #e9eeff, glass rgba(20,30,72,0.6), family colours shift one step lighter, state colours lighten for contrast. Per-token dark values are in colorMeta.*.dark."
+    "theme": "Light only (user decision 2026-10-17). No prefers-color-scheme or data-theme variants; :root sets color-scheme: light, so an OS-dark setting still renders the light app.",
+    "familyScopes": {
+      "note": "[data-family] sets --fam, --fam-2, --fam-3, --fam-wash and --fam-solid; lead tile, mini-bars, rail chips, figure tone and chart series follow. Ramp order: strong, mid, light, wash.",
+      "carbon": {
+        "ramp": [
+          "#b4531f",
+          "#dc8746",
+          "#f2c49c",
+          "#fcefe4"
+        ],
+        "solid": "#b4531f"
+      },
+      "hydro": {
+        "ramp": [
+          "#0c74b0",
+          "#3ea2d8",
+          "#a9d8f2",
+          "#e7f4fc"
+        ],
+        "solid": "#0c74b0"
+      },
+      "forest": {
+        "ramp": [
+          "#2e7a47",
+          "#5fa872",
+          "#b7dcbf",
+          "#e9f5ec"
+        ],
+        "solid": "#2e7a47"
+      },
+      "report": {
+        "ramp": [
+          "#172a6e",
+          "#4f6ef0",
+          "#cfdaff",
+          "#eef2ff"
+        ],
+        "solid": "#1f3a9e"
+      }
     }
   },
   "components": [
@@ -130,9 +866,9 @@
       "name": "Rail Item",
       "kind": "nav",
       "refersTo": "nav-item-active",
-      "description": "Tool link in the glass rail with a family-tinted icon chip.",
+      "description": "Tool link in the glass rail with an icon chip in the family strong colour (carbon shown).",
       "html": "<nav class=\"ds-rail\"><div class=\"ds-rail-group\"><span class=\"ds-rail-bar\"></span><span class=\"ds-label\">Carbon</span></div><a class=\"ds-rail-item\" aria-current=\"page\" href=\"#\"><span class=\"ds-rail-chip\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\"><path d=\"M22 17l-8.5-8.5-5 5L2 7\"/><path d=\"M16 17h6v-6\"/></svg></span>Decarbonisation path</a><a class=\"ds-rail-item\" href=\"#\"><span class=\"ds-rail-chip\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\"><path d=\"M2 20h20M5 20V8l5 4V8l5 4V4h3l1 16\"/></svg></span>ETS simulator</a></nav>",
-      "css": ".ds-rail { width: 262px; padding: 20px 10px; border-radius: 20px; background: rgba(255,255,255,0.58); backdrop-filter: blur(14px) saturate(1.4); border: 1px solid rgba(255,255,255,0.92); box-shadow: 0 18px 40px -22px rgba(31,52,160,0.38), inset 0 1px 0 rgba(255,255,255,0.9); font-family: Geist, 'Segoe UI', system-ui, sans-serif; } .ds-rail-group { display: flex; align-items: center; gap: 10px; padding: 0 10px 6px; } .ds-rail-bar { width: 26px; height: 3px; border-radius: 9999px; background: #2f4fe0; } .ds-label { font-size: 11.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #5c6894; } .ds-rail-item { display: flex; align-items: center; gap: 12px; padding: 7px 10px; border-radius: 11px; font-size: 14px; color: #3b4a78; text-decoration: none; transition: background 150ms, color 150ms; } .ds-rail-item:hover { background: rgba(255,255,255,0.6); color: #0e1a46; } .ds-rail-chip { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 8px; background: rgba(230,236,255,0.8); color: #2f4fe0; } .ds-rail-item[aria-current='page'] { background: #fff; color: #0e1a46; font-weight: 600; box-shadow: 0 8px 20px -14px rgba(31,52,160,0.7); } .ds-rail-item[aria-current='page'] .ds-rail-chip { background: #2f4fe0; color: #fff; } .ds-rail-item:focus-visible { outline: 2px solid #2f4fe0; outline-offset: 2px; }"
+      "css": ".ds-rail { width: 262px; padding: 20px 10px; border-radius: 20px; background: rgba(255,255,255,0.58); backdrop-filter: blur(14px) saturate(1.4); border: 1px solid rgba(255,255,255,0.92); box-shadow: 0 18px 40px -22px rgba(31,52,160,0.38), inset 0 1px 0 rgba(255,255,255,0.9); font-family: Geist, 'Segoe UI', system-ui, sans-serif; } .ds-rail-group { display: flex; align-items: center; gap: 10px; padding: 0 10px 6px; } .ds-rail-bar { width: 26px; height: 3px; border-radius: 9999px; background: #b4531f; } .ds-label { font-size: 11.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #5c6894; } .ds-rail-item { display: flex; align-items: center; gap: 12px; padding: 7px 10px; border-radius: 11px; font-size: 14px; color: #3b4a78; text-decoration: none; transition: background 150ms, color 150ms; } .ds-rail-item:hover { background: rgba(255,255,255,0.6); color: #0e1a46; } .ds-rail-chip { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 8px; background: rgba(230,236,255,0.8); color: #b4531f; } .ds-rail-item[aria-current='page'] { background: #fff; color: #0e1a46; font-weight: 600; box-shadow: 0 8px 20px -14px rgba(31,52,160,0.7); } .ds-rail-item[aria-current='page'] .ds-rail-chip { background: #b4531f; color: #fff; } .ds-rail-item:focus-visible { outline: 2px solid #2f4fe0; outline-offset: 2px; }"
     },
     {
       "name": "Glass Tile with Source-Note Collar",
@@ -141,6 +877,14 @@
       "description": "Bento tile: title, link chip, figure, and the ruled source-note collar it always ends with.",
       "html": "<section class=\"ds-tile\"><header class=\"ds-tile-head\"><h2>Scope 1-2-3 inventory</h2><a class=\"ds-tile-link\" href=\"#\" aria-label=\"Open\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><path d=\"M7 17L17 7M7 7h10v10\"/></svg></a></header><span class=\"ds-figure\">2.5 Mn</span><span class=\"ds-cap\">tCO₂e · location-based total</span><footer class=\"ds-collar\"><span class=\"ds-mark\"></span><a href=\"#\">GHG Protocol Corporate Standard</a><button>+1</button></footer></section>",
       "css": ".ds-tile { display: flex; flex-direction: column; gap: 12px; width: 300px; padding: 20px; border-radius: 18px; background: rgba(255,255,255,0.58); backdrop-filter: blur(14px) saturate(1.4); border: 1px solid rgba(255,255,255,0.92); box-shadow: 0 18px 40px -22px rgba(31,52,160,0.38), 0 2px 6px -3px rgba(31,52,160,0.12), inset 0 1px 0 rgba(255,255,255,0.9); font-family: Geist, 'Segoe UI', system-ui, sans-serif; color: #0e1a46; } .ds-tile-head { display: flex; justify-content: space-between; align-items: center; } .ds-tile-head h2 { margin: 0; font-size: 14px; font-weight: 600; } .ds-tile-link { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 9999px; background: #e6ecff; color: #2443c9; transition: background 150ms, color 150ms; } .ds-tile-link:hover { background: #2f4fe0; color: #fff; } .ds-tile-link:focus-visible { outline: 2px solid #2f4fe0; outline-offset: 2px; } .ds-figure { font-size: 38px; font-weight: 300; letter-spacing: -0.035em; line-height: 1; font-variant-numeric: tabular-nums lining-nums; } .ds-cap { font-size: 12.5px; color: #5c6894; } .ds-collar { display: flex; align-items: center; gap: 8px; margin-top: auto; padding-top: 8px; border-top: 1px solid #cfdaff; font-size: 11.5px; color: #5c6894; } .ds-collar a { color: inherit; text-decoration: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .ds-collar a:hover { text-decoration: underline; } .ds-collar button { border: 0; background: none; font: inherit; font-weight: 600; color: #2443c9; cursor: pointer; } .ds-mark { flex: none; width: 16px; border-top: 2px solid #0e1a46; }"
+    },
+    {
+      "name": "Figure Row (carbon family)",
+      "kind": "card",
+      "refersTo": "lead-figure-carbon",
+      "description": "Governing figures: the lead tile fills with the family gradient, siblings are glass with family-tinted mini-bars.",
+      "html": "<div class=\"ds-figs\"><div class=\"ds-fig ds-fig-lead\"><span class=\"ds-fig-l\">2026 liability</span><span class=\"ds-fig-n\">€3.4 m</span><span class=\"ds-bars\"><i class=\"on\" style=\"height:6px\"></i><i style=\"height:8px\"></i><i style=\"height:10px\"></i><i style=\"height:12px\"></i><i style=\"height:16px\"></i></span></div><div class=\"ds-fig\"><span class=\"ds-fig-l\">2030 liability</span><span class=\"ds-fig-n ds-fam\">€8.8 m</span><span class=\"ds-bars\"><i style=\"height:6px\"></i><i style=\"height:8px\"></i><i class=\"on\" style=\"height:12px\"></i><i style=\"height:16px\"></i><i style=\"height:20px\"></i></span></div></div>",
+      "css": ".ds-figs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-family: Geist, 'Segoe UI', system-ui, sans-serif; --fam: #b4531f; --fam-2: #dc8746; --fam-solid: #b4531f; } .ds-fig { display: flex; flex-direction: column; gap: 10px; padding: 20px; border-radius: 18px; background: rgba(255,255,255,0.58); backdrop-filter: blur(14px) saturate(1.4); border: 1px solid rgba(255,255,255,0.92); box-shadow: 0 18px 40px -22px rgba(31,52,160,0.38), inset 0 1px 0 rgba(255,255,255,0.9); color: #0e1a46; } .ds-fig-lead { border-color: transparent; color: #fff; background: linear-gradient(150deg, var(--fam-solid) 0%, color-mix(in srgb, var(--fam-solid) 55%, var(--fam-2)) 100%); } .ds-fig-l { font-size: 13px; font-weight: 500; } .ds-fig-n { font-size: 32px; font-weight: 300; letter-spacing: -0.035em; line-height: 1; font-variant-numeric: tabular-nums lining-nums; } .ds-fam { color: var(--fam); } .ds-bars { display: flex; align-items: flex-end; gap: 3px; height: 20px; } .ds-bars i { flex: 1; border-radius: 2px; background: color-mix(in srgb, var(--fam-solid) 28%, transparent); } .ds-bars i.on { background: var(--fam-solid); } .ds-fig-lead .ds-bars i { background: rgba(255,255,255,0.45); } .ds-fig-lead .ds-bars i.on { background: #fff; }"
     },
     {
       "name": "Result Band",
@@ -163,41 +907,76 @@
       "description": "Report-journey stage node in done, doing and to-do states.",
       "html": "<div class=\"ds-nodes\"><button class=\"ds-node ds-done\"><b>01</b><span>Scope and frame</span><i><em style=\"width:100%\"></em></i></button><button class=\"ds-node ds-doing\"><b>06</b><span>Writing and mapping</span><i><em style=\"width:50%\"></em></i></button><button class=\"ds-node ds-todo\"><b>07</b><span>Assurance</span><i><em style=\"width:0\"></em></i></button></div>",
       "css": ".ds-nodes { display: flex; gap: 24px; padding: 24px; background: #d9e2fd; font-family: Geist, 'Segoe UI', system-ui, sans-serif; } .ds-node { display: flex; flex-direction: column; justify-content: space-between; gap: 10px; width: 190px; height: 104px; padding: 14px; border-radius: 16px; text-align: left; cursor: pointer; transition: transform 300ms, box-shadow 300ms, border-color 300ms; } .ds-node:hover { transform: translateY(-2px); } .ds-node:focus-visible { outline: 2px solid #2f4fe0; outline-offset: 2px; } .ds-node b { font-size: 12px; font-variant-numeric: tabular-nums; color: #2443c9; } .ds-node span { font-size: 14px; font-weight: 600; color: #0e1a46; } .ds-node i { display: block; height: 4px; border-radius: 9999px; background: #e6ecff; overflow: hidden; } .ds-node em { display: block; height: 100%; background: #4f6ef0; } .ds-done { border: 1px solid transparent; background: linear-gradient(150deg, #2f4fe0 0%, #5a74f2 100%); } .ds-done b { color: rgba(255,255,255,0.8); } .ds-done span { color: #fff; } .ds-done i { background: rgba(255,255,255,0.3); } .ds-done em { background: #fff; } .ds-doing { background: rgba(255,255,255,0.8); backdrop-filter: blur(14px); border: 1px solid #4f6ef0; transform: translateY(-4px); box-shadow: 0 24px 44px -20px rgba(31,52,160,0.75), 0 0 0 2px #d9e2fd, 0 0 0 4px #2f4fe0; } .ds-todo { background: rgba(255,255,255,0.58); border: 1px dashed #a9bcff; }"
+    },
+    {
+      "name": "Bulk Data Import (CSV)",
+      "kind": "custom",
+      "refersTo": "import-preview",
+      "description": "Input group in the GHG inputs panel: template and upload buttons, then a preview with per-row issues and add/replace actions.",
+      "html": "<fieldset class=\"ds-imp\"><legend>Bulk data (CSV)</legend><p class=\"ds-imp-hint\">Download the template, fill it in and upload it.</p><div class=\"ds-imp-row\"><button class=\"ds-q\">Template</button><button class=\"ds-q\">Upload CSV</button></div><div class=\"ds-imp-prev\"><p class=\"ds-imp-sum\">inventory.csv: 14 lines from 16 rows</p><p class=\"ds-imp-cnt\">Fuels 6 · Process 2 · Refrigerants 1 · Electricity 3 · Scope 3 2</p><ul class=\"ds-imp-err\"><li>Row 7: unknown fuel</li><li>Row 12: quantity is not a number</li></ul><div class=\"ds-imp-row\"><button class=\"ds-p\">Add to inventory</button><button class=\"ds-q\">Replace</button><button class=\"ds-g\">Cancel</button></div></div></fieldset>",
+      "css": ".ds-imp { display: flex; flex-direction: column; gap: 12px; margin: 0; padding: 0; border: 0; width: 320px; font-family: Geist, 'Segoe UI', system-ui, sans-serif; color: #0e1a46; } .ds-imp legend { font-size: 11.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #5c6894; margin-bottom: 12px; } .ds-imp-hint { margin: 0; font-size: 12.5px; line-height: 1.375; color: #5c6894; } .ds-imp-row { display: flex; flex-wrap: wrap; gap: 8px; } .ds-q, .ds-p, .ds-g { height: 32px; padding: 0 12px; border-radius: 12px; font: 600 13px/1 Geist, 'Segoe UI', system-ui, sans-serif; cursor: pointer; transition: background 150ms, border-color 150ms; } .ds-q { background: rgba(255,255,255,0.8); color: #0e1a46; border: 1px solid #dbe3f7; } .ds-q:hover { background: #fff; border-color: #a9bcff; } .ds-p { background: #2f4fe0; color: #fff; border: 1px solid transparent; box-shadow: 0 10px 24px -12px rgba(47,79,224,0.8); } .ds-p:hover { background: #2140b8; } .ds-g { background: transparent; color: #3b4a78; border: 1px solid transparent; padding: 0 10px; } .ds-g:hover { background: rgba(230,236,255,0.7); } .ds-q:focus-visible, .ds-p:focus-visible, .ds-g:focus-visible { outline: 2px solid #2f4fe0; outline-offset: 2px; } .ds-imp-prev { display: flex; flex-direction: column; gap: 8px; padding: 12px; border-radius: 12px; border: 1px solid #dbe3f7; background: rgba(255,255,255,0.8); font-size: 13px; } .ds-imp-prev p { margin: 0; } .ds-imp-sum { font-weight: 600; } .ds-imp-cnt { font-size: 12.5px; color: #3b4a78; } .ds-imp-err { display: flex; flex-direction: column; gap: 4px; max-height: 128px; overflow-y: auto; margin: 0; padding: 0; list-style: none; font-size: 12.5px; color: #c0302e; }"
     }
   ],
   "narrative": {
     "northStar": "The Blue Survey Table",
-    "overview": "Isoline is a working table seen through frosted glass: a soft, grain-washed blue ground, translucent bento tiles floating above it, and one saturated cobalt band per page that states the result in a sentence. Everything is a depth of blue. Navy, cobalt, periwinkle and ice carry the hierarchy; the tool families keep their identity as different depths of the same blue (reporting navy, carbon cobalt, environment sky, people indigo), so the product reads as one instrument rather than a set of coloured apps.\n\nThe density is that of a consultant's analysis desk: 15px body, compact controls, charts that are presentation-grade the moment they render. Numbers are the heroes and are set large and light (Geist 300, tabular, tight tracking), never bold. Trust is built by provenance rather than decoration: every data tile ends in a ruled source-note collar, and data status is drawn as line form (solid verified, dashed estimated, dotted review) in marks, chart strokes, journey nodes and flags alike.\n\nThe category default (white rounded cards with an emerald accent and leaf icons) and the plain grey dashboard are the confirmed rejections. Green exists in the system only as the `ok` state colour.",
+    "overview": "Isoline is a working table seen through frosted glass: a soft, grain-washed blue ground, translucent bento tiles floating above it, and one saturated cobalt band per page that states the result in a sentence. Blue is the world: navy, cobalt, periwinkle and ice carry the chrome, the band, actions, focus and text. The data is drawn in map layers over that world: each tool family carries its own four-step hue ramp (reporting navy, carbon contour sienna, environment hydro blue, people and governance forest green), so a figure, bar or series says which instrument produced it while the product still reads as one blue table.\n\nThe density is that of a consultant's analysis desk: 15px body, compact controls, charts that are presentation-grade the moment they render. Numbers are the heroes and are set large and light (Geist 300, tabular, tight tracking), never bold. Trust is built by provenance rather than decoration: every data tile ends in a ruled source-note collar, and data status is drawn as line form (solid verified, dashed estimated, dotted review) in marks, chart strokes, journey nodes and flags alike.\n\nThe system is light only (user decision 2026-10-17): there is no dark theme, no `prefers-color-scheme` or `data-theme` variant, and an OS set to dark still renders the light app (`color-scheme: light`). The category default (white rounded cards with an emerald accent and leaf icons) and the plain grey dashboard are the confirmed rejections.",
     "keyCharacteristics": [
       "Frosted glass tiles (58% white, 14px blur, 1.4 saturate, white hairline, blue-tinted shadow, 18px radius) on a grain-washed radial blue ground.",
-      "One cobalt-to-periwinkle grain band per page, carrying title, one-sentence result and actions.",
-      "Families as depths of blue, scoped by `data-family`; state colours (warn, crit, ok) for meaning only.",
+      "One cobalt-to-periwinkle grain band per page, carrying title, one-sentence result and actions; the band stays cobalt on every family.",
+      "Blue for the world, four family hue ramps for the data (scoped by `data-family`), state colours (warn, crit, ok) for meaning only.",
       "Large light tabular numerals in Geist; uppercase tracked labels only for functional metadata.",
       "Source-note collar on every data tile; solid/dashed/dotted line language for data status.",
-      "A full dark theme that inverts the ramp to midnight glass, following the OS unless `data-theme` pins it."
+      "Light only (user decision 2026-10-17)."
     ],
     "rules": [
-      { "name": "The Depths-of-Blue Rule", "body": "Every family, series and structural accent is drawn from the blue hierarchy (navy through ice, plus sky and indigo for two families). A new tool gets a depth of blue, not a new hue.", "section": "colors" },
-      { "name": "The Meaning-Only Rule", "body": "Amber, red and green appear only when they state review, error/deadline or a positive result. They are never decoration, never a family colour, never a brand accent.", "section": "colors" },
-      { "name": "The Light Numeral Rule", "body": "Headline figures are Geist 300 with tabular lining numerals and -0.035em tracking. Weight never stands in for importance on a number; size and the lead tile do.", "section": "typography" },
-      { "name": "The Tabular Ledger Rule", "body": "Any number that can be compared (tables, inputs, dates, percentages, chart labels) uses tabular lining numerals.", "section": "typography" },
-      { "name": "The Blue Shadow Rule", "body": "In the light theme no shadow is grey or black; every shadow is tinted with deep cobalt (`rgba(31,52,160,…)` or `rgba(33,55,157,…)`).", "section": "elevation" },
-      { "name": "The Grain Rule", "body": "Grain lives on two surfaces only: the page ground (14% opacity) and the result band (32%, overlay blend). Tiles stay clean so charts remain legible.", "section": "elevation" }
+      {
+        "name": "The Layer Hierarchy Rule",
+        "body": "Blue is the world, family hue ramps are the data, status colours are meaning. Chrome, the band, buttons, focus and text stay blue; series, figures, mini-bars and rail chips take their family ramp; amber, red and ledger green speak only for state. A new tool joins one of the four families and inherits its ramp rather than receiving a new hue.",
+        "section": "colors"
+      },
+      {
+        "name": "The Meaning-Only Rule",
+        "body": "Amber, red and ledger green appear only when they state review, error/deadline or a positive result. They are never decoration, never a family colour, never a brand accent.",
+        "section": "colors"
+      },
+      {
+        "name": "The Light Numeral Rule",
+        "body": "Headline figures are Geist 300 with tabular lining numerals and -0.035em tracking. Weight never stands in for importance on a number; size, family colour and the lead tile do.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Ledger Rule",
+        "body": "Any number that can be compared (tables, inputs, dates, percentages, chart labels) uses tabular lining numerals.",
+        "section": "typography"
+      },
+      {
+        "name": "The Blue Shadow Rule",
+        "body": "No shadow is grey or black; every shadow is tinted with deep cobalt (`rgba(31,52,160,…)` or `rgba(33,55,157,…)`), including under family-coloured lead tiles.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Grain Rule",
+        "body": "Grain lives on two surfaces only: the page ground (14% opacity) and the result band (32%, overlay blend). Tiles stay clean so charts remain legible.",
+        "section": "elevation"
+      }
     ],
     "dos": [
       "Do open every page with exactly one result band that states the outcome in one sentence, with on-band button variants for its actions.",
       "Do end every chart, table and data tile with the source-note collar, including its status line.",
       "Do draw data status as line form everywhere: solid verified, dashed estimated/default, dotted review.",
-      "Do set a `data-family` on any tool surface and take accents from `--fam*`, so the family's depth of blue follows automatically.",
+      "Do set a `data-family` on any tool surface and take data accents from `--fam*`, so the family's hue ramp follows automatically.",
+      "Do order a family's series by ramp step: strong for the primary series, mid for secondary or default values, light for the remainder, wash for bands and zones.",
       "Do set governing figures in Geist 300 tabular with -0.035em tracking, and lead each figure row with the family-gradient tile.",
-      "Do tint every light-theme shadow with deep cobalt and keep tiles on the 58% glass recipe.",
+      "Do tint every shadow with deep cobalt and keep tiles on the 58% glass recipe.",
       "Do honour reduced motion: rule-draw, flow march, spin, rise and particles all stop, and transitions drop to 0ms."
     ],
     "donts": [
-      "Don't introduce a hue outside the blue hierarchy for a family, series or accent; green, amber and red are state colours only.",
+      "Don't add a dark theme, a `prefers-color-scheme` block or a `data-theme` switch; the app is light only (user decision 2026-10-17).",
+      "Don't invent a hue outside the blue world, the four family ramps and the three state colours; a new tool joins an existing family.",
+      "Don't put a family hue on chrome, the result band, buttons, focus rings or status marks; those stay blue.",
       "Don't fall back to the category default of white rounded cards with an emerald accent and leaf icons, or to a plain grey dashboard.",
       "Don't put grain on tiles or charts; it belongs to the ground and the band.",
-      "Don't bold a headline figure or use a grey or black drop shadow in the light theme.",
+      "Don't bold a headline figure or use a grey or black drop shadow.",
       "Don't use uppercase tracked labels as decorative kickers above headings; they are reserved for functional metadata (group legends, note keys, table headers)."
     ]
   }

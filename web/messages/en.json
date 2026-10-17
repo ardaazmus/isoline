@@ -460,6 +460,30 @@
       "scope3": "Scope 3 factors are entered by the user and each line records its source.",
       "gwp": "Refrigerants use IPCC AR6 GWP100 (Table 7.SM.7, e.g. SF₆ 24,300, R-134a 1,530); state the GWP set in the report.",
       "tsrs": "Under TSRS 2, scope 3 is not required in the first two reporting years; TSRS 2 GHG amendments apply from 2027."
+    },
+    "import": {
+      "title": "Bulk data (CSV)",
+      "hint": "Fill fuel, process, refrigerant, electricity and scope 3 rows in Excel and upload them as CSV. Use a comma or a point for decimals.",
+      "template": "Download template",
+      "upload": "Upload CSV",
+      "preview": "{file}: {n} items read from {rows} rows.",
+      "counts": "Fuels {fuels} · process {process} · refrigerants {ref} · electricity {el} · scope 3 {s3}",
+      "row": "Row {row}:",
+      "append": "Add to inventory",
+      "replace": "Replace inventory",
+      "appended": "{n} items added to the inventory.",
+      "replaced": "Inventory replaced with {n} items.",
+      "err": {
+        "empty": "The file is empty.",
+        "missingColumns": "Required columns missing: {cols}. Download the template and use its header row.",
+        "badAmount": "amount could not be read ({value}).",
+        "badFuel": "unknown fuel ({value}); allowed: {allowed}.",
+        "badGas": "unknown gas ({value}); allowed: {allowed}.",
+        "badConnection": "connection must be transmission or distribution ({value}).",
+        "badCategory": "scope 3 category must be 1–15 ({value}).",
+        "badFactor": "emission factor could not be read ({value}).",
+        "badType": "unknown row type ({value}); use fuel, process, refrigerant, electricity or scope3."
+      }
     }
   },
   "ets": {
@@ -810,7 +834,7 @@
         "watchlist": "Watchlist and qualified-investor venture capital market companies are outside mandatory scope; TSRS may be applied voluntarily.",
         "not_listed_type": "This entity type is not on KGK's mandatory list; TSRS may be applied voluntarily.",
         "status_two_years": "Entering scope requires the regulated status in at least two periods.",
-        "small_fi_relief": "Unlisted financial institutions with no more than one branch or 250 employees are outside mandatory scope during the scope 3 relief.",
+        "small_fi_relief": "Unlisted banks and financial institutions with no more than one branch or 250 employees at the previous year end are outside mandatory scope during the scope 3 relief (first two reporting years); they may report voluntarily.",
         "below_thresholds": "Two of three criteria were not exceeded in two consecutive periods; TSRS may be applied voluntarily.",
         "threshold_transition_review": "The KGK decision (Official Gazette 16.01.2026, 33139) applies the new thresholds (1 bn / 2 bn / 500) to accounting periods starting on or after 1 January 2025; no official text explains how they apply to the 2023–2024 reference years. Cross-check with KGK's SÜHA tool.",
         "relief_comparatives": "Comparative information is not required in the first reporting period.",
@@ -873,7 +897,11 @@
       "energy": {
         "manager": "Industrial companies using 1,000 toe or more a year appoint an energy manager and file annually."
       }
-    }
+    },
+    "sharesListed": "Shares traded on the exchange",
+    "sharesListedHint": "Unlisted financial institutions with no more than one branch or 250 employees are outside mandatory scope during the scope 3 relief.",
+    "euTurnoverPrev": "Net turnover in the EU (previous year)",
+    "euTurnoverPrevHint": "The non-EU parent rule requires EU turnover above €450 m in each of the last two years."
   },
   "reg": {
     "result": "{n} key dates in the next 90 days; first up: {next} ({date}).",

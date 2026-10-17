@@ -107,7 +107,7 @@ function Inner() {
             { label: t("cbam.fig2026"), value: eurC(rows[0].cost), trend: rows.map((r) => r.cost), mark: 0 },
             { label: t("cbam.fig2030"), value: eurC(y2030.cost), tone: "fam", trend: rows.map((r) => r.cost), mark: 4 },
             { label: t("cbam.figTotal"), value: eurC(cumulative), trend: rows.map((_, i) => rows.slice(0, i + 1).reduce((a, r) => a + r.cost, 0)), mark: rows.length - 1 },
-            { label: t("cbam.figSaving"), value: eurC(Math.max(0, cumDefault - cumActual)), note: t("cbam.figSavingNote"), tone: "ok", trend: rows.map((r) => r.costDefault - r.costActual) },
+            { label: t("cbam.figSaving"), value: eurC(Math.max(0, cumDefault - cumActual)), note: t("cbam.figSavingNote"), trend: rows.map((r) => r.costDefault - r.costActual) },
           ]}
         />
 
@@ -119,7 +119,7 @@ function Inner() {
             <>
               <LegendItem kind="swatch" color="var(--carbon)" label={t("cbam.legendCost")} />
               <LegendItem color="var(--ink)" dash label={t("cbam.legendDefault")} />
-              <LegendItem color="var(--forest)" label={t("cbam.legendActual")} />
+              <LegendItem color="var(--report)" label={t("cbam.legendActual")} />
             </>
           }
           csv={{
@@ -135,7 +135,7 @@ function Inner() {
             stacks={[{ id: "cost", label: t("cbam.legendCost"), values: rows.map((r) => r.cost), color: "var(--carbon)" }]}
             overlay={[
               { id: "def", label: t("cbam.legendDefault"), values: rows.map((r) => r.costDefault), color: "var(--ink)", dash: true },
-              { id: "act", label: t("cbam.legendActual"), values: rows.map((r) => r.costActual), color: "var(--forest)" },
+              { id: "act", label: t("cbam.legendActual"), values: rows.map((r) => r.costActual), color: "var(--report)" },
             ]}
           />
         </Figure>

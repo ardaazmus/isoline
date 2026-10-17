@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { Plus, Trash2 } from "lucide-react";
+import { useMemo, useRef, useState } from "react";
+import { FileDown, FileUp, Plus, Trash2 } from "lucide-react";
 import { useI18n } from "@/i18n/provider";
 import {
   computeInventory,
@@ -21,7 +21,9 @@ import {
 import { FiguresRow, InputGroup, PageHeader, ToolLayout } from "@/components/shell";
 import { Figure } from "@/components/figure";
 import { Waterfall } from "@/components/charts";
-import { Button, NumberField, SelectField, StatusMark, Tabs, TextField } from "@/components/ui";
+import { Button, Callout, NumberField, SelectField, StatusMark, Tabs, TextField } from "@/components/ui";
+import { download } from "@/lib/export";
+import { importInventoryCsv, inventoryTemplateCsv, type ImportResult } from "@/lib/inventory-csv";
 import { Hydrated, NoteList, SectionTitle, ToolActions, useTool } from "./common";
 
 const SOURCES = ["ghg_protocol", "ipcc_2006", "ipcc_ar6_gwp", "etkb_ef_2023"];
@@ -81,6 +83,7 @@ function Inner() {
         family="carbon"
         inputs={
           <>
+            <InventoryImport inv={inv} onApply={(next) => set(next)} />
             <Tabs
               label={t("ghg.inputs")}
               value={tab}
@@ -318,5 +321,96 @@ function Inner() {
         </div>
       </ToolLayout>
     </>
+  );
+}
+
+/** Bulk CSV import: download the template, upload a file, preview, then add to or replace the inventory. */
+function InventoryImport({ inv, onApply }: { inv: Inventory; onApply: (next: Inventory) => void }) {
+  const { t } = useI18n();
+  const file = useRef<HTMLInputElement>(null);
+  const [result, setResult] = useState<(ImportResult & { name: string }) | null>(null);
+  const [done, setDone] = useState<string | null>(null);
+  const count = result ? Object.values(result.lines).reduce((n, l) => n + l.length, 0) : 0;
+  const apply = (mode: "append" | "replace") => {
+    if (!result) return;
+    const l = result.lines;
+    onApply(
+      mode === "replace"
+        ? { ...inv, ...l }
+        : {
+            ...inv,
+            fuels: [...inv.fuels, ...l.fuels],
+            process: [...inv.process, ...l.process],
+            refrigerants: [...inv.refrigerants, ...l.refrigerants],
+            electricity: [...inv.electricity, ...l.electricity],
+            scope3: [...inv.scope3, ...l.scope3],
+          },
+    );
+    setDone(t(mode === "replace" ? "ghg.import.replaced" : "ghg.import.appended", { n: count }));
+    setResult(null);
+  };
+  return (
+    <InputGroup title={t("ghg.import.title")}>
+      <p className="text-[12.5px] leading-snug text-[var(--ink-3)]">{t("ghg.import.hint")}</p>
+      <div className="flex flex-wrap gap-2">
+        <Button variant="quiet" size="sm" onClick={() => download("isoline-envanter-sablonu.csv", inventoryTemplateCsv(), "text/csv;charset=utf-8")}>
+          <FileDown size={14} aria-hidden /> {t("ghg.import.template")}
+        </Button>
+        <Button variant="quiet" size="sm" onClick={() => file.current?.click()}>
+          <FileUp size={14} aria-hidden /> {t("ghg.import.upload")}
+        </Button>
+      </div>
+      <input
+        ref={file}
+        type="file"
+        accept=".csv,text/csv"
+        className="hidden"
+        aria-label={t("ghg.import.upload")}
+        onChange={async (e) => {
+          const f = e.target.files?.[0];
+          e.target.value = "";
+          if (!f) return;
+          setDone(null);
+          setResult({ ...importInventoryCsv(await f.text()), name: f.name });
+        }}
+      />
+      {done && <Callout>{done}</Callout>}
+      {result && (
+        <div className="flex flex-col gap-2 rounded-[12px] border border-[var(--rule)] bg-[var(--glass-strong)] p-3 text-[13px]">
+          <p className="font-semibold">{t("ghg.import.preview", { file: result.name, n: count, rows: result.rows })}</p>
+          <p className="text-[12.5px] text-[var(--ink-2)]">
+            {t("ghg.import.counts", {
+              fuels: result.lines.fuels.length,
+              process: result.lines.process.length,
+              ref: result.lines.refrigerants.length,
+              el: result.lines.electricity.length,
+              s3: result.lines.scope3.length,
+            })}
+          </p>
+          {result.issues.length > 0 && (
+            <ul className="flex max-h-32 flex-col gap-1 overflow-y-auto text-[12.5px] text-[var(--crit)]">
+              {result.issues.map((i, k) => (
+                <li key={k}>
+                  {t("ghg.import.row", { row: i.row })} {t(`ghg.import.err.${i.key}`, i.vars)}
+                </li>
+              ))}
+            </ul>
+          )}
+          {count > 0 && (
+            <div className="flex flex-wrap gap-2 pt-1">
+              <Button variant="primary" size="sm" onClick={() => apply("append")}>
+                {t("ghg.import.append")}
+              </Button>
+              <Button variant="quiet" size="sm" onClick={() => apply("replace")}>
+                {t("ghg.import.replace")}
+              </Button>
+              <Button variant="ghost" size="sm" onClick={() => setResult(null)}>
+                {t("clients.cancel")}
+              </Button>
+            </div>
+          )}
+        </div>
+      )}
+    </InputGroup>
   );
 }

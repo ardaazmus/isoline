@@ -101,7 +101,7 @@ function Inner() {
 
         <Tile title={t("nav.cbam")} href="/tools/cbam" family="carbon" className="md:col-span-6 xl:col-span-4" sources={["cbam_reg", "cbam_price"]}>
           <div className="flex items-baseline gap-3">
-            <span className="figure-num text-[34px] text-[var(--accent-ink)]">{fmt.compact(cbam.find((r) => r.year === 2030)?.cost ?? 0)} €</span>
+            <span className="figure-num text-[34px] text-[var(--carbon)]">{fmt.compact(cbam.find((r) => r.year === 2030)?.cost ?? 0)} €</span>
             <span className="text-[12.5px] text-[var(--ink-3)]">{t("overview.cbam2030")}</span>
           </div>
           <StackedBars
@@ -109,8 +109,8 @@ function Inner() {
             label={t("cbam.chartCost")}
             categories={cbam.map((r) => String(r.year).slice(2))}
             yFormat={(v) => fmt.compact(v)}
-            stacks={[{ id: "c", label: t("cbam.legendCost"), values: cbam.map((r) => r.cost), color: "var(--b-600)" }]}
-            overlay={[{ id: "d", label: t("cbam.legendDefault"), values: cbam.map((r) => r.costDefault), color: "var(--b-400)", dash: true }]}
+            stacks={[{ id: "c", label: t("cbam.legendCost"), values: cbam.map((r) => r.cost), color: "var(--carbon)" }]}
+            overlay={[{ id: "d", label: t("cbam.legendDefault"), values: cbam.map((r) => r.costDefault), color: "var(--carbon-2)", dash: true }]}
           />
         </Tile>
 
@@ -120,15 +120,15 @@ function Inner() {
           <ShareBar
             label={t("nav.ghg")}
             parts={[
-              { value: ghg.scope1 / total, color: "var(--b-700)", label: t("ghg.scope1") },
-              { value: ghg.scope2Location / total, color: "var(--b-500)", label: t("ghg.scope2loc") },
-              { value: ghg.scope3 / total, color: "var(--b-300)", label: t("ghg.scope3"), hatch: true },
+              { value: ghg.scope1 / total, color: "var(--carbon)", label: t("ghg.scope1") },
+              { value: ghg.scope2Location / total, color: "var(--carbon-2)", label: t("ghg.scope2loc") },
+              { value: ghg.scope3 / total, color: "var(--carbon-3)", label: t("ghg.scope3"), hatch: true },
             ]}
           />
           <div className="flex flex-col gap-1 text-[12.5px] text-[var(--ink-2)]">
-            <LegendItem kind="swatch" color="var(--b-700)" label={`${t("ghg.scope1")} · ${fmt.percent(ghg.scope1 / total, 0)}`} />
-            <LegendItem kind="swatch" color="var(--b-500)" label={`${t("ghg.scope2loc")} · ${fmt.percent(ghg.scope2Location / total, 0)}`} />
-            <LegendItem kind="swatch" color="var(--b-300)" label={`${t("ghg.scope3")} · ${fmt.percent(ghg.scope3 / total, 0)}`} />
+            <LegendItem kind="swatch" color="var(--carbon)" label={`${t("ghg.scope1")} · ${fmt.percent(ghg.scope1 / total, 0)}`} />
+            <LegendItem kind="swatch" color="var(--carbon-2)" label={`${t("ghg.scope2loc")} · ${fmt.percent(ghg.scope2Location / total, 0)}`} />
+            <LegendItem kind="swatch" color="var(--carbon-3)" label={`${t("ghg.scope3")} · ${fmt.percent(ghg.scope3 / total, 0)}`} />
           </div>
         </Tile>
 
@@ -182,9 +182,9 @@ function Inner() {
             label={t("pathway.chart")}
             x={path.map((r) => r.year)}
             yFormat={(v) => fmt.compact(v)}
-            bands={[{ id: "b", label: t("pathway.band15"), lower: path.map(() => 0), upper: path.map((r) => r.target15), fill: "color-mix(in srgb, var(--b-300) 35%, transparent)" }]}
+            bands={[{ id: "b", label: t("pathway.band15"), lower: path.map(() => 0), upper: path.map((r) => r.target15), fill: "var(--forest-3)" }]}
             series={[
-              { id: "plan", label: t("pathway.withMeasures"), values: path.map((r) => r.withMeasures), color: "var(--b-600)", width: 2.5 },
+              { id: "plan", label: t("pathway.withMeasures"), values: path.map((r) => r.withMeasures), color: "var(--carbon)", width: 2.5 },
               { id: "bau", label: t("pathway.bau"), values: path.map((r) => r.bau), color: "var(--ink-3)", dash: true, width: 1.5 },
             ]}
           />
