@@ -37,14 +37,14 @@ npm --prefix web run typecheck
 | | Kapsam testi | TSRS (KGK 2026 eşikleri), CSRD/Omnibus, CSDDD, SKDM, TR ETS, faaliyet raporu türü, taksonomi, EUDR, DPP, pil pasaportu, enerji yöneticisi |
 | | Faktör kütüphanesi | Hazır açık/resmi setler (IPCC 2006, ETKB 2023, IPCC AR6 GWP, AB SKDM varsayılan değerleri Türkiye 2026/1740, EEA ENER038 2024 şebeke yoğunlukları) yayıncı, lisans ve tarihiyle; ham kaynaklar SHA-256 özetleriyle `docs/kaynak-veri` altında; "kendi faktörünü getir": lisanslı ya da tedarikçi faktörleri CSV ile eklenir, kullanım hakkı onaylanmadan hesaplarda görünmez; Kapsam 1-2-3 ve SKDM ekranlarında kütüphaneden seçim |
 | | Mevzuat takvimi | TR / AB / küresel kulvarlarda 40 tarihli zaman çizelgesi, resmi ve ikincil kaynak ayrımıyla |
-| Karbon | Kapsam 1-2-3 envanteri | Yakıt (NCV × EF), proses, F-gaz (AR6 GWP), elektrik (ETKB 2023 konum ve piyasa bazlı), 15 Kapsam 3 kategorisi, emisyon şelalesi; Excel/CSV şablonuyla toplu yükleme |
+| Karbon | Kapsam 1-2-3 envanteri | Yakıt (NCV × EF), proses, F-gaz (AR6 GWP), elektrik (ETKB 2023 konum ve piyasa bazlı), 15 Kapsam 3 kategorisi, emisyon şelalesi; Excel (xlsx, xls, ods) ya da CSV şablonuyla toplu yükleme, doğru sayfa ve başlık satırı kendiliğinden bulunur |
 | | SKDM maliyet projeksiyonu | 2026–2034; gerçek ve varsayılan veri, işaret payları, ücretsiz tahsis düzeltmesi (CSCF), menşe karbon fiyatı indirimi, KN kodu Ek I kontrolü, AB ithalatçısı için operatör veri özeti (CSV) |
 | | TR ETS simülatörü | A/B/C kategorisi, pilot dönem, kıyas bazlı ücretsiz tahsisat, açık ve maliyet, ceza tablosu |
 | | Dekarbonizasyon yolu | SBTi 1,5 °C / WB2C yolları (yükselti bantları), net sıfır, önlem etkileri, MACC eğrisi |
-| Çevre | Enerji, su ve atık | TEP/MWh dönüşümü, yenilenebilir payı, su tüketimi, geri kazanım; GRI/ESRS karşılıkları |
+| Çevre | Enerji, su ve atık | TEP/MWh dönüşümü, yenilenebilir payı, su tüketimi, geri kazanım; GRI/ESRS karşılıkları; tesis ve dönem bazlı Excel/CSV gösterge içe aktarma (birim dönüşümü, akış/dönem sonu toplama kuralları, su stresi payı) |
 | | Taksonomi göstergeleri | Ciro, CapEx, OpEx uyum oranları; %10 önemlilik kontrolü (AB 2026/73) |
 | İnsan ve yönetişim | Çift önemlilik matrisi | ESRS konularında etki ve finansal puanlama, etkileşimli matris |
-| | İSG ve çalışan göstergeleri | LTIFR, TRIR, ağırlık oranı, ücret farkı, devir, eğitim |
+| | İSG ve çalışan göstergeleri | LTIFR, TRIR, ağırlık oranı, ücret farkı, devir, eğitim; aynı gösterge dosyasından toplu içe aktarma |
 | Raporlama | Faaliyet raporu kontrolü | Asgari içerik yönetmeliği (RG 28395) + SPK + BDDK maddeleri, sorumlu/durum takibi, Word çıktısı |
 | | Şablon kütüphanesi | 11 şablon (TSRS tam, TSRS önce iklim, GRI, ESRS 2026, gönüllü standart, SKDM operatör paketi, TR ETS izleme planı, faaliyet raporu TTK/halka açık, CDP, yeşil tahvil); hesaplanmış rakamlarla Word'e aktarım |
 | | Çerçeve eşleme | 20 veri grubu: TSRS 2 ↔ GRI ↔ ESRS ↔ gönüllü standart ↔ CDP |

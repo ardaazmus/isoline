@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { SAMPLE_CLIENT } from "@/data/sample";
-import { addV4Fields, addV5Fields, unlinkV2GridPicks } from "./workspace";
+import { addV4Fields, addV5Fields, addV6Fields, unlinkV2GridPicks } from "./workspace";
 
 describe("workspace v3 migration", () => {
   it("drops v2 grid picks from the supplier factor but keeps the typed value", () => {
@@ -44,5 +44,16 @@ describe("workspace v5 migration", () => {
     const [a, b] = addV5Fields([s as typeof SAMPLE_CLIENT, o as typeof SAMPLE_CLIENT]);
     expect(a.trialBalance).toEqual(SAMPLE_CLIENT.trialBalance);
     expect(b.trialBalance).toBeNull();
+  });
+});
+
+describe("workspace v6 migration", () => {
+  it("adds an empty import log, and the sample's trial balance record when its sample file is in place", () => {
+    const s = structuredClone(SAMPLE_CLIENT) as Partial<typeof SAMPLE_CLIENT>;
+    delete s.importLog;
+    const o = { ...structuredClone(s), id: "c-z", sample: false };
+    const [a, b] = addV6Fields([s as typeof SAMPLE_CLIENT, o as typeof SAMPLE_CLIENT]);
+    expect(a.importLog).toEqual(SAMPLE_CLIENT.importLog);
+    expect(b.importLog).toEqual([]);
   });
 });

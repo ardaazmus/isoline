@@ -469,8 +469,8 @@
       "tsrs": "TSRS 2 kapsamında ilk iki raporlama yılı için Kapsam 3 açıklaması zorunlu değildir; 2027'den itibaren TSRS 2 sera gazı değişiklikleri uygulanır."
     },
     "import": {
-      "title": "Toplu veri (CSV)",
-      "hint": "Yakıt, proses, soğutucu, elektrik ve Kapsam 3 satırlarını Excel'de doldurup CSV olarak yükleyin. Ondalık için virgül veya nokta kullanın.",
+      "title": "Toplu veri (Excel / CSV)",
+      "hint": "Yakıt, proses, soğutucu, elektrik ve Kapsam 3 satırlarını şablona doldurup Excel (xlsx, xls) ya da CSV olarak yükleyin. Başlık satırı ilk satırda olmak zorunda değil; çok sayfalı dosyada doğru sayfa kendiliğinden bulunur.",
       "template": "Şablonu indir",
       "upload": "CSV yükle",
       "preview": "{file}: {rows} satırdan {n} kalem okundu.",
@@ -2075,5 +2075,68 @@
       "tooLarge": "Dosya {mb} MB sınırını aşıyor."
     },
     "recLink": "Karşılaştırmanın tamamı ve açıklamalar:"
+  },
+  "imp": {
+    "templateCsv": "Şablon (CSV)",
+    "templateXlsx": "Şablon (Excel)",
+    "upload": "Dosya yükle",
+    "reading": "Okunuyor…",
+    "last": "Son içe aktarma: {file} · {date} · {n} kayıt",
+    "valuesSheet": "Değerler",
+    "err": {
+      "tooLarge": "Dosya {mb} MB sınırını aşıyor.",
+      "unreadable": "Dosya okunamadı. Excel, OpenDocument ya da CSV biçiminde olduğundan emin olun."
+    },
+    "inv": {
+      "sheet": "Envanter",
+      "help": {
+        "column": "Sütun",
+        "values": "Kullanılabilir değerler / anlamı",
+        "category": "Kapsam 3 kategorisi, 1–15",
+        "amount": "Yakıtta yakıtın birimi (Sm3, L, t), proseste tCO2e, soğutucuda kaçan kg, elektrikte MWh, Kapsam 3'te seçtiğiniz birim",
+        "ncvEf": "İsteğe bağlı; boş bırakılırsa IPCC 2006 varsayılanı kullanılır",
+        "electricity": "Belgeli yenilenebilir MWh (YEK-G, I-REC) ve tedarikçiye özgü faktör (tCO2e/MWh)",
+        "factor": "Kapsam 3 faktörü (tCO2e / birim) ve kaynağı"
+      }
+    },
+    "ind": {
+      "title": "Toplu gösterge (Excel / CSV)",
+      "hint": "Enerji, su, atık, İSG ve çalışan verisini tesis ve dönem bazında, her satıra bir gösterge gelecek biçimde yükleyin. Akış göstergeleri toplanır; dönem sonu sayıları her tesisin son döneminden alınıp tesisler toplanır; birimler (MWh, kWh, TEP, ML, kg, %) çevrilir. Yalnız dosyadaki göstergeler güncellenir.",
+      "sheet": "Göstergeler",
+      "listSheet": "Gösterge listesi",
+      "listKey": "indicator",
+      "listName": "Gösterge",
+      "listUnits": "Birimler (ilki uygulamanın birimi)",
+      "listKind": "Toplama kuralı",
+      "stressed": "Su stresli bölgelerden çekilen su (paya çevrilir)",
+      "kind": {
+        "flow": "Tüm satırlar toplanır",
+        "stock_end": "Her tesisin son dönemi alınır, tesisler toplanır",
+        "stock_start": "Her tesisin ilk dönemi alınır, tesisler toplanır",
+        "single": "Şirket geneli tek değer"
+      },
+      "preview": "{file}: {rows} satırdan {n} gösterge okundu.",
+      "rowsSites": "{rows} satır · {sites} tesis",
+      "col": {
+        "indicator": "Gösterge",
+        "current": "Şu an",
+        "new": "Dosyadan"
+      },
+      "apply": "{n} göstergeyi uygula",
+      "applied": "{n} gösterge güncellendi.",
+      "err": {
+        "empty": "Dosya boş.",
+        "missingColumns": "Gerekli sütunlar yok: {cols}. Şablonu indirip başlık satırını kullanın.",
+        "badIndicator": "gösterge tanınmadı ({value}); şablondaki gösterge listesine bakın.",
+        "badValue": "değer okunamadı ya da negatif ({value}).",
+        "badUnit": "birim tanınmadı ({value}); kullanılabilir: {allowed}.",
+        "badPeriod": "dönem okunamadı ({value}); 2026, 2026-03 ya da 03.2026 biçimini kullanın.",
+        "single": "{value} şirket geneli tek değer olmalı; birden fazla satır var.",
+        "duplicate": "{value} için aynı tesis ve dönemde ikinci satır var.",
+        "needWithdrawal": "su stresli çekimden pay hesaplamak için aynı dosyada toplam su çekimi (water_withdrawal) gerekli.",
+        "stressConflict": "su stresi hem pay olarak hem de m³ olarak verilmiş; birini kaldırın."
+      },
+      "rowsOnly": "{rows} satır · şirket geneli"
+    }
   }
 }

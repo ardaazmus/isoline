@@ -21,6 +21,8 @@ Tamamlanan (18.10.2026): uzlaştırma kuralları v1 tarayıcıda (U1–U5, U8–
 
 Tamamlanan (18.10.2026): mizan içe aktarma (Excel xlsx/xls, OpenDocument, CSV; SheetJS 0.20.3 resmi dağıtımı, tarayıcıda). Başlık satırı kendiliğinden bulunuyor, alt hesaplar ana hesaplarda çift sayılmadan toplanıyor, borç = alacak dengesi ve kapanış durumu denetleniyor, dosyanın SHA-256 özeti kanıt olarak saklanıyor. Net satışlar U1'de referans. Açık: Tekdüzen Hesap Planı kodlarının resmi metinden uzman teyidi; CapEx için sabit kıymet hareket tablosu (Faz 5, U6–U7).
 
+Tamamlanan (18.10.2026): envanter ve göstergeler için Excel (xlsx, xls, ods) ve CSV içe aktarma. Göstergeler tesis ve dönem bazında, satır başına bir gösterge olarak okunuyor. Akışlar toplanıyor; dönem sonu sayıları her tesisin son döneminden alınıyor; birimler çevriliyor (MWh, kWh, TEP, ML, kg, %). Her içe aktarma dosya adı, SHA-256 özeti ve satır sayısıyla müşterinin içe aktarma kaydına işleniyor.
+
 Kod dışında yapılacak iş:
 - Uzman teyitleri.
 - IEA lisans görüşü.
@@ -30,7 +32,6 @@ Kodda yapılacak iş:
 - **SKDM:** diğer menşe ülke tabloları (Türkiye tablosu tamam), kıyas değerleri ve rota eşlemesi (2025/2620).
 - **TR ETS:** Başkanlık kıyas değerleri ve Ulusal Tahsisat Planı yayımlanınca parametre güncellemesi.
 - **SBTi V2.0:** Ç4 2026'da yayımlanacak yöntemlerin eklenmesi.
-- **Excel içe aktarma:** envanter ve göstergeler için şablonlu Excel yükleme.
 
 **Kontrol noktası:** 3 gerçek, anonimleştirilmiş müşteri verisiyle hesapların bağımsız tabloyla karşılaştırılması (sapma < %0,5).
 

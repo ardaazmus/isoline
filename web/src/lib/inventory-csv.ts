@@ -92,24 +92,36 @@ const QUALITIES: Quality[] = ["measured", "calculated", "estimated"];
 const uid = (n: number) => `csv-${Date.now().toString(36)}-${n}`;
 
 export function importInventoryCsv(text: string): ImportResult {
-  const rows = parseCsv(text);
+  return importInventoryRows(parseCsv(text));
+}
+
+/** Inventory lines from a grid of cells (a CSV file or a spreadsheet sheet); the header may sit below title rows. */
+export function importInventoryRows(rows: string[][]): ImportResult {
   const result: ImportResult = { lines: { fuels: [], process: [], refrigerants: [], electricity: [], scope3: [] }, issues: [], rows: 0 };
   if (rows.length === 0) {
     result.issues.push({ row: 0, key: "empty" });
     return result;
   }
-  const header = rows[0].map((h) => h.trim().toLowerCase());
+  const h = Math.max(
+    0,
+    rows.slice(0, 10).findIndex((r) => {
+      const hs = r.map((c) => c.trim().toLowerCase());
+      return hs.includes("type") && hs.includes("amount");
+    }),
+  );
+  const header = rows[h].map((c) => c.trim().toLowerCase());
   const missing = ["type", "amount"].filter((c) => !header.includes(c));
   if (missing.length) {
-    result.issues.push({ row: 1, key: "missingColumns", vars: { cols: missing.join(", ") } });
+    result.issues.push({ row: h + 1, key: "missingColumns", vars: { cols: missing.join(", ") } });
     return result;
   }
   const col = (r: string[], name: string) => {
     const i = header.indexOf(name);
     return i >= 0 ? (r[i] ?? "").trim() : "";
   };
-  rows.slice(1).forEach((r, idx) => {
-    const n = idx + 2; // spreadsheet row number (header is row 1)
+  rows.slice(h + 1).forEach((r, idx) => {
+    const n = h + idx + 2; // spreadsheet row number
+    if (!r.some((c) => c.trim())) return;
     result.rows++;
     const type = col(r, "type").toLowerCase();
     const label = col(r, "label");
@@ -193,16 +205,18 @@ export function importInventoryCsv(text: string): ImportResult {
   return result;
 }
 
+/** Header and one example row per type; shared by the CSV and Excel templates. */
+export const INVENTORY_TEMPLATE_ROWS: string[][] = [
+  [...CSV_COLUMNS],
+  "fuel;Doğal gaz - kazan dairesi;natural_gas;1250000;Sm3;;;stationary;;;;;;measured".split(";"),
+  "fuel;Motorin - saha araçları;diesel;38000;L;;;mobile;;;;;;calculated".split(";"),
+  "process;Kireçtaşı kalsinasyonu;;9000;tCO2e;;;;;;;;;calculated".split(";"),
+  "refrigerant;Klima bakımı;R-410A;12;kg;;;;;;;;;estimated".split(";"),
+  "electricity;Ana tesis;;30000;MWh;;;;distribution;6000;;;;measured".split(";"),
+  "scope3;Satın alınan çelik;1;15000;t;;;;;;;1,9;Tedarikçi beyanı;estimated".split(";"),
+];
+
 /** Template with one example row per type; ";" so Turkish Excel opens it in columns. */
 export function inventoryTemplateCsv(): string {
-  const rows = [
-    CSV_COLUMNS.join(";"),
-    "fuel;Doğal gaz - kazan dairesi;natural_gas;1250000;Sm3;;;stationary;;;;;;measured",
-    "fuel;Motorin - saha araçları;diesel;38000;L;;;mobile;;;;;;calculated",
-    "process;Kireçtaşı kalsinasyonu;;9000;tCO2e;;;;;;;;;calculated",
-    "refrigerant;Klima bakımı;R-410A;12;kg;;;;;;;;;estimated",
-    "electricity;Ana tesis;;30000;MWh;;;;distribution;6000;;;;measured",
-    "scope3;Satın alınan çelik;1;15000;t;;;;;;;1,9;Tedarikçi beyanı;estimated",
-  ];
-  return "﻿" + rows.join("\r\n");
+  return "﻿" + INVENTORY_TEMPLATE_ROWS.map((r) => r.join(";")).join("\r\n");
 }

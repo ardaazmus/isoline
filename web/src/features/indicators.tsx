@@ -11,6 +11,7 @@ import { Button, NumberField, StatusMark, TextField, Toggle } from "@/components
 import { GroupRow, InlineBar, ThemeIcon } from "@/components/data";
 import { th, type ThemeId } from "@/data/themes";
 import { Hydrated, NoteList, SectionTitle, ToolActions, useTool } from "./common";
+import { IndicatorImport } from "./indicator-import";
 
 // ---------------------------------------------------------------- Environment
 export function EnvironmentTool() {
@@ -57,6 +58,7 @@ function EnvInner() {
               {field("wasteHazardousT", "t")}
             </InputGroup>
             <InputGroup title={t("env.normaliser")}>{field("revenueMillionTry", t("units.mTry"))}</InputGroup>
+            <IndicatorImport />
           </>
         }
       >
@@ -208,6 +210,7 @@ function WorkInner() {
               {wf("avgPayMen", "TL")}
               {wf("avgPayWomen", "TL")}
             </InputGroup>
+            <IndicatorImport />
           </>
         }
       >

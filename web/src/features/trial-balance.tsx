@@ -19,6 +19,8 @@ import {
   type TrialBalance,
 } from "@/lib/trial-balance";
 import { relDiff } from "@/lib/reconcile";
+import { logImport } from "@/lib/imports";
+import { useWorkspace } from "@/store/workspace";
 import { FiguresRow, InputGroup, PageHeader, ToolLayout } from "@/components/shell";
 import { SourceNote } from "@/components/figure";
 import { GroupRow } from "@/components/data";
@@ -38,6 +40,7 @@ export function TrialBalancePage() {
 function Inner() {
   const { t, fmt, locale } = useI18n();
   const [tb, setTb, client] = useTool("trialBalance");
+  const update = useWorkspace((s) => s.update);
   const file = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<{ tb: TrialBalance | null; issues: TbIssue[]; name: string } | null>(null);
   const [busy, setBusy] = useState(false);
@@ -103,7 +106,13 @@ function Inner() {
                   <FileDown size={14} aria-hidden /> {t("tb.sample")}
                 </Button>
               </div>
-              {preview && <Preview preview={preview} replacing={!!tb} onApply={() => { if (preview.tb) setTb(preview.tb); setPreview(null); }} onCancel={() => setPreview(null)} mn={mn} />}
+              {preview && <Preview preview={preview} replacing={!!tb} onApply={() => {
+                    if (preview.tb) {
+                      setTb(preview.tb);
+                      update("importLog", logImport(client.importLog, { tool: "trialBalance", fileName: preview.tb.fileName, sha256: preview.tb.sha256, importedAt: preview.tb.importedAt, sheet: preview.tb.sheet, rows: preview.tb.rows, applied: preview.tb.accounts.length }));
+                    }
+                    setPreview(null);
+                  }} onCancel={() => setPreview(null)} mn={mn} />}
             </InputGroup>
             {tb && (
               <InputGroup title={t("tb.evidence")}>

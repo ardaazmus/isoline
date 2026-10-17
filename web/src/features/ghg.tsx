@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
-import { FileDown, FileUp, Plus, Trash2 } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Plus, Trash2 } from "lucide-react";
 import { useI18n } from "@/i18n/provider";
 import {
   computeInventory,
@@ -21,9 +21,12 @@ import {
 import { FiguresRow, InputGroup, PageHeader, ToolLayout } from "@/components/shell";
 import { Figure } from "@/components/figure";
 import { Waterfall } from "@/components/charts";
-import { Button, Callout, NumberField, SelectField, StatusMark, Tabs, TextField } from "@/components/ui";
-import { download } from "@/lib/export";
-import { importInventoryCsv, inventoryTemplateCsv, type ImportResult } from "@/lib/inventory-csv";
+import { Button, NumberField, SelectField, StatusMark, Tabs, TextField } from "@/components/ui";
+import { INVENTORY_TEMPLATE_ROWS, inventoryTemplateCsv, type ImportResult } from "@/lib/inventory-csv";
+import { importInventoryFile, lastImport, logImport, type FileRead } from "@/lib/imports";
+import { xlsxWorkbook, XLSX_MIME } from "@/lib/spreadsheet";
+import { FileImport, ImportPreview, IssueList } from "@/components/file-import";
+import { useActiveClient, useWorkspace } from "@/store/workspace";
 import { InlineBar, ThemeIcon } from "@/components/data";
 import { th } from "@/data/themes";
 import { Hydrated, NoteList, SectionTitle, ToolActions, useTool } from "./common";
@@ -371,13 +374,15 @@ function Inner() {
 /** Bulk CSV import: download the template, upload a file, preview, then add to or replace the inventory. */
 function InventoryImport({ inv, onApply }: { inv: Inventory; onApply: (next: Inventory) => void }) {
   const { t } = useI18n();
-  const file = useRef<HTMLInputElement>(null);
-  const [result, setResult] = useState<(ImportResult & { name: string }) | null>(null);
+  const client = useActiveClient();
+  const update = useWorkspace((s) => s.update);
+  const [result, setResult] = useState<{ read: FileRead<ImportResult>; name: string } | null>(null);
   const [done, setDone] = useState<string | null>(null);
-  const count = result ? Object.values(result.lines).reduce((n, l) => n + l.length, 0) : 0;
+  const read = result?.read.ok ? result.read : null;
+  const count = read ? Object.values(read.result.lines).reduce((n, l) => n + l.length, 0) : 0;
   const apply = (mode: "append" | "replace") => {
-    if (!result) return;
-    const l = result.lines;
+    if (!read || !result) return;
+    const l = read.result.lines;
     onApply(
       mode === "replace"
         ? { ...inv, ...l }
@@ -390,71 +395,88 @@ function InventoryImport({ inv, onApply }: { inv: Inventory; onApply: (next: Inv
             scope3: [...inv.scope3, ...l.scope3],
           },
     );
+    update("importLog", logImport(client.importLog, { tool: "ghg", fileName: result.name, sha256: read.sha256, importedAt: new Date().toISOString(), sheet: read.sheet, rows: read.result.rows, applied: count, mode }));
     setDone(t(mode === "replace" ? "ghg.import.replaced" : "ghg.import.appended", { n: count }));
     setResult(null);
   };
   return (
-    <InputGroup title={t("ghg.import.title")}>
-      <p className="text-[12.5px] leading-snug text-[var(--ink-3)]">{t("ghg.import.hint")}</p>
-      <div className="flex flex-wrap gap-2">
-        <Button variant="quiet" size="sm" onClick={() => download("isoline-envanter-sablonu.csv", inventoryTemplateCsv(), "text/csv;charset=utf-8")}>
-          <FileDown size={14} aria-hidden /> {t("ghg.import.template")}
-        </Button>
-        <Button variant="quiet" size="sm" onClick={() => file.current?.click()}>
-          <FileUp size={14} aria-hidden /> {t("ghg.import.upload")}
-        </Button>
-      </div>
-      <input
-        ref={file}
-        type="file"
-        accept=".csv,text/csv"
-        className="hidden"
-        aria-label={t("ghg.import.upload")}
-        onChange={async (e) => {
-          const f = e.target.files?.[0];
-          e.target.value = "";
-          if (!f) return;
-          setDone(null);
-          setResult({ ...importInventoryCsv(await f.text()), name: f.name });
-        }}
-      />
-      {done && <Callout>{done}</Callout>}
+    <FileImport
+      title={t("ghg.import.title")}
+      hint={t("ghg.import.hint")}
+      templates={[
+        { label: t("imp.templateCsv"), fileName: "isoline-envanter-sablonu.csv", mime: "text/csv;charset=utf-8", make: inventoryTemplateCsv },
+        {
+          label: t("imp.templateXlsx"),
+          fileName: "isoline-envanter-sablonu.xlsx",
+          mime: XLSX_MIME,
+          excel: true,
+          make: () => xlsxWorkbook([{ name: t("imp.inv.sheet"), rows: INVENTORY_TEMPLATE_ROWS, widths: [12, 30, 14, 12, 8, 8, 8, 10, 13, 14, 15, 8, 20, 11] }, { name: t("imp.valuesSheet"), rows: inventoryHelpRows(t), widths: [22, 90] }]),
+        },
+      ]}
+      last={lastImport(client.importLog, "ghg")}
+      done={done}
+      onFile={async (f) => {
+        setDone(null);
+        setResult({ read: await importInventoryFile(await f.arrayBuffer(), f.name), name: f.name });
+      }}
+    >
       {result && (
-        <div className="flex flex-col gap-2 rounded-[12px] border border-[var(--rule)] bg-[var(--glass-strong)] p-3 text-[13px]">
-          <p className="font-semibold">{t("ghg.import.preview", { file: result.name, n: count, rows: result.rows })}</p>
-          <p className="text-[12.5px] text-[var(--ink-2)]">
-            {t("ghg.import.counts", {
-              fuels: result.lines.fuels.length,
-              process: result.lines.process.length,
-              ref: result.lines.refrigerants.length,
-              el: result.lines.electricity.length,
-              s3: result.lines.scope3.length,
-            })}
-          </p>
-          {result.issues.length > 0 && (
-            <ul className="flex max-h-32 flex-col gap-1 overflow-y-auto text-[12.5px] text-[var(--crit)]">
-              {result.issues.map((i, k) => (
-                <li key={k}>
-                  {t("ghg.import.row", { row: i.row })} {t(`ghg.import.err.${i.key}`, i.vars)}
-                </li>
-              ))}
-            </ul>
+        <ImportPreview>
+          {!result.read.ok ? (
+            <>
+              <p className="font-semibold">{result.name}</p>
+              <IssueList items={[t(`imp.err.${result.read.error}`, { mb: 15 })]} />
+            </>
+          ) : (
+            <>
+              <p className="font-semibold">{t("ghg.import.preview", { file: result.read.sheet ? `${result.name} · ${result.read.sheet}` : result.name, n: count, rows: result.read.result.rows })}</p>
+              <p className="text-[12.5px] text-[var(--ink-2)]">
+                {t("ghg.import.counts", {
+                  fuels: result.read.result.lines.fuels.length,
+                  process: result.read.result.lines.process.length,
+                  ref: result.read.result.lines.refrigerants.length,
+                  el: result.read.result.lines.electricity.length,
+                  s3: result.read.result.lines.scope3.length,
+                })}
+              </p>
+              <IssueList items={result.read.result.issues.map((i) => `${t("ghg.import.row", { row: i.row })} ${t(`ghg.import.err.${i.key}`, i.vars)}`)} />
+            </>
           )}
-          {count > 0 && (
-            <div className="flex flex-wrap gap-2 pt-1">
-              <Button variant="primary" size="sm" onClick={() => apply("append")}>
-                {t("ghg.import.append")}
-              </Button>
-              <Button variant="quiet" size="sm" onClick={() => apply("replace")}>
-                {t("ghg.import.replace")}
-              </Button>
-              <Button variant="ghost" size="sm" onClick={() => setResult(null)}>
-                {t("clients.cancel")}
-              </Button>
-            </div>
-          )}
-        </div>
+          <div className="flex flex-wrap gap-2 pt-1">
+            {count > 0 && (
+              <>
+                <Button variant="primary" size="sm" onClick={() => apply("append")}>
+                  {t("ghg.import.append")}
+                </Button>
+                <Button variant="quiet" size="sm" onClick={() => apply("replace")}>
+                  {t("ghg.import.replace")}
+                </Button>
+              </>
+            )}
+            <Button variant="ghost" size="sm" onClick={() => setResult(null)}>
+              {t("clients.cancel")}
+            </Button>
+          </div>
+        </ImportPreview>
       )}
-    </InputGroup>
+    </FileImport>
   );
+}
+
+/** Allowed values sheet of the Excel template. */
+function inventoryHelpRows(t: (k: string, v?: Record<string, string | number>) => string): string[][] {
+  return [
+    [t("imp.inv.help.column"), t("imp.inv.help.values")],
+    ["type", "fuel, process, refrigerant, electricity, scope3"],
+    ["item (fuel)", Object.keys(FUELS).join(", ")],
+    ["item (refrigerant)", Object.keys(GWP_AR6).join(", ")],
+    ["item (scope3)", t("imp.inv.help.category")],
+    ["amount", t("imp.inv.help.amount")],
+    ["ncv / ef", t("imp.inv.help.ncvEf")],
+    ["use", "stationary, mobile"],
+    ["connection", "transmission, distribution"],
+    ["certified_mwh / supplier_factor", t("imp.inv.help.electricity")],
+    ["factor / factor_source", t("imp.inv.help.factor")],
+    ["quality", "measured, calculated, estimated"],
+  ];
 }

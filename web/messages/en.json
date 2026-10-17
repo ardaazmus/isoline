@@ -469,8 +469,8 @@
       "tsrs": "Under TSRS 2, scope 3 is not required in the first two reporting years; TSRS 2 GHG amendments apply from 2027."
     },
     "import": {
-      "title": "Bulk data (CSV)",
-      "hint": "Fill fuel, process, refrigerant, electricity and scope 3 rows in Excel and upload them as CSV. Use a comma or a point for decimals.",
+      "title": "Bulk data (Excel / CSV)",
+      "hint": "Fill fuel, process, refrigerant, electricity and scope 3 rows into the template and upload it as Excel (xlsx, xls) or CSV. The header need not be on the first row; in a workbook with several sheets the right one is found automatically.",
       "template": "Download template",
       "upload": "Upload CSV",
       "preview": "{file}: {n} items read from {rows} rows.",
@@ -2075,5 +2075,68 @@
       "tooLarge": "The file exceeds the {mb} MB limit."
     },
     "recLink": "Full comparison and explanations:"
+  },
+  "imp": {
+    "templateCsv": "Template (CSV)",
+    "templateXlsx": "Template (Excel)",
+    "upload": "Upload file",
+    "reading": "Reading…",
+    "last": "Last import: {file} · {date} · {n} records",
+    "valuesSheet": "Values",
+    "err": {
+      "tooLarge": "The file exceeds the {mb} MB limit.",
+      "unreadable": "The file could not be read. Make sure it is Excel, OpenDocument or CSV."
+    },
+    "inv": {
+      "sheet": "Inventory",
+      "help": {
+        "column": "Column",
+        "values": "Allowed values / meaning",
+        "category": "Scope 3 category, 1–15",
+        "amount": "Fuel: the fuel's unit (Sm3, L, t); process: tCO2e; refrigerant: kg leaked; electricity: MWh; scope 3: the unit you choose",
+        "ncvEf": "Optional; left empty, the IPCC 2006 default applies",
+        "electricity": "Certified renewable MWh (YEK-G, I-REC) and supplier-specific factor (tCO2e/MWh)",
+        "factor": "Scope 3 factor (tCO2e per unit) and its source"
+      }
+    },
+    "ind": {
+      "title": "Bulk indicators (Excel / CSV)",
+      "hint": "Upload energy, water, waste, safety and workforce data by site and period, one indicator per row. Flow indicators are summed; year-end counts take each site's latest period and sum the sites; units (MWh, kWh, toe, ML, kg, %) are converted. Only the indicators in the file are updated.",
+      "sheet": "Indicators",
+      "listSheet": "Indicator list",
+      "listKey": "indicator",
+      "listName": "Indicator",
+      "listUnits": "Units (the first is the app's unit)",
+      "listKind": "Aggregation rule",
+      "stressed": "Withdrawal from water-stressed areas (turned into a share)",
+      "kind": {
+        "flow": "All rows summed",
+        "stock_end": "Each site's latest period, sites summed",
+        "stock_start": "Each site's earliest period, sites summed",
+        "single": "One company-wide value"
+      },
+      "preview": "{file}: {n} indicators read from {rows} rows.",
+      "rowsSites": "{rows} rows · {sites} sites",
+      "col": {
+        "indicator": "Indicator",
+        "current": "Now",
+        "new": "From file"
+      },
+      "apply": "Apply {n} indicators",
+      "applied": "{n} indicators updated.",
+      "err": {
+        "empty": "The file is empty.",
+        "missingColumns": "Required columns missing: {cols}. Download the template and use its header row.",
+        "badIndicator": "unknown indicator ({value}); see the indicator list in the template.",
+        "badValue": "value unreadable or negative ({value}).",
+        "badUnit": "unknown unit ({value}); allowed: {allowed}.",
+        "badPeriod": "period unreadable ({value}); use 2026, 2026-03 or 03.2026.",
+        "single": "{value} must be one company-wide value; there is more than one row.",
+        "duplicate": "{value} has a second row for the same site and period.",
+        "needWithdrawal": "deriving the water-stress share needs total withdrawal (water_withdrawal) in the same file.",
+        "stressConflict": "water stress is given both as a share and in m³; remove one."
+      },
+      "rowsOnly": "{rows} rows · company-wide"
+    }
   }
 }
