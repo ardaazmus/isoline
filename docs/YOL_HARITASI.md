@@ -28,27 +28,18 @@ Kodda yapılacak iş:
 
 **Kontrol noktası:** 3 gerçek, anonimleştirilmiş müşteri verisiyle hesapların bağımsız tabloyla karşılaştırılması (sapma < %0,5).
 
-## Faz 3 — Çok müşterili platform
+## Faz 3–6 — Denetime hazır platform
 
-- **Altyapı:** kimlik doğrulama, danışmanlık kiracısı ve müşteri çalışma alanları, roller (danışman, müşteri veri sahibi, onaylayıcı, denetçi), PostgreSQL ile satır düzeyi izolasyon. Çevrim dışı öncelik korunur; yerel ağda çalışır, gerektiğinde Cloudflare Tunnel ile açılır.
-- **İş akışı:** veri talebi, kanıt dosyası yükleme, onay akışı ve değiştirilemez denetim izi.
-- **Beyaz etiket:** danışmanlık firmasının logo ve rengi.
+17.10.2026'da hedef yeniden tanımlandı: finans ve ESG verisini aynı omurgada birleştiren, her sayıyı kanıta bağlayan ve bağımsız denetçiye onaya hazır paket sunan platform. Ayrıntılar, veri modeli, iş akışı ve teknik seçimler: [HEDEF_MIMARI.md](HEDEF_MIMARI.md).
 
-**Kontrol noktası:** iki kiracı ve üç müşteriyle izolasyon testi (sıfır sızıntı), rol izin matrisi testi.
+| Faz | Kapsam | Kontrol noktası |
+|---|---|---|
+| 3 — Platform çekirdeği | Kimlik doğrulama, kiracı/müşteri/rol modeli, PostgreSQL + RLS, veri noktası sicili, sürümleme, kanıt deposu (SHA-256), olay günlüğü | İki kiracıyla izolasyon testi, olay günlüğü bütünlük testi |
+| 4 — Denetime hazır paket | Durum makinesi, onay ve kilit, PBC listesi, denetçi çalışma alanı (ISSA 5000 / GDS 3000 adımlarına eşli) | Bir güvence kuruluşuyla deneme denetimi |
+| 5 — Boşluk analizi ve yapay zekâ | Gereklilik haritası, olgunluk puanı, kaynaklı taslak yazımı, yatırım ↔ etki uzlaştırması | Yapay zekâ önerilerinin tamamında kaynak ya da "kanıt yetersiz" ibaresi |
+| 6 — Entegre rapor ve dijital çıktı | Entegre rapor şablonu, ESRS iXBRL, e-Defter (XBRL-GL) içe aktarma, KAP ön kontrolü | Pilot müşteriyle uçtan uca raporlama döngüsü |
 
-## Faz 4 — Çıktı ve entegrasyon
-
-- **Rapor çıktısı:** tasarım ajansı paketi (Word + grafik veri setleri + SVG), iki dilli içerik eşleme.
-- **XBRL ve SKDM:** ESRS XBRL (EFRAG nihai taksonomisi 2026 sonu) önizleme ve dışa aktarım; SKDM operatör emisyon raporunun Komisyon şablonuna göre Excel çıktısı.
-- **KAP ve CDP:** KAP TSRS bildirimi için ön kontrol; CDP yanıt yardımcısı.
-- **Yeşil iddia tarayıcısı:** ECGT kapsamındaki yasak iddiaların rapor metninde işaretlenmesi.
-
-**Kontrol noktası:** bir pilot danışmanlık firmasıyla uçtan uca bir raporlama döngüsü.
-
-## Faz 5 — Kaynaklı yapay zekâ asistanı
-
-- **Kaynaklı yanıt:** belgeden kanıt bulma, tablo çıkarma, çelişki tespiti, kaynaklı metin taslağı. Kaynak yoksa "kanıt yetersiz" yanıtı verir.
-- **Kural:** sayısal hesap ve uyum kararı yalnız kural motoru ve insan onayıyla verilir.
+Faz 2'ye eklenenler: uzlaştırma kuralları v1 (tarayıcıda) ve Excel'den mizan içe aktarma.
 
 ## Ticari notlar (araştırma D)
 
