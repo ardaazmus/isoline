@@ -1,13 +1,19 @@
 # Kaynak veri: uygulamadaki resmi faktör setleri
 
-Bu klasör, Isoline'ın hazır faktör kütüphanesindeki iki resmi setin ham kaynağını, ayıklanmış tablolarını ve
-SHA-256 özetlerini tutar. Uygulamadaki her değer buradaki dosyalardan betikle kopyalanır. Elle yazılmış,
-tahmin edilmiş ya da yeniden hesaplanmış değer yoktur. Ayrıntılı İngilizce kaynak notu: [SOURCE_NOTES.md](SOURCE_NOTES.md).
+Bu klasör, Isoline'ın hazır faktör kütüphanesindeki resmi setlerin ham kaynağını, ayıklanmış tablolarını ve
+SHA-256 özetlerini tutar. Uygulamadaki her değer buradaki tablolardan betikle (`npm run factors`) kopyalanır.
+Tahmin edilmiş ya da yeniden hesaplanmış değer yoktur; yapılan tek işlem açıkça yazılmış birim çevirmeleridir.
+ETKB değerleri metin katmanlı PDF'lerden elle aktarıldı ve belgelerin metniyle makineyle karşılaştırıldı.
+Ayrıntılı İngilizce kaynak notları: [SOURCE_NOTES.md](SOURCE_NOTES.md) (SKDM, EEA) ve
+[SOURCE_NOTES_desnz_tuik.md](SOURCE_NOTES_desnz_tuik.md) (DESNZ, TÜİK).
 
 | Set (uygulamada) | Kaynak | Sürüm | Lisans |
 |---|---|---|---|
 | `eu_cbam_dv_tr`: SKDM varsayılan değerleri, Türkiye | Avrupa Komisyonu, Uygulama Tüzüğü (AB) 2026/1740 Ek I (2025/2621'i düzeltir) | Excel v2, 6 Ağustos 2026 | CC BY 4.0, © Avrupa Birliği (Karar 2011/833/AB) |
 | `eea_ener038`: elektrik üretiminin sera gazı yoğunluğu | Avrupa Çevre Ajansı (EEA), gösterge ENER038, şekil 2 (ülke) ve şekil 1 (AB-27) | 10 Temmuz 2026; 2024 erken tahmini | CC BY 4.0, kaynak: EEA |
+| `etkb_2020` … `etkb_2023`: Türkiye elektrik üretim ve tüketim noktası faktörleri | ETKB (EVÇED) bilgi formu ETKB-EVÇED-FRM-042, [etkb/](etkb/README.md) | hesaplama yılları 2020–2023 | resmi kamu verisi, kaynak gösterilerek |
+| `desnz_2026`: Kapsam 3 seçkisi (51 faktör) | Birleşik Krallık DESNZ, conversion factors 2026, [desnz/](desnz/README.md) | 11 Haziran 2026 | Open Government Licence v3.0 |
+| `tuik_nir_2024`: yakıt ısıl değerleri ve CO₂ faktörleri | TÜİK, Türkiye ulusal envanter belgesi 2026 (UNFCCC), [tuik/](tuik/README.md) | envanter yılı 2024; sunuş 14 Nisan 2026 | resmi belge, kaynak gösterilerek; PDF dağıtılmıyor |
 
 ## Dosyalar
 

@@ -7,6 +7,8 @@
 import { ETKB_EDITIONS, FUELS, GWP_AR6, type FuelId } from "./calc/ghg";
 import cbamTr from "@/data/factors/eu-cbam-defaults-tr.json";
 import eeaGrid from "@/data/factors/eea-grid-intensity.json";
+import desnz2026 from "@/data/factors/desnz-2026.json";
+import tuikNir2026 from "@/data/factors/tuik-nir-2026.json";
 
 export type FactorKind = "fuel_co2" | "grid" | "gwp" | "scope3" | "cbam_default";
 
@@ -40,6 +42,8 @@ export type Factor = {
   indirect?: number;
   /** CBAM defaults: the country table shows "–", so the "Other Countries and Territories" value applies. */
   otherCountries?: boolean;
+  /** Scope 3: the GHG Protocol categories the factor suits; the picker offers it on lines of these categories. */
+  categories?: number[];
   year?: number;
 };
 
@@ -117,6 +121,19 @@ function etkbSet(e: (typeof ETKB_EDITIONS)[number]): FactorSet {
   };
 }
 
+/** DESNZ groups mapped to the scope 3 categories they serve (GHG Protocol Scope 3 Standard). */
+const DESNZ_CATEGORIES: Record<string, number[]> = {
+  freight: [4, 9],
+  air_travel: [6],
+  land_travel: [6, 7],
+  hotel: [6],
+  wtt_fuel: [3],
+  waste: [5, 12],
+  material: [1, 2],
+};
+type DesnzRow = [id: string, group: string, activity: string, type: string, sizeOrClass: string, unit: string, kgCo2e: number, sheet: string, row: number];
+type TuikRow = [fuel: FuelId, nidFuel: string, unit: string, ncv: number | null, ef: number];
+
 type CbamRow = [cn: string, description: string, direct: number | null, indirect: number | null, total: number, otherCountries: 0 | 1, xlsxRow: string];
 type EeaRow = [code: string, country: string, year: number, gPerKwh: number];
 
@@ -179,6 +196,59 @@ export const BUILTIN_SETS: FactorSet[] = [
       direct: direct ?? undefined,
       indirect: indirect ?? undefined,
       otherCountries: other === 1 || undefined,
+    })),
+  },
+  {
+    // UK DESNZ conversion factors 2026, curated scope 3 subset (docs/kaynak-veri/desnz). Published per unit in
+    // kg CO₂e; stored in t CO₂e per unit (÷ 1000). Air travel includes radiative forcing (RF).
+    id: "desnz_2026",
+    name: "UK DESNZ — GHG conversion factors 2026 (scope 3 selection)",
+    publisher: "UK Department for Energy Security and Net Zero",
+    licence: "open",
+    licenceNote: "Open Government Licence v3.0.",
+    url: desnz2026.url,
+    asOf: "2026-06-11",
+    published: "2026-06-11",
+    family: "desnz",
+    year: 2026,
+    origin: "builtin",
+    rightsConfirmed: true,
+    usageNote: "factors.notes.desnz",
+    factors: (desnz2026.rows as unknown as DesnzRow[]).map(([id, group, activity, type, size, unit, kg]) => ({
+      id: `desnz_2026:${id.replace(/^desnz2026:/, "")}`,
+      kind: "scope3" as const,
+      key: id.replace(/^desnz2026:/, ""),
+      label: [type, size].filter(Boolean).join(" · ") + ` — ${activity}`,
+      value: Math.round(kg * 1e6) / 1e9,
+      unit,
+      categories: id.startsWith("desnz2026:water_supply") ? [1] : id.startsWith("desnz2026:water_treatment") ? [5] : DESNZ_CATEGORIES[group],
+    })),
+  },
+  {
+    // Türkiye national inventory (TÜİK, NID 2026): 2024 NCVs and CO₂ EFs (docs/kaynak-veri/tuik). Diesel and
+    // gasoline carry the EF only: their NCV is per mass and the app counts litres.
+    id: "tuik_nir_2024",
+    name: "TÜİK — Türkiye national GHG inventory 2026 (NCV and CO₂ EF, 2024)",
+    publisher: "Türkiye İstatistik Kurumu (TÜİK)",
+    licence: "public_sector",
+    licenceNote: "Official national inventory submitted to the UNFCCC, cited with attribution.",
+    url: tuikNir2026.url,
+    asOf: "2026-04-14",
+    published: "2026-04-14",
+    family: "tuik_ncv",
+    year: 2024,
+    origin: "builtin",
+    rightsConfirmed: true,
+    usageNote: "factors.notes.tuik_ncv",
+    factors: (tuikNir2026.rows as unknown as TuikRow[]).map(([fuel, nidFuel, unit, ncv, ef]) => ({
+      id: `tuik_nir_2024:${fuel}`,
+      kind: "fuel_co2" as const,
+      key: fuel,
+      label: ncv === null ? `${nidFuel} (EF)` : nidFuel,
+      value: ef,
+      unit,
+      ncv: ncv ?? undefined,
+      year: 2024,
     })),
   },
   {
@@ -346,4 +416,12 @@ export function factorSetCsv(set: FactorSet): string {
     "﻿" +
     [FACTOR_CSV_COLUMNS.join(";"), ...set.factors.map((f) => [f.kind, f.key, f.label, f.value, f.unit, f.ncv, f.direct, f.indirect, f.year].map(esc).join(";"))].join("\r\n")
   );
+}
+
+/** Decimals that show a factor with about three significant digits: 0.00010356 → 6, 0.0321 → 4, 0.469 → 3, 56.1 → 1. */
+export function factorDigits(v: number): number {
+  const a = Math.abs(v);
+  if (!Number.isFinite(a) || a === 0) return 3;
+  if (a >= 10) return 1;
+  return Math.min(9, Math.max(3, 2 - Math.floor(Math.log10(a))));
 }

@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { Library } from "lucide-react";
 import { useI18n } from "@/i18n/provider";
-import { findFactors, factorRef, factorUnit, formatCn, resolveRef, usableSets, type Factor, type FactorKind, type FactorOption, type FactorSet } from "@/lib/factors";
+import { factorDigits, findFactors, factorRef, factorUnit, formatCn, resolveRef, usableSets, type Factor, type FactorKind, type FactorOption, type FactorSet } from "@/lib/factors";
 import { useWorkspace } from "@/store/workspace";
 import { setsForYear } from "@/lib/recalc";
 import { Field } from "./ui";
@@ -59,6 +59,7 @@ export function FactorPicker({
   onPick,
   sets,
   year,
+  filter,
 }: {
   kind: FactorKind;
   matchKey?: string;
@@ -67,10 +68,12 @@ export function FactorPicker({
   sets: FactorSet[];
   /** Offer only the editions for this year (one per family); a pick from another edition stays visible. */
   year?: number;
+  /** Narrows the offer further, e.g. to factors suited to a scope 3 category. */
+  filter?: (f: Factor) => boolean;
 }) {
   const { t, fmt } = useI18n();
   const label = useFactorLabel();
-  const matches = findFactors(year === undefined ? sets : setsForYear(sets, year), kind, matchKey);
+  const matches = findFactors(year === undefined ? sets : setsForYear(sets, year), kind, matchKey).filter((o) => !filter || filter(o.factor));
   const current = resolveRef(sets, value);
   // A pick stays listed even after the key changes, so the field never silently shows another factor.
   const options = current && !matches.some((o) => factorRef(o) === factorRef(current)) ? [current, ...matches] : matches;
@@ -99,7 +102,7 @@ export function FactorPicker({
               <optgroup key={g.set.id} label={g.set.name}>
                 {g.items.map((o) => (
                   <option key={factorRef(o)} value={factorRef(o)}>
-                    {clip(label(o.factor, o.set), 84)}: {fmt.number(o.factor.value, o.factor.value < 10 ? 3 : 1)} {factorUnit(o.factor)}
+                    {clip(label(o.factor, o.set), 84)}: {fmt.number(o.factor.value, factorDigits(o.factor.value))} {factorUnit(o.factor)}
                     {o.factor.otherCountries ? ` · ${t("factors.otherCountriesShort")}` : ""}
                   </option>
                 ))}

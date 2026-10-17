@@ -23,12 +23,19 @@ Tamamlanan (18.10.2026): mizan içe aktarma (Excel xlsx/xls, OpenDocument, CSV; 
 
 Tamamlanan (18.10.2026): envanter ve göstergeler için Excel (xlsx, xls, ods) ve CSV içe aktarma. Göstergeler tesis ve dönem bazında, satır başına bir gösterge olarak okunuyor. Akışlar toplanıyor; dönem sonu sayıları her tesisin son döneminden alınıyor; birimler çevriliyor (MWh, kWh, TEP, ML, kg, %). Her içe aktarma dosya adı, SHA-256 özeti ve satır sayısıyla müşterinin içe aktarma kaydına işleniyor.
 
+Tamamlanan (18.10.2026): sürümlü faktör tabloları.
+- ETKB 2020–2023 yıllık sürümleri; değerler PDF'lerden aktarıldı ve belgelerle makineyle karşılaştırıldı.
+- DESNZ 2026 Kapsam 3 seçkisi (51 faktör, OGL v3); Kapsam 3 kategorisine göre öneriliyor.
+- TÜİK ulusal envanter 2026 (2024 ısıl değerleri ve CO₂ faktörleri).
+- Envanter yılına göre sürüm seçimi; yeni sürümde önce/sonra raporlu geriye dönük yeniden hesap ve GHG Protokolü %5 anlamlılık uyarısı.
+- Kaynaklar ve SHA-256 özetleri: [kaynak-veri/](kaynak-veri/README.md).
+
 Kod dışında yapılacak iş:
 - Uzman teyitleri.
 - IEA lisans görüşü.
 
 Kodda yapılacak iş:
-- **Faktör kütüphanesi:** sürümlü faktör tabloları (ETKB yıllık, DESNZ 2026, TÜİK ulusal envanter NCV'leri); yıl seçimi ve geriye dönük yeniden hesap.
+- **Faktör kütüphanesi:** TÜİK 2023 ısıl değerleri (ortak raporlama tabloları indirilebildiğinde); ETKB 2024 sürümü yayımlandığında eklenmesi.
 - **SKDM:** diğer menşe ülke tabloları (Türkiye tablosu tamam), kıyas değerleri ve rota eşlemesi (2025/2620).
 - **TR ETS:** Başkanlık kıyas değerleri ve Ulusal Tahsisat Planı yayımlanınca parametre güncellemesi.
 - **SBTi V2.0:** Ç4 2026'da yayımlanacak yöntemlerin eklenmesi.

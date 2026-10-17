@@ -11,3 +11,10 @@ cc0edb8990d88e3bd37a69db1c073f1e223b96a5b97c57f722a0af4b2c04882d  etkb/raw/2020_
 9c88c77e97a8e03ef3e4e4d404f7e039fb6aba0ea6e27093da4858eaf7fff4a2  etkb/raw/2023_Turkiye_Elektrik_UretimiveElektrik_Tuketim_Noktasi_Emisyon_Faktorleri.pdf
 16c0754939b437b1b3c9c62162014ab852066dd4a0f62b30dc187f12d3873f30  etkb/etkb_grid.csv
 6726099c8fcce39664897400a666600635c3ae5becd90ba0adbcc58b9ecd8be9  ../../web/src/data/factors/etkb-grid.json
+a9a455ab396dae226d510c7be6233748416d490c41a5d20f3dc7a0c45feecd5e  desnz/raw/ghg-conversion-factors-2026-flat-format-revised.xlsx
+b5c4f2f86cdc74707337b2fb013b44ded189a1b528f5e29ea99856ba65ae0205  desnz/raw/ghg-conversion-factors-2026-full-set.xlsx
+69ace56996fdd1c1a7f83251f871138bac7cffccdbc33e001b61b582ff785e9c  desnz/desnz_scope3.csv
+ddbe8aaa56d4dcaa26c13c59ede25aaa6787853365b8aa75a6e715d50d5ad117  tuik/tuik_ncv.csv
+9b928cec669d21a914a161501512805c8f4e0f5337b91f126916e35dc91804b7  tuik/tuik_co2_ef.csv
+121a4ac6fb92668816ebe76b34f549e68b3c13dc5ac6843c4a3fc0c63e59b7ec  ../../web/src/data/factors/desnz-2026.json
+39eddb6b3e70f68626fe983c9076be0fd202362a41d73812f53784505c2059a8  ../../web/src/data/factors/tuik-nir-2026.json

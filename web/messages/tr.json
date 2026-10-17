@@ -1749,14 +1749,18 @@
     "notes": {
       "eu_cbam_dv_tr": "Değer, tüzüğün uyguladığı 'toplam' sütunudur; doğrudan ve dolaylı kısımlar bilgi içindir. Varsayılan değer kullanıldığında yıla göre işaretleme (mark-up) ayrıca eklenir.",
       "eea_ener038": "Elektrik üretiminin emisyon yoğunluğudur (2024 erken tahmini); ithalat ve ihracat dahil değildir, tüketim karışımı faktörü değildir. AB'deki tesisler için konum bazlı yaklaşık değer olarak kullanın.",
-      "etkb": "Her sürüm bir hesaplama yılının değerleridir ve yaklaşık iki yıl sonra yayımlanır. Envanter yılının sürümü henüz yoksa en güncel sürüm kullanılır; yeni sürüm çıkınca envanteri geriye dönük yeniden hesaplayın."
+      "etkb": "Her sürüm bir hesaplama yılının değerleridir ve yaklaşık iki yıl sonra yayımlanır. Envanter yılının sürümü henüz yoksa en güncel sürüm kullanılır; yeni sürüm çıkınca envanteri geriye dönük yeniden hesaplayın.",
+      "desnz": "Birleşik Krallık hükümetinin faktörleridir; Türkiye için ülkeye özgü değil. Tedarikçi ya da ulusal veri yoksa Kapsam 3 için kullanın ve raporda belirtin. Değerler kg CO₂e'den t CO₂e'ye çevrildi; uçuşlar ışınımsal zorlama (RF) dahildir.",
+      "tuik_ncv": "Ulusal envanterin ülkeye özgü değerleridir: ısıl değer ve CO₂ emisyon faktörü birlikte gelir. Motorin ve benzinde yalnız emisyon faktörü alınır; ısıl değer kütle başına yayımlandığı için litre başına değer korunur."
     },
     "setNotes": {
       "ipcc_2006": "Yayımlanmış rehber değerleri; kaynak gösterilerek kullanılır.",
       "ipcc_ar6_gwp": "Yayımlanmış değerlendirme değerleri; kaynak gösterilerek kullanılır.",
       "eea_ener038": "CC BY 4.0 — kaynak: Avrupa Çevre Ajansı (EEA), gösterge ENER038, 10 Temmuz 2026. Değerler gCO₂e/kWh olarak yayımlanır; burada tCO₂e/MWh'e çevrilmiştir.",
       "eu_cbam_dv": "© Avrupa Birliği, CC BY 4.0 (Komisyon Kararı 2011/833/AB). Uygulama Tüzüğü (AB) 2026/1740 Ek I, Komisyon Excel dosyası sürüm 2 (6 Ağustos 2026).",
-      "etkb": "Resmi kamu verisi, kaynak gösterilerek kullanılır. Değerler ETKB bilgi formlarından (ETKB-EVÇED-FRM-042) aktarıldı ve her yılın belgesiyle karşılaştırıldı."
+      "etkb": "Resmi kamu verisi, kaynak gösterilerek kullanılır. Değerler ETKB bilgi formlarından (ETKB-EVÇED-FRM-042) aktarıldı ve her yılın belgesiyle karşılaştırıldı.",
+      "desnz": "Açık Hükümet Lisansı v3.0 (Birleşik Krallık); kaynak gösterilerek ticari kullanım dahil serbest. Tam setten seçilmiş 51 Kapsam 3 faktörü; değerler resmi düz biçimli dosyayla birebir karşılaştırıldı.",
+      "tuik_ncv": "Türkiye'nin UNFCCC'ye sunduğu resmi ulusal envanter belgesi (TÜİK, 14.04.2026). 2024 ısıl değerleri (Ek 4) ve CO₂ emisyon faktörleri (Tablo 3.7); kaynak gösterilerek kullanılır."
     },
     "editions": "Sürümler",
     "family": {

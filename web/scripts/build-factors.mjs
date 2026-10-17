@@ -78,3 +78,50 @@ fs.writeFileSync(path.join(outDir, "etkb-grid.json"), JSON.stringify({
   editions: Object.values(editions),
 }));
 console.log("etkb editions", Object.keys(editions).join(", "));
+
+// DESNZ 2026 scope 3 subset (OGL v3). Values stay in kg CO2e per unit here; the app divides by 1000.
+const dz = parseCsv(fs.readFileSync(path.join(src, "desnz", "desnz_scope3.csv"), "utf8"));
+const dh = dz[0];
+const dcol = (r, n) => r[dh.indexOf(n)];
+const drows = dz.slice(1).map((r) => [dcol(r, "id"), dcol(r, "group"), dcol(r, "activity"), dcol(r, "type"), dcol(r, "size_or_class"), dcol(r, "unit"), Number(dcol(r, "kg_co2e")), dcol(r, "sheet"), Number(dcol(r, "row"))]);
+fs.writeFileSync(path.join(outDir, "desnz-2026.json"), JSON.stringify({
+  source: "UK Department for Energy Security and Net Zero — Greenhouse gas reporting: conversion factors 2026, full set (published 2026-06-11)",
+  url: "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2026",
+  licence: "Open Government Licence v3.0 — contains public sector information licensed under the OGL v3.0",
+  fetched: "2026-10-18",
+  unit: "kg CO2e per unit (unit column as published)",
+  columns: ["id", "group", "activity", "type", "sizeOrClass", "unit", "kgCo2e", "sheet", "row"],
+  rows: drows,
+}));
+
+// Türkiye NID 2026 (TÜİK): 2024 NCVs (Annex 4 'NCV of Fuels') and 2024 CO2 EFs (Table 3.7). NCVs are converted
+// to the app's fuel units: TJ/10^6 m3 -> GJ/m3 (x 1/1000), TJ/kt -> GJ/t (x 1), TJ/kt -> GJ/kg (x 1/1000).
+// Diesel and gasoline NCVs are per mass while the app counts litres: only their EF is taken (no density assumed).
+const tn = parseCsv(fs.readFileSync(path.join(src, "tuik", "tuik_ncv.csv"), "utf8"));
+const te = parseCsv(fs.readFileSync(path.join(src, "tuik", "tuik_co2_ef.csv"), "utf8"));
+const pick = (rows, fuel, tablePrefix) => {
+  const h = rows[0];
+  const r = rows.slice(1).find((x) => x[h.indexOf("fuel")] === fuel && x[h.indexOf("inventory_year")] === "2024" && x[h.indexOf("table_or_page")].startsWith(tablePrefix));
+  if (!r) throw new Error("TÜİK row missing: " + fuel + " / " + tablePrefix);
+  return Number(r[h.indexOf(rows === tn ? "ncv" : "ef")]);
+};
+const clean = (v) => Math.round(v * 1e9) / 1e9;
+const TUIK = [
+  ["natural_gas", "Natural gas", "Natural gas", "Sm3", 1 / 1000],
+  ["coal", "Hard coal", "Hard coal", "t", 1],
+  ["lignite", "Lignite", "Lignite", "t", 1],
+  ["fuel_oil", "Fuel oil", "Fuel oil", "kg", 1 / 1000],
+  ["lpg", "LPG", "LPG", "kg", 1 / 1000],
+  ["diesel", null, "Diesel", "L", null],
+  ["gasoline", null, "Gasoline", "L", null],
+];
+const trows = TUIK.map(([fuel, ncvName, efName, unit, k]) => [fuel, ncvName ?? efName, unit, ncvName ? clean(pick(tn, ncvName, "Annex 4") * k) : null, pick(te, efName, "Table 3.7")]);
+fs.writeFileSync(path.join(outDir, "tuik-nir-2026.json"), JSON.stringify({
+  source: "Greenhouse Gas Inventory of Türkiye 1990-2024, National Inventory Document (TÜİK, submitted to the UNFCCC 2026-04-14): Annex 4 'NCV of Fuels' (2024) and Table 3.7 'CO2 emission factors of fuels' (2024)",
+  url: "https://unfccc.int/sites/default/files/resource/TUR_NID_2026.pdf",
+  fetched: "2026-10-18",
+  inventoryYear: 2024,
+  columns: ["fuel", "nidFuel", "unit", "ncvGjPerUnit", "efTco2PerTj"],
+  rows: trows,
+}));
+console.log("desnz rows", drows.length, "| tuik fuels", trows.length);

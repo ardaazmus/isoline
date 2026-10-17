@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import fc from "fast-check";
-import { BUILTIN_SETS, factorRef, factorSetCsv, factorTemplateCsv, findFactors, formatCn, importFactorCsv, resolveRef, usableSets, type FactorSet } from "./factors";
+import { BUILTIN_SETS, factorDigits, factorRef, factorSetCsv, factorTemplateCsv, findFactors, formatCn, importFactorCsv, resolveRef, usableSets, type FactorSet } from "./factors";
+import { setsForYear } from "./recalc";
 import { FUELS, GRID_FACTORS, GWP_AR6 } from "./calc/ghg";
 import { effectiveSee } from "./calc/cbam";
 import { SAMPLE_CLIENT } from "@/data/sample";
@@ -59,7 +60,7 @@ describe("factor library", () => {
   });
   it("round-trips a reference", () => {
     const sets = usableSets([custom(true)]);
-    const o = findFactors(sets, "fuel_co2", "natural_gas")[1];
+    const o = findFactors(sets, "fuel_co2", "natural_gas").find((x) => x.set.origin === "custom")!;
     expect(resolveRef(sets, factorRef(o))?.factor.value).toBeCloseTo(56.4);
     expect(resolveRef(sets, "missing/x")).toBeNull();
   });
@@ -165,5 +166,53 @@ describe("custom factor CSV", () => {
     const set = custom(true);
     const again = importFactorCsv(factorSetCsv(set), "c1").factors;
     expect(again).toEqual(set.factors);
+  });
+});
+
+describe("DESNZ 2026 scope 3 selection", () => {
+  const desnz = BUILTIN_SETS.find((s) => s.id === "desnz_2026")!;
+  const f = (key: string) => desnz.factors.find((x) => x.key === key)!;
+  it("converts the published kg CO2e per unit to t CO2e and keeps the unit text", () => {
+    expect(desnz.factors).toHaveLength(51);
+    expect(f("hotel_turkey")).toMatchObject({ value: 0.0321, unit: "Room per night" });
+    expect(f("freight_hgv_avg_laden")).toMatchObject({ value: 0.00010356, unit: "tonne.km" });
+    expect(f("air_longhaul_economy_rf")).toMatchObject({ value: 0.00011704, unit: "passenger.km" });
+    expect(f("waste_paper_board_mixed_landfill").value).toBeCloseTo(1.16451317, 12);
+  });
+  it("tags each factor with the scope 3 categories it suits", () => {
+    expect(f("freight_rail").categories).toEqual([4, 9]);
+    expect(f("hotel_turkey").categories).toEqual([6]);
+    expect(f("water_supply_m3").categories).toEqual([1]);
+    expect(f("water_treatment_m3").categories).toEqual([5]);
+    desnz.factors.forEach((x) => expect(x.categories?.length).toBeGreaterThan(0));
+  });
+});
+
+describe("TÜİK national inventory 2026 (2024 values)", () => {
+  const tuik = BUILTIN_SETS.find((s) => s.id === "tuik_nir_2024")!;
+  const f = (key: string) => tuik.factors.find((x) => x.key === key)!;
+  it("converts NCVs to the app's fuel units and pairs them with the national CO2 EF", () => {
+    expect(f("natural_gas")).toMatchObject({ ncv: 0.03454, value: 55.9, unit: "Sm3" });
+    expect(f("lignite")).toMatchObject({ ncv: 8.35, value: 105.5, unit: "t" });
+    expect(f("coal")).toMatchObject({ ncv: 25.24, value: 95.6, unit: "t" });
+    expect(f("fuel_oil")).toMatchObject({ ncv: 0.03794, value: 77, unit: "kg" });
+    expect(f("lpg")).toMatchObject({ ncv: 0.04731, value: 63.1, unit: "kg" });
+  });
+  it("takes only the EF for fuels counted in litres", () => {
+    expect(f("diesel")).toMatchObject({ value: 72.3, unit: "L" });
+    expect(f("diesel").ncv).toBeUndefined();
+    expect(f("gasoline").ncv).toBeUndefined();
+  });
+  it("uses the app's fuel ids and units, so a pick fits the fuel line", () => {
+    tuik.factors.forEach((x) => expect(FUELS[x.key as keyof typeof FUELS].unit).toBe(x.unit));
+  });
+  it("is the edition offered for later inventory years", () => {
+    expect(setsForYear(BUILTIN_SETS, 2026).map((s) => s.id)).toEqual(expect.arrayContaining(["tuik_nir_2024", "desnz_2026", "etkb_2023"]));
+  });
+});
+
+describe("factorDigits", () => {
+  it("shows small per-unit factors with about three significant digits", () => {
+    expect([0.00010356, 0.0321, 0.469, 5, 56.1, 0].map(factorDigits)).toEqual([6, 4, 3, 3, 1, 3]);
   });
 });

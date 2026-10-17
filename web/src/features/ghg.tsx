@@ -232,6 +232,7 @@ function Inner() {
                     <FactorPicker
                       kind="scope3"
                       year={year}
+                      filter={(f) => !f.categories || f.categories.includes(l.category)}
                       sets={sets}
                       value={l.factorRef}
                       onPick={(o) =>

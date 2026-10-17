@@ -3,7 +3,7 @@
 import { useRef, useState, type ReactNode } from "react";
 import { Download, FileDown, FileUp, Plus, Search, Trash2 } from "lucide-react";
 import { useI18n } from "@/i18n/provider";
-import { BUILTIN_SETS, factorSetCsv, factorTemplateCsv, factorUnit, importFactorCsv, usableSets, type Factor, type FactorCsvIssue, type FactorSet, type LicenceClass } from "@/lib/factors";
+import { BUILTIN_SETS, factorDigits, factorSetCsv, factorTemplateCsv, factorUnit, importFactorCsv, usableSets, type Factor, type FactorCsvIssue, type FactorSet, type LicenceClass } from "@/lib/factors";
 import { useFactorLabel } from "@/components/factor-picker";
 import { download, slug } from "@/lib/export";
 import { useWorkspace } from "@/store/workspace";
@@ -142,7 +142,7 @@ function FactorTable({ set, onRemove }: { set: FactorSet; onRemove?: (id: string
                   )}
                   {f.otherCountries && <span className="block text-[11.5px] text-[var(--ink-2)]">{t("factors.otherCountriesShort")}</span>}
                 </td>
-                <td className="r num">{fmt.number(f.value, f.value < 10 ? 3 : 1)}</td>
+                <td className="r num">{fmt.number(f.value, factorDigits(f.value))}</td>
                 <td className="whitespace-nowrap text-[var(--ink-3)]">{factorUnit(f)}</td>
                 {onRemove && (
                   <td>
