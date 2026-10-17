@@ -30,16 +30,24 @@ describe("reconciliation on the sample client", () => {
 });
 
 describe("rules", () => {
-  it("U1 fails when the taxonomy turnover differs from the financial statements", () => {
+  it("U1 fails when the taxonomy turnover differs from the trial balance", () => {
     const c = clone();
     c.taxonomy.totals.turnover = 40_000;
     const k = check(c, "U1.taxTurnover");
     expect(k.status).toBe("fail");
-    expect(k.b).toEqual({ src: "anchorSales", value: 42_000 });
+    expect(k.b).toEqual({ src: "tbSales", value: 42_000 });
     expect(k.diff).toBeCloseTo(-2 / 42, 10);
   });
-  it("U1 uses the inventory as reference without an anchor and needs two figures", () => {
+  it("U1 takes the trial balance as reference and checks the annual-report figure against it", () => {
     const c = clone();
+    expect(rule(c, "U1").checks.map((k) => k.b?.src)).toEqual(["tbSales", "tbSales", "tbSales", "tbSales"]);
+    c.reconciliation.anchors.netSalesMillionTry = 41_000;
+    expect(check(c, "U1.anchorSales").status).toBe("fail");
+  });
+  it("U1 falls back to the anchor, then the inventory, and needs two figures", () => {
+    const c = clone();
+    c.trialBalance = null;
+    expect(rule(c, "U1").checks.map((k) => k.b?.src)).toEqual(["anchorSales", "anchorSales", "anchorSales"]);
     c.reconciliation.anchors.netSalesMillionTry = null;
     expect(rule(c, "U1").checks.map((k) => k.b?.src)).toEqual(["ghgRevenue", "ghgRevenue"]);
     c.indicators.env.revenueMillionTry = 0;

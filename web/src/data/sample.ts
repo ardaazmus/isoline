@@ -10,6 +10,8 @@ import type { EnvInput, MaterialityTopic, SafetyInput, TaxonomyActivity, Taxonom
 import type { Profile } from "@/lib/calc/applicability";
 import { FUELS } from "@/lib/calc/ghg";
 import { DEFAULT_TOLERANCES, emptyReconciliation, type Reconciliation } from "@/lib/reconcile";
+import { csvGrid, parseGrid, type TrialBalance } from "@/lib/trial-balance";
+import { SAMPLE_TB_FILE, sampleTrialBalanceCsv } from "./sample-trial-balance";
 import type { StageStatus } from "./journey";
 
 export type ArStatus = "todo" | "draft" | "review" | "approved" | "na";
@@ -34,7 +36,14 @@ export type ClientData = {
   reconciliation: Reconciliation;
   /** Report text screened for green claims (also read by reconciliation rule U10). */
   claims: { text: string; lang: string };
+  /** Imported trial balance (mizan), aggregated to main accounts; null until a file is imported. */
+  trialBalance: TrialBalance | null;
 };
+
+/** SHA-256 of sampleTrialBalanceCsv(): the sample records the same evidence hash a real import would. */
+export const SAMPLE_TB_SHA256 = "f8ee7e3f8cdee1cf8034932c0debb7d38683ee50ba4025e9ca337b742ed8f105";
+
+const sampleTb = parseGrid(csvGrid(sampleTrialBalanceCsv()), SAMPLE_TB_FILE).sheet!;
 
 export const SAMPLE_CLIENT: ClientData = {
   id: "sample-steel",
@@ -178,6 +187,7 @@ export const SAMPLE_CLIENT: ClientData = {
     text: "Örnek metin — Anadolu Yassı Çelik olarak çevre dostu üretim anlayışıyla çalışıyoruz. Yeni rulo serimiz karbon nötr; kalan emisyonlarımızı orman projeleriyle dengeledik. 2030 yılına kadar net sıfır şirket olacağız. Ambalajlarımız %100 geri dönüştürülebilir ve tesislerimizde yenilenebilir elektrik payını %20'ye çıkardık.",
     lang: "tr",
   },
+  trialBalance: { fileName: SAMPLE_TB_FILE, sha256: SAMPLE_TB_SHA256, importedAt: "2026-10-18T09:00:00.000Z", ...sampleTb },
 };
 
 /** A fresh, empty client built from the same shape; numbers start at zero. */
@@ -227,5 +237,6 @@ export function emptyClient(id: string, name: string): ClientData {
     journey: {},
     reconciliation: emptyReconciliation(),
     claims: { text: "", lang: "tr" },
+    trialBalance: null,
   };
 }

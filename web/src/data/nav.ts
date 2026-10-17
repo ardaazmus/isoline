@@ -13,6 +13,7 @@ export const NAV: NavGroup[] = [
       { id: "overview", href: "", family: "compass" },
       { id: "journey", href: "/journey", family: "compass" },
       { id: "reconciliation", href: "/reconciliation", family: "reporting" },
+      { id: "trialBalance", href: "/trial-balance", family: "reporting" },
       { id: "applicability", href: "/applicability", family: "compass" },
       { id: "regulations", href: "/regulations", family: "compass" },
       { id: "factors", href: "/factors", family: "compass" },

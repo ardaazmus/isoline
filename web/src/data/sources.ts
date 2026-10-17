@@ -41,6 +41,7 @@ const list: Source[] = [
   { id: "spk_sust_template", cite: "SPK Sürdürülebilirlik İlkeleri Uyum Çerçevesi ve KAP şablonu (karar 23.06.2022, 34/977)", url: "https://spk.gov.tr/surdurulebilirlik", jurisdiction: "TR", confidence: "secondary", asOf: AS_OF },
   { id: "bddk_ar", cite: "BDDK — Bankalarca Yıllık Faaliyet Raporunun Hazırlanmasına ve Yayımlanmasına İlişkin Usul ve Esaslar Hakkında Yönetmelik (RG 01.11.2006, 26333; değişiklikler RG 28579, 29511)", url: "https://www.mevzuat.gov.tr/anasayfa/MevzuatFihristDetayIframe?MevzuatTur=7&MevzuatNo=10736&MevzuatTertip=5", jurisdiction: "TR", confidence: "official", asOf: AS_OF },
   { id: "spk_green_guides", cite: "SPK Yeşil, Sürdürülebilir ve Sosyal / Sürdürülebilirlik Bağlantılı Sermaye Piyasası Araçları Rehberleri (13.08.2026)", url: "https://spk.gov.tr/duyurular/basin-duyurulari/2026/yesil-surdurulebilir-ve-sosyal-sermaye-piyasasi-araclari-rehberi-ve-surdurulebilirlik-baglantili-sermaye-piyasasi-araclari-rehberi-basin-duyurusu", jurisdiction: "TR", confidence: "secondary", asOf: AS_OF },
+  { id: "tdhp", cite: "1 Sıra No'lu Muhasebe Sistemi Uygulama Genel Tebliği — Tekdüzen Hesap Planı (RG 26.12.1992, 21447 mükerrer)", url: "https://www.resmigazete.gov.tr/arsiv/21447_1.pdf", jurisdiction: "TR", confidence: "secondary", asOf: AS_OF },
   { id: "energy_eff_reg", cite: "Enerji Verimliliği Yönetmeliği (RG 27.10.2011, 28097) — 1.000 TEP eşiği", url: "https://enerji.gov.tr", jurisdiction: "TR", confidence: "secondary", asOf: AS_OF },
 
   // AB

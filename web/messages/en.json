@@ -44,7 +44,8 @@
     "claims": "Green claim check",
     "factors": "Factor library",
     "themes": "Themes and colours",
-    "reconciliation": "Reconciliation"
+    "reconciliation": "Reconciliation",
+    "trialBalance": "Trial balance"
   },
   "units": {
     "mTry": "TRY million",
@@ -1942,7 +1943,8 @@
       "prior": "Prior year",
       "claimsHigh": "High-risk claims (offsetting, future pledges)",
       "claimsOther": "Other claims (generic, absolute)",
-      "claimsText": "Report text"
+      "claimsText": "Report text",
+      "tbSales": "Net sales (trial balance)"
     },
     "rules": {
       "U1": {
@@ -1986,5 +1988,92 @@
         "na": "No report text entered in the Green-claim check."
       }
     }
+  },
+  "tb": {
+    "result": "{file}: {n} main accounts; net sales {net}, the trial balance balances.",
+    "resultUnbalanced": "{file}: {n} main accounts; net sales {net}, but the trial balance does not balance.",
+    "resultNoSales": "{file}: {n} main accounts; no sales accounts (600–602) found.",
+    "resultEmpty": "Upload the trial balance from your accounting software; net sales and fixed assets are read from the chart of accounts.",
+    "template": "Template (CSV)",
+    "upload": "Upload trial balance",
+    "reading": "Reading…",
+    "sample": "Sample trial balance",
+    "file": "Trial balance file",
+    "fileHint": "Excel (xlsx, xls), OpenDocument (ods) or CSV. The header row is found automatically: account code, account name, debit, credit, and optionally debit/credit balance. Sub-accounts are summed into main accounts. The file never leaves the browser.",
+    "preview": "{file}: {rows} rows read, {n} main accounts.",
+    "previewNet": "Net sales {net}",
+    "previewNoSales": "No sales accounts",
+    "apply": "Use this trial balance",
+    "replace": "Replace the current trial balance",
+    "close": "Close",
+    "evidence": "Evidence",
+    "evidenceHint": "The SHA-256 hash proves which file the figures come from: the same file always gives the same hash.",
+    "fileName": "File",
+    "sheet": "Sheet",
+    "rows": "Read",
+    "rowsValue": "{rows} rows → {n} main accounts",
+    "imported": "Imported",
+    "remove": "Remove trial balance",
+    "removeConfirm": "Yes, remove",
+    "emptyTitle": "Why a trial balance?",
+    "emptyBody": "The trial balance is the source of the financial statements. Isoline reads net sales from the Turkish uniform chart of accounts: gross sales (600 domestic, 601 export, 602 other income) less sales deductions (610 returns, 611 discounts, 612 other deductions). That figure is the most authoritative reference in reconciliation rule U1 and is compared with the denominators of the inventory, the environment indicators and the taxonomy. Download the sample trial balance and upload it to try.",
+    "figNet": "Net sales",
+    "figNetNote": "Gross sales − sales deductions",
+    "figNetClosed": "After closing: from movements",
+    "figGross": "Gross sales",
+    "figDeductions": "Sales deductions",
+    "figBalance": "Balance check",
+    "figBalanceNote": "Total debits {debit}",
+    "balanced": "Balanced",
+    "unbalanced": "Not balanced",
+    "closedCallout": "Closing entries have been posted in this trial balance: accounts 600–602 have a zero balance. Net sales were derived from movements (600–602 credits, 610–612 debits). For an exact figure, upload the trial balance taken before the closing entries.",
+    "checksTitle": "Trial balance checks",
+    "ok": "Passed",
+    "fail": "Error",
+    "review": "Check",
+    "check": {
+      "movements": "Total debits ({debit}) equal total credits ({credit}).",
+      "balancesColumns": "Debit balances ({debit}) equal credit balances ({credit}).",
+      "balancesDerived": "Balances derived as debit − credit; debit balances {debit}, credit balances {credit}.",
+      "open": "Sales accounts are open: closing entries not yet posted.",
+      "closed": "Closing entries posted: net sales derived from movements.",
+      "noSales": "No sales accounts (600–602) found; make sure the file includes the income statement accounts.",
+      "yearOk": "The trial balance period ({year}) matches the reporting year.",
+      "yearOff": "Trial balance period {year}, reporting year {reporting}: make sure this is the right file.",
+      "yearUnknown": "No period found in the file; check that the trial balance is for {year}."
+    },
+    "compareTitle": "Net sales in the other tools",
+    "compareHint": "The same revenue must be written the same everywhere (tolerance ±{tol}). Reconciliation rule U1 runs this comparison with the trial balance as reference.",
+    "reference": "reference",
+    "unitNote": "Amounts in TRY millions.",
+    "salesTitle": "Sales accounts",
+    "grossGroup": "Gross sales (60)",
+    "deductionGroup": "Sales deductions (61)",
+    "assetsTitle": "Fixed assets (25–26)",
+    "assetsNet": "Net book value",
+    "capexNote": "Cost totals TRY {cost} m, of which TRY {construction} m is construction in progress (258). Taxonomy CapEx is additions during the period; a single trial balance does not separate the opening entry from period movements, so CapEx is not derived here. That needs a fixed-asset movement schedule.",
+    "allTitle": "All main accounts ({n})",
+    "search": "Search by account code or name",
+    "dr": "Dr",
+    "cr": "Cr",
+    "col": {
+      "figure": "Figure",
+      "value": "TRY m",
+      "diff": "Difference to trial balance",
+      "status": "Status",
+      "code": "Account",
+      "account": "Account name",
+      "mTry": "TRY m",
+      "debit": "Debit",
+      "credit": "Credit",
+      "balance": "Balance"
+    },
+    "err": {
+      "noHeader": "No header row found. Expected columns: account code, account name, debit, credit (or debit/credit balance). Compare with the template.",
+      "noRows": "Header found but no account rows.",
+      "unreadable": "The file could not be read. Make sure it is Excel, OpenDocument or CSV.",
+      "tooLarge": "The file exceeds the {mb} MB limit."
+    },
+    "recLink": "Full comparison and explanations:"
   }
 }

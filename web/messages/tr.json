@@ -44,7 +44,8 @@
     "claims": "Yeşil iddia denetimi",
     "factors": "Faktör kütüphanesi",
     "themes": "Tema ve renk rehberi",
-    "reconciliation": "Uzlaştırma"
+    "reconciliation": "Uzlaştırma",
+    "trialBalance": "Mizan"
   },
   "units": {
     "mTry": "milyon TL",
@@ -1942,7 +1943,8 @@
       "prior": "Önceki yıl",
       "claimsHigh": "Yüksek riskli iddia (dengeleme, gelecek taahhüdü)",
       "claimsOther": "Diğer iddialar (genel, mutlak)",
-      "claimsText": "Rapor metni"
+      "claimsText": "Rapor metni",
+      "tbSales": "Net satışlar (mizan)"
     },
     "rules": {
       "U1": {
@@ -1986,5 +1988,92 @@
         "na": "Yeşil iddia denetimine rapor metni girilmemiş."
       }
     }
+  },
+  "tb": {
+    "result": "{file}: {n} ana hesap; net satışlar {net}, mizan dengede.",
+    "resultUnbalanced": "{file}: {n} ana hesap; net satışlar {net}, ancak mizan dengede değil.",
+    "resultNoSales": "{file}: {n} ana hesap; satış hesabı (600–602) bulunamadı.",
+    "resultEmpty": "Muhasebe yazılımınızdan aldığınız mizanı yükleyin; net satışlar ve duran varlıklar hesap planından okunur.",
+    "template": "Şablon (CSV)",
+    "upload": "Mizan yükle",
+    "reading": "Okunuyor…",
+    "sample": "Örnek mizan",
+    "file": "Mizan dosyası",
+    "fileHint": "Excel (xlsx, xls), OpenDocument (ods) ya da CSV. Başlık satırı kendiliğinden bulunur: Hesap Kodu, Hesap Adı, Borç, Alacak, isteğe bağlı Borç/Alacak Bakiye. Alt hesaplar ana hesaplarda toplanır. Dosya tarayıcıdan çıkmaz.",
+    "preview": "{file}: {rows} satır okundu, {n} ana hesap.",
+    "previewNet": "Net satışlar {net}",
+    "previewNoSales": "Satış hesabı yok",
+    "apply": "Mizanı kullan",
+    "replace": "Mevcut mizanın yerine koy",
+    "close": "Kapat",
+    "evidence": "Kanıt",
+    "evidenceHint": "SHA-256 özeti, rakamların hangi dosyadan geldiğini kanıtlar: aynı dosya her zaman aynı özeti verir.",
+    "fileName": "Dosya",
+    "sheet": "Sayfa",
+    "rows": "Okunan",
+    "rowsValue": "{rows} satır → {n} ana hesap",
+    "imported": "Yükleme",
+    "remove": "Mizanı kaldır",
+    "removeConfirm": "Evet, kaldır",
+    "emptyTitle": "Mizan neden gerekli?",
+    "emptyBody": "Mizan, finansal tablolardaki rakamların kaynağıdır. Isoline net satışları Tekdüzen Hesap Planı'na göre okur: brüt satışlar (600 yurt içi, 601 yurt dışı, 602 diğer gelirler) eksi satış indirimleri (610 iadeler, 611 iskontolar, 612 diğer indirimler). Bu rakam uzlaştırma kuralı U1'de en yetkili referanstır; envanterin, çevre göstergelerinin ve taksonominin paydasıyla karşılaştırılır. Denemek için örnek mizanı indirip yükleyebilirsiniz.",
+    "figNet": "Net satışlar",
+    "figNetNote": "Brüt satışlar − satış indirimleri",
+    "figNetClosed": "Kapanış sonrası: hareket toplamlarından",
+    "figGross": "Brüt satışlar",
+    "figDeductions": "Satış indirimleri",
+    "figBalance": "Mizan dengesi",
+    "figBalanceNote": "Borç toplamı {debit}",
+    "balanced": "Dengede",
+    "unbalanced": "Dengede değil",
+    "closedCallout": "Bu mizanda kapanış kayıtları yapılmış: 600–602 hesaplarının bakiyesi sıfır. Net satışlar hareket toplamlarından hesaplandı (600–602 alacak, 610–612 borç). Kesin sonuç için kapanış kayıtları yapılmadan önce alınmış mizanı yükleyin.",
+    "checksTitle": "Mizan kontrolleri",
+    "ok": "Geçti",
+    "fail": "Hata",
+    "review": "Kontrol edin",
+    "check": {
+      "movements": "Borç toplamı ({debit}) alacak toplamına ({credit}) eşit.",
+      "balancesColumns": "Borç bakiyeleri ({debit}) alacak bakiyelerine ({credit}) eşit.",
+      "balancesDerived": "Bakiyeler borç − alacak olarak hesaplandı; borç bakiyeleri {debit}, alacak bakiyeleri {credit}.",
+      "open": "Satış hesapları açık: kapanış kayıtları henüz yapılmamış.",
+      "closed": "Kapanış kayıtları yapılmış: net satışlar hareket toplamlarından hesaplandı.",
+      "noSales": "Satış hesabı (600–602) bulunamadı; dosyanın gelir tablosu hesaplarını içerdiğinden emin olun.",
+      "yearOk": "Mizan dönemi ({year}) raporlama yılıyla aynı.",
+      "yearOff": "Mizan dönemi {year}, raporlama yılı {reporting}: doğru dosyayı yüklediğinizden emin olun.",
+      "yearUnknown": "Dosyada dönem bulunamadı; mizanın {year} yılına ait olduğunu kontrol edin."
+    },
+    "compareTitle": "Net satışın diğer araçlardaki karşılığı",
+    "compareHint": "Aynı ciro her yerde aynı yazılmalı (tolerans ±{tol}). Uzlaştırma kuralı U1 bu karşılaştırmayı mizanı referans alarak yapar.",
+    "reference": "referans",
+    "unitNote": "Tutarlar milyon TL.",
+    "salesTitle": "Satış hesapları",
+    "grossGroup": "Brüt satışlar (60)",
+    "deductionGroup": "Satış indirimleri (61)",
+    "assetsTitle": "Duran varlıklar (25–26)",
+    "assetsNet": "Net defter değeri",
+    "capexNote": "Maliyet bedeli toplamı {cost} mn TL, bunun {construction} mn TL'si yapılmakta olan yatırımlar (258). Taksonomi CapEx'i dönem içindeki eklemelerdir; tek bir mizan açılış kaydını dönem hareketinden ayırmadığı için CapEx buradan hesaplanmaz. Bunun için sabit kıymet hareket tablosu gerekir.",
+    "allTitle": "Tüm ana hesaplar ({n})",
+    "search": "Hesap kodu ya da adıyla ara",
+    "dr": "B",
+    "cr": "A",
+    "col": {
+      "figure": "Rakam",
+      "value": "mn TL",
+      "diff": "Mizana göre fark",
+      "status": "Durum",
+      "code": "Hesap",
+      "account": "Hesap adı",
+      "mTry": "mn TL",
+      "debit": "Borç",
+      "credit": "Alacak",
+      "balance": "Bakiye"
+    },
+    "err": {
+      "noHeader": "Başlık satırı bulunamadı. Beklenen sütunlar: Hesap Kodu, Hesap Adı, Borç, Alacak (ya da Borç/Alacak Bakiye). Şablonu indirip karşılaştırın.",
+      "noRows": "Başlık bulundu ama hesap satırı yok.",
+      "unreadable": "Dosya okunamadı. Excel, OpenDocument ya da CSV biçiminde olduğundan emin olun.",
+      "tooLarge": "Dosya {mb} MB sınırını aşıyor."
+    },
+    "recLink": "Karşılaştırmanın tamamı ve açıklamalar:"
   }
 }

@@ -10,6 +10,7 @@ import {
   Compass,
   Droplets,
   Factory,
+  FileSpreadsheet,
   FileStack,
   Flame,
   GitCompareArrows,
@@ -55,6 +56,7 @@ const ICONS: Record<string, LucideIcon> = {
   factors: Library,
   themes: Palette,
   reconciliation: GitCompareArrows,
+  trialBalance: FileSpreadsheet,
 };
 
 export const BRAND = "Isoline";

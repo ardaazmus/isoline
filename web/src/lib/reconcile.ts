@@ -11,6 +11,7 @@ import type { ClientData } from "@/data/sample";
 import { computeInventory } from "./calc/ghg";
 import { safetyRates } from "./calc/indicators";
 import { countByRule, screenClaims } from "./claims";
+import { netSales } from "./trial-balance";
 
 export const ENGINE_VERSION = "reconcile-v1";
 
@@ -20,6 +21,7 @@ export type CheckStatus = "pass" | "explained" | "warn" | "fail" | "na";
 
 /** Where a compared value comes from; the UI turns it into a label. */
 export type Src =
+  | "tbSales"
   | "anchorSales"
   | "anchorHeadcount"
   | "ghgRevenue"
@@ -175,8 +177,16 @@ const naCheck = (rule: RuleId, src: Src, unit: Unit, rel: Relation = "eq"): Chec
 
 type Ctx = { c: ClientData; rec: Reconciliation; inv: ReturnType<typeof computeInventory> };
 
+/** Net sales from the imported trial balance, m TRY; the ledger is the most authoritative revenue figure. */
+export function ledgerSalesMillionTry(c: ClientData): number | undefined {
+  const ns = c.trialBalance ? netSales(c.trialBalance) : null;
+  return ns && ns.net > 0 ? ns.net / 1e6 : undefined;
+}
+
 function u1({ c, rec }: Ctx): Check[] {
+  // The first figure present is the reference: trial balance, then the financial-statement anchor, then the inventory.
   const vals: Operand[] = [
+    { src: "tbSales" as const, value: ledgerSalesMillionTry(c) ?? 0 },
     { src: "anchorSales" as const, value: rec.anchors.netSalesMillionTry ?? 0 },
     { src: "ghgRevenue" as const, value: c.ghg.revenueMillionTry },
     { src: "envRevenue" as const, value: c.indicators.env.revenueMillionTry },
@@ -267,7 +277,7 @@ export function yoyValues(c: ClientData, inv: ReturnType<typeof computeInventory
     energy: env.energyGj,
     water: env.waterWithdrawalM3,
     waste: env.wasteTotalT,
-    revenue: rec.anchors.netSalesMillionTry ?? c.ghg.revenueMillionTry,
+    revenue: ledgerSalesMillionTry(c) ?? rec.anchors.netSalesMillionTry ?? c.ghg.revenueMillionTry,
     headcount: w.headcountEnd,
     ltifr: safetyRates(c.indicators.safety).ltifr,
   };

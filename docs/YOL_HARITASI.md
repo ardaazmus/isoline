@@ -19,6 +19,8 @@ Tamamlanan (18.10.2026): faktör kütüphanesi ve "kendi faktörünü getir" mod
 
 Tamamlanan (18.10.2026): uzlaştırma kuralları v1 tarayıcıda (U1–U5, U8–U10; motor `web/src/lib/reconcile.ts`, ekran "Uzlaştırma"). Kuralların kimliği, ciddiyeti, toleransı ve dayanağı var. Her sonuç değerleri ve açıklamasıyla CSV/JSON olarak dışa aktarılıyor. Yeşil iddia metni artık müşteriye kaydediliyor ve U10 aynı metni denetliyor.
 
+Tamamlanan (18.10.2026): mizan içe aktarma (Excel xlsx/xls, OpenDocument, CSV; SheetJS 0.20.3 resmi dağıtımı, tarayıcıda). Başlık satırı kendiliğinden bulunuyor, alt hesaplar ana hesaplarda çift sayılmadan toplanıyor, borç = alacak dengesi ve kapanış durumu denetleniyor, dosyanın SHA-256 özeti kanıt olarak saklanıyor. Net satışlar U1'de referans. Açık: Tekdüzen Hesap Planı kodlarının resmi metinden uzman teyidi; CapEx için sabit kıymet hareket tablosu (Faz 5, U6–U7).
+
 Kod dışında yapılacak iş:
 - Uzman teyitleri.
 - IEA lisans görüşü.

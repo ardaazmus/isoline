@@ -179,7 +179,7 @@ Görevler ayrılır: hazırlayan kendi verisini onaylayamaz.
 | Dışa | **ESRS XBRL**: EFRAG taslak taksonomisi 17.09.2026'da yayımlandı, nihai sürüm 2026 sonunda bekleniyor. Etiketleme henüz zorunlu değil. | "Hazırlık modu": iXBRL önizleme ve doğrulama |
 | Dışa | TSRS için KAP bildirimi | KAP'ın TSRS bildirim tipi ve şablonu izlenecek |
 
-Mizan içe aktarma, finans–ESG uzlaştırmasının (U1, U6, U7) ön koşuludur; bu yüzden XBRL işinin ilk adımı odur.
+Mizan içe aktarma, finans–ESG uzlaştırmasının (U1, U6, U7) ön koşuludur; bu yüzden XBRL işinin ilk adımı odur. Excel/CSV mizan içe aktarma 18.10.2026'da tarayıcıda çalışıyor (`web/src/lib/trial-balance.ts`, `spreadsheet.ts`); net satışlar U1'e bağlı. CapEx tek bir mizandan güvenilir çıkmadığı için U6–U7, sabit kıymet hareket tablosu içe aktarmasıyla gelecek.
 
 ## 8. Teknik mimari
 

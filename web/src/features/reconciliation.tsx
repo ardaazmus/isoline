@@ -183,7 +183,7 @@ function RuleCard({ rule, rec, onNote, onPrior }: { rule: RuleResult; rec: Recon
   const def = RULES.find((d) => d.id === rule.id)!;
   const allNa = rule.status === "na";
   return (
-    <article id={`rec-${rule.id}`} className="glass flex min-w-0 scroll-mt-24 flex-col gap-4 p-5 md:p-6">
+    <article id={`rec-${rule.id}`} className="glass sheet flex min-w-0 scroll-mt-24 flex-col gap-4 p-5 md:p-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex min-w-0 items-baseline gap-3">
           <span className="num rounded-full bg-[var(--b-100)] px-2.5 py-0.5 text-[12.5px] font-semibold text-[var(--accent-ink)]">{rule.id}</span>
