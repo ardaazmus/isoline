@@ -6,7 +6,7 @@ Her faz bir **kontrol noktasıyla** biter. Bir sonraki faz, kontrol noktasındak
 
 - **Araçlar:** 15 ekran; kapsam testi, mevzuat takvimi, rapor akışı, karbon/çevre/sosyal hesaplayıcılar, faaliyet raporu kontrolü, 11 Word şablonu, çerçeve eşleme.
 - **Dil:** JSON tabanlı, dosya bırakılarak eklenebilir; Türkçe ve İngilizce hazır.
-- **Görsel dil:** mavi hiyerarşi, cam bento döşemeler, gren dokulu sonuç bandı; açık ve koyu tema.
+- **Görsel dil:** mavi dünya üzerinde aile renk hiyerarşisi (karbon toprak-turuncusu, çevre su mavisi, insan yeşil, raporlama lacivert), cam bento döşemeler, gren dokulu sonuç bandı; yalnız açık tema.
 - **Testler:** 40 birim, özellik tabanlı ve dil eşitliği testi.
 
 **Kontrol noktası:** uzman paneli, DOĞRULANAMADI işaretli 8 konuyu birincil metinden teyit eder (README'deki liste). Sonuçlar `sources.ts` dosyasında `official` olarak güncellenir.
