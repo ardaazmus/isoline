@@ -26,7 +26,7 @@ function Inner() {
   const file = useRef<HTMLInputElement>(null);
 
   return (
-    <div data-family="report">
+    <div data-family="compass">
       <PageHeader
         title={t("clients.title")}
         result={t("clients.result", { n: clients.length })}

@@ -19,23 +19,59 @@ colors:
   ink-2: "#3b4a78"
   ink-3: "#5c6894"
   rule: "#dbe3f7"
-  report: "#172a6e"
-  report-2: "#4f6ef0"
-  report-3: "#cfdaff"
-  report-wash: "#eef2ff"
-  report-solid: "#1f3a9e"
-  carbon: "#b4531f"
-  carbon-2: "#dc8746"
-  carbon-3: "#f2c49c"
-  carbon-wash: "#fcefe4"
-  hydro: "#0c74b0"
-  hydro-2: "#3ea2d8"
-  hydro-3: "#a9d8f2"
-  hydro-wash: "#e7f4fc"
-  forest: "#2e7a47"
-  forest-2: "#5fa872"
-  forest-3: "#b7dcbf"
-  forest-wash: "#e9f5ec"
+  th-climate: "#9b3a0c"
+  th-climate-2: "#c26542"
+  th-climate-3: "#f9cab9"
+  th-climate-wash: "#fef1ed"
+  th-climate-ink: "#9b3a0c"
+  th-energy: "#bb8b3f"
+  th-energy-2: "#dfb16c"
+  th-energy-3: "#e8d2b5"
+  th-energy-wash: "#fbf3e9"
+  th-energy-ink: "#8b5e00"
+  th-water: "#2e9cbf"
+  th-water-2: "#68c4e6"
+  th-water-3: "#b7ddec"
+  th-water-wash: "#eaf7fc"
+  th-water-ink: "#00718e"
+  th-nature: "#1f5a3a"
+  th-nature-2: "#4b7f5f"
+  th-nature-3: "#c5ddcd"
+  th-nature-wash: "#eef7f1"
+  th-nature-ink: "#1f5a3a"
+  th-circularity: "#637942"
+  th-circularity-2: "#8aa06c"
+  th-circularity-3: "#d0dbc2"
+  th-circularity-wash: "#f2f6ee"
+  th-circularity-ink: "#556a34"
+  th-pollution: "#988778"
+  th-pollution-2: "#c0afa1"
+  th-pollution-3: "#e5d2c2"
+  th-pollution-wash: "#fbf3ec"
+  th-pollution-ink: "#776658"
+  th-people: "#c06092"
+  th-people-2: "#e88bb9"
+  th-people-3: "#f4c7dc"
+  th-people-wash: "#fef0f6"
+  th-people-ink: "#a5487a"
+  th-valuechain: "#36786e"
+  th-valuechain-2: "#639e94"
+  th-valuechain-3: "#c1ddd7"
+  th-valuechain-wash: "#ecf7f5"
+  th-valuechain-ink: "#36786e"
+  th-governance: "#704488"
+  th-governance-2: "#956cad"
+  th-governance-3: "#e1cded"
+  th-governance-wash: "#f8f1fd"
+  th-governance-ink: "#704488"
+  th-economy: "#293a45"
+  th-economy-2: "#4c5d68"
+  th-economy-3: "#c4d9e8"
+  th-economy-wash: "#edf6fc"
+  th-economy-ink: "#293a45"
+  data-other: "#a6a6a6"
+  data-other-3: "#e4e4e4"
+  sheet: "rgba(255, 255, 255, 0.94)"
   warn: "#9a5a06"
   warn-wash: "#fdf3e2"
   crit: "#c0302e"
@@ -140,13 +176,28 @@ components:
     textColor: "{colors.ink}"
     rounded: "{rounded.field}"
     padding: "7px 10px"
+  analysis-sheet:
+    backgroundColor: "{colors.sheet}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.tile}"
+    padding: "20px"
+  theme-chip:
+    backgroundColor: "{colors.th-climate-wash}"
+    textColor: "{colors.th-climate-ink}"
+    rounded: "{rounded.mark}"
+    size: "22px / 28px / 40px"
+  group-row:
+    backgroundColor: "{colors.th-nature-wash}"
+    textColor: "{colors.th-nature-ink}"
+    rounded: "10px"
+    padding: "7px 8px"
   glass-tile:
     backgroundColor: "rgba(255, 255, 255, 0.58)"
     textColor: "{colors.ink}"
     rounded: "{rounded.tile}"
     padding: "20px"
-  lead-figure-carbon:
-    backgroundColor: "{colors.carbon}"
+  lead-figure-climate:
+    backgroundColor: "{colors.th-climate-ink}"
     textColor: "{colors.paper}"
     rounded: "{rounded.tile}"
     padding: "20px"
@@ -180,7 +231,7 @@ components:
 
 **Creative North Star: "The Blue Survey Table"**
 
-Isoline is a working table seen through frosted glass: a soft, grain-washed blue ground, translucent bento tiles floating above it, and one saturated cobalt band per page that states the result in a sentence. Blue is the world: navy, cobalt, periwinkle and ice carry the chrome, the band, actions, focus and text. The data is drawn in map layers over that world: each tool family carries its own four-step hue ramp (reporting navy, carbon contour sienna, environment hydro blue, people and governance forest green), so a figure, bar or series says which instrument produced it while the product still reads as one blue table.
+Isoline is a working table seen through frosted glass: a soft, grain-washed blue ground, translucent bento tiles floating above it, and one saturated cobalt band per page that states the result in a sentence. Blue is the world: navy, cobalt, periwinkle and ice carry the chrome, the band, actions, focus and text. The data is drawn in map layers over that world, but never in its blue: a thematic palette of ten hues (climate, energy, water, nature, circularity, pollution, people, value chain, governance, economy), each with a line icon and a five-tone ramp, says which subject a figure, bar, row or series belongs to. The palette was chosen by optimisation so every pair stays apart under normal vision and simulated protanopia, deuteranopia and tritanopia, and away from cobalt (2026-10-18; see docs/arastirma/F_gorsel_dil.md). Charts and tables sit on near-opaque analysis sheets so the blue ground never tints the data.
 
 The density is that of a consultant's analysis desk: 15px body, compact controls, charts that are presentation-grade the moment they render. Numbers are the heroes and are set large and light (Geist 300, tabular, tight tracking), never bold. Trust is built by provenance rather than decoration: every data tile ends in a ruled source-note collar, and data status is drawn as line form (solid verified, dashed estimated, dotted review) in marks, chart strokes, journey nodes and flags alike.
 
@@ -189,7 +240,9 @@ The system is light only (user decision 2026-10-17): there is no dark theme, no 
 **Key Characteristics:**
 - Frosted glass tiles (58% white, 14px blur, 1.4 saturate, white hairline, blue-tinted shadow, 18px radius) on a grain-washed radial blue ground.
 - One cobalt-to-periwinkle grain band per page, carrying title, one-sentence result and actions; the band stays cobalt on every family.
-- Blue for the world, four family hue ramps for the data (scoped by `data-family`), state colours (warn, crit, ok) for meaning only.
+- Blue for the world, ten theme ramps for the data (families scoped by `data-family` take one of them), state colours (warn, crit, ok) for meaning only, always with an arrow, icon or line form.
+- Analysis sheets (94% paper) under every chart and table; theme chips, tinted group rows, in-cell bars and segmented score scales inside tables (pattern from the Paragon +Impact reference).
+- Short enter-once motion: bars grow, lines draw, points pop, rows rise, figures count up, theme icons move on hover; all off under reduced motion.
 - Large light tabular numerals in Geist; uppercase tracked labels only for functional metadata.
 - Source-note collar on every data tile; solid/dashed/dotted line language for data status.
 - Light only (user decision 2026-10-17).
@@ -207,14 +260,29 @@ Three layers, never mixed in role: a blue hierarchy from deep navy to ice mist f
 - **Periwinkle** (`periwinkle`) and **Pale Periwinkle** (`periwinkle-pale`): the band's end stop, dashed estimated/indirect status marks, scrollbar thumb, field hover border, the 35% focus halo on inputs, table header and total rules.
 - **Ice** (`ice`), **Ice Wash** (`ice-wash`), **Ice Mist** (`ice-mist`): selection highlight, the source-note collar rule (ice), segmented-control and icon-chip wells (ice wash at 70-80%), table row hover, quiet fills.
 
-### Tertiary (family hue ramps)
-Each family is a four-step ramp: strong, mid, light, wash.
-- **Reporting Navy** (`report`, `report-2`, `report-3`, `report-wash`; solid `report-solid`): annual report, templates, framework mapping, the overview compass group; governance topics in materiality; draft status in report checks.
-- **Carbon Contour Sienna** (`carbon`, `carbon-2`, `carbon-3`, `carbon-wash`): GHG, CBAM, ETS and pathway. Strong for the primary series (scope 1, CBAM cost, certificates, deficit, the pathway plan line, the carbon-price rule), mid for secondary or default-value series (scope 2, default-value overlay), light for the remainder (scope 3, free allocation).
-- **Environment Hydro Blue** (`hydro`, `hydro-2`, `hydro-3`, `hydro-wash`): energy, water, waste and taxonomy; environmental topics in materiality; aligned (strong) against eligible-not-aligned (light) taxonomy shares.
-- **People & Governance Forest** (`forest`, `forest-2`, `forest-3`, `forest-wash`): materiality and workforce; social topics; the decarbonisation target bands (1.5°C in `forest-3`, well-below-2°C in `forest-wash`), the net-zero reference line, the materiality double-significance zone, and the soft green bloom at the bottom of the ground.
+### Tertiary (thematic data palette)
+Ten themes, defined once in `web/src/data/themes.ts` and mirrored as `--th-<id>`, `--th-<id>-2`, `--th-<id>-3`, `--th-<id>-wash`, `--th-<id>-ink` in `globals.css`. Tones: strong (primary series, icon), mid (secondary series), light (remainder, bands), wash (row and header ground), ink (text and icons on the wash, at least 4.5:1).
 
-A container that sets `data-family` exposes `--fam`, `--fam-2`, `--fam-3`, `--fam-wash` and a fixed `--fam-solid` (carbon `carbon`, hydro `hydro`, forest `forest`, report `report-solid`); the lead figure tile, mini-bar strips, rail chips, figure tone and chart series inside follow it.
+| Theme | Strong | Icon | Pillar | Used for |
+|---|---|---|---|---|
+| Climate and carbon | `#9b3a0c` | Thermometer | E | GHG, CBAM, ETS, pathway |
+| Energy | `#bb8b3f` | Zap | E | energy use, renewable share |
+| Water | `#2e9cbf` | Droplets | E | withdrawal, consumption, discharge |
+| Nature and biodiversity | `#1f5a3a` | Trees | E | biodiversity, land, target corridors, taxonomy alignment; E pillar |
+| Circularity and waste | `#637942` | Recycle | E | waste, recovery, materials |
+| Pollution | `#988778` | CloudFog | E | ESRS E2 |
+| People and society | `#c06092` | Users | S | workforce, OHS, equality, communities; S pillar |
+| Value chain | `#36786e` | Truck | S | suppliers, value-chain workers, Scope 3 |
+| Governance | `#704488` | Landmark | G | governance bodies, business conduct; G pillar |
+| Economy and finance | `#293a45` | Coins | X | financial figures, annual report, taxonomy amounts |
+
+Verified separation (CIEDE2000, smallest pair): normal at least 13.5; protanopia, deuteranopia and tritanopia at least 10; every strong tone at least 15 from cobalt, accent ink, navy, periwinkle and muted ink; every strong tone at least 3:1 on white. `web/src/lib/color.test.ts` enforces these limits and checks the CSS matches the TS source; the Themes and colours page (`/[lang]/themes`) recomputes them live.
+
+Categories that are not themes (abatement measures, sites) take `CATEGORICAL` (water, climate, value chain, people, energy, governance, nature, circularity, economy), which alternates dark and light. At most six colours per chart.
+
+Neutral data: `--data-other` (#a6a6a6) and `--data-other-3` (#e4e4e4) for "other", "not eligible" and deductions; grey, never blue.
+
+**Families.** A container sets `data-family`: `compass` (cobalt ramp; overview, journey, applicability, regulations, factors, themes), `climate` (climate), `environment` (nature), `people` (people), `reporting` (economy). It exposes `--fam`, `--fam-2`, `--fam-3`, `--fam-wash`, `--fam-ink` and `--fam-solid` (the ink tone, so white text on the lead tile holds 4.5:1). Rail bars and icon chips use the family's ink and wash.
 
 ### Neutral
 - **Blue Ground** (`ground`): the page base under the radial blooms; never pure white or grey.
@@ -226,9 +294,14 @@ A container that sets `data-family` exposes `--fam`, `--fam-2`, `--fam-3`, `--fa
 - **Amber Review** (`warn`, `warn-wash`): review status, sample-data flags, warn callouts.
 - **Signal Red** (`crit`, `crit-wash`): invalid input, critical callouts, per-row import issues, the "today" line on timelines.
 - **Ledger Green** (`ok`): positive figures only.
+- State never appears by colour alone: deltas carry an arrow (colour means good or bad, not up or down: falling emissions are green), status marks carry line form.
 
 ### Named Rules
-**The Layer Hierarchy Rule.** Blue is the world, family hue ramps are the data, status colours are meaning. Chrome, the band, buttons, focus and text stay blue; series, figures, mini-bars and rail chips take their family ramp; amber, red and ledger green speak only for state. A new tool joins one of the four families and inherits its ramp rather than receiving a new hue.
+**The Layer Hierarchy Rule.** Blue is the world, theme ramps are the data, status colours are meaning. Chrome, the band, buttons, focus and text stay blue; series, figures, mini-bars, theme chips and rail chips take a theme ramp; amber, red and ledger green speak only for state. A new tool joins a family and its data takes existing themes rather than receiving a new hue.
+
+**The Same Theme, Same Colour Rule.** A theme keeps its hue and icon on every screen: climate is always brick with a thermometer, water always sky with droplets. In a single-theme chart the series run strong, mid, light; in a multi-theme chart each series takes its theme's strong tone.
+
+**The Sheet Rule.** Every chart, table and data tile sits on an analysis sheet (`.glass.sheet`, 94% paper). Translucent glass is for chrome and inputs only.
 
 **The Meaning-Only Rule.** Amber, red and ledger green appear only when they state review, error/deadline or a positive result. They are never decoration, never a family colour, never a brand accent.
 
@@ -265,7 +338,7 @@ Spacing rhythm: 24px between bento rows and major blocks, 16px between sibling t
 
 ## Elevation & Depth
 
-Depth is optical rather than structural: a layered ground (radial blooms of periwinkle 66% top right, pale periwinkle 50% left, forest mid 32% at the bottom and ice 45% centre over a 160-degree linear wash from periwinkle-tinted ground to a 22% forest tint, fixed to the viewport, with a 14% fractal-noise grain overlay) shows through frosted glass tiles. Shadows are always blue-tinted and long, soft and negatively spread, so tiles float without hard edges. Selection lifts: active nav items, active tabs and the selected journey node gain a deeper blue shadow and, for the node, a 4px rise and cobalt ring.
+Depth is optical rather than structural: a layered ground (radial blooms of periwinkle 66% top right, pale periwinkle 50% left, nature mid 18% at the bottom and ice 45% centre over a 160-degree linear wash from periwinkle-tinted ground to a 12% nature tint, fixed to the viewport, with a 14% fractal-noise grain overlay) shows through frosted glass tiles. Shadows are always blue-tinted and long, soft and negatively spread, so tiles float without hard edges. Selection lifts: active nav items, active tabs and the selected journey node gain a deeper blue shadow and, for the node, a 4px rise and cobalt ring.
 
 ### Shadow Vocabulary
 - **Glass float** (`box-shadow: 0 18px 40px -22px rgba(31,52,160,0.38), 0 2px 6px -3px rgba(31,52,160,0.12), inset 0 1px 0 rgba(255,255,255,0.9)`): every glass tile, rail and chrome pill.
@@ -304,8 +377,8 @@ Compact, firm and blue; they never shout louder than the result band and never t
 - **Shadow Strategy:** glass float (see Elevation).
 - **Border:** 1px 92% white hairline.
 - **Internal Padding:** 20px, 24px from md; figure tiles 16px / 20px.
-- **Lead figure tile:** the first tile in a figure row drops its border and fills with a 150-degree gradient from the family solid to a 55/45 mix of the family solid with the family mid (`--fam-2`); text turns white and a 2px white rule draws on under the figure when the result changes.
-- **Mini-bar strip:** under each figure, a row of 2px-radius bars; the marked bar is the family solid and the rest are the family solid at 28% (on the lead tile: white and 45% white).
+- **Lead figure tile:** the first tile in a figure row drops its border and fills with a 150-degree gradient from the family solid to a 62/38 mix of the family solid with the family strong tone (`--fam`); text turns white and the figure counts up on mount and a 2px white rule draws on under the figure when the result changes.
+- **Mini-bar strip:** under each figure, a row of 2px-radius bars; the marked bar is the family solid and the rest are the family solid at 28% (on the lead tile: white and 45% white); bars grow from the baseline on mount. Figure tiles other than the lead sit on analysis sheets.
 - **Callouts:** 14px radius, 13.5px relaxed text; note uses glass, warn and crit use their wash with a 35% tinted border.
 
 ### Inputs / Fields
@@ -333,13 +406,22 @@ Every chart, table and data tile ends in a ruled collar: a 1px ice top rule, 12p
 A glass figure: 16px semibold title with a 13px muted caption (max 68ch), a ghost-button toolbar (table/chart toggle, CSV, SVG) hidden in print, a 12.5px legend of line, swatch or band keys, the chart (or its table), then the collar. Series are drawn from the family ramp: strong for the primary series, mid for the secondary or default-value series, light for the remainder or comparison; business-as-usual references stay navy ink, dashed. Charts use hairline gridlines, a navy axis rule, rounded 2px lines (dashed 6 5 for estimated or BAU), 12% area fills, paper-filled end points, a 45-degree hatch for estimated stacks, and a strong-glass tooltip (12px radius, 210px).
 
 ### Pathway Elevation Bands (signature)
-Decarbonisation targets are drawn as stacked tinted layers beneath the lines, like contour elevations: the 1.5°C corridor in `forest-3`, the well-below-2°C corridor in `forest-wash`, the net-zero reference as a dashed forest line, and the plan ("with measures") as a 2.5px sienna line over them. The overview's pathway tile repeats this in short: sienna plan over a `forest-3` target band. Bands are legended with a 20x12 band key.
+Decarbonisation targets are drawn as stacked tinted layers beneath the lines, like contour elevations: the 1.5°C corridor in `th-nature-3`, the well-below-2°C corridor in `th-nature-wash`, the net-zero reference as a dashed nature line, and the plan ("with measures") as a 2.5px climate line over them. The overview's pathway tile repeats this in short: climate plan over a `th-nature-3` target band. Bands are legended with a 20x12 band key.
 
 ### Report Journey Flow (signature)
 Stages are 16px-radius nodes on a snaking grid joined by paths with a 6px ice under-stroke. Done nodes are cobalt gradient with white text and a full white progress bar; the doing node is strong glass with a cobalt border and a spinning status icon; to-do nodes are glass with dashed pale-periwinkle borders. Completed paths are a cobalt-to-periwinkle gradient with three cobalt particles travelling along them; pending paths are dashed (6 7) and march. Nodes rise in on load with a 70ms stagger. The journey belongs to the blue world, not a family ramp.
 
+### Analysis Kit (`web/src/components/data.tsx`)
+- **Theme chip** (`ThemeIcon`): 22, 28 or 40px tile, 7 to 12px radius, theme wash with an 80% light-tone hairline and the theme's ink line icon (1.8 stroke); `solid` inverts it (ink fill, white icon) for selected rows and wedges. Each theme has its own hover micro-motion (rise, flicker, drip, sway, spin, drift, nudge) that plays once when the chip, its row or its tile (`.group`) is hovered or focused.
+- **Group row** (`GroupRow`): a tinted chapter row inside a table: theme wash, ink text, semibold, chip at the start, 10px rounded ends.
+- **In-cell bar** (`InlineBar`): 6px track (ice wash) with a theme fill and optional 2px ink target tick; grows from the left on mount.
+- **Score scale** (`ScoreScale`): 1 to 5 segments filling up the theme ramp (light, mid, strong) with an ink value chip at the score and a dashed threshold tick.
+- **Delta** (`Delta`): arrow and percentage; ok when the change is good, crit when bad, muted when flat.
+- **Count-up** (`CountUp`): figures count from zero once on mount (700ms ease-out) in their own formatted shape (decimals, grouping, prefix and suffix kept); screen readers get the final text.
+- **Theme ring** (`ThemeRing`, signature): outer pillar ring (E nature, S people, G governance) with curved uppercase labels; inner wedges, one per topic, whose length is the score and colour the topic's theme; material wedges solid, the rest light with a dashed ink edge; a ring of paper icon dots; the centre shows the count or the focused topic.
+
 ### Tables
-Ruled, inside glass: 11.5px uppercase headers over a 1.5px pale-periwinkle rule, 8px 12px cell padding, hairline row rules, a 1.5px pale-periwinkle total rule, row hover at 55% ice wash, right-aligned numeric columns, tabular numerals throughout.
+Ruled, inside an analysis sheet. Theme groups open with a group row; the first cell carries a theme chip; shares draw as in-cell bars next to the number; scores as score scales; change as a delta; status as a status mark. Rows rise in with a 24ms stagger on mount. Base rules: 11.5px uppercase headers over a 1.5px pale-periwinkle rule, 8px 12px cell padding, hairline row rules, a 1.5px pale-periwinkle total rule, row hover at 55% ice wash, right-aligned numeric columns, tabular numerals throughout.
 
 ## Do's and Don'ts
 
@@ -351,12 +433,15 @@ Ruled, inside glass: 11.5px uppercase headers over a 1.5px pale-periwinkle rule,
 - **Do** order a family's series by ramp step: strong for the primary series, mid for secondary or default values, light for the remainder, wash for bands and zones.
 - **Do** set governing figures in Geist 300 tabular with -0.035em tracking, and lead each figure row with the family-gradient tile.
 - **Do** tint every shadow with deep cobalt and keep tiles on the 58% glass recipe.
-- **Do** honour reduced motion: rule-draw, flow march, spin, rise and particles all stop, and transitions drop to 0ms.
+- **Do** honour reduced motion: rule-draw, flow march, spin, rise, particles, bar growth, line draw, point pop, row rise, ring entry, count-up and icon micro-motion all stop, and transitions drop to 0ms.
+- **Do** keep motion enter-once and short: bars 520ms with at most 12 x 32ms stagger, lines 900ms draw, points pop after the line, rows 240ms with 24ms stagger, figures count 700ms; never replay on data refresh.
+- **Do** put a theme chip on every theme-specific row, tile and card, and a group row on every themed table section.
 
 ### Don't:
 - **Don't** add a dark theme, a `prefers-color-scheme` block or a `data-theme` switch; the app is light only (user decision 2026-10-17).
-- **Don't** invent a hue outside the blue world, the four family ramps and the three state colours; a new tool joins an existing family.
-- **Don't** put a family hue on chrome, the result band, buttons, focus rings or status marks; those stay blue.
+- **Don't** invent a hue outside the blue world, the ten theme ramps, the neutral data greys and the three state colours; change a theme hue only after re-running the separation check (`color.test.ts`).
+- **Don't** draw data in cobalt, periwinkle or ice, or place a chart or table on translucent glass.
+- **Don't** put a theme hue on chrome, the result band, buttons, focus rings or status marks; those stay blue.
 - **Don't** fall back to the category default of white rounded cards with an emerald accent and leaf icons, or to a plain grey dashboard.
 - **Don't** put grain on tiles or charts; it belongs to the ground and the band.
 - **Don't** bold a headline figure or use a grey or black drop shadow.

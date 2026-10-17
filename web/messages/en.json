@@ -42,7 +42,9 @@
     "templates": "Template library",
     "crosswalk": "Framework crosswalk",
     "claims": "Green claim check",
-    "factors": "Factor library"
+    "factors": "Factor library",
+    "themes": "Themes and colours",
+    "reconciliation": "Reconciliation"
   },
   "units": {
     "mTry": "TRY million",
@@ -762,7 +764,10 @@
       "topdown": "Revised ESRS (2026/1563) allow a top-down assessment based on reasonable and supportable information.",
       "evidence": "Record the rationale, stakeholder input and evidence for each score; the tool structures scoring, management decides.",
       "tsrs": "TSRS materiality is investor-focused financial materiality; double materiality is needed for ESRS and GRI."
-    }
+    },
+    "ring": "Theme ring",
+    "ringCaption": "The outer ring shows the E/S/G pillars, the inner wedges the ESRS topics; wedge length is the higher score (impact or financial) and a filled wedge marks a material topic. Click a wedge to select the topic.",
+    "ringCenter": "material topics"
   },
   "app": {
     "result": "For the {year} reporting period: {required} direct obligations and {indirect} value-chain obligations.",
@@ -1607,7 +1612,7 @@
       "en": "English"
     },
     "text": "Report, packaging or marketing text",
-    "textHint": "The text never leaves the browser; it is screened on this page only.",
+    "textHint": "The text never leaves the browser.",
     "clear": "Clear text",
     "figTotal": "Flagged phrases",
     "figOther": "Generic and absolute claims",
@@ -1645,7 +1650,9 @@
         "fix": "Replace the generic phrase with a specific claim saying what improved by how much (e.g. 'energy use per product down 12% on 2024') and cite the source.",
         "ref": "Directive (EU) 2024/825 — UCPD Annex I point 4a"
       }
-    }
+    },
+    "savedHint": "The text is saved for this client; reconciliation rule U10 screens the same text.",
+    "loadSample": "Load sample text"
   },
   "factors": {
     "result": "{builtin} built-in sets and {custom} of your own; {n} factors can feed calculations.",
@@ -1718,6 +1725,266 @@
       "ipcc_ar6_gwp": "Published assessment values, cited with attribution.",
       "eu_cbam_dv_tr": "© European Union, CC BY 4.0 (Commission Decision 2011/833/EU). Implementing Regulation (EU) 2026/1740 Annex I, Commission Excel file version 2 (6 August 2026).",
       "eea_ener038": "CC BY 4.0 — source: European Environment Agency (EEA), indicator ENER038, 10 July 2026. Published in gCO₂e/kWh; converted here to tCO₂e/MWh."
+    }
+  },
+  "theme": {
+    "climate": "Climate and carbon",
+    "energy": "Energy",
+    "water": "Water",
+    "nature": "Nature and biodiversity",
+    "circularity": "Circularity and waste",
+    "pollution": "Pollution",
+    "people": "People and society",
+    "valuechain": "Value chain",
+    "governance": "Governance",
+    "economy": "Economy and finance"
+  },
+  "pillar": {
+    "E": "Environment",
+    "S": "Social",
+    "G": "Governance",
+    "X": "Economy"
+  },
+  "guide": {
+    "result": "{n} themes, {p} pillars: each theme keeps one colour, one icon and five tones on every screen.",
+    "themes": "Themes",
+    "themesCaption": "Each theme has a strong (primary series), mid (secondary series), light (remainder, bands), wash (row and header ground) and ink (text on the wash) tone.",
+    "usedFor": "Used for",
+    "use": {
+      "climate": "GHG inventory, CBAM, Turkish ETS, decarbonisation pathway",
+      "energy": "Energy use, renewable share, intensity",
+      "water": "Water withdrawal, consumption and discharge",
+      "nature": "Biodiversity, land use, target corridors, taxonomy alignment",
+      "circularity": "Waste, recovery, material efficiency",
+      "pollution": "Emissions to air, water and soil (ESRS E2)",
+      "people": "Workforce, health and safety, equality, communities and consumers",
+      "valuechain": "Suppliers, value-chain workers, Scope 3",
+      "governance": "Governance bodies, business conduct, anti-corruption",
+      "economy": "Financial figures, annual report tables, taxonomy KPI amounts"
+    },
+    "tones": {
+      "strong": "Strong",
+      "mid": "Mid",
+      "light": "Light",
+      "wash": "Wash",
+      "ink": "Ink"
+    },
+    "ring": "Theme ring",
+    "ringCaption": "The outer ring shows pillars, the inner wedges themes; wedge length is the score and a filled wedge marks a material topic. Drawn from the workspace's double materiality scores.",
+    "ringCenter": "material topics",
+    "table": "Table template",
+    "tableCaption": "Theme groups open with a tinted header row; each row starts with its theme icon, numbers align right, shares show as in-cell bars, scores as a segmented scale and change as an arrow.",
+    "specimen": "Format specimen",
+    "specimenNote": "The values in this table only demonstrate the format; they belong to no company.",
+    "col": {
+      "indicator": "Indicator",
+      "value": "Value",
+      "share": "Share",
+      "score": "Score",
+      "change": "Change",
+      "status": "Status"
+    },
+    "rows": {
+      "scope12": "Scope 1 and 2 emissions",
+      "renewable": "Renewable energy share",
+      "water": "Water consumption",
+      "recovery": "Waste recovery rate",
+      "ltifr": "Lost-time injury frequency",
+      "women": "Women in management",
+      "board": "Independent board members"
+    },
+    "check": "Separation check",
+    "checkCaption": "The smallest CIEDE2000 difference between theme colours, computed in the browser for normal vision and three simulated colour-vision deficiencies (Machado 2009). Above 10 reads as a different colour at chart-mark size.",
+    "vision": {
+      "normal": "Normal vision",
+      "protan": "Protanopia",
+      "deutan": "Deuteranopia",
+      "tritan": "Tritanopia"
+    },
+    "worstPair": "Closest pair",
+    "minDelta": "Smallest ΔE",
+    "fromUi": "Theme closest to interface cobalt",
+    "rules": "Rules",
+    "rule": {
+      "layers": "Blue is the interface, theme colours are data, red-amber-green is status only. Buttons, focus rings and links never take a theme colour.",
+      "sheet": "Charts and tables sit on near-opaque paper so the blue ground never tints the data.",
+      "count": "At most six colours in one chart; group the rest under \"other\" or separate them with one theme's ramp.",
+      "order": "In a single-theme chart the order is strong → mid → light; in a multi-theme chart each theme keeps its own colour on every screen.",
+      "status": "A status colour never stands alone: it always comes with an arrow, icon or line form.",
+      "line": "Line form is data status: solid verified, dashed estimated, dotted needs review.",
+      "motion": "Motion plays only on first load and stays short; with reduced motion set in the operating system it all stops."
+    }
+  },
+  "rec": {
+    "result": "{fail} errors and {warn} warnings open; {explained} findings explained, {pass} rules passed, no data for {na} rules.",
+    "resultClean": "No open findings: {pass} rules passed or explained, no data for {na} rules.",
+    "intro": "Reconciliation rules check that the same fact is written the same way across the tools: financial statements and sustainability data, facility and company, this year and last year. A warning closes once its cause is explained. An error closes only when the data is corrected, because an explanation does not make a physical contradiction true. Every result, with its values and explanation, can be exported to the auditor file.",
+    "map": "Rule map",
+    "figOpen": "Open findings",
+    "figOpenNote": "Errors and warnings across {n} rules",
+    "figFailNote": "Data must be corrected",
+    "figWarnNote": "Awaiting an explanation or a fix",
+    "figResolved": "Passed",
+    "figResolvedNote": "{n} findings closed with an explanation",
+    "anchors": "Financial anchors",
+    "netSales": "Net sales (financial statements)",
+    "netSalesHint": "Revenue in the audited income statement or annual report. Will come from the trial-balance import.",
+    "headcount": "Headcount (annual report)",
+    "headcountHint": "End of period.",
+    "tolerances": "Tolerances",
+    "tol": {
+      "match": "Same figure (U1)",
+      "matchHint": "Rounding only.",
+      "near": "Comparisons where definitions may differ (U2–U5)",
+      "nearHint": "E.g. year-end versus average headcount.",
+      "yoy": "Year-over-year change that needs an explanation (U8)",
+      "yoyHint": "Increase or decrease against the prior year.",
+      "estimated": "Estimated-data threshold (U9)",
+      "estimatedHint": "Internal threshold; regulation sets no fixed rate."
+    },
+    "later": "Rules U6–U7 (investment ↔ impact) arrive with the trial-balance import and investment data.",
+    "export": "Auditor file (CSV)",
+    "engine": "Reconciliation engine {engine} · run {date}",
+    "tools": "Data from:",
+    "tolerance": "tolerance ±{v}",
+    "note": "Explanation — {subject}",
+    "notePlaceholderWarn": "Write the reason; the warning then counts as explained.",
+    "notePlaceholderFail": "An error closes when the data is corrected; this is a note only.",
+    "autoPrior": "from app data",
+    "priorOf": "{metric}, prior year",
+    "status": {
+      "pass": "Passed",
+      "explained": "Explained",
+      "warn": "Warning",
+      "fail": "Error",
+      "na": "No data"
+    },
+    "severity": {
+      "error": "Error rule",
+      "warning": "Warning rule"
+    },
+    "col": {
+      "a": "Value",
+      "rel": "Relation",
+      "b": "Compared with",
+      "diff": "Difference",
+      "status": "Status",
+      "metric": "Metric",
+      "current": "This year",
+      "prior": "Prior year",
+      "change": "Change"
+    },
+    "csv": {
+      "rule": "Rule",
+      "severity": "Severity",
+      "check": "Check",
+      "status": "Status",
+      "a": "Value",
+      "aValue": "Value (number)",
+      "b": "Compared with",
+      "bValue": "Compared with (number)",
+      "diff": "Relative difference",
+      "tolerance": "Tolerance",
+      "note": "Explanation",
+      "items": "Phrases found"
+    },
+    "unit": {
+      "mTry": "TRY m",
+      "gj": "GJ",
+      "toe": "toe",
+      "people": "people",
+      "t": "t",
+      "tco2e": "tCO₂e",
+      "share": "",
+      "m3": "m³",
+      "rate": "",
+      "count": ""
+    },
+    "metric": {
+      "scope1": "Scope 1",
+      "scope2Location": "Scope 2 (location)",
+      "scope2Market": "Scope 2 (market)",
+      "scope3": "Scope 3",
+      "energy": "Energy consumption",
+      "water": "Water withdrawal",
+      "waste": "Total waste",
+      "revenue": "Net sales",
+      "headcount": "Headcount (year-end)",
+      "ltifr": "LTIFR"
+    },
+    "src": {
+      "anchorSales": "Net sales (financial statements)",
+      "anchorHeadcount": "Headcount (annual report)",
+      "ghgRevenue": "Inventory intensity denominator",
+      "envRevenue": "Environment indicators denominator",
+      "taxTurnover": "Taxonomy turnover total",
+      "envEnergy": "Energy indicator",
+      "invEnergy": "Fuel + electricity energy (inventory)",
+      "envRenewable": "Renewable energy indicator",
+      "invRenewable": "Certified renewable electricity (inventory)",
+      "profileToe": "Scope test energy use",
+      "envToe": "Energy indicator, toe",
+      "hrEnd": "HR year-end headcount",
+      "hrStart": "HR start-of-year headcount",
+      "profileEmployeesY1": "Scope test employees (prior year)",
+      "profileEmployeesGroup": "Group employees (scope test)",
+      "cbamExports": "CBAM goods exported to the EU",
+      "profileEuExports": "Scope test EU exports",
+      "ghgProduction": "Inventory production",
+      "etsActivity": "TR ETS activity level",
+      "etsEmissions": "TR ETS facility emissions",
+      "ghgScope1": "Inventory scope 1",
+      "profileEmissions": "Scope test annual emissions",
+      "estimated12": "Scope 1-2 estimated share",
+      "estimated3": "Scope 3 estimated share",
+      "threshold": "Threshold",
+      "current": "This year",
+      "prior": "Prior year",
+      "claimsHigh": "High-risk claims (offsetting, future pledges)",
+      "claimsOther": "Other claims (generic, absolute)",
+      "claimsText": "Report text"
+    },
+    "rules": {
+      "U1": {
+        "title": "Revenue consistency",
+        "why": "Net sales in the financial statements must be the same figure in the denominators of the inventory, the environment indicators and the taxonomy ratios. Writing one revenue differently in different places distorts intensity metrics and taxonomy ratios.",
+        "na": "At least two revenue figures are needed: financial anchor, inventory, environment indicators or taxonomy."
+      },
+      "U2": {
+        "title": "Energy completeness",
+        "why": "The energy indicator cannot be lower than inventory fuel energy plus electricity (MWh × 3.6 GJ). Renewable energy should not be below certified renewable electricity, and the scope test's toe figure should show the same consumption.",
+        "na": "No energy data in the inventory or the environment indicators."
+      },
+      "U3": {
+        "title": "Headcount consistency",
+        "why": "HR data, the annual report and the scope test should give the same headcount. Year-end versus average definitions must stay within tolerance or be explained; group headcount cannot be below the entity's.",
+        "na": "No headcount entered."
+      },
+      "U4": {
+        "title": "CBAM exports within production",
+        "why": "CBAM goods exported to the EU cannot exceed the quantity produced. The scope test's EU exports should also match the product total in the CBAM tool.",
+        "na": "No CBAM product or production quantity entered."
+      },
+      "U5": {
+        "title": "Facility within company emissions",
+        "why": "TR ETS facility emissions cannot exceed the company's scope 1 total; if they do, the facility and company boundaries contradict. The scope test's annual emissions should match the TR ETS figure.",
+        "na": "No TR ETS emissions or scope 1 data."
+      },
+      "U8": {
+        "title": "Change against the prior year",
+        "why": "Every annual change above the threshold needs an explanation; auditors look at these jumps first in analytical review. Enter prior-year values in the table. Net sales and headcount fall back to app data when left empty.",
+        "na": "No prior-year values entered."
+      },
+      "U9": {
+        "title": "Estimated-data share",
+        "why": "Shows how much of the emissions rests on estimated data. A share above the threshold is the first risk an assurance engagement examines; reduce it with measurements or supplier data, or explain it.",
+        "na": "No emissions in the inventory."
+      },
+      "U10": {
+        "title": "Green claims",
+        "why": "Phrases such as 'carbon neutral', offsetting and future pledges in the report text are high risk under Directive (EU) 2024/825. The text screened is the one in the Green-claim check.",
+        "na": "No report text entered in the Green-claim check."
+      }
     }
   }
 }

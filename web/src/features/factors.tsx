@@ -31,7 +31,7 @@ function Inner() {
   const factorCount = usable.reduce((n, s) => n + s.factors.length, 0);
 
   return (
-    <div data-family="report">
+    <div data-family="compass">
       <PageHeader title={t("nav.factors")} result={t("factors.result", { builtin: BUILTIN_SETS.length, custom: custom.length, n: factorCount })} />
       <div className="flex flex-col gap-6">
         <FiguresRow
@@ -178,7 +178,7 @@ function SetHeader({ set }: { set: FactorSet }) {
 function SetTile({ set }: { set: FactorSet }) {
   const { t } = useI18n();
   return (
-    <article className="glass flex min-w-0 flex-col gap-3 p-5">
+    <article className="glass sheet flex min-w-0 flex-col gap-3 p-5">
       <SetHeader set={set} />
       <p className="text-[12.5px] text-[var(--ink-2)]">{t(`factors.setNotes.${set.id}`)}</p>
       {set.usageNote && <p className="text-[12.5px] text-[var(--ink-3)]">{t(set.usageNote)}</p>}
@@ -205,7 +205,7 @@ function CustomSetTile({ set }: { set: FactorSet }) {
   const patch = (p: Partial<FactorSet>) => saveSet({ ...set, ...p });
 
   return (
-    <article className={cn("glass flex min-w-0 flex-col gap-4 p-5", !set.rightsConfirmed && "border-dashed")}>
+    <article className={cn("glass sheet flex min-w-0 flex-col gap-4 p-5", !set.rightsConfirmed && "border-dashed")}>
       <SetHeader set={set} />
       <div className="grid gap-3 sm:grid-cols-2">
         <TextField label={t("factors.licenceNote")} value={set.licenceNote} onChange={(v) => patch({ licenceNote: v })} hint={t("factors.licenceNoteHint")} />

@@ -1,4 +1,5 @@
-export type Family = "report" | "carbon" | "hydro" | "forest";
+/** Tool families: compass is the blue world itself; the others take a theme ramp (see data/themes.ts). */
+export type Family = "compass" | "climate" | "environment" | "people" | "reporting";
 
 export type NavItem = { id: string; href: string; family: Family };
 export type NavGroup = { id: string; family: Family; items: NavItem[] };
@@ -7,56 +8,60 @@ export type NavGroup = { id: string; family: Family; items: NavItem[] };
 export const NAV: NavGroup[] = [
   {
     id: "compass",
-    family: "report",
+    family: "compass",
     items: [
-      { id: "overview", href: "", family: "report" },
-      { id: "journey", href: "/journey", family: "report" },
-      { id: "applicability", href: "/applicability", family: "report" },
-      { id: "regulations", href: "/regulations", family: "report" },
-      { id: "factors", href: "/factors", family: "report" },
+      { id: "overview", href: "", family: "compass" },
+      { id: "journey", href: "/journey", family: "compass" },
+      { id: "reconciliation", href: "/reconciliation", family: "reporting" },
+      { id: "applicability", href: "/applicability", family: "compass" },
+      { id: "regulations", href: "/regulations", family: "compass" },
+      { id: "factors", href: "/factors", family: "compass" },
+      { id: "themes", href: "/themes", family: "compass" },
     ],
   },
   {
     id: "carbon",
-    family: "carbon",
+    family: "climate",
     items: [
-      { id: "ghg", href: "/tools/ghg", family: "carbon" },
-      { id: "cbam", href: "/tools/cbam", family: "carbon" },
-      { id: "ets", href: "/tools/ets", family: "carbon" },
-      { id: "pathway", href: "/tools/pathway", family: "carbon" },
+      { id: "ghg", href: "/tools/ghg", family: "climate" },
+      { id: "cbam", href: "/tools/cbam", family: "climate" },
+      { id: "ets", href: "/tools/ets", family: "climate" },
+      { id: "pathway", href: "/tools/pathway", family: "climate" },
     ],
   },
   {
     id: "environment",
-    family: "hydro",
+    family: "environment",
     items: [
-      { id: "environment", href: "/tools/environment", family: "hydro" },
-      { id: "taxonomy", href: "/tools/taxonomy", family: "hydro" },
+      { id: "environment", href: "/tools/environment", family: "environment" },
+      { id: "taxonomy", href: "/tools/taxonomy", family: "environment" },
     ],
   },
   {
     id: "people",
-    family: "forest",
+    family: "people",
     items: [
-      { id: "materiality", href: "/tools/materiality", family: "forest" },
-      { id: "workforce", href: "/tools/workforce", family: "forest" },
+      { id: "materiality", href: "/tools/materiality", family: "people" },
+      { id: "workforce", href: "/tools/workforce", family: "people" },
     ],
   },
   {
     id: "reporting",
-    family: "report",
+    family: "reporting",
     items: [
-      { id: "annualReport", href: "/annual-report", family: "report" },
-      { id: "templates", href: "/templates", family: "report" },
-      { id: "claims", href: "/claims", family: "report" },
-      { id: "crosswalk", href: "/crosswalk", family: "report" },
+      { id: "annualReport", href: "/annual-report", family: "reporting" },
+      { id: "templates", href: "/templates", family: "reporting" },
+      { id: "claims", href: "/claims", family: "reporting" },
+      { id: "crosswalk", href: "/crosswalk", family: "reporting" },
     ],
   },
 ];
 
-export const FAMILY_COLOR: Record<Family, string> = {
-  report: "var(--report)",
-  carbon: "var(--carbon)",
-  hydro: "var(--hydro)",
-  forest: "var(--forest)",
+/** Strong and wash tones per family, for rail bars and icon chips. */
+export const FAMILY_COLOR: Record<Family, { strong: string; wash: string }> = {
+  compass: { strong: "var(--b-600)", wash: "var(--b-100)" },
+  climate: { strong: "var(--th-climate-ink)", wash: "var(--th-climate-wash)" },
+  environment: { strong: "var(--th-nature-ink)", wash: "var(--th-nature-wash)" },
+  people: { strong: "var(--th-people-ink)", wash: "var(--th-people-wash)" },
+  reporting: { strong: "var(--th-economy-ink)", wash: "var(--th-economy-wash)" },
 };

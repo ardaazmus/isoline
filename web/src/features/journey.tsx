@@ -43,7 +43,7 @@ function Inner() {
   };
 
   return (
-    <div data-family="report">
+    <div data-family="compass">
       <PageHeader
         title={t("nav.journey")}
         result={t("journey.result", { track: t(`journey.tracks.${track}`), done, total: stages.length, next: firstOpen >= 0 ? t(`journey.${track}.${stages[firstOpen].id}.title`) : "—" })}

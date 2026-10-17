@@ -23,7 +23,7 @@ export function RegulationsPage() {
   const conf = (c: string) => (c === "official" ? "verified" : c === "secondary" ? "estimated" : "review");
 
   return (
-    <div data-family="report">
+    <div data-family="compass">
       <PageHeader title={t("nav.regulations")} result={t("reg.result", { n: next90.length, next: next90[0] ? t(`reg.events.${next90[0].id}`) : "—", date: next90[0] ? fmt.date(next90[0].date) : "" })} />
       <div className="flex flex-col gap-10">
         <Tabs
@@ -60,7 +60,7 @@ export function RegulationsPage() {
             fmtDate={fmt.date}
           />
         </Figure>
-        <div className="glass flex min-w-0 flex-col gap-3 p-5 md:p-6">
+        <div className="glass sheet flex min-w-0 flex-col gap-3 p-5 md:p-6">
           <SectionTitle>{t("reg.upcoming")}</SectionTitle>
           <div className="overflow-x-auto">
             <table className="report-table text-[14px]">

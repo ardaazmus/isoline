@@ -110,7 +110,7 @@ export function Figure({
   const [view, setView] = useState<"chart" | "table">("chart");
   const box = useRef<HTMLDivElement>(null);
   return (
-    <figure className="glass flex min-w-0 flex-col gap-4 p-5 md:p-6">
+    <figure className="glass sheet flex min-w-0 flex-col gap-4 p-5 md:p-6">
       <div className="flex flex-wrap items-end justify-between gap-x-4 gap-y-2">
         <div className="min-w-0">
           <h3 className="text-[16px] font-semibold leading-tight text-[var(--ink)]">{title}</h3>

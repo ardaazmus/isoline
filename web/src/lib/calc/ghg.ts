@@ -168,6 +168,10 @@ export type InventoryResult = {
   intensityRevenue: number;
   intensityProduct: number;
   estimatedShare: number;
+  /** Share of scope 1 + 2 (location-based) from lines marked "estimated". */
+  estimatedShareScope12: number;
+  /** Share of scope 3 from lines marked "estimated". */
+  estimatedShareScope3: number;
 };
 
 export function computeInventory(inv: Inventory): InventoryResult {
@@ -202,14 +206,17 @@ export function computeInventory(inv: Inventory): InventoryResult {
     if (el.quality === "estimated") estimated += electricityLocation(el);
   }
   energyGj += mwh * 3.6;
+  const estimated12 = estimated;
   const byCat: Record<number, number> = {};
   let s3 = 0;
+  let estimated3 = 0;
   for (const l of inv.scope3) {
     const e = scope3Emissions(l);
     byCat[l.category] = (byCat[l.category] ?? 0) + e;
     s3 += e;
-    if (l.quality === "estimated") estimated += e;
+    if (l.quality === "estimated") estimated3 += e;
   }
+  estimated += estimated3;
   const scope1 = stationary + mobile + process + fugitive;
   const totalLocation = scope1 + s2l + s3;
   return {
@@ -230,6 +237,8 @@ export function computeInventory(inv: Inventory): InventoryResult {
     intensityRevenue: inv.revenueMillionTry > 0 ? (scope1 + s2l) / inv.revenueMillionTry : 0,
     intensityProduct: inv.productionTonnes > 0 ? (scope1 + s2l) / inv.productionTonnes : 0,
     estimatedShare: totalLocation > 0 ? estimated / totalLocation : 0,
+    estimatedShareScope12: scope1 + s2l > 0 ? estimated12 / (scope1 + s2l) : 0,
+    estimatedShareScope3: s3 > 0 ? estimated3 / s3 : 0,
   };
 }
 

@@ -64,10 +64,10 @@ export const EVENTS: RegEvent[] = [
 ];
 
 export const LANES: { id: Lane; color: string }[] = [
-  { id: "tr_reporting", color: "var(--report)" },
-  { id: "tr_carbon", color: "var(--carbon)" },
-  { id: "eu_reporting", color: "var(--report-2)" },
-  { id: "eu_carbon", color: "var(--carbon-2)" },
-  { id: "eu_product", color: "var(--hydro)" },
-  { id: "global", color: "var(--forest)" },
+  { id: "tr_reporting", color: "var(--th-economy)" },
+  { id: "tr_carbon", color: "var(--th-climate)" },
+  { id: "eu_reporting", color: "var(--th-governance)" },
+  { id: "eu_carbon", color: "var(--th-energy)" },
+  { id: "eu_product", color: "var(--th-circularity)" },
+  { id: "global", color: "var(--th-valuechain)" },
 ];

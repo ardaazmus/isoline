@@ -23,7 +23,7 @@ export function TemplateLibrary() {
   const [kind, setKind] = useState<(typeof KINDS)[number]>("all");
   const list = TEMPLATES.filter((tp) => kind === "all" || tp.kind === kind);
   return (
-    <div data-family="report">
+    <div data-family="reporting">
       <PageHeader title={t("nav.templates")} result={t("tpl.result", { n: TEMPLATES.length })} />
       <div className="flex flex-col gap-8">
         <Tabs label={t("tpl.kind")} value={kind} onChange={setKind} items={KINDS.map((k) => ({ value: k, label: t(`tpl.kinds.${k}`) }))} />
@@ -32,7 +32,7 @@ export function TemplateLibrary() {
             <li key={tp.id} className="border-t border-[var(--rule)]">
               <Link href={`/${locale}/templates/${tp.id}`} className="group flex flex-col gap-2 py-5 no-underline">
                 <span className="flex items-center gap-3">
-                  <span aria-hidden className="h-[3px] w-8" style={{ background: FAMILY_COLOR[tp.family] }} />
+                  <span aria-hidden className="h-[3px] w-8" style={{ background: FAMILY_COLOR[tp.family].strong }} />
                   <span className="label">{t(`tpl.kinds.${tp.kind}`)}</span>
                 </span>
                 <span className="text-[18px] font-semibold text-[var(--ink)] group-hover:underline">{t(`tpl.${tp.id}.title`)}</span>

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { SAMPLE_CLIENT } from "@/data/sample";
-import { unlinkV2GridPicks } from "./workspace";
+import { addV4Fields, unlinkV2GridPicks } from "./workspace";
 
 describe("workspace v3 migration", () => {
   it("drops v2 grid picks from the supplier factor but keeps the typed value", () => {
@@ -14,5 +14,24 @@ describe("workspace v3 migration", () => {
   it("leaves clients without grid picks untouched", () => {
     const c = structuredClone(SAMPLE_CLIENT);
     expect(unlinkV2GridPicks([c])[0]).toBe(c);
+  });
+});
+
+describe("workspace v4 migration", () => {
+  it("gives the sample client its reconciliation demo and other clients empty defaults", () => {
+    const sample = structuredClone(SAMPLE_CLIENT) as Partial<typeof SAMPLE_CLIENT>;
+    delete sample.reconciliation;
+    delete sample.claims;
+    const other = { ...structuredClone(sample), id: "c-x", name: "Müşteri", sample: false };
+    const [s, o] = addV4Fields([sample as typeof SAMPLE_CLIENT, other as typeof SAMPLE_CLIENT]);
+    expect(s.reconciliation).toEqual(SAMPLE_CLIENT.reconciliation);
+    expect(s.claims).toEqual(SAMPLE_CLIENT.claims);
+    expect(o.reconciliation.anchors).toEqual({ netSalesMillionTry: null, headcount: null });
+    expect(o.claims.text).toBe("");
+  });
+  it("keeps existing reconciliation data", () => {
+    const c = structuredClone(SAMPLE_CLIENT);
+    c.reconciliation.notes = { "U8.water": "Yeni soğutma kulesi" };
+    expect(addV4Fields([c])[0].reconciliation.notes).toEqual({ "U8.water": "Yeni soğutma kulesi" });
   });
 });

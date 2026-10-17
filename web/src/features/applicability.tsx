@@ -37,9 +37,9 @@ function Inner() {
 
   return (
     <>
-      <PageHeader family="report" title={t("nav.applicability")} result={t("app.result", { required, indirect, year: p.reportingYear })} actions={<ToolActions tool="profile" />} />
+      <PageHeader family="compass" title={t("nav.applicability")} result={t("app.result", { required, indirect, year: p.reportingYear })} actions={<ToolActions tool="profile" />} />
       <ToolLayout
-        family="report"
+        family="compass"
         inputs={
           <>
             <InputGroup title={t("app.company")}>

@@ -8,6 +8,8 @@ import { FiguresRow, InputGroup, PageHeader, ToolLayout } from "@/components/she
 import { Figure, LegendItem, SourceNote } from "@/components/figure";
 import { ShareBar, StackedBars } from "@/components/charts";
 import { Button, NumberField, StatusMark, TextField, Toggle } from "@/components/ui";
+import { GroupRow, InlineBar, ThemeIcon } from "@/components/data";
+import { th, type ThemeId } from "@/data/themes";
 import { Hydrated, NoteList, SectionTitle, ToolActions, useTool } from "./common";
 
 // ---------------------------------------------------------------- Environment
@@ -31,13 +33,13 @@ function EnvInner() {
   return (
     <>
       <PageHeader
-        family="hydro"
+        family="environment"
         title={t("nav.environment")}
         result={t("env.result", { toe: fmt.compact(r.energyToe), ren: fmt.percent(r.renewableShare), rec: fmt.percent(r.wasteRecoveryRate) })}
         actions={<ToolActions tool="indicators" />}
       />
       <ToolLayout
-        family="hydro"
+        family="environment"
         inputs={
           <>
             <InputGroup title={t("env.energy")}>
@@ -68,13 +70,15 @@ function EnvInner() {
           ]}
         />
         <div className="grid gap-10 lg:grid-cols-3">
-          {[
-            { title: t("env.energy"), parts: [{ value: r.renewableShare, color: "var(--hydro)", label: t("env.renewableGj") }], foot: t("env.energyFoot", { ints: fmt.number(r.energyIntensity, 0) }) },
-            { title: t("env.water"), parts: [{ value: e.waterWithdrawalM3 ? r.waterConsumption / e.waterWithdrawalM3 : 0, color: "var(--hydro)", label: t("env.consumption") }, { value: e.waterStressShare, color: "var(--hydro-2)", label: t("env.waterStressShare"), hatch: true }], foot: t("env.waterFoot", { ints: fmt.number(r.waterIntensity, 0) }) },
-            { title: t("env.waste"), parts: [{ value: r.wasteRecoveryRate, color: "var(--hydro)", label: t("env.wasteRecoveredT") }], foot: t("env.wasteFoot", { haz: fmt.percent(r.hazardousShare) }) },
-          ].map((b) => (
-            <div key={b.title} className="glass flex min-w-0 flex-col gap-3 p-5 md:p-6">
-              <SectionTitle>{b.title}</SectionTitle>
+          {(
+            [
+              { theme: "energy", title: t("env.energy"), parts: [{ value: r.renewableShare, color: th("energy"), label: t("env.renewableGj") }], foot: t("env.energyFoot", { ints: fmt.number(r.energyIntensity, 0) }) },
+              { theme: "water", title: t("env.water"), parts: [{ value: e.waterWithdrawalM3 ? r.waterConsumption / e.waterWithdrawalM3 : 0, color: th("water"), label: t("env.consumption") }, { value: e.waterStressShare, color: th("water", "ink"), label: t("env.waterStressShare"), hatch: true }], foot: t("env.waterFoot", { ints: fmt.number(r.waterIntensity, 0) }) },
+              { theme: "circularity", title: t("env.waste"), parts: [{ value: r.wasteRecoveryRate, color: th("circularity"), label: t("env.wasteRecoveredT") }], foot: t("env.wasteFoot", { haz: fmt.percent(r.hazardousShare) }) },
+            ] satisfies { theme: ThemeId; title: string; parts: { value: number; color: string; label: string; hatch?: boolean }[]; foot: string }[]
+          ).map((b) => (
+            <div key={b.title} className="glass sheet lift group flex min-w-0 flex-col gap-3 p-5 md:p-6">
+              <SectionTitle aside={<ThemeIcon theme={b.theme} />}>{b.title}</SectionTitle>
               <ShareBar parts={b.parts} label={b.title} />
               <div className="flex flex-col gap-1 text-[12.5px] text-[var(--ink-2)]">
                 {b.parts.map((p) => (
@@ -85,7 +89,12 @@ function EnvInner() {
             </div>
           ))}
         </div>
-        {r.energyManagerRequired && <StatusMark kind="required" label={t("env.energyManager")} />}
+        {r.energyManagerRequired && (
+          <div className="min-w-0 [&>span]:whitespace-normal">
+            <StatusMark kind="required" label={t("env.energyManager")} />
+          </div>
+        )}
+        <div className="glass sheet flex min-w-0 flex-col gap-4 overflow-x-auto p-5 md:p-6">
         <table className="report-table text-[14px]">
           <thead>
             <tr>
@@ -95,26 +104,55 @@ function EnvInner() {
               <th>{t("env.refs")}</th>
             </tr>
           </thead>
-          <tbody>
-            {[
-              [t("env.figEnergy"), fmt.number(r.energyToe), "TEP", "GRI 302-1 / 103 · ESRS E1-5 · TSRS 2 (sektör)"],
-              [t("env.energyMwh"), fmt.number(r.energyMwh), "MWh", "GRI 302-1 / 103 · ESRS E1-5"],
-              [t("env.figRenewable"), fmt.percent(r.renewableShare), "%", "ESRS E1-5"],
-              [t("env.waterWithdrawalM3"), fmt.number(e.waterWithdrawalM3), "m³", "GRI 303-3 · ESRS E3-4"],
-              [t("env.consumption"), fmt.number(r.waterConsumption), "m³", "GRI 303-5 · ESRS E3-4"],
-              [t("env.wasteTotalT"), fmt.number(e.wasteTotalT), "t", "GRI 306-3 · ESRS E5-5"],
-              [t("env.figRecovery"), fmt.percent(r.wasteRecoveryRate), "%", "GRI 306-4 · ESRS E5-5"],
-            ].map((row) => (
-              <tr key={row[0]}>
-                <td>{row[0]}</td>
-                <td className="r num">{row[1]}</td>
-                <td>{row[2]}</td>
-                <td className="text-[13px] text-[var(--ink-3)]">{row[3]}</td>
-              </tr>
-            ))}
-          </tbody>
+          {(
+            [
+              {
+                theme: "energy",
+                title: t("env.energy"),
+                rows: [
+                  [t("env.figEnergy"), fmt.number(r.energyToe), "TEP", "GRI 302-1 / 103 · ESRS E1-5 · TSRS 2 (sektör)"],
+                  [t("env.energyMwh"), fmt.number(r.energyMwh), "MWh", "GRI 302-1 / 103 · ESRS E1-5"],
+                  [t("env.figRenewable"), fmt.percent(r.renewableShare), "%", "ESRS E1-5", r.renewableShare],
+                ],
+              },
+              {
+                theme: "water",
+                title: t("env.water"),
+                rows: [
+                  [t("env.waterWithdrawalM3"), fmt.number(e.waterWithdrawalM3), "m³", "GRI 303-3 · ESRS E3-4"],
+                  [t("env.consumption"), fmt.number(r.waterConsumption), "m³", "GRI 303-5 · ESRS E3-4", e.waterWithdrawalM3 ? r.waterConsumption / e.waterWithdrawalM3 : 0],
+                ],
+              },
+              {
+                theme: "circularity",
+                title: t("env.waste"),
+                rows: [
+                  [t("env.wasteTotalT"), fmt.number(e.wasteTotalT), "t", "GRI 306-3 · ESRS E5-5"],
+                  [t("env.figRecovery"), fmt.percent(r.wasteRecoveryRate), "%", "GRI 306-4 · ESRS E5-5", r.wasteRecoveryRate],
+                ],
+              },
+            ] satisfies { theme: ThemeId; title: string; rows: [string, string, string, string, number?][] }[]
+          ).map((g, gi) => (
+            <tbody key={g.theme}>
+              <GroupRow theme={g.theme} colSpan={4} title={g.title} />
+              {g.rows.map((row, i) => (
+                <tr key={row[0]} className="anim-row" style={{ ["--i" as string]: gi * 3 + i }}>
+                  <td>{row[0]}</td>
+                  <td className="r num">
+                    <span className="inline-flex items-center justify-end gap-3">
+                      {row[4] !== undefined && <InlineBar value={row[4]} color={th(g.theme)} label={`${row[0]}: ${row[1]}`} index={i} width={72} />}
+                      {row[1]}
+                    </span>
+                  </td>
+                  <td>{row[2]}</td>
+                  <td className="text-[13px] text-[var(--ink-3)]">{row[3]}</td>
+                </tr>
+              ))}
+            </tbody>
+          ))}
         </table>
         <SourceNote meta={meta} />
+        </div>
         <NoteList prefix="env.notes" keys={["toe", "water", "waste", "refs"]} />
       </ToolLayout>
     </>
@@ -141,13 +179,13 @@ function WorkInner() {
   return (
     <>
       <PageHeader
-        family="forest"
+        family="people"
         title={t("nav.workforce")}
         result={t("work.result", { ltifr: fmt.number(s.ltifr, 2), gap: fmt.percent(w.payGap), train: fmt.number(w.trainingPerEmployee, 1) })}
         actions={<ToolActions tool="indicators" />}
       />
       <ToolLayout
-        family="forest"
+        family="people"
         inputs={
           <>
             <InputGroup title={t("work.safety")}>
@@ -188,8 +226,8 @@ function WorkInner() {
           meta={meta}
           legend={
             <>
-              <LegendItem kind="swatch" color="var(--forest)" label={t("work.women")} />
-              <LegendItem kind="swatch" color="var(--forest-3)" label={t("work.men")} />
+              <LegendItem kind="swatch" color="var(--th-people)" label={t("work.women")} />
+              <LegendItem kind="swatch" color="var(--th-people-3)" label={t("work.men")} />
             </>
           }
           table={
@@ -213,37 +251,52 @@ function WorkInner() {
             categories={[t("work.all"), t("work.mgmt")]}
             yFormat={(v) => fmt.percent(v, 0)}
             stacks={[
-              { id: "w", label: t("work.women"), values: [w.womenShare, w.womenManagerShare], color: "var(--forest)" },
-              { id: "m", label: t("work.men"), values: [1 - w.womenShare, 1 - w.womenManagerShare], color: "var(--forest-3)" },
+              { id: "w", label: t("work.women"), values: [w.womenShare, w.womenManagerShare], color: "var(--th-people)" },
+              { id: "m", label: t("work.men"), values: [1 - w.womenShare, 1 - w.womenManagerShare], color: "var(--th-people-3)" },
             ]}
           />
         </Figure>
-        <table className="report-table text-[14px]">
-          <thead>
-            <tr>
-              <th>{t("env.indicator")}</th>
-              <th className="r">{t("env.value")}</th>
-              <th>{t("env.refs")}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {[
-              [t("work.ltifrRow"), fmt.number(s.ltifr, 2), "GRI 403-9 · ESRS S1-14"],
-              [t("work.trirRow"), fmt.number(s.trir, 2), "GRI 403-9"],
-              [t("work.severity"), fmt.number(s.severity, 1), "GRI 403-9"],
-              [t("work.fatalityRate"), fmt.number(s.fatalityRate, 2), "GRI 403-9 · ESRS S1-14"],
-              [t("work.trainingPerEmployee"), fmt.number(w.trainingPerEmployee, 1), "GRI 404-1 · ESRS S1-13"],
-              [t("work.payGapLabel"), fmt.percent(w.payGap), "GRI 405-2 · ESRS S1-16"],
-              [t("work.turnoverLabel"), fmt.percent(w.turnover), "GRI 401-1 · ESRS S1-6"],
-            ].map((row) => (
-              <tr key={row[0]}>
-                <td>{row[0]}</td>
-                <td className="r num">{row[1]}</td>
-                <td className="text-[13px] text-[var(--ink-3)]">{row[2]}</td>
+        <div className="glass sheet min-w-0 overflow-x-auto p-5 md:p-6">
+          <table className="report-table text-[14px]">
+            <thead>
+              <tr>
+                <th>{t("env.indicator")}</th>
+                <th className="r">{t("env.value")}</th>
+                <th>{t("env.refs")}</th>
               </tr>
+            </thead>
+            {[
+              {
+                title: t("work.safety"),
+                rows: [
+                  [t("work.ltifrRow"), fmt.number(s.ltifr, 2), "GRI 403-9 · ESRS S1-14"],
+                  [t("work.trirRow"), fmt.number(s.trir, 2), "GRI 403-9"],
+                  [t("work.severity"), fmt.number(s.severity, 1), "GRI 403-9"],
+                  [t("work.fatalityRate"), fmt.number(s.fatalityRate, 2), "GRI 403-9 · ESRS S1-14"],
+                ],
+              },
+              {
+                title: t("work.people"),
+                rows: [
+                  [t("work.trainingPerEmployee"), fmt.number(w.trainingPerEmployee, 1), "GRI 404-1 · ESRS S1-13"],
+                  [t("work.payGapLabel"), fmt.percent(w.payGap), "GRI 405-2 · ESRS S1-16"],
+                  [t("work.turnoverLabel"), fmt.percent(w.turnover), "GRI 401-1 · ESRS S1-6"],
+                ],
+              },
+            ].map((g, gi) => (
+              <tbody key={g.title}>
+                <GroupRow theme="people" colSpan={3} title={g.title} />
+                {g.rows.map((row, i) => (
+                  <tr key={row[0]} className="anim-row" style={{ ["--i" as string]: gi * 4 + i }}>
+                    <td>{row[0]}</td>
+                    <td className="r num">{row[1]}</td>
+                    <td className="text-[13px] text-[var(--ink-3)]">{row[2]}</td>
+                  </tr>
+                ))}
+              </tbody>
             ))}
-          </tbody>
-        </table>
+          </table>
+        </div>
         <NoteList prefix="work.notes" keys={["bases", "payGap", "headcount"]} />
       </ToolLayout>
     </>
@@ -270,13 +323,13 @@ function TaxInner() {
   return (
     <>
       <PageHeader
-        family="hydro"
+        family="environment"
         title={t("nav.taxonomy")}
         result={t("tax.result", { turnover: fmt.percent(k.turnover.aligned), capex: fmt.percent(k.capex.aligned) })}
         actions={<ToolActions tool="taxonomy" />}
       />
       <ToolLayout
-        family="hydro"
+        family="environment"
         inputs={
           <>
             <InputGroup title={t("tax.totals")}>
@@ -339,10 +392,10 @@ function TaxInner() {
           meta={meta}
           legend={
             <>
-              <LegendItem kind="swatch" color="var(--hydro)" label={t("tax.legendAligned")} />
-              <LegendItem kind="swatch" color="var(--hydro-3)" label={t("tax.legendEligibleNotAligned")} />
+              <LegendItem kind="swatch" color="var(--th-nature)" label={t("tax.legendAligned")} />
+              <LegendItem kind="swatch" color="var(--th-nature-3)" label={t("tax.legendEligibleNotAligned")} />
               <LegendItem kind="swatch" color="var(--ink-3)" label={t("tax.legendNotAssessed")} />
-              <LegendItem kind="swatch" color="var(--paper-3)" label={t("tax.legendNotEligible")} />
+              <LegendItem kind="swatch" color="var(--data-other-3)" label={t("tax.legendNotEligible")} />
             </>
           }
           csv={{ header: ["kpi", "aligned", "eligible_not_aligned", "not_assessed", "not_eligible"], rows: keys.map((kk) => [kk, k[kk].aligned.toFixed(4), (k[kk].eligible - k[kk].aligned).toFixed(4), k[kk].notAssessed.toFixed(4), k[kk].notEligible.toFixed(4)]) }}
@@ -377,10 +430,10 @@ function TaxInner() {
             categories={keys.map((kk) => t(`tax.${kk}`))}
             yFormat={(v) => fmt.percent(v, 0)}
             stacks={[
-              { id: "al", label: t("tax.legendAligned"), values: keys.map((kk) => k[kk].aligned), color: "var(--hydro)" },
-              { id: "el", label: t("tax.legendEligibleNotAligned"), values: keys.map((kk) => k[kk].eligible - k[kk].aligned), color: "var(--hydro-3)" },
+              { id: "al", label: t("tax.legendAligned"), values: keys.map((kk) => k[kk].aligned), color: "var(--th-nature)" },
+              { id: "el", label: t("tax.legendEligibleNotAligned"), values: keys.map((kk) => k[kk].eligible - k[kk].aligned), color: "var(--th-nature-3)" },
               { id: "na", label: t("tax.legendNotAssessed"), values: keys.map((kk) => k[kk].notAssessed), color: "var(--ink-3)", hatch: true },
-              { id: "ne", label: t("tax.legendNotEligible"), values: keys.map((kk) => k[kk].notEligible), color: "var(--paper-3)" },
+              { id: "ne", label: t("tax.legendNotEligible"), values: keys.map((kk) => k[kk].notEligible), color: "var(--data-other-3)" },
             ]}
           />
         </Figure>

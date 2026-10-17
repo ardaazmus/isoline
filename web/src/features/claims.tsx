@@ -1,34 +1,47 @@
 "use client";
 
 import { useMemo, useState, type ReactNode } from "react";
-import { Eraser } from "lucide-react";
+import { Eraser, FileText } from "lucide-react";
 import { useI18n } from "@/i18n/provider";
 import { CLAIM_LANGS, countByRule, screenClaims, type ClaimHit, type ClaimRule } from "@/lib/claims";
 import { FiguresRow, InputGroup, PageHeader, ToolLayout } from "@/components/shell";
 import { SourceNote } from "@/components/figure";
 import { Button, Callout, SelectField, StatusMark, cn } from "@/components/ui";
-import { SectionTitle } from "./common";
+import { Hydrated, SectionTitle, useTool } from "./common";
 
 const RULES: ClaimRule[] = ["offset", "future", "absolute", "generic"];
 const TONE: Record<ClaimRule, "crit" | "warn"> = { offset: "crit", future: "crit", absolute: "warn", generic: "warn" };
 
 export function ClaimsTool() {
+  return (
+    <Hydrated>
+      <Inner />
+    </Hydrated>
+  );
+}
+
+function Inner() {
   const { t, locale } = useI18n();
-  const [lang, setLang] = useState(CLAIM_LANGS.includes(locale) ? locale : "tr");
-  const [text, setText] = useState(() => t("claims.sample"));
+  // The text is stored on the client so reconciliation rule U10 screens the same text.
+  const [claims, setClaims] = useTool("claims");
+  const uiLang = CLAIM_LANGS.includes(locale) ? locale : "tr";
+  const text = claims?.text ?? "";
+  const lang = claims?.lang && CLAIM_LANGS.includes(claims.lang) ? claims.lang : uiLang;
+  const setText = (v: string) => setClaims({ text: v, lang });
+  const setLang = (v: string) => setClaims({ text, lang: v });
   const [focus, setFocus] = useState<ClaimRule | null>(null);
   const hits = useMemo(() => screenClaims(text, lang), [text, lang]);
   const counts = countByRule(hits);
   const shown = focus ? hits.filter((h) => h.rule === focus) : hits;
 
   return (
-    <div data-family="report">
+    <div data-family="reporting">
       <PageHeader
         title={t("nav.claims")}
         result={hits.length ? t("claims.result", { n: hits.length, high: counts.offset + counts.future }) : t("claims.clean")}
       />
       <ToolLayout
-        family="report"
+        family="reporting"
         inputs={
           <>
             <InputGroup title={t("claims.input")}>
@@ -39,10 +52,16 @@ export function ClaimsTool() {
                 </label>
                 <textarea id="claims-text" className="field-input min-h-[320px] resize-y leading-relaxed" value={text} onChange={(e) => setText(e.target.value)} />
                 <p className="text-[12px] text-[var(--ink-3)]">{t("claims.textHint")}</p>
+                <p className="text-[12px] text-[var(--ink-3)]">{t("claims.savedHint")}</p>
               </div>
-              <Button variant="ghost" size="sm" className="self-start" onClick={() => setText("")}>
-                <Eraser size={14} aria-hidden /> {t("claims.clear")}
-              </Button>
+              <div className="flex flex-wrap gap-2">
+                <Button variant="ghost" size="sm" onClick={() => setText("")} disabled={!text}>
+                  <Eraser size={14} aria-hidden /> {t("claims.clear")}
+                </Button>
+                <Button variant="ghost" size="sm" onClick={() => setClaims({ text: t("claims.sample"), lang: uiLang })}>
+                  <FileText size={14} aria-hidden /> {t("claims.loadSample")}
+                </Button>
+              </div>
             </InputGroup>
           </>
         }

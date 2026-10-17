@@ -15,7 +15,7 @@ import { Button, Tabs } from "@/components/ui";
 import { Hydrated, SectionTitle, useTool } from "./common";
 
 const STATUSES: ArStatus[] = ["todo", "draft", "review", "approved", "na"];
-const STATUS_COLOR: Record<ArStatus, string> = { todo: "var(--paper-3)", draft: "var(--report-2)", review: "var(--warn)", approved: "var(--ink)", na: "var(--rule)" };
+const STATUS_COLOR: Record<ArStatus, string> = { todo: "var(--paper-3)", draft: "var(--b-400)", review: "var(--warn)", approved: "var(--ink)", na: "var(--rule)" };
 
 export function AnnualReportTool() {
   return (
@@ -63,7 +63,7 @@ function Inner() {
   };
 
   return (
-    <div data-family="report">
+    <div data-family="reporting">
       <PageHeader
         title={t("nav.annualReport")}
         result={t("ar.result", { done: counts.approved, total: applicable, pct: fmt.percent(done, 0) })}
@@ -91,7 +91,7 @@ function Inner() {
         />
         <ShareBar label={t("ar.progress")} parts={STATUSES.filter((s) => s !== "na").reverse().map((s) => ({ value: applicable ? counts[s] / applicable : 0, color: STATUS_COLOR[s], label: t(`ar.status.${s}`) }))} />
         {groups.map((g) => (
-          <section key={g} className="flex flex-col gap-2">
+          <section key={g} className="glass sheet flex min-w-0 flex-col gap-2 p-5 md:p-6">
             <SectionTitle>{t(`ar.groups.${g}`)}</SectionTitle>
             <div className="overflow-x-auto">
               <table className="report-table text-[14px]">
@@ -106,8 +106,8 @@ function Inner() {
                 <tbody>
                   {items
                     .filter((i) => i.group === g)
-                    .map((i) => (
-                      <tr key={i.id}>
+                    .map((i, k) => (
+                      <tr key={i.id} className="anim-row" style={{ ["--i" as string]: k }}>
                         <td>
                           <span className={st(i.id) === "na" ? "text-[var(--ink-3)] line-through" : "font-medium"}>{t(`ar.items.${i.id}`)}</span>
                           <span className="mt-0.5 block text-[12.5px] text-[var(--ink-3)]">{t(`ar.hints.${i.id}`)}</span>

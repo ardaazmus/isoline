@@ -12,12 +12,14 @@ import {
   Factory,
   FileStack,
   Flame,
+  GitCompareArrows,
   Grid2x2Check,
   MessageSquareWarning,
   Library,
   LayoutDashboard,
   Menu,
   Network,
+  Palette,
   Route,
   Scale,
   Ship,
@@ -31,6 +33,7 @@ import { LOCALES } from "@/i18n/generated";
 import { FAMILY_COLOR, NAV, type Family } from "@/data/nav";
 import { useActiveClient, useHydrated, useWorkspace } from "@/store/workspace";
 import { cn, SampleFlag } from "./ui";
+import { CountUp } from "./data";
 
 const ICONS: Record<string, LucideIcon> = {
   overview: LayoutDashboard,
@@ -50,6 +53,8 @@ const ICONS: Record<string, LucideIcon> = {
   crosswalk: Network,
   claims: MessageSquareWarning,
   factors: Library,
+  themes: Palette,
+  reconciliation: GitCompareArrows,
 };
 
 export const BRAND = "Isoline";
@@ -162,7 +167,7 @@ function Rail({ open, onClose }: { open: boolean; onClose: () => void }) {
         {NAV.map((g) => (
           <div key={g.id} className="mb-4">
             <div className="mb-1.5 flex items-center gap-2.5 px-5">
-              <span aria-hidden className="h-[3px] rounded-full" style={{ width: `${8 + (g.items.length / total) * 72}px`, background: FAMILY_COLOR[g.family] }} />
+              <span aria-hidden className="h-[3px] rounded-full" style={{ width: `${8 + (g.items.length / total) * 72}px`, background: FAMILY_COLOR[g.family].strong }} />
               <span className="label">{t(`nav.group.${g.id}`)}</span>
             </div>
             <ul className="px-2.5">
@@ -177,11 +182,15 @@ function Rail({ open, onClose }: { open: boolean; onClose: () => void }) {
                       onClick={onClose}
                       aria-current={on ? "page" : undefined}
                       className={cn(
-                        "flex items-center gap-3 rounded-[11px] px-2.5 py-[7px] text-[14px] no-underline transition-colors",
+                        "group flex items-center gap-3 rounded-[11px] px-2.5 py-[7px] text-[14px] no-underline transition-colors",
                         on ? "bg-[var(--paper)] font-semibold text-[var(--ink)] shadow-[0_8px_20px_-14px_rgba(31,52,160,0.7)]" : "text-[var(--ink-2)] hover:bg-[color-mix(in_srgb,var(--paper)_60%,transparent)] hover:text-[var(--ink)]",
                       )}
                     >
-                      <span className={cn("grid h-7 w-7 shrink-0 place-items-center rounded-[8px]", on ? "text-white" : "")} style={{ background: on ? FAMILY_COLOR[it.family as Family] : "color-mix(in srgb, var(--b-100) 80%, transparent)", color: on ? "#fff" : FAMILY_COLOR[it.family as Family] }}>
+                      <span
+                        className={cn("th-icon grid h-7 w-7 shrink-0 place-items-center rounded-[8px] transition-colors duration-150", on ? "text-white" : "")}
+                        data-motion="nudge"
+                        style={{ background: on ? FAMILY_COLOR[it.family as Family].strong : FAMILY_COLOR[it.family as Family].wash, color: on ? "#fff" : FAMILY_COLOR[it.family as Family].strong }}
+                      >
                         <Icon size={15} strokeWidth={1.9} aria-hidden />
                       </span>
                       {t(`nav.${it.id}`)}
@@ -214,7 +223,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 }
 
 /** Cobalt grain band: tool name, the one-sentence result that moves with the data, actions. */
-export function PageHeader({ title, result, actions, family = "report", aside }: { title: string; result?: ReactNode; actions?: ReactNode; family?: Family; aside?: ReactNode }) {
+export function PageHeader({ title, result, actions, family = "compass", aside }: { title: string; result?: ReactNode; actions?: ReactNode; family?: Family; aside?: ReactNode }) {
   return (
     <header className="band mb-6 flex flex-col gap-5 p-6 md:p-8 lg:flex-row lg:items-end lg:justify-between" data-family={family}>
       <div className="min-w-0">
@@ -255,8 +264,9 @@ function MiniBars({ values, mark, light }: { values: number[]; mark?: number; li
       {values.map((v, i) => (
         <span
           key={i}
-          className="flex-1 rounded-[2px]"
+          className="anim-bar flex-1 rounded-[2px]"
           style={{
+            ["--i" as string]: i,
             height: `${Math.max(6, (Math.abs(v) / max) * 100)}%`,
             background: light ? (i === mark ? "#fff" : "rgba(255,255,255,0.45)") : i === mark ? "var(--fam-solid, var(--b-600))" : "color-mix(in srgb, var(--fam-solid, var(--b-600)) 28%, transparent)",
           }}
@@ -275,15 +285,15 @@ export function FiguresRow({ items, pulseKey }: { items: { label: string; value:
         return (
           <div
             key={it.label}
-            className={cn("glass flex min-w-0 flex-col gap-2 p-4 md:p-5", lead && "border-transparent text-white")}
-            style={lead ? { background: "linear-gradient(150deg, var(--fam-solid, #2f4fe0) 0%, color-mix(in srgb, var(--fam-solid, #2f4fe0) 55%, var(--fam-2, #7f9cff)) 100%)" } : undefined}
+            className={cn("glass flex min-w-0 flex-col gap-2 p-4 md:p-5", lead ? "border-transparent text-white" : "sheet")}
+            style={lead ? { background: "linear-gradient(150deg, var(--fam-solid, #2f4fe0) 0%, color-mix(in srgb, var(--fam-solid, #2f4fe0) 62%, var(--fam, #4f6ef0)) 100%)" } : undefined}
           >
             <span className={cn("text-[12.5px] font-medium", lead ? "text-white/80" : "text-[var(--ink-3)]")}>{it.label}</span>
             <span
               className="figure-num whitespace-nowrap text-[28px] @md:text-[32px] @5xl:text-[38px]"
               style={{ color: lead ? "#fff" : it.tone === "crit" ? "var(--crit)" : it.tone === "ok" ? "var(--ok)" : it.tone === "fam" ? "var(--fam, var(--ink))" : "var(--ink)" }}
             >
-              {it.value}
+              <CountUp text={it.value} />
             </span>
             {lead && !it.trend && <span key={pulseKey} aria-hidden className="rule-draw block h-[2px] w-12 rounded-full bg-white/80" />}
             {it.trend && <MiniBars values={it.trend} mark={it.mark} light={lead} />}

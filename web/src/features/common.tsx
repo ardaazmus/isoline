@@ -80,7 +80,7 @@ export function NoteList({ keys, prefix }: { keys: string[]; prefix: string }) {
 
 export function SectionTitle({ children, aside }: { children: ReactNode; aside?: ReactNode }) {
   return (
-    <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-[var(--rule)] pb-2">
+    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--rule)] pb-2">
       <h2 className="text-[18px] font-semibold text-[var(--ink)]">{children}</h2>
       {aside}
     </div>

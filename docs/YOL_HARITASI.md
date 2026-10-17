@@ -17,6 +17,8 @@ Tamamlanan (17.10.2026): birincil kaynak doğrulaması ([DOGRULAMA_2026-10.md](D
 
 Tamamlanan (18.10.2026): faktör kütüphanesi ve "kendi faktörünü getir" modülü; resmi SKDM varsayılan değerleri (Türkiye, 2026/1740, toplam sütunu, "diğer ülkeler" kuralıyla 260 satır); EEA ENER038 2024 şebeke yoğunlukları (27 üye ülke ve AB-27); Türkiye dışındaki tesisler için konum bazlı şebeke faktörü. Ham kaynaklar ve SHA-256 özetleri: [kaynak-veri/](kaynak-veri/README.md).
 
+Tamamlanan (18.10.2026): uzlaştırma kuralları v1 tarayıcıda (U1–U5, U8–U10; motor `web/src/lib/reconcile.ts`, ekran "Uzlaştırma"). Kuralların kimliği, ciddiyeti, toleransı ve dayanağı var. Her sonuç değerleri ve açıklamasıyla CSV/JSON olarak dışa aktarılıyor. Yeşil iddia metni artık müşteriye kaydediliyor ve U10 aynı metni denetliyor.
+
 Kod dışında yapılacak iş:
 - Uzman teyitleri.
 - IEA lisans görüşü.

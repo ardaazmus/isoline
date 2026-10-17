@@ -35,7 +35,7 @@ function Inner() {
   return (
     <>
       <PageHeader
-        family="carbon"
+        family="climate"
         title={t("nav.ets")}
         result={
           !inEts(cat)
@@ -45,7 +45,7 @@ function Inner() {
         actions={<ToolActions tool="ets" />}
       />
       <ToolLayout
-        family="carbon"
+        family="climate"
         inputs={
           <>
             <InputGroup title={t("ets.installation")}>
@@ -98,8 +98,8 @@ function Inner() {
           meta={meta}
           legend={
             <>
-              <LegendItem kind="swatch" color="var(--carbon-3)" label={t("ets.legendAllocation")} />
-              <LegendItem kind="swatch" color="var(--carbon)" label={t("ets.legendDeficit")} />
+              <LegendItem kind="swatch" color="var(--th-climate-3)" label={t("ets.legendAllocation")} />
+              <LegendItem kind="swatch" color="var(--th-climate)" label={t("ets.legendDeficit")} />
               <LegendItem color="var(--ink)" label={t("ets.legendEmissions")} />
             </>
           }
@@ -139,14 +139,14 @@ function Inner() {
             categories={rows.map((r) => String(r.year))}
             yFormat={(v) => fmt.compact(v)}
             stacks={[
-              { id: "alloc", label: t("ets.legendAllocation"), values: rows.map((r) => Math.min(r.allocation, r.emissions)), color: "var(--carbon-3)" },
-              { id: "def", label: t("ets.legendDeficit"), values: rows.map((r) => r.deficit), color: "var(--carbon)" },
+              { id: "alloc", label: t("ets.legendAllocation"), values: rows.map((r) => Math.min(r.allocation, r.emissions)), color: "var(--th-climate-3)" },
+              { id: "def", label: t("ets.legendDeficit"), values: rows.map((r) => r.deficit), color: "var(--th-climate)" },
             ]}
             overlay={[{ id: "em", label: t("ets.legendEmissions"), values: rows.map((r) => r.emissions), color: "var(--ink)" }]}
           />
         </Figure>
         <div className="grid gap-6 lg:grid-cols-2">
-          <div className="glass flex min-w-0 flex-col gap-3 p-5 md:p-6">
+          <div className="glass sheet flex min-w-0 flex-col gap-3 p-5 md:p-6">
             <SectionTitle>{t("common.keyDates")}</SectionTitle>
             <KeyDates
               dates={[
@@ -159,7 +159,7 @@ function Inner() {
               ]}
             />
           </div>
-          <div className="glass flex min-w-0 flex-col gap-3 p-5 md:p-6">
+          <div className="glass sheet flex min-w-0 flex-col gap-3 p-5 md:p-6">
             <SectionTitle>{t("common.notes")}</SectionTitle>
             <NoteList prefix="ets.notes" keys={["formula", "pilot", "penalty", "pilotDiscount", "cbamLink"]} />
           </div>

@@ -7,9 +7,12 @@ import { FiguresRow, InputGroup, PageHeader, ToolLayout } from "@/components/she
 import { Figure, LegendItem } from "@/components/figure";
 import { MaterialityMatrix } from "@/components/charts";
 import { NumberField, StatusMark, Toggle } from "@/components/ui";
+import { PillarLegend, ScoreScale, ThemeIcon, ThemeRing } from "@/components/data";
+import { ESRS_THEME, PILLAR_THEME, th, type Pillar, type ThemeId } from "@/data/themes";
 import { Hydrated, NoteList, SectionTitle, ToolActions, useTool } from "./common";
 
-const TOPIC_COLOR: Record<string, string> = { E: "var(--hydro)", S: "var(--forest)", G: "var(--report)" };
+const pillarOf = (id: string): Pillar => (id[0] === "E" || id[0] === "S" || id[0] === "G" ? id[0] : "X");
+const themeOf = (id: string): ThemeId => ESRS_THEME[id] ?? PILLAR_THEME[pillarOf(id)];
 
 export function MaterialityTool() {
   return (
@@ -34,13 +37,13 @@ function Inner() {
   return (
     <>
       <PageHeader
-        family="forest"
+        family="people"
         title={t("nav.materiality")}
         result={t("mat.result", { n: material.length, total: m.topics.length, double: scored.filter((s) => s.c.kind === "double").length })}
         actions={<ToolActions tool="materiality" />}
       />
       <ToolLayout
-        family="forest"
+        family="people"
         inputs={
           <>
             <InputGroup title={t("mat.threshold")}>
@@ -48,22 +51,30 @@ function Inner() {
             </InputGroup>
             <InputGroup title={t("mat.topic")}>
               <div className="flex flex-wrap gap-1.5" role="radiogroup" aria-label={t("mat.topic")}>
-                {m.topics.map((tp) => (
-                  <button
-                    key={tp.id}
-                    type="button"
-                    role="radio"
-                    aria-checked={sel === tp.id}
-                    onClick={() => setSel(tp.id)}
-                    className={`h-8 min-w-11 border px-2 text-[13px] font-semibold ${sel === tp.id ? "border-[var(--ink)] bg-[var(--ink)] text-[var(--paper)]" : "border-[var(--rule)] hover:border-[var(--ink-3)]"}`}
-                  >
-                    {tp.id}
-                  </button>
-                ))}
+                {m.topics.map((tp) => {
+                  const on = sel === tp.id;
+                  const tm = themeOf(tp.id);
+                  return (
+                    <button
+                      key={tp.id}
+                      type="button"
+                      role="radio"
+                      aria-checked={on}
+                      onClick={() => setSel(tp.id)}
+                      className="h-8 min-w-11 rounded-[9px] border px-2 text-[13px] font-semibold transition-colors duration-150"
+                      style={{ background: on ? th(tm, "ink") : th(tm, "wash"), borderColor: on ? th(tm, "ink") : th(tm, "light"), color: on ? "#fff" : th(tm, "ink") }}
+                    >
+                      {tp.id}
+                    </button>
+                  );
+                })}
               </div>
               {selected && (
                 <>
-                  <p className="text-[15px] font-semibold">{t(`mat.topics.${selected.id}`)}</p>
+                  <p className="group flex items-center gap-2.5 text-[15px] font-semibold">
+                    <ThemeIcon theme={themeOf(selected.id)} />
+                    {t(`mat.topics.${selected.id}`)}
+                  </p>
                   <Toggle label={t("mat.positive")} checked={selected.positive} onChange={(v) => setTopic(selected.id, { positive: v })} />
                   <p className="label pt-2">{t("mat.impactSide")}</p>
                   {score("scale")}
@@ -88,17 +99,15 @@ function Inner() {
             { label: t("mat.figFinancial"), value: String(scored.filter((s) => s.c.kind === "financial").length), trend: scored.map((x) => x.c.financial) },
           ]}
         />
-        <div className="grid gap-10 2xl:grid-cols-[minmax(0,560px)_minmax(0,1fr)]">
+        <div className="grid gap-6 2xl:grid-cols-[minmax(0,560px)_minmax(0,1fr)]">
           <Figure
             title={t("mat.chart")}
             caption={t("mat.chartCaption")}
             meta={meta}
             legend={
               <>
-                <LegendItem kind="swatch" color="var(--hydro)" label={t("mat.env")} />
-                <LegendItem kind="swatch" color="var(--forest)" label={t("mat.soc")} />
-                <LegendItem kind="swatch" color="var(--report)" label={t("mat.gov")} />
-                <LegendItem kind="band" color="var(--forest-wash)" label={t("mat.doubleZone")} />
+                <PillarLegend pillars={["E", "S", "G"]} />
+                <LegendItem kind="band" color="var(--th-energy-wash)" label={t("mat.doubleZone")} />
               </>
             }
             csv={{ header: ["topic", "impact", "financial", "material", "kind"], rows: scored.map((s) => [s.tp.id, s.c.impact.toFixed(2), s.c.financial.toFixed(2), s.c.material ? 1 : 0, s.c.kind]) }}
@@ -111,13 +120,29 @@ function Inner() {
               yLabel={t("mat.yAxis")}
               selected={sel}
               onSelect={setSel}
-              points={scored.map((s) => ({ id: s.tp.id, label: t(`mat.topics.${s.tp.id}`), x: s.c.financial, y: s.c.impact, color: TOPIC_COLOR[s.tp.id[0]] ?? "var(--ink)", material: s.c.material }))}
+              points={scored.map((s) => ({ id: s.tp.id, label: t(`mat.topics.${s.tp.id}`), x: s.c.financial, y: s.c.impact, color: th(PILLAR_THEME[pillarOf(s.tp.id)]), material: s.c.material }))}
             />
           </Figure>
-          <div className="glass flex min-w-0 flex-col gap-3 p-5 md:p-6">
-            <SectionTitle>{t("mat.ranking")}</SectionTitle>
-            {rankTable(scored)}
-          </div>
+          <Figure
+            title={t("mat.ring")}
+            caption={t("mat.ringCaption")}
+            meta={meta}
+            legend={<PillarLegend pillars={["E", "S", "G"]} />}
+            table={rankTable(scored)}
+          >
+            <ThemeRing
+              label={t("mat.ring")}
+              max={5}
+              selected={sel}
+              onSelect={setSel}
+              center={{ value: String(material.length), label: t("mat.ringCenter") }}
+              items={scored.map((s) => ({ id: s.tp.id, label: t(`mat.topics.${s.tp.id}`), theme: themeOf(s.tp.id), pillar: pillarOf(s.tp.id), value: Math.max(s.c.impact, s.c.financial), strong: s.c.material }))}
+            />
+          </Figure>
+        </div>
+        <div className="glass sheet flex min-w-0 flex-col gap-3 p-5 md:p-6">
+          <SectionTitle>{t("mat.ranking")}</SectionTitle>
+          {rankTable(scored)}
         </div>
         <NoteList prefix="mat.notes" keys={["method", "topdown", "evidence", "tsrs"]} />
       </ToolLayout>
@@ -139,13 +164,22 @@ function Inner() {
           <tbody>
             {[...rows]
               .sort((a, b) => Math.max(b.c.impact, b.c.financial) - Math.max(a.c.impact, a.c.financial))
-              .map((s) => (
-                <tr key={s.tp.id} onClick={() => setSel(s.tp.id)} className="cursor-pointer">
+              .map((s, i) => (
+                <tr key={s.tp.id} onClick={() => setSel(s.tp.id)} className="anim-row group cursor-pointer" style={{ ["--i" as string]: i }} aria-selected={sel === s.tp.id}>
                   <td>
-                    <span className="font-semibold">{s.tp.id}</span> {t(`mat.topics.${s.tp.id}`)}
+                    <span className="inline-flex items-center gap-2.5">
+                      <ThemeIcon theme={themeOf(s.tp.id)} size="sm" solid={sel === s.tp.id} />
+                      <span>
+                        <span className="font-semibold">{s.tp.id}</span> {t(`mat.topics.${s.tp.id}`)}
+                      </span>
+                    </span>
                   </td>
-                  <td className="r num">{fmt.number(s.c.impact, 1)}</td>
-                  <td className="r num">{fmt.number(s.c.financial, 1)}</td>
+                  <td className="r">
+                    <ScoreScale value={s.c.impact} theme={themeOf(s.tp.id)} threshold={m.threshold} label={`${t("mat.impact")}: ${fmt.number(s.c.impact, 1)}`} />
+                  </td>
+                  <td className="r">
+                    <ScoreScale value={s.c.financial} theme={themeOf(s.tp.id)} threshold={m.threshold} label={`${t("mat.financial")}: ${fmt.number(s.c.financial, 1)}`} />
+                  </td>
                   <td>
                     <StatusMark kind={s.c.material ? "required" : "na"} label={t(`mat.kind_${s.c.kind}`)} />
                   </td>

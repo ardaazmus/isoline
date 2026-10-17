@@ -15,6 +15,8 @@ import { PageHeader } from "@/components/shell";
 import { LineChart, ShareBar, StackedBars } from "@/components/charts";
 import { LegendItem, SourceNote } from "@/components/figure";
 import { SampleFlag, StatusMark, cn } from "@/components/ui";
+import { CountUp, ThemeIcon } from "@/components/data";
+import { th, type ThemeId } from "@/data/themes";
 import { Hydrated } from "./common";
 import { useActiveClient } from "@/store/workspace";
 
@@ -28,12 +30,15 @@ export function Overview() {
   );
 }
 
-function Tile({ title, href, children, className, family = "report", sources }: { title: string; href?: string; children: ReactNode; className?: string; family?: string; sources?: string[] }) {
+function Tile({ title, href, children, className, family = "compass", sources, theme }: { title: string; href?: string; children: ReactNode; className?: string; family?: string; sources?: string[]; theme?: ThemeId }) {
   const { locale } = useI18n();
   return (
-    <section data-family={family} className={cn("glass flex min-w-0 flex-col gap-3 p-5", className)}>
+    <section data-family={family} className={cn("glass sheet lift group flex min-w-0 flex-col gap-3 p-5", className)}>
       <div className="flex items-center justify-between gap-2">
-        <h2 className="text-[14px] font-semibold text-[var(--ink)]">{title}</h2>
+        <h2 className="flex min-w-0 items-center gap-2.5 text-[14px] font-semibold text-[var(--ink)]">
+          {theme && <ThemeIcon theme={theme} size="sm" />}
+          {title}
+        </h2>
         {href !== undefined && (
           <Link href={`/${locale}${href}`} aria-label={title} className="grid h-7 w-7 place-items-center rounded-full bg-[var(--b-100)] text-[var(--accent-ink)] transition-colors hover:bg-[var(--b-600)] hover:text-white">
             <ArrowUpRight size={15} aria-hidden />
@@ -99,9 +104,11 @@ function Inner() {
           )}
         </Tile>
 
-        <Tile title={t("nav.cbam")} href="/tools/cbam" family="carbon" className="md:col-span-6 xl:col-span-4" sources={["cbam_reg", "cbam_price"]}>
+        <Tile title={t("nav.cbam")} href="/tools/cbam" family="climate" theme="climate" className="md:col-span-6 xl:col-span-4" sources={["cbam_reg", "cbam_price"]}>
           <div className="flex items-baseline gap-3">
-            <span className="figure-num text-[34px] text-[var(--carbon)]">{fmt.compact(cbam.find((r) => r.year === 2030)?.cost ?? 0)} €</span>
+            <span className="figure-num text-[34px] text-[var(--th-climate-ink)]">
+              <CountUp text={`${fmt.compact(cbam.find((r) => r.year === 2030)?.cost ?? 0)} €`} />
+            </span>
             <span className="text-[12.5px] text-[var(--ink-3)]">{t("overview.cbam2030")}</span>
           </div>
           <StackedBars
@@ -109,26 +116,28 @@ function Inner() {
             label={t("cbam.chartCost")}
             categories={cbam.map((r) => String(r.year).slice(2))}
             yFormat={(v) => fmt.compact(v)}
-            stacks={[{ id: "c", label: t("cbam.legendCost"), values: cbam.map((r) => r.cost), color: "var(--carbon)" }]}
-            overlay={[{ id: "d", label: t("cbam.legendDefault"), values: cbam.map((r) => r.costDefault), color: "var(--carbon-2)", dash: true }]}
+            stacks={[{ id: "c", label: t("cbam.legendCost"), values: cbam.map((r) => r.cost), color: "var(--th-climate)" }]}
+            overlay={[{ id: "d", label: t("cbam.legendDefault"), values: cbam.map((r) => r.costDefault), color: "var(--th-climate-2)", dash: true }]}
           />
         </Tile>
 
-        <Tile title={t("nav.ghg")} href="/tools/ghg" family="carbon" className="md:col-span-3 xl:col-span-3" sources={["ghg_protocol", "etkb_ef_2023"]}>
-          <span className="figure-num text-[34px]">{fmt.compact(ghg.totalLocation)}</span>
+        <Tile title={t("nav.ghg")} href="/tools/ghg" family="climate" theme="climate" className="md:col-span-3 xl:col-span-3" sources={["ghg_protocol", "etkb_ef_2023"]}>
+          <span className="figure-num text-[34px]">
+            <CountUp text={fmt.compact(ghg.totalLocation)} />
+          </span>
           <span className="-mt-2 text-[12.5px] text-[var(--ink-3)]">tCO₂e · {t("overview.locationBased")}</span>
           <ShareBar
             label={t("nav.ghg")}
             parts={[
-              { value: ghg.scope1 / total, color: "var(--carbon)", label: t("ghg.scope1") },
-              { value: ghg.scope2Location / total, color: "var(--carbon-2)", label: t("ghg.scope2loc") },
-              { value: ghg.scope3 / total, color: "var(--carbon-3)", label: t("ghg.scope3"), hatch: true },
+              { value: ghg.scope1 / total, color: "var(--th-climate)", label: t("ghg.scope1") },
+              { value: ghg.scope2Location / total, color: "var(--th-climate-2)", label: t("ghg.scope2loc") },
+              { value: ghg.scope3 / total, color: "var(--th-climate-3)", label: t("ghg.scope3"), hatch: true },
             ]}
           />
           <div className="flex flex-col gap-1 text-[12.5px] text-[var(--ink-2)]">
-            <LegendItem kind="swatch" color="var(--carbon)" label={`${t("ghg.scope1")} · ${fmt.percent(ghg.scope1 / total, 0)}`} />
-            <LegendItem kind="swatch" color="var(--carbon-2)" label={`${t("ghg.scope2loc")} · ${fmt.percent(ghg.scope2Location / total, 0)}`} />
-            <LegendItem kind="swatch" color="var(--carbon-3)" label={`${t("ghg.scope3")} · ${fmt.percent(ghg.scope3 / total, 0)}`} />
+            <LegendItem kind="swatch" color="var(--th-climate)" label={`${t("ghg.scope1")} · ${fmt.percent(ghg.scope1 / total, 0)}`} />
+            <LegendItem kind="swatch" color="var(--th-climate-2)" label={`${t("ghg.scope2loc")} · ${fmt.percent(ghg.scope2Location / total, 0)}`} />
+            <LegendItem kind="swatch" color="var(--th-climate-3)" label={`${t("ghg.scope3")} · ${fmt.percent(ghg.scope3 / total, 0)}`} />
           </div>
         </Tile>
 
@@ -176,15 +185,15 @@ function Inner() {
           </dl>
         </Tile>
 
-        <Tile title={t("nav.pathway")} href="/tools/pathway" family="carbon" className="md:col-span-6 xl:col-span-7" sources={["sbti_criteria"]}>
+        <Tile title={t("nav.pathway")} href="/tools/pathway" family="climate" theme="climate" className="md:col-span-6 xl:col-span-7" sources={["sbti_criteria"]}>
           <LineChart
             height={230}
             label={t("pathway.chart")}
             x={path.map((r) => r.year)}
             yFormat={(v) => fmt.compact(v)}
-            bands={[{ id: "b", label: t("pathway.band15"), lower: path.map(() => 0), upper: path.map((r) => r.target15), fill: "var(--forest-3)" }]}
+            bands={[{ id: "b", label: t("pathway.band15"), lower: path.map(() => 0), upper: path.map((r) => r.target15), fill: "var(--th-nature-3)" }]}
             series={[
-              { id: "plan", label: t("pathway.withMeasures"), values: path.map((r) => r.withMeasures), color: "var(--carbon)", width: 2.5 },
+              { id: "plan", label: t("pathway.withMeasures"), values: path.map((r) => r.withMeasures), color: "var(--th-climate)", width: 2.5 },
               { id: "bau", label: t("pathway.bau"), values: path.map((r) => r.bau), color: "var(--ink-3)", dash: true, width: 1.5 },
             ]}
           />
@@ -201,17 +210,19 @@ function Inner() {
           </ul>
         </Tile>
 
-        {[
-          { id: "renewable", href: "/tools/environment", fam: "hydro", value: fmt.percent(env.renewableShare), sub: t("env.figRenewable"), bar: env.renewableShare, color: "var(--hydro)", src: "gri_standards" },
-          { id: "recovery", href: "/tools/environment", fam: "hydro", value: fmt.percent(env.wasteRecoveryRate), sub: t("env.figRecovery"), bar: env.wasteRecoveryRate, color: "var(--hydro)", src: "gri_standards" },
-          { id: "taxonomy", href: "/tools/taxonomy", fam: "hydro", value: fmt.percent(tax.capex.aligned), sub: t("tax.alignedOf", { kpi: t("tax.capex") }), bar: tax.capex.aligned, color: "var(--hydro)", src: "taxonomy_2026_73" },
-          { id: "ltifr", href: "/tools/workforce", fam: "forest", value: fmt.number(safety.ltifr, 2), sub: t("work.ltifrRow"), bar: Math.min(1, safety.ltifr / 5), color: "var(--forest)", src: "osha_rates" },
-        ].map((k) => (
-          <Tile key={k.id} title={k.sub} href={k.href} family={k.fam} className="md:col-span-3 xl:col-span-3" sources={[k.src]}>
-            <span className="figure-num text-[32px]" style={{ color: k.color }}>
-              {k.value}
+        {(
+          [
+            { id: "renewable", theme: "energy", href: "/tools/environment", fam: "environment", value: fmt.percent(env.renewableShare), sub: t("env.figRenewable"), bar: env.renewableShare, src: "gri_standards" },
+            { id: "recovery", theme: "circularity", href: "/tools/environment", fam: "environment", value: fmt.percent(env.wasteRecoveryRate), sub: t("env.figRecovery"), bar: env.wasteRecoveryRate, src: "gri_standards" },
+            { id: "taxonomy", theme: "nature", href: "/tools/taxonomy", fam: "environment", value: fmt.percent(tax.capex.aligned), sub: t("tax.alignedOf", { kpi: t("tax.capex") }), bar: tax.capex.aligned, src: "taxonomy_2026_73" },
+            { id: "ltifr", theme: "people", href: "/tools/workforce", fam: "people", value: fmt.number(safety.ltifr, 2), sub: t("work.ltifrRow"), bar: Math.min(1, safety.ltifr / 5), src: "osha_rates" },
+          ] satisfies { id: string; theme: ThemeId; href: string; fam: string; value: string; sub: string; bar: number; src: string }[]
+        ).map((k) => (
+          <Tile key={k.id} title={k.sub} href={k.href} family={k.fam} theme={k.theme} className="md:col-span-3 xl:col-span-3" sources={[k.src]}>
+            <span className="figure-num text-[32px]" style={{ color: th(k.theme, "ink") }}>
+              <CountUp text={k.value} />
             </span>
-            <ShareBar label={k.sub} parts={[{ value: k.bar, color: k.color, label: k.sub }]} />
+            <ShareBar label={k.sub} parts={[{ value: k.bar, color: th(k.theme), label: k.sub }]} />
           </Tile>
         ))}
       </div>

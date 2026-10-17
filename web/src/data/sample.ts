@@ -1,6 +1,6 @@
 /**
- * Sample workspace: an illustrative integrated steel producer. Every value here is SAMPLE DATA for
- * demonstration; benchmarks and CBAM default values are placeholders, not official figures.
+ * Sample workspace: an illustrative integrated steel producer. Every company value here is SAMPLE DATA for
+ * demonstration and benchmarks are placeholders; the CBAM default values are the official Türkiye rows.
  */
 import type { CbamProduct, CbamScenario } from "@/lib/calc/cbam";
 import type { EtsInput } from "@/lib/calc/ets";
@@ -9,6 +9,7 @@ import type { PathwayInput } from "@/lib/calc/pathway";
 import type { EnvInput, MaterialityTopic, SafetyInput, TaxonomyActivity, TaxonomyTotals, WorkforceInput } from "@/lib/calc/indicators";
 import type { Profile } from "@/lib/calc/applicability";
 import { FUELS } from "@/lib/calc/ghg";
+import { DEFAULT_TOLERANCES, emptyReconciliation, type Reconciliation } from "@/lib/reconcile";
 import type { StageStatus } from "./journey";
 
 export type ArStatus = "todo" | "draft" | "review" | "approved" | "na";
@@ -29,6 +30,10 @@ export type ClientData = {
   annualReport: { profile: "ttk" | "listed" | "bank"; status: Record<string, ArStatus>; owners: Record<string, string> };
   /** Manual stage statuses for the report journey, keyed "<track>.<stage>". */
   journey: Record<string, StageStatus>;
+  /** Finance anchors, prior-year values, explanations and tolerances for the reconciliation rules. */
+  reconciliation: Reconciliation;
+  /** Report text screened for green claims (also read by reconciliation rule U10). */
+  claims: { text: string; lang: string };
 };
 
 export const SAMPLE_CLIENT: ClientData = {
@@ -57,7 +62,7 @@ export const SAMPLE_CLIENT: ClientData = {
     employeesGroup: 2_410,
     euCsrdCustomers: true,
     cbamSectors: ["iron_steel"],
-    euExportTonnes: 48_200,
+    euExportTonnes: 60_600,
     annualEmissionsTco2e: 1_920_000,
     pilotSector: "iron_steel",
     eudrCommodities: false,
@@ -163,6 +168,16 @@ export const SAMPLE_CLIENT: ClientData = {
     owners: { financial_rights: "İK", internal_control: "İç denetim", resk: "Risk", spk_urf_kybf: "Yatırımcı ilişkileri" },
   },
   journey: { "sustainability.write": "doing", "annual.plan": "done", "annual.financials": "doing", "cbam.verify": "doing" },
+  reconciliation: {
+    anchors: { netSalesMillionTry: 42_000, headcount: 2_410 },
+    prior: { scope1: 1_862_000, scope2Location: 146_500, scope2Market: 131_000, scope3: 352_000, energy: 21_240_000, water: 7_900_000, waste: 398_000, ltifr: 2.1 },
+    notes: { "U8.scope3": "Kategori 10 (satılan ürünlerin işlenmesi) bu yıl ilk kez envantere alındı." },
+    tolerances: { ...DEFAULT_TOLERANCES },
+  },
+  claims: {
+    text: "Örnek metin — Anadolu Yassı Çelik olarak çevre dostu üretim anlayışıyla çalışıyoruz. Yeni rulo serimiz karbon nötr; kalan emisyonlarımızı orman projeleriyle dengeledik. 2030 yılına kadar net sıfır şirket olacağız. Ambalajlarımız %100 geri dönüştürülebilir ve tesislerimizde yenilenebilir elektrik payını %20'ye çıkardık.",
+    lang: "tr",
+  },
 };
 
 /** A fresh, empty client built from the same shape; numbers start at zero. */
@@ -210,5 +225,7 @@ export function emptyClient(id: string, name: string): ClientData {
     taxonomy: { totals: { turnover: 0, capex: 0, opex: 0 }, activities: [], notAssessed: [] },
     annualReport: { profile: "ttk", status: {}, owners: {} },
     journey: {},
+    reconciliation: emptyReconciliation(),
+    claims: { text: "", lang: "tr" },
   };
 }

@@ -24,6 +24,8 @@ import { Waterfall } from "@/components/charts";
 import { Button, Callout, NumberField, SelectField, StatusMark, Tabs, TextField } from "@/components/ui";
 import { download } from "@/lib/export";
 import { importInventoryCsv, inventoryTemplateCsv, type ImportResult } from "@/lib/inventory-csv";
+import { InlineBar, ThemeIcon } from "@/components/data";
+import { th } from "@/data/themes";
 import { Hydrated, NoteList, SectionTitle, ToolActions, useTool } from "./common";
 import { FactorPicker, useFactorSets } from "@/components/factor-picker";
 import { factorRef } from "@/lib/factors";
@@ -62,13 +64,13 @@ function Inner() {
   const meta = { sources: SOURCES, boundary: t("ghg.boundary"), unit: "tCO₂e", status: client.sample ? ("sample" as const) : undefined };
 
   const steps = [
-    { id: "st", label: t("ghg.w_stationary"), value: r.scope1Stationary, color: "var(--carbon)" },
-    { id: "mo", label: t("ghg.w_mobile"), value: r.scope1Mobile, color: "var(--carbon)" },
-    { id: "pr", label: t("ghg.w_process"), value: r.scope1Process, color: "var(--carbon)" },
-    { id: "fu", label: t("ghg.w_fugitive"), value: r.scope1Fugitive, color: "var(--carbon)", dash: true },
+    { id: "st", label: t("ghg.w_stationary"), value: r.scope1Stationary, color: "var(--th-climate)" },
+    { id: "mo", label: t("ghg.w_mobile"), value: r.scope1Mobile, color: "var(--th-climate)" },
+    { id: "pr", label: t("ghg.w_process"), value: r.scope1Process, color: "var(--th-climate)" },
+    { id: "fu", label: t("ghg.w_fugitive"), value: r.scope1Fugitive, color: "var(--th-climate)", dash: true },
     { id: "s1", label: t("ghg.scope1"), value: r.scope1, color: "var(--ink)", total: true },
-    { id: "s2", label: t("ghg.scope2loc"), value: r.scope2Location, color: "var(--carbon-2)" },
-    { id: "s3", label: t("ghg.scope3"), value: r.scope3, color: "var(--carbon-3)", dash: true },
+    { id: "s2", label: t("ghg.scope2loc"), value: r.scope2Location, color: "var(--th-climate-2)" },
+    { id: "s3", label: t("ghg.scope3"), value: r.scope3, color: "var(--th-climate-3)", dash: true },
     { id: "tot", label: t("common.total"), value: r.totalLocation, color: "var(--ink)", total: true },
   ];
 
@@ -77,13 +79,13 @@ function Inner() {
   return (
     <>
       <PageHeader
-        family="carbon"
+        family="climate"
         title={t("nav.ghg")}
         result={t("ghg.result", { total: fmt.compact(r.totalLocation), s12: fmt.compact(r.scope1 + r.scope2Location), est: fmt.percent(r.estimatedShare, 0) })}
         actions={<ToolActions tool="ghg" />}
       />
       <ToolLayout
-        family="carbon"
+        family="climate"
         inputs={
           <>
             <InventoryImport inv={inv} onApply={(next) => set(next)} />
@@ -289,8 +291,8 @@ function Inner() {
         </Figure>
 
         <div className="grid gap-6 lg:grid-cols-2">
-          <div className="glass flex min-w-0 flex-col gap-3 p-5 md:p-6">
-            <SectionTitle>{t("ghg.scope2compare")}</SectionTitle>
+          <div className="glass sheet group flex min-w-0 flex-col gap-3 overflow-x-auto p-5 md:p-6">
+            <SectionTitle aside={<ThemeIcon theme="energy" />}>{t("ghg.scope2compare")}</SectionTitle>
             <table className="report-table text-[14px]">
               <thead>
                 <tr>
@@ -301,8 +303,8 @@ function Inner() {
                 </tr>
               </thead>
               <tbody>
-                {inv.electricity.map((e) => (
-                  <tr key={e.id}>
+                {inv.electricity.map((e, i) => (
+                  <tr key={e.id} className="anim-row" style={{ ["--i" as string]: i }}>
                     <td>{e.label || t("ghg.electricity")}</td>
                     <td className="r num">{n0(e.mwh)}</td>
                     <td className="r num">{n0(electricityLocation(e))}</td>
@@ -321,8 +323,8 @@ function Inner() {
             </table>
             <p className="text-[13px] text-[var(--ink-3)]">{t("ghg.renewableShare", { share: fmt.percent(r.renewableShare) })}</p>
           </div>
-          <div className="glass flex min-w-0 flex-col gap-3 p-5 md:p-6">
-            <SectionTitle>{t("ghg.scope3byCat")}</SectionTitle>
+          <div className="glass sheet group flex min-w-0 flex-col gap-3 overflow-x-auto p-5 md:p-6">
+            <SectionTitle aside={<ThemeIcon theme="valuechain" />}>{t("ghg.scope3byCat")}</SectionTitle>
             <table className="report-table text-[14px]">
               <thead>
                 <tr>
@@ -332,15 +334,21 @@ function Inner() {
                 </tr>
               </thead>
               <tbody>
-                {cats.map((c) => {
+                {cats.map((c, i) => {
                   const lines = inv.scope3.filter((l) => l.category === c);
                   const est = lines.some((l) => l.quality === "estimated");
+                  const share = r.scope3 ? r.scope3ByCategory[c] / r.scope3 : 0;
                   return (
-                    <tr key={c}>
+                    <tr key={c} className="anim-row" style={{ ["--i" as string]: i }}>
                       <td>
                         {c}. {t(`ghg.cat.${c}`)}
                       </td>
-                      <td className="r num">{n0(r.scope3ByCategory[c])}</td>
+                      <td className="r num">
+                        <span className="flex flex-col items-end gap-1.5">
+                          {n0(r.scope3ByCategory[c])}
+                          <InlineBar value={share} color={th("valuechain")} label={`${t(`ghg.cat.${c}`)}: ${fmt.percent(share)}`} index={i} width={64} />
+                        </span>
+                      </td>
                       <td>
                         <StatusMark kind={est ? "estimated" : "verified"} label={est ? t("ghg.q_estimated") : t("ghg.q_calculated")} />
                       </td>
@@ -351,7 +359,7 @@ function Inner() {
             </table>
           </div>
         </div>
-        <div className="glass flex min-w-0 flex-col gap-3 p-5 md:p-6">
+        <div className="glass sheet flex min-w-0 flex-col gap-3 p-5 md:p-6">
           <SectionTitle>{t("common.notes")}</SectionTitle>
           <NoteList prefix="ghg.notes" keys={["factors", "grid", "market", "scope3", "gwp", "tsrs"]} />
         </div>

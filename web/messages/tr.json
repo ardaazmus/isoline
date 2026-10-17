@@ -42,7 +42,9 @@
     "templates": "Şablon kütüphanesi",
     "crosswalk": "Çerçeve eşleme",
     "claims": "Yeşil iddia denetimi",
-    "factors": "Faktör kütüphanesi"
+    "factors": "Faktör kütüphanesi",
+    "themes": "Tema ve renk rehberi",
+    "reconciliation": "Uzlaştırma"
   },
   "units": {
     "mTry": "milyon TL",
@@ -762,7 +764,10 @@
       "topdown": "Revize ESRS (2026/1563) yukarıdan aşağı değerlendirmeye ve makul çabayla elde edilebilir bilgiye izin verir.",
       "evidence": "Her puanın gerekçesi, paydaş girdisi ve kanıtı ayrıca kayda alınmalıdır; bu araç puanlamayı yapılandırır, kararı yönetim verir.",
       "tsrs": "TSRS önemliliği yatırımcı odaklı finansal önemliliktir; çift önemlilik ESRS ve GRI için gereklidir."
-    }
+    },
+    "ring": "Tema halkası",
+    "ringCaption": "Dış halka E/S/G sütunlarını, iç dilimler ESRS konularını gösterir; dilim boyu en yüksek puanı (etki veya finansal), dolu dilim önemli konuyu belirtir. Dilime tıklayarak konuyu seçin.",
+    "ringCenter": "önemli konu"
   },
   "app": {
     "result": "{year} raporlama dönemi için {required} doğrudan yükümlülük ve {indirect} değer zinciri yükümlülüğü bulundu.",
@@ -1607,7 +1612,7 @@
       "en": "İngilizce"
     },
     "text": "Rapor, ambalaj veya pazarlama metni",
-    "textHint": "Metin tarayıcıdan çıkmaz; yalnız bu ekranda taranır.",
+    "textHint": "Metin tarayıcıdan çıkmaz.",
     "clear": "Metni temizle",
     "figTotal": "İşaretlenen ifade",
     "figOther": "Genel ve mutlak iddialar",
@@ -1645,7 +1650,9 @@
         "fix": "Genel ifadeyi, neyin ne kadar iyileştiğini söyleyen belirli bir iddiayla değiştirin (ör. 'ürün başına enerji tüketimi 2024'e göre %12 azaldı') ve kaynağını gösterin.",
         "ref": "Direktif (AB) 2024/825 — UCPD Ek I madde 4a"
       }
-    }
+    },
+    "savedHint": "Metin bu müşteri için saklanır; uzlaştırma kuralı U10 aynı metni denetler.",
+    "loadSample": "Örnek metni yükle"
   },
   "factors": {
     "result": "{builtin} hazır set ve {custom} kendi setiniz; hesaplarda kullanılabilecek {n} faktör var.",
@@ -1718,6 +1725,266 @@
       "ipcc_ar6_gwp": "Yayımlanmış değerlendirme değerleri; kaynak gösterilerek kullanılır.",
       "eu_cbam_dv_tr": "© Avrupa Birliği, CC BY 4.0 (Komisyon Kararı 2011/833/AB). Uygulama Tüzüğü (AB) 2026/1740 Ek I, Komisyon Excel dosyası sürüm 2 (6 Ağustos 2026).",
       "eea_ener038": "CC BY 4.0 — kaynak: Avrupa Çevre Ajansı (EEA), gösterge ENER038, 10 Temmuz 2026. Değerler gCO₂e/kWh olarak yayımlanır; burada tCO₂e/MWh'e çevrilmiştir."
+    }
+  },
+  "theme": {
+    "climate": "İklim ve karbon",
+    "energy": "Enerji",
+    "water": "Su",
+    "nature": "Doğa ve biyoçeşitlilik",
+    "circularity": "Döngüsellik ve atık",
+    "pollution": "Kirlilik",
+    "people": "İnsan ve toplum",
+    "valuechain": "Değer zinciri",
+    "governance": "Yönetişim",
+    "economy": "Ekonomi ve finans"
+  },
+  "pillar": {
+    "E": "Çevre",
+    "S": "Sosyal",
+    "G": "Yönetişim",
+    "X": "Ekonomi"
+  },
+  "guide": {
+    "result": "{n} tema, {p} sütun: her tema bir renk, bir ikon ve beş tonla her ekranda aynı anlamı taşır.",
+    "themes": "Temalar",
+    "themesCaption": "Her tema güçlü (ana seri), orta (ikincil seri), açık (kalan, bant), yıkama (satır ve başlık zemini) ve mürekkep (yıkama üstünde metin) tonlarına sahiptir.",
+    "usedFor": "Kullanıldığı yer",
+    "use": {
+      "climate": "Sera gazı envanteri, SKDM, TR ETS, dekarbonizasyon yolu",
+      "energy": "Enerji tüketimi, yenilenebilir payı, yoğunluk",
+      "water": "Su çekimi, tüketimi ve deşarjı",
+      "nature": "Biyoçeşitlilik, arazi kullanımı, hedef koridorları, taksonomi uyumu",
+      "circularity": "Atık, geri kazanım, malzeme verimliliği",
+      "pollution": "Havaya, suya ve toprağa salımlar (ESRS E2)",
+      "people": "Çalışanlar, İSG, eşitlik, topluluklar ve tüketiciler",
+      "valuechain": "Tedarikçiler, değer zincirindeki çalışanlar, Kapsam 3",
+      "governance": "Yönetim yapısı, iş etiği, yolsuzlukla mücadele",
+      "economy": "Finansal göstergeler, faaliyet raporu tabloları, taksonomi KPI tutarları"
+    },
+    "tones": {
+      "strong": "Güçlü",
+      "mid": "Orta",
+      "light": "Açık",
+      "wash": "Yıkama",
+      "ink": "Mürekkep"
+    },
+    "ring": "Tema halkası",
+    "ringCaption": "Dış halka sütunları, iç dilimler temaları gösterir; dilim boyu puanı, dolu dilim önemli konuyu belirtir. Çalışma alanındaki çift önemlilik puanlarından çizilir.",
+    "ringCenter": "önemli konu",
+    "table": "Tablo şablonu",
+    "tableCaption": "Tema grupları renkli başlık satırıyla açılır; satır başında tema ikonu, sayılar sağa yaslı, oranlar satır içi çubukla, puanlar bölmeli ölçekle, değişim yönü okla gösterilir.",
+    "specimen": "Biçim örneği",
+    "specimenNote": "Bu tablodaki değerler yalnız biçimi göstermek içindir; herhangi bir şirkete ait değildir.",
+    "col": {
+      "indicator": "Gösterge",
+      "value": "Değer",
+      "share": "Pay",
+      "score": "Puan",
+      "change": "Değişim",
+      "status": "Durum"
+    },
+    "rows": {
+      "scope12": "Kapsam 1 ve 2 emisyonu",
+      "renewable": "Yenilenebilir enerji payı",
+      "water": "Su tüketimi",
+      "recovery": "Atık geri kazanım oranı",
+      "ltifr": "Kayıp günlü kaza sıklığı",
+      "women": "Kadın yönetici payı",
+      "board": "Bağımsız yönetim kurulu üyesi payı"
+    },
+    "check": "Ayrışma denetimi",
+    "checkCaption": "Tema renkleri arasındaki en küçük CIEDE2000 farkı, normal görüş ve üç renk körlüğü simülasyonunda (Machado 2009) tarayıcıda hesaplanır. 10'un üstü grafik işaretinde farklı renk olarak okunur.",
+    "vision": {
+      "normal": "Normal görüş",
+      "protan": "Protanopi",
+      "deutan": "Döteranopi",
+      "tritan": "Tritanopi"
+    },
+    "worstPair": "En yakın çift",
+    "minDelta": "En küçük ΔE",
+    "fromUi": "Arayüz kobaltına en yakın tema",
+    "rules": "Kurallar",
+    "rule": {
+      "layers": "Mavi arayüzdür, tema renkleri veridir, kırmızı-amber-yeşil yalnız durumdur. Butonlar, odak halkası ve bağlantılar asla tema rengi almaz.",
+      "sheet": "Grafik ve tablolar neredeyse opak kâğıt yüzeyde durur; zeminin mavisi veri rengine karışmaz.",
+      "count": "Bir grafikte en çok altı renk; fazlası \"diğer\" altında toplanır ya da tek tema rampasıyla ayrılır.",
+      "order": "Tek temalı grafikte sıra güçlü → orta → açık; çok temalı grafikte her tema kendi rengini her ekranda korur.",
+      "status": "Durum rengi tek başına kullanılmaz: her zaman ok, ikon ya da çizgi biçimiyle birlikte gelir.",
+      "line": "Çizgi biçimi veri durumudur: düz doğrulanmış, kesikli tahmini, noktalı inceleme gerekiyor.",
+      "motion": "Hareket yalnız ilk yüklemede oynar ve kısa sürer; işletim sisteminde azaltılmış hareket açıksa hepsi durur."
+    }
+  },
+  "rec": {
+    "result": "{fail} hata, {warn} uyarı açık; {explained} bulgu açıklandı, {pass} kural geçti, {na} kural için veri yok.",
+    "resultClean": "Açık bulgu yok: {pass} kural geçti ya da açıklandı, {na} kural için veri yok.",
+    "intro": "Uzlaştırma kuralları aynı bilginin araçlar arasında aynı yazılıp yazılmadığını denetler: finansal tablolar ile sürdürülebilirlik verisi, tesis ile şirket, bu yıl ile geçen yıl. Uyarı, nedeni açıklanınca kapanır. Hata ise ancak veri düzeltilince kapanır, çünkü açıklama fiziksel bir çelişkiyi doğru yapmaz. Her sonuç, değerleri ve açıklamasıyla denetçi dosyasına aktarılabilir.",
+    "map": "Kural haritası",
+    "figOpen": "Açık bulgu",
+    "figOpenNote": "{n} kuralda hata ve uyarı",
+    "figFailNote": "Veri düzeltilmeli",
+    "figWarnNote": "Açıklama ya da düzeltme bekliyor",
+    "figResolved": "Geçti",
+    "figResolvedNote": "{n} bulgu açıklamayla kapandı",
+    "anchors": "Finansal çapa değerleri",
+    "netSales": "Net satışlar (finansal tablolar)",
+    "netSalesHint": "Denetlenmiş gelir tablosu veya faaliyet raporundaki hasılat. İleride mizan içe aktarmasından gelecek.",
+    "headcount": "Personel sayısı (faaliyet raporu)",
+    "headcountHint": "Dönem sonu.",
+    "tolerances": "Toleranslar",
+    "tol": {
+      "match": "Aynı rakam (U1)",
+      "matchHint": "Yalnız yuvarlama payı.",
+      "near": "Tanım farkı olabilecek karşılaştırmalar (U2–U5)",
+      "nearHint": "Ör. dönem sonu ile yıllık ortalama çalışan sayısı.",
+      "yoy": "Açıklama isteyen yıllık değişim (U8)",
+      "yoyHint": "Önceki yıla göre artış ya da azalış.",
+      "estimated": "Tahmini veri payı eşiği (U9)",
+      "estimatedHint": "Kurum içi eşik; mevzuatta sabit bir oran yok."
+    },
+    "later": "U6–U7 (yatırım ↔ etki) kuralları mizan içe aktarması ve yatırım verisiyle gelecek.",
+    "export": "Denetçi dosyası (CSV)",
+    "engine": "Uzlaştırma motoru {engine} · çalıştırma {date}",
+    "tools": "Veri kaynağı:",
+    "tolerance": "tolerans ±{v}",
+    "note": "Açıklama — {subject}",
+    "notePlaceholderWarn": "Nedenini yazın; uyarı açıklanmış sayılır.",
+    "notePlaceholderFail": "Hata veri düzeltilince kapanır; buraya yalnız not düşülür.",
+    "autoPrior": "uygulamadaki veriden",
+    "priorOf": "{metric}, önceki yıl",
+    "status": {
+      "pass": "Geçti",
+      "explained": "Açıklandı",
+      "warn": "Uyarı",
+      "fail": "Hata",
+      "na": "Veri yok"
+    },
+    "severity": {
+      "error": "Hata kuralı",
+      "warning": "Uyarı kuralı"
+    },
+    "col": {
+      "a": "Değer",
+      "rel": "İlişki",
+      "b": "Karşılaştırılan",
+      "diff": "Fark",
+      "status": "Durum",
+      "metric": "Gösterge",
+      "current": "Bu yıl",
+      "prior": "Önceki yıl",
+      "change": "Değişim"
+    },
+    "csv": {
+      "rule": "Kural",
+      "severity": "Ciddiyet",
+      "check": "Kontrol",
+      "status": "Durum",
+      "a": "Değer",
+      "aValue": "Değer (sayı)",
+      "b": "Karşılaştırılan",
+      "bValue": "Karşılaştırılan (sayı)",
+      "diff": "Göreli fark",
+      "tolerance": "Tolerans",
+      "note": "Açıklama",
+      "items": "Bulunan ifadeler"
+    },
+    "unit": {
+      "mTry": "mn TL",
+      "gj": "GJ",
+      "toe": "TEP",
+      "people": "kişi",
+      "t": "t",
+      "tco2e": "tCO₂e",
+      "share": "",
+      "m3": "m³",
+      "rate": "",
+      "count": ""
+    },
+    "metric": {
+      "scope1": "Kapsam 1",
+      "scope2Location": "Kapsam 2 (konum)",
+      "scope2Market": "Kapsam 2 (piyasa)",
+      "scope3": "Kapsam 3",
+      "energy": "Enerji tüketimi",
+      "water": "Su çekimi",
+      "waste": "Toplam atık",
+      "revenue": "Net satışlar",
+      "headcount": "Çalışan sayısı (dönem sonu)",
+      "ltifr": "LTIFR"
+    },
+    "src": {
+      "anchorSales": "Net satışlar (finansal tablolar)",
+      "anchorHeadcount": "Personel sayısı (faaliyet raporu)",
+      "ghgRevenue": "Envanter yoğunluk paydası",
+      "envRevenue": "Çevre göstergeleri yoğunluk paydası",
+      "taxTurnover": "Taksonomi ciro toplamı",
+      "envEnergy": "Enerji göstergesi",
+      "invEnergy": "Yakıt + elektrik enerjisi (envanter)",
+      "envRenewable": "Yenilenebilir enerji göstergesi",
+      "invRenewable": "Belgeli yenilenebilir elektrik (envanter)",
+      "profileToe": "Kapsam testi enerji tüketimi",
+      "envToe": "Enerji göstergesi, TEP",
+      "hrEnd": "İK dönem sonu çalışan",
+      "hrStart": "İK dönem başı çalışan",
+      "profileEmployeesY1": "Kapsam testi çalışan sayısı (önceki yıl)",
+      "profileEmployeesGroup": "Grup çalışan sayısı (kapsam testi)",
+      "cbamExports": "SKDM ürünleri AB ihracatı",
+      "profileEuExports": "Kapsam testi AB ihracatı",
+      "ghgProduction": "Envanter üretim miktarı",
+      "etsActivity": "TR ETS faaliyet seviyesi",
+      "etsEmissions": "TR ETS tesis emisyonu",
+      "ghgScope1": "Envanter Kapsam 1",
+      "profileEmissions": "Kapsam testi yıllık emisyon",
+      "estimated12": "Kapsam 1-2 tahmini veri payı",
+      "estimated3": "Kapsam 3 tahmini veri payı",
+      "threshold": "Eşik",
+      "current": "Bu yıl",
+      "prior": "Önceki yıl",
+      "claimsHigh": "Yüksek riskli iddia (dengeleme, gelecek taahhüdü)",
+      "claimsOther": "Diğer iddialar (genel, mutlak)",
+      "claimsText": "Rapor metni"
+    },
+    "rules": {
+      "U1": {
+        "title": "Ciro tutarlılığı",
+        "why": "Finansal tablolardaki net satış; envanterin, çevre göstergelerinin ve taksonomi oranlarının paydasında aynı yazılmalı. Aynı ciroyu farklı yerlerde farklı yazmak yoğunluk göstergelerini ve taksonomi oranlarını bozar.",
+        "na": "Karşılaştırmak için en az iki ciro rakamı gerekli: finansal çapa, envanter, çevre göstergeleri ya da taksonomi."
+      },
+      "U2": {
+        "title": "Enerji bütünlüğü",
+        "why": "Enerji göstergesi, envanterdeki yakıt enerjisi ile elektrik tüketiminin (MWh × 3,6 GJ) toplamından az olamaz. Yenilenebilir enerji, belgeli yenilenebilir elektrikten az olmamalı; kapsam testindeki TEP de aynı tüketimi göstermeli.",
+        "na": "Envanterde ya da çevre göstergelerinde enerji verisi yok."
+      },
+      "U3": {
+        "title": "Çalışan sayısı tutarlılığı",
+        "why": "İK verisi, faaliyet raporu ve kapsam testi aynı çalışan sayısını vermeli. Dönem sonu ile yıllık ortalama arasındaki tanım farkı tolerans içinde kalmalı ya da açıklanmalı; grup çalışan sayısı şirketinkinden az olamaz.",
+        "na": "Çalışan sayısı girilmemiş."
+      },
+      "U4": {
+        "title": "SKDM ihracatı üretimi aşamaz",
+        "why": "AB'ye ihraç edilen SKDM ürünleri üretilen miktarı aşamaz. Kapsam testindeki AB ihracatı da SKDM aracındaki ürün toplamıyla uyuşmalı.",
+        "na": "SKDM ürünü ya da üretim miktarı girilmemiş."
+      },
+      "U5": {
+        "title": "Tesis emisyonu şirketinkini aşamaz",
+        "why": "TR ETS tesis emisyonu şirketin Kapsam 1 toplamından büyük olamaz; büyükse tesis ve şirket sınırı çelişir. Kapsam testindeki yıllık emisyon da TR ETS değeriyle uyuşmalı.",
+        "na": "TR ETS emisyonu ya da Kapsam 1 verisi yok."
+      },
+      "U8": {
+        "title": "Önceki yıla göre değişim",
+        "why": "Eşiği aşan her yıllık değişim açıklanmalı; denetçi analitik incelemede önce bu sıçramalara bakar. Önceki yıl değerlerini tabloya girin. Net satış ve çalışan sayısı, boş bırakılırsa uygulamadaki veriden gelir.",
+        "na": "Önceki yıl değeri girilmemiş."
+      },
+      "U9": {
+        "title": "Tahmini veri payı",
+        "why": "Emisyonların ne kadarının tahmini veriye dayandığını gösterir. Eşiği aşan pay, güvence denetiminde ilk incelenecek risktir; ölçüm ya da tedarikçi verisiyle azaltın veya açıklayın.",
+        "na": "Envanterde emisyon yok."
+      },
+      "U10": {
+        "title": "Yeşil iddialar",
+        "why": "Rapor metnindeki 'karbon nötr', dengeleme ve gelecek taahhüdü gibi ifadeler Direktif (AB) 2024/825 kapsamında yüksek risklidir. Denetlenen metin, Yeşil iddia denetimi ekranındaki metindir.",
+        "na": "Yeşil iddia denetimine rapor metni girilmemiş."
+      }
     }
   }
 }

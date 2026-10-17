@@ -8,10 +8,12 @@ import { FiguresRow, InputGroup, PageHeader, ToolLayout } from "@/components/she
 import { Figure, LegendItem } from "@/components/figure";
 import { LineChart, MaccChart } from "@/components/charts";
 import { Button, NumberField, Tabs, TextField } from "@/components/ui";
+import { CATEGORICAL } from "@/data/themes";
 import { Hydrated, NoteList, SectionTitle, ToolActions, useTool } from "./common";
 
 const SOURCES = ["sbti_criteria", "sbti_v2", "ndc3"];
-const PALETTE = ["var(--forest)", "var(--forest-2)", "var(--hydro)", "var(--hydro-2)", "var(--carbon-2)", "var(--carbon)", "var(--report-2)"];
+/** Measures are categories, not themes: they take the ordered categorical sequence. */
+const PALETTE = CATEGORICAL;
 
 export function PathwayTool() {
   return (
@@ -40,7 +42,7 @@ function Inner() {
   return (
     <>
       <PageHeader
-        family="carbon"
+        family="climate"
         title={t("nav.pathway")}
         result={
           base === 0
@@ -52,7 +54,7 @@ function Inner() {
         actions={<ToolActions tool="pathway" />}
       />
       <ToolLayout
-        family="carbon"
+        family="climate"
         inputs={
           <>
             <Tabs
@@ -145,11 +147,11 @@ function Inner() {
           meta={meta}
           legend={
             <>
-              <LegendItem kind="band" color="var(--forest-3)" label={t("pathway.band15")} />
-              <LegendItem kind="band" color="var(--forest-wash)" label={t("pathway.bandWb2c")} />
+              <LegendItem kind="band" color="var(--th-nature-3)" label={t("pathway.band15")} />
+              <LegendItem kind="band" color="var(--th-nature-wash)" label={t("pathway.bandWb2c")} />
               <LegendItem color="var(--ink-3)" dash label={t("pathway.bau")} />
-              <LegendItem color="var(--carbon)" label={t("pathway.withMeasures")} />
-              <LegendItem color="var(--forest)" dash label={t("pathway.netZero")} />
+              <LegendItem color="var(--th-climate)" label={t("pathway.withMeasures")} />
+              <LegendItem color="var(--th-nature)" dash label={t("pathway.netZero")} />
               <LegendItem color="var(--ink)" label={t("pathway.actualsLegend")} />
             </>
           }
@@ -188,8 +190,8 @@ function Inner() {
             x={x}
             yFormat={(v) => fmt.compact(v)}
             bands={[
-              { id: "wb", label: t("pathway.bandWb2c"), lower: rows.map((r) => r.target15), upper: rows.map((r) => r.targetWb2c), fill: "var(--forest-wash)" },
-              { id: "b15", label: t("pathway.band15"), lower: rows.map((r) => r.netZero * 0), upper: rows.map((r) => r.target15), fill: "var(--forest-3)" },
+              { id: "wb", label: t("pathway.bandWb2c"), lower: rows.map((r) => r.target15), upper: rows.map((r) => r.targetWb2c), fill: "var(--th-nature-wash)" },
+              { id: "b15", label: t("pathway.band15"), lower: rows.map((r) => r.netZero * 0), upper: rows.map((r) => r.target15), fill: "var(--th-nature-3)" },
             ]}
             markers={[
               { x: d.targetYear, label: t("pathway.markerTarget") },
@@ -197,8 +199,8 @@ function Inner() {
             ]}
             series={[
               { id: "bau", label: t("pathway.bau"), values: rows.map((r) => r.bau), color: "var(--ink-3)", dash: true, width: 1.5 },
-              { id: "nz", label: t("pathway.netZero"), values: rows.map((r) => r.netZero), color: "var(--forest)", dash: true, width: 1.5 },
-              { id: "plan", label: t("pathway.withMeasures"), values: rows.map((r) => r.withMeasures), color: "var(--carbon)", width: 2.5 },
+              { id: "nz", label: t("pathway.netZero"), values: rows.map((r) => r.netZero), color: "var(--th-nature)", dash: true, width: 1.5 },
+              { id: "plan", label: t("pathway.withMeasures"), values: rows.map((r) => r.withMeasures), color: "var(--th-climate)", width: 2.5 },
               {
                 id: "act",
                 label: t("pathway.actualsLegend"),
@@ -249,7 +251,7 @@ function Inner() {
             carbonPriceLabel={t("pathway.carbonPriceRef")}
           />
         </Figure>
-        <div className="glass flex min-w-0 flex-col gap-3 p-5 md:p-6">
+        <div className="glass sheet flex min-w-0 flex-col gap-3 p-5 md:p-6">
           <SectionTitle>{t("common.notes")}</SectionTitle>
           <NoteList prefix="pathway.notes" keys={["rates", "netzero", "v2", "ndc", "macc"]} />
           <p className="text-[13px] text-[var(--ink-3)]">{t("pathway.rateLine", { year: d.baseYear, r15: fmt.percent(rates.scope12, 2), rwb: fmt.percent(rates.wb2c, 2), min15: fmt.percent(RATE_15C), minwb: fmt.percent(RATE_WB2C) })}</p>

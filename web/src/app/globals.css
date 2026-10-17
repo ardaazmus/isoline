@@ -37,24 +37,74 @@
   --on-band: #ffffff;
   --on-band-2: rgba(255, 255, 255, 0.84);
 
-  /* Family colour hierarchy: map-layer hues over the blue world, each a 4-step ramp (strong → mid → light → wash).
-     reporting = navy, carbon = contour sienna, environment = hydro blue, people & governance = forest green */
-  --report: #172a6e;
-  --report-2: #4f6ef0;
-  --report-3: #cfdaff;
-  --report-wash: #eef2ff;
-  --carbon: #b4531f;
-  --carbon-2: #dc8746;
-  --carbon-3: #f2c49c;
-  --carbon-wash: #fcefe4;
-  --hydro: #0c74b0;
-  --hydro-2: #3ea2d8;
-  --hydro-3: #a9d8f2;
-  --hydro-wash: #e7f4fc;
-  --forest: #2e7a47;
-  --forest-2: #5fa872;
-  --forest-3: #b7dcbf;
-  --forest-wash: #e9f5ec;
+  /* Thematic data palette (src/data/themes.ts is the source; color.test.ts checks both match).
+     Ten hues kept apart under normal and colour-blind vision and away from cobalt. Data only:
+     never chrome, buttons, focus or status. Tones: strong · 2 mid · 3 light · wash · ink (text on wash). */
+  --th-climate: #9b3a0c;
+  --th-climate-2: #c26542;
+  --th-climate-3: #f9cab9;
+  --th-climate-wash: #fef1ed;
+  --th-climate-ink: #9b3a0c;
+  --th-energy: #bb8b3f;
+  --th-energy-2: #dfb16c;
+  --th-energy-3: #e8d2b5;
+  --th-energy-wash: #fbf3e9;
+  --th-energy-ink: #8b5e00;
+  --th-water: #2e9cbf;
+  --th-water-2: #68c4e6;
+  --th-water-3: #b7ddec;
+  --th-water-wash: #eaf7fc;
+  --th-water-ink: #00718e;
+  --th-nature: #1f5a3a;
+  --th-nature-2: #4b7f5f;
+  --th-nature-3: #c5ddcd;
+  --th-nature-wash: #eef7f1;
+  --th-nature-ink: #1f5a3a;
+  --th-circularity: #637942;
+  --th-circularity-2: #8aa06c;
+  --th-circularity-3: #d0dbc2;
+  --th-circularity-wash: #f2f6ee;
+  --th-circularity-ink: #556a34;
+  --th-pollution: #988778;
+  --th-pollution-2: #c0afa1;
+  --th-pollution-3: #e5d2c2;
+  --th-pollution-wash: #fbf3ec;
+  --th-pollution-ink: #776658;
+  --th-people: #c06092;
+  --th-people-2: #e88bb9;
+  --th-people-3: #f4c7dc;
+  --th-people-wash: #fef0f6;
+  --th-people-ink: #a5487a;
+  --th-valuechain: #36786e;
+  --th-valuechain-2: #639e94;
+  --th-valuechain-3: #c1ddd7;
+  --th-valuechain-wash: #ecf7f5;
+  --th-valuechain-ink: #36786e;
+  --th-governance: #704488;
+  --th-governance-2: #956cad;
+  --th-governance-3: #e1cded;
+  --th-governance-wash: #f8f1fd;
+  --th-governance-ink: #704488;
+  --th-economy: #293a45;
+  --th-economy-2: #4c5d68;
+  --th-economy-3: #c4d9e8;
+  --th-economy-wash: #edf6fc;
+  --th-economy-ink: #293a45;
+
+  /* Neutral data: "other", "not eligible", remainders. Grey, not blue, so it never reads as interface. */
+  --data-other: #a6a6a6;
+  --data-other-3: #e4e4e4;
+
+  /* Analysis sheet: near-opaque paper so data colours read true over the blue ground. */
+  --sheet: rgba(255, 255, 255, 0.94);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-standard: cubic-bezier(0.2, 0, 0.38, 0.9);
+  --dur-micro: 110ms;
+  --dur-small: 180ms;
+  --dur-enter: 520ms;
+  --dur-draw: 900ms;
 
   /* State (meaning only) */
   --warn: #9a5a06;
@@ -89,9 +139,9 @@ body {
   background:
     radial-gradient(1100px 640px at 88% -6%, color-mix(in srgb, var(--b-400) 66%, transparent), transparent 72%),
     radial-gradient(900px 620px at -8% 34%, color-mix(in srgb, var(--b-300) 50%, transparent), transparent 70%),
-    radial-gradient(900px 700px at 55% 105%, color-mix(in srgb, var(--forest-2) 32%, transparent), transparent 72%),
+    radial-gradient(900px 700px at 55% 105%, color-mix(in srgb, var(--th-nature-2) 18%, transparent), transparent 72%),
     radial-gradient(700px 500px at 40% 45%, color-mix(in srgb, var(--b-200) 45%, transparent), transparent 75%),
-    linear-gradient(160deg, color-mix(in srgb, var(--b-300) 70%, var(--ground)) 0%, var(--ground) 45%, color-mix(in srgb, var(--forest-2) 22%, var(--ground)) 100%);
+    linear-gradient(160deg, color-mix(in srgb, var(--b-300) 70%, var(--ground)) 0%, var(--ground) 45%, color-mix(in srgb, var(--th-nature-2) 12%, var(--ground)) 100%);
   background-attachment: fixed;
   color: var(--ink);
   font-family: var(--font-ui);
@@ -162,6 +212,10 @@ h3 {
 .glass-strong {
   background: var(--glass-strong);
 }
+/* Analysis sheet: charts and tables sit on near-opaque paper so the blue ground never tints the data. */
+.sheet {
+  background: var(--sheet);
+}
 
 /* Cobalt grain band for a page's result headline */
 .band {
@@ -198,34 +252,48 @@ h3 {
 
 }
 
-/* Family colour scopes: a tool page sets data-family and every accent follows. */
-[data-family="carbon"] {
-  --fam: var(--carbon);
-  --fam-2: var(--carbon-2);
-  --fam-3: var(--carbon-3);
-  --fam-wash: var(--carbon-wash);
-  --fam-solid: #b4531f;
+/* Family colour scopes: a tool page sets data-family and every accent follows.
+   compass = the blue world itself; climate, environment (E), people (S) and reporting take theme ramps.
+   --fam-solid is the ink tone so white text on lead tiles keeps 4.5:1. */
+[data-family="compass"] {
+  --fam: var(--b-600);
+  --fam-2: var(--b-400);
+  --fam-3: var(--b-200);
+  --fam-wash: var(--b-100);
+  --fam-ink: var(--accent-ink);
+  --fam-solid: var(--b-600);
 }
-[data-family="hydro"] {
-  --fam: var(--hydro);
-  --fam-2: var(--hydro-2);
-  --fam-3: var(--hydro-3);
-  --fam-wash: var(--hydro-wash);
-  --fam-solid: #0c74b0;
+[data-family="climate"] {
+  --fam: var(--th-climate);
+  --fam-2: var(--th-climate-2);
+  --fam-3: var(--th-climate-3);
+  --fam-wash: var(--th-climate-wash);
+  --fam-ink: var(--th-climate-ink);
+  --fam-solid: var(--th-climate-ink);
 }
-[data-family="forest"] {
-  --fam: var(--forest);
-  --fam-2: var(--forest-2);
-  --fam-3: var(--forest-3);
-  --fam-wash: var(--forest-wash);
-  --fam-solid: #2e7a47;
+[data-family="environment"] {
+  --fam: var(--th-nature);
+  --fam-2: var(--th-nature-2);
+  --fam-3: var(--th-nature-3);
+  --fam-wash: var(--th-nature-wash);
+  --fam-ink: var(--th-nature-ink);
+  --fam-solid: var(--th-nature-ink);
 }
-[data-family="report"] {
-  --fam: var(--report);
-  --fam-2: var(--report-2);
-  --fam-3: var(--report-3);
-  --fam-wash: var(--report-wash);
-  --fam-solid: #1f3a9e;
+[data-family="people"] {
+  --fam: var(--th-people);
+  --fam-2: var(--th-people-2);
+  --fam-3: var(--th-people-3);
+  --fam-wash: var(--th-people-wash);
+  --fam-ink: var(--th-people-ink);
+  --fam-solid: var(--th-people-ink);
+}
+[data-family="reporting"] {
+  --fam: var(--th-economy);
+  --fam-2: var(--th-economy-2);
+  --fam-3: var(--th-economy-3);
+  --fam-wash: var(--th-economy-wash);
+  --fam-ink: var(--th-economy-ink);
+  --fam-solid: var(--th-economy-ink);
 }
 
 @layer components {
@@ -336,6 +404,25 @@ select.field-input option {
 .report-table tbody tr:hover td {
   background: color-mix(in srgb, var(--b-100) 55%, transparent);
 }
+/* Theme group header row: a tinted band with the theme icon, like a chapter mark inside the table. */
+.report-table tr.group-row td {
+  background: var(--row-wash, var(--b-50));
+  color: var(--row-ink, var(--ink));
+  font-weight: 600;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid color-mix(in srgb, var(--row-ink, var(--ink)) 18%, transparent);
+}
+.report-table tr.group-row td:first-child {
+  border-radius: 10px 0 0 10px;
+  padding-left: 8px;
+}
+.report-table tr.group-row td:last-child {
+  border-radius: 0 10px 10px 0;
+}
+.report-table tbody tr.group-row:hover td {
+  background: var(--row-wash, var(--b-50));
+}
 
 }
 
@@ -381,5 +468,207 @@ select.field-input option {
   }
   .flow-particles {
     display: none;
+  }
+}
+
+/* ------------------------------------------------------------------------------------------------
+   Analysis motion. Enter once on mount, never on data refresh; all of it stops under reduced motion.
+   Bars grow from their baseline, lines draw, points pop, rows rise in a short stagger, numbers count. */
+@keyframes grow-y {
+  from {
+    transform: scaleY(0);
+  }
+}
+@keyframes grow-x {
+  from {
+    transform: scaleX(0);
+  }
+}
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes pop {
+  from {
+    transform: scale(0);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+@keyframes arc-in {
+  from {
+    opacity: 0;
+    transform: scale(0.82) rotate(-8deg);
+  }
+}
+.anim-bar {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: grow-y var(--dur-enter) var(--ease-out) both;
+  animation-delay: calc(min(var(--i, 0), 12) * 32ms);
+}
+.anim-bar.down {
+  transform-origin: 50% 0;
+}
+.anim-bar-x {
+  transform-origin: 0 50%;
+  animation: grow-x var(--dur-enter) var(--ease-out) both;
+  animation-delay: calc(min(var(--i, 0), 12) * 32ms + 80ms);
+}
+svg .anim-bar-x {
+  transform-box: fill-box;
+}
+.anim-line {
+  stroke-dasharray: 1;
+  animation: draw var(--dur-draw) var(--ease-standard) both;
+}
+.anim-pop {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pop 320ms var(--ease-out) both;
+  animation-delay: calc(var(--dur-draw) - 200ms + min(var(--i, 0), 12) * 30ms);
+}
+.anim-fade {
+  animation: fade-in 600ms var(--ease-standard) both;
+  animation-delay: 120ms;
+}
+.anim-row {
+  animation: rise-in 240ms var(--ease-out) both;
+  animation-delay: calc(min(var(--i, 0), 14) * 24ms);
+}
+.anim-arc {
+  animation: arc-in 620ms var(--ease-out) both;
+  animation-delay: calc(min(var(--i, 0), 16) * 40ms);
+}
+
+/* Hover lift for interactive tiles and table rows. */
+.lift {
+  transition:
+    transform var(--dur-small) var(--ease-out),
+    box-shadow var(--dur-small) var(--ease-out);
+}
+.lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 24px 44px -24px rgba(31, 52, 160, 0.45), 0 2px 6px -3px rgba(31, 52, 160, 0.12), var(--glass-inset);
+}
+
+/* Theme icon micro-motion: plays once when its row, tile or chip is hovered or focused. */
+@keyframes ic-rise {
+  50% {
+    transform: translateY(-2px);
+  }
+}
+@keyframes ic-flicker {
+  20%,
+  60% {
+    opacity: 0.45;
+  }
+  40%,
+  80% {
+    opacity: 1;
+  }
+}
+@keyframes ic-drip {
+  45% {
+    transform: translateY(2px) scaleY(1.06);
+  }
+}
+@keyframes ic-sway {
+  30% {
+    transform: rotate(-7deg);
+  }
+  70% {
+    transform: rotate(5deg);
+  }
+}
+@keyframes ic-spin {
+  to {
+    transform: rotate(180deg);
+  }
+}
+@keyframes ic-drift {
+  50% {
+    transform: translateX(2px);
+  }
+}
+@keyframes ic-nudge {
+  50% {
+    transform: scale(1.12);
+  }
+}
+.th-icon svg {
+  transform-origin: 50% 70%;
+}
+:is(.group, .th-icon):is(:hover, :focus-within) .th-icon[data-motion="rise"] svg,
+.th-icon[data-motion="rise"]:hover svg {
+  animation: ic-rise 520ms var(--ease-out);
+}
+:is(.group, .th-icon):is(:hover, :focus-within) .th-icon[data-motion="flicker"] svg,
+.th-icon[data-motion="flicker"]:hover svg {
+  animation: ic-flicker 520ms linear;
+}
+:is(.group, .th-icon):is(:hover, :focus-within) .th-icon[data-motion="drip"] svg,
+.th-icon[data-motion="drip"]:hover svg {
+  animation: ic-drip 560ms var(--ease-out);
+}
+:is(.group, .th-icon):is(:hover, :focus-within) .th-icon[data-motion="sway"] svg,
+.th-icon[data-motion="sway"]:hover svg {
+  animation: ic-sway 700ms var(--ease-standard);
+}
+:is(.group, .th-icon):is(:hover, :focus-within) .th-icon[data-motion="spin"] svg,
+.th-icon[data-motion="spin"]:hover svg {
+  transform-origin: 50% 50%;
+  animation: ic-spin 640ms var(--ease-out);
+}
+:is(.group, .th-icon):is(:hover, :focus-within) .th-icon[data-motion="drift"] svg,
+.th-icon[data-motion="drift"]:hover svg {
+  animation: ic-drift 600ms var(--ease-standard);
+}
+:is(.group, .th-icon):is(:hover, :focus-within) .th-icon[data-motion="nudge"] svg,
+.th-icon[data-motion="nudge"]:hover svg {
+  transform-origin: 50% 50%;
+  animation: ic-nudge 420ms var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-bar,
+  .anim-bar-x,
+  .anim-line,
+  .anim-pop,
+  .anim-fade,
+  .anim-row,
+  .anim-arc,
+  .th-icon svg {
+    animation: none !important;
+  }
+  .anim-line {
+    stroke-dasharray: none;
+  }
+  .lift:hover {
+    transform: none;
+  }
+}
+@media print {
+  .anim-bar,
+  .anim-bar-x,
+  .anim-line,
+  .anim-pop,
+  .anim-fade,
+  .anim-row,
+  .anim-arc {
+    animation: none !important;
   }
 }

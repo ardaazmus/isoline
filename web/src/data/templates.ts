@@ -1,3 +1,4 @@
+import type { Family } from "./nav";
 /**
  * Report template library. Section titles and guidance live in messages under
  * tpl.<template>.sections.<section>.title / .guide; references stay untranslated.
@@ -7,7 +8,7 @@ export type TemplateSection = { id: string; refs: string[]; tools?: string[] };
 export type Template = {
   id: string;
   kind: "sustainability" | "annual" | "carbon" | "finance";
-  family: "report" | "carbon" | "hydro" | "forest";
+  family: Family;
   sources: string[];
   /** "review" = structure derived from secondary sources; confirm before use. */
   status: "verified" | "review";
@@ -18,7 +19,7 @@ export const TEMPLATES: Template[] = [
   {
     id: "tsrs_full",
     kind: "sustainability",
-    family: "report",
+    family: "reporting",
     sources: ["tsrs1", "tsrs2", "kgk_scope_decision"],
     status: "verified",
     sections: [
@@ -40,7 +41,7 @@ export const TEMPLATES: Template[] = [
   {
     id: "tsrs_climate_first",
     kind: "sustainability",
-    family: "report",
+    family: "reporting",
     sources: ["tsrs1", "tsrs2", "kgk_relief_ext"],
     status: "verified",
     sections: [
@@ -56,7 +57,7 @@ export const TEMPLATES: Template[] = [
   {
     id: "gri",
     kind: "sustainability",
-    family: "forest",
+    family: "people",
     sources: ["gri_standards"],
     status: "verified",
     sections: [
@@ -77,7 +78,7 @@ export const TEMPLATES: Template[] = [
   {
     id: "esrs_2026",
     kind: "sustainability",
-    family: "report",
+    family: "reporting",
     sources: ["esrs_2026", "csrd_omnibus", "taxonomy_2026_73"],
     status: "review",
     sections: [
@@ -93,7 +94,7 @@ export const TEMPLATES: Template[] = [
   {
     id: "vss",
     kind: "sustainability",
-    family: "forest",
+    family: "people",
     sources: ["vss_2026"],
     status: "review",
     sections: [
@@ -110,7 +111,7 @@ export const TEMPLATES: Template[] = [
   {
     id: "cbam_operator_pack",
     kind: "carbon",
-    family: "carbon",
+    family: "climate",
     sources: ["cbam_reg", "cbam_defaults", "cbam_guidance3"],
     status: "review",
     sections: [
@@ -127,7 +128,7 @@ export const TEMPLATES: Template[] = [
   {
     id: "tr_ets_mp",
     kind: "carbon",
-    family: "carbon",
+    family: "climate",
     sources: ["tr_ets_reg", "kpk_2026_1"],
     status: "review",
     sections: [
@@ -142,7 +143,7 @@ export const TEMPLATES: Template[] = [
   {
     id: "ar_ttk",
     kind: "annual",
-    family: "report",
+    family: "reporting",
     sources: ["ar_min_content", "ttk"],
     status: "verified",
     sections: [
@@ -159,7 +160,7 @@ export const TEMPLATES: Template[] = [
   {
     id: "ar_listed",
     kind: "annual",
-    family: "report",
+    family: "reporting",
     sources: ["ar_min_content", "spk_ii_14_1", "spk_cg_forms", "spk_sust_template"],
     status: "review",
     sections: [
@@ -178,7 +179,7 @@ export const TEMPLATES: Template[] = [
   {
     id: "cdp_climate",
     kind: "sustainability",
-    family: "carbon",
+    family: "climate",
     sources: ["cdp_2026"],
     status: "review",
     sections: [
@@ -193,7 +194,7 @@ export const TEMPLATES: Template[] = [
   {
     id: "green_bond",
     kind: "finance",
-    family: "hydro",
+    family: "environment",
     sources: ["spk_green_guides"],
     status: "review",
     sections: [

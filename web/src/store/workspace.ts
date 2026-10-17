@@ -5,11 +5,12 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import { useEffect, useSyncExternalStore } from "react";
 import { emptyClient, SAMPLE_CLIENT, type ClientData } from "@/data/sample";
 import type { FactorSet } from "@/lib/factors";
+import { emptyReconciliation } from "@/lib/reconcile";
 
 export type ToolKey = Exclude<keyof ClientData, "id" | "name" | "sector" | "sample">;
 
 type Workspace = {
-  version: 3;
+  version: 4;
   clients: ClientData[];
   activeId: string;
   /** Workspace-wide custom factor sets (bring your own data); shared by every client. */
@@ -35,12 +36,27 @@ export function unlinkV2GridPicks(clients: ClientData[]): ClientData[] {
   );
 }
 
+/**
+ * v4: clients gain reconciliation data and a stored green-claims text. The sample client gets the sample's
+ * values so its demo works; every other client starts empty.
+ */
+export function addV4Fields(clients: ClientData[]): ClientData[] {
+  return clients.map((c) => {
+    const isSample = c.sample && c.id === SAMPLE_CLIENT.id;
+    return {
+      ...c,
+      reconciliation: c.reconciliation ?? (isSample ? structuredClone(SAMPLE_CLIENT.reconciliation) : emptyReconciliation()),
+      claims: c.claims ?? (isSample ? structuredClone(SAMPLE_CLIENT.claims) : { text: "", lang: "tr" }),
+    };
+  });
+}
+
 const newId = () => `c-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
 
 export const useWorkspace = create<Workspace>()(
   persist(
     (set) => ({
-      version: 3,
+      version: 4,
       clients: [structuredClone(SAMPLE_CLIENT)],
       activeId: SAMPLE_CLIENT.id,
       customSets: [],
@@ -73,18 +89,18 @@ export const useWorkspace = create<Workspace>()(
         }
         const valid = d.clients.every((c) => typeof c?.id === "string" && typeof c?.name === "string" && c.profile && c.ghg && c.cbam);
         if (!valid) return { ok: false, error: "invalid_client" };
-        const clients = (d.version ?? 2) < 3 ? unlinkV2GridPicks(d.clients) : d.clients;
+        const clients = addV4Fields((d.version ?? 2) < 3 ? unlinkV2GridPicks(d.clients) : d.clients);
         set({ clients, activeId: clients[0].id, customSets: Array.isArray(d.customSets) ? d.customSets : [] });
         return { ok: true };
       },
     }),
     {
       name: "isoline-workspace",
-      version: 3,
+      version: 4,
       migrate: (persisted, from) => {
         const st = persisted as Partial<Workspace>;
-        const next: Partial<Workspace> = { ...st, version: 3, customSets: st.customSets ?? [] };
-        if (from < 3 && st.clients) next.clients = unlinkV2GridPicks(st.clients);
+        const next: Partial<Workspace> = { ...st, version: 4, customSets: st.customSets ?? [] };
+        if (st.clients) next.clients = addV4Fields(from < 3 ? unlinkV2GridPicks(st.clients) : st.clients);
         return next as Workspace;
       },
       storage: createJSONStorage(() => localStorage),
@@ -96,7 +112,7 @@ export const useWorkspace = create<Workspace>()(
 
 export function exportWorkspace(): string {
   const { clients, customSets } = useWorkspace.getState();
-  return JSON.stringify({ app: "isoline", version: 3, exportedAt: new Date().toISOString(), clients, customSets }, null, 2);
+  return JSON.stringify({ app: "isoline", version: 4, exportedAt: new Date().toISOString(), clients, customSets }, null, 2);
 }
 
 /** True once local storage has been read; tools render after this to avoid hydration mismatches. */

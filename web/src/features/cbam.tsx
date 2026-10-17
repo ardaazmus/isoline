@@ -52,13 +52,13 @@ function Inner() {
   return (
     <>
       <PageHeader
-        family="carbon"
+        family="climate"
         title={t("nav.cbam")}
         result={data.products.length ? t("cbam.result", { cost: eurC(y2030.cost), total: eurC(cumulative) }) : t("cbam.empty")}
         actions={<ToolActions tool="cbam" />}
       />
       <ToolLayout
-        family="carbon"
+        family="climate"
         inputs={
           <>
             <InputGroup title={t("cbam.scenario")}>
@@ -130,9 +130,9 @@ function Inner() {
           meta={meta}
           legend={
             <>
-              <LegendItem kind="swatch" color="var(--carbon)" label={t("cbam.legendCost")} />
+              <LegendItem kind="swatch" color="var(--th-climate)" label={t("cbam.legendCost")} />
               <LegendItem color="var(--ink)" dash label={t("cbam.legendDefault")} />
-              <LegendItem color="var(--report)" label={t("cbam.legendActual")} />
+              <LegendItem color="var(--th-economy)" label={t("cbam.legendActual")} />
             </>
           }
           csv={{
@@ -145,10 +145,10 @@ function Inner() {
             label={t("cbam.chartCost")}
             categories={years}
             yFormat={(v) => (v >= 1e6 ? `${fmt.number(v / 1e6, 1)} m` : fmt.compact(v))}
-            stacks={[{ id: "cost", label: t("cbam.legendCost"), values: rows.map((r) => r.cost), color: "var(--carbon)" }]}
+            stacks={[{ id: "cost", label: t("cbam.legendCost"), values: rows.map((r) => r.cost), color: "var(--th-climate)" }]}
             overlay={[
               { id: "def", label: t("cbam.legendDefault"), values: rows.map((r) => r.costDefault), color: "var(--ink)", dash: true },
-              { id: "act", label: t("cbam.legendActual"), values: rows.map((r) => r.costActual), color: "var(--report)" },
+              { id: "act", label: t("cbam.legendActual"), values: rows.map((r) => r.costActual), color: "var(--th-economy)" },
             ]}
           />
         </Figure>
@@ -159,9 +159,9 @@ function Inner() {
           meta={meta}
           legend={
             <>
-              <LegendItem kind="swatch" color="var(--carbon)" label={t("cbam.legendCertificates")} />
-              <LegendItem kind="swatch" color="var(--carbon-3)" label={t("cbam.legendFaa")} />
-              <LegendItem kind="swatch" color="var(--ink-3)" label={t("cbam.legendDeduction")} />
+              <LegendItem kind="swatch" color="var(--th-climate)" label={t("cbam.legendCertificates")} />
+              <LegendItem kind="swatch" color="var(--th-climate-3)" label={t("cbam.legendFaa")} />
+              <LegendItem kind="swatch" color="var(--data-other)" label={t("cbam.legendDeduction")} />
             </>
           }
           table={<CbamTable rows={rows} eurTry={data.scenario.eurTry} />}
@@ -171,15 +171,15 @@ function Inner() {
             categories={years}
             yFormat={tco2}
             stacks={[
-              { id: "cert", label: t("cbam.legendCertificates"), values: rows.map((r) => r.certificates), color: "var(--carbon)" },
+              { id: "cert", label: t("cbam.legendCertificates"), values: rows.map((r) => r.certificates), color: "var(--th-climate)" },
               { id: "ded", label: t("cbam.legendDeduction"), values: rows.map((r) => r.deduction), color: "var(--ink-3)", hatch: true },
-              { id: "faa", label: t("cbam.legendFaa"), values: rows.map((r) => r.faa), color: "var(--carbon-3)" },
+              { id: "faa", label: t("cbam.legendFaa"), values: rows.map((r) => r.faa), color: "var(--th-climate-3)" },
             ]}
           />
         </Figure>
 
         <div className="grid gap-6 2xl:grid-cols-2">
-          <div className="glass flex min-w-0 flex-col gap-3 p-5 md:p-6">
+          <div className="glass sheet flex min-w-0 flex-col gap-3 p-5 md:p-6">
             <SectionTitle
               aside={
                 <Button
@@ -227,7 +227,7 @@ function Inner() {
               </table>
             </div>
           </div>
-          <div className="glass flex min-w-0 flex-col gap-3 p-5 md:p-6">
+          <div className="glass sheet flex min-w-0 flex-col gap-3 p-5 md:p-6">
             <SectionTitle>{t("common.keyDates")}</SectionTitle>
             <KeyDates
               dates={[
@@ -241,7 +241,7 @@ function Inner() {
           </div>
         </div>
 
-        <div className="glass flex min-w-0 flex-col gap-3 p-5 md:p-6">
+        <div className="glass sheet flex min-w-0 flex-col gap-3 p-5 md:p-6">
           <SectionTitle>{t("common.notes")}</SectionTitle>
           <NoteList prefix="cbam.notes" keys={["deMinimis", "indirect", "markup", "deduction", "holding", "penalty", "csCf"]} />
           <Callout tone="warn">{t("cbam.sampleWarning")}</Callout>

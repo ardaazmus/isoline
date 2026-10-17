@@ -110,7 +110,7 @@ export function LineChart({
           </g>
         ))}
         {bandPaths.map(({ b, d }) => (
-          <path key={b.id} d={d} fill={b.fill} stroke="none" />
+          <path key={b.id} d={d} fill={b.fill} stroke="none" className="anim-fade" />
         ))}
         {markers.map((mk) => (
           <g key={mk.label}>
@@ -120,15 +120,19 @@ export function LineChart({
             </text>
           </g>
         ))}
-        {paths.map(({ s, a }) => a && <path key={s.id + "a"} d={a} fill={s.color} opacity={0.12} />)}
+        {paths.map(({ s, a }) => a && <path key={s.id + "a"} d={a} fill={s.color} opacity={0.12} className="anim-fade" />)}
         {paths.map(({ s, l }) => (
-          <path key={s.id} d={l} fill="none" stroke={s.color} strokeWidth={s.width ?? 2} strokeDasharray={s.dash ? "6 5" : undefined} strokeLinecap="round" />
+          s.dash ? (
+            <path key={s.id} d={l} fill="none" stroke={s.color} strokeWidth={s.width ?? 2} strokeDasharray="6 5" strokeLinecap="round" className="anim-fade" />
+          ) : (
+            <path key={s.id} d={l} pathLength={1} fill="none" stroke={s.color} strokeWidth={s.width ?? 2} strokeLinecap="round" className="anim-line" />
+          )
         ))}
         {paths.map(({ s }) => {
           const last = [...s.values].reverse().findIndex((v) => v !== null);
           if (last < 0) return null;
           const i = s.values.length - 1 - last;
-          return <circle key={s.id + "e"} cx={xs(x[i])} cy={ys(s.values[i] as number)} r={3.2} fill="var(--paper)" stroke={s.color} strokeWidth={2} />;
+          return <circle key={s.id + "e"} cx={xs(x[i])} cy={ys(s.values[i] as number)} r={3.2} fill="var(--paper)" stroke={s.color} strokeWidth={2} className="anim-pop" />;
         })}
         <line x1={m.l} x2={width - m.r} y1={height - m.b} y2={height - m.b} stroke="var(--rule-strong)" />
         {xTicks.map((t) => (
@@ -210,7 +214,20 @@ export function StackedBars({
               {stacks.map((st, k) => {
                 const y0 = ys(k === 0 ? 0 : tops[k - 1]);
                 const y1 = ys(tops[k]);
-                return <rect key={st.id} x={xs(c)} y={y1} width={xs.bandwidth()} height={Math.max(0, y0 - y1)} fill={st.hatch ? "url(#hatch)" : st.color} stroke={st.hatch ? st.color : "none"} />;
+                return (
+                  <rect
+                    key={st.id}
+                    x={xs(c)}
+                    y={y1}
+                    width={xs.bandwidth()}
+                    height={Math.max(0, y0 - y1)}
+                    fill={st.hatch ? "url(#hatch)" : st.color}
+                    stroke={st.hatch ? st.color : "var(--paper)"}
+                    strokeWidth={st.hatch ? 1 : 0.75}
+                    className="anim-bar"
+                    style={{ ["--i" as string]: i, transformOrigin: `50% ${ys(0) - y1}px` }}
+                  />
+                );
               })}
             </g>
           );
@@ -218,7 +235,7 @@ export function StackedBars({
         {overlay?.map((s) => {
           const pts = s.values.map((v, i) => [xs(categories[i])! + xs.bandwidth() / 2, v] as const).filter((p): p is readonly [number, number] => p[1] !== null);
           const d = d3line<readonly [number, number]>().x((p) => p[0]).y((p) => ys(p[1]))(pts) ?? "";
-          return <path key={s.id} d={d} fill="none" stroke={s.color} strokeWidth={2} strokeDasharray={s.dash ? "6 5" : undefined} />;
+          return <path key={s.id} d={d} fill="none" stroke={s.color} strokeWidth={2} strokeDasharray={s.dash ? "6 5" : undefined} className="anim-fade" />;
         })}
         <line x1={m.l} x2={width - m.r} y1={height - m.b} y2={height - m.b} stroke="var(--rule-strong)" />
         {categories.map((c) => (
@@ -287,7 +304,18 @@ export function Waterfall({ steps, height = 300, yFormat, label }: { steps: Step
           const next = bars[i + 1];
           return (
             <g key={b.id}>
-              <rect x={x} y={top} width={xs.bandwidth()} height={h} fill={b.color} stroke={b.dash ? "var(--ink)" : "none"} strokeDasharray={b.dash ? "4 3" : undefined} fillOpacity={b.dash ? 0.55 : 1} />
+              <rect
+                x={x}
+                y={top}
+                width={xs.bandwidth()}
+                height={h}
+                fill={b.color}
+                stroke={b.dash ? "var(--ink)" : "none"}
+                strokeDasharray={b.dash ? "4 3" : undefined}
+                fillOpacity={b.dash ? 0.55 : 1}
+                className={b.y1 < b.y0 ? "anim-bar down" : "anim-bar"}
+                style={{ ["--i" as string]: i }}
+              />
               <text x={x + xs.bandwidth() / 2} y={top - 6} textAnchor="middle" fontSize={11.5} fill="var(--ink)" className="num">
                 {yFormat(b.total ? b.value : b.y1 - b.y0)}
               </text>
@@ -335,7 +363,7 @@ export function MaterialityMatrix({
   return (
     <div ref={ref} className="min-w-0">
       <svg data-chart width={size} height={size} role="img" aria-label={label} className="block">
-        <rect x={xs(threshold)} y={m.t} width={xs(5) - xs(threshold)} height={ys(threshold) - m.t} fill="var(--forest-wash)" />
+        <rect x={xs(threshold)} y={m.t} width={xs(5) - xs(threshold)} height={ys(threshold) - m.t} fill="var(--th-energy-wash)" />
         <rect x={m.l} y={m.t} width={xs(threshold) - m.l} height={ys(threshold) - m.t} fill="var(--paper-2)" />
         <rect x={xs(threshold)} y={ys(threshold)} width={xs(5) - xs(threshold)} height={ys(0) - ys(threshold)} fill="var(--paper-2)" />
         {[1, 2, 3, 4, 5].map((t) => (
@@ -361,7 +389,7 @@ export function MaterialityMatrix({
           {yLabel}
         </text>
         {points.map((p) => (
-          <g key={p.id} className="cursor-pointer" onClick={() => onSelect?.(p.id)} tabIndex={0} role="button" aria-label={`${p.label}: ${p.x.toFixed(1)} / ${p.y.toFixed(1)}`} onKeyDown={(e) => e.key === "Enter" && onSelect?.(p.id)}>
+          <g key={p.id} className="anim-pop cursor-pointer" style={{ ["--i" as string]: points.indexOf(p) }} onClick={() => onSelect?.(p.id)} tabIndex={0} role="button" aria-label={`${p.label}: ${p.x.toFixed(1)} / ${p.y.toFixed(1)}`} onKeyDown={(e) => e.key === "Enter" && onSelect?.(p.id)}>
             <circle cx={xs(p.x)} cy={ys(p.y)} r={selected === p.id ? 9 : 7} fill={p.material ? p.color : "var(--paper)"} stroke={p.color} strokeWidth={2} strokeDasharray={p.material ? undefined : "3 2"} />
             <text x={xs(p.x) + 11} y={ys(p.y)} dy="0.32em" fontSize={12} fontWeight={600} fill="var(--ink)">
               {p.id}
@@ -445,6 +473,8 @@ export function Timeline({
                       strokeWidth={2}
                       strokeDasharray={e.confidence === "official" ? undefined : e.confidence === "secondary" ? "3 2" : "1 2"}
                       opacity={past ? 0.55 : 1}
+                      className="anim-pop"
+                      style={{ ["--i" as string]: k }}
                     />
                   </g>
                 );
@@ -513,6 +543,8 @@ export function MaccChart({
             height={Math.max(1, Math.abs(ys(0) - ys(s.cost)))}
             fill={s.color}
             opacity={hover && hover !== s.id ? 0.45 : 1}
+            className={s.cost < 0 ? "anim-bar down" : "anim-bar"}
+            style={{ ["--i" as string]: segments.indexOf(s), transition: "opacity 160ms" }}
             onMouseEnter={() => setHover(s.id)}
             onMouseLeave={() => setHover(null)}
           />
@@ -520,8 +552,8 @@ export function MaccChart({
         <line x1={m.l} x2={width - m.r} y1={ys(0)} y2={ys(0)} stroke="var(--rule-strong)" />
         {carbonPrice !== undefined && (
           <g>
-            <line x1={m.l} x2={width - m.r} y1={ys(carbonPrice)} y2={ys(carbonPrice)} stroke="var(--carbon)" strokeDasharray="6 4" />
-            <text x={width - m.r} y={ys(carbonPrice) - 6} textAnchor="end" fontSize={11.5} fill="var(--carbon)">
+            <line x1={m.l} x2={width - m.r} y1={ys(carbonPrice)} y2={ys(carbonPrice)} stroke="var(--th-climate-ink)" strokeDasharray="6 4" />
+            <text x={width - m.r} y={ys(carbonPrice) - 6} textAnchor="end" fontSize={11.5} fill="var(--th-climate)">
               {carbonPriceLabel}
             </text>
           </g>
@@ -552,12 +584,14 @@ export function MaccChart({
 /** Horizontal proportion bar used in KPI rows (taxonomy, recovery rates). */
 export function ShareBar({ parts, label }: { parts: { value: number; color: string; label: string; hatch?: boolean }[]; label: string }) {
   return (
-    <div role="img" aria-label={label} className="flex h-3 w-full overflow-hidden rounded-full bg-[var(--paper-3)]">
+    <div role="img" aria-label={label} className="flex h-3 w-full gap-[2px] overflow-hidden rounded-full bg-[var(--paper-3)]">
       {parts.map((p) => (
         <div
           key={p.label}
           title={p.label}
+          className="anim-bar-x"
           style={{
+            ["--i" as string]: parts.indexOf(p),
             width: `${Math.max(0, Math.min(1, p.value)) * 100}%`,
             background: p.hatch ? `repeating-linear-gradient(45deg, ${p.color} 0 2px, transparent 2px 6px)` : p.color,
           }}
