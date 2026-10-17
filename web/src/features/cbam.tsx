@@ -94,7 +94,7 @@ function Inner() {
                   sets={sets}
                   value={p.defaultRef}
                   onPick={(o) =>
-                    setProduct(p.id, o ? { defaultSee: o.factor.value + (countsIndirect(p.sector, p.cn) ? (o.factor.indirect ?? 0) : 0), defaultRef: factorRef(o) } : { defaultRef: undefined })
+                    setProduct(p.id, o ? { defaultSee: o.factor.value, defaultRef: factorRef(o) } : { defaultRef: undefined })
                   }
                 />
                 <div className="grid grid-cols-2 gap-4">

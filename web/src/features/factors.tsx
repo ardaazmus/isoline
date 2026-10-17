@@ -1,9 +1,10 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Download, FileDown, FileUp, Plus, Trash2 } from "lucide-react";
+import { Download, FileDown, FileUp, Plus, Search, Trash2 } from "lucide-react";
 import { useI18n } from "@/i18n/provider";
-import { BUILTIN_SETS, factorSetCsv, factorTemplateCsv, importFactorCsv, KIND_UNIT, usableSets, type Factor, type FactorCsvIssue, type FactorSet, type LicenceClass } from "@/lib/factors";
+import { BUILTIN_SETS, factorSetCsv, factorTemplateCsv, factorUnit, importFactorCsv, usableSets, type Factor, type FactorCsvIssue, type FactorSet, type LicenceClass } from "@/lib/factors";
+import { useFactorLabel } from "@/components/factor-picker";
 import { download, slug } from "@/lib/export";
 import { useWorkspace } from "@/store/workspace";
 import { FiguresRow, PageHeader } from "@/components/shell";
@@ -98,43 +99,65 @@ function Inner() {
   );
 }
 
-function FactorTable({ factors, onRemove }: { factors: Factor[]; onRemove?: (id: string) => void }) {
-  const { t, fmt } = useI18n();
+/** Sets longer than this get a search box. */
+const SEARCH_FROM = 25;
+
+function FactorTable({ set, onRemove }: { set: FactorSet; onRemove?: (id: string) => void }) {
+  const { t, fmt, locale } = useI18n();
+  const label = useFactorLabel();
+  const [q, setQ] = useState("");
+  const needle = q.trim().toLocaleLowerCase(locale).replace(/s/g, "");
+  const rows = needle ? set.factors.filter((f) => `${f.key}${label(f, set)}`.toLocaleLowerCase(locale).replace(/s/g, "").includes(needle)) : set.factors;
+  const part = (v: number | undefined) => (v === undefined ? "–" : fmt.number(v, 3));
   return (
-    <div className="max-h-72 overflow-auto">
-      <table className="report-table text-[13px]">
-        <thead>
-          <tr>
-            <th>{t("factors.kind")}</th>
-            <th>{t("factors.key")}</th>
-            <th className="r">{t("factors.value")}</th>
-            <th>{t("factors.unit")}</th>
-            {onRemove && <th />}
-          </tr>
-        </thead>
-        <tbody>
-          {factors.map((f) => (
-            <tr key={f.id}>
-              <td className="whitespace-nowrap text-[var(--ink-3)]">{t(`factors.kinds.${f.kind}`)}</td>
-              <td>
-                {f.label}
-                {f.year && <span className="ml-1 text-[var(--ink-3)]">({f.year})</span>}
-                {f.ncv !== undefined && <span className="block text-[11.5px] text-[var(--ink-3)]">NCV {fmt.number(f.ncv, 4)} GJ/{f.unit}</span>}
-                {f.indirect !== undefined && <span className="block text-[11.5px] text-[var(--ink-3)]">{t("factors.indirect")} {fmt.number(f.indirect, 3)}</span>}
-              </td>
-              <td className="r num">{fmt.number(f.value, f.value < 10 ? 3 : 1)}</td>
-              <td className="whitespace-nowrap text-[var(--ink-3)]">{f.kind === "scope3" && f.unit ? `tCO₂e/${f.unit}` : KIND_UNIT[f.kind]}</td>
-              {onRemove && (
-                <td>
-                  <button type="button" className="text-[var(--ink-3)] hover:text-[var(--crit)]" onClick={() => onRemove(f.id)} aria-label={t("actions.remove")}>
-                    <Trash2 size={14} aria-hidden />
-                  </button>
-                </td>
-              )}
+    <div className="flex flex-col gap-2">
+      {set.factors.length > SEARCH_FROM && (
+        <div className="flex items-center gap-2">
+          <Search size={14} aria-hidden className="shrink-0 text-[var(--ink-3)]" />
+          <input type="search" className="field-input" value={q} onChange={(e) => setQ(e.target.value)} placeholder={t("factors.search")} aria-label={t("factors.search")} />
+          <span className="shrink-0 text-[12px] tabular-nums text-[var(--ink-3)]">{t("factors.searchCount", { n: rows.length, total: set.factors.length })}</span>
+        </div>
+      )}
+      <div className="max-h-72 overflow-auto">
+        <table className="report-table text-[13px]">
+          <thead>
+            <tr>
+              <th>{t("factors.kind")}</th>
+              <th>{t("factors.key")}</th>
+              <th className="r">{t("factors.value")}</th>
+              <th>{t("factors.unit")}</th>
+              {onRemove && <th />}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {rows.map((f) => (
+              <tr key={f.id}>
+                <td className="whitespace-nowrap text-[var(--ink-3)]">{t(`factors.kinds.${f.kind}`)}</td>
+                <td>
+                  {label(f, set)}
+                  {f.year && <span className="ml-1 text-[var(--ink-3)]">({f.year})</span>}
+                  {f.ncv !== undefined && <span className="block text-[11.5px] text-[var(--ink-3)]">NCV {fmt.number(f.ncv, 4)} GJ/{f.unit}</span>}
+                  {f.kind === "cbam_default" && (f.direct !== undefined || f.indirect !== undefined) && (
+                    <span className="block text-[11.5px] text-[var(--ink-3)]">
+                      {t("factors.direct")} {part(f.direct)} · {t("factors.indirect")} {part(f.indirect)}
+                    </span>
+                  )}
+                  {f.otherCountries && <span className="block text-[11.5px] text-[var(--ink-2)]">{t("factors.otherCountriesShort")}</span>}
+                </td>
+                <td className="r num">{fmt.number(f.value, f.value < 10 ? 3 : 1)}</td>
+                <td className="whitespace-nowrap text-[var(--ink-3)]">{factorUnit(f)}</td>
+                {onRemove && (
+                  <td>
+                    <button type="button" className="text-[var(--ink-3)] hover:text-[var(--crit)]" onClick={() => onRemove(f.id)} aria-label={t("actions.remove")}>
+                      <Trash2 size={14} aria-hidden />
+                    </button>
+                  </td>
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
@@ -157,11 +180,12 @@ function SetTile({ set }: { set: FactorSet }) {
   return (
     <article className="glass flex min-w-0 flex-col gap-3 p-5">
       <SetHeader set={set} />
-      <p className="text-[12.5px] text-[var(--ink-2)]">{set.licenceNote}</p>
+      <p className="text-[12.5px] text-[var(--ink-2)]">{t(`factors.setNotes.${set.id}`)}</p>
+      {set.usageNote && <p className="text-[12.5px] text-[var(--ink-3)]">{t(set.usageNote)}</p>}
       <details className="group">
         <summary className="cursor-pointer text-[13px] font-semibold text-[var(--accent-ink)]">{t("factors.showFactors")}</summary>
         <div className="mt-2">
-          <FactorTable factors={set.factors} />
+          <FactorTable set={set} />
         </div>
       </details>
       <a href={set.url} target="_blank" rel="noreferrer" className="mt-auto truncate text-[12px] text-[var(--ink-3)] underline decoration-[var(--rule)]">
@@ -268,7 +292,7 @@ function CustomSetTile({ set }: { set: FactorSet }) {
           )}
         </div>
       )}
-      {set.factors.length > 0 ? <FactorTable factors={set.factors} onRemove={(id) => patch({ factors: set.factors.filter((f) => f.id !== id) })} /> : <p className="text-[13px] text-[var(--ink-3)]">{t("factors.emptySet")}</p>}
+      {set.factors.length > 0 ? <FactorTable set={set} onRemove={(id) => patch({ factors: set.factors.filter((f) => f.id !== id) })} /> : <p className="text-[13px] text-[var(--ink-3)]">{t("factors.emptySet")}</p>}
     </article>
   );
 }

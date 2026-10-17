@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "locales": "node scripts/gen-locales.mjs",
+    "factors": "node scripts/build-factors.mjs",
     "predev": "node scripts/gen-locales.mjs",
     "dev": "next dev",
     "prebuild": "node scripts/gen-locales.mjs",

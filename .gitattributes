@@ -1,0 +1,4 @@
+# Checksummed source data: keep the bytes exactly as fetched, so docs/kaynak-veri/SHA256SUMS stays valid
+# on every checkout (no line-ending conversion).
+docs/kaynak-veri/** -text
+web/src/data/factors/*.json -text

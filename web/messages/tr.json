@@ -402,7 +402,7 @@
     "certified": "YEK-G / I-REC ile belgelenen",
     "certifiedHint": "Piyasa bazlı hesapta sıfır emisyonla sayılır.",
     "supplierFactor": "Tedarikçiye özgü faktör",
-    "supplierFactorHint": "Boş bırakılırsa belgelenmeyen kısım için şebeke faktörü kullanılır.",
+    "supplierFactorHint": "Piyasa bazlı hesap için. Boş bırakılırsa belgelenmeyen kısımda konum bazlı şebeke faktörü kullanılır.",
     "addElectricity": "Elektrik kalemi ekle",
     "category": "Kategori",
     "unit": "Birim",
@@ -459,7 +459,7 @@
     },
     "notes": {
       "factors": "Varsayılan net ısıl değer ve CO₂ faktörleri IPCC 2006 Tier 1 değerleridir; CH₄ ve N₂O dahil değildir. Tedarikçi, BOTAŞ veya ulusal envanter değerleriyle değiştirin.",
-      "grid": "Konum bazlı Kapsam 2 için ETKB 2023 tüketim noktası faktörleri kullanılır: iletim 0,436, dağıtım 0,469 tCO₂e/MWh.",
+      "grid": "Konum bazlı Kapsam 2 için ETKB 2023 tüketim noktası faktörleri kullanılır: iletim 0,436, dağıtım 0,469 tCO₂e/MWh. Türkiye şebekesi dışındaki tesislerde satıra kendi şebeke faktörü girilebilir (ör. EEA ülke değeri).",
       "market": "Türkiye için yayımlanmış kalıntı karışım faktörü yoktur; belgelenmeyen elektrik için şebeke faktörü kullanılır ve bu durum raporda açıklanmalıdır.",
       "scope3": "Kapsam 3 faktörleri kullanıcı tarafından girilir ve kaynağı her satırda kayıt altına alınır.",
       "gwp": "Soğutucu gazlarda IPCC AR6 GWP100 değerleri kullanılır (Tablo 7.SM.7; ör. SF₆ 24.300, R-134a 1.530); kullanılan GWP seti raporda belirtilmelidir.",
@@ -488,7 +488,9 @@
         "badFactor": "emisyon faktörü okunamadı ({value}).",
         "badType": "satır türü tanınmadı ({value}); fuel, process, refrigerant, electricity veya scope3 olmalı."
       }
-    }
+    },
+    "gridFactor": "Konum bazlı şebeke faktörü",
+    "gridFactorHint": "Türkiye şebekesi dışındaki tesisler için. Boş bırakılırsa bağlantı noktasına göre ETKB 2023 faktörü ({value}) kullanılır."
   },
   "ets": {
     "result": "Kategori {cat} tesis: {year} yılında {deficit} tCO₂e tahsisat açığı ve {cost} maliyet öngörülüyor.",
@@ -1699,6 +1701,23 @@
     },
     "pick": "Kütüphaneden seç",
     "pickNone": "— elle girilen değer —",
-    "fromLibrary": "Kaynak: {set}"
+    "fromLibrary": "Kaynak: {set}",
+    "direct": "doğrudan",
+    "eu27": "AB-27 ortalaması",
+    "otherCountries": "Türkiye tablosunda bu kod için değer yok; tüzük gereği 'Diğer ülkeler ve bölgeler' değeri kullanılır.",
+    "otherCountriesShort": "Diğer ülkeler değeri",
+    "search": "KN kodu, ülke veya ad ile ara",
+    "searchCount": "{n} / {total}",
+    "notes": {
+      "eu_cbam_dv_tr": "Değer, tüzüğün uyguladığı 'toplam' sütunudur; doğrudan ve dolaylı kısımlar bilgi içindir. Varsayılan değer kullanıldığında yıla göre işaretleme (mark-up) ayrıca eklenir.",
+      "eea_ener038": "Elektrik üretiminin emisyon yoğunluğudur (2024 erken tahmini); ithalat ve ihracat dahil değildir, tüketim karışımı faktörü değildir. AB'deki tesisler için konum bazlı yaklaşık değer olarak kullanın."
+    },
+    "setNotes": {
+      "ipcc_2006": "Yayımlanmış rehber değerleri; kaynak gösterilerek kullanılır.",
+      "etkb_2023": "Resmi kamu verisi; kaynak gösterilerek kullanılır.",
+      "ipcc_ar6_gwp": "Yayımlanmış değerlendirme değerleri; kaynak gösterilerek kullanılır.",
+      "eu_cbam_dv_tr": "© Avrupa Birliği, CC BY 4.0 (Komisyon Kararı 2011/833/AB). Uygulama Tüzüğü (AB) 2026/1740 Ek I, Komisyon Excel dosyası sürüm 2 (6 Ağustos 2026).",
+      "eea_ener038": "CC BY 4.0 — kaynak: Avrupa Çevre Ajansı (EEA), gösterge ENER038, 10 Temmuz 2026. Değerler gCO₂e/kWh olarak yayımlanır; burada tCO₂e/MWh'e çevrilmiştir."
+    }
   }
 }

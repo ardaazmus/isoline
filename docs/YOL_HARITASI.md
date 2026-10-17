@@ -15,13 +15,15 @@ Her faz bir **kontrol noktasıyla** biter. Bir sonraki faz, kontrol noktasındak
 
 Tamamlanan (17.10.2026): birincil kaynak doğrulaması ([DOGRULAMA_2026-10.md](DOGRULAMA_2026-10.md)), envanter için CSV toplu yükleme, kapsam testinde küçük finans kuruluşu muafiyeti ve AB dışı iki yıl ciro kuralı. Faz 4'ten öne alınanlar: yeşil iddia denetimi, SKDM operatör veri özeti.
 
+Tamamlanan (18.10.2026): faktör kütüphanesi ve "kendi faktörünü getir" modülü; resmi SKDM varsayılan değerleri (Türkiye, 2026/1740, toplam sütunu, "diğer ülkeler" kuralıyla 260 satır); EEA ENER038 2024 şebeke yoğunlukları (27 üye ülke ve AB-27); Türkiye dışındaki tesisler için konum bazlı şebeke faktörü. Ham kaynaklar ve SHA-256 özetleri: [kaynak-veri/](kaynak-veri/README.md).
+
 Kod dışında yapılacak iş:
 - Uzman teyitleri.
 - IEA lisans görüşü.
 
 Kodda yapılacak iş:
 - **Faktör kütüphanesi:** sürümlü faktör tabloları (ETKB yıllık, DESNZ 2026, TÜİK ulusal envanter NCV'leri); yıl seçimi ve geriye dönük yeniden hesap.
-- **SKDM:** varsayılan değer tablosunun KN + ülke ile içe aktarılması (2025/2621 + 2026/1740), kıyas değerleri ve rota eşlemesi (2025/2620).
+- **SKDM:** diğer menşe ülke tabloları (Türkiye tablosu tamam), kıyas değerleri ve rota eşlemesi (2025/2620).
 - **TR ETS:** Başkanlık kıyas değerleri ve Ulusal Tahsisat Planı yayımlanınca parametre güncellemesi.
 - **SBTi V2.0:** Ç4 2026'da yayımlanacak yöntemlerin eklenmesi.
 - **Excel içe aktarma:** envanter ve göstergeler için şablonlu Excel yükleme.

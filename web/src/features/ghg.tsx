@@ -181,7 +181,15 @@ function Inner() {
                       kind="grid"
                       sets={sets}
                       value={e.factorRef}
-                      onPick={(o) => patch({ electricity: inv.electricity.map((x) => (x.id === e.id ? (o ? { ...x, supplierFactor: o.factor.value, factorRef: factorRef(o) } : { ...x, factorRef: undefined }) : x)) })}
+                      onPick={(o) => patch({ electricity: inv.electricity.map((x) => (x.id === e.id ? (o ? { ...x, gridFactor: o.factor.value, factorRef: factorRef(o) } : { ...x, factorRef: undefined }) : x)) })}
+                    />
+                    <NumberField
+                      label={t("ghg.gridFactor")}
+                      unit="tCO₂e/MWh"
+                      hint={t("ghg.gridFactorHint", { value: GRID_FACTORS[e.connection] })}
+                      nullable
+                      value={e.gridFactor ?? NaN}
+                      onChange={(v) => patch({ electricity: inv.electricity.map((x) => (x.id === e.id ? { ...x, gridFactor: Number.isFinite(v) ? v : null, factorRef: undefined } : x)) })}
                     />
                     <NumberField
                       label={t("ghg.supplierFactor")}
@@ -189,7 +197,7 @@ function Inner() {
                       hint={t("ghg.supplierFactorHint")}
                       nullable
                       value={e.supplierFactor ?? NaN}
-                      onChange={(v) => patch({ electricity: inv.electricity.map((x) => (x.id === e.id ? { ...x, supplierFactor: Number.isFinite(v) ? v : null, factorRef: undefined } : x)) })}
+                      onChange={(v) => patch({ electricity: inv.electricity.map((x) => (x.id === e.id ? { ...x, supplierFactor: Number.isFinite(v) ? v : null } : x)) })}
                     />
                   </InputGroup>
                 ))}

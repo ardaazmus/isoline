@@ -74,15 +74,20 @@ export type FuelLine = {
 export type RefrigerantLine = { id: string; gas: string; leakedKg: number; quality: Quality };
 
 export type ElectricityLine = {
-  /** Factor library reference "<set>/<factor>" when the factor was picked from the library. */
+  /** Factor library reference "<set>/<factor>" when the grid factor was picked from the library. */
   factorRef?: string;
   id: string;
   label: string;
   mwh: number;
   connection: keyof typeof GRID_FACTORS;
+  /**
+   * Location-based grid factor, tCO₂e/MWh, for a site outside the Turkish grid (e.g. an EEA country value);
+   * absent or null = the ETKB factor for the connection point.
+   */
+  gridFactor?: number | null;
   /** MWh covered by YEK-G / I-REC certificates or a renewable PPA (counts at 0 in market-based). */
   certifiedMwh: number;
-  /** Supplier-specific factor for the uncovered part, tCO₂e/MWh; null = fall back to the grid factor. */
+  /** Supplier-specific factor for the uncovered part, tCO₂e/MWh; null = fall back to the location-based grid factor. */
   supplierFactor: number | null;
   quality: Quality;
 };
@@ -125,14 +130,19 @@ export function refrigerantEmissions(line: RefrigerantLine): number {
   return (Math.max(0, line.leakedKg) * (GWP_AR6[line.gas] ?? 0)) / 1000;
 }
 
+/** The location-based factor a line uses: its own grid factor, else the ETKB factor for its connection point. */
+export function gridFactorOf(line: Pick<ElectricityLine, "gridFactor" | "connection">): number {
+  return Math.max(0, line.gridFactor ?? GRID_FACTORS[line.connection]);
+}
+
 export function electricityLocation(line: ElectricityLine): number {
-  return Math.max(0, line.mwh) * GRID_FACTORS[line.connection];
+  return Math.max(0, line.mwh) * gridFactorOf(line);
 }
 
 export function electricityMarket(line: ElectricityLine): number {
   const covered = Math.min(Math.max(0, line.certifiedMwh), Math.max(0, line.mwh));
   const rest = Math.max(0, line.mwh) - covered;
-  const factor = line.supplierFactor ?? GRID_FACTORS[line.connection];
+  const factor = line.supplierFactor ?? gridFactorOf(line);
   return rest * Math.max(0, factor);
 }
 

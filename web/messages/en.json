@@ -402,7 +402,7 @@
     "certified": "Covered by YEK-G / I-REC",
     "certifiedHint": "Counts at zero emissions in the market-based method.",
     "supplierFactor": "Supplier-specific factor",
-    "supplierFactorHint": "Leave empty to use the grid factor for the uncovered part.",
+    "supplierFactorHint": "For the market-based figure. Left empty, the location-based grid factor applies to the uncovered part.",
     "addElectricity": "Add electricity line",
     "category": "Category",
     "unit": "Unit",
@@ -459,7 +459,7 @@
     },
     "notes": {
       "factors": "Default NCV and CO₂ factors are IPCC 2006 Tier 1 values and exclude CH₄ and N₂O. Replace them with supplier, BOTAŞ or national inventory values.",
-      "grid": "Location-based scope 2 uses the ETKB 2023 consumption-point factors: transmission 0.436, distribution 0.469 tCO₂e/MWh.",
+      "grid": "Location-based scope 2 uses the ETKB 2023 consumption-point factors: transmission 0.436, distribution 0.469 tCO₂e/MWh. Sites outside the Turkish grid can carry their own grid factor (e.g. an EEA country value).",
       "market": "No residual-mix factor is published for Türkiye; uncovered electricity uses the grid factor and the report should say so.",
       "scope3": "Scope 3 factors are entered by the user and each line records its source.",
       "gwp": "Refrigerants use IPCC AR6 GWP100 (Table 7.SM.7, e.g. SF₆ 24,300, R-134a 1,530); state the GWP set in the report.",
@@ -488,7 +488,9 @@
         "badFactor": "emission factor could not be read ({value}).",
         "badType": "unknown row type ({value}); use fuel, process, refrigerant, electricity or scope3."
       }
-    }
+    },
+    "gridFactor": "Location-based grid factor",
+    "gridFactorHint": "For sites outside the Turkish grid. Left empty, the ETKB 2023 factor for the connection point ({value}) applies."
   },
   "ets": {
     "result": "Category {cat} installation: a {deficit} tCO₂e allowance shortfall and {cost} cost expected in {year}.",
@@ -1699,6 +1701,23 @@
     },
     "pick": "Pick from library",
     "pickNone": "— value entered by hand —",
-    "fromLibrary": "Source: {set}"
+    "fromLibrary": "Source: {set}",
+    "direct": "direct",
+    "eu27": "EU-27 average",
+    "otherCountries": "The Türkiye table has no value for this code; under the regulation the 'Other Countries and Territories' value applies.",
+    "otherCountriesShort": "Other countries value",
+    "search": "Search by CN code, country or name",
+    "searchCount": "{n} / {total}",
+    "notes": {
+      "eu_cbam_dv_tr": "The value is the 'total' column the regulation applies; direct and indirect parts are for information. When a default value is used, the mark-up for the year is added on top.",
+      "eea_ener038": "Emission intensity of electricity generation (2024 early estimate); imports and exports are not counted, so it is not a consumption-mix factor. Use it as an approximate location-based value for EU sites."
+    },
+    "setNotes": {
+      "ipcc_2006": "Published guidance values, cited with attribution.",
+      "etkb_2023": "Official public-sector data, cited with attribution.",
+      "ipcc_ar6_gwp": "Published assessment values, cited with attribution.",
+      "eu_cbam_dv_tr": "© European Union, CC BY 4.0 (Commission Decision 2011/833/EU). Implementing Regulation (EU) 2026/1740 Annex I, Commission Excel file version 2 (6 August 2026).",
+      "eea_ener038": "CC BY 4.0 — source: European Environment Agency (EEA), indicator ENER038, 10 July 2026. Published in gCO₂e/kWh; converted here to tCO₂e/MWh."
+    }
   }
 }

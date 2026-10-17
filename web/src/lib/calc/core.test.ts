@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import fc from "fast-check";
 import { etsCategory, freeAllocation, isPilotYear, lastBusinessDayOfNovember, lateReportFine, pilotAdjustedFine, projectEts } from "./ets";
-import { computeInventory, electricityMarket, FUELS, fuelEmissions, GWP_AR6, refrigerantEmissions, type Inventory } from "./ghg";
+import { computeInventory, electricityLocation, electricityMarket, FUELS, fuelEmissions, GRID_FACTORS, GWP_AR6, refrigerantEmissions, type Inventory } from "./ghg";
 import {
   buildPathway,
   combinedScope12Rate,
@@ -91,14 +91,22 @@ describe("GHG inventory", () => {
     const line = { id: "e", label: "", mwh: 1000, connection: "distribution" as const, certifiedMwh: 400, supplierFactor: null, quality: "measured" as const };
     expect(electricityMarket(line)).toBeCloseTo(600 * 0.469);
   });
+  it("uses a site's own grid factor for location-based scope 2 and as the market-based fallback", () => {
+    const line = { id: "e", label: "", mwh: 1000, connection: "distribution" as const, certifiedMwh: 400, supplierFactor: null, quality: "measured" as const };
+    expect(electricityLocation(line)).toBeCloseTo(1000 * GRID_FACTORS.distribution);
+    expect(electricityLocation({ ...line, gridFactor: null })).toBeCloseTo(1000 * GRID_FACTORS.distribution);
+    expect(electricityLocation({ ...line, gridFactor: 0.291 })).toBeCloseTo(291);
+    expect(electricityMarket({ ...line, gridFactor: 0.291 })).toBeCloseTo(600 * 0.291);
+    expect(electricityMarket({ ...line, gridFactor: 0.291, supplierFactor: 0.1 })).toBeCloseTo(60);
+  });
   it("property: market-based scope 2 never exceeds location-based when no supplier factor is set", () => {
     fc.assert(
-      fc.property(fc.double({ min: 0, max: 1e6, noNaN: true }), fc.double({ min: 0, max: 1e6, noNaN: true }), (mwh, cert) => {
+      fc.property(fc.double({ min: 0, max: 1e6, noNaN: true }), fc.double({ min: 0, max: 1e6, noNaN: true }), fc.option(fc.double({ min: 0, max: 2, noNaN: true }), { nil: null }), (mwh, cert, gridFactor) => {
         const inv: Inventory = {
           fuels: [],
           process: [],
           refrigerants: [],
-          electricity: [{ id: "e", label: "", mwh, connection: "transmission", certifiedMwh: cert, supplierFactor: null, quality: "measured" }],
+          electricity: [{ id: "e", label: "", mwh, connection: "transmission", gridFactor, certifiedMwh: cert, supplierFactor: null, quality: "measured" }],
           scope3: [],
           revenueMillionTry: 1,
           productionTonnes: 1,

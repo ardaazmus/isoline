@@ -1,0 +1,4049 @@
+{
+  "@components": {
+    "actions": {
+      "@id": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@actions"
+    }, 
+    "aliases": {
+      "@id": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@aliases"
+    }, 
+    "breadcrumbs": {
+      "@id": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@breadcrumbs"
+    }, 
+    "connector-data": {
+      "@id": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@connector-data", 
+      "data": {
+        "metadata": {}, 
+        "results": []
+      }, 
+      "path": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation", 
+      "payload": {
+        "data_query": [], 
+        "form": {
+          "db_version": "latest", 
+          "metadata_fields": []
+        }
+      }
+    }, 
+    "contextnavigation": {
+      "@id": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@contextnavigation"
+    }, 
+    "editing.progress": {
+      "@id": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@editing.progress"
+    }, 
+    "eea.versions": {
+      "@id": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@eea.versions", 
+      "newer_versions": {
+        "@id": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@newer-versions", 
+        "items": []
+      }, 
+      "older_versions": {
+        "@id": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@older-versions", 
+        "items": []
+      }
+    }, 
+    "layout": {
+      "@id": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@layout"
+    }, 
+    "navigation": {
+      "@id": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@navigation"
+    }, 
+    "navroot": {
+      "@id": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@navroot"
+    }, 
+    "siblings": {
+      "@id": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@siblings"
+    }, 
+    "subsite": {
+      "@id": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@subsite"
+    }, 
+    "types": {
+      "@id": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@types"
+    }, 
+    "workflow": {
+      "@id": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@workflow"
+    }, 
+    "workflow.progress": {
+      "@id": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@workflow.progress"
+    }
+  }, 
+  "@id": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation", 
+  "@type": "visualization", 
+  "UID": "2f77442e481c467684f313c1667a257e", 
+  "allow_discussion": false, 
+  "benchmark_description": null, 
+  "benchmark_level": null, 
+  "blocks": {
+    "067820e9-a4e8-4018-8874-2f280c6ec9a6": {
+      "@layout": "2137a161-fcd3-409b-8311-ad8f0a074afe", 
+      "@type": "dividerBlock", 
+      "block": "3b9b4328-ab76-465e-b597-8ca8b6eea95f", 
+      "fixed": true, 
+      "hidden": true, 
+      "required": true, 
+      "section": false
+    }, 
+    "554f831c-510d-4bab-a14c-b492e90ee83b": {
+      "@layout": "feeef919-edc0-4bd0-a2de-10a517b75fcc", 
+      "@type": "group", 
+      "as": "div", 
+      "block": "e73f08be-16fa-43d4-b3a1-1a8b589543d0", 
+      "data": {
+        "blocks": {
+          "d08627f6-3334-4e15-85bd-c9eb831cbc28": {
+            "@type": "tabs_block", 
+            "accordionIconRight": false, 
+            "allowedBlocks": [], 
+            "data": {
+              "assetPosition": "top", 
+              "blocks": {
+                "265e2bee-7de3-46e8-b6ee-76005f3f434f": {
+                  "@type": "tab", 
+                  "assetPosition": "top", 
+                  "blocks": {
+                    "1217a7b9-b193-4f34-af00-161a2c35b5ef": {
+                      "@type": "slate"
+                    }, 
+                    "2c4799e2-a521-4f44-b4ca-f64255f13247": {
+                      "@type": "empty", 
+                      "instructions": {
+                        "data": "<p>Any additional information goes here, like methodology or links to other supporting information</p>"
+                      }, 
+                      "placeholder": "Type optional extra information"
+                    }, 
+                    "38226c8d-8ff1-4d8a-b335-313ca20df0dd": {
+                      "@type": "group", 
+                      "data": {
+                        "blocks": {
+                          "79204bb1-939b-49cd-afe5-b337e98fe6d5": {
+                            "@type": "slate", 
+                            "plaintext": "Units", 
+                            "value": [
+                              {
+                                "children": [
+                                  {
+                                    "text": "Units"
+                                  }
+                                ], 
+                                "type": "h3"
+                              }
+                            ]
+                          }, 
+                          "a9463dc7-1cfd-4d5c-a331-e37f13bb17fe": {
+                            "@type": "slate", 
+                            "plaintext": "gCO 2 e/kWh", 
+                            "value": [
+                              {
+                                "children": [
+                                  {
+                                    "text": "gCO"
+                                  }, 
+                                  {
+                                    "children": [
+                                      {
+                                        "text": "2"
+                                      }
+                                    ], 
+                                    "type": "sub"
+                                  }, 
+                                  {
+                                    "text": "e/kWh"
+                                  }
+                                ], 
+                                "type": "p"
+                              }
+                            ]
+                          }
+                        }, 
+                        "blocks_layout": {
+                          "items": [
+                            "79204bb1-939b-49cd-afe5-b337e98fe6d5", 
+                            "a9463dc7-1cfd-4d5c-a331-e37f13bb17fe"
+                          ]
+                        }
+                      }, 
+                      "styles": {}, 
+                      "title": "Units", 
+                      "variation": "default"
+                    }, 
+                    "b8fb58cf-40dc-4f53-976f-9d4b031f46f5": {
+                      "@type": "group", 
+                      "as": "div", 
+                      "data": {
+                        "blocks": {
+                          "1905f874-31d3-4dc0-a45c-8e421caa473b": {
+                            "@type": "slate", 
+                            "plaintext": "Additional information", 
+                            "value": [
+                              {
+                                "children": [
+                                  {
+                                    "text": "Additional information"
+                                  }
+                                ], 
+                                "type": "h3"
+                              }
+                            ]
+                          }, 
+                          "640d8727-f525-46cf-9c2d-38533c1baf27": {
+                            "@type": "slate", 
+                            "plaintext": "", 
+                            "value": [
+                              {
+                                "children": [
+                                  {
+                                    "text": "\r"
+                                  }
+                                ], 
+                                "type": "p"
+                              }
+                            ]
+                          }, 
+                          "9a5e46a2-f307-4242-87c2-8132dc697e32": {
+                            "@type": "slate", 
+                            "plaintext": "", 
+                            "value": [
+                              {
+                                "children": [
+                                  {
+                                    "text": "\r"
+                                  }
+                                ], 
+                                "type": "p"
+                              }
+                            ]
+                          }, 
+                          "a2807f0a-3cae-4a31-b971-fe61a12986f2": {
+                            "@type": "slate", 
+                            "plaintext": " EU level :\n- The 2020-2030 trajectories represent indicative intensity levels that would allow the EU to achieve a net 55% reduction in greenhouse gases by 2030, compared with 1990. They are consistent with scenario ranges in the staff working document accompanying the \u2018Fit for 55\u2019 policy package.\n- Greenhouse gas emission intensity (gCO 2 e/kWh) is calculated as the ratio of CO 2 e emissions from public electricity production (as a share of CO 2 equivalent emissions from public electricity and heat production related to electricity production), and gross electricity production. EEA early estimate for 2024. Country level: Greenhouse gas emission intensity (gCO 2 e/kWh) is calculated as the ratio of CO 2 equivalent emissions from public electricity production (as a share of CO 2 equivalent emissions from public electricity and heat production related to electricity production), and gross electricity production. EEA early estimate for 2024. Geographic coverage: - EU level: 1990-2024\n- Country level: 1990, 2000, 2010 and 2024", 
+                            "value": [
+                              {
+                                "children": [
+                                  {
+                                    "text": ""
+                                  }, 
+                                  {
+                                    "children": [
+                                      {
+                                        "text": "EU level"
+                                      }
+                                    ], 
+                                    "type": "strong"
+                                  }, 
+                                  {
+                                    "text": ":\n- The 2020-2030 trajectories represent indicative intensity levels that would allow the EU to achieve a net 55% reduction in greenhouse gases by 2030, compared with 1990. They are consistent with scenario ranges in the staff working document accompanying the \u2018Fit for 55\u2019 policy package.\n- Greenhouse gas emission intensity (gCO"
+                                  }, 
+                                  {
+                                    "children": [
+                                      {
+                                        "text": "2"
+                                      }
+                                    ], 
+                                    "type": "sub"
+                                  }, 
+                                  {
+                                    "text": "e/kWh) is calculated as the ratio of CO"
+                                  }, 
+                                  {
+                                    "children": [
+                                      {
+                                        "text": "2"
+                                      }
+                                    ], 
+                                    "type": "sub"
+                                  }, 
+                                  {
+                                    "text": "e emissions from public electricity production (as a share of CO"
+                                  }, 
+                                  {
+                                    "children": [
+                                      {
+                                        "text": "2"
+                                      }
+                                    ], 
+                                    "type": "sub"
+                                  }, 
+                                  {
+                                    "text": " equivalent emissions from public electricity and heat production related to electricity production), and gross electricity production. EEA early estimate for 2024.\n\n"
+                                  }, 
+                                  {
+                                    "children": [
+                                      {
+                                        "text": "Country level:"
+                                      }
+                                    ], 
+                                    "type": "strong"
+                                  }, 
+                                  {
+                                    "text": "\nGreenhouse gas emission intensity (gCO"
+                                  }, 
+                                  {
+                                    "children": [
+                                      {
+                                        "text": "2"
+                                      }
+                                    ], 
+                                    "type": "sub"
+                                  }, 
+                                  {
+                                    "text": "e/kWh) is calculated as the ratio of CO"
+                                  }, 
+                                  {
+                                    "children": [
+                                      {
+                                        "text": "2"
+                                      }
+                                    ], 
+                                    "type": "sub"
+                                  }, 
+                                  {
+                                    "text": " equivalent emissions from public electricity production (as a share of CO"
+                                  }, 
+                                  {
+                                    "children": [
+                                      {
+                                        "text": "2"
+                                      }
+                                    ], 
+                                    "type": "sub"
+                                  }, 
+                                  {
+                                    "text": " equivalent emissions from public electricity and heat production related to electricity production), and gross electricity production. EEA early estimate for 2024.\n\n"
+                                  }, 
+                                  {
+                                    "children": [
+                                      {
+                                        "text": "Geographic coverage:"
+                                      }
+                                    ], 
+                                    "type": "strong"
+                                  }, 
+                                  {
+                                    "text": "\n- EU level: 1990-2024\n- Country level: 1990, 2000, 2010 and 2024\r"
+                                  }
+                                ], 
+                                "type": "p"
+                              }
+                            ]
+                          }, 
+                          "c04e5cc7-1033-4057-b2e0-0db37f63e63d": {
+                            "@type": "slate", 
+                            "plaintext": "", 
+                            "value": [
+                              {
+                                "children": [
+                                  {
+                                    "text": "\r"
+                                  }
+                                ], 
+                                "type": "p"
+                              }
+                            ]
+                          }, 
+                          "fbfab1d4-d57d-49d8-84cb-5fe87ab738d5": {
+                            "@type": "slate", 
+                            "plaintext": "", 
+                            "value": [
+                              {
+                                "children": [
+                                  {
+                                    "text": "\r"
+                                  }
+                                ], 
+                                "type": "p"
+                              }
+                            ]
+                          }
+                        }, 
+                        "blocks_layout": {
+                          "items": [
+                            "1905f874-31d3-4dc0-a45c-8e421caa473b", 
+                            "9a5e46a2-f307-4242-87c2-8132dc697e32", 
+                            "a2807f0a-3cae-4a31-b971-fe61a12986f2", 
+                            "fbfab1d4-d57d-49d8-84cb-5fe87ab738d5", 
+                            "640d8727-f525-46cf-9c2d-38533c1baf27", 
+                            "c04e5cc7-1033-4057-b2e0-0db37f63e63d"
+                          ]
+                        }
+                      }, 
+                      "styles": {}, 
+                      "title": "Additional information", 
+                      "variation": "default"
+                    }, 
+                    "d32d89f6-3b7d-4d4a-980a-06cdfc887c3c": {
+                      "@type": "dividerBlock", 
+                      "spacing": "s", 
+                      "styles": {}
+                    }, 
+                    "e23a36bc-2f06-4fa4-9b39-57e340cb050d": {
+                      "@type": "empty"
+                    }, 
+                    "undefined": {
+                      "@type": "slate", 
+                      "plaintext": "", 
+                      "value": [
+                        {
+                          "children": [
+                            {
+                              "text": ""
+                            }
+                          ], 
+                          "type": "p"
+                        }
+                      ]
+                    }
+                  }, 
+                  "blocks_layout": {
+                    "items": [
+                      "2c4799e2-a521-4f44-b4ca-f64255f13247", 
+                      "e23a36bc-2f06-4fa4-9b39-57e340cb050d", 
+                      "38226c8d-8ff1-4d8a-b335-313ca20df0dd", 
+                      "d32d89f6-3b7d-4d4a-980a-06cdfc887c3c", 
+                      "b8fb58cf-40dc-4f53-976f-9d4b031f46f5", 
+                      "1217a7b9-b193-4f34-af00-161a2c35b5ef"
+                    ]
+                  }, 
+                  "iconSize": "small", 
+                  "imageSize": "icon", 
+                  "title": "More info"
+                }, 
+                "570bee2d-1316-48cf-adde-4b640f92119b": {
+                  "@type": "tab", 
+                  "blocks": {
+                    "7501d382-990c-4709-9768-56fc26c0341f": {
+                      "@type": "metadata", 
+                      "data": {
+                        "id": "data_provenance", 
+                        "widget": "data_provenance"
+                      }, 
+                      "readOnly": false
+                    }, 
+                    "undefined": {
+                      "@type": "metadata", 
+                      "data": {
+                        "id": "data_provenance", 
+                        "widget": "data_provenance"
+                      }, 
+                      "readOnly": false
+                    }
+                  }, 
+                  "blocks_layout": {
+                    "items": [
+                      "7501d382-990c-4709-9768-56fc26c0341f"
+                    ]
+                  }, 
+                  "title": "Data sources"
+                }, 
+                "658e2886-cfbf-4c2f-a603-061e1627a515": {
+                  "@type": "tab", 
+                  "blocks": {
+                    "8ce96a49-be90-4696-97a4-2629807e4379": {
+                      "@type": "slate", 
+                      "placeholder": "Write here an assessment that explain the main finding from the chart.", 
+                      "plaintext": "", 
+                      "value": [
+                        {
+                          "children": [
+                            {
+                              "text": ""
+                            }
+                          ], 
+                          "type": "p"
+                        }
+                      ]
+                    }, 
+                    "undefined": {
+                      "@type": "slate", 
+                      "plaintext": "", 
+                      "value": [
+                        {
+                          "children": [
+                            {
+                              "text": ""
+                            }
+                          ], 
+                          "type": "p"
+                        }
+                      ]
+                    }
+                  }, 
+                  "blocks_layout": {
+                    "items": [
+                      "8ce96a49-be90-4696-97a4-2629807e4379"
+                    ]
+                  }, 
+                  "title": "Assessment"
+                }, 
+                "8a280073-bf94-4717-b3e2-1374b57ca99d": {
+                  "@type": "tab", 
+                  "blocks": {
+                    "d8a0a984-0b69-4a27-af09-97338a3b41a4": {
+                      "@type": "metadataSection", 
+                      "disableNewBlocks": true, 
+                      "fields": [
+                        {
+                          "@id": "18f523b1-8cce-4cc1-a5e9-4caccf4231c5", 
+                          "field": {
+                            "id": "topics", 
+                            "title": "Topics", 
+                            "widget": "array"
+                          }, 
+                          "showLabel": true
+                        }, 
+                        {
+                          "@id": "949bc72a-1d26-41d5-ba10-d92bedd3575b", 
+                          "field": {
+                            "id": "geo_coverage", 
+                            "title": "Geographical coverage", 
+                            "widget": "geolocation"
+                          }, 
+                          "showLabel": true
+                        }, 
+                        {
+                          "@id": "67cd36c7-16fd-42ac-a945-eb39c8a54c32", 
+                          "field": {
+                            "id": "temporal_coverage", 
+                            "title": "Temporal coverage", 
+                            "widget": "temporal"
+                          }, 
+                          "showLabel": true
+                        }, 
+                        {
+                          "@id": "5cf00740-8ab4-4d70-bed4-184c2cc2ecfb", 
+                          "field": {
+                            "id": "publisher", 
+                            "title": "Publisher", 
+                            "widget": "array"
+                          }, 
+                          "showLabel": true
+                        }, 
+                        {
+                          "@id": "d3388432-6e62-4e43-8f6a-c0e983f70cef", 
+                          "field": {
+                            "id": "rights", 
+                            "title": "Rights", 
+                            "widget": "string"
+                          }, 
+                          "showLabel": true
+                        }, 
+                        {
+                          "@id": "ff3ad66f-c062-49e9-9edc-61c9fbffa2e0", 
+                          "field": {
+                            "id": "other_organisations", 
+                            "title": "Other organisations involved", 
+                            "widget": "array"
+                          }, 
+                          "showLabel": true
+                        }
+                      ], 
+                      "fixed": true, 
+                      "fixedLayout": true, 
+                      "readOnly": false, 
+                      "readOnlySettings": true, 
+                      "required": true, 
+                      "variation": "default"
+                    }, 
+                    "undefined": {
+                      "@type": "metadataSection", 
+                      "disableNewBlocks": true, 
+                      "fields": [
+                        {
+                          "@id": "18f523b1-8cce-4cc1-a5e9-4caccf4231c5", 
+                          "field": {
+                            "id": "topics", 
+                            "title": "Topics", 
+                            "widget": "array"
+                          }, 
+                          "showLabel": true
+                        }, 
+                        {
+                          "@id": "949bc72a-1d26-41d5-ba10-d92bedd3575b", 
+                          "field": {
+                            "id": "geo_coverage", 
+                            "title": "Geographical coverage", 
+                            "widget": "geolocation"
+                          }, 
+                          "showLabel": true
+                        }, 
+                        {
+                          "@id": "67cd36c7-16fd-42ac-a945-eb39c8a54c32", 
+                          "field": {
+                            "id": "temporal_coverage", 
+                            "title": "Temporal coverage", 
+                            "widget": "temporal"
+                          }, 
+                          "showLabel": true
+                        }, 
+                        {
+                          "@id": "5cf00740-8ab4-4d70-bed4-184c2cc2ecfb", 
+                          "field": {
+                            "id": "publisher", 
+                            "title": "Publisher", 
+                            "widget": "array"
+                          }, 
+                          "showLabel": true
+                        }, 
+                        {
+                          "@id": "d3388432-6e62-4e43-8f6a-c0e983f70cef", 
+                          "field": {
+                            "id": "rights", 
+                            "title": "Rights", 
+                            "widget": "string"
+                          }, 
+                          "showLabel": true
+                        }, 
+                        {
+                          "@id": "ff3ad66f-c062-49e9-9edc-61c9fbffa2e0", 
+                          "field": {
+                            "id": "other_organisations", 
+                            "title": "Other organisations involved", 
+                            "widget": "array"
+                          }, 
+                          "showLabel": true
+                        }
+                      ], 
+                      "fixed": true, 
+                      "fixedLayout": true, 
+                      "readOnly": false, 
+                      "readOnlySettings": true, 
+                      "required": true, 
+                      "variation": "default"
+                    }
+                  }, 
+                  "blocks_layout": {
+                    "items": [
+                      "d8a0a984-0b69-4a27-af09-97338a3b41a4"
+                    ]
+                  }, 
+                  "title": "Metadata"
+                }
+              }, 
+              "blocks_layout": {
+                "items": [
+                  "658e2886-cfbf-4c2f-a603-061e1627a515", 
+                  "570bee2d-1316-48cf-adde-4b640f92119b", 
+                  "8a280073-bf94-4717-b3e2-1374b57ca99d", 
+                  "265e2bee-7de3-46e8-b6ee-76005f3f434f"
+                ]
+              }, 
+              "iconSize": "small", 
+              "imageSize": "icon"
+            }, 
+            "disableNewBlocks": true, 
+            "fixed": true, 
+            "menuCompact": true, 
+            "menuFluid": true, 
+            "menuInverted": false, 
+            "menuPointing": true, 
+            "menuSecondary": true, 
+            "menuText": true, 
+            "required": true, 
+            "template": "default", 
+            "variation": "accordion", 
+            "verticalAlign": "flex-start"
+          }, 
+          "undefined": {
+            "@type": "tabs_block", 
+            "accordionIconRight": false, 
+            "allowedBlocks": [], 
+            "data": {
+              "assetPosition": "top", 
+              "blocks": {
+                "265e2bee-7de3-46e8-b6ee-76005f3f434f": {
+                  "@type": "tab", 
+                  "assetPosition": "top", 
+                  "blocks": {
+                    "2c4799e2-a521-4f44-b4ca-f64255f13247": {
+                      "@type": "slate", 
+                      "instructions": {
+                        "data": "<p>Any additional information goes here, like methodology or links to other supporting information</p>"
+                      }, 
+                      "placeholder": "Type optional extra information", 
+                      "plaintext": "", 
+                      "value": [
+                        {
+                          "children": [
+                            {
+                              "text": ""
+                            }
+                          ], 
+                          "type": "p"
+                        }
+                      ]
+                    }, 
+                    "undefined": {
+                      "@type": "slate", 
+                      "plaintext": "", 
+                      "value": [
+                        {
+                          "children": [
+                            {
+                              "text": ""
+                            }
+                          ], 
+                          "type": "p"
+                        }
+                      ]
+                    }
+                  }, 
+                  "blocks_layout": {
+                    "items": [
+                      "2c4799e2-a521-4f44-b4ca-f64255f13247"
+                    ]
+                  }, 
+                  "iconSize": "small", 
+                  "imageSize": "icon", 
+                  "title": "More info"
+                }, 
+                "570bee2d-1316-48cf-adde-4b640f92119b": {
+                  "@type": "tab", 
+                  "blocks": {
+                    "7501d382-990c-4709-9768-56fc26c0341f": {
+                      "@type": "metadata", 
+                      "data": {
+                        "id": "data_provenance", 
+                        "widget": "data_provenance"
+                      }, 
+                      "readOnly": false
+                    }, 
+                    "undefined": {
+                      "@type": "metadata", 
+                      "data": {
+                        "id": "data_provenance", 
+                        "widget": "data_provenance"
+                      }, 
+                      "readOnly": false
+                    }
+                  }, 
+                  "blocks_layout": {
+                    "items": [
+                      "7501d382-990c-4709-9768-56fc26c0341f"
+                    ]
+                  }, 
+                  "title": "Data sources"
+                }, 
+                "658e2886-cfbf-4c2f-a603-061e1627a515": {
+                  "@type": "tab", 
+                  "blocks": {
+                    "8ce96a49-be90-4696-97a4-2629807e4379": {
+                      "@type": "slate", 
+                      "placeholder": "Write here an assessment that explain the main finding from the chart.", 
+                      "plaintext": "", 
+                      "value": [
+                        {
+                          "children": [
+                            {
+                              "text": ""
+                            }
+                          ], 
+                          "type": "p"
+                        }
+                      ]
+                    }, 
+                    "undefined": {
+                      "@type": "slate", 
+                      "plaintext": "", 
+                      "value": [
+                        {
+                          "children": [
+                            {
+                              "text": ""
+                            }
+                          ], 
+                          "type": "p"
+                        }
+                      ]
+                    }
+                  }, 
+                  "blocks_layout": {
+                    "items": [
+                      "8ce96a49-be90-4696-97a4-2629807e4379"
+                    ]
+                  }, 
+                  "title": "Assessment"
+                }, 
+                "8a280073-bf94-4717-b3e2-1374b57ca99d": {
+                  "@type": "tab", 
+                  "blocks": {
+                    "d8a0a984-0b69-4a27-af09-97338a3b41a4": {
+                      "@type": "metadataSection", 
+                      "disableNewBlocks": true, 
+                      "fields": [
+                        {
+                          "@id": "18f523b1-8cce-4cc1-a5e9-4caccf4231c5", 
+                          "field": {
+                            "id": "topics", 
+                            "title": "Topics", 
+                            "widget": "array"
+                          }, 
+                          "showLabel": true
+                        }, 
+                        {
+                          "@id": "949bc72a-1d26-41d5-ba10-d92bedd3575b", 
+                          "field": {
+                            "id": "geo_coverage", 
+                            "title": "Geographical coverage", 
+                            "widget": "geolocation"
+                          }, 
+                          "showLabel": true
+                        }, 
+                        {
+                          "@id": "67cd36c7-16fd-42ac-a945-eb39c8a54c32", 
+                          "field": {
+                            "id": "temporal_coverage", 
+                            "title": "Temporal coverage", 
+                            "widget": "temporal"
+                          }, 
+                          "showLabel": true
+                        }, 
+                        {
+                          "@id": "5cf00740-8ab4-4d70-bed4-184c2cc2ecfb", 
+                          "field": {
+                            "id": "publisher", 
+                            "title": "Publisher", 
+                            "widget": "array"
+                          }, 
+                          "showLabel": true
+                        }, 
+                        {
+                          "@id": "d3388432-6e62-4e43-8f6a-c0e983f70cef", 
+                          "field": {
+                            "id": "rights", 
+                            "title": "Rights", 
+                            "widget": "string"
+                          }, 
+                          "showLabel": true
+                        }, 
+                        {
+                          "@id": "ff3ad66f-c062-49e9-9edc-61c9fbffa2e0", 
+                          "field": {
+                            "id": "other_organisations", 
+                            "title": "Other organisations involved", 
+                            "widget": "array"
+                          }, 
+                          "showLabel": true
+                        }
+                      ], 
+                      "fixed": true, 
+                      "fixedLayout": true, 
+                      "readOnly": false, 
+                      "readOnlySettings": true, 
+                      "required": true, 
+                      "variation": "default"
+                    }, 
+                    "undefined": {
+                      "@type": "metadataSection", 
+                      "disableNewBlocks": true, 
+                      "fields": [
+                        {
+                          "@id": "18f523b1-8cce-4cc1-a5e9-4caccf4231c5", 
+                          "field": {
+                            "id": "topics", 
+                            "title": "Topics", 
+                            "widget": "array"
+                          }, 
+                          "showLabel": true
+                        }, 
+                        {
+                          "@id": "949bc72a-1d26-41d5-ba10-d92bedd3575b", 
+                          "field": {
+                            "id": "geo_coverage", 
+                            "title": "Geographical coverage", 
+                            "widget": "geolocation"
+                          }, 
+                          "showLabel": true
+                        }, 
+                        {
+                          "@id": "67cd36c7-16fd-42ac-a945-eb39c8a54c32", 
+                          "field": {
+                            "id": "temporal_coverage", 
+                            "title": "Temporal coverage", 
+                            "widget": "temporal"
+                          }, 
+                          "showLabel": true
+                        }, 
+                        {
+                          "@id": "5cf00740-8ab4-4d70-bed4-184c2cc2ecfb", 
+                          "field": {
+                            "id": "publisher", 
+                            "title": "Publisher", 
+                            "widget": "array"
+                          }, 
+                          "showLabel": true
+                        }, 
+                        {
+                          "@id": "d3388432-6e62-4e43-8f6a-c0e983f70cef", 
+                          "field": {
+                            "id": "rights", 
+                            "title": "Rights", 
+                            "widget": "string"
+                          }, 
+                          "showLabel": true
+                        }, 
+                        {
+                          "@id": "ff3ad66f-c062-49e9-9edc-61c9fbffa2e0", 
+                          "field": {
+                            "id": "other_organisations", 
+                            "title": "Other organisations involved", 
+                            "widget": "array"
+                          }, 
+                          "showLabel": true
+                        }
+                      ], 
+                      "fixed": true, 
+                      "fixedLayout": true, 
+                      "readOnly": true, 
+                      "readOnlySettings": true, 
+                      "required": true, 
+                      "variation": "default"
+                    }
+                  }, 
+                  "blocks_layout": {
+                    "items": [
+                      "d8a0a984-0b69-4a27-af09-97338a3b41a4"
+                    ]
+                  }, 
+                  "title": "Metadata"
+                }
+              }, 
+              "blocks_layout": {
+                "items": [
+                  "658e2886-cfbf-4c2f-a603-061e1627a515", 
+                  "570bee2d-1316-48cf-adde-4b640f92119b", 
+                  "8a280073-bf94-4717-b3e2-1374b57ca99d", 
+                  "265e2bee-7de3-46e8-b6ee-76005f3f434f"
+                ]
+              }, 
+              "iconSize": "small", 
+              "imageSize": "icon"
+            }, 
+            "disableNewBlocks": true, 
+            "fixed": true, 
+            "menuCompact": true, 
+            "menuFluid": true, 
+            "menuInverted": false, 
+            "menuPointing": true, 
+            "menuSecondary": true, 
+            "menuText": true, 
+            "required": true, 
+            "template": "default", 
+            "variation": "accordion", 
+            "verticalAlign": "flex-start"
+          }
+        }, 
+        "blocks_layout": {
+          "items": [
+            "d08627f6-3334-4e15-85bd-c9eb831cbc28"
+          ]
+        }, 
+        "selected": "3e14a323-0c76-4de2-833a-e6eb8f3a8132"
+      }, 
+      "disableNewBlocks": false, 
+      "fixed": true, 
+      "fixedLayout": false, 
+      "required": true, 
+      "styles": {
+        "size": "container_width"
+      }, 
+      "title": "Metadata section", 
+      "variation": "default"
+    }, 
+    "6403548f-875c-4942-8b6e-357f3ec7ef8a": {
+      "@layout": "a5e1ed03-7558-4b7a-b2b1-fce7527ea06f", 
+      "@type": "group", 
+      "as": "section", 
+      "block": "572c673f-6768-4cf0-b348-6f4d72fbd50c", 
+      "data": {
+        "blocks": {
+          "7bf85f34-a6b2-4c25-b17e-9e42dfb6c2a5": {
+            "@type": "slateFootnotes", 
+            "fixed": true, 
+            "global": true, 
+            "required": false
+          }, 
+          "e8ce7824-76bd-436b-b1d4-e30fe63f770e": {
+            "@type": "slate", 
+            "plaintext": "References and footnotes", 
+            "value": [
+              {
+                "children": [
+                  {
+                    "text": "References and footnotes"
+                  }
+                ], 
+                "type": "h2"
+              }
+            ]
+          }, 
+          "undefined": {
+            "@type": "slateFootnotes", 
+            "fixed": true, 
+            "global": true, 
+            "required": true
+          }
+        }, 
+        "blocks_layout": {
+          "items": [
+            "e8ce7824-76bd-436b-b1d4-e30fe63f770e", 
+            "7bf85f34-a6b2-4c25-b17e-9e42dfb6c2a5"
+          ]
+        }
+      }, 
+      "styles": {}, 
+      "title": "References and footnotes", 
+      "variation": "default"
+    }, 
+    "77546ec2-04d4-40d3-ba2d-3e7ea0d5a615": {
+      "@layout": "c8433815-534d-4023-a67f-37536c777387", 
+      "@type": "title", 
+      "block": "77546ec2-04d4-40d3-ba2d-3e7ea0d5a615", 
+      "copyrightIcon": "ri-copyright-line", 
+      "hideCreationDate": true, 
+      "hideDownloadButton": true, 
+      "styles": {}, 
+      "variation": "default"
+    }, 
+    "9c7e1d35-d40a-49b5-849a-5d64970b8916": {
+      "@layout": "a7743a50-0bc9-4db7-9d1b-823a81e51d9d", 
+      "@type": "group", 
+      "as": "div", 
+      "block": "006da3d5-bcc5-4a08-b63c-f64481b9d13a", 
+      "data": {
+        "blocks": {
+          "3ae712a9-2551-4348-9ffb-e9f1ab79ce06": {
+            "@type": "metadata", 
+            "data": {
+              "id": "visualization", 
+              "widget": "json"
+            }, 
+            "disableNewBlocks": true, 
+            "fixed": true, 
+            "required": true
+          }, 
+          "d9b9830a-d990-45c9-96fd-6dc81c022c72": {
+            "@type": "metadata", 
+            "data": {
+              "id": "figure_note", 
+              "widget": "slate"
+            }, 
+            "disableNewBlocks": true, 
+            "fixed": true, 
+            "required": true
+          }, 
+          "undefined": {
+            "@type": "metadata", 
+            "data": {
+              "id": "figure_note", 
+              "widget": "slate"
+            }
+          }
+        }, 
+        "blocks_layout": {
+          "items": [
+            "3ae712a9-2551-4348-9ffb-e9f1ab79ce06", 
+            "d9b9830a-d990-45c9-96fd-6dc81c022c72"
+          ]
+        }
+      }, 
+      "disableNewBlocks": true, 
+      "fixed": true, 
+      "fixedLayout": true, 
+      "required": true, 
+      "styles": {
+        "size": "container_width"
+      }, 
+      "title": "Figure section", 
+      "variation": "default"
+    }, 
+    "c8193afa-e577-46e0-9eb5-3cc5d62e00a9": {
+      "@layout": "adae10b0-f3d5-47fa-a3dd-39bb5b8c765a", 
+      "@type": "group", 
+      "as": "section", 
+      "block": "80f8ab49-c878-428f-b628-31538a729459", 
+      "data": {
+        "blocks": {
+          "1940d7f9-8496-4a05-8260-97f8c705f28a": {
+            "@type": "slate", 
+            "plaintext": "", 
+            "value": [
+              {
+                "children": [
+                  {
+                    "text": ""
+                  }
+                ], 
+                "type": "p"
+              }
+            ]
+          }, 
+          "342e2f6f-edc2-49ee-bf84-30cbcbc79a91": {
+            "@type": "slate", 
+            "plaintext": "Related content", 
+            "value": [
+              {
+                "children": [
+                  {
+                    "text": "Related content"
+                  }
+                ], 
+                "type": "h2"
+              }
+            ]
+          }, 
+          "812ecb82-90db-4cf5-951b-e376673de790": {
+            "@type": "gridBlock", 
+            "blocks": {
+              "76c89d98-7d15-464d-b057-f90b72a99bc8": {
+                "@type": "teaser", 
+                "description": "The greenhouse gas (GHG) emission intensity of power generation in the European Union has continued to fall, confirming the trend of recent decades. Generating one kilowatt hour is estimated to have emitted 9% lower emissions\u00a0in 2024 on average than in 2023, and 40% less than a decade ago. Climate and energy policies have effectively lowered carbon-intensive electricity supply over time, resulting in less coal use, more renewables and a more efficient EU generation mix.", 
+                "head_title": null, 
+                "href": [
+                  {
+                    "@id": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1", 
+                    "@type": "ims_indicator", 
+                    "Description": " The greenhouse gas emission intensity of power generation in the European Union has continued to fall, confirming the trend of recent decades. Generating one kilowatt hour is estimated to have emitted, on average, 9% lower emissions\u00a0in 2024 than in 2023 and 40% less than a decade ago. Climate and energy policies have effectively lowered carbon-intensive electricity supply over time, resulting in less coal use, more renewables and a more efficient EU generation mix .", 
+                    "EffectiveDate": "2025-06-27T15:58:03+02:00", 
+                    "ExpirationDate": "None", 
+                    "Subject": [
+                      "Electricity generation", 
+                      "fossil fuel", 
+                      "electricity", 
+                      "Greenhouse gas", 
+                      "GHG", 
+                      "ENER038", 
+                      "Trends and projections", 
+                      "Greenhouse gas emissions"
+                    ], 
+                    "Title": "Greenhouse gas emission intensity of electricity generation in Europe", 
+                    "description": "The greenhouse gas (GHG) emission intensity of power generation in the European Union has continued to fall, confirming the trend of recent decades. Generating one kilowatt hour is estimated to have emitted 9% lower emissions\u00a0in 2024 on average than in 2023, and 40% less than a decade ago. Climate and energy policies have effectively lowered carbon-intensive electricity supply over time, resulting in less coal use, more renewables and a more efficient EU generation mix.", 
+                    "effective": "2025-06-27T13:58:03+00:00", 
+                    "hasPreviewImage": null, 
+                    "head_title": null, 
+                    "image_field": "", 
+                    "review_state": "under_qc", 
+                    "start": null, 
+                    "title": "Greenhouse gas emission intensity of electricity generation in Europe", 
+                    "type_title": "Indicator"
+                  }
+                ], 
+                "id": "76c89d98-7d15-464d-b057-f90b72a99bc8", 
+                "itemModel": {
+                  "@type": "card", 
+                  "callToAction": {
+                    "label": "Read more"
+                  }, 
+                  "hasDate": false, 
+                  "hasEventDate": false, 
+                  "hasLink": true, 
+                  "maxDescription": 2, 
+                  "maxTitle": 2, 
+                  "styles": {}, 
+                  "titleOnImage": false
+                }, 
+                "overwrite": true, 
+                "styles": {
+                  "align": "left"
+                }, 
+                "title": "Greenhouse gas emission intensity of electricity generation in Europe"
+              }, 
+              "a5f98454-19a9-4e39-a5ec-45f6cd2fd0aa": {
+                "@type": "teaser", 
+                "id": "a5f98454-19a9-4e39-a5ec-45f6cd2fd0aa"
+              }, 
+              "d8177bed-0213-461d-9c8f-c982688f5bfd": {
+                "@type": "teaser", 
+                "id": "d8177bed-0213-461d-9c8f-c982688f5bfd"
+              }
+            }, 
+            "blocks_layout": {
+              "items": [
+                "76c89d98-7d15-464d-b057-f90b72a99bc8", 
+                "d8177bed-0213-461d-9c8f-c982688f5bfd", 
+                "a5f98454-19a9-4e39-a5ec-45f6cd2fd0aa"
+              ]
+            }
+          }, 
+          "undefined": {
+            "@type": "slate", 
+            "plaintext": "Related content", 
+            "value": [
+              {
+                "children": [
+                  {
+                    "text": "Related content"
+                  }
+                ], 
+                "type": "h2"
+              }
+            ]
+          }
+        }, 
+        "blocks_layout": {
+          "items": [
+            "1940d7f9-8496-4a05-8260-97f8c705f28a", 
+            "342e2f6f-edc2-49ee-bf84-30cbcbc79a91", 
+            "812ecb82-90db-4cf5-951b-e376673de790"
+          ]
+        }
+      }, 
+      "styles": {}, 
+      "title": "Related content", 
+      "variation": "default"
+    }, 
+    "f4890738-a6a5-467d-b7f6-5d9a7bddea6c": {
+      "@layout": "1b16722f-286a-481e-81c7-6952d843d2a7", 
+      "@type": "group", 
+      "as": "div", 
+      "block": "f4890738-a6a5-467d-b7f6-5d9a7bddea6c", 
+      "data": {
+        "blocks": {
+          "08e71b25-aaff-4b75-8443-cce94f31a743": {
+            "@type": "group", 
+            "as": "div", 
+            "data": {
+              "blocks": {
+                "ab499cf4-6110-4c10-a31b-734625865747": {
+                  "@type": "metadata", 
+                  "data": {
+                    "id": "benchmark_description", 
+                    "widget": "textarea"
+                  }
+                }, 
+                "b17b3e9a-4e10-4621-b824-1c4610af0ca2": {
+                  "@type": "metadata", 
+                  "data": {
+                    "id": "benchmark_level", 
+                    "widget": "array"
+                  }
+                }, 
+                "undefined": {
+                  "@type": "slate", 
+                  "plaintext": "", 
+                  "value": [
+                    {
+                      "children": [
+                        {
+                          "text": ""
+                        }
+                      ], 
+                      "type": "p"
+                    }
+                  ]
+                }
+              }, 
+              "blocks_layout": {
+                "items": [
+                  "b17b3e9a-4e10-4621-b824-1c4610af0ca2", 
+                  "ab499cf4-6110-4c10-a31b-734625865747"
+                ]
+              }
+            }, 
+            "no_of_columns": 1, 
+            "styles": {}, 
+            "variation": "flex group"
+          }, 
+          "b08303fe-99a2-4e20-b072-2efd128c650c": {
+            "@type": "description", 
+            "fixed": true, 
+            "plaintext": "This figure shows the greenhouse gas emission intensity of gross electricity generation.", 
+            "required": true, 
+            "value": [
+              {
+                "children": [
+                  {
+                    "text": "This figure shows the greenhouse gas emission intensity of gross electricity generation."
+                  }
+                ], 
+                "type": "p"
+              }
+            ]
+          }, 
+          "undefined": {
+            "@type": "group", 
+            "as": "div", 
+            "data": {
+              "blocks": {
+                "ab499cf4-6110-4c10-a31b-734625865747": {
+                  "@type": "slate", 
+                  "plaintext": "", 
+                  "value": [
+                    {
+                      "children": [
+                        {
+                          "text": ""
+                        }
+                      ], 
+                      "type": "p"
+                    }
+                  ]
+                }, 
+                "b17b3e9a-4e10-4621-b824-1c4610af0ca2": {
+                  "@type": "slate", 
+                  "plaintext": "", 
+                  "value": [
+                    {
+                      "children": [
+                        {
+                          "text": ""
+                        }
+                      ], 
+                      "type": "p"
+                    }
+                  ]
+                }, 
+                "undefined": {
+                  "@type": "slate", 
+                  "plaintext": "", 
+                  "value": [
+                    {
+                      "children": [
+                        {
+                          "text": ""
+                        }
+                      ], 
+                      "type": "p"
+                    }
+                  ]
+                }
+              }, 
+              "blocks_layout": {
+                "items": [
+                  "b17b3e9a-4e10-4621-b824-1c4610af0ca2", 
+                  "ab499cf4-6110-4c10-a31b-734625865747"
+                ]
+              }
+            }, 
+            "styles": {}
+          }
+        }, 
+        "blocks_layout": {
+          "items": [
+            "b08303fe-99a2-4e20-b072-2efd128c650c", 
+            "08e71b25-aaff-4b75-8443-cce94f31a743"
+          ]
+        }
+      }, 
+      "disableNewBlocks": false, 
+      "fixed": true, 
+      "fixedLayout": false, 
+      "required": true, 
+      "styles": {}, 
+      "title": "Description", 
+      "variation": "default"
+    }, 
+    "undefined": {
+      "@type": "group", 
+      "as": "div", 
+      "data": {
+        "blocks": {
+          "08e71b25-aaff-4b75-8443-cce94f31a743": {
+            "@type": "group", 
+            "as": "div", 
+            "data": {
+              "blocks": {
+                "ab499cf4-6110-4c10-a31b-734625865747": {
+                  "@type": "metadata", 
+                  "data": {
+                    "id": "benchmark_description", 
+                    "widget": "textarea"
+                  }
+                }, 
+                "b17b3e9a-4e10-4621-b824-1c4610af0ca2": {
+                  "@type": "metadata", 
+                  "data": {
+                    "id": "benchmark_level", 
+                    "widget": "array"
+                  }
+                }, 
+                "undefined": {
+                  "@type": "slate", 
+                  "plaintext": "", 
+                  "value": [
+                    {
+                      "children": [
+                        {
+                          "text": ""
+                        }
+                      ], 
+                      "type": "p"
+                    }
+                  ]
+                }
+              }, 
+              "blocks_layout": {
+                "items": [
+                  "b17b3e9a-4e10-4621-b824-1c4610af0ca2", 
+                  "ab499cf4-6110-4c10-a31b-734625865747"
+                ]
+              }
+            }, 
+            "no_of_columns": 2, 
+            "styles": {}, 
+            "variation": "flex group"
+          }, 
+          "b08303fe-99a2-4e20-b072-2efd128c650c": {
+            "@type": "description", 
+            "fixed": true, 
+            "plaintext": null, 
+            "required": true, 
+            "value": [
+              {
+                "children": [
+                  {
+                    "text": ""
+                  }
+                ], 
+                "type": "p"
+              }
+            ]
+          }, 
+          "undefined": {
+            "@type": "group", 
+            "as": "div", 
+            "data": {
+              "blocks": {
+                "ab499cf4-6110-4c10-a31b-734625865747": {
+                  "@type": "slate", 
+                  "plaintext": "", 
+                  "value": [
+                    {
+                      "children": [
+                        {
+                          "text": ""
+                        }
+                      ], 
+                      "type": "p"
+                    }
+                  ]
+                }, 
+                "b17b3e9a-4e10-4621-b824-1c4610af0ca2": {
+                  "@type": "slate", 
+                  "plaintext": "", 
+                  "value": [
+                    {
+                      "children": [
+                        {
+                          "text": ""
+                        }
+                      ], 
+                      "type": "p"
+                    }
+                  ]
+                }, 
+                "undefined": {
+                  "@type": "slate", 
+                  "plaintext": "", 
+                  "value": [
+                    {
+                      "children": [
+                        {
+                          "text": ""
+                        }
+                      ], 
+                      "type": "p"
+                    }
+                  ]
+                }
+              }, 
+              "blocks_layout": {
+                "items": [
+                  "b17b3e9a-4e10-4621-b824-1c4610af0ca2", 
+                  "ab499cf4-6110-4c10-a31b-734625865747"
+                ]
+              }
+            }, 
+            "styles": {}
+          }
+        }, 
+        "blocks_layout": {
+          "items": [
+            "b08303fe-99a2-4e20-b072-2efd128c650c", 
+            "08e71b25-aaff-4b75-8443-cce94f31a743"
+          ]
+        }
+      }, 
+      "disableNewBlocks": false, 
+      "fixed": true, 
+      "fixedLayout": false, 
+      "required": true, 
+      "styles": {}, 
+      "title": "Descriptionsection", 
+      "variation": "default"
+    }
+  }, 
+  "blocks_layout": {
+    "items": [
+      "77546ec2-04d4-40d3-ba2d-3e7ea0d5a615", 
+      "f4890738-a6a5-467d-b7f6-5d9a7bddea6c", 
+      "9c7e1d35-d40a-49b5-849a-5d64970b8916", 
+      "554f831c-510d-4bab-a14c-b492e90ee83b", 
+      "c8193afa-e577-46e0-9eb5-3cc5d62e00a9", 
+      "067820e9-a4e8-4018-8874-2f280c6ec9a6", 
+      "6403548f-875c-4942-8b6e-357f3ec7ef8a"
+    ]
+  }, 
+  "changeNote": "", 
+  "contributors": [], 
+  "contributors_fullname": [], 
+  "created": "2025-10-10T09:15:15+00:00", 
+  "creators": [
+    "2ba5d731-7289-4641-96b7-aaa723ee9f27"
+  ], 
+  "creators_fullname": [
+    "Inigo Gascue"
+  ], 
+  "data_provenance": {
+    "data": [
+      {
+        "@id": "60e7291c-05fb-4d93-b446-b0c103b120ac", 
+        "link": "https://sdi.eea.europa.eu/catalogue/srv/eng/catalog.search#/metadata/3b7fe76c-524a-439a-bfd2-a6e4046302a2", 
+        "organisation": "European Environment Agency (EEA)", 
+        "title": "National emissions reported to the UNFCCC and to the EU Greenhouse Gas Monitoring Mechanism"
+      }, 
+      {
+        "@id": "7f1b6eb8-309b-44b9-8259-394e01ce4c99", 
+        "link": "https://ec.europa.eu/eurostat/databrowser/view/nrg_bal_c/default/table?lang=en", 
+        "organisation": "EUROSTAT - Statistical Office of the European Union", 
+        "title": "Complete energy balances"
+      }
+    ]
+  }, 
+  "description": "This figure shows the greenhouse gas emission intensity of gross electricity generation.", 
+  "effective": "2025-11-06T08:36:41+00:00", 
+  "exclude_from_nav": false, 
+  "expires": null, 
+  "figure_note": null, 
+  "file": {
+    "content-type": "text/csv", 
+    "download": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@@download/file", 
+    "filename": "data.csv", 
+    "size": 4261
+  }, 
+  "geo_coverage": {
+    "geolocation": [
+      {
+        "label": "Cyprus", 
+        "value": "geo-146669"
+      }, 
+      {
+        "label": "Portugal", 
+        "value": "geo-2264397"
+      }, 
+      {
+        "label": "Spain", 
+        "value": "geo-2510769"
+      }, 
+      {
+        "label": "Malta", 
+        "value": "geo-2562770"
+      }, 
+      {
+        "label": "Denmark", 
+        "value": "geo-2623032"
+      }, 
+      {
+        "label": "Sweden", 
+        "value": "geo-2661886"
+      }, 
+      {
+        "label": "Netherlands", 
+        "value": "geo-2750405"
+      }, 
+      {
+        "label": "Austria", 
+        "value": "geo-2782113"
+      }, 
+      {
+        "label": "Belgium", 
+        "value": "geo-2802361"
+      }, 
+      {
+        "label": "Germany", 
+        "value": "geo-2921044"
+      }, 
+      {
+        "label": "Luxembourg", 
+        "value": "geo-2960313"
+      }, 
+      {
+        "label": "Ireland", 
+        "value": "geo-2963597"
+      }, 
+      {
+        "label": "France", 
+        "value": "geo-3017382"
+      }, 
+      {
+        "label": "Slovakia", 
+        "value": "geo-3057568"
+      }, 
+      {
+        "label": "Czechia", 
+        "value": "geo-3077311"
+      }, 
+      {
+        "label": "Italy", 
+        "value": "geo-3175395"
+      }, 
+      {
+        "label": "Slovenia", 
+        "value": "geo-3190538"
+      }, 
+      {
+        "label": "Croatia", 
+        "value": "geo-3202326"
+      }, 
+      {
+        "label": "Greece", 
+        "value": "geo-390903"
+      }, 
+      {
+        "label": "Estonia", 
+        "value": "geo-453733"
+      }, 
+      {
+        "label": "Latvia", 
+        "value": "geo-458258"
+      }, 
+      {
+        "label": "Lithuania", 
+        "value": "geo-597427"
+      }, 
+      {
+        "label": "Finland", 
+        "value": "geo-660013"
+      }, 
+      {
+        "label": "Hungary", 
+        "value": "geo-719819"
+      }, 
+      {
+        "label": "Bulgaria", 
+        "value": "geo-732800"
+      }, 
+      {
+        "label": "Poland", 
+        "value": "geo-798544"
+      }, 
+      {
+        "label": "Romania", 
+        "value": "geo-798549"
+      }
+    ], 
+    "grouped_geolocation": {
+      "groups": [
+        {
+          "countries": [
+            {
+              "label": "Cyprus", 
+              "value": "geo-146669"
+            }, 
+            {
+              "label": "Denmark", 
+              "value": "geo-2623032"
+            }, 
+            {
+              "label": "Slovenia", 
+              "value": "geo-3190538"
+            }, 
+            {
+              "label": "Slovakia", 
+              "value": "geo-3057568"
+            }, 
+            {
+              "label": "Luxembourg", 
+              "value": "geo-2960313"
+            }, 
+            {
+              "label": "Italy", 
+              "value": "geo-3175395"
+            }, 
+            {
+              "label": "Sweden", 
+              "value": "geo-2661886"
+            }, 
+            {
+              "label": "Malta", 
+              "value": "geo-2562770"
+            }, 
+            {
+              "label": "Greece", 
+              "value": "geo-390903"
+            }, 
+            {
+              "label": "Croatia", 
+              "value": "geo-3202326"
+            }, 
+            {
+              "label": "Netherlands", 
+              "value": "geo-2750405"
+            }, 
+            {
+              "label": "Latvia", 
+              "value": "geo-458258"
+            }, 
+            {
+              "label": "Estonia", 
+              "value": "geo-453733"
+            }, 
+            {
+              "label": "Romania", 
+              "value": "geo-798549"
+            }, 
+            {
+              "label": "Poland", 
+              "value": "geo-798544"
+            }, 
+            {
+              "label": "Hungary", 
+              "value": "geo-719819"
+            }, 
+            {
+              "label": "Austria", 
+              "value": "geo-2782113"
+            }, 
+            {
+              "label": "France", 
+              "value": "geo-3017382"
+            }, 
+            {
+              "label": "Ireland", 
+              "value": "geo-2963597"
+            }, 
+            {
+              "label": "Finland", 
+              "value": "geo-660013"
+            }, 
+            {
+              "label": "Bulgaria", 
+              "value": "geo-732800"
+            }, 
+            {
+              "label": "Spain", 
+              "value": "geo-2510769"
+            }, 
+            {
+              "label": "Germany", 
+              "value": "geo-2921044"
+            }, 
+            {
+              "label": "Belgium", 
+              "value": "geo-2802361"
+            }, 
+            {
+              "label": "Lithuania", 
+              "value": "geo-597427"
+            }, 
+            {
+              "label": "Portugal", 
+              "value": "geo-2264397"
+            }, 
+            {
+              "label": "Czechia", 
+              "value": "geo-3077311"
+            }
+          ], 
+          "label": "EU27 2020", 
+          "value": "eu27_2020"
+        }
+      ], 
+      "ungrouped": []
+    }, 
+    "selectedGroup": {
+      "label": "eu27_2020", 
+      "value": "eu27_2020"
+    }
+  }, 
+  "id": "greenhouse-gas-emission-intensity-of-electricity-generation", 
+  "is_folderish": true, 
+  "items": [
+    {
+      "@id": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/fig2-291456-ener038", 
+      "@type": "File", 
+      "description": "", 
+      "effective": "2025-11-06T08:36:41+00:00", 
+      "end": null, 
+      "getObjSize": "4.2 KB", 
+      "head_title": null, 
+      "image_field": "preview_image", 
+      "image_scales": {
+        "preview_image": [
+          {
+            "content-type": "image/svg+xml", 
+            "download": "../@@images/preview_image-1200-ccea9ec3b1f70b2c93faa9fd89e80c12.svg", 
+            "filename": "preview.svg", 
+            "height": 900, 
+            "inherited_from": {
+              "@id": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation", 
+              "title": "Greenhouse gas emission intensity of electricity generation, country level"
+            }, 
+            "scales": {
+              "big": {
+                "download": "../@@images/preview_image-80-c367ac0d35f2503327452615b72a7f43.svg", 
+                "height": 60, 
+                "width": 80
+              }, 
+              "great": {
+                "download": "../@@images/preview_image-1200-aa2cd3744532a8170f96ac158c601a24.svg", 
+                "height": 65536, 
+                "width": 87381
+              }, 
+              "icon": {
+                "download": "../@@images/preview_image-32-9eee4290c8e0c32169edb01b73af5204.svg", 
+                "height": 24, 
+                "width": 32
+              }, 
+              "large": {
+                "download": "../@@images/preview_image-800-3a016f42a5c213af2eddcf7b2008da40.svg", 
+                "height": 65536, 
+                "width": 87381
+              }, 
+              "larger": {
+                "download": "../@@images/preview_image-1000-07f2b27ea540b72bb8a4fa09fe9deb6d.svg", 
+                "height": 65536, 
+                "width": 87381
+              }, 
+              "medium": {
+                "download": "../@@images/preview_image-60-ced4f00a825df04b1a02f62f0f003b00.svg", 
+                "height": 45, 
+                "width": 60
+              }, 
+              "mini": {
+                "download": "../@@images/preview_image-200-7892502649f960a9b3b5d8a555121326.svg", 
+                "height": 65536, 
+                "width": 87381
+              }, 
+              "preview": {
+                "download": "../@@images/preview_image-400-a22c631c9b6a02fd21b5c6fadf36eec4.svg", 
+                "height": 65536, 
+                "width": 87381
+              }, 
+              "small": {
+                "download": "../@@images/preview_image-48-a3d02ed40cb9a141e94c84782097b049.svg", 
+                "height": 36, 
+                "width": 48
+              }, 
+              "teaser": {
+                "download": "../@@images/preview_image-600-3e08dbf92697fbae6e791b36daf9409c.svg", 
+                "height": 65536, 
+                "width": 87381
+              }, 
+              "thumb": {
+                "download": "../@@images/preview_image-128-2d22aba7b8415868ac6227eb70d24b0e.svg", 
+                "height": 96, 
+                "width": 128
+              }, 
+              "tile": {
+                "download": "../@@images/preview_image-64-476ea59c233f3d139fd38457181fe574.svg", 
+                "height": 48, 
+                "width": 64
+              }, 
+              "tiny": {
+                "download": "../@@images/preview_image-24-4f99482cd8e55ce60a99f69141f290f7.svg", 
+                "height": 18, 
+                "width": 24
+              }
+            }, 
+            "size": 35625, 
+            "width": 1200
+          }
+        ]
+      }, 
+      "mime_type": "text/csv", 
+      "nav_title": null, 
+      "review_state": "published", 
+      "start": null, 
+      "title": "FIG2-291456-ENER038", 
+      "type_title": "File"
+    }
+  ], 
+  "items_total": 1, 
+  "language": {
+    "title": "English", 
+    "token": "en"
+  }, 
+  "layout": "view", 
+  "lock": {
+    "locked": false, 
+    "stealable": true
+  }, 
+  "modified": "2026-07-10T08:23:07+00:00", 
+  "next_item": {}, 
+  "other_organisations": [], 
+  "parent": {
+    "@id": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1", 
+    "@type": "ims_indicator", 
+    "description": "The greenhouse gas (GHG) emission intensity of power generation in the European Union has continued to fall, confirming the trend of recent decades. Generating one kilowatt hour has emitted 11% less emissions\u00a0in 2024 on average than in 2023, and 41% less than a decade ago. Climate and energy policies have effectively lowered carbon-intensive electricity supply over time, resulting in less coal use, more renewables and a more efficient EU generation mix.", 
+    "effective": "2026-07-10T08:23:07+00:00", 
+    "end": null, 
+    "getObjSize": null, 
+    "head_title": null, 
+    "image_field": null, 
+    "image_scales": {}, 
+    "mime_type": null, 
+    "nav_title": null, 
+    "review_state": "published", 
+    "start": null, 
+    "title": "Greenhouse gas emission intensity of electricity generation in Europe", 
+    "type_title": "Indicator"
+  }, 
+  "preview_caption": null, 
+  "preview_image": {
+    "content-type": "image/svg+xml", 
+    "download": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@@images/preview_image-1200-ccea9ec3b1f70b2c93faa9fd89e80c12.svg", 
+    "filename": "preview.svg", 
+    "height": 900, 
+    "scales": {
+      "big": {
+        "download": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@@images/preview_image-80-c367ac0d35f2503327452615b72a7f43.svg", 
+        "height": 60, 
+        "width": 80
+      }, 
+      "great": {
+        "download": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@@images/preview_image-1200-aa2cd3744532a8170f96ac158c601a24.svg", 
+        "height": 65536, 
+        "width": 87381
+      }, 
+      "huge": {
+        "download": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@@images/preview_image-1920-9654f51c52fa37161c7539a25dab4ea8.svg", 
+        "height": 900, 
+        "width": 1200
+      }, 
+      "icon": {
+        "download": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@@images/preview_image-32-9eee4290c8e0c32169edb01b73af5204.svg", 
+        "height": 24, 
+        "width": 32
+      }, 
+      "large": {
+        "download": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@@images/preview_image-800-3a016f42a5c213af2eddcf7b2008da40.svg", 
+        "height": 65536, 
+        "width": 87381
+      }, 
+      "larger": {
+        "download": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@@images/preview_image-1000-07f2b27ea540b72bb8a4fa09fe9deb6d.svg", 
+        "height": 65536, 
+        "width": 87381
+      }, 
+      "medium": {
+        "download": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@@images/preview_image-60-ced4f00a825df04b1a02f62f0f003b00.svg", 
+        "height": 45, 
+        "width": 60
+      }, 
+      "mini": {
+        "download": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@@images/preview_image-200-7892502649f960a9b3b5d8a555121326.svg", 
+        "height": 65536, 
+        "width": 87381
+      }, 
+      "preview": {
+        "download": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@@images/preview_image-400-a22c631c9b6a02fd21b5c6fadf36eec4.svg", 
+        "height": 65536, 
+        "width": 87381
+      }, 
+      "small": {
+        "download": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@@images/preview_image-48-a3d02ed40cb9a141e94c84782097b049.svg", 
+        "height": 36, 
+        "width": 48
+      }, 
+      "teaser": {
+        "download": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@@images/preview_image-600-3e08dbf92697fbae6e791b36daf9409c.svg", 
+        "height": 65536, 
+        "width": 87381
+      }, 
+      "thumb": {
+        "download": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@@images/preview_image-128-2d22aba7b8415868ac6227eb70d24b0e.svg", 
+        "height": 96, 
+        "width": 128
+      }, 
+      "tile": {
+        "download": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@@images/preview_image-64-476ea59c233f3d139fd38457181fe574.svg", 
+        "height": 48, 
+        "width": 64
+      }, 
+      "tiny": {
+        "download": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1/greenhouse-gas-emission-intensity-of-electricity-generation/@@images/preview_image-24-4f99482cd8e55ce60a99f69141f290f7.svg", 
+        "height": 18, 
+        "width": 24
+      }
+    }, 
+    "size": 35625, 
+    "width": 1200
+  }, 
+  "previous_item": {}, 
+  "publisher": [
+    {
+      "title": "European Environment Agency", 
+      "token": "EEA"
+    }
+  ], 
+  "relatedItems": [], 
+  "review_state": "published", 
+  "rights": "", 
+  "subjects": [], 
+  "table_of_contents": null, 
+  "temporal_coverage": {
+    "temporal": [
+      {
+        "label": "1990", 
+        "value": "1990"
+      }, 
+      {
+        "label": "1991", 
+        "value": "1991"
+      }, 
+      {
+        "label": "1992", 
+        "value": "1992"
+      }, 
+      {
+        "label": "1993", 
+        "value": "1993"
+      }, 
+      {
+        "label": "1994", 
+        "value": "1994"
+      }, 
+      {
+        "label": "1995", 
+        "value": "1995"
+      }, 
+      {
+        "label": "1996", 
+        "value": "1996"
+      }, 
+      {
+        "label": "1997", 
+        "value": "1997"
+      }, 
+      {
+        "label": "1998", 
+        "value": "1998"
+      }, 
+      {
+        "label": "1999", 
+        "value": "1999"
+      }, 
+      {
+        "label": "2000", 
+        "value": "2000"
+      }, 
+      {
+        "label": "2001", 
+        "value": "2001"
+      }, 
+      {
+        "label": "2002", 
+        "value": "2002"
+      }, 
+      {
+        "label": "2003", 
+        "value": "2003"
+      }, 
+      {
+        "label": "2004", 
+        "value": "2004"
+      }, 
+      {
+        "label": "2005", 
+        "value": "2005"
+      }, 
+      {
+        "label": "2006", 
+        "value": "2006"
+      }, 
+      {
+        "label": "2007", 
+        "value": "2007"
+      }, 
+      {
+        "label": "2008", 
+        "value": "2008"
+      }, 
+      {
+        "label": "2009", 
+        "value": "2009"
+      }, 
+      {
+        "label": "2010", 
+        "value": "2010"
+      }, 
+      {
+        "label": "2011", 
+        "value": "2011"
+      }, 
+      {
+        "label": "2012", 
+        "value": "2012"
+      }, 
+      {
+        "label": "2013", 
+        "value": "2013"
+      }, 
+      {
+        "label": "2014", 
+        "value": "2014"
+      }, 
+      {
+        "label": "2015", 
+        "value": "2015"
+      }, 
+      {
+        "label": "2016", 
+        "value": "2016"
+      }, 
+      {
+        "label": "2017", 
+        "value": "2017"
+      }, 
+      {
+        "label": "2018", 
+        "value": "2018"
+      }, 
+      {
+        "label": "2019", 
+        "value": "2019"
+      }, 
+      {
+        "label": "2020", 
+        "value": "2020"
+      }, 
+      {
+        "label": "2021", 
+        "value": "2021"
+      }, 
+      {
+        "label": "2022", 
+        "value": "2022"
+      }, 
+      {
+        "label": "2023", 
+        "value": "2023"
+      }, 
+      {
+        "label": "2024", 
+        "value": "2024"
+      }
+    ]
+  }, 
+  "text": null, 
+  "title": "Greenhouse gas emission intensity of electricity generation, country level", 
+  "topics": [
+    {
+      "title": "Energy", 
+      "token": "term14"
+    }, 
+    {
+      "title": "Climate change mitigation", 
+      "token": "term11"
+    }, 
+    {
+      "title": "Renewable energy", 
+      "token": "term31"
+    }
+  ], 
+  "type_title": "Chart (interactive)", 
+  "version": "current", 
+  "versioning_enabled": true, 
+  "visualization": {
+    "columns": [
+      {
+        "key": "Countries"
+      }, 
+      {
+        "key": "1990"
+      }, 
+      {
+        "key": "1991"
+      }, 
+      {
+        "key": "1992"
+      }, 
+      {
+        "key": "1993"
+      }, 
+      {
+        "key": "1994"
+      }, 
+      {
+        "key": "1995"
+      }, 
+      {
+        "key": "1996"
+      }, 
+      {
+        "key": "1997"
+      }, 
+      {
+        "key": "1998"
+      }, 
+      {
+        "key": "1999"
+      }, 
+      {
+        "key": "2000"
+      }, 
+      {
+        "key": "2001"
+      }, 
+      {
+        "key": "2002"
+      }, 
+      {
+        "key": "2003"
+      }, 
+      {
+        "key": "2004"
+      }, 
+      {
+        "key": "2005"
+      }, 
+      {
+        "key": "2006"
+      }, 
+      {
+        "key": "2007"
+      }, 
+      {
+        "key": "2008"
+      }, 
+      {
+        "key": "2009"
+      }, 
+      {
+        "key": "2010"
+      }, 
+      {
+        "key": "2011"
+      }, 
+      {
+        "key": "2012"
+      }, 
+      {
+        "key": "2013"
+      }, 
+      {
+        "key": "2014"
+      }, 
+      {
+        "key": "2015"
+      }, 
+      {
+        "key": "2016"
+      }, 
+      {
+        "key": "2017"
+      }, 
+      {
+        "key": "2018"
+      }, 
+      {
+        "key": "2019"
+      }, 
+      {
+        "key": "2020"
+      }, 
+      {
+        "key": "2021"
+      }, 
+      {
+        "key": "2022"
+      }, 
+      {
+        "key": "2023"
+      }, 
+      {
+        "key": "2024"
+      }
+    ], 
+    "data": [
+      {
+        "hoverlabel": {
+          "namelength": 0
+        }, 
+        "hovertemplate": "%{y}: <b>%{x:,.0f}gCO</b><sub><b>2</b></sub><b>e/kWh</b> %{fullData.name}", 
+        "meta": {
+          "columnNames": {
+            "x": "2024", 
+            "y": "Countries"
+          }
+        }, 
+        "name": "2024", 
+        "orientation": "h", 
+        "transforms": [
+          {
+            "meta": {
+              "columnNames": {
+                "target": "Countries"
+              }
+            }, 
+            "order": "descending", 
+            "target": [
+              "Sweden", 
+              "Finland", 
+              "Luxembourg", 
+              "France", 
+              "Austria", 
+              "Slovakia", 
+              "Lithuania", 
+              "Denmark", 
+              "Latvia", 
+              "Portugal", 
+              "Croatia", 
+              "Spain", 
+              "Hungary", 
+              "Belgium", 
+              "Slovenia", 
+              "#N/A", 
+              "Romania", 
+              "Italy", 
+              "Ireland", 
+              "Netherlands", 
+              "Bulgaria", 
+              "Germany", 
+              "Greece", 
+              "Malta", 
+              "Czechia", 
+              "Estonia", 
+              "Cyprus", 
+              "Poland"
+            ], 
+            "targetsrc": "Countries", 
+            "type": "sort"
+          }
+        ], 
+        "type": "bar", 
+        "x": [
+          "6", 
+          "27", 
+          "35", 
+          "36", 
+          "53", 
+          "59", 
+          "61", 
+          "64", 
+          "75", 
+          "82", 
+          "98", 
+          "125", 
+          "127", 
+          "155", 
+          "175", 
+          "183", 
+          "188", 
+          "206", 
+          "237", 
+          "245", 
+          "248", 
+          "291", 
+          "304", 
+          "337", 
+          "338", 
+          "384", 
+          "561", 
+          "566"
+        ], 
+        "xsrc": "2024", 
+        "y": [
+          "Sweden", 
+          "Finland", 
+          "Luxembourg", 
+          "France", 
+          "Austria", 
+          "Slovakia", 
+          "Lithuania", 
+          "Denmark", 
+          "Latvia", 
+          "Portugal", 
+          "Croatia", 
+          "Spain", 
+          "Hungary", 
+          "Belgium", 
+          "Slovenia", 
+          "#N/A", 
+          "Romania", 
+          "Italy", 
+          "Ireland", 
+          "Netherlands", 
+          "Bulgaria", 
+          "Germany", 
+          "Greece", 
+          "Malta", 
+          "Czechia", 
+          "Estonia", 
+          "Cyprus", 
+          "Poland"
+        ], 
+        "ysrc": "Countries"
+      }, 
+      {
+        "hoverlabel": {
+          "namelength": 0
+        }, 
+        "hovertemplate": "%{y}:<b> %{x:,.0f}gCO</b><sub><b>2</b></sub><b>e/kWh </b>%{fullData.name}", 
+        "marker": {
+          "color": "rgb(10, 153, 255)"
+        }, 
+        "meta": {
+          "columnNames": {
+            "x": "2010", 
+            "y": "Countries"
+          }
+        }, 
+        "name": "2010", 
+        "orientation": "h", 
+        "type": "bar", 
+        "x": [
+          "22", 
+          "214", 
+          "227", 
+          "77", 
+          "153", 
+          "141", 
+          "281", 
+          "373", 
+          "121", 
+          "280", 
+          "209", 
+          "256", 
+          "306", 
+          "208", 
+          "334", 
+          "334", 
+          "342", 
+          "338", 
+          "483", 
+          "442", 
+          "533", 
+          "470", 
+          "875", 
+          "891", 
+          "553", 
+          "956", 
+          "735", 
+          "849"
+        ], 
+        "xsrc": "2010", 
+        "y": [
+          "Sweden", 
+          "Finland", 
+          "Luxembourg", 
+          "France", 
+          "Austria", 
+          "Slovakia", 
+          "Lithuania", 
+          "Denmark", 
+          "Latvia", 
+          "Portugal", 
+          "Croatia", 
+          "Spain", 
+          "Hungary", 
+          "Belgium", 
+          "Slovenia", 
+          "#N/A", 
+          "Romania", 
+          "Italy", 
+          "Ireland", 
+          "Netherlands", 
+          "Bulgaria", 
+          "Germany", 
+          "Greece", 
+          "Malta", 
+          "Czechia", 
+          "Estonia", 
+          "Cyprus", 
+          "Poland"
+        ], 
+        "ysrc": "Countries"
+      }, 
+      {
+        "hoverlabel": {
+          "namelength": 0
+        }, 
+        "hovertemplate": "%{y}:<b> %{x:,.0f}gCO</b><sub><b>2</b></sub><b>e/kWh </b>%{fullData.name}", 
+        "marker": {
+          "color": "rgb(0, 75, 127)"
+        }, 
+        "meta": {
+          "columnNames": {
+            "x": "2000", 
+            "y": "Countries"
+          }
+        }, 
+        "name": "2000", 
+        "orientation": "h", 
+        "type": "bar", 
+        "x": [
+          "17", 
+          "158", 
+          "92", 
+          "72", 
+          "155", 
+          "212", 
+          "93", 
+          "487", 
+          "117", 
+          "483", 
+          "278", 
+          "462", 
+          "447", 
+          "267", 
+          "354", 
+          "393", 
+          "460", 
+          "396", 
+          "674", 
+          "492", 
+          "487", 
+          "551", 
+          "974", 
+          "838", 
+          "679", 
+          "1074", 
+          "848", 
+          "917"
+        ], 
+        "xsrc": "2000", 
+        "y": [
+          "Sweden", 
+          "Finland", 
+          "Luxembourg", 
+          "France", 
+          "Austria", 
+          "Slovakia", 
+          "Lithuania", 
+          "Denmark", 
+          "Latvia", 
+          "Portugal", 
+          "Croatia", 
+          "Spain", 
+          "Hungary", 
+          "Belgium", 
+          "Slovenia", 
+          "#N/A", 
+          "Romania", 
+          "Italy", 
+          "Ireland", 
+          "Netherlands", 
+          "Bulgaria", 
+          "Germany", 
+          "Greece", 
+          "Malta", 
+          "Czechia", 
+          "Estonia", 
+          "Cyprus", 
+          "Poland"
+        ], 
+        "ysrc": "Countries"
+      }, 
+      {
+        "hoverlabel": {
+          "namelength": 0
+        }, 
+        "hovertemplate": "%{y}:<b> %{x:,.0f}gCO</b><sub><b>2</b></sub><b>e/kWh </b>%{fullData.name}", 
+        "marker": {
+          "color": "rgb(253, 175, 32)"
+        }, 
+        "meta": {
+          "columnNames": {
+            "x": "1990", 
+            "y": "Countries"
+          }
+        }, 
+        "name": "1990", 
+        "orientation": "h", 
+        "type": "bar", 
+        "x": [
+          "10", 
+          "187", 
+          "418", 
+          "205", 
+          "232", 
+          "469", 
+          "182", 
+          "686", 
+          "345", 
+          "519", 
+          "332", 
+          "443", 
+          "480", 
+          "352", 
+          "476", 
+          "501", 
+          "763", 
+          "562", 
+          "768", 
+          "601", 
+          "567", 
+          "652", 
+          "1188", 
+          "1604", 
+          "764", 
+          "910", 
+          "852", 
+          "1296"
+        ], 
+        "xsrc": "1990", 
+        "y": [
+          "Sweden", 
+          "Finland", 
+          "Luxembourg", 
+          "France", 
+          "Austria", 
+          "Slovakia", 
+          "Lithuania", 
+          "Denmark", 
+          "Latvia", 
+          "Portugal", 
+          "Croatia", 
+          "Spain", 
+          "Hungary", 
+          "Belgium", 
+          "Slovenia", 
+          "#N/A", 
+          "Romania", 
+          "Italy", 
+          "Ireland", 
+          "Netherlands", 
+          "Bulgaria", 
+          "Germany", 
+          "Greece", 
+          "Malta", 
+          "Czechia", 
+          "Estonia", 
+          "Cyprus", 
+          "Poland"
+        ], 
+        "ysrc": "Countries"
+      }
+    ], 
+    "dataSources": {
+      "1990": [
+        "10", 
+        "187", 
+        "418", 
+        "205", 
+        "232", 
+        "469", 
+        "182", 
+        "686", 
+        "345", 
+        "519", 
+        "332", 
+        "443", 
+        "480", 
+        "352", 
+        "476", 
+        "501", 
+        "763", 
+        "562", 
+        "768", 
+        "601", 
+        "567", 
+        "652", 
+        "1188", 
+        "1604", 
+        "764", 
+        "910", 
+        "852", 
+        "1296"
+      ], 
+      "1991": [
+        "15", 
+        "175", 
+        "449", 
+        "172", 
+        "239", 
+        "413", 
+        "185", 
+        "707", 
+        "296", 
+        "526", 
+        "199", 
+        "438", 
+        "482", 
+        "356", 
+        "367", 
+        "490", 
+        "798", 
+        "536", 
+        "767", 
+        "577", 
+        "546", 
+        "656", 
+        "1131", 
+        "1131", 
+        "761", 
+        "894", 
+        "839", 
+        "1271"
+      ], 
+      "1992": [
+        "16", 
+        "154", 
+        "513", 
+        "174", 
+        "186", 
+        "347", 
+        "110", 
+        "678", 
+        "319", 
+        "621", 
+        "315", 
+        "479", 
+        "501", 
+        "343", 
+        "439", 
+        "477", 
+        "591", 
+        "524", 
+        "767", 
+        "576", 
+        "630", 
+        "629", 
+        "1152", 
+        "1035", 
+        "758", 
+        "950", 
+        "839", 
+        "1311"
+      ], 
+      "1993": [
+        "18", 
+        "189", 
+        "625", 
+        "161", 
+        "172", 
+        "332", 
+        "86", 
+        "643", 
+        "243", 
+        "544", 
+        "331", 
+        "452", 
+        "492", 
+        "350", 
+        "433", 
+        "458", 
+        "671", 
+        "517", 
+        "751", 
+        "570", 
+        "696", 
+        "620", 
+        "1118", 
+        "1406", 
+        "742", 
+        "938", 
+        "839", 
+        "1163"
+      ], 
+      "1994": [
+        "24", 
+        "249", 
+        "522", 
+        "148", 
+        "190", 
+        "281", 
+        "97", 
+        "643", 
+        "181", 
+        "506", 
+        "222", 
+        "445", 
+        "484", 
+        "358", 
+        "392", 
+        "456", 
+        "660", 
+        "511", 
+        "740", 
+        "576", 
+        "607", 
+        "616", 
+        "1100", 
+        "1178", 
+        "757", 
+        "1109", 
+        "844", 
+        "1157"
+      ], 
+      "1995": [
+        "20", 
+        "222", 
+        "1058", 
+        "137", 
+        "199", 
+        "256", 
+        "55", 
+        "618", 
+        "123", 
+        "573", 
+        "247", 
+        "491", 
+        "476", 
+        "346", 
+        "398", 
+        "445", 
+        "587", 
+        "540", 
+        "747", 
+        "565", 
+        "569", 
+        "594", 
+        "1041", 
+        "978", 
+        "769", 
+        "1197", 
+        "834", 
+        "1005"
+      ], 
+      "1996": [
+        "47", 
+        "275", 
+        "1048", 
+        "137", 
+        "206", 
+        "255", 
+        "90", 
+        "637", 
+        "197", 
+        "436", 
+        "180", 
+        "383", 
+        "474", 
+        "320", 
+        "360", 
+        "431", 
+        "594", 
+        "520", 
+        "734", 
+        "538", 
+        "541", 
+        "580", 
+        "991", 
+        "996", 
+        "775", 
+        "1214", 
+        "845", 
+        "989"
+      ], 
+      "1997": [
+        "22", 
+        "253", 
+        "581", 
+        "134", 
+        "206", 
+        "272", 
+        "74", 
+        "586", 
+        "124", 
+        "466", 
+        "280", 
+        "423", 
+        "470", 
+        "290", 
+        "378", 
+        "419", 
+        "465", 
+        "511", 
+        "738", 
+        "535", 
+        "551", 
+        "566", 
+        "1046", 
+        "959", 
+        "723", 
+        "1177", 
+        "854", 
+        "961"
+      ], 
+      "1998": [
+        "24", 
+        "204", 
+        "327", 
+        "156", 
+        "180", 
+        "247", 
+        "103", 
+        "549", 
+        "96", 
+        "474", 
+        "314", 
+        "420", 
+        "483", 
+        "311", 
+        "391", 
+        "420", 
+        "409", 
+        "511", 
+        "715", 
+        "505", 
+        "565", 
+        "569", 
+        "1034", 
+        "954", 
+        "719", 
+        "1141", 
+        "855", 
+        "937"
+      ], 
+      "1999": [
+        "19", 
+        "190", 
+        "450", 
+        "113", 
+        "164", 
+        "245", 
+        "109", 
+        "517", 
+        "161", 
+        "576", 
+        "286", 
+        "495", 
+        "467", 
+        "259", 
+        "344", 
+        "409", 
+        "403", 
+        "494", 
+        "719", 
+        "500", 
+        "516", 
+        "550", 
+        "978", 
+        "925", 
+        "678", 
+        "1135", 
+        "869", 
+        "925"
+      ], 
+      "2000": [
+        "17", 
+        "158", 
+        "92", 
+        "72", 
+        "155", 
+        "212", 
+        "93", 
+        "487", 
+        "117", 
+        "483", 
+        "278", 
+        "462", 
+        "447", 
+        "267", 
+        "354", 
+        "393", 
+        "460", 
+        "396", 
+        "674", 
+        "492", 
+        "487", 
+        "551", 
+        "974", 
+        "838", 
+        "679", 
+        "1074", 
+        "848", 
+        "917"
+      ], 
+      "2001": [
+        "19", 
+        "203", 
+        "166", 
+        "54", 
+        "172", 
+        "216", 
+        "80", 
+        "480", 
+        "114", 
+        "461", 
+        "296", 
+        "412", 
+        "444", 
+        "251", 
+        "376", 
+        "388", 
+        "458", 
+        "384", 
+        "694", 
+        "518", 
+        "532", 
+        "566", 
+        "983", 
+        "1004", 
+        "678", 
+        "1033", 
+        "786", 
+        "906"
+      ], 
+      "2002": [
+        "25", 
+        "225", 
+        "274", 
+        "62", 
+        "164", 
+        "203", 
+        "66", 
+        "472", 
+        "123", 
+        "539", 
+        "353", 
+        "464", 
+        "433", 
+        "258", 
+        "388", 
+        "393", 
+        "450", 
+        "406", 
+        "650", 
+        "510", 
+        "491", 
+        "557", 
+        "955", 
+        "957", 
+        "663", 
+        "1015", 
+        "766", 
+        "901"
+      ], 
+      "2003": [
+        "35", 
+        "285", 
+        "246", 
+        "68", 
+        "204", 
+        "218", 
+        "60", 
+        "497", 
+        "130", 
+        "439", 
+        "384", 
+        "409", 
+        "480", 
+        "260", 
+        "385", 
+        "390", 
+        "518", 
+        "443", 
+        "618", 
+        "508", 
+        "541", 
+        "543", 
+        "914", 
+        "969", 
+        "595", 
+        "1020", 
+        "773", 
+        "908"
+      ], 
+      "2004": [
+        "21", 
+        "239", 
+        "266", 
+        "65", 
+        "184", 
+        "222", 
+        "63", 
+        "430", 
+        "92", 
+        "483", 
+        "279", 
+        "415", 
+        "438", 
+        "261", 
+        "363", 
+        "379", 
+        "447", 
+        "416", 
+        "594", 
+        "498", 
+        "543", 
+        "527", 
+        "920", 
+        "935", 
+        "592", 
+        "1005", 
+        "781", 
+        "903"
+      ], 
+      "2005": [
+        "17", 
+        "146", 
+        "262", 
+        "83", 
+        "179", 
+        "194", 
+        "97", 
+        "396", 
+        "86", 
+        "535", 
+        "293", 
+        "429", 
+        "362", 
+        "256", 
+        "360", 
+        "378", 
+        "393", 
+        "398", 
+        "600", 
+        "485", 
+        "497", 
+        "508", 
+        "915", 
+        "883", 
+        "608", 
+        "1002", 
+        "800", 
+        "888"
+      ], 
+      "2006": [
+        "20", 
+        "244", 
+        "262", 
+        "89", 
+        "174", 
+        "184", 
+        "96", 
+        "481", 
+        "109", 
+        "450", 
+        "304", 
+        "395", 
+        "365", 
+        "246", 
+        "368", 
+        "376", 
+        "423", 
+        "389", 
+        "551", 
+        "481", 
+        "485", 
+        "502", 
+        "853", 
+        "881", 
+        "604", 
+        "955", 
+        "792", 
+        "902"
+      ], 
+      "2007": [
+        "17", 
+        "219", 
+        "260", 
+        "90", 
+        "160", 
+        "186", 
+        "80", 
+        "448", 
+        "103", 
+        "421", 
+        "389", 
+        "407", 
+        "363", 
+        "235", 
+        "392", 
+        "383", 
+        "449", 
+        "381", 
+        "516", 
+        "485", 
+        "608", 
+        "516", 
+        "879", 
+        "886", 
+        "607", 
+        "1015", 
+        "795", 
+        "891"
+      ], 
+      "2008": [
+        "17", 
+        "160", 
+        "233", 
+        "81", 
+        "146", 
+        "189", 
+        "75", 
+        "421", 
+        "111", 
+        "416", 
+        "337", 
+        "345", 
+        "352", 
+        "229", 
+        "342", 
+        "361", 
+        "441", 
+        "372", 
+        "493", 
+        "479", 
+        "572", 
+        "489", 
+        "869", 
+        "876", 
+        "595", 
+        "988", 
+        "793", 
+        "878"
+      ], 
+      "2009": [
+        "17", 
+        "175", 
+        "273", 
+        "79", 
+        "130", 
+        "166", 
+        "77", 
+        "420", 
+        "97", 
+        "392", 
+        "263", 
+        "315", 
+        "310", 
+        "211", 
+        "328", 
+        "350", 
+        "482", 
+        "354", 
+        "473", 
+        "446", 
+        "532", 
+        "486", 
+        "854", 
+        "878", 
+        "567", 
+        "956", 
+        "776", 
+        "856"
+      ], 
+      "2010": [
+        "22", 
+        "214", 
+        "227", 
+        "77", 
+        "153", 
+        "141", 
+        "281", 
+        "373", 
+        "121", 
+        "280", 
+        "209", 
+        "256", 
+        "306", 
+        "208", 
+        "334", 
+        "334", 
+        "342", 
+        "338", 
+        "483", 
+        "442", 
+        "533", 
+        "470", 
+        "875", 
+        "891", 
+        "553", 
+        "956", 
+        "735", 
+        "849"
+      ], 
+      "2011": [
+        "16", 
+        "172", 
+        "226", 
+        "70", 
+        "160", 
+        "152", 
+        "227", 
+        "336", 
+        "131", 
+        "332", 
+        "295", 
+        "317", 
+        "314", 
+        "185", 
+        "343", 
+        "340", 
+        "396", 
+        "327", 
+        "454", 
+        "429", 
+        "586", 
+        "488", 
+        "883", 
+        "889", 
+        "546", 
+        "965", 
+        "759", 
+        "850"
+      ], 
+      "2012": [
+        "12", 
+        "123", 
+        "232", 
+        "77", 
+        "116", 
+        "149", 
+        "240", 
+        "285", 
+        "90", 
+        "397", 
+        "280", 
+        "330", 
+        "319", 
+        "198", 
+        "330", 
+        "336", 
+        "409", 
+        "312", 
+        "486", 
+        "447", 
+        "528", 
+        "493", 
+        "869", 
+        "897", 
+        "509", 
+        "907", 
+        "757", 
+        "829"
+      ], 
+      "2013": [
+        "12", 
+        "158", 
+        "182", 
+        "75", 
+        "106", 
+        "131", 
+        "174", 
+        "317", 
+        "127", 
+        "317", 
+        "197", 
+        "268", 
+        "287", 
+        "183", 
+        "306", 
+        "320", 
+        "311", 
+        "272", 
+        "460", 
+        "461", 
+        "484", 
+        "486", 
+        "807", 
+        "753", 
+        "475", 
+        "953", 
+        "666", 
+        "827"
+      ], 
+      "2014": [
+        "11", 
+        "137", 
+        "193", 
+        "57", 
+        "92", 
+        "118", 
+        "158", 
+        "277", 
+        "127", 
+        "299", 
+        "168", 
+        "278", 
+        "263", 
+        "197", 
+        "218", 
+        "311", 
+        "277", 
+        "257", 
+        "449", 
+        "488", 
+        "478", 
+        "476", 
+        "845", 
+        "738", 
+        "480", 
+        "959", 
+        "682", 
+        "814"
+      ], 
+      "2015": [
+        "9", 
+        "98", 
+        "135", 
+        "60", 
+        "107", 
+        "125", 
+        "175", 
+        "198", 
+        "146", 
+        "363", 
+        "202", 
+        "316", 
+        "262", 
+        "218", 
+        "257", 
+        "311", 
+        "295", 
+        "283", 
+        "435", 
+        "514", 
+        "487", 
+        "446", 
+        "739", 
+        "679", 
+        "492", 
+        "949", 
+        "670", 
+        "790"
+      ], 
+      "2016": [
+        "11", 
+        "103", 
+        "69", 
+        "66", 
+        "94", 
+        "117", 
+        "133", 
+        "230", 
+        "117", 
+        "296", 
+        "204", 
+        "266", 
+        "253", 
+        "161", 
+        "252", 
+        "301", 
+        "275", 
+        "262", 
+        "428", 
+        "484", 
+        "466", 
+        "443", 
+        "621", 
+        "675", 
+        "499", 
+        "912", 
+        "679", 
+        "774"
+      ], 
+      "2017": [
+        "11", 
+        "93", 
+        "63", 
+        "73", 
+        "103", 
+        "112", 
+        "79", 
+        "175", 
+        "65", 
+        "362", 
+        "188", 
+        "305", 
+        "264", 
+        "168", 
+        "255", 
+        "301", 
+        "297", 
+        "264", 
+        "396", 
+        "453", 
+        "498", 
+        "414", 
+        "657", 
+        "439", 
+        "472", 
+        "904", 
+        "661", 
+        "763"
+      ], 
+      "2018": [
+        "11", 
+        "109", 
+        "63", 
+        "59", 
+        "100", 
+        "134", 
+        "49", 
+        "187", 
+        "146", 
+        "309", 
+        "130", 
+        "276", 
+        "249", 
+        "197", 
+        "245", 
+        "288", 
+        "284", 
+        "249", 
+        "348", 
+        "435", 
+        "426", 
+        "408", 
+        "654", 
+        "356", 
+        "464", 
+        "883", 
+        "664", 
+        "770"
+      ], 
+      "2019": [
+        "9", 
+        "85", 
+        "65", 
+        "59", 
+        "91", 
+        "120", 
+        "66", 
+        "113", 
+        "150", 
+        "255", 
+        "163", 
+        "214", 
+        "226", 
+        "169", 
+        "238", 
+        "253", 
+        "263", 
+        "233", 
+        "309", 
+        "384", 
+        "427", 
+        "348", 
+        "606", 
+        "359", 
+        "429", 
+        "729", 
+        "642", 
+        "731"
+      ], 
+      "2020": [
+        "7", 
+        "64", 
+        "57", 
+        "56", 
+        "78", 
+        "104", 
+        "147", 
+        "111", 
+        "103", 
+        "203", 
+        "155", 
+        "167", 
+        "214", 
+        "165", 
+        "220", 
+        "226", 
+        "212", 
+        "216", 
+        "276", 
+        "328", 
+        "354", 
+        "314", 
+        "453", 
+        "378", 
+        "389", 
+        "604", 
+        "623", 
+        "697"
+      ], 
+      "2021": [
+        "9", 
+        "69", 
+        "59", 
+        "57", 
+        "81", 
+        "114", 
+        "129", 
+        "123", 
+        "97", 
+        "173", 
+        "139", 
+        "165", 
+        "187", 
+        "137", 
+        "214", 
+        "241", 
+        "206", 
+        "265", 
+        "328", 
+        "338", 
+        "398", 
+        "345", 
+        "397", 
+        "349", 
+        "394", 
+        "655", 
+        "605", 
+        "719"
+      ], 
+      "2022": [
+        "3", 
+        "63", 
+        "58", 
+        "72", 
+        "77", 
+        "95", 
+        "105", 
+        "126", 
+        "66", 
+        "171", 
+        "173", 
+        "178", 
+        "181", 
+        "151", 
+        "201", 
+        "256", 
+        "206", 
+        "300", 
+        "301", 
+        "312", 
+        "455", 
+        "368", 
+        "395", 
+        "348", 
+        "408", 
+        "714", 
+        "591", 
+        "683"
+      ], 
+      "2023": [
+        "7", 
+        "33", 
+        "38", 
+        "47", 
+        "59", 
+        "83", 
+        "78", 
+        "83", 
+        "68", 
+        "115", 
+        "139", 
+        "140", 
+        "147", 
+        "150", 
+        "166", 
+        "206", 
+        "189", 
+        "248", 
+        "255", 
+        "255", 
+        "293", 
+        "316", 
+        "343", 
+        "341", 
+        "361", 
+        "543", 
+        "575", 
+        "595"
+      ], 
+      "2024": [
+        "6", 
+        "27", 
+        "35", 
+        "36", 
+        "53", 
+        "59", 
+        "61", 
+        "64", 
+        "75", 
+        "82", 
+        "98", 
+        "125", 
+        "127", 
+        "155", 
+        "175", 
+        "183", 
+        "188", 
+        "206", 
+        "237", 
+        "245", 
+        "248", 
+        "291", 
+        "304", 
+        "337", 
+        "338", 
+        "384", 
+        "561", 
+        "566"
+      ], 
+      "Countries": [
+        "Sweden", 
+        "Finland", 
+        "Luxembourg", 
+        "France", 
+        "Austria", 
+        "Slovakia", 
+        "Lithuania", 
+        "Denmark", 
+        "Latvia", 
+        "Portugal", 
+        "Croatia", 
+        "Spain", 
+        "Hungary", 
+        "Belgium", 
+        "Slovenia", 
+        "#N/A", 
+        "Romania", 
+        "Italy", 
+        "Ireland", 
+        "Netherlands", 
+        "Bulgaria", 
+        "Germany", 
+        "Greece", 
+        "Malta", 
+        "Czechia", 
+        "Estonia", 
+        "Cyprus", 
+        "Poland"
+      ]
+    }, 
+    "layout": {
+      "annotations": [
+        {
+          "text": "gCO<sub>2</sub>e/kWh", 
+          "x": 1, 
+          "y": -0.07
+        }
+      ], 
+      "autoscale": true, 
+      "autosize": false, 
+      "clickmode": "none", 
+      "height": 710, 
+      "legend": {
+        "orientation": "h", 
+        "traceorder": "reversed", 
+        "x": 0.5, 
+        "xanchor": "center", 
+        "y": -0.12, 
+        "yanchor": "bottom"
+      }, 
+      "mapbox": {
+        "style": "open-street-map"
+      }, 
+      "margin": {
+        "b": 0, 
+        "l": 0, 
+        "t": 10
+      }, 
+      "paper_bgcolor": "rgb(255, 255, 255)", 
+      "plot_bgcolor": "rgb(255, 255, 255)", 
+      "showlegend": true, 
+      "template": {
+        "data": {
+          "scatter": [
+            {
+              "hoverinfo": "x+y", 
+              "marker": {
+                "size": 10
+              }
+            }
+          ]
+        }, 
+        "id": "eea", 
+        "label": "EEA", 
+        "layout": {
+          "annotationdefaults": {
+            "align": "center", 
+            "showarrow": false, 
+            "x": 0, 
+            "xanchor": "auto", 
+            "xref": "paper", 
+            "y": 1, 
+            "yanchor": "bottom", 
+            "yref": "paper"
+          }, 
+          "autosize": true, 
+          "clickmode": "event", 
+          "colorscale": {
+            "diverging": [
+              [
+                0, 
+                "#e56b38"
+              ], 
+              [
+                0.07142857142857142, 
+                "#ff9933"
+              ], 
+              [
+                0.14285714285714285, 
+                "#fdaf20"
+              ], 
+              [
+                0.21428571428571427, 
+                "#fac50d"
+              ], 
+              [
+                0.2857142857142857, 
+                "#fad936"
+              ], 
+              [
+                0.35714285714285715, 
+                "#fbec9b"
+              ], 
+              [
+                0.42857142857142855, 
+                "#fef6cd"
+              ], 
+              [
+                0.5, 
+                "#f5e0d3"
+              ], 
+              [
+                0.5714285714285714, 
+                "#c8fff8"
+              ], 
+              [
+                0.6428571428571429, 
+                "#a0e5dc"
+              ], 
+              [
+                0.7142857142857143, 
+                "#78cac0"
+              ], 
+              [
+                0.7857142857142857, 
+                "#50b0a4"
+              ], 
+              [
+                0.8571428571428571, 
+                "#289588"
+              ], 
+              [
+                0.9285714285714286, 
+                "#007b6c"
+              ], 
+              [
+                1, 
+                "#005248"
+              ]
+            ], 
+            "sequential": [
+              [
+                0, 
+                "#c8fff8"
+              ], 
+              [
+                0.16666666666666666, 
+                "#a0e5dc"
+              ], 
+              [
+                0.3333333333333333, 
+                "#78cac0"
+              ], 
+              [
+                0.5, 
+                "#50b0a4"
+              ], 
+              [
+                0.6666666666666666, 
+                "#289588"
+              ], 
+              [
+                0.8333333333333334, 
+                "#007b6c"
+              ], 
+              [
+                1, 
+                "#005248"
+              ]
+            ], 
+            "sequentialminus": [
+              [
+                0, 
+                "#005248"
+              ], 
+              [
+                0.16666666666666666, 
+                "#007b6c"
+              ], 
+              [
+                0.3333333333333333, 
+                "#289588"
+              ], 
+              [
+                0.5, 
+                "#50b0a4"
+              ], 
+              [
+                0.6666666666666666, 
+                "#78cac0"
+              ], 
+              [
+                0.8333333333333334, 
+                "#a0e5dc"
+              ], 
+              [
+                1, 
+                "#c8fff8"
+              ]
+            ]
+          }, 
+          "colorway": [
+            "#007B6C", 
+            "#50B0A4", 
+            "#A0E5DC", 
+            "#004B7F", 
+            "#008FF5", 
+            "#A0D7FF", 
+            "#FF9933", 
+            "#FDAF20", 
+            "#FDEC9B", 
+            "#DFD6E7", 
+            "#E7BC91"
+          ], 
+          "dragmode": "pan", 
+          "font": {
+            "color": "rgb(61, 82, 101)", 
+            "family": "Roboto, sans-serif", 
+            "size": 14
+          }, 
+          "hoverlabel": {
+            "bgcolor": "rgba(255,255,255,1)", 
+            "bordercolor": "rgba(0, 0, 0, 1)", 
+            "font": {
+              "family": "Roboto, sans-serif", 
+              "size": 14
+            }
+          }, 
+          "hovermode": "closest", 
+          "legend": {
+            "font": {
+              "size": 14
+            }, 
+            "indentation": 0, 
+            "orientation": "v", 
+            "title": {
+              "font": {
+                "size": 16
+              }
+            }, 
+            "traceorder": "normal", 
+            "valign": "middle", 
+            "x": 1.02, 
+            "xanchor": "left", 
+            "y": 0.5, 
+            "yanchor": "top"
+          }, 
+          "margin": {
+            "b": 0, 
+            "l": 0, 
+            "pad": 0, 
+            "r": 0, 
+            "t": 58
+          }, 
+          "paper_bgcolor": "rgba(255, 255, 255, 0)", 
+          "plot_bgcolor": "rgba(255, 255, 255, 0)", 
+          "separators": ".,", 
+          "showlegend": false, 
+          "title": {
+            "font": {
+              "size": 20
+            }, 
+            "pad": {
+              "t": 1
+            }, 
+            "subtitle": {
+              "font": {
+                "size": 14
+              }
+            }, 
+            "x": 0, 
+            "y": 1
+          }, 
+          "xaxis": {
+            "automargin": true, 
+            "autorange": true, 
+            "exponentformat": "none", 
+            "gridcolor": "rgb(230, 231, 232)", 
+            "gridwidth": 1, 
+            "linecolor": "rgb(128, 130, 133)", 
+            "mirror": false, 
+            "nticks": 0, 
+            "range": [
+              -1, 
+              6
+            ], 
+            "rangeslider": {
+              "visible": false
+            }, 
+            "separatethousands": true, 
+            "showgrid": true, 
+            "showline": false, 
+            "showspikes": false, 
+            "showticklabels": true, 
+            "tickcolor": "rgb(116, 118, 120)", 
+            "ticklabelstandoff": 5, 
+            "ticklen": 10, 
+            "tickmode": "auto", 
+            "tickwidth": 1, 
+            "title": {
+              "font": {
+                "size": 14
+              }, 
+              "standoff": 10
+            }, 
+            "zeroline": true, 
+            "zerolinecolor": "rgb(128, 130, 133)", 
+            "zerolinewidth": 1
+          }, 
+          "yaxis": {
+            "automargin": true, 
+            "autorange": true, 
+            "exponentformat": "none", 
+            "gridcolor": "rgb(230, 231, 232)", 
+            "gridwidth": 1, 
+            "linecolor": "rgb(128, 130, 133)", 
+            "mirror": false, 
+            "nticks": 0, 
+            "range": [
+              -1, 
+              4
+            ], 
+            "separatethousands": true, 
+            "showgrid": true, 
+            "showline": false, 
+            "showspikes": false, 
+            "showticklabels": true, 
+            "tickcolor": "rgb(116, 118, 120)", 
+            "ticklabelstandoff": 5, 
+            "ticklen": 10, 
+            "tickmode": "auto", 
+            "tickwidth": 1, 
+            "title": {
+              "font": {
+                "size": 14
+              }, 
+              "standoff": 0
+            }, 
+            "zeroline": true, 
+            "zerolinecolor": "rgb(128, 130, 133)", 
+            "zerolinewidth": 1
+          }
+        }
+      }, 
+      "width": 900, 
+      "xaxis": {
+        "autorange": false, 
+        "fixedrange": true, 
+        "range": [
+          0, 
+          1850
+        ], 
+        "type": "linear"
+      }, 
+      "yaxis": {
+        "autorange": true, 
+        "fixedrange": true, 
+        "range": [
+          -0.5, 
+          27.5
+        ], 
+        "showgrid": false, 
+        "type": "category", 
+        "zeroline": false
+      }
+    }, 
+    "provider_url": "https://www.eea.europa.eu/en/analysis/indicators/greenhouse-gas-emission-intensity-of-1-1783671782/greenhouse-gas-emission-intensity-of-electricity-generation/fig2-291456-ener038"
+  }, 
+  "working_copy": null, 
+  "working_copy_of": null
+}

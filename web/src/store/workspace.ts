@@ -9,7 +9,7 @@ import type { FactorSet } from "@/lib/factors";
 export type ToolKey = Exclude<keyof ClientData, "id" | "name" | "sector" | "sample">;
 
 type Workspace = {
-  version: 2;
+  version: 3;
   clients: ClientData[];
   activeId: string;
   /** Workspace-wide custom factor sets (bring your own data); shared by every client. */
@@ -25,12 +25,22 @@ type Workspace = {
   importWorkspace: (data: unknown) => { ok: true } | { ok: false; error: string };
 };
 
+/**
+ * v3: a grid factor picked from the library feeds the location-based factor. In v2 it was written into the
+ * supplier factor, so the link is dropped and the value stays as a typed supplier factor.
+ */
+export function unlinkV2GridPicks(clients: ClientData[]): ClientData[] {
+  return clients.map((c) =>
+    c.ghg?.electricity?.some((e) => e.factorRef) ? { ...c, ghg: { ...c.ghg, electricity: c.ghg.electricity.map((e) => ({ ...e, factorRef: undefined })) } } : c,
+  );
+}
+
 const newId = () => `c-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
 
 export const useWorkspace = create<Workspace>()(
   persist(
     (set) => ({
-      version: 2,
+      version: 3,
       clients: [structuredClone(SAMPLE_CLIENT)],
       activeId: SAMPLE_CLIENT.id,
       customSets: [],
@@ -57,23 +67,25 @@ export const useWorkspace = create<Workspace>()(
       update: (key, value) =>
         set((s) => ({ clients: s.clients.map((c) => (c.id === s.activeId ? { ...c, [key]: value } : c)) })),
       importWorkspace: (data) => {
-        const d = data as { app?: string; clients?: ClientData[]; customSets?: FactorSet[] };
+        const d = data as { app?: string; version?: number; clients?: ClientData[]; customSets?: FactorSet[] };
         if (!d || d.app !== "isoline" || !Array.isArray(d.clients) || d.clients.length === 0) {
           return { ok: false, error: "invalid" };
         }
         const valid = d.clients.every((c) => typeof c?.id === "string" && typeof c?.name === "string" && c.profile && c.ghg && c.cbam);
         if (!valid) return { ok: false, error: "invalid_client" };
-        set({ clients: d.clients, activeId: d.clients[0].id, customSets: Array.isArray(d.customSets) ? d.customSets : [] });
+        const clients = (d.version ?? 2) < 3 ? unlinkV2GridPicks(d.clients) : d.clients;
+        set({ clients, activeId: clients[0].id, customSets: Array.isArray(d.customSets) ? d.customSets : [] });
         return { ok: true };
       },
     }),
     {
       name: "isoline-workspace",
-      version: 2,
+      version: 3,
       migrate: (persisted, from) => {
         const st = persisted as Partial<Workspace>;
-        if (from < 2) return { ...st, version: 2, customSets: [] } as Workspace;
-        return st as Workspace;
+        const next: Partial<Workspace> = { ...st, version: 3, customSets: st.customSets ?? [] };
+        if (from < 3 && st.clients) next.clients = unlinkV2GridPicks(st.clients);
+        return next as Workspace;
       },
       storage: createJSONStorage(() => localStorage),
       partialize: (s) => ({ version: s.version, clients: s.clients, activeId: s.activeId, customSets: s.customSets }),
@@ -84,7 +96,7 @@ export const useWorkspace = create<Workspace>()(
 
 export function exportWorkspace(): string {
   const { clients, customSets } = useWorkspace.getState();
-  return JSON.stringify({ app: "isoline", version: 2, exportedAt: new Date().toISOString(), clients, customSets }, null, 2);
+  return JSON.stringify({ app: "isoline", version: 3, exportedAt: new Date().toISOString(), clients, customSets }, null, 2);
 }
 
 /** True once local storage has been read; tools render after this to avoid hydration mismatches. */
