@@ -493,7 +493,37 @@
       }
     },
     "gridFactor": "Konum bazlı şebeke faktörü",
-    "gridFactorHint": "Türkiye şebekesi dışındaki tesisler için. Boş bırakılırsa bağlantı noktasına göre ETKB 2023 faktörü ({value}) kullanılır."
+    "gridFactorHint": "Türkiye şebekesi dışındaki tesisler için. Boş bırakılırsa bağlantı noktasına göre {edition} faktörü ({value}) kullanılır.",
+    "ed": {
+      "title": "Faktör yılı ve sürümleri",
+      "year": "Envanter yılı",
+      "yearHint": "Faktör sürümleri bu yıla göre seçilir; kütüphane seçicileri yalnız bu yılın sürümlerini önerir.",
+      "used": "Şebeke faktörleri: {edition} (yayım {published}).",
+      "notYet": "{year} için sürüm henüz yayımlanmadı; en güncel sürüm {edition}. Yeni sürüm çıkınca geriye dönük yeniden hesaplayın.",
+      "better": "{year} için önerilen sürüm {edition}; envanter başka bir sürümle hesaplanmış. Yeniden hesaplayarak geçebilirsiniz.",
+      "recalc": "{year} sürümleriyle yeniden hesapla",
+      "planTitle": "{year} sürümlerine geçiş: {n} kalem değişiyor.",
+      "before": "Önce",
+      "after": "Sonra",
+      "total": {
+        "scope1": "Kapsam 1",
+        "scope2Location": "Kapsam 2 (konum)",
+        "scope2Market": "Kapsam 2 (piyasa)",
+        "scope3": "Kapsam 3"
+      },
+      "kind": {
+        "fuel": "Yakıt",
+        "electricity": "Elektrik",
+        "scope3": "Kapsam 3"
+      },
+      "missing": "{label}: {edition} sürümünde aynı faktör yok; eski değer korunuyor.",
+      "delta": "Kapsam 1 + 2 (konum) değişimi {pct}.",
+      "significant": "anlamlı (≥ {pct})",
+      "minor": "eşiğin altında (< {pct})",
+      "baseYear": "Bu envanter yılı baz yılınız ({year}). Değişiklik anlamlılık eşiğini aştığı için GHG Protokolü baz yılın yeniden hesaplanmasını ister; yeni Kapsam 1 + 2 (konum) {s12} tCO₂e. Dekarbonizasyon yolundaki baz değerini gözden geçirin:",
+      "apply": "Yeniden hesapla ve kaydet",
+      "last": "Son yeniden hesap {date}: {year} yılı, şebeke {grid}, Kapsam 1 + 2 {pct}."
+    }
   },
   "ets": {
     "result": "Kategori {cat} tesis: {year} yılında {deficit} tCO₂e tahsisat açığı ve {cost} maliyet öngörülüyor.",
@@ -1718,14 +1748,23 @@
     "searchCount": "{n} / {total}",
     "notes": {
       "eu_cbam_dv_tr": "Değer, tüzüğün uyguladığı 'toplam' sütunudur; doğrudan ve dolaylı kısımlar bilgi içindir. Varsayılan değer kullanıldığında yıla göre işaretleme (mark-up) ayrıca eklenir.",
-      "eea_ener038": "Elektrik üretiminin emisyon yoğunluğudur (2024 erken tahmini); ithalat ve ihracat dahil değildir, tüketim karışımı faktörü değildir. AB'deki tesisler için konum bazlı yaklaşık değer olarak kullanın."
+      "eea_ener038": "Elektrik üretiminin emisyon yoğunluğudur (2024 erken tahmini); ithalat ve ihracat dahil değildir, tüketim karışımı faktörü değildir. AB'deki tesisler için konum bazlı yaklaşık değer olarak kullanın.",
+      "etkb": "Her sürüm bir hesaplama yılının değerleridir ve yaklaşık iki yıl sonra yayımlanır. Envanter yılının sürümü henüz yoksa en güncel sürüm kullanılır; yeni sürüm çıkınca envanteri geriye dönük yeniden hesaplayın."
     },
     "setNotes": {
       "ipcc_2006": "Yayımlanmış rehber değerleri; kaynak gösterilerek kullanılır.",
-      "etkb_2023": "Resmi kamu verisi; kaynak gösterilerek kullanılır.",
       "ipcc_ar6_gwp": "Yayımlanmış değerlendirme değerleri; kaynak gösterilerek kullanılır.",
-      "eu_cbam_dv_tr": "© Avrupa Birliği, CC BY 4.0 (Komisyon Kararı 2011/833/AB). Uygulama Tüzüğü (AB) 2026/1740 Ek I, Komisyon Excel dosyası sürüm 2 (6 Ağustos 2026).",
-      "eea_ener038": "CC BY 4.0 — kaynak: Avrupa Çevre Ajansı (EEA), gösterge ENER038, 10 Temmuz 2026. Değerler gCO₂e/kWh olarak yayımlanır; burada tCO₂e/MWh'e çevrilmiştir."
+      "eea_ener038": "CC BY 4.0 — kaynak: Avrupa Çevre Ajansı (EEA), gösterge ENER038, 10 Temmuz 2026. Değerler gCO₂e/kWh olarak yayımlanır; burada tCO₂e/MWh'e çevrilmiştir.",
+      "eu_cbam_dv": "© Avrupa Birliği, CC BY 4.0 (Komisyon Kararı 2011/833/AB). Uygulama Tüzüğü (AB) 2026/1740 Ek I, Komisyon Excel dosyası sürüm 2 (6 Ağustos 2026).",
+      "etkb": "Resmi kamu verisi, kaynak gösterilerek kullanılır. Değerler ETKB bilgi formlarından (ETKB-EVÇED-FRM-042) aktarıldı ve her yılın belgesiyle karşılaştırıldı."
+    },
+    "editions": "Sürümler",
+    "family": {
+      "etkb": "ETKB {year}",
+      "eu_cbam_dv": "SKDM varsayılan değerleri {year}",
+      "eea_ener038": "EEA {year}",
+      "tuik_ncv": "TÜİK ulusal envanter {year}",
+      "desnz": "DESNZ {year}"
     }
   },
   "theme": {

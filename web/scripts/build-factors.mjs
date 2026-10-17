@@ -57,3 +57,24 @@ fs.writeFileSync(path.join(outDir, "eea-grid-intensity.json"), JSON.stringify({
   rows: erows,
 }));
 console.log("cbam rows", rows.length, "fallback", rows.filter((r) => r[5]).length, "| eea rows", erows.length);
+
+// ETKB electricity factors, one edition per calculation year (values transcribed from the official forms and
+// checked against their text; see docs/kaynak-veri/etkb/README.md). Decimal commas become numbers.
+const et = parseCsv(fs.readFileSync(path.join(src, "etkb", "etkb_grid.csv"), "utf8"));
+const th = et[0];
+const tcol = (r, n) => r[th.indexOf(n)];
+const dec = (s) => Number(String(s).replace(",", "."));
+const editions = {};
+for (const r of et.slice(1)) {
+  const y = tcol(r, "year");
+  editions[y] ??= { year: Number(y), published: tcol(r, "published"), revision: tcol(r, "revision"), file: tcol(r, "source_file"), factors: {} };
+  editions[y].factors[tcol(r, "key")] = { tco2: dec(tcol(r, "tco2_per_mwh")), tco2e: dec(tcol(r, "tco2e_per_mwh")) };
+}
+fs.writeFileSync(path.join(outDir, "etkb-grid.json"), JSON.stringify({
+  source: "T.C. Enerji ve Tabii Kaynaklar Bakanlığı (EVÇED) — Türkiye Elektrik Üretimi ve Elektrik Tüketim Noktası Emisyon Faktörleri Bilgi Formu (ETKB-EVÇED-FRM-042)",
+  url: "https://enerji.gov.tr/evced-cevre-ve-iklim-elektrik-uretim-tuketim-emisyon-faktorleri",
+  fetched: "2026-10-18",
+  unit: "tCO2/MWh and tCO2e/MWh",
+  editions: Object.values(editions),
+}));
+console.log("etkb editions", Object.keys(editions).join(", "));

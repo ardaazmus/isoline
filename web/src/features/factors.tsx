@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import { Download, FileDown, FileUp, Plus, Search, Trash2 } from "lucide-react";
 import { useI18n } from "@/i18n/provider";
 import { BUILTIN_SETS, factorSetCsv, factorTemplateCsv, factorUnit, importFactorCsv, usableSets, type Factor, type FactorCsvIssue, type FactorSet, type LicenceClass } from "@/lib/factors";
@@ -48,9 +48,7 @@ function Inner() {
         <section className="flex flex-col gap-4">
           <h2 className="text-[20px] font-semibold tracking-[-0.01em]">{t("factors.builtinTitle")}</h2>
           <div className="grid gap-4 lg:grid-cols-3">
-            {BUILTIN_SETS.map((s) => (
-              <SetTile key={s.id} set={s} />
-            ))}
+            {builtinGroups().map((g) => (g.length > 1 ? <EditionTile key={g[0].family} sets={g} /> : <SetTile key={g[0].id} set={g[0]} />))}
           </div>
         </section>
 
@@ -175,12 +173,48 @@ function SetHeader({ set }: { set: FactorSet }) {
   );
 }
 
-function SetTile({ set }: { set: FactorSet }) {
+/** Built-in sets with editions of one family grouped together, oldest edition first. */
+function builtinGroups(): FactorSet[][] {
+  const groups = new Map<string, FactorSet[]>();
+  for (const s of BUILTIN_SETS) groups.set(s.family ?? s.id, [...(groups.get(s.family ?? s.id) ?? []), s]);
+  return [...groups.values()].map((g) => g.sort((a, b) => (a.year ?? 0) - (b.year ?? 0)));
+}
+
+/** One tile per family: the latest edition is shown, earlier ones a click away. */
+function EditionTile({ sets }: { sets: FactorSet[] }) {
+  const { t } = useI18n();
+  const [id, setId] = useState(sets.at(-1)!.id);
+  const set = sets.find((s) => s.id === id) ?? sets.at(-1)!;
+  return (
+    <SetTile
+      set={set}
+      editions={
+        <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label={t("factors.editions")}>
+          <span className="text-[12px] text-[var(--ink-3)]">{t("factors.editions")}:</span>
+          {sets.map((s) => (
+            <button
+              key={s.id}
+              type="button"
+              aria-pressed={s.id === set.id}
+              onClick={() => setId(s.id)}
+              className={cn("num h-7 rounded-full border px-2.5 text-[12px] font-medium", s.id === set.id ? "border-[var(--ink)] bg-[var(--ink)] text-white" : "border-[var(--rule)] bg-[var(--glass-strong)]")}
+            >
+              {s.year}
+            </button>
+          ))}
+        </div>
+      }
+    />
+  );
+}
+
+function SetTile({ set, editions }: { set: FactorSet; editions?: ReactNode }) {
   const { t } = useI18n();
   return (
     <article className="glass sheet flex min-w-0 flex-col gap-3 p-5">
       <SetHeader set={set} />
-      <p className="text-[12.5px] text-[var(--ink-2)]">{t(`factors.setNotes.${set.id}`)}</p>
+      {editions}
+      <p className="text-[12.5px] text-[var(--ink-2)]">{t(`factors.setNotes.${set.family ?? set.id}`)}</p>
       {set.usageNote && <p className="text-[12.5px] text-[var(--ink-3)]">{t(set.usageNote)}</p>}
       <details className="group">
         <summary className="cursor-pointer text-[13px] font-semibold text-[var(--accent-ink)]">{t("factors.showFactors")}</summary>

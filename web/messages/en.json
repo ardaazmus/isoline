@@ -493,7 +493,37 @@
       }
     },
     "gridFactor": "Location-based grid factor",
-    "gridFactorHint": "For sites outside the Turkish grid. Left empty, the ETKB 2023 factor for the connection point ({value}) applies."
+    "gridFactorHint": "For sites outside the Turkish grid. Left empty, the {edition} factor for the connection point ({value}) applies.",
+    "ed": {
+      "title": "Factor year and editions",
+      "year": "Inventory year",
+      "yearHint": "Factor editions are chosen for this year; the library pickers only offer this year's editions.",
+      "used": "Grid factors: {edition} (published {published}).",
+      "notYet": "No edition for {year} yet; the latest is {edition}. Recalculate retroactively once the new edition is out.",
+      "better": "The recommended edition for {year} is {edition}; the inventory was calculated with another one. Recalculate to switch.",
+      "recalc": "Recalculate with the {year} editions",
+      "planTitle": "Moving to the {year} editions: {n} items change.",
+      "before": "Before",
+      "after": "After",
+      "total": {
+        "scope1": "Scope 1",
+        "scope2Location": "Scope 2 (location)",
+        "scope2Market": "Scope 2 (market)",
+        "scope3": "Scope 3"
+      },
+      "kind": {
+        "fuel": "Fuel",
+        "electricity": "Electricity",
+        "scope3": "Scope 3"
+      },
+      "missing": "{label}: no matching factor in {edition}; the old value is kept.",
+      "delta": "Change in scope 1 + 2 (location): {pct}.",
+      "significant": "significant (≥ {pct})",
+      "minor": "below the threshold (< {pct})",
+      "baseYear": "This inventory year is your base year ({year}). The change exceeds the significance threshold, so the GHG Protocol asks for a base-year recalculation; new scope 1 + 2 (location) {s12} tCO₂e. Review the base value in the decarbonisation pathway:",
+      "apply": "Recalculate and save",
+      "last": "Last recalculation {date}: year {year}, grid {grid}, scope 1 + 2 {pct}."
+    }
   },
   "ets": {
     "result": "Category {cat} installation: a {deficit} tCO₂e allowance shortfall and {cost} cost expected in {year}.",
@@ -1718,14 +1748,23 @@
     "searchCount": "{n} / {total}",
     "notes": {
       "eu_cbam_dv_tr": "The value is the 'total' column the regulation applies; direct and indirect parts are for information. When a default value is used, the mark-up for the year is added on top.",
-      "eea_ener038": "Emission intensity of electricity generation (2024 early estimate); imports and exports are not counted, so it is not a consumption-mix factor. Use it as an approximate location-based value for EU sites."
+      "eea_ener038": "Emission intensity of electricity generation (2024 early estimate); imports and exports are not counted, so it is not a consumption-mix factor. Use it as an approximate location-based value for EU sites.",
+      "etkb": "Each edition holds the values of one calculation year and is published about two years later. When the inventory year has no edition yet, the latest one applies; recalculate the inventory retroactively once the new edition is out."
     },
     "setNotes": {
       "ipcc_2006": "Published guidance values, cited with attribution.",
-      "etkb_2023": "Official public-sector data, cited with attribution.",
       "ipcc_ar6_gwp": "Published assessment values, cited with attribution.",
-      "eu_cbam_dv_tr": "© European Union, CC BY 4.0 (Commission Decision 2011/833/EU). Implementing Regulation (EU) 2026/1740 Annex I, Commission Excel file version 2 (6 August 2026).",
-      "eea_ener038": "CC BY 4.0 — source: European Environment Agency (EEA), indicator ENER038, 10 July 2026. Published in gCO₂e/kWh; converted here to tCO₂e/MWh."
+      "eea_ener038": "CC BY 4.0 — source: European Environment Agency (EEA), indicator ENER038, 10 July 2026. Published in gCO₂e/kWh; converted here to tCO₂e/MWh.",
+      "eu_cbam_dv": "© European Union, CC BY 4.0 (Commission Decision 2011/833/EU). Implementing Regulation (EU) 2026/1740 Annex I, Commission Excel file version 2 (6 August 2026).",
+      "etkb": "Official public-sector data, cited with attribution. Values transcribed from the ETKB information forms (ETKB-EVÇED-FRM-042) and checked against each year's document."
+    },
+    "editions": "Editions",
+    "family": {
+      "etkb": "ETKB {year}",
+      "eu_cbam_dv": "CBAM default values {year}",
+      "eea_ener038": "EEA {year}",
+      "tuik_ncv": "TÜİK national inventory {year}",
+      "desnz": "DESNZ {year}"
     }
   },
   "theme": {

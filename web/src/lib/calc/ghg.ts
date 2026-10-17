@@ -6,6 +6,8 @@
  * Default NCV/EF values are IPCC 2006 Tier 1 defaults (CO₂ only) and are meant to be replaced by
  * supplier or national inventory values.
  */
+import etkbGrid from "@/data/factors/etkb-grid.json";
+import type { RecalcRecord } from "../recalc";
 
 export type FuelId = "natural_gas" | "diesel" | "gasoline" | "lpg" | "fuel_oil" | "coal" | "lignite";
 
@@ -50,11 +52,18 @@ export const GWP_AR6: Record<string, number> = {
   SF6: 24300,
 };
 
-/** ETKB 2023 consumption-point factors, tCO₂e/MWh (published 26.12.2025). */
-export const GRID_FACTORS = {
-  transmission: 0.436,
-  distribution: 0.469,
-} as const;
+export type GridFactors = { transmission: number; distribution: number };
+
+/** ETKB editions, one per calculation year (docs/kaynak-veri/etkb); values in tCO₂e/MWh. */
+export const ETKB_EDITIONS = (etkbGrid.editions as { year: number; published: string; revision: string; file: string; factors: Record<string, { tco2: number; tco2e: number }> }[])
+  .slice()
+  .sort((a, b) => a.year - b.year);
+
+/** Consumption-point factors of the latest ETKB edition, the default when an inventory has not chosen one. */
+export const GRID_FACTORS: GridFactors = {
+  transmission: ETKB_EDITIONS.at(-1)!.factors["TR-transmission"].tco2e,
+  distribution: ETKB_EDITIONS.at(-1)!.factors["TR-distribution"].tco2e,
+};
 
 export type Quality = "measured" | "calculated" | "estimated";
 
@@ -107,6 +116,12 @@ export type Scope3Line = {
 };
 
 export type Inventory = {
+  /** Year the inventory reports; factor editions are chosen for it. Missing = the client's reporting year. */
+  year?: number;
+  /** Consumption-point grid factors in use, frozen with the ETKB edition they came from. Missing = latest edition. */
+  grid?: GridFactors & { edition: string };
+  /** Recalculations after a factor edition change, newest first. */
+  recalcs?: RecalcRecord[];
   fuels: FuelLine[];
   process: { id: string; label: string; tco2e: number; quality: Quality }[];
   refrigerants: RefrigerantLine[];
@@ -131,18 +146,18 @@ export function refrigerantEmissions(line: RefrigerantLine): number {
 }
 
 /** The location-based factor a line uses: its own grid factor, else the ETKB factor for its connection point. */
-export function gridFactorOf(line: Pick<ElectricityLine, "gridFactor" | "connection">): number {
-  return Math.max(0, line.gridFactor ?? GRID_FACTORS[line.connection]);
+export function gridFactorOf(line: Pick<ElectricityLine, "gridFactor" | "connection">, grid: GridFactors = GRID_FACTORS): number {
+  return Math.max(0, line.gridFactor ?? grid[line.connection]);
 }
 
-export function electricityLocation(line: ElectricityLine): number {
-  return Math.max(0, line.mwh) * gridFactorOf(line);
+export function electricityLocation(line: ElectricityLine, grid: GridFactors = GRID_FACTORS): number {
+  return Math.max(0, line.mwh) * gridFactorOf(line, grid);
 }
 
-export function electricityMarket(line: ElectricityLine): number {
+export function electricityMarket(line: ElectricityLine, grid: GridFactors = GRID_FACTORS): number {
   const covered = Math.min(Math.max(0, line.certifiedMwh), Math.max(0, line.mwh));
   const rest = Math.max(0, line.mwh) - covered;
-  const factor = line.supplierFactor ?? gridFactorOf(line);
+  const factor = line.supplierFactor ?? gridFactorOf(line, grid);
   return rest * Math.max(0, factor);
 }
 
@@ -175,6 +190,7 @@ export type InventoryResult = {
 };
 
 export function computeInventory(inv: Inventory): InventoryResult {
+  const grid = inv.grid ?? GRID_FACTORS;
   let stationary = 0;
   let mobile = 0;
   let estimated = 0;
@@ -199,11 +215,11 @@ export function computeInventory(inv: Inventory): InventoryResult {
   let mwh = 0;
   let renewable = 0;
   for (const el of inv.electricity) {
-    s2l += electricityLocation(el);
-    s2m += electricityMarket(el);
+    s2l += electricityLocation(el, grid);
+    s2m += electricityMarket(el, grid);
     mwh += Math.max(0, el.mwh);
     renewable += Math.min(Math.max(0, el.certifiedMwh), Math.max(0, el.mwh));
-    if (el.quality === "estimated") estimated += electricityLocation(el);
+    if (el.quality === "estimated") estimated += electricityLocation(el, grid);
   }
   energyGj += mwh * 3.6;
   const estimated12 = estimated;

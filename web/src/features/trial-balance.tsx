@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight, FileDown, FileUp, Search, Trash2 } from "lucide-react";
 import { useI18n } from "@/i18n/provider";
+import { localDay } from "@/lib/dates";
 import { sampleTrialBalanceCsv, SAMPLE_TB_FILE } from "@/data/sample-trial-balance";
 import { download } from "@/lib/export";
 import { importTrialBalance, SHEET_ACCEPT } from "@/lib/spreadsheet";
@@ -128,7 +129,7 @@ function Inner() {
                   <dt className="text-[var(--ink-3)]">{t("tb.rows")}</dt>
                   <dd className="num">{t("tb.rowsValue", { rows: tb.rows, n: tb.accounts.length })}</dd>
                   <dt className="text-[var(--ink-3)]">{t("tb.imported")}</dt>
-                  <dd className="num">{fmt.date(tb.importedAt.slice(0, 10))}</dd>
+                  <dd className="num">{fmt.date(localDay(tb.importedAt))}</dd>
                   <dt className="text-[var(--ink-3)]">SHA-256</dt>
                   <dd className="num break-all text-[11.5px] text-[var(--ink-2)]">{tb.sha256}</dd>
                 </dl>

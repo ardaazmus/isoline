@@ -5,6 +5,7 @@ import { Library } from "lucide-react";
 import { useI18n } from "@/i18n/provider";
 import { findFactors, factorRef, factorUnit, formatCn, resolveRef, usableSets, type Factor, type FactorKind, type FactorOption, type FactorSet } from "@/lib/factors";
 import { useWorkspace } from "@/store/workspace";
+import { setsForYear } from "@/lib/recalc";
 import { Field } from "./ui";
 
 const NO_EXTRA: FactorSet[] = [];
@@ -57,16 +58,19 @@ export function FactorPicker({
   value,
   onPick,
   sets,
+  year,
 }: {
   kind: FactorKind;
   matchKey?: string;
   value?: string;
   onPick: (o: FactorOption | null) => void;
   sets: FactorSet[];
+  /** Offer only the editions for this year (one per family); a pick from another edition stays visible. */
+  year?: number;
 }) {
   const { t, fmt } = useI18n();
   const label = useFactorLabel();
-  const matches = findFactors(sets, kind, matchKey);
+  const matches = findFactors(year === undefined ? sets : setsForYear(sets, year), kind, matchKey);
   const current = resolveRef(sets, value);
   // A pick stays listed even after the key changes, so the field never silently shows another factor.
   const options = current && !matches.some((o) => factorRef(o) === factorRef(current)) ? [current, ...matches] : matches;

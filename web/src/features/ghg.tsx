@@ -26,6 +26,8 @@ import { INVENTORY_TEMPLATE_ROWS, inventoryTemplateCsv, type ImportResult } from
 import { importInventoryFile, lastImport, logImport, type FileRead } from "@/lib/imports";
 import { xlsxWorkbook, XLSX_MIME } from "@/lib/spreadsheet";
 import { FileImport, ImportPreview, IssueList } from "@/components/file-import";
+import { FactorYear, useEditionName } from "./factor-year";
+import { gridEdition } from "@/lib/recalc";
 import { useActiveClient, useWorkspace } from "@/store/workspace";
 import { InlineBar, ThemeIcon } from "@/components/data";
 import { th } from "@/data/themes";
@@ -64,6 +66,9 @@ function Inner() {
   const r = useMemo(() => computeInventory(inv), [inv]);
   const n0 = (v: number) => fmt.number(v, 0);
   const patch = (p: Partial<Inventory>) => set({ ...inv, ...p });
+  const year = inv.year ?? client.profile.reportingYear;
+  const grid = inv.grid ?? GRID_FACTORS;
+  const editionName = useEditionName(sets);
   const meta = { sources: SOURCES, boundary: t("ghg.boundary"), unit: "tCO₂e", status: client.sample ? ("sample" as const) : undefined };
 
   const steps = [
@@ -91,6 +96,7 @@ function Inner() {
         family="climate"
         inputs={
           <>
+            <FactorYear inv={inv} year={year} sets={sets} baseYear={client.pathway.baseYear} onApply={(next) => set(next)} />
             <InventoryImport inv={inv} onApply={(next) => set(next)} />
             <Tabs
               label={t("ghg.inputs")}
@@ -119,6 +125,7 @@ function Inner() {
                     </div>
                     <FactorPicker
                       kind="fuel_co2"
+                      year={year}
                       matchKey={f.fuel}
                       sets={sets}
                       value={f.factorRef}
@@ -176,14 +183,15 @@ function Inner() {
                         value={e.connection}
                         onChange={(v) => patch({ electricity: inv.electricity.map((x) => (x.id === e.id ? { ...x, connection: v } : x)) })}
                         options={[
-                          { value: "transmission", label: `${t("ghg.transmission")} · ${GRID_FACTORS.transmission}` },
-                          { value: "distribution", label: `${t("ghg.distribution")} · ${GRID_FACTORS.distribution}` },
+                          { value: "transmission", label: `${t("ghg.transmission")} · ${grid.transmission}` },
+                          { value: "distribution", label: `${t("ghg.distribution")} · ${grid.distribution}` },
                         ]}
                       />
                     </div>
                     <NumberField label={t("ghg.certified")} unit="MWh" hint={t("ghg.certifiedHint")} value={e.certifiedMwh} min={0} onChange={(v) => patch({ electricity: inv.electricity.map((x) => (x.id === e.id ? { ...x, certifiedMwh: v } : x)) })} />
                     <FactorPicker
                       kind="grid"
+                      year={year}
                       sets={sets}
                       value={e.factorRef}
                       onPick={(o) => patch({ electricity: inv.electricity.map((x) => (x.id === e.id ? (o ? { ...x, gridFactor: o.factor.value, factorRef: factorRef(o) } : { ...x, factorRef: undefined }) : x)) })}
@@ -191,7 +199,7 @@ function Inner() {
                     <NumberField
                       label={t("ghg.gridFactor")}
                       unit="tCO₂e/MWh"
-                      hint={t("ghg.gridFactorHint", { value: GRID_FACTORS[e.connection] })}
+                      hint={t("ghg.gridFactorHint", { value: grid[e.connection], edition: editionName(gridEdition(inv)) })}
                       nullable
                       value={e.gridFactor ?? NaN}
                       onChange={(v) => patch({ electricity: inv.electricity.map((x) => (x.id === e.id ? { ...x, gridFactor: Number.isFinite(v) ? v : null, factorRef: undefined } : x)) })}
@@ -223,6 +231,7 @@ function Inner() {
                     </div>
                     <FactorPicker
                       kind="scope3"
+                      year={year}
                       sets={sets}
                       value={l.factorRef}
                       onPick={(o) =>

@@ -3,6 +3,7 @@
 import { useRef, useState, type ReactNode } from "react";
 import { FileDown, FileSpreadsheet, FileUp } from "lucide-react";
 import { useI18n } from "@/i18n/provider";
+import { localDay } from "@/lib/dates";
 import { download } from "@/lib/export";
 import { SHEET_ACCEPT } from "@/lib/spreadsheet";
 import type { ImportRecord } from "@/lib/imports";
@@ -70,7 +71,7 @@ export function FileImport({
       {children}
       {last && (
         <p className="text-[11.5px] leading-snug text-[var(--ink-3)]" title={`SHA-256 ${last.sha256}`}>
-          {t("imp.last", { file: last.fileName, date: fmt.date(last.importedAt.slice(0, 10)), n: last.applied })} · SHA-256 <span className="num">{last.sha256.slice(0, 12)}…</span>
+          {t("imp.last", { file: last.fileName, date: fmt.date(localDay(last.importedAt)), n: last.applied })} · SHA-256 <span className="num">{last.sha256.slice(0, 12)}…</span>
         </p>
       )}
     </InputGroup>

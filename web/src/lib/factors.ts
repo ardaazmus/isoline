@@ -4,7 +4,7 @@
  * licensed IEA factors; such a set can only be used after the user confirms they hold the right to use it,
  * which keeps the licence responsibility with the user. Custom sets live in the workspace, not in the product.
  */
-import { FUELS, GRID_FACTORS, GWP_AR6, type FuelId } from "./calc/ghg";
+import { ETKB_EDITIONS, FUELS, GWP_AR6, type FuelId } from "./calc/ghg";
 import cbamTr from "@/data/factors/eu-cbam-defaults-tr.json";
 import eeaGrid from "@/data/factors/eea-grid-intensity.json";
 
@@ -58,6 +58,14 @@ export type FactorSet = {
   rightsConfirmed: boolean;
   /** i18n key of a caveat shown wherever this set's factors are picked. */
   usageNote?: string;
+  /**
+   * Editions: sets of one family (etkb, tuik_ncv, desnz…) differ only by `year`, the data year they cover.
+   * An inventory picks the edition for its year; a later edition can replace an earlier one retroactively.
+   */
+  family?: string;
+  year?: number;
+  /** Publication date of the edition. */
+  published?: string;
   factors: Factor[];
 };
 
@@ -73,6 +81,41 @@ const IPCC_FUEL_NAMES: Record<FuelId, string> = {
   coal: "Other Bituminous Coal",
   lignite: "Lignite",
 };
+
+/** Labels of the ETKB factors, as named in the form. */
+const ETKB_LABELS: Record<string, string> = {
+  "TR-generation": "Türkiye geneli elektrik üretimi",
+  "TR-transmission": "İletim hattından bağlı tüketim noktası",
+  "TR-distribution": "Dağıtım hattından bağlı tüketim noktası",
+  "TR-plant-lignite": "Santral: linyit",
+  "TR-plant-hard-coal": "Santral: taş kömürü",
+  "TR-plant-asphaltite": "Santral: asfaltit",
+  "TR-plant-imported-coal": "Santral: ithal kömür",
+  "TR-plant-natural-gas": "Santral: doğal gaz",
+  "TR-plant-fuel-oil": "Santral: fuel oil",
+  "TR-plant-diesel": "Santral: motorin",
+};
+
+/** One ETKB edition; the 2023 edition keeps the id the library used before editions existed. */
+function etkbSet(e: (typeof ETKB_EDITIONS)[number]): FactorSet {
+  const id = `etkb_${e.year}`;
+  return {
+    id,
+    name: `ETKB — Türkiye electricity emission factors, ${e.year}`,
+    publisher: "T.C. Enerji ve Tabii Kaynaklar Bakanlığı (EVÇED)",
+    licence: "public_sector",
+    licenceNote: "Official public-sector data, cited with attribution.",
+    url: "https://enerji.gov.tr/evced-cevre-ve-iklim-elektrik-uretim-tuketim-emisyon-faktorleri",
+    asOf: e.published,
+    published: e.published,
+    family: "etkb",
+    year: e.year,
+    origin: "builtin",
+    rightsConfirmed: true,
+    usageNote: "factors.notes.etkb",
+    factors: Object.entries(e.factors).map(([key, v]) => ({ id: `${id}:${key.replace(/^TR-/, "")}`, kind: "grid" as const, key, label: ETKB_LABELS[key] ?? key, value: v.tco2e, year: e.year })),
+  };
+}
 
 type CbamRow = [cn: string, description: string, direct: number | null, indirect: number | null, total: number, otherCountries: 0 | 1, xlsxRow: string];
 type EeaRow = [code: string, country: string, year: number, gPerKwh: number];
@@ -98,22 +141,7 @@ export const BUILTIN_SETS: FactorSet[] = [
       ncv: FUELS[k].ncv,
     })),
   },
-  {
-    id: "etkb_2023",
-    name: "ETKB — Türkiye electricity emission factors, 2023",
-    publisher: "T.C. Enerji ve Tabii Kaynaklar Bakanlığı",
-    licence: "public_sector",
-    licenceNote: "Official public-sector data, cited with attribution.",
-    url: "https://enerji.gov.tr/evced-cevre-ve-iklim-elektrik-uretim-tuketim-emisyon-faktorleri",
-    asOf: AS_OF,
-    origin: "builtin",
-    rightsConfirmed: true,
-    factors: [
-      { id: "etkb_2023:generation", kind: "grid", key: "TR-generation", label: "Türkiye geneli üretim", value: 0.434, year: 2023 },
-      { id: "etkb_2023:transmission", kind: "grid", key: "TR-transmission", label: "İletim hattına bağlı tüketim noktası", value: GRID_FACTORS.transmission, year: 2023 },
-      { id: "etkb_2023:distribution", kind: "grid", key: "TR-distribution", label: "Dağıtım hattına bağlı tüketim noktası", value: GRID_FACTORS.distribution, year: 2023 },
-    ],
-  },
+  ...ETKB_EDITIONS.map(etkbSet),
   {
     id: "ipcc_ar6_gwp",
     name: "IPCC AR6 WG1 — GWP100 (Table 7.SM.7)",
@@ -136,6 +164,9 @@ export const BUILTIN_SETS: FactorSet[] = [
     licenceNote: "© European Union, CC BY 4.0 (Commission Decision 2011/833/EU).",
     url: cbamTr.url,
     asOf: "2026-08-06",
+    published: "2026-08-06",
+    family: "eu_cbam_dv",
+    year: 2026,
     origin: "builtin",
     rightsConfirmed: true,
     usageNote: "factors.notes.eu_cbam_dv_tr",
@@ -160,6 +191,9 @@ export const BUILTIN_SETS: FactorSet[] = [
     licenceNote: "CC BY 4.0 — source: European Environment Agency.",
     url: eeaGrid.url,
     asOf: "2026-07-10",
+    published: "2026-07-10",
+    family: "eea_ener038",
+    year: 2024,
     origin: "builtin",
     rightsConfirmed: true,
     usageNote: "factors.notes.eea_ener038",

@@ -22,7 +22,8 @@ describe("factor library", () => {
   it("builds the built-in sets from the calculation constants", () => {
     const ipcc = BUILTIN_SETS.find((s) => s.id === "ipcc_2006")!;
     expect(ipcc.factors.find((f) => f.key === "natural_gas")!.value).toBe(FUELS.natural_gas.ef);
-    expect(findFactors(BUILTIN_SETS, "grid", "TR-distribution")[0].factor.value).toBe(GRID_FACTORS.distribution);
+    // The default grid factors are the latest ETKB edition's.
+    expect(findFactors(BUILTIN_SETS.filter((s) => s.id === "etkb_2023"), "grid", "TR-distribution")[0].factor.value).toBe(GRID_FACTORS.distribution);
     expect(findFactors(BUILTIN_SETS, "gwp", "SF6")[0].factor.value).toBe(GWP_AR6.SF6);
     BUILTIN_SETS.forEach((s) => {
       expect(s.licence).not.toBe("user_licensed");
