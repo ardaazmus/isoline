@@ -1,0 +1,1553 @@
+{
+  "_meta": {
+    "nativeName": "Türkçe",
+    "intl": "tr-TR"
+  },
+  "meta": {
+    "description": "Sürdürülebilirlik raporu, faaliyet raporu ve karbon fiyatlaması için kaynaklı hesap ve görsel araçlar."
+  },
+  "shell": {
+    "skip": "İçeriğe geç",
+    "menu": "Menüyü aç",
+    "close": "Menüyü kapat",
+    "nav": "Araçlar",
+    "client": "Müşteri",
+    "sample": "Örnek veri",
+    "manageClients": "Müşteriler",
+    "language": "Dil",
+    "loading": "Çalışma alanı yükleniyor…",
+    "disclaimer": "Isoline bir uyum hazırlık aracıdır; hukuki görüş, bağımsız güvence veya akredite doğrulama yerine geçmez. Her değer kaynağı ve tarihiyle gösterilir; nihai karar uzman onayıyla verilir."
+  },
+  "nav": {
+    "group": {
+      "compass": "Pusula",
+      "carbon": "Karbon",
+      "environment": "Çevre",
+      "people": "İnsan ve yönetişim",
+      "reporting": "Raporlama"
+    },
+    "overview": "Genel bakış",
+    "journey": "Rapor akışı",
+    "applicability": "Kapsam testi",
+    "regulations": "Mevzuat takvimi",
+    "ghg": "Kapsam 1-2-3 envanteri",
+    "cbam": "SKDM maliyet projeksiyonu",
+    "ets": "TR ETS simülatörü",
+    "pathway": "Dekarbonizasyon yolu",
+    "environment": "Enerji, su ve atık",
+    "taxonomy": "Taksonomi göstergeleri",
+    "materiality": "Çift önemlilik matrisi",
+    "workforce": "İSG ve çalışan göstergeleri",
+    "annualReport": "Faaliyet raporu kontrolü",
+    "templates": "Şablon kütüphanesi",
+    "crosswalk": "Çerçeve eşleme"
+  },
+  "units": {
+    "mTry": "milyon TL",
+    "mTryShort": "mn TL",
+    "years": "yıl",
+    "hours": "saat",
+    "days": "gün"
+  },
+  "note": {
+    "source": "Kaynak",
+    "asOf": "Tarih",
+    "boundary": "Sınır",
+    "unit": "Birim",
+    "status": "Durum",
+    "status_verified": "Resmi kaynakta doğrulandı",
+    "status_estimated": "İkincil kaynak",
+    "status_sample": "Örnek veriyle hesaplandı",
+    "status_review": "Uzman teyidi gerekli",
+    "more": "+{n} kaynak daha",
+    "less": "Daha az göster"
+  },
+  "figure": {
+    "showTable": "Tablo",
+    "showChart": "Grafik"
+  },
+  "actions": {
+    "reset": "Örneğe dön",
+    "resetHint": "Örnek müşteride bu aracın değerlerini başlangıç durumuna getirir",
+    "exportData": "Veriyi dışa aktar",
+    "remove": "Kaldır",
+    "add": "Ekle"
+  },
+  "common": {
+    "year": "Yıl",
+    "total": "Toplam",
+    "keyDates": "Kritik tarihler",
+    "notes": "Hesap notları"
+  },
+  "dates": {
+    "cbam_definitive": "SKDM kesin dönem başladı",
+    "cbam_cert_sales": "SKDM sertifika satışının başlaması",
+    "cbam_first_declaration": "2026 ithalatı için ilk yıllık beyan ve sertifika teslimi",
+    "cbam_repurchase": "Fazla sertifikalar için geri alım talebi son günü",
+    "cbam_downstream": "Alt ürün genişlemesi (öneri, müzakerede)",
+    "ets_reg": "TR ETS Yönetmeliği yürürlüğe girdi",
+    "ets_monitoring_plan": "Pilot tesisler için İzleme Metodolojisi Planı (≈, 6 aya kadar uzatılabilir)",
+    "ets_price_start": "Pilotta fiyat mekanizmasının başlaması",
+    "ets_report_2026": "2026 emisyonları için doğrulanmış rapor",
+    "ets_surrender_2027": "2027 emisyonları için tahsisat teslimi (Kasım'ın son iş günü)",
+    "ets_permit": "Emisyon izni için 3 yıllık sürenin sonu",
+    "ets_report": "Doğrulanmış emisyon raporu",
+    "ets_surrender": "Tahsisat teslimi (Kasım'ın son iş günü)",
+    "tsrs_s2_amend": "TSRS 2 sera gazı değişiklikleri zorunlu",
+    "csrd_first_report": "CSRD kapsamında ilk raporların yayımı (FY2027)",
+    "esrs_2026_in_force": "Revize ESRS yürürlüğe giriyor",
+    "csrd_nonEU_first_report": "AB dışı ana şirket raporları (FY2028)",
+    "value_chain_cap": "Değer zinciri tavanı uygulanmaya başlıyor",
+    "csddd_apply": "CSDDD uygulamaya giriyor",
+    "tr_taxonomy_fi": "Finansal kuruluşlar için taksonomi raporlaması (en erken)",
+    "eudr_apply": "EUDR uygulama tarihi",
+    "battery_passport": "Pil pasaportu zorunlu"
+  },
+  "sectors": {
+    "iron_steel": "Demir-çelik",
+    "aluminium": "Alüminyum",
+    "cement": "Çimento",
+    "fertilisers": "Gübre",
+    "hydrogen": "Hidrojen",
+    "electricity": "Elektrik",
+    "other": "Diğer"
+  },
+  "overview": {
+    "result": "{n} yükümlülük bu müşteriyi doğrudan ya da değer zinciri üzerinden etkiliyor; toplam envanter {total} tCO₂e, 2030 SKDM yükü {cbam}.",
+    "obligations": "Yükümlülükler",
+    "deadlines": "Yaklaşan tarihler",
+    "cbam2030": "2030 yükümlülüğü",
+    "locationBased": "konum bazlı toplam",
+    "nextIn": "Sıradaki · {track}",
+    "moreObligations": "+{n} yükümlülük daha"
+  },
+  "journey": {
+    "result": "{track}: {total} aşamanın {done} tanesi tamam. Sıradaki aşama: {next}.",
+    "track": "Rapor türü",
+    "tracks": {
+      "sustainability": "Sürdürülebilirlik raporu",
+      "annual": "Faaliyet raporu",
+      "cbam": "SKDM veri ve beyan"
+    },
+    "st": {
+      "todo": "Başlamadı",
+      "doing": "Sürüyor",
+      "done": "Tamamlandı"
+    },
+    "tasks": "Görevler",
+    "outputs": "Çıktılar",
+    "deadline": "Son tarih",
+    "status": "Aşama durumu",
+    "tools": "Bu aşamayı besleyen araçlar",
+    "noTool": "Bu aşama platform dışındaki iş akışında yürür (denetim, yönetim kurulu, KAP).",
+    "manual": "Durum elle belirlendi.",
+    "derived": "Durum müşteri verisinden hesaplandı: {pct}",
+    "noData": "Bu aşama için ölçülebilir veri yok; durumu elle belirleyin.",
+    "clearManual": "Otomatik duruma dön",
+    "whenBefore": "Dönem sonundan {m} ay önce",
+    "whenAt": "Dönem sonunda",
+    "whenAfter": "Dönem sonundan {m} ay sonra",
+    "whenShort": "{m} ay",
+    "sustainability": {
+      "scope": {
+        "title": "Kapsam ve çerçeve",
+        "what": "Şirketin TSRS, CSRD, GRI ve müşteri taleplerine göre hangi çerçevelerle raporlayacağı ve hangi geçiş kolaylıklarını kullanacağı belirlenir.",
+        "tasks": "Kapsam testini çalıştırın|Çerçeve kombinasyonunu seçin (TSRS + GRI vb.)|Geçiş kolaylıklarını kayda alın|Raporlama sınırını (konsolidasyon) tanımlayın",
+        "outputs": "Kapsam kararı, çerçeve listesi, raporlama sınırı notu"
+      },
+      "materiality": {
+        "title": "Çift önemlilik",
+        "what": "Etki ve finansal önemlilik konuları puanlanır, eşik belirlenir ve rapor kapsamındaki konu listesi onaylanır.",
+        "tasks": "Paydaş girdilerini toplayın|Konuları etki ve finansal açıdan puanlayın|Eşiği gerekçelendirin|Yönetim onayı alın",
+        "outputs": "Önemlilik matrisi, konu listesi, gerekçe kaydı"
+      },
+      "data": {
+        "title": "Veri toplama",
+        "what": "Enerji, emisyon, su, atık, İSG ve İK verileri birimlerden kanıtlarıyla toplanır.",
+        "tasks": "Veri sahiplerini atayın|Fatura, sayaç ve İK kayıtlarını toplayın|Birim ve dönem kontrolü yapın|Tahmini verileri işaretleyin",
+        "outputs": "Kanıtlı veri seti, tahmin günlüğü"
+      },
+      "calculate": {
+        "title": "Hesaplama",
+        "what": "Kapsam 1-2-3, yoğunluk, taksonomi oranları ve göstergeler hesaplanır; yöntem ve faktör kaynakları kaydedilir.",
+        "tasks": "Emisyon faktörlerini seçin ve kaynaklayın|Kapsam 2 konum ve piyasa bazlı hesaplayın|Kapsam 3 kategorilerini önceliklendirin|Önceki yılla sapma analizi yapın",
+        "outputs": "Envanter tablosu, yöntem notu"
+      },
+      "targets": {
+        "title": "Hedefler ve geçiş planı",
+        "what": "Bilime dayalı hedef yolu, azaltım önlemleri, karbon fiyatı etkileri ve geçiş planı açıklaması hazırlanır.",
+        "tasks": "Baz yılı ve hedef yılını sabitleyin|Önlemleri maliyet eğrisine yerleştirin|SKDM ve ETS maliyet etkisini ekleyin|Geçiş planı anlatısını yazın",
+        "outputs": "Hedef yolu grafiği, MACC, finansal etki tablosu"
+      },
+      "write": {
+        "title": "Yazım ve eşleme",
+        "what": "Şablon bölümleri doldurulur, çerçeve eşleme tablosu ve içerik indeksi hazırlanır.",
+        "tasks": "Şablonu Word olarak dışa aktarın|Bölüm sahiplerini belirleyin|GRI / TSRS içerik indeksini çıkarın|İki dil tutarlılığını kontrol edin",
+        "outputs": "Rapor taslağı, içerik indeksi"
+      },
+      "assurance": {
+        "title": "Güvence",
+        "what": "KGK yetkili kuruluş tarafından sınırlı güvence denetimi yapılır; kanıt dosyası ve yönetim beyanları hazırlanır.",
+        "tasks": "Kanıt klasörünü düzenleyin|Denetçi sorularını yanıtlayın|Düzeltmeleri işleyin|Güvence raporunu alın",
+        "outputs": "Sınırlı güvence raporu"
+      },
+      "publish": {
+        "title": "Tasarım ve yayım",
+        "what": "Onaylı içerik tasarım ajansına teslim edilir, rapor KAP'ta ve web sitesinde yayımlanır.",
+        "tasks": "Grafik veri setlerini teslim edin|Son okuma ve onay|KAP bildirimi (TSRS uyumlu rapor)|Web yayını",
+        "outputs": "Yayımlanmış rapor, KAP bildirimi"
+      }
+    },
+    "annual": {
+      "plan": {
+        "title": "Takvim ve sorumlular",
+        "what": "Faaliyet raporunun içerik profili (TTK, SPK, BDDK) seçilir, bölüm sahipleri ve süreler belirlenir.",
+        "tasks": "Rapor profilini seçin|Bölüm sahiplerini atayın|Genel kurul ve KAP tarihlerinden geriye takvim kurun",
+        "outputs": "Proje takvimi, sorumluluk listesi"
+      },
+      "financials": {
+        "title": "Finansal tablolar ve denetim",
+        "what": "Bağımsız denetimden geçen finansal tablolar ve temel rasyolar faaliyet raporuna aktarılır.",
+        "tasks": "Denetlenmiş tabloları alın|Satış, kârlılık ve borç/özkaynak oranlarını hesaplayın|Rakamları raporla mutabık kılın",
+        "outputs": "Finansal özet tabloları"
+      },
+      "content": {
+        "title": "İçerik taslağı",
+        "what": "Asgari içerik yönetmeliğinin her maddesi için metinler yazılır ve kontrol listesinde işaretlenir.",
+        "tasks": "Kontrol listesini doldurun|Yatırımlar, riskler, iç kontrol bölümlerini yazın|Bağış ve davaları derleyin",
+        "outputs": "Bölüm taslakları"
+      },
+      "governance": {
+        "title": "Kurumsal yönetim formları",
+        "what": "Halka açık şirketlerde URF ve KYBF, sürdürülebilirlik ilkeleri uyum çerçevesi hazırlanır.",
+        "tasks": "URF ve KYBF'yi güncelleyin|Sürdürülebilirlik ilkeleri uyum tablosunu doldurun|Önceki yılla farkları işaretleyin",
+        "outputs": "URF, KYBF, uyum çerçevesi"
+      },
+      "sustainability_summary": {
+        "title": "Sürdürülebilirlik özeti",
+        "what": "Emisyon, enerji, İSG ve çalışan göstergeleri faaliyet raporundaki özet sayfaya aktarılır.",
+        "tasks": "Araçlardan özet göstergeleri alın|TSRS raporuyla tutarlılığı kontrol edin",
+        "outputs": "Bir bakışta sayfası"
+      },
+      "board": {
+        "title": "Yönetim kurulu onayı",
+        "what": "Rapor yönetim kurulunca onaylanır ve imzalanır; karşı görüşler gerekçesiyle eklenir.",
+        "tasks": "Son okuma|Yönetim kurulu kararı|İmzalar",
+        "outputs": "Onaylı faaliyet raporu"
+      },
+      "kap": {
+        "title": "KAP ve genel kurul",
+        "what": "Rapor finansal raporla birlikte KAP'ta ve genel kuruldan en az üç hafta önce kamuya açıklanır.",
+        "tasks": "KAP bildirimi|Web yayını|Genel kurul dokümanlarına ekleme",
+        "outputs": "Yayımlanmış rapor"
+      }
+    },
+    "cbam": {
+      "goods": {
+        "title": "Ürün ve KN eşlemesi",
+        "what": "AB'ye ihraç edilen ürünler KN kodu, sektör ve üretim rotasıyla eşlenir; AB alıcıları belirlenir.",
+        "tasks": "KN kodlarını doğrulayın|Üretim rotalarını tanımlayın|AB alıcılarının yetkili beyan sahibi durumunu sorun",
+        "outputs": "Ürün-tesis-alıcı listesi"
+      },
+      "monitoring": {
+        "title": "Tesis izleme",
+        "what": "Tesisteki yakıt, malzeme ve elektrik akışları izlenir; TR ETS izleme planıyla aynı veri hattı kullanılır.",
+        "tasks": "İzleme planını hazırlayın|Sayaç ve laboratuvar verisini bağlayın|Öncülleri kayda alın",
+        "outputs": "İzleme planı, faaliyet verisi"
+      },
+      "embedded": {
+        "title": "Gömülü emisyon hesabı",
+        "what": "Ürün bazında doğrudan, dolaylı ve öncül emisyonlardan spesifik gömülü emisyon hesaplanır.",
+        "tasks": "Atfedilen emisyonları hesaplayın|Öncül SEE değerlerini ekleyin|Varsayılan değerle karşılaştırın",
+        "outputs": "Ürün bazında SEE"
+      },
+      "verify": {
+        "title": "Akredite doğrulama",
+        "what": "AB akreditasyonlu doğrulayıcı ilk yıl tesis ziyaretiyle emisyon raporunu doğrular.",
+        "tasks": "Doğrulayıcı seçin|Kanıt dosyasını hazırlayın|Tesis ziyaretini planlayın",
+        "outputs": "Doğrulama raporu"
+      },
+      "pack": {
+        "title": "AB alıcısına veri paketi",
+        "what": "Operatör emisyon raporu ve kanıtlar AB'deki ithalatçıya gönderilir.",
+        "tasks": "Operatör veri paketini doldurun|Menşede ödenen karbon fiyatı kanıtını ekleyin|Paketi alıcıya iletin",
+        "outputs": "Operatör emisyon raporu"
+      },
+      "cost": {
+        "title": "Maliyet ve fiyatlama",
+        "what": "SKDM maliyeti 2026–2034 için projekte edilir, satış fiyatlarına ve sözleşmelere yansıtılır.",
+        "tasks": "Fiyat senaryolarını belirleyin|Doğrulanmış ve varsayılan veri farkını hesaplayın|Sözleşme maddelerini güncelleyin",
+        "outputs": "Maliyet projeksiyonu"
+      },
+      "declare": {
+        "title": "Yıllık beyan",
+        "what": "AB'deki yetkili beyan sahibi yıllık beyanı verir ve sertifikaları teslim eder.",
+        "tasks": "Alıcının sorularını yanıtlayın|Beyan sonrası düzeltmeleri izleyin",
+        "outputs": "Teslim edilmiş beyan (alıcı tarafında)"
+      }
+    }
+  },
+  "cbam": {
+    "result": "2030'da AB'li alıcılarınıza düşen SKDM yükümlülüğü {cost} düzeyine çıkıyor; 2026–2034 toplamı {total}.",
+    "empty": "Ürün ekleyerek AB'ye ihraç ettiğiniz SKDM kapsamlı ürünlerin maliyet projeksiyonunu görün.",
+    "scenario": "Fiyat senaryosu",
+    "startPrice": "2026 sertifika fiyatı",
+    "startPriceHint": "Resmi 2026 çeyrek fiyatları: Ç1 €{q1}, Ç2 €{q2}, Ç3 €{q3}. Örnek değer üç çeyreğin ortalamasıdır.",
+    "priceGrowth": "Yıllık fiyat değişimi",
+    "originPrice": "Türkiye'de fiilen ödenen karbon fiyatı",
+    "originPriceHint": "Ücretsiz tahsis düşüldükten sonraki etkin fiyat. TR ETS pilotunda tahsisat %100 ücretsiz olduğu için 2026–2027'de genellikle 0'dır.",
+    "eurTry": "Avro kuru",
+    "product": "Ürün",
+    "newProduct": "Yeni ürün",
+    "addProduct": "Ürün ekle",
+    "productName": "Ürün adı",
+    "cn": "KN kodu",
+    "sector": "Sektör",
+    "tonnes": "AB'ye ihracat (2026)",
+    "growth": "Yıllık hacim değişimi",
+    "useDefault": "Varsayılan değerle hesapla",
+    "useDefaultHint": "Doğrulanmış tesis verisi yoksa AB varsayılan değeri ve yılın işaret payı kullanılır.",
+    "seeDirect": "Doğrudan gömülü emisyon",
+    "seeIndirect": "Dolaylı gömülü emisyon",
+    "noIndirect": "Bu sektörde dolaylı emisyon SKDM hesabına girmez.",
+    "defaultSee": "AB varsayılan değeri",
+    "benchmark": "Ücretsiz tahsis kıyas değeri",
+    "boundary": "Ürün ve tesis, AB'ye ihracat",
+    "fig2026": "2026 yükümlülüğü",
+    "fig2030": "2030 yükümlülüğü",
+    "figTotal": "2026–2034 toplamı",
+    "figSaving": "Doğrulanmış verinin etkisi",
+    "figSavingNote": "Tüm ürünler varsayılan değerle hesaplansaydı oluşacak ek maliyet",
+    "chartCost": "Yıllık SKDM maliyeti",
+    "chartCostCaption": "Sütunlar seçili hesap yöntemini, çizgiler tüm ürünlerin doğrulanmış veriyle ve varsayılan değerle hesaplanmış maliyetini gösterir.",
+    "legendCost": "Seçili yöntemle maliyet",
+    "legendDefault": "Tümü varsayılan değerle",
+    "legendActual": "Tümü doğrulanmış veriyle",
+    "chartEmissions": "Gömülü emisyonun dağılımı",
+    "chartEmissionsCaption": "Ücretsiz tahsis düzeltmesi azaldıkça sertifikaya tabi pay büyür; SKDM faktörü 2026'da %97,5'ten 2034'te sıfıra iner.",
+    "legendCertificates": "Sertifikaya tabi emisyon",
+    "legendFaa": "Ücretsiz tahsis düzeltmesi",
+    "legendDeduction": "Menşede ödenen karbon fiyatı indirimi",
+    "byProduct": "Ürün bazında ton başına maliyet",
+    "seeUsed": "Kullanılan değer (t/t)",
+    "defaultValues": "varsayılan değer",
+    "verifiedValues": "doğrulanmış veri",
+    "colShare": "Ödenen pay",
+    "colTonnes": "Ton",
+    "colGross": "Gömülü tCO₂e",
+    "colFaa": "Tahsis düzeltmesi",
+    "colCertificates": "Sertifika",
+    "colCost": "Maliyet (€)",
+    "colCostTry": "Maliyet (TL)",
+    "notes": {
+      "deMinimis": "AB'deki ithalatçı başına yıllık 50 ton net kütlenin altı (demir-çelik, alüminyum, gübre ve çimento toplamı) muaftır; eşik aşılırsa o yılın tüm ithalatı kapsama girer. Elektrik ve hidrojende eşik yoktur.",
+      "indirect": "Dolaylı (elektrik) emisyonlar yalnız çimento ve gübrede hesaba girer; demir-çelikte sinter cevherinin dolaylı emisyonu öncül olarak taşınır.",
+      "markup": "Varsayılan değerlere işaret payı eklenir: 2026'da %10, 2027'de %20, 2028'den itibaren %30; gübrede %1.",
+      "deduction": "Menşe ülkede ödenen karbon fiyatının düşülmesine ilişkin AB uygulama kuralları taslak aşamasındadır (13.05.2026); bu satır tahmini sonuç verir.",
+      "holding": "2027'den itibaren her çeyrek sonunda, yıl başından beri ithal edilen gömülü emisyonun en az %50'si kadar sertifika hesapta tutulmalıdır.",
+      "penalty": "Teslim edilmeyen her sertifika için standart ceza ton başına €100'dür.",
+      "csCf": "Sektörler arası düzeltme katsayısı (CSCF) bu projeksiyonda uygulanmaz; kıyas değeri ve rota eşlemesi Uygulama Tüzüğü 2025/2620 ekinden alınmalıdır."
+    },
+    "sampleWarning": "Örnek müşterideki kıyas ve varsayılan değerler gösterim amaçlıdır, resmi değer değildir. Gerçek hesap için ürününüzün KN kodu ve üretim rotasına ait değerleri Uygulama Tüzükleri 2025/2620 ve 2025/2621'den girin."
+  },
+  "ghg": {
+    "result": "Toplam envanter {total} tCO₂e; bunun {s12} tCO₂e'si Kapsam 1 ve 2. Tahmini verinin payı {est}.",
+    "boundary": "Operasyonel kontrol, konsolide",
+    "inputs": "Envanter girdileri",
+    "tabS1": "Kapsam 1",
+    "tabS2": "Kapsam 2",
+    "tabS3": "Kapsam 3",
+    "tabNorm": "Normalleştirme",
+    "fuel": "Yakıt",
+    "label": "Açıklama",
+    "fuelType": "Yakıt türü",
+    "amount": "Miktar",
+    "ncv": "Net ısıl değer",
+    "ef": "CO₂ emisyon faktörü",
+    "use": "Kullanım",
+    "stationary": "Sabit yanma",
+    "mobile": "Mobil yanma",
+    "quality": "Veri kalitesi",
+    "q_measured": "Ölçüm",
+    "q_calculated": "Hesaplanmış",
+    "q_estimated": "Tahmini",
+    "addFuel": "Yakıt ekle",
+    "process": "Proses emisyonu",
+    "processEmissions": "Proses emisyonu",
+    "addProcess": "Proses emisyonu ekle",
+    "refrigerant": "Soğutucu gaz kaçağı",
+    "gas": "Gaz",
+    "leaked": "Kaçak miktarı",
+    "addRefrigerant": "Soğutucu gaz ekle",
+    "electricity": "Elektrik tüketimi",
+    "mwh": "Tüketim",
+    "connection": "Bağlantı noktası (ETKB faktörü)",
+    "transmission": "İletim",
+    "distribution": "Dağıtım",
+    "certified": "YEK-G / I-REC ile belgelenen",
+    "certifiedHint": "Piyasa bazlı hesapta sıfır emisyonla sayılır.",
+    "supplierFactor": "Tedarikçiye özgü faktör",
+    "supplierFactorHint": "Boş bırakılırsa belgelenmeyen kısım için şebeke faktörü kullanılır.",
+    "addElectricity": "Elektrik kalemi ekle",
+    "category": "Kategori",
+    "unit": "Birim",
+    "factor": "Emisyon faktörü",
+    "factorSource": "Faktör kaynağı",
+    "addScope3": "Kapsam 3 kalemi ekle",
+    "normalisers": "Yoğunluk paydaları",
+    "revenue": "Net satışlar",
+    "production": "Üretim",
+    "scope1": "Kapsam 1",
+    "scope2loc": "Kapsam 2 (konum)",
+    "scope2mkt": "Kapsam 2 (piyasa)",
+    "scope3": "Kapsam 3",
+    "intensity": "Ürün yoğunluğu (K1+2)",
+    "intensityNote": "tCO₂e/t · ciro yoğunluğu {rev} tCO₂e/mn TL",
+    "w_stationary": "Sabit yanma",
+    "w_mobile": "Mobil yanma",
+    "w_process": "Proses",
+    "w_fugitive": "Kaçak",
+    "chartWaterfall": "Emisyon şelalesi",
+    "chartWaterfallCaption": "Kapsam 1 kalemlerinden toplam envantere; kesikli çerçeveli sütunlar tahmini verinin ağırlıklı olduğu kalemlerdir.",
+    "item": "Kalem",
+    "share": "Pay",
+    "scope2compare": "Kapsam 2: konum ve piyasa bazlı",
+    "location": "Konum bazlı",
+    "market": "Piyasa bazlı",
+    "renewableShare": "Belgeli yenilenebilir elektrik payı: {share}",
+    "scope3byCat": "Kapsam 3 kategorileri",
+    "fuels": {
+      "natural_gas": "Doğal gaz",
+      "diesel": "Motorin",
+      "gasoline": "Benzin",
+      "lpg": "LPG",
+      "fuel_oil": "Fuel oil",
+      "coal": "Taş kömürü",
+      "lignite": "Linyit"
+    },
+    "cat": {
+      "1": "Satın alınan mal ve hizmetler",
+      "2": "Sermaye malları",
+      "3": "Yakıt ve enerji kaynaklı faaliyetler",
+      "4": "Yukarı akış taşımacılık",
+      "5": "Operasyonlarda oluşan atık",
+      "6": "İş seyahatleri",
+      "7": "Çalışan ulaşımı",
+      "8": "Yukarı akış kiralanan varlıklar",
+      "9": "Aşağı akış taşımacılık",
+      "10": "Satılan ürünlerin işlenmesi",
+      "11": "Satılan ürünlerin kullanımı",
+      "12": "Ürün ömrü sonu",
+      "13": "Aşağı akış kiralanan varlıklar",
+      "14": "Franchise'lar",
+      "15": "Yatırımlar"
+    },
+    "notes": {
+      "factors": "Varsayılan net ısıl değer ve CO₂ faktörleri IPCC 2006 Tier 1 değerleridir; CH₄ ve N₂O dahil değildir. Tedarikçi, BOTAŞ veya ulusal envanter değerleriyle değiştirin.",
+      "grid": "Konum bazlı Kapsam 2 için ETKB 2023 tüketim noktası faktörleri kullanılır: iletim 0,436, dağıtım 0,469 tCO₂e/MWh.",
+      "market": "Türkiye için yayımlanmış kalıntı karışım faktörü yoktur; belgelenmeyen elektrik için şebeke faktörü kullanılır ve bu durum raporda açıklanmalıdır.",
+      "scope3": "Kapsam 3 faktörleri kullanıcı tarafından girilir ve kaynağı her satırda kayıt altına alınır.",
+      "gwp": "Soğutucu gazlarda IPCC AR6 GWP100 değerleri kullanılır; kullanılan GWP seti raporda belirtilmelidir.",
+      "tsrs": "TSRS 2 kapsamında ilk iki raporlama yılı için Kapsam 3 açıklaması zorunlu değildir; 2027'den itibaren TSRS 2 sera gazı değişiklikleri uygulanır."
+    }
+  },
+  "ets": {
+    "result": "Kategori {cat} tesis: {year} yılında {deficit} tCO₂e tahsisat açığı ve {cost} maliyet öngörülüyor.",
+    "resultA": "Kategori A tesis: ETS dışında, yalnız izleme, raporlama ve doğrulama yükümlülüğü var.",
+    "installation": "Tesis",
+    "sector": "Sektör",
+    "sectorHint": "Pilot dönem: elektrik, çimento, demir-çelik, alüminyum ve gübre.",
+    "emissions": "Yıllık doğrulanmış emisyon (2026)",
+    "emissionsHint": "Kategori, kurulu kapasiteye göre ihtiyatlı hesaplanan yıllık emisyonla belirlenir; biyokütle CO₂'si hariçtir.",
+    "emissionsGrowth": "Yıllık emisyon değişimi",
+    "allocation": "Ücretsiz tahsisat",
+    "activity": "Faaliyet seviyesi (üretim)",
+    "activityGrowth": "Yıllık üretim değişimi",
+    "benchmark": "Kıyas değeri",
+    "benchmarkHint": "Pilotta elektrik dışı sektörlerde kıyas değeri tüm tesislerin ağırlıklı ortalamasıdır; Başkanlık ilanından girin.",
+    "coefficient": "Sektörel faaliyet katsayısı",
+    "rate": "{year} ücretsiz tahsisat oranı",
+    "price": "Fiyat senaryosu",
+    "priceStart": "2027 tahsisat fiyatı",
+    "priceHint": "Henüz oluşmuş bir piyasa fiyatı yok; senaryo değeri girin.",
+    "priceGrowth": "Yıllık fiyat değişimi",
+    "category": "Kategori",
+    "inEts": "ETS kapsamında",
+    "mrvOnly": "Yalnız izleme ve raporlama",
+    "inPilot": "Pilot dönem kapsamında",
+    "figAllocation": "{year} tahsisatı",
+    "figDeficit": "{year} açığı",
+    "figCost": "{from}–{to} maliyeti",
+    "figFine": "Geç rapor cezası",
+    "figFineNote": "Doğrulanmış raporun süresinde verilmemesi, 2026 tutarı; pilotta %80 indirimli",
+    "chart": "Emisyon ve tahsisat",
+    "chartCaption": "Ücretsiz tahsisatla karşılanan emisyon ve satın alınması gereken açık; 2026 yalnız raporlama yılıdır.",
+    "legendAllocation": "Ücretsiz tahsisatla karşılanan",
+    "legendDeficit": "Tahsisat açığı",
+    "legendEmissions": "Doğrulanmış emisyon",
+    "cost": "Maliyet (TL)",
+    "reportingOnly": "yalnız raporlama",
+    "boundary": "Tesis",
+    "notes": {
+      "formula": "Ücretsiz tahsisat = kıyas değeri × ücretsiz tahsisat oranı × sektörel faaliyet katsayısı × faaliyet seviyesi; sonuç yukarı yuvarlanır (Yönetmelik md. 13/7).",
+      "pilot": "Pilot dönem 2026 ve 2027 emisyonlarını kapsar; 2026 yalnız raporlama yılıdır, fiyat mekanizması 2027'de başlar ve tahsisat %100 ücretsizdir (KPK/2026/1).",
+      "penalty": "Teslim edilmeyen her tahsisat için ceza, son üç ayın birincil ve ikincil piyasa ortalamalarından yüksek olanının iki katıdır; eksik miktar ayrıca ertesi yıl teslim edilir.",
+      "pilotDiscount": "Pilot dönemde İklim Kanunu kapsamındaki idari para cezaları %80 indirimli uygulanır.",
+      "cbamLink": "AB SKDM'de menşede fiilen ödenen karbon fiyatı düşülebilir; pilotta tahsisat ücretsiz olduğundan bu indirim 2026–2027'de sınırlı kalır."
+    },
+    "sampleWarning": "Kıyas değeri, ücretsiz tahsisat oranları ve fiyat örnek senaryodur. Başkanlığın ilan ettiği kıyas değerleri ve Ulusal Tahsisat Planı yayımlandığında güncelleyin."
+  },
+  "pathway": {
+    "resultGap": "{year} hedef yılında planlanan önlemlerle 1,5 °C yolunun {gap} tCO₂e gerisinde kalıyorsunuz.",
+    "resultOk": "{year} hedef yılında planlanan önlemler 1,5 °C yolunun {margin} tCO₂e altında kalıyor.",
+    "empty": "Baz yıl emisyonlarını girerek bilime dayalı hedef yolunu görün.",
+    "inputs": "Yol girdileri",
+    "tabBase": "Baz ve hedef",
+    "tabMeasures": "Önlemler",
+    "tabActuals": "Gerçekleşen",
+    "baseYear": "Baz yıl",
+    "baseYearLabel": "Baz yıl",
+    "baseS12": "Kapsam 1+2",
+    "baseS3": "Kapsam 3",
+    "targetYear": "Yakın vadeli hedef yılı",
+    "targetYearHint": "SBTi yakın vadeli hedefleri gönderimden itibaren 5–10 yılı kapsar.",
+    "bau": "Önlemsiz gidişat",
+    "measure": "Önlem",
+    "measureName": "Önlem adı",
+    "abatement": "Yıllık azaltım",
+    "cost": "Marjinal maliyet",
+    "start": "Başlangıç",
+    "ramp": "Tam etkiye süre",
+    "addMeasure": "Önlem ekle",
+    "actuals": "Gerçekleşen toplam emisyon (K1+2+3)",
+    "estimated": "tahmini",
+    "figBase": "{year} baz emisyonu",
+    "figTarget": "{year} 1,5 °C hedefi",
+    "figTargetNote": "Baz yıla göre {pct} azaltım (K1+2)",
+    "figPlan": "{year} planlanan",
+    "figAbatement": "{year} yıllık azaltım",
+    "gapLabel": "Hedef yılında açık",
+    "chart": "Dekarbonizasyon yolu",
+    "chartCaption": "Koyu bant 1,5 °C ile uyumlu bölgeyi, açık bant iyi 2 °C altı bölgesini gösterir; çizgi planlanan önlemlerle beklenen emisyonu izler.",
+    "band15": "1,5 °C uyumlu bölge",
+    "bandWb2c": "İyi 2 °C altı bölgesi",
+    "withMeasures": "Planlanan önlemlerle",
+    "netZero": "Net sıfır yolu (2050, %90)",
+    "actualsLegend": "Gerçekleşen",
+    "markerTarget": "Hedef yılı",
+    "macc": "Marjinal azaltım maliyet eğrisi",
+    "maccCaption": "Sütun genişliği yıllık azaltımı, yüksekliği ton başına maliyeti gösterir; kesikli çizgi referans karbon fiyatıdır.",
+    "carbonPriceRef": "Referans karbon fiyatı €80/t",
+    "boundary": "Kurumsal, K1+2+3",
+    "rateLine": "Kullanılan doğrusal azaltım oranları: Kapsam 1+2 için yılda {r15} (1,5 °C), Kapsam 3 için yılda {rwb} (iyi 2 °C altı).",
+    "notes": {
+      "rates": "Yakın vadeli hedefler SBTi kriterlerine göre doğrusal mutlak azaltımla hesaplanır: Kapsam 1+2 için yılda en az %4,2, Kapsam 3 için en az %2,5.",
+      "netzero": "Uzun vadeli net sıfır yolu 2050'ye kadar baz yıla göre en az %90 mutlak azaltımı ve kalan emisyonların kalıcı giderimini varsayar.",
+      "v2": "SBTi Net-Sıfır Standardı V2.0, 31.01.2027'de yürürlüğe girer; nihai yöntemler 2026'nın 4. çeyreğinde yayımlanacağından V2 parametreleri henüz modellenmedi.",
+      "ndc": "Türkiye'nin NDC 3.0 hedefi 2035'te en fazla 643 MtCO₂e ve 2053'te net sıfırdır; şirket yolunu ülke hedefiyle karşılaştırırken ölçek farkını dikkate alın.",
+      "macc": "Negatif maliyetli önlemler tasarruf sağlar; referans fiyatın altında kalan önlemler SKDM ve ETS maliyetini azaltmada ekonomiktir."
+    }
+  },
+  "env": {
+    "result": "Yıllık enerji tüketimi {toe} TEP; yenilenebilir pay {ren}, atık geri kazanım oranı {rec}.",
+    "boundary": "Tüm tesisler",
+    "energy": "Enerji",
+    "water": "Su",
+    "waste": "Atık",
+    "normaliser": "Yoğunluk paydası",
+    "energyGj": "Toplam enerji tüketimi",
+    "renewableGj": "Yenilenebilir enerji",
+    "waterWithdrawalM3": "Su çekimi",
+    "waterDischargeM3": "Su deşarjı",
+    "waterStressShare": "Su stresi yüksek bölgelerdeki çekim payı",
+    "wasteTotalT": "Toplam atık",
+    "wasteRecoveredT": "Geri kazanılan atık",
+    "wasteHazardousT": "Tehlikeli atık",
+    "revenueMillionTry": "Net satışlar",
+    "figEnergy": "Enerji tüketimi (TEP)",
+    "figEnergyNote": "{mwh} MWh eşdeğeri",
+    "figRenewable": "Yenilenebilir payı",
+    "figWater": "Su tüketimi",
+    "figRecovery": "Atık geri kazanım oranı",
+    "consumption": "Su tüketimi",
+    "energyFoot": "Enerji yoğunluğu: {ints} GJ/mn TL",
+    "waterFoot": "Su yoğunluğu: {ints} m³/mn TL",
+    "wasteFoot": "Tehlikeli atık payı: {haz}",
+    "energyManager": "Yıllık 1.000 TEP üzeri: enerji yöneticisi ataması ve yıllık bildirim gerekir",
+    "energyMwh": "Enerji tüketimi (MWh)",
+    "indicator": "Gösterge",
+    "value": "Değer",
+    "unit": "Birim",
+    "refs": "Çerçeve karşılıkları",
+    "notes": {
+      "toe": "1 TEP = 41,868 GJ; 1 MWh = 3,6 GJ.",
+      "water": "Su tüketimi = çekim − deşarj. Su stresi bölgeleri için WRI Aqueduct gibi bir kaynak kullanın ve raporda belirtin.",
+      "waste": "Geri kazanım oranı, geri kazanıma yönlendirilen atığın toplam atığa oranıdır; bertaraf yöntemleri GRI 306-4/5 ile ayrıca açıklanır.",
+      "refs": "GRI 302 ve 305, 2027'den itibaren GRI 103 ve GRI 102 ile değişir; numaralar 2026 raporları içindir."
+    }
+  },
+  "work": {
+    "result": "LTIFR {ltifr}, düzeltilmemiş cinsiyet ücret farkı {gap}, çalışan başına eğitim {train} saat.",
+    "boundary": "Doğrudan istihdam",
+    "safety": "İş sağlığı ve güvenliği",
+    "people": "Çalışanlar",
+    "pay": "Ücret",
+    "hoursWorked": "Çalışılan saat",
+    "lostTimeInjuries": "Kayıp günlü kazalar",
+    "recordables": "Kaydedilebilir yaralanmalar",
+    "lostDays": "Kayıp gün",
+    "fatalities": "Ölümlü kazalar",
+    "headcountStart": "Dönem başı çalışan",
+    "headcountEnd": "Dönem sonu çalışan",
+    "leavers": "Ayrılan çalışan",
+    "trainingHours": "Toplam eğitim saati",
+    "avgPayMen": "Erkek ortalama ücret",
+    "avgPayWomen": "Kadın ortalama ücret",
+    "women": "Kadın çalışan",
+    "womenManagers": "Kadın yönetici",
+    "managers": "Toplam yönetici",
+    "ltifrNote": "1.000.000 saat başına",
+    "trirNote": "200.000 saat başına",
+    "payGapLabel": "Cinsiyet ücret farkı",
+    "turnoverLabel": "Çalışan devir oranı",
+    "chart": "Kadın temsili",
+    "chartCaption": "Tüm çalışanlar ve yönetim kademesinde kadın ve erkek payları.",
+    "men": "Erkek",
+    "all": "Tüm çalışanlar",
+    "mgmt": "Yönetim",
+    "womenShare": "Kadın çalışan payı",
+    "womenManagerShare": "Kadın yönetici payı",
+    "ltifrRow": "LTIFR (1.000.000 saat)",
+    "trirRow": "TRIR (200.000 saat)",
+    "severity": "Kaza ağırlık oranı (1.000.000 saat)",
+    "fatalityRate": "Ölümlü kaza oranı (1.000.000 saat)",
+    "trainingPerEmployee": "Çalışan başına eğitim saati",
+    "notes": {
+      "bases": "GRI 403-9 oranların 200.000 veya 1.000.000 saat bazında verilmesine izin verir; seçilen baz raporda belirtilmelidir.",
+      "payGap": "Düzeltilmemiş ücret farkı = (erkek ortalama − kadın ortalama) / erkek ortalama.",
+      "headcount": "Devir ve eğitim oranlarında payda dönem başı ve sonu çalışan sayısının ortalamasıdır."
+    }
+  },
+  "tax": {
+    "result": "Taksonomi uyumlu ciro payı {turnover}, uyumlu yatırım harcaması payı {capex}.",
+    "boundary": "Konsolide finansal tablolar",
+    "totals": "Toplamlar",
+    "turnover": "Ciro",
+    "capex": "Yatırım harcaması",
+    "opex": "Faaliyet gideri",
+    "code": "Kod",
+    "activity": "Faaliyet",
+    "edit": "Tutarları düzenle",
+    "eligible": "Uygun (eligible)",
+    "aligned": "Uyumlu (aligned)",
+    "alignedHint": "Teknik tarama kriteri, önemli zarar vermeme ve asgari güvenceler birlikte sağlanıyor.",
+    "notAssessed": "Önemsiz: değerlendirilmedi",
+    "notAssessedHint": "KPI'nın %10'unun altında kalan uygun faaliyetler toplamı değerlendirme dışı bırakılabilir.",
+    "newActivity": "Yeni faaliyet",
+    "addActivity": "Faaliyet ekle",
+    "alignedOf": "Uyumlu {kpi}",
+    "eligibleNote": "Uygun pay {pct}",
+    "capCheck": "%10 önemlilik kontrolü",
+    "capOk": "Uygun",
+    "capOver": "Aşıldı",
+    "capNote": "Değerlendirilmeyen pay her KPI için %10'un altında olmalı",
+    "chart": "Taksonomi KPI'ları",
+    "chartCaption": "Her KPI için uyumlu, uygun ama uyumsuz, değerlendirilmeyen ve uygun olmayan paylar.",
+    "legendAligned": "Uyumlu",
+    "legendEligibleNotAligned": "Uygun, uyumsuz",
+    "legendNotAssessed": "Değerlendirilmedi",
+    "legendNotEligible": "Uygun değil",
+    "notes": {
+      "threshold": "AB Delege Tüzüğü 2026/73 ile finansal olmayan şirketlerde, toplamı ciro, yatırım veya faaliyet giderinin %10'undan az olan faaliyetler KPI bazında önemsiz sayılabilir.",
+      "steps": "Uyum için faaliyet önce uygunluk (eligibility), sonra teknik tarama kriteri, önemli zarar vermeme ve asgari güvenceler testlerinden geçer.",
+      "tr": "Türkiye Yeşil Taksonomisi Yönetmeliği (RG 24.09.2026) reel sektör için gönüllüdür; finansman taleplerinde istenebilir.",
+      "fi": "Finansal kuruluşlar için Türkiye taksonomisi raporlaması 2029'dan önce zorunlu değildir."
+    }
+  },
+  "mat": {
+    "result": "{total} konudan {n} tanesi önemli; {double} konu hem etki hem finansal açıdan önemli.",
+    "boundary": "Kurum ve değer zinciri",
+    "unit": "Puan (1–5)",
+    "threshold": "Eşik",
+    "thresholdLabel": "Önemlilik eşiği",
+    "thresholdHint": "Etki veya finansal puanı bu değere eşit ya da üstünde olan konu önemlidir.",
+    "topic": "Konu",
+    "positive": "Olumlu etki",
+    "impactSide": "Etki önemliliği",
+    "financialSide": "Finansal önemlilik",
+    "scale": "Ölçek",
+    "scope": "Yaygınlık",
+    "irremediability": "Telafi edilemezlik",
+    "impactLikelihood": "Olasılık",
+    "likelihoodHint": "5 = gerçekleşmiş etki; olasılık şiddetle çarpılmaz.",
+    "magnitude": "Finansal büyüklük",
+    "financialLikelihood": "Finansal olasılık",
+    "figMaterial": "Önemli konu",
+    "figDouble": "Çift önemli",
+    "figImpact": "Yalnız etki",
+    "figFinancial": "Yalnız finansal",
+    "chart": "Çift önemlilik matrisi",
+    "chartCaption": "Yatay eksen finansal, dikey eksen etki önemliliğidir; içi dolu noktalar önemli konulardır. Bir noktaya tıklayarak puanlarını düzenleyin.",
+    "env": "Çevre",
+    "soc": "Sosyal",
+    "gov": "Yönetişim",
+    "doubleZone": "Çift önemlilik bölgesi",
+    "xAxis": "Finansal önemlilik",
+    "yAxis": "Etki önemliliği",
+    "ranking": "Konu sıralaması",
+    "impact": "Etki",
+    "financial": "Finansal",
+    "result_col": "Sonuç",
+    "kind_double": "Çift önemli",
+    "kind_impact": "Etki açısından önemli",
+    "kind_financial": "Finansal açıdan önemli",
+    "kind_none": "Önemli değil",
+    "topics": {
+      "E1": "İklim değişikliği",
+      "E2": "Kirlilik",
+      "E3": "Su ve deniz kaynakları",
+      "E4": "Biyoçeşitlilik ve ekosistemler",
+      "E5": "Kaynak kullanımı ve döngüsel ekonomi",
+      "S1": "Kendi işgücü",
+      "S2": "Değer zincirindeki çalışanlar",
+      "S3": "Etkilenen topluluklar",
+      "S4": "Tüketiciler ve son kullanıcılar",
+      "G1": "İş etiği"
+    },
+    "notes": {
+      "method": "Etki puanı ölçek, yaygınlık ve (olumsuz etkilerde) telafi edilemezlik ortalamasıdır; potansiyel etkilerde olasılıkla ağırlıklandırılır. Finansal puan büyüklük × olasılık / 5'tir.",
+      "topdown": "Revize ESRS (2026/1563) yukarıdan aşağı değerlendirmeye ve makul çabayla elde edilebilir bilgiye izin verir.",
+      "evidence": "Her puanın gerekçesi, paydaş girdisi ve kanıtı ayrıca kayda alınmalıdır; bu araç puanlamayı yapılandırır, kararı yönetim verir.",
+      "tsrs": "TSRS önemliliği yatırımcı odaklı finansal önemliliktir; çift önemlilik ESRS ve GRI için gereklidir."
+    }
+  },
+  "app": {
+    "result": "{year} raporlama dönemi için {required} doğrudan yükümlülük ve {indirect} değer zinciri yükümlülüğü bulundu.",
+    "company": "Şirket",
+    "entityType": "Kuruluş türü",
+    "entity": {
+      "listed": "Halka açık ortaklık",
+      "bank": "Banka (BDDK)",
+      "bank_tmsf": "TMSF bünyesindeki banka",
+      "nonbank_fi": "Banka dışı finansal kuruluş",
+      "insurer": "Sigorta, reasürans, emeklilik",
+      "capital_markets_fi": "SPK'ya tabi diğer kuruluş",
+      "precious_metals": "Kıymetli maden kuruluşu",
+      "unlisted_company": "Halka açık olmayan şirket",
+      "public_body": "Kamu kurumu"
+    },
+    "bistMain": "Yıldız, Ana veya Alt Pazar'da işlem görüyor",
+    "watchlist": "Yakın İzleme veya nitelikli yatırımcıya satışlı Girişim Sermayesi Pazarı",
+    "reportingYear": "Raporlama dönemi",
+    "firstTsrsYear": "İlk TSRS raporlama dönemi",
+    "firstTsrsHint": "Henüz raporlamadıysanız boş bırakın.",
+    "branches": "Şube sayısı",
+    "yearFigures": "{year} finansal verileri",
+    "regulatedStatus": "Bu yıl kapsamdaki kuruluş niteliği vardı",
+    "assets": "Aktif toplamı",
+    "revenue": "Net satış hasılatı",
+    "employees": "Ortalama çalışan",
+    "criteriaMet": "Aşılan ölçüt sayısı: {n} / 3",
+    "eu": "AB bağlantısı",
+    "euEntity": "AB'de kurulu şirket veya grup",
+    "employeesGroup": "Grup çalışan sayısı",
+    "worldwideTurnover": "Dünya geneli net ciro",
+    "euTurnover": "AB'de net ciro",
+    "euSubsidiary": "AB bağlı ortaklık veya şube cirosu",
+    "euCustomers": "AB'de CSRD kapsamındaki müşterilere tedarik",
+    "euCustomersHint": "Değer zinciri veri talepleri ve tavan kuralı için.",
+    "carbon": "Karbon fiyatlaması",
+    "cbamSectors": "AB'ye ihraç edilen SKDM sektörleri",
+    "euExportTonnes": "AB'ye yıllık ihracat",
+    "emissions": "Tesis başına yıllık emisyon",
+    "emissionsHint": "En büyük tesisin kapasiteye göre ihtiyatlı yıllık emisyonu.",
+    "pilotSector": "Tesisin ana faaliyeti",
+    "energyToe": "Yıllık enerji tüketimi",
+    "products": "Ürünler",
+    "eudr": "Sığır, kakao, kahve, palm, kauçuk, soya veya ahşap ürünleri AB'ye",
+    "small": "Mikro veya küçük işletme",
+    "dpp": "Çelik, alüminyum, tekstil, mobilya, lastik veya yatak ürünleri",
+    "batteries": "LMT, 2 kWh üzeri endüstriyel veya EV pili",
+    "thresholdLine": "{year} dönemi TSRS eşikleri: aktif toplamı {assets} TL, net satış {revenue} TL, {employees} çalışan; üç ölçütten ikisi art arda iki dönem aşılmalı.",
+    "firstYear": "İlk yıl: {year}",
+    "status": {
+      "required": "Zorunlu",
+      "indirect": "Değer zinciri üzerinden",
+      "review": "Uzman teyidi gerekli",
+      "voluntary": "Gönüllü",
+      "not_applicable": "Kapsam dışı"
+    },
+    "reg": {
+      "annual_report": "Yıllık faaliyet raporu",
+      "tsrs": "TSRS sürdürülebilirlik raporu",
+      "tr_ets": "Türkiye Emisyon Ticaret Sistemi",
+      "cbam": "AB SKDM (CBAM)",
+      "csrd": "AB CSRD / ESRS",
+      "csddd": "AB CSDDD (durum tespiti)",
+      "tr_taxonomy": "Türkiye Yeşil Taksonomisi",
+      "eudr": "AB Ormansızlaşma Tüzüğü (EUDR)",
+      "espr_dpp": "Dijital Ürün Pasaportu (ESPR)",
+      "battery_passport": "Pil pasaportu",
+      "energy_manager": "Enerji yöneticisi ve bildirim"
+    },
+    "notes": {
+      "tsrs": {
+        "bank_always": "BDDK'ya tabi bankalar eşiklerden bağımsız olarak TSRS kapsamındadır.",
+        "tmsf": "TMSF bünyesindeki bankalar kapsam dışıdır.",
+        "watchlist": "Yakın İzleme Pazarı ve nitelikli yatırımcıya satışlı Girişim Sermayesi Pazarı şirketleri zorunlu kapsam dışındadır; TSRS gönüllü uygulanabilir.",
+        "not_listed_type": "Kuruluş türü KGK'nın zorunlu kapsam listesinde değil; TSRS gönüllü uygulanabilir.",
+        "status_two_years": "Kapsama girmek için kapsamdaki kuruluş niteliğinin en az iki dönem taşınması gerekir.",
+        "small_fi_relief": "Payları borsada işlem görmeyen ve 1 şubeyi ya da 250 çalışanı aşmayan finansal kuruluşlar Kapsam 3 muafiyeti süresince zorunlu kapsam dışındadır.",
+        "below_thresholds": "Üç ölçütten en az ikisi art arda iki dönem aşılmadı; TSRS gönüllü uygulanabilir.",
+        "threshold_transition_review": "Yeni eşiklerin (1 milyar / 2 milyar / 500) 2023–2024 referans yıllarına uygulanışı için KGK örneği yok; KGK SÜHA aracıyla çapraz kontrol önerilir.",
+        "relief_comparatives": "İlk raporlama döneminde karşılaştırmalı bilgi sunulması zorunlu değildir.",
+        "relief_climate_first": "İlk yıl yalnız iklimle ilgili risk ve fırsatlar raporlanabilir (önce iklim).",
+        "relief_timing": "İlk yıl rapor, ara dönem raporla birlikte veya dönem sonundan itibaren 9 ay içinde yayımlanabilir.",
+        "relief_scope3": "İlk iki raporlama yılında Kapsam 3 açıklaması zorunlu değildir.",
+        "relief_2024_extension": "2024'te ilk kez raporlayanlar için E4, E5 ve E6(b) kolaylıkları 2025 raporunda da geçerlidir.",
+        "s2_amendments_2027": "1.1.2027'den itibaren TSRS 2 sera gazı değişiklikleri uygulanır (Kapsam 3 Kategori 15 ve finanse edilen emisyonlar).",
+        "assurance": "Rapor, KGK yetkili kuruluş tarafından sınırlı güvence denetiminden geçmelidir."
+      },
+      "csrd": {
+        "eu_large": "AB'de 1.000'den fazla çalışan ve 450 milyon € üzeri ciro: FY2027'den itibaren ESRS 2026 ile raporlama.",
+        "non_eu_parent": "AB dışı ana şirket: AB cirosu 450 milyon € ve AB bağlı ortaklık veya şubesi 200 milyon € üzerinde; FY2028'den itibaren.",
+        "value_chain_protected": "1.000 veya daha az çalışanınız olduğu için değer zinciri tavanı sizi korur; AB müşterileriniz gönüllü standardın kısa listesi dışındaki talepleri zorunlu tutamaz.",
+        "value_chain_supplier": "CSRD kapsamındaki AB müşterileri değer zinciri verisi talep edecek; tavan koruması 1.000 çalışan üzerinde geçerli değildir.",
+        "out_of_scope": "CSRD eşiklerinin altında ve AB müşterisi bağlantısı yok."
+      },
+      "csddd": {
+        "in_scope": "5.000 çalışan ve 1,5 milyar € ciro üzerindeki gruplar 26.07.2029'dan itibaren durum tespiti yükümlülüğüne tabidir.",
+        "supplier": "Kapsamdaki AB müşterileri tedarikçilerden insan hakları ve çevre durum tespiti bilgisi isteyebilir."
+      },
+      "cbam": {
+        "no_sector": "AB'ye SKDM kapsamlı ürün ihracatı yok.",
+        "operator_data": "AB'deki ithalatçınızın beyanı için tesis ve ürün bazında doğrulanmış gömülü emisyon verisi sağlamanız gerekir.",
+        "de_minimis_check": "AB alıcısı başına yıllık 50 ton altı muaf olabilir; alıcı bazında toplamı kontrol edin.",
+        "default_markup": "Doğrulanmış veri sağlanmazsa varsayılan değerler 2026'da %10, 2028'den itibaren %30 işaret payıyla uygulanır.",
+        "downstream_2028": "Vida, tel, boru gibi alt ürünlere genişleme önerisi 2028'den itibaren müzakerede."
+      },
+      "ets": {
+        "no_emissions": "Emisyon verisi girilmedi.",
+        "category_a": "Kategori A (50 bin tCO₂e ve altı): ETS dışında, yalnız izleme, raporlama ve doğrulama yükümlülüğü.",
+        "category_b": "Kategori B (50–500 bin tCO₂e): ETS kapsamında.",
+        "category_c": "Kategori C (500 bin tCO₂e üzeri): ETS kapsamında.",
+        "pilot": "Pilot dönem 2026–2027 emisyonlarını kapsıyor; 2026 yalnız raporlama yılı.",
+        "pilot_free": "Pilotta tahsisat %100 ücretsiz ve kıyas değerine dayalı.",
+        "non_pilot_sector": "Ana faaliyet pilot sektörlerden biri değil; kapsama alınma zamanı için Başkanlık kararlarını izleyin."
+      },
+      "ar": {
+        "ttk": "Tüm sermaye şirketleri TTK ve asgari içerik yönetmeliğine göre yıllık faaliyet raporu hazırlar.",
+        "spk": "Halka açık ortaklıklar SPK II-14.1 kapsamında yıllık raporu 60 gün içinde (konsolide 70 gün) KAP'ta açıklar.",
+        "cg_forms": "Kurumsal yönetim uyum raporu (URF) ve bilgi formu (KYBF) KAP'ta yayımlanır.",
+        "spk_sust_template": "Yıldız, Ana ve Alt Pazar şirketleri SPK sürdürülebilirlik ilkeleri uyum çerçevesini raporlar.",
+        "bddk": "Bankalar ayrıca BDDK faaliyet raporu yönetmeliğine uyar.",
+        "public_body": "Kamu idarelerinin faaliyet raporu ayrı mevzuata tabidir; bu sürüm kapsamında doğrulanmadı.",
+        "eu_art19": "AB'de yönetim raporu Muhasebe Direktifi md. 19 ve 20'ye göre hazırlanır."
+      },
+      "tax": {
+        "tr_fi": "Finansal kuruluşlar için Türkiye taksonomisi raporlaması 2029'dan önce başlamaz.",
+        "tr_real_sector": "Reel sektör için Türkiye taksonomisi gönüllüdür; yeşil finansman başvurularında istenebilir."
+      },
+      "eudr": {
+        "dds": "AB pazarına arz için durum tespiti beyanı (DDS) ve üretim alanı geolokasyon verisi gerekir."
+      },
+      "dpp": {
+        "pending_acts": "Ürün grubu bazında delege tüzükler bekleniyor; demir-çelik için 2026 sonu hedefleniyor."
+      },
+      "battery": {
+        "scope": "Pil pasaportu 18.02.2027'den itibaren zorunlu."
+      },
+      "energy": {
+        "manager": "Yıllık 1.000 TEP ve üzeri tüketen sanayi işletmeleri enerji yöneticisi atar ve yıllık bildirim yapar."
+      }
+    }
+  },
+  "reg": {
+    "result": "Önümüzdeki 90 günde {n} kritik tarih var; ilki {next} ({date}).",
+    "scope": "Kapsam",
+    "all": "Tümü",
+    "tr": "Türkiye",
+    "eu": "Avrupa Birliği",
+    "global": "Küresel",
+    "timeline": "Mevzuat zaman çizelgesi",
+    "timelineCaption": "Dolu daireler resmi kaynakta doğrulanan, kesikli daireler ikincil kaynaklı tarihlerdir; kırmızı çizgi bugündür. Bir daireye gelerek ayrıntıyı görün.",
+    "legendOfficial": "Resmi kaynak",
+    "legendSecondary": "İkincil kaynak",
+    "today": "Bugün ({date})",
+    "upcoming": "Yaklaşan tarihler",
+    "date": "Tarih",
+    "event": "Olay",
+    "lane": "Alan",
+    "lanes": {
+      "tr_reporting": "TR raporlama",
+      "tr_carbon": "TR karbon",
+      "eu_reporting": "AB raporlama",
+      "eu_carbon": "AB karbon",
+      "eu_product": "AB ürün",
+      "global": "Küresel"
+    },
+    "events": {
+      "tsrs_thresholds_2026": "KGK yeni TSRS eşikleri (1 milyar / 2 milyar / 500)",
+      "tsrs2_amend_published": "TSRS 2 sera gazı değişiklikleri yayımlandı",
+      "tsrs2_amend_effective": "TSRS 2 sera gazı değişiklikleri zorunlu",
+      "tr_taxonomy_published": "Türkiye Yeşil Taksonomisi Yönetmeliği",
+      "tr_taxonomy_fi": "Finansal kuruluşlar için taksonomi raporlaması (en erken)",
+      "spk_green_guides": "SPK yeşil ve sürdürülebilirlik bağlantılı araç rehberleri",
+      "climate_law": "7552 sayılı İklim Kanunu",
+      "tr_ets_reg": "TR ETS Yönetmeliği yürürlükte",
+      "tr_ets_mp": "Pilot tesisler için izleme planı son tarihi",
+      "tr_ets_price": "TR ETS pilotunda fiyat mekanizması",
+      "tr_ets_report_2026": "2026 emisyonları için doğrulanmış rapor",
+      "tr_local_plans": "Yerel iklim eylem planları son tarihi",
+      "tr_ets_permit": "ETS emisyon izni için 3 yıllık süre",
+      "omnibus_in_force": "Omnibus I (2026/470) yürürlükte",
+      "vss_in_force": "Gönüllü sürdürülebilirlik standardı (2026/1560)",
+      "esrs_2026_in_force": "Revize ESRS (2026/1563) yürürlükte",
+      "esrs_xbrl_consultation": "ESRS XBRL taksonomisi danışma süresi sonu",
+      "value_chain_cap": "Değer zinciri tavanı uygulanıyor",
+      "csrd_transposition": "CSRD değişikliklerinin ulusal hukuka aktarımı",
+      "assurance_standards": "AB sınırlı güvence standartları",
+      "csrd_first_reports": "CSRD ilk raporları (FY2027)",
+      "csrd_non_eu": "AB dışı ana şirket raporları (FY2028)",
+      "csddd_apply": "CSDDD uygulamaya giriyor",
+      "cbam_definitive": "SKDM kesin dönem",
+      "cbam_cert_sales": "SKDM sertifika satışı başlıyor",
+      "cbam_first_declaration": "İlk SKDM yıllık beyanı",
+      "ets2_start": "AB ETS2 başlıyor",
+      "cbam_downstream": "SKDM alt ürün genişlemesi (öneri)",
+      "cbam_full": "Ücretsiz tahsis sona eriyor (SKDM %100)",
+      "ecgt_apply": "Tüketicinin yeşil dönüşüm direktifi uygulamada",
+      "eudr_large": "EUDR büyük ve orta işletmeler",
+      "battery_passport": "Pil pasaportu zorunlu",
+      "eudr_small": "EUDR mikro ve küçük işletmeler",
+      "dpp_steel": "Demir-çelik DPP delege tüzüğü (hedef)",
+      "gri_101": "GRI 101 Biyoçeşitlilik yürürlükte",
+      "cdp_2026": "CDP 2026 puansız yanıt son tarihi",
+      "gri_102_103": "GRI 102 İklim ve GRI 103 Enerji yürürlükte",
+      "ifrs_s2_amend": "IFRS S2 değişiklikleri yürürlükte",
+      "sbti_v2": "SBTi Net-Sıfır Standardı V2.0 yürürlükte",
+      "ghg_draft": "GHG Protocol–ISO birleşik standart taslağı (Ç2)",
+      "ghg_final": "GHG Protocol–ISO birleşik standart (Ç4)"
+    }
+  },
+  "ar": {
+    "result": "{total} uygulanabilir maddenin {done} tanesi onaylandı ({pct}).",
+    "profileLabel": "Rapor profili",
+    "profile": {
+      "ttk": "TTK — tüm sermaye şirketleri",
+      "listed": "Halka açık ortaklık (SPK)",
+      "bank": "Banka (BDDK)"
+    },
+    "status": {
+      "todo": "Başlanmadı",
+      "draft": "Taslak",
+      "review": "İncelemede",
+      "approved": "Onaylandı",
+      "na": "Uygulanmaz"
+    },
+    "progress": "İlerleme",
+    "item": "Madde",
+    "ref": "Dayanak",
+    "owner": "Sorumlu",
+    "ownerPh": "Birim",
+    "exportDocx": "Word olarak dışa aktar",
+    "docTitle": "Yıllık faaliyet raporu kontrol listesi",
+    "docIntro": "Bu belge Isoline faaliyet raporu kontrol listesinden üretilmiştir. Maddeler asgari içerik yönetmeliği ve seçili profilin ek gerekliliklerine göre listelenir; hukuki görüş yerine geçmez.",
+    "timingNote": "Asgari içerik yönetmeliği raporun dönem sonundan itibaren iki ay içinde hazırlanmasını ister; TTK md. 514 üç ay öngörür. Borsa şirketleri yıllık raporu 60 gün (konsolide 70 gün) içinde ve genel kuruldan en az üç hafta önce açıklar.",
+    "groups": {
+      "general": "Genel bilgiler",
+      "rights": "Yönetime sağlanan mali haklar",
+      "activities": "Faaliyetler",
+      "financial": "Finansal durum",
+      "risks": "Riskler ve yönetim kurulu değerlendirmesi",
+      "other": "Diğer hususlar",
+      "spk": "Sermaye piyasası ek gereklilikleri",
+      "bank": "Bankacılık ek gereklilikleri",
+      "audit": "Denetim bağlantısı"
+    },
+    "items": {
+      "principles": "Doğru, eksiksiz ve dürüst anlatım ilkeleri",
+      "period_identity": "Dönem, unvan, sicil, iletişim ve internet adresi",
+      "organisation_capital": "Organizasyon, sermaye ve ortaklık yapısı",
+      "privileged_shares": "İmtiyazlı paylar",
+      "board_staff": "Yönetim organı, üst yönetim ve personel sayısı",
+      "competition_ban": "Genel kurul izniyle yapılan işlemler ve rekabet yasağı",
+      "financial_rights": "Huzur hakkı, ücret, prim ve diğer mali haklar",
+      "rnd": "Araştırma ve geliştirme çalışmaları",
+      "investments": "Yatırımlar",
+      "internal_control": "İç kontrol ve iç denetim, yönetimin görüşü",
+      "subsidiaries": "İştirakler ve pay oranları",
+      "own_shares": "Geri alınan kendi payları",
+      "audits": "Özel denetim ve kamu denetimi",
+      "lawsuits": "Şirket aleyhine açılan davalar",
+      "sanctions": "İdari ve adli yaptırımlar",
+      "targets_gm": "Hedeflere ulaşma ve genel kurul kararlarının uygulanması",
+      "extraordinary_gm": "Olağanüstü genel kurullar",
+      "donations": "Bağış ve sosyal sorumluluk harcamaları",
+      "group_transactions": "Hâkim şirketle yapılan işlemler ve denkleştirme",
+      "management_analysis": "Yönetim organının finansal durum analizi",
+      "ratios": "Satış, verimlilik, kârlılık ve borç/özkaynak oranları",
+      "capital_loss": "Sermayenin karşılıksız kalması, borca batıklık ve önlemler",
+      "dividend_policy": "Kâr payı dağıtım politikası",
+      "risk_policy": "Risk yönetimi politikası",
+      "resk": "Riskin Erken Saptanması Komitesi raporları",
+      "subsequent_events": "Dönem sonrası önemli olaylar",
+      "group_parent": "Topluluk ana şirketi açıklamaları",
+      "signatures": "Hazırlama süresi, imzalar ve karşı görüşler",
+      "spk_timing": "KAP açıklama süreleri ve ek içerik",
+      "spk_urf_kybf": "Kurumsal yönetim uyum raporu ve bilgi formu",
+      "spk_sustainability": "Sürdürülebilirlik ilkeleri uyum çerçevesi",
+      "tsrs_link": "TSRS raporuna atıf ve tutarlılık",
+      "bddk_content": "BDDK faaliyet raporu ek içeriği",
+      "auditor_consistency": "Denetçinin faaliyet raporu tutarlılık görüşü"
+    },
+    "hints": {
+      "principles": "Teknik terimler açıklanır; finansal ve finansal olmayan riskler değerlendirilir.",
+      "period_identity": "Raporun ilgili olduğu dönem ve şirketi tanımlayan bilgiler.",
+      "organisation_capital": "Dönem içindeki sermaye ve ortaklık yapısı değişiklikleri dahil.",
+      "privileged_shares": "İmtiyazların türü ve kapsamı.",
+      "board_staff": "Yönetim kurulu üyeleri, görev süreleri ve çalışan sayısı.",
+      "competition_ban": "TTK 395–396 kapsamındaki işlemler.",
+      "financial_rights": "Ödenekler, yolculuk, konaklama ve temsil giderleri, sigortalar dahil.",
+      "rnd": "Çalışmalar ve sonuçları.",
+      "investments": "Dönem içindeki yatırımlar ve teşvikler.",
+      "internal_control": "Sistemlerin etkinliği hakkında yönetimin görüşü.",
+      "subsidiaries": "Doğrudan ve dolaylı iştirakler.",
+      "own_shares": "Edinilen kendi payları ve gerekçeleri.",
+      "audits": "Dönem içindeki özel ve kamu denetimleri.",
+      "lawsuits": "Mali durumu etkileyebilecek davalar ve olası sonuçları.",
+      "sanctions": "Şirket ve yönetim aleyhine uygulanan yaptırımlar.",
+      "targets_gm": "Önceki dönem hedefleri ve genel kurul kararlarının durumu.",
+      "extraordinary_gm": "Yapılmışsa tarih ve kararlar.",
+      "donations": "Tutarlar ve alanlar.",
+      "group_transactions": "Bağlılık raporu sonucu ile uyumlu.",
+      "management_analysis": "Faaliyet sonuçlarının değerlendirmesi.",
+      "ratios": "Önceki dönemle karşılaştırmalı.",
+      "capital_loss": "TTK 376 durumu ve iyileştirme önlemleri.",
+      "dividend_policy": "Politika ve dönem önerisi.",
+      "risk_policy": "Riskler ve risk yönetimi yaklaşımı.",
+      "resk": "TTK 378 kapsamındaki komite çalışmaları.",
+      "subsequent_events": "Ortakların haklarını etkileyebilecek olaylar.",
+      "group_parent": "Pay eşiklerinin aşılması, karşılıklı iştirakler, bağlılık raporu sonucu.",
+      "signatures": "Yönetim kurulu üyelerinin imzaları ve gerekçeli karşı görüşler.",
+      "spk_timing": "Yıllık rapor 60 gün, konsolide 70 gün; genel kuruldan en az 3 hafta önce.",
+      "spk_urf_kybf": "KAP'ta yayımlanan formlar, önceki yılla fark analizi.",
+      "spk_sustainability": "Uygula ya da açıkla yaklaşımıyla ilke bazlı uyum.",
+      "tsrs_link": "Faaliyet raporundaki göstergelerin TSRS raporuyla aynı olması.",
+      "bddk_content": "Bankalar için BDDK yönetmeliğindeki ek bilgiler; içerik ayrıca doğrulanmalı.",
+      "auditor_consistency": "Finansal bilgilerin denetlenmiş tablolarla tutarlılığı."
+    }
+  },
+  "tpl": {
+    "result": "{n} hazır şablon; her bölüm dayanağıyla birlikte gelir ve araçlardaki hesaplanmış rakamlarla Word'e aktarılır.",
+    "kind": "Şablon türü",
+    "kinds": {
+      "all": "Tümü",
+      "sustainability": "Sürdürülebilirlik",
+      "annual": "Faaliyet raporu",
+      "carbon": "Karbon",
+      "finance": "Sürdürülebilir finans"
+    },
+    "status": {
+      "verified": "Resmi metne dayalı yapı",
+      "review": "Yapıyı teyit edin"
+    },
+    "statusHint": {
+      "verified": "Bölüm yapısı resmi standart veya yönetmelik metnine dayanır.",
+      "review": "Bölüm yapısı ikincil kaynaklardan derlendi veya mevzuatı henüz kesinleşmedi; kullanmadan önce güncel resmi metinle karşılaştırın."
+    },
+    "sectionCount": "{n} bölüm",
+    "refs": "Dayanak",
+    "figures": "Hesaplanan rakamlar",
+    "figuresFrom": "Rakamlar etkin müşteriden alınır: {client}.",
+    "draftHere": "[Bu bölümün metnini buraya yazın.]",
+    "exportDocx": "Word olarak dışa aktar",
+    "preparing": "Hazırlanıyor…",
+    "docIntro": "Bu taslak Isoline şablon kütüphanesinden üretilmiştir. Bölüm başlıkları ve dayanaklar şablona, rakamlar araçlardaki hesaplara aittir; yayın öncesi uzman incelemesi gerekir.",
+    "sampleFigures": "Rakamlar örnek veriyle hesaplandı.",
+    "tsrs_full": {
+      "title": "TSRS tam rapor",
+      "summary": "TSRS 1 ve TSRS 2'nin yönetişim, strateji, risk yönetimi ve metrik-hedef yapısında tam sürdürülebilirlik raporu.",
+      "sections": {
+        "basis": {
+          "title": "Hazırlama esasları",
+          "guide": "Raporlayan işletme, dönem, finansal tablolarla bağlantı, önemli yargılar, tahmin belirsizlikleri ve uygunluk beyanı."
+        },
+        "governance": {
+          "title": "Yönetişim",
+          "guide": "Sürdürülebilirlik ve iklim risklerini gözeten yönetim organı, sorumluluklar, yetkinlik ve ücretlendirme ile bağlantı."
+        },
+        "strategy_ro": {
+          "title": "Riskler ve fırsatlar",
+          "guide": "Kısa, orta ve uzun vadede beklenen riskler ve fırsatlar; önemlilik değerlendirmesinin sonucu."
+        },
+        "business_model": {
+          "title": "İş modeli ve değer zinciri",
+          "guide": "Risk ve fırsatların iş modeli ve değer zincirinde nerede yoğunlaştığı."
+        },
+        "transition_plan": {
+          "title": "Strateji ve geçiş planı",
+          "guide": "Karar alma, kaynak tahsisi ve iklim geçiş planı; varsayımlar ve bağımlılıklar."
+        },
+        "financial_effects": {
+          "title": "Finansal etkiler",
+          "guide": "Finansal durum, performans ve nakit akışlarına mevcut ve beklenen etkiler; SKDM ve ETS maliyetleri."
+        },
+        "resilience": {
+          "title": "İklim dayanıklılığı",
+          "guide": "Senaryo analizi, kullanılan senaryolar ve stratejinin dayanıklılığı."
+        },
+        "risk_management": {
+          "title": "Risk yönetimi",
+          "guide": "Risklerin belirlenmesi, değerlendirilmesi, önceliklendirilmesi ve izlenmesi; kurumsal risk yönetimine entegrasyon."
+        },
+        "ghg": {
+          "title": "Sera gazı emisyonları",
+          "guide": "Kapsam 1, 2 (konum bazlı ve sözleşmeye dayalı bilgi) ve 3; ölçüm yaklaşımı, girdiler ve varsayımlar."
+        },
+        "cross_industry": {
+          "title": "Sektörler arası metrikler",
+          "guide": "Geçiş ve fiziksel risklere açık varlık ve faaliyetler, fırsatlar, sermaye dağıtımı, iç karbon fiyatı ve ücretlendirme."
+        },
+        "industry_metrics": {
+          "title": "Sektöre özgü metrikler",
+          "guide": "İş modeline ve sektöre özgü göstergeler."
+        },
+        "targets": {
+          "title": "Hedefler",
+          "guide": "İklim hedefleri, baz yıl, ara hedefler, performans ve hedeflerin gözden geçirilmesi."
+        },
+        "assurance": {
+          "title": "Güvence",
+          "guide": "Sınırlı güvence kapsamı, güvence kuruluşu ve güvence raporuna atıf."
+        }
+      }
+    },
+    "tsrs_climate_first": {
+      "title": "TSRS önce iklim (ilk yıl)",
+      "summary": "İlk raporlama yılında önce iklim, karşılaştırmalı bilgi ve Kapsam 3 kolaylıklarıyla sadeleştirilmiş TSRS raporu.",
+      "sections": {
+        "basis_reliefs": {
+          "title": "Hazırlama esasları ve kullanılan kolaylıklar",
+          "guide": "Hangi geçiş kolaylıklarının (E3–E6, Kapsam 3) kullanıldığının açık beyanı."
+        },
+        "governance": {
+          "title": "İklim yönetişimi",
+          "guide": "İklim risklerinin gözetimi ve yönetimin rolü."
+        },
+        "strategy_ro": {
+          "title": "İklim riskleri ve fırsatları",
+          "guide": "Geçiş ve fiziksel riskler, zaman ufukları."
+        },
+        "transition_plan": {
+          "title": "Geçiş planı",
+          "guide": "Hedeflere ulaşma planı ve kaynaklar."
+        },
+        "risk_management": {
+          "title": "İklim risk yönetimi",
+          "guide": "Süreçler ve entegrasyon."
+        },
+        "ghg_s12": {
+          "title": "Kapsam 1 ve 2 emisyonları",
+          "guide": "Kapsam 3 kolaylığı kullanılıyorsa açıkça belirtilir."
+        },
+        "targets": {
+          "title": "İklim hedefleri",
+          "guide": "Hedefler ve ilerleme."
+        }
+      }
+    },
+    "gri": {
+      "title": "GRI Standartları raporu",
+      "summary": "GRI 1, 2 ve 3 ile önemli konu standartlarına göre 'GRI'ye uygun' sürdürülebilirlik raporu ve içerik indeksi.",
+      "sections": {
+        "statement_of_use": {
+          "title": "Kullanım beyanı",
+          "guide": "GRI'ye uygun veya atıfla raporlama beyanı ve dönem."
+        },
+        "org_practices": {
+          "title": "Kuruluş ve raporlama uygulamaları",
+          "guide": "Kuruluş bilgileri, raporlama kapsamındaki işletmeler, dönem, yeniden düzenlemeler ve dış güvence."
+        },
+        "activities_workers": {
+          "title": "Faaliyetler ve çalışanlar",
+          "guide": "Faaliyetler, değer zinciri, çalışanlar ve çalışan olmayan işgücü."
+        },
+        "governance_gri": {
+          "title": "Yönetişim",
+          "guide": "Yönetişim yapısı, aday gösterme, etkilerin yönetiminin gözetimi ve ücretlendirme."
+        },
+        "strategy_policies": {
+          "title": "Strateji, politikalar ve uygulamalar",
+          "guide": "Sürdürülebilir kalkınma stratejisi beyanı, politika taahhütleri, uyum ve üyelikler."
+        },
+        "stakeholders": {
+          "title": "Paydaş katılımı",
+          "guide": "Paydaş katılım yaklaşımı ve toplu sözleşmeler."
+        },
+        "material_topics": {
+          "title": "Önemli konular",
+          "guide": "Önemli konuların belirlenme süreci, liste ve her konunun yönetimi."
+        },
+        "climate_energy": {
+          "title": "İklim ve enerji",
+          "guide": "Emisyonlar ve enerji; 2027'den itibaren GRI 102 ve 103."
+        },
+        "water_waste": {
+          "title": "Su ve atık",
+          "guide": "Su çekimi, tüketimi ve atık oluşumu ile yönetimi."
+        },
+        "biodiversity": {
+          "title": "Biyoçeşitlilik",
+          "guide": "GRI 101'e göre sahalar, etki etmenleri ve önlemler."
+        },
+        "people_gri": {
+          "title": "İnsan",
+          "guide": "İstihdam, İSG, eğitim, çeşitlilik ve fırsat eşitliği."
+        },
+        "content_index": {
+          "title": "GRI içerik indeksi",
+          "guide": "Her açıklamanın rapordaki yeri ve ihmal gerekçeleri."
+        }
+      }
+    },
+    "esrs_2026": {
+      "title": "ESRS sürdürülebilirlik beyanı (2026)",
+      "summary": "Revize ESRS'nin genel, çevre, sosyal ve yönetişim yapısında sürdürülebilirlik beyanı ve taksonomi eki.",
+      "sections": {
+        "exec_summary": {
+          "title": "Yönetici özeti",
+          "guide": "Önemli etki, risk ve fırsatların özeti."
+        },
+        "general": {
+          "title": "Genel açıklamalar",
+          "guide": "Hazırlama esasları, yönetişim, strateji ve önemlilik değerlendirmesi (yukarıdan aşağı yaklaşım mümkün)."
+        },
+        "environment_esrs": {
+          "title": "Çevre",
+          "guide": "İklim, kirlilik, su, biyoçeşitlilik ve döngüsel ekonomi standartlarından önemli olanlar."
+        },
+        "taxonomy_annex": {
+          "title": "Taksonomi eki",
+          "guide": "Sadeleştirilmiş şablonlarla ciro, yatırım ve faaliyet gideri KPI'ları."
+        },
+        "social_esrs": {
+          "title": "Sosyal",
+          "guide": "Kendi işgücü, değer zinciri çalışanları, topluluklar ve tüketiciler."
+        },
+        "governance_esrs": {
+          "title": "Yönetişim",
+          "guide": "İş etiği."
+        },
+        "version_statement": {
+          "title": "Uygulanan sürüm beyanı",
+          "guide": "FY2026 için ESRS 2023, ESRS 2023 + kolaylıklar veya ESRS 2026'dan hangisinin uygulandığı."
+        }
+      }
+    },
+    "vss": {
+      "title": "Gönüllü sürdürülebilirlik standardı (KOBİ ve tedarikçi)",
+      "summary": "1.000 çalışana kadar şirketler için temel (B1–B11) ve kapsamlı (C1–C9) modüller; AB müşterilerine değer zinciri yanıtı.",
+      "sections": {
+        "b1": {
+          "title": "Hazırlama esasları",
+          "guide": "Seçilen modül, raporlama kapsamı ve şirket bilgileri."
+        },
+        "b2": {
+          "title": "Uygulamalar, politikalar ve girişimler",
+          "guide": "Sürdürülebilirliğe geçiş uygulamaları."
+        },
+        "b3": {
+          "title": "Enerji ve sera gazı",
+          "guide": "Enerji tüketimi, Kapsam 1 ve 2 emisyonları ve yoğunluk."
+        },
+        "b4_b7": {
+          "title": "Kirlilik, biyoçeşitlilik, su, kaynak kullanımı",
+          "guide": "Çevre göstergeleri."
+        },
+        "b8_b10": {
+          "title": "İşgücü",
+          "guide": "Genel özellikler, İSG, ücret, toplu sözleşme ve eğitim."
+        },
+        "b11": {
+          "title": "Yolsuzluk ve rüşvet",
+          "guide": "Mahkûmiyetler ve cezalar."
+        },
+        "c1_c4": {
+          "title": "Strateji, hedefler ve iklim riskleri",
+          "guide": "İş modeli, sera gazı azaltım hedefleri, geçiş ve iklim riskleri."
+        },
+        "c5_c9": {
+          "title": "Ek işgücü, insan hakları ve yönetişim",
+          "guide": "Ek işgücü özellikleri, insan hakları politikaları, belirli sektör gelirleri ve yönetim organında cinsiyet çeşitliliği."
+        }
+      }
+    },
+    "cbam_operator_pack": {
+      "title": "SKDM operatör veri paketi",
+      "summary": "AB'deki ithalatçıya gönderilecek tesis, ürün, gömülü emisyon ve doğrulama bilgileri.",
+      "sections": {
+        "installation": {
+          "title": "Tesis bilgileri",
+          "guide": "Tesis tanımı, konum, operatör ve iletişim."
+        },
+        "goods_routes": {
+          "title": "Ürünler ve üretim rotaları",
+          "guide": "KN kodları, ürün grupları ve rotalar."
+        },
+        "attributed": {
+          "title": "Atfedilen emisyonlar",
+          "guide": "Proses bazında doğrudan ve dolaylı atfedilen emisyonlar."
+        },
+        "precursors": {
+          "title": "Öncüller",
+          "guide": "Tüketilen öncül kütleleri ve SEE değerleri."
+        },
+        "see": {
+          "title": "Spesifik gömülü emisyon",
+          "guide": "Ürün bazında doğrudan ve dolaylı SEE."
+        },
+        "electricity_cbam": {
+          "title": "Elektrik",
+          "guide": "Elektrik kaynağı ve faktör tipi."
+        },
+        "carbon_price_paid": {
+          "title": "Menşede ödenen karbon fiyatı",
+          "guide": "Fiilen ödenen fiyatın kanıtı ve ücretsiz tahsisat bilgisi."
+        },
+        "verification": {
+          "title": "Doğrulama",
+          "guide": "Akredite doğrulayıcı, ziyaret ve doğrulama raporu."
+        }
+      }
+    },
+    "tr_ets_mp": {
+      "title": "TR ETS izleme metodolojisi planı",
+      "summary": "Pilot dönem tesisleri için izleme planı taslak yapısı ve tahsisat hesabı.",
+      "sections": {
+        "mp_installation": {
+          "title": "Tesis ve faaliyetler",
+          "guide": "Tesis tanımı, kategori ve faaliyetler."
+        },
+        "mp_sources": {
+          "title": "Emisyon kaynakları ve kaynak akışları",
+          "guide": "Yakıt ve malzeme akışlarının listesi."
+        },
+        "mp_tiers": {
+          "title": "Hesaplama yaklaşımı ve kademeler",
+          "guide": "Faaliyet verisi, hesaplama faktörleri ve kademeler."
+        },
+        "mp_dataflow": {
+          "title": "Veri akışı ve kontrol",
+          "guide": "Ölçüm, veri yönetimi ve kontrol faaliyetleri."
+        },
+        "mp_allocation": {
+          "title": "Faaliyet seviyesi ve tahsisat",
+          "guide": "Kıyas değerine dayalı ücretsiz tahsisat hesabı."
+        },
+        "mp_calendar": {
+          "title": "Takvim",
+          "guide": "İzleme planı, 30 Nisan raporu ve Kasım teslim tarihi."
+        }
+      }
+    },
+    "ar_ttk": {
+      "title": "Faaliyet raporu (TTK asgari içerik)",
+      "summary": "Asgari içerik yönetmeliğine göre tüm sermaye şirketleri için faaliyet raporu iskeleti ve sürdürülebilirlik özeti.",
+      "sections": {
+        "ar_general": {
+          "title": "Genel bilgiler",
+          "guide": "Dönem, şirket bilgileri, organizasyon, sermaye, yönetim organı."
+        },
+        "ar_rights": {
+          "title": "Mali haklar",
+          "guide": "Yönetime sağlanan mali haklar."
+        },
+        "ar_rnd": {
+          "title": "Araştırma ve geliştirme",
+          "guide": "Ar-Ge çalışmaları."
+        },
+        "ar_activities": {
+          "title": "Faaliyetler ve önemli gelişmeler",
+          "guide": "Yatırımlar, iç kontrol, iştirakler, davalar, bağışlar."
+        },
+        "ar_financial": {
+          "title": "Finansal durum",
+          "guide": "Yönetim analizi, oranlar, kâr payı politikası."
+        },
+        "ar_risks": {
+          "title": "Riskler",
+          "guide": "Risk yönetimi ve RESK."
+        },
+        "ar_other": {
+          "title": "Diğer hususlar",
+          "guide": "Dönem sonrası olaylar ve topluluk açıklamaları."
+        },
+        "ar_sustainability_summary": {
+          "title": "Sürdürülebilirlik özeti",
+          "guide": "Emisyon, enerji, İSG ve çalışan göstergeleri."
+        }
+      }
+    },
+    "ar_listed": {
+      "title": "Faaliyet raporu (halka açık ortaklık)",
+      "summary": "SPK, KAP ve kurumsal yönetim gereklilikleriyle borsa şirketi faaliyet raporu.",
+      "sections": {
+        "ar_highlights": {
+          "title": "Bir bakışta",
+          "guide": "Finansal ve sürdürülebilirlik göstergeleri, karbon maliyetleri."
+        },
+        "ar_chair_ceo": {
+          "title": "Yönetim kurulu başkanı ve genel müdür mesajları",
+          "guide": "Dönemin değerlendirmesi ve beklentiler."
+        },
+        "ar_general": {
+          "title": "Genel bilgiler",
+          "guide": "Şirket, sermaye ve yönetim."
+        },
+        "ar_activities": {
+          "title": "Faaliyetler",
+          "guide": "Faaliyet alanları ve önemli gelişmeler."
+        },
+        "ar_financial": {
+          "title": "Finansal durum",
+          "guide": "Yönetim analizi ve oranlar."
+        },
+        "ar_risks": {
+          "title": "Risk yönetimi",
+          "guide": "Riskler ve RESK."
+        },
+        "ar_cg": {
+          "title": "Kurumsal yönetim",
+          "guide": "URF ve KYBF özeti."
+        },
+        "ar_sust_compliance": {
+          "title": "Sürdürülebilirlik ilkeleri uyumu",
+          "guide": "Uygula ya da açıkla tablosu."
+        },
+        "ar_investor": {
+          "title": "Yatırımcı ilişkileri",
+          "guide": "Pay bilgileri ve iletişim."
+        },
+        "ar_statements": {
+          "title": "Finansal tablolar ve denetçi raporu",
+          "guide": "Denetlenmiş tablolar."
+        }
+      }
+    },
+    "cdp_climate": {
+      "title": "CDP iklim yanıt hazırlığı",
+      "summary": "CDP kurumsal anket modüllerine göre iklim yanıtı için veri ve anlatı hazırlığı.",
+      "sections": {
+        "cdp_m1": {
+          "title": "Giriş",
+          "guide": "Kuruluş bilgileri ve raporlama sınırı."
+        },
+        "cdp_m2_m3": {
+          "title": "Bağımlılıklar, etkiler, riskler ve fırsatlar",
+          "guide": "Belirleme süreci ve açıklanan riskler ile fırsatlar."
+        },
+        "cdp_m4": {
+          "title": "Yönetişim",
+          "guide": "Gözetim ve teşvikler."
+        },
+        "cdp_m5": {
+          "title": "İş stratejisi",
+          "guide": "Geçiş planı, senaryo analizi ve finansal planlama."
+        },
+        "cdp_m6_m7": {
+          "title": "İklim performansı",
+          "guide": "Konsolidasyon yaklaşımı, emisyonlar, hedefler ve azaltım girişimleri."
+        },
+        "cdp_m13": {
+          "title": "Ek bilgiler ve onay",
+          "guide": "Güvence ve imza."
+        }
+      }
+    },
+    "green_bond": {
+      "title": "Yeşil borçlanma aracı çerçevesi",
+      "summary": "ICMA ilkelerine dayanan SPK rehberine göre yeşil tahvil veya kira sertifikası çerçeve belgesi.",
+      "sections": {
+        "gb_use": {
+          "title": "Fonların kullanımı",
+          "guide": "Uygun proje kategorileri ve taksonomi bağlantısı."
+        },
+        "gb_selection": {
+          "title": "Proje değerlendirme ve seçimi",
+          "guide": "Karar süreci ve kriterler."
+        },
+        "gb_management": {
+          "title": "Fonların yönetimi",
+          "guide": "Takip ve geçici kullanım."
+        },
+        "gb_reporting": {
+          "title": "Raporlama",
+          "guide": "Fon kullanım ve etki raporlaması."
+        },
+        "gb_review": {
+          "title": "Dış inceleme",
+          "guide": "İkinci taraf görüşü ve doğrulama."
+        }
+      }
+    }
+  },
+  "cw": {
+    "result": "{n} veri grubu TSRS, GRI, ESRS, gönüllü standart ve CDP arasında eşlendi.",
+    "intro": "Bir kez toplanan veri birden çok çerçevede kullanılır. Satıra tıklayarak ilgili araca gidin; sütun başlığına tıklayarak tek çerçeveye odaklanın.",
+    "datapoint": "Veri grubu",
+    "cols": {
+      "tsrs": "TSRS 2 / IFRS S2",
+      "gri": "GRI",
+      "esrs": "ESRS (2023 no.)",
+      "vss": "Gönüllü standart",
+      "cdp": "CDP"
+    },
+    "rows": {
+      "governance": "İklim yönetişimi",
+      "risks_opps": "İklim riskleri ve fırsatları",
+      "transition_plan": "Geçiş planı",
+      "resilience": "İklim dayanıklılığı ve senaryo",
+      "scope1": "Kapsam 1 emisyonları",
+      "scope2": "Kapsam 2 emisyonları",
+      "scope3": "Kapsam 3 emisyonları",
+      "intensity": "Emisyon yoğunluğu",
+      "energy": "Enerji tüketimi",
+      "carbon_price": "İç karbon fiyatı",
+      "transition_risk_amounts": "Geçiş riskine açık tutarlar",
+      "targets": "İklim hedefleri",
+      "water": "Su çekimi ve tüketimi",
+      "waste": "Atık",
+      "biodiversity": "Biyoçeşitlilik",
+      "taxonomy": "Taksonomi KPI'ları",
+      "health_safety": "İş sağlığı ve güvenliği",
+      "training": "Eğitim",
+      "pay_gap": "Cinsiyet ücret farkı",
+      "corruption": "Yolsuzlukla mücadele"
+    },
+    "caveat": "ESRS numaraları 2023 setine göredir; revize ESRS (2026/1563) numaralandırmayı değiştirmiş olabilir. GRI 305 ve 302, 2027'den itibaren GRI 102 ve 103 ile değişir. Eşleme veri grubu düzeyindedir; paragraf düzeyinde kullanım öncesi teyit edin."
+  },
+  "clients": {
+    "title": "Müşteriler",
+    "result": "Çalışma alanında {n} müşteri var. Veriler yalnız bu tarayıcıda saklanır; dosya olarak dışa ve içe aktarılabilir.",
+    "import": "İçe aktar",
+    "export": "Çalışma alanını dışa aktar",
+    "imported": "Çalışma alanı içe aktarıldı.",
+    "err_invalid": "Dosya bir Isoline çalışma alanı değil. Isoline'dan dışa aktarılan .json dosyasını seçin.",
+    "err_invalid_client": "Dosyadaki müşteri kayıtlarından biri eksik. Dosyanın değiştirilmediğinden emin olun.",
+    "list": "Müşteri listesi",
+    "active": "Etkin müşteri",
+    "name": "Müşteri adı",
+    "open": "Aç",
+    "delete": "Müşteriyi sil",
+    "cancel": "Vazgeç",
+    "confirmDelete": "Kalıcı olarak sil",
+    "new": "Yeni müşteri",
+    "newHint": "Boş bir çalışma alanıyla başlar; tüm araçlar sıfır değerlerle açılır.",
+    "add": "Müşteri ekle",
+    "sampleTitle": "Örnek müşteri",
+    "sampleText": "Anadolu Yassı Çelik A.Ş. tüm araçları gösteren örnek bir entegre çelik üreticisidir; değerleri gerçek değildir.",
+    "restoreSample": "Örnek müşteriyi geri yükle",
+    "privacy": "Bu sürümde veriler sunucuya gönderilmez; tarayıcı verilerini temizlemek çalışma alanını siler. Düzenli olarak dışa aktarın."
+  }
+}

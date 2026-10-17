@@ -1,0 +1,17 @@
+﻿ID,Epic,Feature,Priority,Phase,Acceptance criterion
+MZ-001,Multi-tenant,"Tenant, client organisation and reporting-cycle model",Must,3,Two tenants cannot access each other's data in integration test
+MZ-002,Security,"Roles, audit log and document permissions",Must,3,Every material change is traceable to actor/time/version
+MZ-003,Profile,Corporate Master Profile,Must,3,Company profile data can be reused in two report projects without duplicate entry
+MZ-004,Blueprint,Report type and index composer,Must,3-4,System creates mandatory/conditional/editorial section plan
+MZ-005,Standards,"TR activity report, TSRS and GRI starter packs",Must,4,Every generated requirement shows source/version/owner
+MZ-006,Workflow,"Data request, ownership, deadline and approval",Must,4,A section cannot become Word-ready without required approvals
+MZ-007,Data,"Excel import, evidence attachment and metadata",Must,4,"Each metric records period, unit, scope and source"
+MZ-008,Rules,"Units, totals, period, source and version checks",Must,4,Critical malformed test records are flagged
+MZ-009,Output,Word Report Compiler v1,Must,4,"DOCX contains approved content, tables, source IDs and pending items"
+MZ-010,AI,Claude grounded evidence assistant,Must,5,Every answer contains sources or a clear insufficiency flag
+MZ-011,CBAM,Product-site-energy-emissions evidence model,Must,6,A report trace can be navigated product→evidence
+MZ-012,CBAM,Consistency rules for one pilot sector,Must,6,≥90% of designed critical inconsistency cases caught
+MZ-013,Visual,Interactive KPI Studio,Should,7,"Every KPI exposes scope, period, definition and source"
+MZ-014,Visual,Report Relationship Map,Should,7,User can see reused/conflicting data across report tracks
+MZ-015,Commercial,White-label tenant settings,Should,8,"Tenant can configure logo, colour, workspace domain label"
+MZ-016,EU,EU ESRS / management report starter pack,Could,9,Pilot country profile passes expert review

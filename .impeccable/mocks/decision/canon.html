@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><title>Canon</title>
+<style>
+:root{--bg:#F8FAFC;--card:#FFFFFF;--ink:#0F172A;--muted:#64748B;--line:#E2E8F0;--accent:#059669}
+*{box-sizing:border-box;margin:0}
+body{width:1440px;height:900px;overflow:hidden;background:var(--bg);color:var(--ink);font-family:system-ui,sans-serif;font-size:14px;display:grid;grid-template-columns:248px 1fr}
+nav{background:var(--card);border-right:1px solid var(--line);padding:20px 14px}
+.brand{font-weight:700;font-size:20px;padding:0 10px 20px;color:var(--accent)}
+nav a{display:block;padding:9px 10px;border-radius:8px;color:var(--muted)}nav a.on{background:#ECFDF5;color:var(--accent);font-weight:600}
+main{padding:28px 36px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+h1{font-size:28px;font-weight:700}
+.btn{background:var(--accent);color:#fff;padding:9px 16px;border-radius:8px;font-weight:600}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+.card label{color:var(--muted);font-size:13px}.card strong{display:block;font-size:28px;margin-top:6px}
+.row{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-top:16px}
+.chart{height:420px}
+.donut{width:200px;height:200px;border-radius:50%;background:conic-gradient(#059669 0 45%,#34D399 0 75%,#A7F3D0 0);margin:30px auto;position:relative}
+.donut:after{content:"";position:absolute;inset:40px;background:#fff;border-radius:50%}
+</style></head><body>
+<nav><div class="brand">Verdian</div><a>Genel bakış</a><a class="on">SKDM</a><a>Emisyonlar</a><a>Hedefler</a><a>Önemlilik</a><a>Raporlar</a><a>Şablonlar</a><a>Ayarlar</a></nav>
+<main><div class="top"><h1>SKDM maliyet projeksiyonu</h1><span class="btn">Rapor indir</span></div>
+<div class="cards"><div class="card"><label>İhracat</label><strong>48.200 t</strong></div><div class="card"><label>Gömülü emisyon</label><strong>1,92 tCO₂e/t</strong></div><div class="card"><label>2030 maliyeti</label><strong>€3,4m</strong></div><div class="card"><label>Kümülatif</label><strong>€19,8m</strong></div></div>
+<div class="row"><div class="card chart"><label>Yıllık maliyet 2026–2034</label><svg width="100%" height="360" viewBox="0 0 700 360"><path d="M20 340 C220 330 420 250 680 40 L680 340 Z" fill="#A7F3D0"/><path d="M20 340 C220 330 420 250 680 40" stroke="#059669" stroke-width="3" fill="none"/></svg></div>
+<div class="card chart"><label>Emisyon dağılımı</label><div class="donut"></div></div></div></main>
+</body></html>

@@ -1,0 +1,46 @@
+{
+  "name": "surdurulebilirlik-web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "locales": "node scripts/gen-locales.mjs",
+    "predev": "node scripts/gen-locales.mjs",
+    "dev": "next dev",
+    "prebuild": "node scripts/gen-locales.mjs",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "pretest": "node scripts/gen-locales.mjs",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "d3-array": "^3.2.4",
+    "d3-scale": "^4.0.2",
+    "d3-shape": "^3.2.0",
+    "docx": "^9.12.0",
+    "lucide-react": "^1.59.0",
+    "next": "16.4.2",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "tailwind-merge": "^3.7.0",
+    "zustand": "^5.0.15"
+  },
+  "devDependencies": {
+    "@tailwindcss/turbopack": "^4",
+    "@types/d3-array": "^3.2.2",
+    "@types/d3-scale": "^4.0.9",
+    "@types/d3-shape": "^3.2.0",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.2",
+    "fast-check": "^4.10.2",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vitest": "^4.1.12"
+  }
+}

@@ -1,0 +1,1553 @@
+{
+  "_meta": {
+    "nativeName": "English",
+    "intl": "en-GB"
+  },
+  "meta": {
+    "description": "Source-linked calculators and visual tools for sustainability reports, annual reports and carbon pricing."
+  },
+  "shell": {
+    "skip": "Skip to content",
+    "menu": "Open menu",
+    "close": "Close menu",
+    "nav": "Tools",
+    "client": "Client",
+    "sample": "Sample data",
+    "manageClients": "Clients",
+    "language": "Language",
+    "loading": "Loading workspace…",
+    "disclaimer": "Isoline is a compliance-readiness tool; it does not replace legal advice, independent assurance or accredited verification. Every value shows its source and date; final decisions require expert approval."
+  },
+  "nav": {
+    "group": {
+      "compass": "Compass",
+      "carbon": "Carbon",
+      "environment": "Environment",
+      "people": "People and governance",
+      "reporting": "Reporting"
+    },
+    "overview": "Overview",
+    "journey": "Report journey",
+    "applicability": "Applicability check",
+    "regulations": "Regulatory calendar",
+    "ghg": "Scope 1-2-3 inventory",
+    "cbam": "CBAM cost projection",
+    "ets": "Turkish ETS simulator",
+    "pathway": "Decarbonisation pathway",
+    "environment": "Energy, water and waste",
+    "taxonomy": "Taxonomy KPIs",
+    "materiality": "Double materiality matrix",
+    "workforce": "Safety and workforce",
+    "annualReport": "Annual report checklist",
+    "templates": "Template library",
+    "crosswalk": "Framework crosswalk"
+  },
+  "units": {
+    "mTry": "TRY million",
+    "mTryShort": "TRY m",
+    "years": "years",
+    "hours": "hours",
+    "days": "days"
+  },
+  "note": {
+    "source": "Source",
+    "asOf": "As of",
+    "boundary": "Boundary",
+    "unit": "Unit",
+    "status": "Status",
+    "status_verified": "Verified in official text",
+    "status_estimated": "Secondary source",
+    "status_sample": "Calculated with sample data",
+    "status_review": "Expert confirmation needed",
+    "more": "+{n} more sources",
+    "less": "Show fewer"
+  },
+  "figure": {
+    "showTable": "Table",
+    "showChart": "Chart"
+  },
+  "actions": {
+    "reset": "Reset to sample",
+    "resetHint": "Restores this tool's values for the sample client",
+    "exportData": "Export data",
+    "remove": "Remove",
+    "add": "Add"
+  },
+  "common": {
+    "year": "Year",
+    "total": "Total",
+    "keyDates": "Key dates",
+    "notes": "Calculation notes"
+  },
+  "dates": {
+    "cbam_definitive": "CBAM definitive period started",
+    "cbam_cert_sales": "CBAM certificate sales open",
+    "cbam_first_declaration": "First annual declaration and surrender for 2026 imports",
+    "cbam_repurchase": "Deadline to request repurchase of excess certificates",
+    "cbam_downstream": "Downstream extension (proposal, in negotiation)",
+    "ets_reg": "Turkish ETS Regulation in force",
+    "ets_monitoring_plan": "Monitoring methodology plan for pilot installations (≈, extendable by up to 6 months)",
+    "ets_price_start": "Price mechanism starts in the pilot",
+    "ets_report_2026": "Verified report for 2026 emissions",
+    "ets_surrender_2027": "Surrender for 2027 emissions (last working day of November)",
+    "ets_permit": "End of the 3-year window for emission permits",
+    "ets_report": "Verified emissions report",
+    "ets_surrender": "Allowance surrender (last working day of November)",
+    "tsrs_s2_amend": "TSRS 2 GHG amendments mandatory",
+    "csrd_first_report": "First reports under CSRD (FY2027)",
+    "esrs_2026_in_force": "Revised ESRS enter into force",
+    "csrd_nonEU_first_report": "Non-EU parent reports (FY2028)",
+    "value_chain_cap": "Value-chain cap applies",
+    "csddd_apply": "CSDDD applies",
+    "tr_taxonomy_fi": "Taxonomy reporting for financial institutions (earliest)",
+    "eudr_apply": "EUDR application date",
+    "battery_passport": "Battery passport mandatory"
+  },
+  "sectors": {
+    "iron_steel": "Iron and steel",
+    "aluminium": "Aluminium",
+    "cement": "Cement",
+    "fertilisers": "Fertilisers",
+    "hydrogen": "Hydrogen",
+    "electricity": "Electricity",
+    "other": "Other"
+  },
+  "overview": {
+    "result": "{n} obligations affect this client directly or through the value chain; total inventory {total} tCO₂e, 2030 CBAM exposure {cbam}.",
+    "obligations": "Obligations",
+    "deadlines": "Upcoming dates",
+    "cbam2030": "2030 obligation",
+    "locationBased": "location-based total",
+    "nextIn": "Next · {track}",
+    "moreObligations": "+{n} more obligations"
+  },
+  "journey": {
+    "result": "{track}: {done} of {total} stages complete. Next stage: {next}.",
+    "track": "Report type",
+    "tracks": {
+      "sustainability": "Sustainability report",
+      "annual": "Annual report",
+      "cbam": "CBAM data and declaration"
+    },
+    "st": {
+      "todo": "Not started",
+      "doing": "In progress",
+      "done": "Complete"
+    },
+    "tasks": "Tasks",
+    "outputs": "Outputs",
+    "deadline": "Deadline",
+    "status": "Stage status",
+    "tools": "Tools feeding this stage",
+    "noTool": "This stage runs outside the platform (audit, board, KAP).",
+    "manual": "Status set by hand.",
+    "derived": "Status calculated from client data: {pct}",
+    "noData": "No measurable data for this stage; set the status by hand.",
+    "clearManual": "Return to automatic status",
+    "whenBefore": "{m} months before period end",
+    "whenAt": "At period end",
+    "whenAfter": "{m} months after period end",
+    "whenShort": "{m} mo",
+    "sustainability": {
+      "scope": {
+        "title": "Scope and frameworks",
+        "what": "Decide which frameworks the company reports against under TSRS, CSRD, GRI and customer requests, and which transition reliefs it uses.",
+        "tasks": "Run the applicability check|Choose the framework mix (TSRS + GRI etc.)|Record the transition reliefs|Define the reporting boundary (consolidation)",
+        "outputs": "Scope decision, framework list, boundary note"
+      },
+      "materiality": {
+        "title": "Double materiality",
+        "what": "Score topics on impact and financial materiality, set the threshold and approve the topics in scope.",
+        "tasks": "Collect stakeholder input|Score topics on impact and finance|Justify the threshold|Obtain management approval",
+        "outputs": "Materiality matrix, topic list, rationale log"
+      },
+      "data": {
+        "title": "Data collection",
+        "what": "Collect energy, emissions, water, waste, safety and HR data with evidence from each unit.",
+        "tasks": "Assign data owners|Collect invoices, meter and HR records|Check units and periods|Flag estimated data",
+        "outputs": "Evidenced dataset, estimates log"
+      },
+      "calculate": {
+        "title": "Calculation",
+        "what": "Calculate scope 1-2-3, intensities, taxonomy shares and indicators; record methods and factor sources.",
+        "tasks": "Select and cite emission factors|Calculate location- and market-based scope 2|Prioritise scope 3 categories|Run a year-on-year variance check",
+        "outputs": "Inventory table, methodology note"
+      },
+      "targets": {
+        "title": "Targets and transition plan",
+        "what": "Prepare the science-based pathway, abatement measures, carbon-price effects and the transition plan disclosure.",
+        "tasks": "Fix base and target years|Place measures on the cost curve|Add CBAM and ETS cost effects|Write the transition plan narrative",
+        "outputs": "Pathway chart, MACC, financial effects table"
+      },
+      "write": {
+        "title": "Drafting and mapping",
+        "what": "Fill the template sections and prepare the framework crosswalk and content index.",
+        "tasks": "Export the template to Word|Assign section owners|Build the GRI / TSRS content index|Check bilingual consistency",
+        "outputs": "Report draft, content index"
+      },
+      "assurance": {
+        "title": "Assurance",
+        "what": "A KGK-authorised firm performs limited assurance; prepare the evidence file and management representations.",
+        "tasks": "Organise the evidence folder|Answer assurer queries|Process corrections|Receive the assurance report",
+        "outputs": "Limited assurance report"
+      },
+      "publish": {
+        "title": "Design and publication",
+        "what": "Hand approved content to the design agency; publish on KAP and the website.",
+        "tasks": "Deliver chart datasets|Final read and sign-off|KAP filing (TSRS-compliant report)|Web publication",
+        "outputs": "Published report, KAP filing"
+      }
+    },
+    "annual": {
+      "plan": {
+        "title": "Calendar and owners",
+        "what": "Choose the content profile (TTK, CMB, BRSA), assign section owners and set the timeline.",
+        "tasks": "Choose the report profile|Assign section owners|Plan backwards from AGM and KAP dates",
+        "outputs": "Project calendar, responsibility list"
+      },
+      "financials": {
+        "title": "Financial statements and audit",
+        "what": "Bring audited financial statements and key ratios into the annual report.",
+        "tasks": "Receive audited statements|Calculate sales, profitability and debt/equity ratios|Reconcile figures with the report",
+        "outputs": "Financial summary tables"
+      },
+      "content": {
+        "title": "Content drafting",
+        "what": "Draft text for every item of the minimum-content regulation and tick it off in the checklist.",
+        "tasks": "Fill the checklist|Write investments, risks and internal control sections|Compile donations and lawsuits",
+        "outputs": "Section drafts"
+      },
+      "governance": {
+        "title": "Corporate governance forms",
+        "what": "Listed companies prepare the URF and KYBF forms and the sustainability principles compliance framework.",
+        "tasks": "Update URF and KYBF|Complete the sustainability principles table|Flag changes from last year",
+        "outputs": "URF, KYBF, compliance framework"
+      },
+      "sustainability_summary": {
+        "title": "Sustainability summary",
+        "what": "Carry emissions, energy, safety and workforce indicators into the report's summary page.",
+        "tasks": "Pull summary indicators from the tools|Check consistency with the TSRS report",
+        "outputs": "At-a-glance page"
+      },
+      "board": {
+        "title": "Board approval",
+        "what": "The board approves and signs the report; dissenting opinions are added with reasons.",
+        "tasks": "Final read|Board resolution|Signatures",
+        "outputs": "Approved annual report"
+      },
+      "kap": {
+        "title": "KAP and general assembly",
+        "what": "Publish the report with the financial report on KAP, at least three weeks before the general assembly.",
+        "tasks": "KAP filing|Web publication|Include in AGM documents",
+        "outputs": "Published report"
+      }
+    },
+    "cbam": {
+      "goods": {
+        "title": "Goods and CN mapping",
+        "what": "Map exported goods to CN codes, sectors and production routes; identify EU buyers.",
+        "tasks": "Confirm CN codes|Define production routes|Ask EU buyers about authorised declarant status",
+        "outputs": "Goods–installation–buyer list"
+      },
+      "monitoring": {
+        "title": "Installation monitoring",
+        "what": "Monitor fuel, material and electricity flows; reuse the Turkish ETS monitoring data line.",
+        "tasks": "Prepare the monitoring plan|Connect meter and lab data|Record precursors",
+        "outputs": "Monitoring plan, activity data"
+      },
+      "embedded": {
+        "title": "Embedded emissions",
+        "what": "Calculate specific embedded emissions per good from direct, indirect and precursor emissions.",
+        "tasks": "Calculate attributed emissions|Add precursor SEE values|Compare with default values",
+        "outputs": "SEE per good"
+      },
+      "verify": {
+        "title": "Accredited verification",
+        "what": "An EU-accredited verifier verifies the emissions report with a site visit in the first year.",
+        "tasks": "Select a verifier|Prepare the evidence file|Schedule the site visit",
+        "outputs": "Verification report"
+      },
+      "pack": {
+        "title": "Data pack for the EU buyer",
+        "what": "Send the operator emissions report and evidence to the EU importer.",
+        "tasks": "Complete the operator data pack|Attach proof of carbon price paid|Send the pack to the buyer",
+        "outputs": "Operator emissions report"
+      },
+      "cost": {
+        "title": "Cost and pricing",
+        "what": "Project CBAM cost to 2034 and reflect it in prices and contracts.",
+        "tasks": "Set price scenarios|Quantify verified vs default data|Update contract clauses",
+        "outputs": "Cost projection"
+      },
+      "declare": {
+        "title": "Annual declaration",
+        "what": "The authorised declarant in the EU files the annual declaration and surrenders certificates.",
+        "tasks": "Answer the buyer's questions|Track post-declaration corrections",
+        "outputs": "Filed declaration (buyer side)"
+      }
+    }
+  },
+  "cbam": {
+    "result": "By 2030 the CBAM obligation passed to your EU buyers reaches {cost}; 2026–2034 total {total}.",
+    "empty": "Add products to see the cost projection for CBAM goods you export to the EU.",
+    "scenario": "Price scenario",
+    "startPrice": "2026 certificate price",
+    "startPriceHint": "Official 2026 quarterly prices: Q1 €{q1}, Q2 €{q2}, Q3 €{q3}. The sample uses the three-quarter average.",
+    "priceGrowth": "Annual price change",
+    "originPrice": "Carbon price actually paid in Türkiye",
+    "originPriceHint": "Effective price after free allocation. Usually 0 in 2026–2027 because the Turkish ETS pilot allocates 100 % free.",
+    "eurTry": "EUR/TRY rate",
+    "product": "Product",
+    "newProduct": "New product",
+    "addProduct": "Add product",
+    "productName": "Product name",
+    "cn": "CN code",
+    "sector": "Sector",
+    "tonnes": "Exports to the EU (2026)",
+    "growth": "Annual volume change",
+    "useDefault": "Calculate with default values",
+    "useDefaultHint": "Without verified installation data, the EU default value plus the year's mark-up applies.",
+    "seeDirect": "Direct embedded emissions",
+    "seeIndirect": "Indirect embedded emissions",
+    "noIndirect": "Indirect emissions do not count for this sector.",
+    "defaultSee": "EU default value",
+    "benchmark": "Free-allocation benchmark",
+    "boundary": "Goods and installation, EU exports",
+    "fig2026": "2026 obligation",
+    "fig2030": "2030 obligation",
+    "figTotal": "2026–2034 total",
+    "figSaving": "Value of verified data",
+    "figSavingNote": "Extra cost if every product used default values",
+    "chartCost": "Annual CBAM cost",
+    "chartCostCaption": "Bars show the selected method; lines show cost if all products used verified data or default values.",
+    "legendCost": "Cost, selected method",
+    "legendDefault": "All default values",
+    "legendActual": "All verified data",
+    "chartEmissions": "Embedded emissions split",
+    "chartEmissionsCaption": "As the free-allocation adjustment shrinks, the share subject to certificates grows; the CBAM factor falls from 97.5 % in 2026 to zero in 2034.",
+    "legendCertificates": "Emissions subject to certificates",
+    "legendFaa": "Free-allocation adjustment",
+    "legendDeduction": "Carbon price paid deduction",
+    "byProduct": "Cost per tonne by product",
+    "seeUsed": "Value used (t/t)",
+    "defaultValues": "default value",
+    "verifiedValues": "verified data",
+    "colShare": "Paid share",
+    "colTonnes": "Tonnes",
+    "colGross": "Embedded tCO₂e",
+    "colFaa": "Allocation adjustment",
+    "colCertificates": "Certificates",
+    "colCost": "Cost (€)",
+    "colCostTry": "Cost (TRY)",
+    "notes": {
+      "deMinimis": "Importers below 50 tonnes net mass per year (steel, aluminium, fertilisers and cement combined) are exempt; crossing the threshold brings the whole year's imports into scope. Electricity and hydrogen have no threshold.",
+      "indirect": "Indirect (electricity) emissions count only for cement and fertilisers; for steel, sinter's indirect emissions carry through as a precursor.",
+      "markup": "Default values carry a mark-up: 10 % in 2026, 20 % in 2027, 30 % from 2028; 1 % for fertilisers.",
+      "deduction": "EU rules for deducting the carbon price paid in the country of origin are still in draft (13.05.2026); this line is an estimate.",
+      "holding": "From 2027, at each quarter end, certificates covering at least 50 % of year-to-date embedded emissions must be held.",
+      "penalty": "The standard penalty is €100 per certificate not surrendered.",
+      "csCf": "The cross-sectoral correction factor (CSCF) is not applied; take the benchmark and route mapping from Implementing Regulation 2025/2620."
+    },
+    "sampleWarning": "Benchmarks and default values for the sample client are illustrative, not official. For a real calculation enter the values for your CN code and route from Implementing Regulations 2025/2620 and 2025/2621."
+  },
+  "ghg": {
+    "result": "Total inventory {total} tCO₂e, of which {s12} tCO₂e is scope 1 and 2. Share of estimated data {est}.",
+    "boundary": "Operational control, consolidated",
+    "inputs": "Inventory inputs",
+    "tabS1": "Scope 1",
+    "tabS2": "Scope 2",
+    "tabS3": "Scope 3",
+    "tabNorm": "Normalisers",
+    "fuel": "Fuel",
+    "label": "Description",
+    "fuelType": "Fuel type",
+    "amount": "Amount",
+    "ncv": "Net calorific value",
+    "ef": "CO₂ emission factor",
+    "use": "Use",
+    "stationary": "Stationary combustion",
+    "mobile": "Mobile combustion",
+    "quality": "Data quality",
+    "q_measured": "Measured",
+    "q_calculated": "Calculated",
+    "q_estimated": "Estimated",
+    "addFuel": "Add fuel",
+    "process": "Process emissions",
+    "processEmissions": "Process emissions",
+    "addProcess": "Add process emissions",
+    "refrigerant": "Refrigerant leak",
+    "gas": "Gas",
+    "leaked": "Leaked amount",
+    "addRefrigerant": "Add refrigerant",
+    "electricity": "Electricity use",
+    "mwh": "Consumption",
+    "connection": "Connection point (ETKB factor)",
+    "transmission": "Transmission",
+    "distribution": "Distribution",
+    "certified": "Covered by YEK-G / I-REC",
+    "certifiedHint": "Counts at zero emissions in the market-based method.",
+    "supplierFactor": "Supplier-specific factor",
+    "supplierFactorHint": "Leave empty to use the grid factor for the uncovered part.",
+    "addElectricity": "Add electricity line",
+    "category": "Category",
+    "unit": "Unit",
+    "factor": "Emission factor",
+    "factorSource": "Factor source",
+    "addScope3": "Add scope 3 line",
+    "normalisers": "Intensity denominators",
+    "revenue": "Net sales",
+    "production": "Production",
+    "scope1": "Scope 1",
+    "scope2loc": "Scope 2 (location)",
+    "scope2mkt": "Scope 2 (market)",
+    "scope3": "Scope 3",
+    "intensity": "Product intensity (S1+2)",
+    "intensityNote": "tCO₂e/t · revenue intensity {rev} tCO₂e per TRY m",
+    "w_stationary": "Stationary",
+    "w_mobile": "Mobile",
+    "w_process": "Process",
+    "w_fugitive": "Fugitive",
+    "chartWaterfall": "Emissions waterfall",
+    "chartWaterfallCaption": "From scope 1 items to the total inventory; dashed outlines mark items dominated by estimated data.",
+    "item": "Item",
+    "share": "Share",
+    "scope2compare": "Scope 2: location vs market",
+    "location": "Location-based",
+    "market": "Market-based",
+    "renewableShare": "Certified renewable electricity share: {share}",
+    "scope3byCat": "Scope 3 categories",
+    "fuels": {
+      "natural_gas": "Natural gas",
+      "diesel": "Diesel",
+      "gasoline": "Gasoline",
+      "lpg": "LPG",
+      "fuel_oil": "Fuel oil",
+      "coal": "Bituminous coal",
+      "lignite": "Lignite"
+    },
+    "cat": {
+      "1": "Purchased goods and services",
+      "2": "Capital goods",
+      "3": "Fuel- and energy-related activities",
+      "4": "Upstream transportation",
+      "5": "Waste generated in operations",
+      "6": "Business travel",
+      "7": "Employee commuting",
+      "8": "Upstream leased assets",
+      "9": "Downstream transportation",
+      "10": "Processing of sold products",
+      "11": "Use of sold products",
+      "12": "End-of-life treatment",
+      "13": "Downstream leased assets",
+      "14": "Franchises",
+      "15": "Investments"
+    },
+    "notes": {
+      "factors": "Default NCV and CO₂ factors are IPCC 2006 Tier 1 values and exclude CH₄ and N₂O. Replace them with supplier, BOTAŞ or national inventory values.",
+      "grid": "Location-based scope 2 uses the ETKB 2023 consumption-point factors: transmission 0.436, distribution 0.469 tCO₂e/MWh.",
+      "market": "No residual-mix factor is published for Türkiye; uncovered electricity uses the grid factor and the report should say so.",
+      "scope3": "Scope 3 factors are entered by the user and each line records its source.",
+      "gwp": "Refrigerants use IPCC AR6 GWP100; state the GWP set in the report.",
+      "tsrs": "Under TSRS 2, scope 3 is not required in the first two reporting years; TSRS 2 GHG amendments apply from 2027."
+    }
+  },
+  "ets": {
+    "result": "Category {cat} installation: a {deficit} tCO₂e allowance shortfall and {cost} cost expected in {year}.",
+    "resultA": "Category A installation: outside the ETS, with monitoring, reporting and verification duties only.",
+    "installation": "Installation",
+    "sector": "Sector",
+    "sectorHint": "Pilot: electricity, cement, iron and steel, aluminium and fertilisers.",
+    "emissions": "Annual verified emissions (2026)",
+    "emissionsHint": "The category follows conservatively estimated annual emissions at installed capacity, excluding biomass CO₂.",
+    "emissionsGrowth": "Annual emissions change",
+    "allocation": "Free allocation",
+    "activity": "Activity level (output)",
+    "activityGrowth": "Annual output change",
+    "benchmark": "Benchmark",
+    "benchmarkHint": "In the pilot, non-power benchmarks are the weighted average of all installations; enter the published value.",
+    "coefficient": "Sector activity coefficient",
+    "rate": "{year} free allocation rate",
+    "price": "Price scenario",
+    "priceStart": "2027 allowance price",
+    "priceHint": "No market price exists yet; enter a scenario value.",
+    "priceGrowth": "Annual price change",
+    "category": "Category",
+    "inEts": "In the ETS",
+    "mrvOnly": "Monitoring and reporting only",
+    "inPilot": "In the pilot phase",
+    "figAllocation": "{year} allocation",
+    "figDeficit": "{year} shortfall",
+    "figCost": "{from}–{to} cost",
+    "figFine": "Late report fine",
+    "figFineNote": "Verified report not filed on time, 2026 amount; 80 % discount in the pilot",
+    "chart": "Emissions and allocation",
+    "chartCaption": "Emissions covered by free allocation and the shortfall to buy; 2026 is reporting-only.",
+    "legendAllocation": "Covered by free allocation",
+    "legendDeficit": "Allowance shortfall",
+    "legendEmissions": "Verified emissions",
+    "cost": "Cost (TRY)",
+    "reportingOnly": "reporting only",
+    "boundary": "Installation",
+    "notes": {
+      "formula": "Free allocation = benchmark × free allocation rate × sector activity coefficient × activity level, rounded up (Regulation art. 13/7).",
+      "pilot": "The pilot covers 2026 and 2027 emissions; 2026 is reporting-only, pricing starts in 2027 and allocation is 100 % free (KPK/2026/1).",
+      "penalty": "Each allowance not surrendered costs twice the higher of the last three months' primary and secondary market averages; the shortfall must still be surrendered next year.",
+      "pilotDiscount": "Administrative fines under the Climate Law are discounted by 80 % in the pilot.",
+      "cbamLink": "EU CBAM allows deducting the carbon price actually paid at origin; with free allocation in the pilot this stays limited in 2026–2027."
+    },
+    "sampleWarning": "The benchmark, allocation rates and price are a sample scenario. Update them when the published benchmarks and National Allocation Plan are available."
+  },
+  "pathway": {
+    "resultGap": "In {year}, planned measures leave you {gap} tCO₂e above the 1.5 °C path.",
+    "resultOk": "In {year}, planned measures stay {margin} tCO₂e below the 1.5 °C path.",
+    "empty": "Enter base-year emissions to see the science-based pathway.",
+    "inputs": "Pathway inputs",
+    "tabBase": "Base and target",
+    "tabMeasures": "Measures",
+    "tabActuals": "Actuals",
+    "baseYear": "Base year",
+    "baseYearLabel": "Base year",
+    "baseS12": "Scope 1+2",
+    "baseS3": "Scope 3",
+    "targetYear": "Near-term target year",
+    "targetYearHint": "SBTi near-term targets cover 5–10 years from submission.",
+    "bau": "Business as usual",
+    "measure": "Measure",
+    "measureName": "Measure name",
+    "abatement": "Annual abatement",
+    "cost": "Marginal cost",
+    "start": "Start",
+    "ramp": "Time to full effect",
+    "addMeasure": "Add measure",
+    "actuals": "Actual total emissions (S1+2+3)",
+    "estimated": "estimated",
+    "figBase": "{year} base emissions",
+    "figTarget": "{year} 1.5 °C target",
+    "figTargetNote": "{pct} reduction from base year (S1+2)",
+    "figPlan": "{year} planned",
+    "figAbatement": "{year} annual abatement",
+    "gapLabel": "Gap in target year",
+    "chart": "Decarbonisation pathway",
+    "chartCaption": "The dark band is the 1.5 °C-aligned zone, the light band the well-below 2 °C zone; the line tracks expected emissions with planned measures.",
+    "band15": "1.5 °C-aligned zone",
+    "bandWb2c": "Well-below 2 °C zone",
+    "withMeasures": "With planned measures",
+    "netZero": "Net-zero path (2050, 90 %)",
+    "actualsLegend": "Actual",
+    "markerTarget": "Target year",
+    "macc": "Marginal abatement cost curve",
+    "maccCaption": "Bar width is annual abatement, height is cost per tonne; the dashed line is the reference carbon price.",
+    "carbonPriceRef": "Reference carbon price €80/t",
+    "boundary": "Corporate, S1+2+3",
+    "rateLine": "Linear reduction rates used: {r15} a year for scope 1+2 (1.5 °C), {rwb} a year for scope 3 (well-below 2 °C).",
+    "notes": {
+      "rates": "Near-term targets use SBTi linear absolute contraction: at least 4.2 % a year for scope 1+2 and 2.5 % for scope 3.",
+      "netzero": "The long-term net-zero path assumes at least 90 % absolute reduction from the base year by 2050, with residuals neutralised.",
+      "v2": "SBTi Net-Zero Standard V2.0 takes effect on 31.01.2027; its final methods arrive in Q4 2026, so V2 parameters are not modelled yet.",
+      "ndc": "Türkiye's NDC 3.0 targets at most 643 MtCO₂e in 2035 and net zero by 2053; mind the scale difference when comparing.",
+      "macc": "Negative-cost measures save money; measures below the reference price are economic against CBAM and ETS costs."
+    }
+  },
+  "env": {
+    "result": "Annual energy use {toe} toe; renewable share {ren}, waste recovery rate {rec}.",
+    "boundary": "All sites",
+    "energy": "Energy",
+    "water": "Water",
+    "waste": "Waste",
+    "normaliser": "Intensity denominator",
+    "energyGj": "Total energy consumption",
+    "renewableGj": "Renewable energy",
+    "waterWithdrawalM3": "Water withdrawal",
+    "waterDischargeM3": "Water discharge",
+    "waterStressShare": "Share withdrawn in water-stressed areas",
+    "wasteTotalT": "Total waste",
+    "wasteRecoveredT": "Waste recovered",
+    "wasteHazardousT": "Hazardous waste",
+    "revenueMillionTry": "Net sales",
+    "figEnergy": "Energy use (toe)",
+    "figEnergyNote": "{mwh} MWh equivalent",
+    "figRenewable": "Renewable share",
+    "figWater": "Water consumption",
+    "figRecovery": "Waste recovery rate",
+    "consumption": "Water consumption",
+    "energyFoot": "Energy intensity: {ints} GJ per TRY m",
+    "waterFoot": "Water intensity: {ints} m³ per TRY m",
+    "wasteFoot": "Hazardous waste share: {haz}",
+    "energyManager": "Above 1,000 toe a year: an energy manager and annual notification are required",
+    "energyMwh": "Energy use (MWh)",
+    "indicator": "Indicator",
+    "value": "Value",
+    "unit": "Unit",
+    "refs": "Framework references",
+    "notes": {
+      "toe": "1 toe = 41.868 GJ; 1 MWh = 3.6 GJ.",
+      "water": "Water consumption = withdrawal − discharge. Use a source such as WRI Aqueduct for water stress and cite it.",
+      "waste": "Recovery rate is waste diverted to recovery over total waste; disposal methods are disclosed under GRI 306-4/5.",
+      "refs": "GRI 302 and 305 are replaced by GRI 103 and GRI 102 from 2027; numbers shown are for 2026 reports."
+    }
+  },
+  "work": {
+    "result": "LTIFR {ltifr}, unadjusted gender pay gap {gap}, {train} training hours per employee.",
+    "boundary": "Direct employment",
+    "safety": "Health and safety",
+    "people": "Employees",
+    "pay": "Pay",
+    "hoursWorked": "Hours worked",
+    "lostTimeInjuries": "Lost-time injuries",
+    "recordables": "Recordable injuries",
+    "lostDays": "Lost days",
+    "fatalities": "Fatalities",
+    "headcountStart": "Headcount, start of period",
+    "headcountEnd": "Headcount, end of period",
+    "leavers": "Leavers",
+    "trainingHours": "Total training hours",
+    "avgPayMen": "Average pay, men",
+    "avgPayWomen": "Average pay, women",
+    "women": "Women employees",
+    "womenManagers": "Women managers",
+    "managers": "Total managers",
+    "ltifrNote": "per 1,000,000 hours",
+    "trirNote": "per 200,000 hours",
+    "payGapLabel": "Gender pay gap",
+    "turnoverLabel": "Employee turnover",
+    "chart": "Women's representation",
+    "chartCaption": "Share of women and men across all employees and in management.",
+    "men": "Men",
+    "all": "All employees",
+    "mgmt": "Management",
+    "womenShare": "Women's share of employees",
+    "womenManagerShare": "Women's share of managers",
+    "ltifrRow": "LTIFR (1,000,000 hours)",
+    "trirRow": "TRIR (200,000 hours)",
+    "severity": "Severity rate (1,000,000 hours)",
+    "fatalityRate": "Fatality rate (1,000,000 hours)",
+    "trainingPerEmployee": "Training hours per employee",
+    "notes": {
+      "bases": "GRI 403-9 allows rates per 200,000 or 1,000,000 hours; state the base used.",
+      "payGap": "Unadjusted pay gap = (men's average − women's average) / men's average.",
+      "headcount": "Turnover and training rates use the average of opening and closing headcount."
+    }
+  },
+  "tax": {
+    "result": "Taxonomy-aligned turnover {turnover}, aligned capex {capex}.",
+    "boundary": "Consolidated financial statements",
+    "totals": "Totals",
+    "turnover": "Turnover",
+    "capex": "Capex",
+    "opex": "Opex",
+    "code": "Code",
+    "activity": "Activity",
+    "edit": "Edit amounts",
+    "eligible": "Eligible",
+    "aligned": "Aligned",
+    "alignedHint": "Technical screening criteria, do-no-significant-harm and minimum safeguards are all met.",
+    "notAssessed": "Non-material: not assessed",
+    "notAssessedHint": "Eligible activities below 10 % of a KPI combined may be left unassessed.",
+    "newActivity": "New activity",
+    "addActivity": "Add activity",
+    "alignedOf": "Aligned {kpi}",
+    "eligibleNote": "Eligible share {pct}",
+    "capCheck": "10 % materiality check",
+    "capOk": "Within cap",
+    "capOver": "Exceeded",
+    "capNote": "The not-assessed share must stay below 10 % for each KPI",
+    "chart": "Taxonomy KPIs",
+    "chartCaption": "Aligned, eligible-not-aligned, not-assessed and not-eligible shares for each KPI.",
+    "legendAligned": "Aligned",
+    "legendEligibleNotAligned": "Eligible, not aligned",
+    "legendNotAssessed": "Not assessed",
+    "legendNotEligible": "Not eligible",
+    "notes": {
+      "threshold": "Under Delegated Regulation (EU) 2026/73, non-financial companies may treat activities totalling under 10 % of turnover, capex or opex as non-material, KPI by KPI.",
+      "steps": "Alignment runs eligibility, then technical screening criteria, do-no-significant-harm and minimum safeguards.",
+      "tr": "The Türkiye Green Taxonomy Regulation (OG 24.09.2026) is voluntary for the real sector; lenders may ask for it.",
+      "fi": "Turkish taxonomy reporting for financial institutions is not mandatory before 2029."
+    }
+  },
+  "mat": {
+    "result": "{n} of {total} topics are material; {double} are material on both impact and finance.",
+    "boundary": "Company and value chain",
+    "unit": "Score (1–5)",
+    "threshold": "Threshold",
+    "thresholdLabel": "Materiality threshold",
+    "thresholdHint": "A topic is material when its impact or financial score is at or above this value.",
+    "topic": "Topic",
+    "positive": "Positive impact",
+    "impactSide": "Impact materiality",
+    "financialSide": "Financial materiality",
+    "scale": "Scale",
+    "scope": "Scope",
+    "irremediability": "Irremediability",
+    "impactLikelihood": "Likelihood",
+    "likelihoodHint": "5 = actual impact; likelihood does not discount severity.",
+    "magnitude": "Financial magnitude",
+    "financialLikelihood": "Financial likelihood",
+    "figMaterial": "Material topics",
+    "figDouble": "Double material",
+    "figImpact": "Impact only",
+    "figFinancial": "Financial only",
+    "chart": "Double materiality matrix",
+    "chartCaption": "Financial materiality on the horizontal axis, impact on the vertical; filled points are material. Click a point to edit its scores.",
+    "env": "Environment",
+    "soc": "Social",
+    "gov": "Governance",
+    "doubleZone": "Double materiality zone",
+    "xAxis": "Financial materiality",
+    "yAxis": "Impact materiality",
+    "ranking": "Topic ranking",
+    "impact": "Impact",
+    "financial": "Financial",
+    "result_col": "Result",
+    "kind_double": "Double material",
+    "kind_impact": "Impact material",
+    "kind_financial": "Financially material",
+    "kind_none": "Not material",
+    "topics": {
+      "E1": "Climate change",
+      "E2": "Pollution",
+      "E3": "Water and marine resources",
+      "E4": "Biodiversity and ecosystems",
+      "E5": "Resource use and circular economy",
+      "S1": "Own workforce",
+      "S2": "Workers in the value chain",
+      "S3": "Affected communities",
+      "S4": "Consumers and end-users",
+      "G1": "Business conduct"
+    },
+    "notes": {
+      "method": "Impact score is the average of scale, scope and (for negative impacts) irremediability, weighted by likelihood for potential impacts. Financial score is magnitude × likelihood / 5.",
+      "topdown": "Revised ESRS (2026/1563) allow a top-down assessment based on reasonable and supportable information.",
+      "evidence": "Record the rationale, stakeholder input and evidence for each score; the tool structures scoring, management decides.",
+      "tsrs": "TSRS materiality is investor-focused financial materiality; double materiality is needed for ESRS and GRI."
+    }
+  },
+  "app": {
+    "result": "For the {year} reporting period: {required} direct obligations and {indirect} value-chain obligations.",
+    "company": "Company",
+    "entityType": "Entity type",
+    "entity": {
+      "listed": "Listed company",
+      "bank": "Bank (BRSA)",
+      "bank_tmsf": "Bank under SDIF",
+      "nonbank_fi": "Non-bank financial institution",
+      "insurer": "Insurance, reinsurance, pension",
+      "capital_markets_fi": "Other CMB-regulated entity",
+      "precious_metals": "Precious metals entity",
+      "unlisted_company": "Unlisted company",
+      "public_body": "Public body"
+    },
+    "bistMain": "Traded on the Star, Main or Sub Market",
+    "watchlist": "Watchlist market or qualified-investor venture capital market",
+    "reportingYear": "Reporting period",
+    "firstTsrsYear": "First TSRS reporting period",
+    "firstTsrsHint": "Leave empty if you have not reported yet.",
+    "branches": "Number of branches",
+    "yearFigures": "{year} financials",
+    "regulatedStatus": "Had in-scope entity status this year",
+    "assets": "Total assets",
+    "revenue": "Net sales revenue",
+    "employees": "Average employees",
+    "criteriaMet": "Criteria exceeded: {n} / 3",
+    "eu": "EU links",
+    "euEntity": "Company or group established in the EU",
+    "employeesGroup": "Group employees",
+    "worldwideTurnover": "Worldwide net turnover",
+    "euTurnover": "Net turnover in the EU",
+    "euSubsidiary": "EU subsidiary or branch turnover",
+    "euCustomers": "Supplies CSRD-scope customers in the EU",
+    "euCustomersHint": "For value-chain data requests and the cap rule.",
+    "carbon": "Carbon pricing",
+    "cbamSectors": "CBAM sectors exported to the EU",
+    "euExportTonnes": "Annual exports to the EU",
+    "emissions": "Annual emissions per installation",
+    "emissionsHint": "Conservative annual emissions of the largest installation at capacity.",
+    "pilotSector": "Installation's main activity",
+    "energyToe": "Annual energy use",
+    "products": "Products",
+    "eudr": "Cattle, cocoa, coffee, palm, rubber, soy or wood products to the EU",
+    "small": "Micro or small enterprise",
+    "dpp": "Steel, aluminium, textiles, furniture, tyres or mattresses",
+    "batteries": "LMT, industrial above 2 kWh or EV batteries",
+    "thresholdLine": "TSRS thresholds for {year}: total assets TRY {assets}, net sales TRY {revenue}, {employees} employees; two of three must be exceeded in two consecutive periods.",
+    "firstYear": "First year: {year}",
+    "status": {
+      "required": "Required",
+      "indirect": "Through the value chain",
+      "review": "Expert confirmation needed",
+      "voluntary": "Voluntary",
+      "not_applicable": "Out of scope"
+    },
+    "reg": {
+      "annual_report": "Annual activity report",
+      "tsrs": "TSRS sustainability report",
+      "tr_ets": "Turkish Emissions Trading System",
+      "cbam": "EU CBAM",
+      "csrd": "EU CSRD / ESRS",
+      "csddd": "EU CSDDD (due diligence)",
+      "tr_taxonomy": "Türkiye Green Taxonomy",
+      "eudr": "EU Deforestation Regulation (EUDR)",
+      "espr_dpp": "Digital Product Passport (ESPR)",
+      "battery_passport": "Battery passport",
+      "energy_manager": "Energy manager and notification"
+    },
+    "notes": {
+      "tsrs": {
+        "bank_always": "BRSA-regulated banks are in TSRS scope regardless of size.",
+        "tmsf": "Banks under the SDIF are out of scope.",
+        "watchlist": "Watchlist and qualified-investor venture capital market companies are outside mandatory scope; TSRS may be applied voluntarily.",
+        "not_listed_type": "This entity type is not on KGK's mandatory list; TSRS may be applied voluntarily.",
+        "status_two_years": "Entering scope requires the regulated status in at least two periods.",
+        "small_fi_relief": "Unlisted financial institutions with no more than one branch or 250 employees are outside mandatory scope during the scope 3 relief.",
+        "below_thresholds": "Two of three criteria were not exceeded in two consecutive periods; TSRS may be applied voluntarily.",
+        "threshold_transition_review": "KGK has not illustrated how the new thresholds (1 bn / 2 bn / 500) apply to 2023–2024 reference years; cross-check with KGK's SÜHA tool.",
+        "relief_comparatives": "Comparative information is not required in the first reporting period.",
+        "relief_climate_first": "The first year may cover climate-related risks and opportunities only (climate first).",
+        "relief_timing": "First-year reports may be published with the interim report or within 9 months of period end.",
+        "relief_scope3": "Scope 3 is not required in the first two reporting years.",
+        "relief_2024_extension": "For 2024 first-time reporters, E4, E5 and E6(b) reliefs also apply to the 2025 report.",
+        "s2_amendments_2027": "TSRS 2 GHG amendments apply from 1.1.2027 (scope 3 category 15 and financed emissions).",
+        "assurance": "The report requires limited assurance by a KGK-authorised firm."
+      },
+      "csrd": {
+        "eu_large": "More than 1,000 employees and over €450 m turnover in the EU: reporting under ESRS 2026 from FY2027.",
+        "non_eu_parent": "Non-EU parent: EU turnover above €450 m and an EU subsidiary or branch above €200 m; from FY2028.",
+        "value_chain_protected": "With 1,000 or fewer employees the value-chain cap protects you; EU customers cannot require more than the voluntary standard's short list.",
+        "value_chain_supplier": "CSRD-scope EU customers will request value-chain data; the cap does not protect companies above 1,000 employees.",
+        "out_of_scope": "Below CSRD thresholds and no EU customer link."
+      },
+      "csddd": {
+        "in_scope": "Groups above 5,000 employees and €1.5 bn turnover face due diligence duties from 26.07.2029.",
+        "supplier": "In-scope EU customers may request human rights and environmental due diligence information."
+      },
+      "cbam": {
+        "no_sector": "No CBAM goods exported to the EU.",
+        "operator_data": "Your EU importer needs verified embedded emissions per installation and good for its declaration.",
+        "de_minimis_check": "Under 50 tonnes a year per EU buyer may be exempt; check the total per buyer.",
+        "default_markup": "Without verified data, default values apply with a 10 % mark-up in 2026 rising to 30 % from 2028.",
+        "downstream_2028": "An extension to downstream goods such as screws, wire and tubes is under negotiation for 2028."
+      },
+      "ets": {
+        "no_emissions": "No emissions data entered.",
+        "category_a": "Category A (up to 50 kt CO₂e): outside the ETS, monitoring, reporting and verification only.",
+        "category_b": "Category B (50–500 kt CO₂e): in the ETS.",
+        "category_c": "Category C (above 500 kt CO₂e): in the ETS.",
+        "pilot": "The pilot covers 2026–2027 emissions; 2026 is reporting-only.",
+        "pilot_free": "Allocation is 100 % free and benchmark-based in the pilot.",
+        "non_pilot_sector": "The main activity is not a pilot sector; follow the Directorate's decisions for inclusion timing."
+      },
+      "ar": {
+        "ttk": "All capital companies prepare an annual activity report under the TCC and the minimum-content regulation.",
+        "spk": "Listed companies publish the annual report on KAP within 60 days (70 days consolidated) under CMB II-14.1.",
+        "cg_forms": "The corporate governance compliance report (URF) and information form (KYBF) are published on KAP.",
+        "spk_sust_template": "Star, Main and Sub Market companies report against the CMB sustainability principles framework.",
+        "bddk": "Banks also follow the BRSA annual report regulation.",
+        "public_body": "Public administrations follow separate annual report rules; not verified in this release.",
+        "eu_art19": "In the EU the management report follows Accounting Directive art. 19 and 20."
+      },
+      "tax": {
+        "tr_fi": "Turkish taxonomy reporting for financial institutions does not start before 2029.",
+        "tr_real_sector": "The Turkish taxonomy is voluntary for the real sector; green finance applications may ask for it."
+      },
+      "eudr": {
+        "dds": "Placing on the EU market requires a due diligence statement (DDS) and plot geolocation data."
+      },
+      "dpp": {
+        "pending_acts": "Product-group delegated acts are pending; iron and steel targeted for end-2026."
+      },
+      "battery": {
+        "scope": "Battery passport mandatory from 18.02.2027."
+      },
+      "energy": {
+        "manager": "Industrial companies using 1,000 toe or more a year appoint an energy manager and file annually."
+      }
+    }
+  },
+  "reg": {
+    "result": "{n} key dates in the next 90 days; first up: {next} ({date}).",
+    "scope": "Scope",
+    "all": "All",
+    "tr": "Türkiye",
+    "eu": "European Union",
+    "global": "Global",
+    "timeline": "Regulatory timeline",
+    "timelineCaption": "Filled circles are verified in official text, dashed circles come from secondary sources; the red line is today. Hover a circle for details.",
+    "legendOfficial": "Official source",
+    "legendSecondary": "Secondary source",
+    "today": "Today ({date})",
+    "upcoming": "Upcoming dates",
+    "date": "Date",
+    "event": "Event",
+    "lane": "Area",
+    "lanes": {
+      "tr_reporting": "TR reporting",
+      "tr_carbon": "TR carbon",
+      "eu_reporting": "EU reporting",
+      "eu_carbon": "EU carbon",
+      "eu_product": "EU product",
+      "global": "Global"
+    },
+    "events": {
+      "tsrs_thresholds_2026": "New KGK TSRS thresholds (1 bn / 2 bn / 500)",
+      "tsrs2_amend_published": "TSRS 2 GHG amendments published",
+      "tsrs2_amend_effective": "TSRS 2 GHG amendments mandatory",
+      "tr_taxonomy_published": "Türkiye Green Taxonomy Regulation",
+      "tr_taxonomy_fi": "Taxonomy reporting for financial institutions (earliest)",
+      "spk_green_guides": "CMB green and sustainability-linked instrument guides",
+      "climate_law": "Climate Law no. 7552",
+      "tr_ets_reg": "Turkish ETS Regulation in force",
+      "tr_ets_mp": "Monitoring plan deadline for pilot installations",
+      "tr_ets_price": "Price mechanism in the Turkish ETS pilot",
+      "tr_ets_report_2026": "Verified report for 2026 emissions",
+      "tr_local_plans": "Local climate action plans deadline",
+      "tr_ets_permit": "3-year window for ETS emission permits",
+      "omnibus_in_force": "Omnibus I (2026/470) in force",
+      "vss_in_force": "Voluntary sustainability standard (2026/1560)",
+      "esrs_2026_in_force": "Revised ESRS (2026/1563) in force",
+      "esrs_xbrl_consultation": "ESRS XBRL taxonomy consultation closes",
+      "value_chain_cap": "Value-chain cap applies",
+      "csrd_transposition": "Transposition of CSRD amendments",
+      "assurance_standards": "EU limited assurance standards",
+      "csrd_first_reports": "First CSRD reports (FY2027)",
+      "csrd_non_eu": "Non-EU parent reports (FY2028)",
+      "csddd_apply": "CSDDD applies",
+      "cbam_definitive": "CBAM definitive period",
+      "cbam_cert_sales": "CBAM certificate sales open",
+      "cbam_first_declaration": "First annual CBAM declaration",
+      "ets2_start": "EU ETS2 starts",
+      "cbam_downstream": "CBAM downstream extension (proposal)",
+      "cbam_full": "Free allocation ends (CBAM 100 %)",
+      "ecgt_apply": "Empowering Consumers Directive applies",
+      "eudr_large": "EUDR for large and medium companies",
+      "battery_passport": "Battery passport mandatory",
+      "eudr_small": "EUDR for micro and small companies",
+      "dpp_steel": "Iron and steel DPP delegated act (target)",
+      "gri_101": "GRI 101 Biodiversity effective",
+      "cdp_2026": "CDP 2026 non-scored response deadline",
+      "gri_102_103": "GRI 102 Climate and GRI 103 Energy effective",
+      "ifrs_s2_amend": "IFRS S2 amendments effective",
+      "sbti_v2": "SBTi Net-Zero Standard V2.0 effective",
+      "ghg_draft": "GHG Protocol–ISO unified standard draft (Q2)",
+      "ghg_final": "GHG Protocol–ISO unified standard (Q4)"
+    }
+  },
+  "ar": {
+    "result": "{done} of {total} applicable items approved ({pct}).",
+    "profileLabel": "Report profile",
+    "profile": {
+      "ttk": "TCC — all capital companies",
+      "listed": "Listed company (CMB)",
+      "bank": "Bank (BRSA)"
+    },
+    "status": {
+      "todo": "Not started",
+      "draft": "Draft",
+      "review": "In review",
+      "approved": "Approved",
+      "na": "Not applicable"
+    },
+    "progress": "Progress",
+    "item": "Item",
+    "ref": "Basis",
+    "owner": "Owner",
+    "ownerPh": "Unit",
+    "exportDocx": "Export to Word",
+    "docTitle": "Annual activity report checklist",
+    "docIntro": "Generated from the Isoline annual report checklist. Items follow the minimum-content regulation and the selected profile's additional requirements; this is not legal advice.",
+    "timingNote": "The minimum-content regulation asks for the report within two months of period end; TCC art. 514 allows three. Listed companies publish within 60 days (70 consolidated) and at least three weeks before the general assembly.",
+    "groups": {
+      "general": "General information",
+      "rights": "Financial rights of management",
+      "activities": "Activities",
+      "financial": "Financial position",
+      "risks": "Risks and board assessment",
+      "other": "Other matters",
+      "spk": "Capital markets requirements",
+      "bank": "Banking requirements",
+      "audit": "Audit link"
+    },
+    "items": {
+      "principles": "Accurate, complete and fair presentation",
+      "period_identity": "Period, trade name, registry, contact and website",
+      "organisation_capital": "Organisation, capital and shareholding structure",
+      "privileged_shares": "Privileged shares",
+      "board_staff": "Board, senior management and headcount",
+      "competition_ban": "Transactions approved by the general assembly and non-compete",
+      "financial_rights": "Attendance fees, salaries, bonuses and other financial rights",
+      "rnd": "Research and development",
+      "investments": "Investments",
+      "internal_control": "Internal control and audit, management's opinion",
+      "subsidiaries": "Subsidiaries and ownership",
+      "own_shares": "Repurchased own shares",
+      "audits": "Special and public audits",
+      "lawsuits": "Lawsuits against the company",
+      "sanctions": "Administrative and judicial sanctions",
+      "targets_gm": "Achievement of targets and AGM resolutions",
+      "extraordinary_gm": "Extraordinary general meetings",
+      "donations": "Donations and social responsibility spending",
+      "group_transactions": "Transactions with the controlling company",
+      "management_analysis": "Management's analysis of financial position",
+      "ratios": "Sales, productivity, profitability and debt/equity ratios",
+      "capital_loss": "Capital loss, insolvency and remedial measures",
+      "dividend_policy": "Dividend policy",
+      "risk_policy": "Risk management policy",
+      "resk": "Early risk detection committee reports",
+      "subsequent_events": "Significant events after period end",
+      "group_parent": "Group parent disclosures",
+      "signatures": "Timing, signatures and dissenting opinions",
+      "spk_timing": "KAP timing and additional content",
+      "spk_urf_kybf": "Corporate governance compliance report and information form",
+      "spk_sustainability": "Sustainability principles compliance framework",
+      "tsrs_link": "Reference to and consistency with the TSRS report",
+      "bddk_content": "BRSA additional annual report content",
+      "auditor_consistency": "Auditor's consistency opinion on the annual report"
+    },
+    "hints": {
+      "principles": "Explain technical terms; assess financial and non-financial risks.",
+      "period_identity": "Information identifying the period and the company.",
+      "organisation_capital": "Including changes in capital and shareholding during the period.",
+      "privileged_shares": "Type and scope of privileges.",
+      "board_staff": "Board members, terms of office and headcount.",
+      "competition_ban": "Transactions under TCC art. 395–396.",
+      "financial_rights": "Allowances, travel, accommodation, representation and insurance.",
+      "rnd": "Work done and results.",
+      "investments": "Investments and incentives in the period.",
+      "internal_control": "Management's view on the effectiveness of the systems.",
+      "subsidiaries": "Direct and indirect holdings.",
+      "own_shares": "Shares acquired and the reasons.",
+      "audits": "Special and public audits during the period.",
+      "lawsuits": "Lawsuits that may affect the financial position and likely outcomes.",
+      "sanctions": "Sanctions against the company and management.",
+      "targets_gm": "Status of prior targets and AGM resolutions.",
+      "extraordinary_gm": "Dates and resolutions, if held.",
+      "donations": "Amounts and areas.",
+      "group_transactions": "Consistent with the dependency report conclusion.",
+      "management_analysis": "Assessment of operating results.",
+      "ratios": "Compared with the prior period.",
+      "capital_loss": "TCC art. 376 status and remedial measures.",
+      "dividend_policy": "Policy and the period's proposal.",
+      "risk_policy": "Risks and the risk management approach.",
+      "resk": "Committee work under TCC art. 378.",
+      "subsequent_events": "Events that may affect shareholders' rights.",
+      "group_parent": "Shareholding thresholds crossed, cross-holdings, dependency report conclusion.",
+      "signatures": "Board members' signatures and reasoned dissent.",
+      "spk_timing": "Annual report in 60 days, consolidated in 70; at least 3 weeks before the AGM.",
+      "spk_urf_kybf": "Forms published on KAP, with year-on-year differences.",
+      "spk_sustainability": "Principle-based compliance on a comply-or-explain basis.",
+      "tsrs_link": "Indicators in the annual report match the TSRS report.",
+      "bddk_content": "Additional BRSA information for banks; content to be confirmed.",
+      "auditor_consistency": "Consistency of financial information with the audited statements."
+    }
+  },
+  "tpl": {
+    "result": "{n} ready templates; every section carries its basis and exports to Word with figures calculated in the tools.",
+    "kind": "Template type",
+    "kinds": {
+      "all": "All",
+      "sustainability": "Sustainability",
+      "annual": "Annual report",
+      "carbon": "Carbon",
+      "finance": "Sustainable finance"
+    },
+    "status": {
+      "verified": "Structure from official text",
+      "review": "Confirm the structure"
+    },
+    "statusHint": {
+      "verified": "The section structure follows the official standard or regulation text.",
+      "review": "The structure was compiled from secondary sources or the rules are not final; compare with the current official text before use."
+    },
+    "sectionCount": "{n} sections",
+    "refs": "Basis",
+    "figures": "Calculated figures",
+    "figuresFrom": "Figures come from the active client: {client}.",
+    "draftHere": "[Write this section here.]",
+    "exportDocx": "Export to Word",
+    "preparing": "Preparing…",
+    "docIntro": "This draft was generated from the Isoline template library. Headings and bases come from the template, figures from the tools; expert review is required before publication.",
+    "sampleFigures": "Figures calculated with sample data.",
+    "tsrs_full": {
+      "title": "TSRS full report",
+      "summary": "A complete sustainability report in the TSRS 1 and TSRS 2 structure of governance, strategy, risk management, metrics and targets.",
+      "sections": {
+        "basis": {
+          "title": "Basis of preparation",
+          "guide": "Reporting entity, period, connection to financial statements, significant judgements, estimation uncertainty and statement of compliance."
+        },
+        "governance": {
+          "title": "Governance",
+          "guide": "The body overseeing sustainability and climate risks, responsibilities, competence and links to remuneration."
+        },
+        "strategy_ro": {
+          "title": "Risks and opportunities",
+          "guide": "Expected short-, medium- and long-term risks and opportunities; result of the materiality assessment."
+        },
+        "business_model": {
+          "title": "Business model and value chain",
+          "guide": "Where risks and opportunities concentrate in the business model and value chain."
+        },
+        "transition_plan": {
+          "title": "Strategy and transition plan",
+          "guide": "Decision-making, resource allocation and the climate transition plan; assumptions and dependencies."
+        },
+        "financial_effects": {
+          "title": "Financial effects",
+          "guide": "Current and anticipated effects on financial position, performance and cash flows; CBAM and ETS costs."
+        },
+        "resilience": {
+          "title": "Climate resilience",
+          "guide": "Scenario analysis, scenarios used and resilience of the strategy."
+        },
+        "risk_management": {
+          "title": "Risk management",
+          "guide": "Identifying, assessing, prioritising and monitoring risks; integration with enterprise risk management."
+        },
+        "ghg": {
+          "title": "Greenhouse gas emissions",
+          "guide": "Scope 1, 2 (location-based with contractual information) and 3; measurement approach, inputs and assumptions."
+        },
+        "cross_industry": {
+          "title": "Cross-industry metrics",
+          "guide": "Assets and activities exposed to transition and physical risks, opportunities, capital deployment, internal carbon price and remuneration."
+        },
+        "industry_metrics": {
+          "title": "Industry-based metrics",
+          "guide": "Indicators specific to the business model and industry."
+        },
+        "targets": {
+          "title": "Targets",
+          "guide": "Climate targets, base year, milestones, performance and target revisions."
+        },
+        "assurance": {
+          "title": "Assurance",
+          "guide": "Scope of limited assurance, the assurance provider and reference to the report."
+        }
+      }
+    },
+    "tsrs_climate_first": {
+      "title": "TSRS climate first (first year)",
+      "summary": "A streamlined first-year TSRS report using the climate-first, comparatives and scope 3 reliefs.",
+      "sections": {
+        "basis_reliefs": {
+          "title": "Basis of preparation and reliefs used",
+          "guide": "Clear statement of which transition reliefs (E3–E6, scope 3) are used."
+        },
+        "governance": {
+          "title": "Climate governance",
+          "guide": "Oversight of climate risks and management's role."
+        },
+        "strategy_ro": {
+          "title": "Climate risks and opportunities",
+          "guide": "Transition and physical risks, time horizons."
+        },
+        "transition_plan": {
+          "title": "Transition plan",
+          "guide": "Plan and resources to meet targets."
+        },
+        "risk_management": {
+          "title": "Climate risk management",
+          "guide": "Processes and integration."
+        },
+        "ghg_s12": {
+          "title": "Scope 1 and 2 emissions",
+          "guide": "State explicitly if the scope 3 relief is used."
+        },
+        "targets": {
+          "title": "Climate targets",
+          "guide": "Targets and progress."
+        }
+      }
+    },
+    "gri": {
+      "title": "GRI Standards report",
+      "summary": "A sustainability report 'in accordance with the GRI Standards' under GRI 1, 2 and 3 and the material topic standards, with content index.",
+      "sections": {
+        "statement_of_use": {
+          "title": "Statement of use",
+          "guide": "In accordance or with reference statement and period."
+        },
+        "org_practices": {
+          "title": "Organisation and reporting practices",
+          "guide": "Organisation details, entities included, period, restatements and external assurance."
+        },
+        "activities_workers": {
+          "title": "Activities and workers",
+          "guide": "Activities, value chain, employees and non-employee workers."
+        },
+        "governance_gri": {
+          "title": "Governance",
+          "guide": "Structure, nomination, oversight of impact management and remuneration."
+        },
+        "strategy_policies": {
+          "title": "Strategy, policies and practices",
+          "guide": "Statement on sustainable development strategy, policy commitments, compliance and memberships."
+        },
+        "stakeholders": {
+          "title": "Stakeholder engagement",
+          "guide": "Approach to stakeholder engagement and collective bargaining."
+        },
+        "material_topics": {
+          "title": "Material topics",
+          "guide": "Process, list and management of each material topic."
+        },
+        "climate_energy": {
+          "title": "Climate and energy",
+          "guide": "Emissions and energy; GRI 102 and 103 from 2027."
+        },
+        "water_waste": {
+          "title": "Water and waste",
+          "guide": "Water withdrawal and consumption, waste generation and management."
+        },
+        "biodiversity": {
+          "title": "Biodiversity",
+          "guide": "Sites, drivers of impact and measures under GRI 101."
+        },
+        "people_gri": {
+          "title": "People",
+          "guide": "Employment, health and safety, training, diversity and equal opportunity."
+        },
+        "content_index": {
+          "title": "GRI content index",
+          "guide": "Location of each disclosure and reasons for omission."
+        }
+      }
+    },
+    "esrs_2026": {
+      "title": "ESRS sustainability statement (2026)",
+      "summary": "A sustainability statement in the revised ESRS structure of general, environment, social and governance, with a taxonomy annex.",
+      "sections": {
+        "exec_summary": {
+          "title": "Executive summary",
+          "guide": "Summary of material impacts, risks and opportunities."
+        },
+        "general": {
+          "title": "General disclosures",
+          "guide": "Basis of preparation, governance, strategy and materiality assessment (top-down approach allowed)."
+        },
+        "environment_esrs": {
+          "title": "Environment",
+          "guide": "Material climate, pollution, water, biodiversity and circular economy standards."
+        },
+        "taxonomy_annex": {
+          "title": "Taxonomy annex",
+          "guide": "Turnover, capex and opex KPIs in the simplified templates."
+        },
+        "social_esrs": {
+          "title": "Social",
+          "guide": "Own workforce, value-chain workers, communities and consumers."
+        },
+        "governance_esrs": {
+          "title": "Governance",
+          "guide": "Business conduct."
+        },
+        "version_statement": {
+          "title": "Version statement",
+          "guide": "For FY2026: ESRS 2023, ESRS 2023 with reliefs, or ESRS 2026."
+        }
+      }
+    },
+    "vss": {
+      "title": "Voluntary sustainability standard (SMEs and suppliers)",
+      "summary": "Basic (B1–B11) and comprehensive (C1–C9) modules for companies up to 1,000 employees; the value-chain answer to EU customers.",
+      "sections": {
+        "b1": {
+          "title": "Basis for preparation",
+          "guide": "Module chosen, reporting scope and company information."
+        },
+        "b2": {
+          "title": "Practices, policies and initiatives",
+          "guide": "Practices for the transition to sustainability."
+        },
+        "b3": {
+          "title": "Energy and greenhouse gases",
+          "guide": "Energy use, scope 1 and 2 emissions and intensity."
+        },
+        "b4_b7": {
+          "title": "Pollution, biodiversity, water, resource use",
+          "guide": "Environmental indicators."
+        },
+        "b8_b10": {
+          "title": "Workforce",
+          "guide": "General characteristics, health and safety, pay, collective bargaining and training."
+        },
+        "b11": {
+          "title": "Corruption and bribery",
+          "guide": "Convictions and fines."
+        },
+        "c1_c4": {
+          "title": "Strategy, targets and climate risks",
+          "guide": "Business model, GHG reduction targets, transition and climate risks."
+        },
+        "c5_c9": {
+          "title": "Further workforce, human rights and governance",
+          "guide": "Additional workforce characteristics, human rights policies, certain sector revenues and gender diversity of the board."
+        }
+      }
+    },
+    "cbam_operator_pack": {
+      "title": "CBAM operator data pack",
+      "summary": "Installation, goods, embedded emissions and verification information to send to the EU importer.",
+      "sections": {
+        "installation": {
+          "title": "Installation",
+          "guide": "Description, location, operator and contact."
+        },
+        "goods_routes": {
+          "title": "Goods and production routes",
+          "guide": "CN codes, aggregated goods categories and routes."
+        },
+        "attributed": {
+          "title": "Attributed emissions",
+          "guide": "Direct and indirect attributed emissions per process."
+        },
+        "precursors": {
+          "title": "Precursors",
+          "guide": "Precursor masses consumed and their SEE values."
+        },
+        "see": {
+          "title": "Specific embedded emissions",
+          "guide": "Direct and indirect SEE per good."
+        },
+        "electricity_cbam": {
+          "title": "Electricity",
+          "guide": "Electricity source and factor type."
+        },
+        "carbon_price_paid": {
+          "title": "Carbon price paid at origin",
+          "guide": "Proof of the price actually paid and free allocation details."
+        },
+        "verification": {
+          "title": "Verification",
+          "guide": "Accredited verifier, site visit and verification report."
+        }
+      }
+    },
+    "tr_ets_mp": {
+      "title": "Turkish ETS monitoring methodology plan",
+      "summary": "Draft structure of the monitoring plan and allocation calculation for pilot installations.",
+      "sections": {
+        "mp_installation": {
+          "title": "Installation and activities",
+          "guide": "Description, category and activities."
+        },
+        "mp_sources": {
+          "title": "Emission sources and source streams",
+          "guide": "List of fuel and material streams."
+        },
+        "mp_tiers": {
+          "title": "Calculation approach and tiers",
+          "guide": "Activity data, calculation factors and tiers."
+        },
+        "mp_dataflow": {
+          "title": "Data flow and control",
+          "guide": "Measurement, data management and control activities."
+        },
+        "mp_allocation": {
+          "title": "Activity level and allocation",
+          "guide": "Benchmark-based free allocation calculation."
+        },
+        "mp_calendar": {
+          "title": "Calendar",
+          "guide": "Monitoring plan, 30 April report and November surrender."
+        }
+      }
+    },
+    "ar_ttk": {
+      "title": "Annual report (TCC minimum content)",
+      "summary": "Annual report skeleton for all capital companies under the minimum-content regulation, with a sustainability summary.",
+      "sections": {
+        "ar_general": {
+          "title": "General information",
+          "guide": "Period, company details, organisation, capital and board."
+        },
+        "ar_rights": {
+          "title": "Financial rights",
+          "guide": "Financial rights granted to management."
+        },
+        "ar_rnd": {
+          "title": "Research and development",
+          "guide": "R&D work."
+        },
+        "ar_activities": {
+          "title": "Activities and key developments",
+          "guide": "Investments, internal control, subsidiaries, lawsuits and donations."
+        },
+        "ar_financial": {
+          "title": "Financial position",
+          "guide": "Management analysis, ratios and dividend policy."
+        },
+        "ar_risks": {
+          "title": "Risks",
+          "guide": "Risk management and the early risk detection committee."
+        },
+        "ar_other": {
+          "title": "Other matters",
+          "guide": "Subsequent events and group disclosures."
+        },
+        "ar_sustainability_summary": {
+          "title": "Sustainability summary",
+          "guide": "Emissions, energy, safety and workforce indicators."
+        }
+      }
+    },
+    "ar_listed": {
+      "title": "Annual report (listed company)",
+      "summary": "Listed-company annual report with CMB, KAP and corporate governance requirements.",
+      "sections": {
+        "ar_highlights": {
+          "title": "At a glance",
+          "guide": "Financial and sustainability indicators, carbon costs."
+        },
+        "ar_chair_ceo": {
+          "title": "Chair and CEO messages",
+          "guide": "Review of the period and outlook."
+        },
+        "ar_general": {
+          "title": "General information",
+          "guide": "Company, capital and management."
+        },
+        "ar_activities": {
+          "title": "Activities",
+          "guide": "Business areas and key developments."
+        },
+        "ar_financial": {
+          "title": "Financial position",
+          "guide": "Management analysis and ratios."
+        },
+        "ar_risks": {
+          "title": "Risk management",
+          "guide": "Risks and the early risk detection committee."
+        },
+        "ar_cg": {
+          "title": "Corporate governance",
+          "guide": "URF and KYBF summary."
+        },
+        "ar_sust_compliance": {
+          "title": "Sustainability principles compliance",
+          "guide": "Comply-or-explain table."
+        },
+        "ar_investor": {
+          "title": "Investor relations",
+          "guide": "Share information and contacts."
+        },
+        "ar_statements": {
+          "title": "Financial statements and auditor's report",
+          "guide": "Audited statements."
+        }
+      }
+    },
+    "cdp_climate": {
+      "title": "CDP climate response preparation",
+      "summary": "Data and narrative preparation for the climate response, following the CDP corporate questionnaire modules.",
+      "sections": {
+        "cdp_m1": {
+          "title": "Introduction",
+          "guide": "Organisation details and reporting boundary."
+        },
+        "cdp_m2_m3": {
+          "title": "Dependencies, impacts, risks and opportunities",
+          "guide": "Identification process and disclosed risks and opportunities."
+        },
+        "cdp_m4": {
+          "title": "Governance",
+          "guide": "Oversight and incentives."
+        },
+        "cdp_m5": {
+          "title": "Business strategy",
+          "guide": "Transition plan, scenario analysis and financial planning."
+        },
+        "cdp_m6_m7": {
+          "title": "Climate performance",
+          "guide": "Consolidation approach, emissions, targets and reduction initiatives."
+        },
+        "cdp_m13": {
+          "title": "Further information and sign-off",
+          "guide": "Assurance and signature."
+        }
+      }
+    },
+    "green_bond": {
+      "title": "Green bond framework",
+      "summary": "Framework for a green bond or sukuk under the CMB guide based on the ICMA principles.",
+      "sections": {
+        "gb_use": {
+          "title": "Use of proceeds",
+          "guide": "Eligible project categories and taxonomy link."
+        },
+        "gb_selection": {
+          "title": "Project evaluation and selection",
+          "guide": "Decision process and criteria."
+        },
+        "gb_management": {
+          "title": "Management of proceeds",
+          "guide": "Tracking and temporary use."
+        },
+        "gb_reporting": {
+          "title": "Reporting",
+          "guide": "Allocation and impact reporting."
+        },
+        "gb_review": {
+          "title": "External review",
+          "guide": "Second-party opinion and verification."
+        }
+      }
+    }
+  },
+  "cw": {
+    "result": "{n} data groups mapped across TSRS, GRI, ESRS, the voluntary standard and CDP.",
+    "intro": "Data collected once serves several frameworks. Click a row to open the tool behind it; click a column header to focus on one framework.",
+    "datapoint": "Data group",
+    "cols": {
+      "tsrs": "TSRS 2 / IFRS S2",
+      "gri": "GRI",
+      "esrs": "ESRS (2023 no.)",
+      "vss": "Voluntary standard",
+      "cdp": "CDP"
+    },
+    "rows": {
+      "governance": "Climate governance",
+      "risks_opps": "Climate risks and opportunities",
+      "transition_plan": "Transition plan",
+      "resilience": "Climate resilience and scenarios",
+      "scope1": "Scope 1 emissions",
+      "scope2": "Scope 2 emissions",
+      "scope3": "Scope 3 emissions",
+      "intensity": "Emissions intensity",
+      "energy": "Energy consumption",
+      "carbon_price": "Internal carbon price",
+      "transition_risk_amounts": "Amounts exposed to transition risk",
+      "targets": "Climate targets",
+      "water": "Water withdrawal and consumption",
+      "waste": "Waste",
+      "biodiversity": "Biodiversity",
+      "taxonomy": "Taxonomy KPIs",
+      "health_safety": "Health and safety",
+      "training": "Training",
+      "pay_gap": "Gender pay gap",
+      "corruption": "Anti-corruption"
+    },
+    "caveat": "ESRS numbers follow the 2023 set; the revised ESRS (2026/1563) may renumber. GRI 305 and 302 are replaced by GRI 102 and 103 from 2027. Mapping is at data-group level; confirm paragraph-level use before relying on it."
+  },
+  "clients": {
+    "title": "Clients",
+    "result": "{n} clients in this workspace. Data is stored only in this browser and can be exported and imported as a file.",
+    "import": "Import",
+    "export": "Export workspace",
+    "imported": "Workspace imported.",
+    "err_invalid": "This file is not an Isoline workspace. Choose a .json file exported from Isoline.",
+    "err_invalid_client": "One of the client records in the file is incomplete. Make sure the file was not edited.",
+    "list": "Client list",
+    "active": "Active client",
+    "name": "Client name",
+    "open": "Open",
+    "delete": "Delete client",
+    "cancel": "Cancel",
+    "confirmDelete": "Delete permanently",
+    "new": "New client",
+    "newHint": "Starts with an empty workspace; all tools open with zero values.",
+    "add": "Add client",
+    "sampleTitle": "Sample client",
+    "sampleText": "Anadolu Yassı Çelik A.Ş. is a sample integrated steelmaker that demonstrates every tool; its values are not real.",
+    "restoreSample": "Restore sample client",
+    "privacy": "In this release no data is sent to a server; clearing browser data deletes the workspace. Export regularly."
+  }
+}

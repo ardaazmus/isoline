@@ -1,0 +1,477 @@
+@import "tailwindcss";
+
+/* Layout concept: a blue, layered glass workspace — frosted bento tiles on a grain-washed blue ground,
+   each page opening on a cobalt grain band that states the result. Families are depths of blue. */
+:root {
+  /* Blue hierarchy */
+  --b-900: #0e1a46;
+  --b-800: #172a6e;
+  --b-700: #2140b8;
+  --b-600: #2f4fe0;
+  --b-500: #4f6ef0;
+  --b-400: #7f9cff;
+  --b-300: #a9bcff;
+  --b-200: #cfdaff;
+  --b-100: #e6ecff;
+  --b-50: #f4f7ff;
+
+  --ground: #d9e2fd;
+  --accent-ink: #2443c9;
+  --paper: #ffffff;
+  --paper-2: #f4f7ff;
+  --paper-3: #e6ecff;
+  --ink: #0e1a46;
+  --ink-2: #3b4a78;
+  --ink-3: #5c6894;
+  --rule: #dbe3f7;
+  --rule-strong: #172a6e;
+  --focus: #2f4fe0;
+
+  --glass: rgba(255, 255, 255, 0.58);
+  --glass-strong: rgba(255, 255, 255, 0.8);
+  --glass-stroke: rgba(255, 255, 255, 0.92);
+  --glass-shadow: 0 18px 40px -22px rgba(31, 52, 160, 0.38), 0 2px 6px -3px rgba(31, 52, 160, 0.12);
+  --glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --band-from: #2f4fe0;
+  --band-to: #7f9cff;
+  --on-band: #ffffff;
+  --on-band-2: rgba(255, 255, 255, 0.84);
+
+  /* Family slots, all in the blue hierarchy: reporting = navy, carbon = cobalt, environment = sky, people = indigo */
+  --report: #172a6e;
+  --report-2: #4f6ef0;
+  --report-wash: #e6ecff;
+  --carbon: #2f4fe0;
+  --carbon-2: #7f9cff;
+  --carbon-3: #cfdaff;
+  --carbon-wash: #eef2ff;
+  --hydro: #1679c8;
+  --hydro-2: #5aaee8;
+  --hydro-3: #bfe0f7;
+  --hydro-wash: #ecf6fd;
+  --forest: #5b43d6;
+  --forest-2: #8f7cee;
+  --forest-3: #d8d0fa;
+  --forest-wash: #f2effd;
+
+  /* State (meaning only) */
+  --warn: #9a5a06;
+  --warn-wash: #fdf3e2;
+  --crit: #c0302e;
+  --crit-wash: #fdeceb;
+  --ok: #157a4a;
+
+  --font-ui: var(--font-geist), "Geist", "Segoe UI", system-ui, sans-serif;
+  --font-figure: var(--font-geist), "Geist", "Segoe UI", system-ui, sans-serif;
+  --grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --b-50: #121d47;
+    --b-100: #1a2758;
+    --b-200: #26346a;
+    --b-300: #3a4f9a;
+    --b-700: #a9bcff;
+    --ground: #070d26;
+    --accent-ink: #b9c8ff;
+    --paper: #0d1638;
+    --paper-2: #121d47;
+    --paper-3: #1a2758;
+    --ink: #e9eeff;
+    --ink-2: #b7c3ec;
+    --ink-3: #8f9dcc;
+    --rule: #26346a;
+    --rule-strong: #a9bcff;
+    --focus: #7f9cff;
+    --glass: rgba(20, 30, 72, 0.6);
+    --glass-strong: rgba(20, 30, 72, 0.8);
+    --glass-stroke: rgba(169, 188, 255, 0.18);
+    --glass-shadow: 0 18px 40px -22px rgba(0, 0, 0, 0.7);
+    --glass-inset: inset 0 1px 0 rgba(169, 188, 255, 0.12);
+    --band-from: #2140b8;
+    --band-to: #5b6fd8;
+    --report: #a9bcff;
+    --report-2: #7f9cff;
+    --report-wash: #1a2758;
+    --carbon: #7f9cff;
+    --carbon-2: #4f6ef0;
+    --carbon-3: #2b3f8f;
+    --carbon-wash: #16214f;
+    --hydro: #5aaee8;
+    --hydro-2: #2f86c8;
+    --hydro-3: #1d4f78;
+    --hydro-wash: #102a44;
+    --forest: #a594f4;
+    --forest-2: #7a63e6;
+    --forest-3: #3c2f86;
+    --forest-wash: #1c1747;
+    --warn: #e7b25e;
+    --warn-wash: #2c2312;
+    --crit: #f08a86;
+    --crit-wash: #331616;
+    --ok: #6fd3a0;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --b-50: #121d47;
+  --b-100: #1a2758;
+  --b-200: #26346a;
+  --b-300: #3a4f9a;
+  --b-700: #a9bcff;
+  --ground: #070d26;
+  --accent-ink: #b9c8ff;
+  --paper: #0d1638;
+  --paper-2: #121d47;
+  --paper-3: #1a2758;
+  --ink: #e9eeff;
+  --ink-2: #b7c3ec;
+  --ink-3: #8f9dcc;
+  --rule: #26346a;
+  --rule-strong: #a9bcff;
+  --focus: #7f9cff;
+  --glass: rgba(20, 30, 72, 0.6);
+  --glass-strong: rgba(20, 30, 72, 0.8);
+  --glass-stroke: rgba(169, 188, 255, 0.18);
+  --glass-shadow: 0 18px 40px -22px rgba(0, 0, 0, 0.7);
+  --glass-inset: inset 0 1px 0 rgba(169, 188, 255, 0.12);
+  --band-from: #2140b8;
+  --band-to: #5b6fd8;
+  --report: #a9bcff;
+  --report-2: #7f9cff;
+  --report-wash: #1a2758;
+  --carbon: #7f9cff;
+  --carbon-2: #4f6ef0;
+  --carbon-3: #2b3f8f;
+  --carbon-wash: #16214f;
+  --hydro: #5aaee8;
+  --hydro-2: #2f86c8;
+  --hydro-3: #1d4f78;
+  --hydro-wash: #102a44;
+  --forest: #a594f4;
+  --forest-2: #7a63e6;
+  --forest-3: #3c2f86;
+  --forest-wash: #1c1747;
+  --warn: #e7b25e;
+  --warn-wash: #2c2312;
+  --crit: #f08a86;
+  --crit-wash: #331616;
+  --ok: #6fd3a0;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-rule: var(--rule);
+  --font-sans: var(--font-ui);
+}
+
+html {
+  background: var(--ground);
+}
+body {
+  position: relative;
+  min-height: 100dvh;
+  background:
+    radial-gradient(1100px 640px at 88% -6%, color-mix(in srgb, var(--b-400) 66%, transparent), transparent 72%),
+    radial-gradient(900px 620px at -8% 34%, color-mix(in srgb, var(--b-300) 50%, transparent), transparent 70%),
+    radial-gradient(900px 700px at 55% 105%, color-mix(in srgb, var(--forest-2) 32%, transparent), transparent 72%),
+    radial-gradient(700px 500px at 40% 45%, color-mix(in srgb, var(--b-200) 45%, transparent), transparent 75%),
+    linear-gradient(160deg, color-mix(in srgb, var(--b-300) 70%, var(--ground)) 0%, var(--ground) 45%, color-mix(in srgb, var(--forest-2) 22%, var(--ground)) 100%);
+  background-attachment: fixed;
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 15px;
+  line-height: 1.5;
+  font-variant-numeric: lining-nums;
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: var(--grain);
+  opacity: 0.14;
+  z-index: 0;
+}
+::selection {
+  background: var(--b-200);
+  color: var(--b-900);
+}
+* {
+  scrollbar-color: var(--b-300) transparent;
+}
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+a {
+  color: inherit;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+.num {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.figure-num {
+  font-family: var(--font-figure);
+  font-weight: 300;
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+.label {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+@layer components {
+/* Frosted glass tile */
+.glass {
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+  border: 1px solid var(--glass-stroke);
+  border-radius: 18px;
+  box-shadow: var(--glass-shadow), var(--glass-inset);
+}
+.glass-strong {
+  background: var(--glass-strong);
+}
+
+/* Cobalt grain band for a page's result headline */
+.band {
+  position: relative;
+  overflow: hidden;
+  color: var(--on-band);
+  border-radius: 24px;
+  background: linear-gradient(160deg, var(--band-from) 0%, var(--band-from) 42%, var(--band-to) 100%);
+  box-shadow: 0 30px 60px -32px rgba(33, 55, 157, 0.65);
+}
+.band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--grain);
+  opacity: 0.32;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+.band::after {
+  content: "";
+  position: absolute;
+  right: -10%;
+  bottom: -60%;
+  width: 60%;
+  height: 160%;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.28), transparent);
+  pointer-events: none;
+}
+.band > * {
+  position: relative;
+  z-index: 1;
+}
+
+}
+
+/* Family colour scopes: a tool page sets data-family and every accent follows. */
+[data-family="carbon"] {
+  --fam: var(--carbon);
+  --fam-2: var(--carbon-2);
+  --fam-3: var(--carbon-3);
+  --fam-wash: var(--carbon-wash);
+  --fam-solid: #2f4fe0;
+}
+[data-family="hydro"] {
+  --fam: var(--hydro);
+  --fam-2: var(--hydro-2);
+  --fam-3: var(--hydro-3);
+  --fam-wash: var(--hydro-wash);
+  --fam-solid: #1679c8;
+}
+[data-family="forest"] {
+  --fam: var(--forest);
+  --fam-2: var(--forest-2);
+  --fam-3: var(--forest-3);
+  --fam-wash: var(--forest-wash);
+  --fam-solid: #5b43d6;
+}
+[data-family="report"] {
+  --fam: var(--report);
+  --fam-2: var(--report-2);
+  --fam-3: var(--b-200);
+  --fam-wash: var(--report-wash);
+  --fam-solid: #1f3a9e;
+}
+
+@layer components {
+/* Form controls: soft filled fields that sit inside glass. */
+.field-input {
+  width: 100%;
+  min-width: 0;
+  background: color-mix(in srgb, var(--paper) 78%, transparent);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 7px 10px;
+  font: inherit;
+  font-size: 14.5px;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  transition:
+    border-color 160ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 160ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.field-input:hover {
+  border-color: var(--b-300);
+}
+.field-input:focus {
+  outline: none;
+  border-color: var(--b-600);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--b-400) 35%, transparent);
+}
+.field-input:disabled {
+  color: var(--ink-3);
+  border-style: dashed;
+}
+.field-input[aria-invalid="true"] {
+  border-color: var(--crit);
+}
+.field-input::placeholder {
+  color: var(--ink-3);
+}
+select.field-input {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink-3) 50%), linear-gradient(135deg, var(--ink-3) 50%, transparent 50%);
+  background-position:
+    calc(100% - 15px) 55%,
+    calc(100% - 10px) 55%;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 28px;
+}
+select.field-input option {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+}
+
+/* Draw-on rule under a headline figure when the result changes; the journey flow carries the other motion. */
+@keyframes rule-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.rule-draw {
+  transform-origin: left;
+  animation: rule-draw 620ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .rule-draw {
+    animation: none;
+  }
+  * {
+    transition-duration: 0ms !important;
+  }
+}
+
+@layer components {
+/* Ruled data tables inside glass tiles. */
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.report-table th {
+  text-align: left;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding: 8px 12px 8px 0;
+  border-bottom: 1.5px solid var(--b-300);
+  white-space: nowrap;
+}
+.report-table td {
+  padding: 8px 12px 8px 0;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+.report-table .r {
+  text-align: right;
+}
+.report-table tfoot td {
+  border-top: 1.5px solid var(--b-300);
+  border-bottom: 0;
+  font-weight: 600;
+}
+.report-table tbody tr:hover td {
+  background: color-mix(in srgb, var(--b-100) 55%, transparent);
+}
+
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* Report journey flow diagram motion */
+@keyframes flow-march {
+  to {
+    stroke-dashoffset: -26;
+  }
+}
+.flow-dash {
+  animation: flow-march 1.6s linear infinite;
+}
+@keyframes flow-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.flow-spin {
+  animation: flow-spin 2.4s linear infinite;
+}
+@keyframes flow-rise {
+  from {
+    transform: translateY(10px) scale(0.97);
+  }
+  to {
+    transform: none;
+  }
+}
+.flow-node {
+  animation: flow-rise 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .flow-dash,
+  .flow-spin,
+  .flow-node {
+    animation: none;
+  }
+  .flow-particles {
+    display: none;
+  }
+}

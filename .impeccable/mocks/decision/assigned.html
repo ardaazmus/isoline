@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><title>Pafta</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Source+Serif+4:ital,wght@1,400;1,600&display=swap">
+<style>
+:root{--paper:#F5F7F2;--ink:#1C2422;--contour:#A65A2E;--hydro:#2A6E9E;--forest:#4F7D45;--grid:#C9D1C8;--muted:#5E6A64}
+*{box-sizing:border-box;margin:0}
+body{width:1440px;height:900px;overflow:hidden;background:var(--paper);color:var(--ink);font-family:Archivo,sans-serif;font-size:13px;display:grid;grid-template-columns:232px 1fr 300px;grid-template-rows:56px 1fr 40px}
+header{grid-column:1/4;display:flex;align-items:center;gap:24px;padding:0 24px;border-bottom:1.5px solid var(--ink)}
+.brand{font-stretch:75%;font-weight:800;font-size:22px;letter-spacing:.06em;text-transform:uppercase}
+.brand small{font-weight:500;font-size:11px;letter-spacing:.12em;color:var(--muted);margin-left:8px}
+.sel{border:1px solid var(--ink);padding:6px 10px;font-weight:600}
+.sel em{font-style:normal;color:var(--muted);font-weight:400;margin-right:6px}
+nav{border-right:1px solid var(--grid);padding:20px 0}
+.idx{font-stretch:75%;text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:var(--muted);padding:0 20px 8px}
+.sheet{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:0 20px 20px;border:1px solid var(--ink)}
+.sheet span{height:38px;border:.5px solid var(--grid);display:flex;align-items:end;padding:3px;font-size:10px;font-stretch:75%}
+.sheet span.on{background:var(--contour);color:#fff}
+nav a{display:flex;justify-content:space-between;padding:8px 20px;color:var(--ink);text-decoration:none;font-weight:500}
+nav a.on{border-left:3px solid var(--contour);padding-left:17px;font-weight:700}
+nav a i{font-style:normal;color:var(--muted);font-stretch:75%}
+main{padding:24px 32px;position:relative;overflow:hidden}
+.tabs{display:flex;gap:24px;border-bottom:1px solid var(--grid);margin-bottom:20px}
+.tabs b{padding:0 0 10px;font-weight:500;color:var(--muted)}.tabs b.on{color:var(--ink);border-bottom:2px solid var(--ink)}
+h1{font-stretch:80%;font-weight:750;font-size:40px;letter-spacing:-.01em;line-height:1}
+.sub{font-family:'Source Serif 4',serif;font-style:italic;color:var(--hydro);font-size:16px;margin:8px 0 18px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);border-top:1.5px solid var(--ink);border-bottom:1px solid var(--grid)}
+.kpis div{padding:12px 16px 12px 0}
+.kpis label{display:block;font-stretch:75%;text-transform:uppercase;letter-spacing:.12em;font-size:10px;color:var(--muted)}
+.kpis strong{font-size:30px;font-weight:700;font-variant-numeric:tabular-nums;font-stretch:85%}
+.kpis .warn strong{color:var(--contour)}
+svg{display:block;margin-top:18px}
+aside{border-left:1.5px solid var(--ink);padding:20px;display:flex;flex-direction:column;gap:14px;background:repeating-linear-gradient(0deg,transparent 0 23px,rgba(28,36,34,.04) 23px 24px)}
+aside h3{font-stretch:75%;text-transform:uppercase;letter-spacing:.14em;font-size:12px}
+.leg{display:grid;grid-template-columns:34px 1fr;gap:6px 10px;align-items:center;font-size:12px}
+.ln{height:0;border-top:2px solid var(--ink)}.ln.d{border-top-style:dashed}.ln.h{width:50%;border-color:var(--muted)}.ln.c{border-color:var(--contour)}.ln.w{border-color:var(--hydro)}
+dl{display:grid;grid-template-columns:90px 1fr;gap:6px;font-size:12px}dt{color:var(--muted);font-stretch:75%;text-transform:uppercase;letter-spacing:.08em;font-size:10px;padding-top:2px}
+.alert{border:1px solid var(--contour);padding:10px;font-size:12px}.alert b{color:var(--contour)}
+footer{grid-column:1/4;border-top:1.5px solid var(--ink);display:flex;gap:28px;align-items:center;padding:0 24px;font-stretch:75%;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+footer b{color:var(--ink)}
+</style></head><body>
+<header><div class="brand">Verdian<small>çalışma adı</small></div>
+<div class="sel"><em>Müşteri</em>Örnek Çelik A.Ş. — örnek veri</div><div class="sel"><em>Dönem</em>2026</div><div class="sel"><em>Dil</em>TR</div></header>
+<nav><div class="idx">Pafta indeksi</div>
+<div class="sheet"><span>Kapsam</span><span>Veri</span><span class="on">Karbon</span><span>Önemlilik</span><span>Hedef</span><span>Rapor</span></div>
+<a>Uygulanabilirlik testi<i>4</i></a><a class="on">SKDM maliyet projeksiyonu<i>A3</i></a><a>TR ETS simülatörü<i>A4</i></a><a>Kapsam 1-2-3<i>A1</i></a><a>Dekarbonizasyon yolu<i>B2</i></a><a>Çift önemlilik<i>C1</i></a><a>Faaliyet raporu içeriği<i>D1</i></a><a>Şablon kütüphanesi<i>E</i></a></nav>
+<main>
+<div class="tabs"><b class="on">Projeksiyon</b><b>Girdiler</b><b>Ürün → tesis zinciri</b><b>Dışa aktar</b></div>
+<h1>SKDM yükümlülüğü 2026–2034</h1>
+<p class="sub">AB'ye ihraç edilen sıcak haddelenmiş rulo, CN 7208 — Ereğli tesisi</p>
+<div class="kpis"><div><label>İhracat</label><strong>48 200 t</strong></div><div><label>Gömülü emisyon</label><strong>1,92 tCO₂e/t</strong></div><div class="warn"><label>2030 tahmini</label><strong>€3,4 m</strong></div><div><label>Kümülatif</label><strong>€19,8 m</strong></div></div>
+<svg width="820" height="380" viewBox="0 0 820 380">
+<g stroke="#C9D1C8" stroke-width="1">
+<line x1="40" y1="40" x2="800" y2="40"/><line x1="40" y1="120" x2="800" y2="120"/><line x1="40" y1="200" x2="800" y2="200"/><line x1="40" y1="280" x2="800" y2="280"/></g>
+<g fill="none" stroke="#A65A2E" stroke-opacity=".35"><path d="M40 330 C240 320 420 260 800 70"/><path d="M40 338 C240 330 420 285 800 120"/><path d="M40 344 C240 338 420 305 800 170"/><path d="M40 348 C240 344 420 322 800 220"/></g>
+<path d="M40 352 L124 349 L208 344 L292 333 L376 300 L460 262 L544 220 L628 172 L712 120 L800 80" fill="none" stroke="#1C2422" stroke-width="2.5"/>
+<path d="M40 352 L124 350 L208 347 L292 340 L376 318 L460 292 L544 262 L628 228 L712 190 L800 160" fill="none" stroke="#2A6E9E" stroke-width="2" stroke-dasharray="6 5"/>
+<line x1="40" y1="352" x2="800" y2="352" stroke="#1C2422"/>
+<circle cx="376" cy="300" r="5" fill="#A65A2E"/>
+<g font-family="Archivo" font-size="11" fill="#5E6A64"><text x="40" y="372">2026</text><text x="372" y="372">2030</text><text x="780" y="372">2034</text></g>
+</svg>
+</main>
+<aside><h3>Lejant</h3>
+<div class="leg"><span class="ln"></span>Varsayılan değerle<span class="ln d w"></span>Doğrulanmış gerçek emisyonla<span class="ln c"></span>AB ETS fiyat senaryoları<span class="ln h"></span>Eskimiş veri</div>
+<h3>Kenar bilgisi</h3>
+<dl><dt>Kaynak</dt><dd>Tüzük (AB) 2023/956, md. 31</dd><dt>Tarih</dt><dd>17.10.2026 itibarıyla</dd><dt>Sınır</dt><dd>Tesis · Ereğli</dd><dt>Birim</dt><dd>tCO₂e, € (nominal)</dd><dt>Durum</dt><dd>Uzman onayı bekliyor</dd></dl>
+<div class="alert"><b>Dikkat:</b> Elektrik dolaylı emisyonu için tedarikçi verisi eksik; varsayılan değer kullanıldı.</div></aside>
+<footer><span><b>Pafta A3</b> · SKDM</span><span>Ölçek: tesis</span><span>Datum: GHG Protocol</span><span>Hazırlayan: Danışman</span><span>Sürüm 0.4</span></footer>
+</body></html>

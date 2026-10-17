@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><title>Ticket wallet</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Courier+Prime:wght@700&display=swap">
+<style>
+:root{--stock:#FFFFFF;--navy:#16295A;--red:#C8242F;--carbon:#5B3E8F;--rule:#D9DCE6;--ground:#E9ECF3}
+*{box-sizing:border-box;margin:0}
+body{width:1440px;height:900px;overflow:hidden;background:var(--ground);color:var(--navy);font-family:Archivo,sans-serif;font-size:13px;display:grid;grid-template-rows:60px 1fr}
+header{display:flex;align-items:center;gap:28px;padding:0 32px;background:var(--navy);color:#fff}
+.brand{font-weight:800;font-stretch:115%;letter-spacing:.08em;font-size:18px}
+header .stripe{height:60px;width:10px;background:var(--red);margin-left:auto}
+.wrap{display:grid;grid-template-columns:300px 1fr;gap:28px;padding:28px 32px}
+.wallet{background:var(--navy);color:#fff;padding:20px;display:flex;flex-direction:column;gap:10px}
+.wallet h3{font-stretch:115%;letter-spacing:.14em;font-size:11px;text-transform:uppercase;opacity:.8}
+.stub{background:#fff;color:var(--navy);padding:10px 12px;display:flex;justify-content:space-between;border-left:6px solid var(--red)}
+.stub.used{opacity:.55;border-left-color:var(--carbon)}
+.coupon{background:var(--stock);display:grid;grid-template-columns:1fr 220px;box-shadow:0 1px 0 var(--rule)}
+.c-main{padding:24px 28px;border-right:2px dashed var(--rule)}
+.c-head{display:flex;gap:24px;align-items:baseline;border-bottom:1px solid var(--navy);padding-bottom:10px}
+.c-head b{font-stretch:115%;font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+h1{font-stretch:110%;font-weight:800;font-size:36px;margin:16px 0}
+.fields{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--navy)}
+.fields div{padding:8px 10px;border-right:1px solid var(--navy)}.fields div:last-child{border:0}
+.fields label{display:block;font-size:9px;letter-spacing:.14em;text-transform:uppercase}
+.fields strong{font-family:'Courier Prime',monospace;color:var(--carbon);font-size:24px}
+.route{margin-top:22px;height:250px;border:1px solid var(--rule);position:relative}
+.c-side{padding:24px 20px;display:flex;flex-direction:column;gap:14px;position:relative}
+.stamp{position:absolute;top:120px;left:20px;transform:rotate(-12deg);border:3px solid var(--red);color:var(--red);font-weight:800;font-stretch:120%;padding:6px 12px;font-size:20px;letter-spacing:.1em}
+.c-side label{font-size:9px;letter-spacing:.14em;text-transform:uppercase}
+.c-side p{font-family:'Courier Prime',monospace;color:var(--carbon);font-size:15px}
+</style></head><body>
+<header><div class="brand">VERDIAN</div><span>Örnek Çelik A.Ş. · örnek veri</span><span>2026 döngüsü</span><div class="stripe"></div></header>
+<div class="wrap">
+<div class="wallet"><h3>Raporlama döngüsü kuponları</h3>
+<div class="stub used"><span>01 Kapsam</span><span>✓</span></div><div class="stub used"><span>02 Veri toplama</span><span>✓</span></div><div class="stub"><span>03 SKDM hesabı</span><span>açık</span></div><div class="stub"><span>04 Görseller</span><span></span></div><div class="stub"><span>05 Rapor paketi</span><span></span></div></div>
+<div class="coupon"><div class="c-main"><div class="c-head"><b>Kupon 03</b><b>SKDM maliyet projeksiyonu</b><b>CN 7208</b></div>
+<h1>Ereğli → AB · 2026–2034</h1>
+<div class="fields"><div><label>İhracat t</label><strong>48 200</strong></div><div><label>tCO₂e/t</label><strong>1,92</strong></div><div><label>2030 €</label><strong>3,4 m</strong></div><div><label>Toplam €</label><strong>19,8 m</strong></div></div>
+<div class="route"><svg width="100%" height="250" viewBox="0 0 800 250"><path d="M20 230 C300 220 500 140 780 30" stroke="#16295A" stroke-width="3" fill="none"/><path d="M20 232 C300 228 500 180 780 90" stroke="#5B3E8F" stroke-width="2" stroke-dasharray="6 6" fill="none"/></svg></div></div>
+<div class="c-side"><label>Kaynak</label><p>AB 2023/956</p><label>Tarih</label><p>17.10.2026</p><div class="stamp">VARSAYILAN</div><label style="margin-top:80px">Onay</label><p>— bekliyor —</p></div></div>
+</div></body></html>

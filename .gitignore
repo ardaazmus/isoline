@@ -1,0 +1,17 @@
+# Isoline
+node_modules/
+.next/
+*.tsbuildinfo
+.env*
+
+# generated at dev/build/test time from messages/*.json
+web/src/i18n/generated.ts
+web/next-env.d.ts
+
+# Impeccable runtime state and review captures
+.impeccable/questions/
+.impeccable/review/
+
+# OS
+.DS_Store
+Thumbs.db
