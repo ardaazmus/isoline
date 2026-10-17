@@ -1,9 +1,10 @@
 "use client";
 
 import { useMemo } from "react";
-import { Plus, Trash2 } from "lucide-react";
+import { FileDown, Plus, Trash2 } from "lucide-react";
+import { downloadCsv, slug } from "@/lib/export";
 import { useI18n } from "@/i18n/provider";
-import { CBAM_PRICES_2026, CBAM_SECTORS, cbamFactor, cnCoverage, countsIndirect, cscfDetermined, projectPortfolio, projectProduct, type CbamProduct, type CbamSector } from "@/lib/calc/cbam";
+import { CBAM_PRICES_2026, CBAM_SECTORS, cbamFactor, cnCoverage, countsIndirect, cscfDetermined, OPERATOR_SUMMARY_COLUMNS, operatorSummaryRows, projectPortfolio, projectProduct, type CbamProduct, type CbamSector } from "@/lib/calc/cbam";
 import { FiguresRow, InputGroup, PageHeader, ToolLayout } from "@/components/shell";
 import { Figure, LegendItem } from "@/components/figure";
 import { StackedBars } from "@/components/charts";
@@ -167,7 +168,22 @@ function Inner() {
 
         <div className="grid gap-6 2xl:grid-cols-2">
           <div className="glass flex min-w-0 flex-col gap-3 p-5 md:p-6">
-            <SectionTitle>{t("cbam.byProduct")}</SectionTitle>
+            <SectionTitle
+              aside={
+                <Button
+                  variant="quiet"
+                  size="sm"
+                  disabled={!data.products.length}
+                  onClick={() => downloadCsv(`${slug(client.name)}-skdm-operator-ozeti.csv`, [...OPERATOR_SUMMARY_COLUMNS], operatorSummaryRows(data.products, data.scenario))}
+                  title={t("cbam.operatorExportHint")}
+                >
+                  <FileDown size={14} aria-hidden /> {t("cbam.operatorExport")}
+                </Button>
+              }
+            >
+              {t("cbam.byProduct")}
+            </SectionTitle>
+            <p className="text-[12.5px] text-[var(--ink-3)]">{t("cbam.operatorExportHint")}</p>
             <div className="overflow-x-auto">
               <table className="report-table text-[14px]">
                 <thead>

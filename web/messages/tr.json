@@ -40,7 +40,8 @@
     "workforce": "İSG ve çalışan göstergeleri",
     "annualReport": "Faaliyet raporu kontrolü",
     "templates": "Şablon kütüphanesi",
-    "crosswalk": "Çerçeve eşleme"
+    "crosswalk": "Çerçeve eşleme",
+    "claims": "Yeşil iddia denetimi"
   },
   "units": {
     "mTry": "milyon TL",
@@ -359,7 +360,9 @@
       "penalty": "Teslim edilmeyen her sertifika için standart ceza ton başına €100'dür.",
       "csCf": "Ücretsiz tahsis düzeltmesi = kütle × SKDM faktörü × CSCF × kıyas değeri (Uygulama Tüzüğü 2025/2620). CSCF 2026–2030 için her yıl %100'dür (Uygulama Kararı (AB) 2026/1862); 2031–2033 için henüz belirlenmediğinden 1 alınır. Kıyas değeri ve rota eşlemesi 2025/2620 ekinden alınmalıdır."
     },
-    "sampleWarning": "Örnek müşterideki kıyas ve varsayılan değerler gösterim amaçlıdır, resmi değer değildir. Gerçek hesap için ürününüzün KN kodu ve üretim rotasına ait değerleri Uygulama Tüzükleri 2025/2620 ve 2025/2621'den girin."
+    "sampleWarning": "Örnek müşterideki kıyas ve varsayılan değerler gösterim amaçlıdır, resmi değer değildir. Gerçek hesap için ürününüzün KN kodu ve üretim rotasına ait değerleri Uygulama Tüzükleri 2025/2620 ve 2025/2621'den girin.",
+    "operatorExport": "Operatör veri özeti (CSV)",
+    "operatorExportHint": "AB'deki ithalatçınıza ürün bazında gömülü emisyon özetini gönderin. Bu dosya Komisyon'un resmi iletişim şablonu değildir; doğrulayıcı raporuyla birlikte kullanın."
   },
   "ghg": {
     "result": "Toplam envanter {total} tCO₂e; bunun {s12} tCO₂e'si Kapsam 1 ve 2. Tahmini verinin payı {est}.",
@@ -1590,5 +1593,55 @@
     "sampleText": "Anadolu Yassı Çelik A.Ş. tüm araçları gösteren örnek bir entegre çelik üreticisidir; değerleri gerçek değildir.",
     "restoreSample": "Örnek müşteriyi geri yükle",
     "privacy": "Bu sürümde veriler sunucuya gönderilmez; tarayıcı verilerini temizlemek çalışma alanını siler. Düzenli olarak dışa aktarın."
+  },
+  "claims": {
+    "result": "Metinde {n} ifade işaretlendi; {high} tanesi yüksek riskli (dengelemeye dayalı nötrlük ya da plansız gelecek hedefi).",
+    "clean": "İşaretlenen ifade yok. Yine de metni yayımlamadan önce kanıtlarıyla birlikte gözden geçirin.",
+    "input": "Metin",
+    "lang": "Metnin dili",
+    "langs": {
+      "tr": "Türkçe",
+      "en": "İngilizce"
+    },
+    "text": "Rapor, ambalaj veya pazarlama metni",
+    "textHint": "Metin tarayıcıdan çıkmaz; yalnız bu ekranda taranır.",
+    "clear": "Metni temizle",
+    "figTotal": "İşaretlenen ifade",
+    "figOther": "Genel ve mutlak iddialar",
+    "filter": "Kurala göre süz",
+    "marked": "İşaretlenmiş metin",
+    "fix": "Ne yapmalı",
+    "severity": {
+      "crit": "Yüksek risk",
+      "warn": "Gözden geçir"
+    },
+    "disclaimer": "Bu tarama ifadeleri insan incelemesi için işaretler; bir iddianın hukuka aykırı olup olmadığına karar vermez. İddianın kanıtı, kapsamı ve bağlamı uzmanca değerlendirilmelidir.",
+    "sample": "Örnek metin — Anadolu Yassı Çelik olarak çevre dostu üretim anlayışıyla çalışıyoruz. Yeni rulo serimiz karbon nötr; kalan emisyonlarımızı orman projeleriyle dengeledik. 2030 yılına kadar net sıfır şirket olacağız. Ambalajlarımız %100 geri dönüştürülebilir ve tesislerimizde yenilenebilir elektrik payını %20'ye çıkardık.",
+    "rules": {
+      "offset": {
+        "title": "Dengelemeye dayalı nötrlük",
+        "why": "Bir ürünün iklim etkisinin nötr, azaltılmış ya da olumlu olduğu iddiası, emisyonların dengelenmesine (karbon kredisi) dayanıyorsa her koşulda yasaktır.",
+        "fix": "Nötrlük iddiasını kaldırın; ürünün kendi yaşam döngüsünde sağlanan ölçülmüş azaltımı ve dengeleme katkısını ayrı ayrı, rakamla anlatın.",
+        "ref": "Direktif (AB) 2024/825 — UCPD Ek I madde 4c"
+      },
+      "future": {
+        "title": "Plansız gelecek hedefi",
+        "why": "Gelecekteki çevresel performans iddiaları (ör. '2030'da net sıfır'), açık ve doğrulanabilir taahhütler ile bağımsız uzmanca izlenen, kamuya açık bir uygulama planı olmadan yanıltıcı sayılır.",
+        "fix": "Hedefi ara hedefler, kapsam (K1-2-3), ayrılan kaynaklar ve bağımsız doğrulamayla destekleyin; Dekarbonizasyon yolu aracındaki planı kaynak gösterin.",
+        "ref": "Direktif (AB) 2024/825 — UCPD md. 6(2)(d)"
+      },
+      "absolute": {
+        "title": "Mutlak ifade",
+        "why": "'%100', 'tamamen', 'sıfır etki' gibi mutlak ifadeler, ürünün tamamı ve tüm yaşam döngüsü için kanıtlanamıyorsa yanıltıcıdır; iddia ürünün yalnız bir kısmına ilişkinse bu açıkça söylenmelidir.",
+        "fix": "İddiayı ölçülebilir ve sınırlı hâle getirin (hangi bileşen, hangi oran, hangi standarda göre) ve kanıtını belirtin.",
+        "ref": "Direktif (AB) 2024/825 — UCPD Ek I madde 4b; md. 6(2)"
+      },
+      "generic": {
+        "title": "Genel çevresel iddia",
+        "why": "'Çevre dostu', 'yeşil', 'ekolojik' gibi genel iddialar, tanınmış mükemmel çevresel performans kanıtlanamıyorsa yasaktır.",
+        "fix": "Genel ifadeyi, neyin ne kadar iyileştiğini söyleyen belirli bir iddiayla değiştirin (ör. 'ürün başına enerji tüketimi 2024'e göre %12 azaldı') ve kaynağını gösterin.",
+        "ref": "Direktif (AB) 2024/825 — UCPD Ek I madde 4a"
+      }
+    }
   }
 }

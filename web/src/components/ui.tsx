@@ -192,7 +192,7 @@ export function Tabs<T extends string>({ value, onChange, items, label }: { valu
 }
 
 /** Data status drawn as line form as well as text: solid = verified, dashed = estimated/default, dotted = review, struck = invalid. */
-export function StatusMark({ kind, label }: { kind: "verified" | "estimated" | "review" | "invalid" | "required" | "voluntary" | "indirect" | "na"; label: string }) {
+export function StatusMark({ kind, label }: { kind: "verified" | "estimated" | "review" | "invalid" | "critical" | "required" | "voluntary" | "indirect" | "na"; label: string }) {
   const style: Record<string, string> = {
     verified: "border-solid border-[var(--b-600)]",
     required: "border-solid border-[var(--b-600)]",
@@ -201,12 +201,13 @@ export function StatusMark({ kind, label }: { kind: "verified" | "estimated" | "
     review: "border-dotted border-[var(--warn)]",
     voluntary: "border-dotted border-[var(--ink-3)]",
     invalid: "border-solid border-[var(--crit)]",
+    critical: "border-solid border-[var(--crit)]",
     na: "border-solid border-[var(--rule)]",
   };
   return (
     <span className="inline-flex items-center gap-2 whitespace-nowrap text-[12.5px] font-medium text-[var(--ink-2)]">
       <span aria-hidden className={cn("inline-block w-5 border-t-2", style[kind])} />
-      <span className={cn(kind === "invalid" && "line-through", kind === "review" && "text-[var(--warn)]")}>{label}</span>
+      <span className={cn(kind === "invalid" && "line-through", kind === "review" && "text-[var(--warn)]", kind === "critical" && "text-[var(--crit)]")}>{label}</span>
     </span>
   );
 }

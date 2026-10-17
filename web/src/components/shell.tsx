@@ -13,6 +13,7 @@ import {
   FileStack,
   Flame,
   Grid2x2Check,
+  MessageSquareWarning,
   LayoutDashboard,
   Menu,
   Network,
@@ -46,6 +47,7 @@ const ICONS: Record<string, LucideIcon> = {
   annualReport: BookOpenText,
   templates: FileStack,
   crosswalk: Network,
+  claims: MessageSquareWarning,
 };
 
 export const BRAND = "Isoline";

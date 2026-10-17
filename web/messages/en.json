@@ -40,7 +40,8 @@
     "workforce": "Safety and workforce",
     "annualReport": "Annual report checklist",
     "templates": "Template library",
-    "crosswalk": "Framework crosswalk"
+    "crosswalk": "Framework crosswalk",
+    "claims": "Green claim check"
   },
   "units": {
     "mTry": "TRY million",
@@ -359,7 +360,9 @@
       "penalty": "The standard penalty is €100 per certificate not surrendered.",
       "csCf": "Free allocation adjustment = mass × CBAM factor × CSCF × benchmark (Implementing Regulation 2025/2620). The CSCF is 100 % for each year 2026–2030 (Implementing Decision (EU) 2026/1862); 2031–2033 are not yet determined and use 1. Take the benchmark and route mapping from the 2025/2620 annex."
     },
-    "sampleWarning": "Benchmarks and default values for the sample client are illustrative, not official. For a real calculation enter the values for your CN code and route from Implementing Regulations 2025/2620 and 2025/2621."
+    "sampleWarning": "Benchmarks and default values for the sample client are illustrative, not official. For a real calculation enter the values for your CN code and route from Implementing Regulations 2025/2620 and 2025/2621.",
+    "operatorExport": "Operator data summary (CSV)",
+    "operatorExportHint": "Send your EU importer a per-product embedded-emissions summary. This file is not the Commission's official communication template; use it with the verifier's report."
   },
   "ghg": {
     "result": "Total inventory {total} tCO₂e, of which {s12} tCO₂e is scope 1 and 2. Share of estimated data {est}.",
@@ -1590,5 +1593,55 @@
     "sampleText": "Anadolu Yassı Çelik A.Ş. is a sample integrated steelmaker that demonstrates every tool; its values are not real.",
     "restoreSample": "Restore sample client",
     "privacy": "In this release no data is sent to a server; clearing browser data deletes the workspace. Export regularly."
+  },
+  "claims": {
+    "result": "{n} phrases flagged; {high} are high risk (offset-based neutrality or a future target without a plan).",
+    "clean": "No phrases flagged. Still review the text and its evidence before publishing.",
+    "input": "Text",
+    "lang": "Language of the text",
+    "langs": {
+      "tr": "Turkish",
+      "en": "English"
+    },
+    "text": "Report, packaging or marketing text",
+    "textHint": "The text never leaves the browser; it is screened on this page only.",
+    "clear": "Clear text",
+    "figTotal": "Flagged phrases",
+    "figOther": "Generic and absolute claims",
+    "filter": "Filter by rule",
+    "marked": "Marked text",
+    "fix": "What to do",
+    "severity": {
+      "crit": "High risk",
+      "warn": "Review"
+    },
+    "disclaimer": "This screen flags wording for human review; it does not decide whether a claim is unlawful. Evidence, scope and context of each claim need expert assessment.",
+    "sample": "Sample text — At Anadolu Yassı Çelik we work with an eco-friendly production approach. Our new coil range is carbon neutral; we offset our remaining emissions through forestry projects. We will be a net zero company by 2030. Our packaging is 100% recyclable and we raised the renewable electricity share at our sites to 20%.",
+    "rules": {
+      "offset": {
+        "title": "Offset-based neutrality",
+        "why": "Claiming that a product has a neutral, reduced or positive climate impact on the basis of offsetting emissions is banned in all circumstances.",
+        "fix": "Drop the neutrality claim; report the measured reduction within the product's own life cycle and any offset contribution separately, with figures.",
+        "ref": "Directive (EU) 2024/825 — UCPD Annex I point 4c"
+      },
+      "future": {
+        "title": "Future target without a plan",
+        "why": "Future environmental performance claims (e.g. 'net zero by 2030') are misleading without clear, verifiable commitments and a public implementation plan monitored by an independent expert.",
+        "fix": "Back the target with milestones, scope (S1-2-3), allocated resources and independent verification; cite the plan in the Decarbonisation pathway tool.",
+        "ref": "Directive (EU) 2024/825 — UCPD Art. 6(2)(d)"
+      },
+      "absolute": {
+        "title": "Absolute wording",
+        "why": "Absolute wording such as '100%', 'completely' or 'zero impact' misleads unless proven for the whole product and life cycle; a claim about part of a product must say so.",
+        "fix": "Make the claim measurable and bounded (which component, what share, against which standard) and state the evidence.",
+        "ref": "Directive (EU) 2024/825 — UCPD Annex I point 4b; Art. 6(2)"
+      },
+      "generic": {
+        "title": "Generic environmental claim",
+        "why": "Generic claims such as 'eco-friendly', 'green' or 'ecological' are banned unless recognised excellent environmental performance can be shown.",
+        "fix": "Replace the generic phrase with a specific claim saying what improved by how much (e.g. 'energy use per product down 12% on 2024') and cite the source.",
+        "ref": "Directive (EU) 2024/825 — UCPD Annex I point 4a"
+      }
+    }
   }
 }

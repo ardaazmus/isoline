@@ -210,3 +210,19 @@ describe("thresholds and holding", () => {
     expect(quarterlyHolding(1000, 4)).toBe(500);
   });
 });
+
+describe("operator summary export", () => {
+  it("lists one row per product with the SEE actually used", async () => {
+    const { operatorSummaryRows, OPERATOR_SUMMARY_COLUMNS } = await import("./cbam");
+    const rows = operatorSummaryRows([steel, { ...steel, id: "p2", cn: "7209", useDefault: true }], flat);
+    expect(rows).toHaveLength(2);
+    expect(rows[0]).toHaveLength(OPERATOR_SUMMARY_COLUMNS.length);
+    const col = (r: (string | number)[], name: (typeof OPERATOR_SUMMARY_COLUMNS)[number]) => r[OPERATOR_SUMMARY_COLUMNS.indexOf(name)];
+    expect(col(rows[0], "method")).toBe("actual");
+    expect(col(rows[0], "see_used_t_per_t")).toBeCloseTo(1.9);
+    expect(col(rows[0], "embedded_tco2e")).toBe(1900);
+    expect(col(rows[1], "method")).toBe("default");
+    expect(col(rows[1], "see_used_t_per_t")).toBeCloseTo(2.2 * 1.1);
+    expect(col(rows[1], "carbon_price_paid_eur_per_t")).toBe("");
+  });
+});

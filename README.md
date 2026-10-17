@@ -34,8 +34,8 @@ npm --prefix web run typecheck
 | | Rapor akışı | Sürdürülebilirlik raporu, faaliyet raporu ve SKDM için interaktif, hareketli akış şeması; aşama durumu veriden hesaplanır veya elle belirlenir |
 | | Kapsam testi | TSRS (KGK 2026 eşikleri), CSRD/Omnibus, CSDDD, SKDM, TR ETS, faaliyet raporu türü, taksonomi, EUDR, DPP, pil pasaportu, enerji yöneticisi |
 | | Mevzuat takvimi | TR / AB / küresel kulvarlarda 40 tarihli zaman çizelgesi, resmi ve ikincil kaynak ayrımıyla |
-| Karbon | Kapsam 1-2-3 envanteri | Yakıt (NCV × EF), proses, F-gaz (AR6 GWP), elektrik (ETKB 2023 konum ve piyasa bazlı), 15 Kapsam 3 kategorisi, emisyon şelalesi |
-| | SKDM maliyet projeksiyonu | 2026–2034; gerçek ve varsayılan veri, işaret payları, ücretsiz tahsis düzeltmesi, menşe karbon fiyatı indirimi |
+| Karbon | Kapsam 1-2-3 envanteri | Yakıt (NCV × EF), proses, F-gaz (AR6 GWP), elektrik (ETKB 2023 konum ve piyasa bazlı), 15 Kapsam 3 kategorisi, emisyon şelalesi; Excel/CSV şablonuyla toplu yükleme |
+| | SKDM maliyet projeksiyonu | 2026–2034; gerçek ve varsayılan veri, işaret payları, ücretsiz tahsis düzeltmesi (CSCF), menşe karbon fiyatı indirimi, KN kodu Ek I kontrolü, AB ithalatçısı için operatör veri özeti (CSV) |
 | | TR ETS simülatörü | A/B/C kategorisi, pilot dönem, kıyas bazlı ücretsiz tahsisat, açık ve maliyet, ceza tablosu |
 | | Dekarbonizasyon yolu | SBTi 1,5 °C / WB2C yolları (yükselti bantları), net sıfır, önlem etkileri, MACC eğrisi |
 | Çevre | Enerji, su ve atık | TEP/MWh dönüşümü, yenilenebilir payı, su tüketimi, geri kazanım; GRI/ESRS karşılıkları |
@@ -45,6 +45,7 @@ npm --prefix web run typecheck
 | Raporlama | Faaliyet raporu kontrolü | Asgari içerik yönetmeliği (RG 28395) + SPK + BDDK maddeleri, sorumlu/durum takibi, Word çıktısı |
 | | Şablon kütüphanesi | 11 şablon (TSRS tam, TSRS önce iklim, GRI, ESRS 2026, gönüllü standart, SKDM operatör paketi, TR ETS izleme planı, faaliyet raporu TTK/halka açık, CDP, yeşil tahvil); hesaplanmış rakamlarla Word'e aktarım |
 | | Çerçeve eşleme | 20 veri grubu: TSRS 2 ↔ GRI ↔ ESRS ↔ gönüllü standart ↔ CDP |
+| | Yeşil iddia denetimi | Metinde AB 2024/825 (27.09.2026'dan beri uygulanıyor) kapsamında riskli ifadeleri işaretler: genel iddia, dengelemeye dayalı nötrlük, plansız gelecek hedefi, mutlak ifade (TR/EN) |
 
 Her grafik tablo görünümüne geçebilir ve CSV/SVG olarak indirilebilir. Her aracın verisi JSON olarak dışa aktarılır. Çalışma alanının tamamı dosya olarak dışa ve içe aktarılabilir.
 

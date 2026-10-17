@@ -11,7 +11,9 @@ Her faz bir **kontrol noktasıyla** biter. Bir sonraki faz, kontrol noktasındak
 
 **Kontrol noktası:** uzman paneli, DOĞRULANAMADI işaretli 8 konuyu birincil metinden teyit eder (README'deki liste). Sonuçlar `sources.ts` dosyasında `official` olarak güncellenir.
 
-## Faz 2 — Veri doğruluğu ve faktör kütüphanesi
+## Faz 2 — Veri doğruluğu ve faktör kütüphanesi (sürüyor)
+
+Tamamlanan (17.10.2026): birincil kaynak doğrulaması ([DOGRULAMA_2026-10.md](DOGRULAMA_2026-10.md)), envanter için CSV toplu yükleme, kapsam testinde küçük finans kuruluşu muafiyeti ve AB dışı iki yıl ciro kuralı. Faz 4'ten öne alınanlar: yeşil iddia denetimi, SKDM operatör veri özeti.
 
 Kod dışında yapılacak iş:
 - Uzman teyitleri.

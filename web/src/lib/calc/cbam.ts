@@ -302,3 +302,51 @@ export function deMinimisExempt(sector: CbamSector, importerAnnualTonnes: number
   if (sector === "electricity" || sector === "hydrogen") return false;
   return importerAnnualTonnes <= DE_MINIMIS_TONNES;
 }
+
+export const OPERATOR_SUMMARY_COLUMNS = [
+  "cn_code",
+  "product",
+  "sector",
+  "annex_i",
+  "reporting_year",
+  "tonnes",
+  "see_direct_t_per_t",
+  "see_indirect_t_per_t",
+  "indirect_counted",
+  "method",
+  "default_value_t_per_t",
+  "default_markup",
+  "see_used_t_per_t",
+  "embedded_tco2e",
+  "carbon_price_paid_eur_per_t",
+] as const;
+
+/**
+ * Per-product summary an operator sends to its EU importer (embedded emissions per good).
+ * It mirrors the data the importer needs; it is not the Commission's official communication template.
+ */
+export function operatorSummaryRows(products: CbamProduct[], s: CbamScenario, year = FIRST_YEAR): (string | number)[][] {
+  return products.map((p) => {
+    const cov = cnCoverage(p.cn);
+    const tonnes = Math.max(0, p.tonnes) * Math.pow(1 + p.growth, year - FIRST_YEAR);
+    const see = effectiveSee(p, year);
+    const indirect = countsIndirect(p.sector, p.cn);
+    return [
+      p.cn,
+      p.name,
+      p.sector,
+      cov.status,
+      year,
+      Math.round(tonnes),
+      p.seeDirect,
+      p.seeIndirect,
+      indirect ? "yes" : "no",
+      p.useDefault ? "default" : "actual",
+      p.defaultSee,
+      p.useDefault ? defaultMarkup(year, p.sector) : "",
+      Number(see.toFixed(4)),
+      Math.round(tonnes * see),
+      p.useDefault ? "" : s.originCarbonPrice,
+    ];
+  });
+}
