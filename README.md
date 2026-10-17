@@ -33,6 +33,7 @@ npm --prefix web run typecheck
 | Pusula | Genel bakış | Müşterinin yükümlülükleri, yaklaşan tarihler ve tüm araçların mini grafikleriyle bento panosu |
 | | Rapor akışı | Sürdürülebilirlik raporu, faaliyet raporu ve SKDM için interaktif, hareketli akış şeması; aşama durumu veriden hesaplanır veya elle belirlenir |
 | | Kapsam testi | TSRS (KGK 2026 eşikleri), CSRD/Omnibus, CSDDD, SKDM, TR ETS, faaliyet raporu türü, taksonomi, EUDR, DPP, pil pasaportu, enerji yöneticisi |
+| | Faktör kütüphanesi | Hazır açık/resmi setler (IPCC 2006, ETKB 2023, IPCC AR6 GWP) yayıncı, lisans ve tarihiyle; "kendi faktörünü getir": lisanslı ya da tedarikçi faktörleri CSV ile eklenir, kullanım hakkı onaylanmadan hesaplarda görünmez; Kapsam 1-2-3 ve SKDM ekranlarında kütüphaneden seçim |
 | | Mevzuat takvimi | TR / AB / küresel kulvarlarda 40 tarihli zaman çizelgesi, resmi ve ikincil kaynak ayrımıyla |
 | Karbon | Kapsam 1-2-3 envanteri | Yakıt (NCV × EF), proses, F-gaz (AR6 GWP), elektrik (ETKB 2023 konum ve piyasa bazlı), 15 Kapsam 3 kategorisi, emisyon şelalesi; Excel/CSV şablonuyla toplu yükleme |
 | | SKDM maliyet projeksiyonu | 2026–2034; gerçek ve varsayılan veri, işaret payları, ücretsiz tahsis düzeltmesi (CSCF), menşe karbon fiyatı indirimi, KN kodu Ek I kontrolü, AB ithalatçısı için operatör veri özeti (CSV) |

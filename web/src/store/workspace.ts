@@ -4,13 +4,18 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { useEffect, useSyncExternalStore } from "react";
 import { emptyClient, SAMPLE_CLIENT, type ClientData } from "@/data/sample";
+import type { FactorSet } from "@/lib/factors";
 
 export type ToolKey = Exclude<keyof ClientData, "id" | "name" | "sector" | "sample">;
 
 type Workspace = {
-  version: 1;
+  version: 2;
   clients: ClientData[];
   activeId: string;
+  /** Workspace-wide custom factor sets (bring your own data); shared by every client. */
+  customSets: FactorSet[];
+  saveSet: (set: FactorSet) => void;
+  removeSet: (id: string) => void;
   setActive: (id: string) => void;
   addClient: (name: string) => string;
   renameClient: (id: string, name: string) => void;
@@ -25,9 +30,12 @@ const newId = () => `c-${Date.now().toString(36)}-${Math.random().toString(36).s
 export const useWorkspace = create<Workspace>()(
   persist(
     (set) => ({
-      version: 1,
+      version: 2,
       clients: [structuredClone(SAMPLE_CLIENT)],
       activeId: SAMPLE_CLIENT.id,
+      customSets: [],
+      saveSet: (fs) => set((s) => ({ customSets: s.customSets.some((x) => x.id === fs.id) ? s.customSets.map((x) => (x.id === fs.id ? fs : x)) : [...s.customSets, fs] })),
+      removeSet: (id) => set((s) => ({ customSets: s.customSets.filter((x) => x.id !== id) })),
       setActive: (id) => set({ activeId: id }),
       addClient: (name) => {
         const id = newId();
@@ -49,29 +57,34 @@ export const useWorkspace = create<Workspace>()(
       update: (key, value) =>
         set((s) => ({ clients: s.clients.map((c) => (c.id === s.activeId ? { ...c, [key]: value } : c)) })),
       importWorkspace: (data) => {
-        const d = data as { app?: string; clients?: ClientData[] };
+        const d = data as { app?: string; clients?: ClientData[]; customSets?: FactorSet[] };
         if (!d || d.app !== "isoline" || !Array.isArray(d.clients) || d.clients.length === 0) {
           return { ok: false, error: "invalid" };
         }
         const valid = d.clients.every((c) => typeof c?.id === "string" && typeof c?.name === "string" && c.profile && c.ghg && c.cbam);
         if (!valid) return { ok: false, error: "invalid_client" };
-        set({ clients: d.clients, activeId: d.clients[0].id });
+        set({ clients: d.clients, activeId: d.clients[0].id, customSets: Array.isArray(d.customSets) ? d.customSets : [] });
         return { ok: true };
       },
     }),
     {
       name: "isoline-workspace",
-      version: 1,
+      version: 2,
+      migrate: (persisted, from) => {
+        const st = persisted as Partial<Workspace>;
+        if (from < 2) return { ...st, version: 2, customSets: [] } as Workspace;
+        return st as Workspace;
+      },
       storage: createJSONStorage(() => localStorage),
-      partialize: (s) => ({ version: s.version, clients: s.clients, activeId: s.activeId }),
+      partialize: (s) => ({ version: s.version, clients: s.clients, activeId: s.activeId, customSets: s.customSets }),
       skipHydration: true,
     },
   ),
 );
 
 export function exportWorkspace(): string {
-  const { clients } = useWorkspace.getState();
-  return JSON.stringify({ app: "isoline", version: 1, exportedAt: new Date().toISOString(), clients }, null, 2);
+  const { clients, customSets } = useWorkspace.getState();
+  return JSON.stringify({ app: "isoline", version: 2, exportedAt: new Date().toISOString(), clients, customSets }, null, 2);
 }
 
 /** True once local storage has been read; tools render after this to avoid hydration mismatches. */

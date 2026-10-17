@@ -186,6 +186,8 @@ export type CbamProduct = {
   useDefault: boolean;
   /** Free-allocation benchmark for the production route (Impl. Reg. 2025/2620), tCO₂e/t. */
   benchmark: number;
+  /** Factor library reference for the default value, when picked from the library. */
+  defaultRef?: string;
 };
 
 export type CbamScenario = {

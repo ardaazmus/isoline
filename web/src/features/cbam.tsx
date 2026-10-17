@@ -10,6 +10,8 @@ import { Figure, LegendItem } from "@/components/figure";
 import { StackedBars } from "@/components/charts";
 import { Button, Callout, NumberField, SelectField, StatusMark, TextField, Toggle } from "@/components/ui";
 import { Hydrated, KeyDates, NoteList, SectionTitle, ToolActions, useTool } from "./common";
+import { FactorPicker, useFactorSets } from "@/components/factor-picker";
+import { factorRef } from "@/lib/factors";
 
 const SOURCES = ["cbam_reg", "cbam_factor", "cbam_guidance3", "cbam_price", "cbam_faa"];
 
@@ -24,6 +26,7 @@ export function CbamTool() {
 function Inner() {
   const { t, fmt } = useI18n();
   const [data, set, client] = useTool("cbam");
+  const sets = useFactorSets();
   const rows = useMemo(() => projectPortfolio(data.products, data.scenario), [data]);
   const y2030 = rows.find((r) => r.year === 2030)!;
   const cumulative = rows.reduce((s, r) => s + r.cost, 0);
@@ -85,8 +88,17 @@ function Inner() {
                     <p className="self-end pb-1 text-[12px] text-[var(--ink-3)]">{t("cbam.noIndirect")}</p>
                   )}
                 </div>
+                <FactorPicker
+                  kind="cbam_default"
+                  matchKey={p.cn}
+                  sets={sets}
+                  value={p.defaultRef}
+                  onPick={(o) =>
+                    setProduct(p.id, o ? { defaultSee: o.factor.value + (countsIndirect(p.sector, p.cn) ? (o.factor.indirect ?? 0) : 0), defaultRef: factorRef(o) } : { defaultRef: undefined })
+                  }
+                />
                 <div className="grid grid-cols-2 gap-4">
-                  <NumberField label={t("cbam.defaultSee")} unit="t/t" value={p.defaultSee} onChange={(v) => setProduct(p.id, { defaultSee: v })} min={0} />
+                  <NumberField label={t("cbam.defaultSee")} unit="t/t" value={p.defaultSee} onChange={(v) => setProduct(p.id, { defaultSee: v, defaultRef: undefined })} min={0} />
                   <NumberField label={t("cbam.benchmark")} unit="t/t" value={p.benchmark} onChange={(v) => setProduct(p.id, { benchmark: v })} min={0} />
                 </div>
                 <Button variant="ghost" size="sm" className="self-start text-[var(--crit)]" onClick={() => set({ ...data, products: data.products.filter((x) => x.id !== p.id) })}>

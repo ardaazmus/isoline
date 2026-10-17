@@ -25,6 +25,8 @@ import { Button, Callout, NumberField, SelectField, StatusMark, Tabs, TextField 
 import { download } from "@/lib/export";
 import { importInventoryCsv, inventoryTemplateCsv, type ImportResult } from "@/lib/inventory-csv";
 import { Hydrated, NoteList, SectionTitle, ToolActions, useTool } from "./common";
+import { FactorPicker, useFactorSets } from "@/components/factor-picker";
+import { factorRef } from "@/lib/factors";
 
 const SOURCES = ["ghg_protocol", "ipcc_2006", "ipcc_ar6_gwp", "etkb_ef_2023"];
 const uid = () => Math.random().toString(36).slice(2, 9);
@@ -52,6 +54,7 @@ function QualitySelect({ value, onChange }: { value: Quality; onChange: (q: Qual
 function Inner() {
   const { t, fmt } = useI18n();
   const [inv, set, client] = useTool("ghg");
+  const sets = useFactorSets();
   const [tab, setTab] = useState<"s1" | "s2" | "s3" | "norm">("s1");
   const r = useMemo(() => computeInventory(inv), [inv]);
   const n0 = (v: number) => fmt.number(v, 0);
@@ -104,14 +107,21 @@ function Inner() {
                       <SelectField<FuelId>
                         label={t("ghg.fuelType")}
                         value={f.fuel}
-                        onChange={(v) => patch({ fuels: inv.fuels.map((x) => (x.id === f.id ? { ...x, fuel: v, ncv: FUELS[v].ncv, ef: FUELS[v].ef } : x)) })}
+                        onChange={(v) => patch({ fuels: inv.fuels.map((x) => (x.id === f.id ? { ...x, fuel: v, ncv: FUELS[v].ncv, ef: FUELS[v].ef, factorRef: undefined } : x)) })}
                         options={Object.keys(FUELS).map((k) => ({ value: k as FuelId, label: t(`ghg.fuels.${k}`) }))}
                       />
                       <NumberField label={t("ghg.amount")} unit={FUELS[f.fuel].unit} value={f.amount} min={0} onChange={(v) => patch({ fuels: inv.fuels.map((x) => (x.id === f.id ? { ...x, amount: v } : x)) })} />
                     </div>
+                    <FactorPicker
+                      kind="fuel_co2"
+                      matchKey={f.fuel}
+                      sets={sets}
+                      value={f.factorRef}
+                      onPick={(o) => patch({ fuels: inv.fuels.map((x) => (x.id === f.id ? (o ? { ...x, ncv: o.factor.ncv ?? x.ncv, ef: o.factor.value, factorRef: factorRef(o) } : { ...x, factorRef: undefined }) : x)) })}
+                    />
                     <div className="grid grid-cols-2 gap-4">
-                      <NumberField label={t("ghg.ncv")} unit={`GJ/${FUELS[f.fuel].unit}`} value={f.ncv} min={0} onChange={(v) => patch({ fuels: inv.fuels.map((x) => (x.id === f.id ? { ...x, ncv: v } : x)) })} />
-                      <NumberField label={t("ghg.ef")} unit="tCO₂/TJ" value={f.ef} min={0} onChange={(v) => patch({ fuels: inv.fuels.map((x) => (x.id === f.id ? { ...x, ef: v } : x)) })} />
+                      <NumberField label={t("ghg.ncv")} unit={`GJ/${FUELS[f.fuel].unit}`} value={f.ncv} min={0} onChange={(v) => patch({ fuels: inv.fuels.map((x) => (x.id === f.id ? { ...x, ncv: v, factorRef: undefined } : x)) })} />
+                      <NumberField label={t("ghg.ef")} unit="tCO₂/TJ" value={f.ef} min={0} onChange={(v) => patch({ fuels: inv.fuels.map((x) => (x.id === f.id ? { ...x, ef: v, factorRef: undefined } : x)) })} />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <SelectField<"0" | "1"> label={t("ghg.use")} value={f.mobile ? "1" : "0"} onChange={(v) => patch({ fuels: inv.fuels.map((x) => (x.id === f.id ? { ...x, mobile: v === "1" } : x)) })} options={[{ value: "0", label: t("ghg.stationary") }, { value: "1", label: t("ghg.mobile") }]} />
@@ -167,13 +177,19 @@ function Inner() {
                       />
                     </div>
                     <NumberField label={t("ghg.certified")} unit="MWh" hint={t("ghg.certifiedHint")} value={e.certifiedMwh} min={0} onChange={(v) => patch({ electricity: inv.electricity.map((x) => (x.id === e.id ? { ...x, certifiedMwh: v } : x)) })} />
+                    <FactorPicker
+                      kind="grid"
+                      sets={sets}
+                      value={e.factorRef}
+                      onPick={(o) => patch({ electricity: inv.electricity.map((x) => (x.id === e.id ? (o ? { ...x, supplierFactor: o.factor.value, factorRef: factorRef(o) } : { ...x, factorRef: undefined }) : x)) })}
+                    />
                     <NumberField
                       label={t("ghg.supplierFactor")}
                       unit="tCO₂e/MWh"
                       hint={t("ghg.supplierFactorHint")}
                       nullable
                       value={e.supplierFactor ?? NaN}
-                      onChange={(v) => patch({ electricity: inv.electricity.map((x) => (x.id === e.id ? { ...x, supplierFactor: Number.isFinite(v) ? v : null } : x)) })}
+                      onChange={(v) => patch({ electricity: inv.electricity.map((x) => (x.id === e.id ? { ...x, supplierFactor: Number.isFinite(v) ? v : null, factorRef: undefined } : x)) })}
                     />
                   </InputGroup>
                 ))}
@@ -192,7 +208,19 @@ function Inner() {
                       <NumberField label={t("ghg.amount")} unit={l.unit} value={l.amount} min={0} onChange={(v) => patch({ scope3: inv.scope3.map((x) => (x.id === l.id ? { ...x, amount: v } : x)) })} />
                       <TextField label={t("ghg.unit")} value={l.unit} onChange={(v) => patch({ scope3: inv.scope3.map((x) => (x.id === l.id ? { ...x, unit: v } : x)) })} />
                     </div>
-                    <NumberField label={t("ghg.factor")} unit={`tCO₂e/${l.unit}`} value={l.factor} min={0} onChange={(v) => patch({ scope3: inv.scope3.map((x) => (x.id === l.id ? { ...x, factor: v } : x)) })} />
+                    <FactorPicker
+                      kind="scope3"
+                      sets={sets}
+                      value={l.factorRef}
+                      onPick={(o) =>
+                        patch({
+                          scope3: inv.scope3.map((x) =>
+                            x.id === l.id ? (o ? { ...x, factor: o.factor.value, unit: o.factor.unit ?? x.unit, factorSource: `${o.set.name} — ${o.factor.label}`, factorRef: factorRef(o) } : { ...x, factorRef: undefined }) : x,
+                          ),
+                        })
+                      }
+                    />
+                    <NumberField label={t("ghg.factor")} unit={`tCO₂e/${l.unit}`} value={l.factor} min={0} onChange={(v) => patch({ scope3: inv.scope3.map((x) => (x.id === l.id ? { ...x, factor: v, factorRef: undefined } : x)) })} />
                     <TextField label={t("ghg.factorSource")} value={l.factorSource} onChange={(v) => patch({ scope3: inv.scope3.map((x) => (x.id === l.id ? { ...x, factorSource: v } : x)) })} />
                     <QualitySelect value={l.quality} onChange={(q) => patch({ scope3: inv.scope3.map((x) => (x.id === l.id ? { ...x, quality: q } : x)) })} />
                     <Button variant="ghost" size="sm" className="self-start text-[var(--crit)]" onClick={() => patch({ scope3: inv.scope3.filter((x) => x.id !== l.id) })}>

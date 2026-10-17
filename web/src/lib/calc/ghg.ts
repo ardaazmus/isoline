@@ -59,6 +59,8 @@ export const GRID_FACTORS = {
 export type Quality = "measured" | "calculated" | "estimated";
 
 export type FuelLine = {
+  /** Factor library reference "<set>/<factor>" when the factor was picked from the library. */
+  factorRef?: string;
   id: string;
   fuel: FuelId;
   label: string;
@@ -72,6 +74,8 @@ export type FuelLine = {
 export type RefrigerantLine = { id: string; gas: string; leakedKg: number; quality: Quality };
 
 export type ElectricityLine = {
+  /** Factor library reference "<set>/<factor>" when the factor was picked from the library. */
+  factorRef?: string;
   id: string;
   label: string;
   mwh: number;
@@ -84,6 +88,8 @@ export type ElectricityLine = {
 };
 
 export type Scope3Line = {
+  /** Factor library reference "<set>/<factor>" when the factor was picked from the library. */
+  factorRef?: string;
   id: string;
   category: number;
   label: string;

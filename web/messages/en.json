@@ -41,7 +41,8 @@
     "annualReport": "Annual report checklist",
     "templates": "Template library",
     "crosswalk": "Framework crosswalk",
-    "claims": "Green claim check"
+    "claims": "Green claim check",
+    "factors": "Factor library"
   },
   "units": {
     "mTry": "TRY million",
@@ -1643,5 +1644,61 @@
         "ref": "Directive (EU) 2024/825 — UCPD Annex I point 4a"
       }
     }
+  },
+  "factors": {
+    "result": "{builtin} built-in sets and {custom} of your own; {n} factors can feed calculations.",
+    "figUsable": "Usable factors",
+    "figBuiltin": "Built-in sets",
+    "figCustom": "Your sets",
+    "figPending": "Awaiting licence confirmation",
+    "figPendingNote": "Hidden from calculations until confirmed",
+    "licenceIntro": "Built-in sets contain only open-licence or official public-sector data and always show their source. To use licensed factors such as IEA's, add them to a set of your own: they stay hidden from calculations until you confirm you hold the right to use them, and the licence responsibility stays recorded on the set.",
+    "builtinTitle": "Built-in sets",
+    "customTitle": "Your factor sets",
+    "setName": "Set name",
+    "publisher": "Publisher / source",
+    "addSet": "Create set",
+    "noCustom": "No sets of your own yet. Create one for supplier analyses, licensed databases or in-house measurements.",
+    "count": "{n} factors",
+    "showFactors": "Show factors",
+    "kind": "Kind",
+    "key": "Applies to",
+    "value": "Value",
+    "unit": "Unit",
+    "indirect": "indirect",
+    "licenceNote": "Licence and usage note",
+    "licenceNoteHint": "E.g. 'IEA Emissions Factors 2026, enterprise licence no. …, internal use only'.",
+    "url": "Source link",
+    "rights": "I have the right to use these factors",
+    "rightsHint": "Once confirmed, the set can be selected in the scope 1-2-3 and CBAM tools; the licence responsibility lies with the user.",
+    "preview": "{file}: {n} factors read.",
+    "merge": "Add to set",
+    "replace": "Replace set",
+    "emptySet": "This set has no factors. Download the template, fill it in and upload it.",
+    "deleteSet": "Delete set",
+    "kinds": {
+      "fuel_co2": "Fuel CO₂",
+      "grid": "Grid electricity",
+      "gwp": "Warming potential",
+      "scope3": "Scope 3",
+      "cbam_default": "CBAM default"
+    },
+    "licence": {
+      "open": "Open licence",
+      "public_sector": "Official public data",
+      "user_licensed": "User licensed"
+    },
+    "err": {
+      "empty": "The file is empty.",
+      "missingColumns": "Required columns missing: {cols}.",
+      "badKind": "unknown kind ({value}); allowed: {allowed}.",
+      "noKey": "the 'key' column is empty.",
+      "badValue": "value could not be read ({value}).",
+      "needNcv": "fuel factors need 'ncv' (GJ per unit).",
+      "duplicate": "the same kind and key appears twice ({value})."
+    },
+    "pick": "Pick from library",
+    "pickNone": "— value entered by hand —",
+    "fromLibrary": "Source: {set}"
   }
 }

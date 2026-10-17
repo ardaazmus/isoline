@@ -53,6 +53,17 @@ export type FactorSet = {
 
 const AS_OF = "2026-10-17";
 
+/** IPCC 2006 Vol. 2 Table 1.4 category names for the fuels the inventory supports. */
+const IPCC_FUEL_NAMES: Record<FuelId, string> = {
+  natural_gas: "Natural Gas",
+  diesel: "Gas/Diesel Oil",
+  gasoline: "Motor Gasoline",
+  lpg: "Liquefied Petroleum Gases",
+  fuel_oil: "Residual Fuel Oil",
+  coal: "Other Bituminous Coal",
+  lignite: "Lignite",
+};
+
 export const BUILTIN_SETS: FactorSet[] = [
   {
     id: "ipcc_2006",
@@ -68,7 +79,7 @@ export const BUILTIN_SETS: FactorSet[] = [
       id: `ipcc_2006:${k}`,
       kind: "fuel_co2" as const,
       key: k,
-      label: k,
+      label: IPCC_FUEL_NAMES[k],
       value: FUELS[k].ef,
       unit: FUELS[k].unit,
       ncv: FUELS[k].ncv,
@@ -85,9 +96,9 @@ export const BUILTIN_SETS: FactorSet[] = [
     origin: "builtin",
     rightsConfirmed: true,
     factors: [
-      { id: "etkb_2023:generation", kind: "grid", key: "TR-generation", label: "TR-generation", value: 0.434, year: 2023 },
-      { id: "etkb_2023:transmission", kind: "grid", key: "TR-transmission", label: "TR-transmission", value: GRID_FACTORS.transmission, year: 2023 },
-      { id: "etkb_2023:distribution", kind: "grid", key: "TR-distribution", label: "TR-distribution", value: GRID_FACTORS.distribution, year: 2023 },
+      { id: "etkb_2023:generation", kind: "grid", key: "TR-generation", label: "Türkiye geneli üretim", value: 0.434, year: 2023 },
+      { id: "etkb_2023:transmission", kind: "grid", key: "TR-transmission", label: "İletim hattına bağlı tüketim noktası", value: GRID_FACTORS.transmission, year: 2023 },
+      { id: "etkb_2023:distribution", kind: "grid", key: "TR-distribution", label: "Dağıtım hattına bağlı tüketim noktası", value: GRID_FACTORS.distribution, year: 2023 },
     ],
   },
   {

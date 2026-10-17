@@ -41,7 +41,8 @@
     "annualReport": "Faaliyet raporu kontrolü",
     "templates": "Şablon kütüphanesi",
     "crosswalk": "Çerçeve eşleme",
-    "claims": "Yeşil iddia denetimi"
+    "claims": "Yeşil iddia denetimi",
+    "factors": "Faktör kütüphanesi"
   },
   "units": {
     "mTry": "milyon TL",
@@ -1643,5 +1644,61 @@
         "ref": "Direktif (AB) 2024/825 — UCPD Ek I madde 4a"
       }
     }
+  },
+  "factors": {
+    "result": "{builtin} hazır set ve {custom} kendi setiniz; hesaplarda kullanılabilecek {n} faktör var.",
+    "figUsable": "Kullanılabilir faktör",
+    "figBuiltin": "Hazır set",
+    "figCustom": "Kendi setiniz",
+    "figPending": "Lisans onayı bekleyen",
+    "figPendingNote": "Onaylanmadan hesaplarda görünmez",
+    "licenceIntro": "Hazır setler yalnız açık lisanslı ya da resmi kamu verisinden oluşur ve kaynağıyla birlikte gösterilir. IEA gibi lisanslı faktörleri kullanmak istiyorsanız kendi setinize ekleyin: kullanım hakkının sizde olduğunu onaylamadan bu faktörler hesaplarda görünmez ve lisans sorumluluğu sette kayıtlı kalır.",
+    "builtinTitle": "Hazır setler",
+    "customTitle": "Kendi faktör setleriniz",
+    "setName": "Set adı",
+    "publisher": "Yayıncı / kaynak",
+    "addSet": "Set oluştur",
+    "noCustom": "Henüz kendi setiniz yok. Tedarikçi analizleri, lisanslı veri tabanları veya şirket içi ölçümler için bir set oluşturun.",
+    "count": "{n} faktör",
+    "showFactors": "Faktörleri göster",
+    "kind": "Tür",
+    "key": "Uygulandığı",
+    "value": "Değer",
+    "unit": "Birim",
+    "indirect": "dolaylı",
+    "licenceNote": "Lisans ve kullanım notu",
+    "licenceNoteHint": "Örn. 'IEA Emissions Factors 2026, kurum lisansı no. …, yalnız iç kullanım'.",
+    "url": "Kaynak bağlantısı",
+    "rights": "Bu faktörleri kullanma hakkım var",
+    "rightsHint": "Onaylanınca set Kapsam 1-2-3 ve SKDM ekranlarında seçilebilir olur; lisans sorumluluğu kullanıcıdadır.",
+    "preview": "{file}: {n} faktör okundu.",
+    "merge": "Sete ekle",
+    "replace": "Seti değiştir",
+    "emptySet": "Bu sette faktör yok. Şablonu indirip doldurun ve yükleyin.",
+    "deleteSet": "Seti sil",
+    "kinds": {
+      "fuel_co2": "Yakıt CO₂",
+      "grid": "Şebeke elektriği",
+      "gwp": "Isınma potansiyeli",
+      "scope3": "Kapsam 3",
+      "cbam_default": "SKDM varsayılan"
+    },
+    "licence": {
+      "open": "Açık lisans",
+      "public_sector": "Resmi kamu verisi",
+      "user_licensed": "Kullanıcı lisanslı"
+    },
+    "err": {
+      "empty": "Dosya boş.",
+      "missingColumns": "Gerekli sütunlar yok: {cols}.",
+      "badKind": "tür tanınmadı ({value}); kullanılabilir: {allowed}.",
+      "noKey": "'key' sütunu boş.",
+      "badValue": "değer okunamadı ({value}).",
+      "needNcv": "yakıt faktörü için 'ncv' (GJ/birim) gerekli.",
+      "duplicate": "aynı tür ve anahtar ikinci kez geçiyor ({value})."
+    },
+    "pick": "Kütüphaneden seç",
+    "pickNone": "— elle girilen değer —",
+    "fromLibrary": "Kaynak: {set}"
   }
 }
