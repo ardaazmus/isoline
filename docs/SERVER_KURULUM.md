@@ -20,25 +20,29 @@ tarayıcı uygulaması aynen çalışmaya devam eder.
 
 ```bash
 cp .env.example .env        # .env commit'lenmez
-docker compose up -d --build
-docker compose logs -f web
+# NOT: Bu makinede 5432 dolu olduğu için .env'de POSTGRES_PORT=5544 kullanılır.
+docker compose up -d db
+cd web && npx prisma migrate dev && npm run db:seed
 ```
+
+Seed sonucu (hayali kiracı, gerçek Postgres satırları): 1 workspace, 1 holding,
+2 iştirak, 3 tesis, 2 maliyet merkezi, 2 görev, 6 kullanıcı (6 rol), 1 kanıt,
+1 bulgu, 1 dönem. 20 kişiye gerek yok — akış `demo-workflow.test.ts` ile kanıtlı.
 
 - Uygulama: http://localhost:3000
 - Sağlık: http://localhost:3000/api/v1/health
 - Sözleşme: http://localhost:3000/api/v1/hierarchy
 
-## Veritabanını aktifleştirme (sıradaki adım)
+## Durum (18.10.2026)
 
-```bash
-cd web
-npm i -D prisma && npm i @prisma/client pg
-npx prisma migrate dev --schema prisma/schema.prisma
-```
-
-Sonra `web/src/server/db.ts` (Prisma istemcisi) yazılır, API uçları in-memory sözleşmeden
-gerçek CRUD'a geçirilir. RLS politikaları Faz 4 migration'ıyla eklenir
-(`organizationId` + rol bazlı satır politikaları).
+- [x] `prisma` + `@prisma/client` + `pg` kurulu; şema doğrulandı, istemci üretildi.
+- [x] Postgres Docker'da ayakta; ilk migrate uygulandı (`prisma/migrations/`).
+- [x] Hayali seed DB'de (`web/prisma/seed.mjs`, `npm run db:seed`).
+- [ ] `web/src/server/db.ts` (Prisma istemcisi) + API uçlarının gerçek CRUD'a geçişi.
+- [ ] RLS politikaları (Faz 4 migration: `organizationId` + rol bazlı satır politikaları).
+- [ ] Faktör kasası taşıma (§5.1): FUELS/GWP/GRID_FACTORS hâlâ kodda
+  (`web/src/lib/calc/ghg.ts`) — değerler resmî tablo ve testlerde CSV çapraz
+  kontrollü, keyfî hardcode yok; taşınma yalnızca sürümleme/denetim içindir.
 
 ## KVKK / üretim notları
 
