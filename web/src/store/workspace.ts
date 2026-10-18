@@ -4,13 +4,14 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { useEffect, useSyncExternalStore } from "react";
 import { emptyClient, SAMPLE_CLIENT, type ClientData } from "@/data/sample";
+import { defaultNonCo2 } from "@/lib/calc/ghg";
 import type { FactorSet } from "@/lib/factors";
 import { emptyReconciliation } from "@/lib/reconcile";
 
 export type ToolKey = Exclude<keyof ClientData, "id" | "name" | "sector" | "sample">;
 
 type Workspace = {
-  version: 6;
+  version: 7;
   clients: ClientData[];
   activeId: string;
   /** Workspace-wide custom factor sets (bring your own data); shared by every client. */
@@ -56,6 +57,32 @@ export function addV6Fields(clients: ClientData[]): ClientData[] {
   return clients.map((c) => (Array.isArray(c.importLog) ? c : { ...c, importLog: c.sample && c.id === SAMPLE_CLIENT.id && c.trialBalance?.sha256 === SAMPLE_CLIENT.trialBalance?.sha256 ? structuredClone(SAMPLE_CLIENT.importLog) : [] }));
 }
 
+/**
+ * v7: fuel lines gain CH₄ and N₂O factors. Lines without them get the IPCC default for their fuel and use,
+ * written into the line so the stored value is the value used.
+ */
+export function addV7Fields(clients: ClientData[]): ClientData[] {
+  return clients.map((c) =>
+    c.ghg?.fuels?.some((l) => l.ch4 === undefined || l.n2o === undefined)
+      ? {
+          ...c,
+          ghg: {
+            ...c.ghg,
+            fuels: c.ghg.fuels.map((l) => {
+              const d = defaultNonCo2(l.fuel, l.mobile);
+              return { ...l, ch4: l.ch4 ?? d.ch4, n2o: l.n2o ?? d.n2o };
+            }),
+          },
+        }
+      : c,
+  );
+}
+
+/** Every migration step in order, for persisted state and imported workspace files. */
+export function migrateClients(clients: ClientData[], from: number): ClientData[] {
+  return addV7Fields(addV6Fields(addV5Fields(addV4Fields(from < 3 ? unlinkV2GridPicks(clients) : clients))));
+}
+
 /** v5: clients gain an imported trial balance; the sample client gets the sample's, others start with none. */
 export function addV5Fields(clients: ClientData[]): ClientData[] {
   return clients.map((c) => (c.trialBalance !== undefined ? c : { ...c, trialBalance: c.sample && c.id === SAMPLE_CLIENT.id ? structuredClone(SAMPLE_CLIENT.trialBalance) : null }));
@@ -66,7 +93,7 @@ const newId = () => `c-${Date.now().toString(36)}-${Math.random().toString(36).s
 export const useWorkspace = create<Workspace>()(
   persist(
     (set) => ({
-      version: 6,
+      version: 7,
       clients: [structuredClone(SAMPLE_CLIENT)],
       activeId: SAMPLE_CLIENT.id,
       customSets: [],
@@ -99,18 +126,18 @@ export const useWorkspace = create<Workspace>()(
         }
         const valid = d.clients.every((c) => typeof c?.id === "string" && typeof c?.name === "string" && c.profile && c.ghg && c.cbam);
         if (!valid) return { ok: false, error: "invalid_client" };
-        const clients = addV6Fields(addV5Fields(addV4Fields((d.version ?? 2) < 3 ? unlinkV2GridPicks(d.clients) : d.clients)));
+        const clients = migrateClients(d.clients, d.version ?? 2);
         set({ clients, activeId: clients[0].id, customSets: Array.isArray(d.customSets) ? d.customSets : [] });
         return { ok: true };
       },
     }),
     {
       name: "isoline-workspace",
-      version: 6,
+      version: 7,
       migrate: (persisted, from) => {
         const st = persisted as Partial<Workspace>;
-        const next: Partial<Workspace> = { ...st, version: 6, customSets: st.customSets ?? [] };
-        if (st.clients) next.clients = addV6Fields(addV5Fields(addV4Fields(from < 3 ? unlinkV2GridPicks(st.clients) : st.clients)));
+        const next: Partial<Workspace> = { ...st, version: 7, customSets: st.customSets ?? [] };
+        if (st.clients) next.clients = migrateClients(st.clients, from);
         return next as Workspace;
       },
       storage: createJSONStorage(() => localStorage),
@@ -122,7 +149,7 @@ export const useWorkspace = create<Workspace>()(
 
 export function exportWorkspace(): string {
   const { clients, customSets } = useWorkspace.getState();
-  return JSON.stringify({ app: "isoline", version: 6, exportedAt: new Date().toISOString(), clients, customSets }, null, 2);
+  return JSON.stringify({ app: "isoline", version: 7, exportedAt: new Date().toISOString(), clients, customSets }, null, 2);
 }
 
 /** True once local storage has been read; tools render after this to avoid hydration mismatches. */

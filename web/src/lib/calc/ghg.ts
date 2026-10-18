@@ -1,10 +1,11 @@
 /**
  * Corporate GHG inventory (GHG Protocol Corporate Standard, ISO 14064-1, TSRS 2 / IFRS S2 29(a)).
- * Scope 1: fuel combustion (activity × NCV × CO₂ factor), process emissions, refrigerant leaks × GWP.
+ * Scope 1: fuel combustion (activity × NCV × CO₂, CH₄ and N₂O factors), process emissions, refrigerant leaks × GWP.
  * Scope 2: location-based (ETKB consumption-point factor) and market-based (certified renewables at 0).
  * Scope 3: 15 categories, activity × user-supplied factor (the source of each factor is recorded).
- * Default NCV/EF values are IPCC 2006 Tier 1 defaults (CO₂ only) and are meant to be replaced by
- * supplier or national inventory values.
+ * Default NCV/EF values are IPCC 2006 Tier 1 defaults and are meant to be replaced by supplier or national
+ * inventory values. CH₄ and N₂O use IPCC 2006 defaults, as Türkiye's national inventory does (NID 2026, sections
+ * 3.1 and 3.2.6.2), weighted with AR6 GWP100.
  */
 import etkbGrid from "@/data/factors/etkb-grid.json";
 import type { RecalcRecord } from "../recalc";
@@ -52,6 +53,51 @@ export const GWP_AR6: Record<string, number> = {
   SF6: 24300,
 };
 
+/**
+ * GWP100 of the combustion gases, IPCC AR6 WG1 Chapter 7, Table 7.15 (p. 1017): CH₄ from fossil sources 29.8
+ * (non-fossil 27.0 does not apply: every fuel in FUELS is fossil), N₂O 273.
+ */
+export const GWP_AR6_COMBUSTION = { ch4: 29.8, n2o: 273 } as const;
+
+/** CH₄ and N₂O emission factors, kg per TJ on a net calorific basis. */
+export type NonCo2Factors = { ch4: number; n2o: number };
+
+/**
+ * Stationary combustion: IPCC 2006 Vol. 2 Table 2.3, manufacturing industries and construction (p. 2.18).
+ * Commercial/institutional boilers (Table 2.4) emit somewhat more CH₄; enter those values on the line.
+ */
+export const NON_CO2_STATIONARY: Record<FuelId, NonCo2Factors> = {
+  natural_gas: { ch4: 1, n2o: 0.1 },
+  diesel: { ch4: 3, n2o: 0.6 },
+  gasoline: { ch4: 3, n2o: 0.6 },
+  lpg: { ch4: 1, n2o: 0.1 },
+  fuel_oil: { ch4: 3, n2o: 0.6 },
+  coal: { ch4: 10, n2o: 1.5 },
+  lignite: { ch4: 10, n2o: 1.5 },
+};
+
+/**
+ * Mobile combustion, IPCC 2006 Vol. 2 Chapter 3:
+ * - road (Table 3.2.2, p. 3.21): motor gasoline "low mileage light duty vehicle, vintage 1995 or later"
+ *   (catalyst-equipped cars, the bulk of today's fleet), gas/diesel oil, natural gas, LPG;
+ * - residual fuel oil: ocean-going ships (Table 3.5.3, p. 3.50);
+ * - coal: rail, sub-bituminous coal (Table 3.4.1, p. 3.43).
+ * Lignite has no mobile default and keeps the stationary values.
+ */
+export const NON_CO2_MOBILE: Record<FuelId, NonCo2Factors> = {
+  natural_gas: { ch4: 92, n2o: 3 },
+  diesel: { ch4: 3.9, n2o: 3.9 },
+  gasoline: { ch4: 3.8, n2o: 5.7 },
+  lpg: { ch4: 62, n2o: 0.2 },
+  fuel_oil: { ch4: 7, n2o: 2 },
+  coal: { ch4: 2, n2o: 1.5 },
+  lignite: NON_CO2_STATIONARY.lignite,
+};
+
+export function defaultNonCo2(fuel: FuelId, mobile: boolean): NonCo2Factors {
+  return { ...(mobile ? NON_CO2_MOBILE : NON_CO2_STATIONARY)[fuel] };
+}
+
 export type GridFactors = { transmission: number; distribution: number };
 
 /** ETKB editions, one per calculation year (docs/kaynak-veri/etkb); values in tCO₂e/MWh. */
@@ -76,6 +122,9 @@ export type FuelLine = {
   amount: number;
   ncv: number;
   ef: number;
+  /** CH₄ and N₂O factors, kg/TJ; absent = the IPCC default for the fuel and its use (see defaultNonCo2). */
+  ch4?: number;
+  n2o?: number;
   mobile: boolean;
   quality: Quality;
 };
@@ -132,9 +181,30 @@ export type Inventory = {
   productionTonnes: number;
 };
 
-export function fuelEmissions(line: Pick<FuelLine, "amount" | "ncv" | "ef">): number {
-  // amount × GJ/unit → GJ; × tCO₂/TJ ÷ 1000 → tCO₂
-  return (Math.max(0, line.amount) * Math.max(0, line.ncv) * Math.max(0, line.ef)) / 1000;
+type FuelInput = Pick<FuelLine, "fuel" | "mobile" | "amount" | "ncv" | "ef" | "ch4" | "n2o">;
+
+/** The CH₄ and N₂O factors a line uses: its own, else the IPCC default for its fuel and use. */
+export function nonCo2Of(line: Pick<FuelLine, "fuel" | "mobile" | "ch4" | "n2o">): NonCo2Factors {
+  const d = defaultNonCo2(line.fuel, line.mobile);
+  return { ch4: Math.max(0, line.ch4 ?? d.ch4), n2o: Math.max(0, line.n2o ?? d.n2o) };
+}
+
+/** Mass of each gas, tonnes, and their CO₂e (AR6 GWP100). */
+export type FuelGases = { co2: number; ch4: number; n2o: number; co2e: number };
+
+export function fuelGases(line: FuelInput): FuelGases {
+  // amount × GJ/unit → GJ; ÷ 1000 → TJ; × t/TJ (CO₂) or kg/TJ ÷ 1000 (CH₄, N₂O) → t
+  const tj = (Math.max(0, line.amount) * Math.max(0, line.ncv)) / 1000;
+  const f = nonCo2Of(line);
+  const co2 = tj * Math.max(0, line.ef);
+  const ch4 = (tj * f.ch4) / 1000;
+  const n2o = (tj * f.n2o) / 1000;
+  return { co2, ch4, n2o, co2e: co2 + ch4 * GWP_AR6_COMBUSTION.ch4 + n2o * GWP_AR6_COMBUSTION.n2o };
+}
+
+/** Combustion emissions of a line, tCO₂e (CO₂ + CH₄ + N₂O). */
+export function fuelEmissions(line: FuelInput): number {
+  return fuelGases(line).co2e;
 }
 
 export function fuelEnergyGj(line: Pick<FuelLine, "amount" | "ncv">): number {
@@ -171,6 +241,8 @@ export type InventoryResult = {
   scope1Mobile: number;
   scope1Process: number;
   scope1Fugitive: number;
+  /** Fuel combustion by gas, tonnes of each gas (GHG Protocol reports each gas separately). */
+  combustionGases: { co2: number; ch4: number; n2o: number };
   scope2Location: number;
   scope2Market: number;
   scope3: number;
@@ -195,8 +267,13 @@ export function computeInventory(inv: Inventory): InventoryResult {
   let mobile = 0;
   let estimated = 0;
   let energyGj = 0;
+  const gases = { co2: 0, ch4: 0, n2o: 0 };
   for (const f of inv.fuels) {
-    const e = fuelEmissions(f);
+    const g = fuelGases(f);
+    const e = g.co2e;
+    gases.co2 += g.co2;
+    gases.ch4 += g.ch4;
+    gases.n2o += g.n2o;
     if (f.mobile) mobile += e;
     else stationary += e;
     energyGj += fuelEnergyGj(f);
@@ -241,6 +318,7 @@ export function computeInventory(inv: Inventory): InventoryResult {
     scope1Mobile: mobile,
     scope1Process: process,
     scope1Fugitive: fugitive,
+    combustionGases: gases,
     scope2Location: s2l,
     scope2Market: s2m,
     scope3: s3,

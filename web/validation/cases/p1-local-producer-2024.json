@@ -4,7 +4,7 @@
   "title": "Yerel üretici, 2024: TÜİK 2024 ve ETKB 2023 faktörleriyle Kapsam 1-2, DESNZ ile Kapsam 3",
   "source": {
     "kind": "synthetic-official-factors",
-    "cite": "TÜİK NID 2026 (Ek 4, Tablo 3.7); ETKB 2023 bilgi formu; IPCC AR6 GWP; DESNZ 2026",
+    "cite": "TÜİK NID 2026 (Ek 4, Tablo 3.7); IPCC 2006 Cilt 2 Tablo 2.3 ve 3.2.2 (CH₄, N₂O); ETKB 2023 bilgi formu; IPCC AR6 GWP; DESNZ 2026",
     "url": "docs/kaynak-veri"
   },
   "engine": "ghg",
@@ -22,6 +22,8 @@
           "amount": 5000000,
           "ncv": 0.03454,
           "ef": 55.9,
+          "ch4": 1,
+          "n2o": 0.1,
           "mobile": false,
           "quality": "measured",
           "factorRef": "tuik_nir_2024/tuik_nir_2024:natural_gas"
@@ -33,6 +35,8 @@
           "amount": 12000,
           "ncv": 8.35,
           "ef": 105.5,
+          "ch4": 10,
+          "n2o": 1.5,
           "mobile": false,
           "quality": "measured",
           "factorRef": "tuik_nir_2024/tuik_nir_2024:lignite"
@@ -44,6 +48,8 @@
           "amount": 85000,
           "ncv": 0.03612,
           "ef": 72.3,
+          "ch4": 3.9,
+          "n2o": 3.9,
           "mobile": true,
           "quality": "calculated",
           "factorRef": "tuik_nir_2024/tuik_nir_2024:diesel"
@@ -139,7 +145,10 @@
     ]
   },
   "expected": {
-    "scope1": "20503.392960000000",
+    "scope1": "20587.771290584000",
+    "gas.co2": "20447.005460000000",
+    "gas.ch4": "1.186673780000",
+    "gas.n2o": "0.179543780000",
     "scope2Location": "17535.500000000000",
     "scope2Market": "16832.000000000000",
     "scope3": "133.902000000000",

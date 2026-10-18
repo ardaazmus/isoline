@@ -122,7 +122,7 @@ export function planRecalc(inv: Inventory, sets: FactorSet[], year: number, choo
   const fuels = inv.fuels.map((l) => {
     const m = move(l.factorRef, "fuel", l.id, l.label);
     if (!m) return l;
-    const next = { ...l, ef: m.factor.value, ncv: m.factor.ncv ?? l.ncv, factorRef: m.to };
+    const next = { ...l, ef: m.factor.value, ncv: m.factor.ncv ?? l.ncv, ch4: m.factor.ch4 ?? l.ch4, n2o: m.factor.n2o ?? l.n2o, factorRef: m.to };
     changes.push({ kind: "fuel", id: l.id, label: l.label, from: m.from, to: m.to, before: fuelEmissions(l), after: fuelEmissions(next) });
     return next;
   });

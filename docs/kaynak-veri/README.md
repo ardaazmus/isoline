@@ -15,6 +15,7 @@ Ayrıntılı İngilizce kaynak notları: [SOURCE_NOTES.md](SOURCE_NOTES.md) (SKD
 | `desnz_2026`: Kapsam 3 seçkisi (51 faktör) | Birleşik Krallık DESNZ, conversion factors 2026, [desnz/](desnz/README.md) | 11 Haziran 2026 | Open Government Licence v3.0 |
 | `eu_cbam_dv_cn`, `_in`, `_ua`, `_eg`, `_other`: SKDM varsayılan değerleri, Çin, Hindistan, Ukrayna, Mısır, diğer ülkeler | Avrupa Komisyonu, 2026/1740 Ek I; "diğer ülkeler" yedeği uygulanmış, [cbam-countries/](cbam-countries/README.md) | Excel v2, 6 Ağustos 2026; Resmî Gazete ile 1.482/1.482 eşleşti | CC BY 4.0, © Avrupa Birliği |
 | SKDM kıyas değerleri ve üretim rotaları (hesap motorunda) | Uygulama Tüzüğü (AB) 2025/2620 Ek nokta 5.3; rota: 2026/1740 varsayılan değer dosyası F sütunu, [cbam-bm/](cbam-bm/README.md) | Resmî Gazete L 22.12.2025 | © Avrupa Birliği (Karar 2011/833/AB) |
+| Yakmada CH₄ ve N₂O varsayılanları ve GWP (hesap motorunda) | IPCC 2006 Cilt 2 Tablo 2.3, 3.2.2, 3.4.1, 3.5.3; IPCC AR6 WG1 Tablo 7.15, [ipcc/](ipcc/README.md) | 2006 kılavuzları; AR6 (2021) | IPCC yayını, kaynak gösterilerek; PDF dağıtılmıyor |
 | `tuik_nir_2024`: yakıt ısıl değerleri ve CO₂ faktörleri | TÜİK, Türkiye ulusal envanter belgesi 2026 (UNFCCC), [tuik/](tuik/README.md) | envanter yılı 2024; sunuş 14 Nisan 2026 | resmi belge, kaynak gösterilerek; PDF dağıtılmıyor |
 
 ## Dosyalar
@@ -23,6 +24,7 @@ Ayrıntılı İngilizce kaynak notları: [SOURCE_NOTES.md](SOURCE_NOTES.md) (SKD
 - `raw/eea_fig2_country_level_api.json`, `raw/eea_fig1_eu_level_api.json`: EEA şekil verileri (Plone REST API).
 - `cbam_defaults_TR.csv`: Türkiye tablosunun 283 satırı ve Türkiye'de "–" olan 10 kod için "Diğer ülkeler ve bölgeler" satırı. Ondalık virgül, noktalı virgülle ayrılmış.
 - `eea_grid_intensity.csv`: 27 üye ülke ve AB-27 için 2024 değerleri, gCO₂e/kWh.
+- `ipcc/`: yakmada CH₄ ve N₂O varsayılanları (IPCC 2006 Tablo 2.3, 3.2.2, 3.4.1, 3.5.3) ve AR6 GWP'leri (Tablo 7.15), sayfa konumlarıyla. Ayrıntı: [ipcc/README.md](ipcc/README.md).
 - `dogrulama/`: doğrulama paketinin gerçek kaynaklı vakalarının orijinal belgeleri (AB SKDM rehberleri, US EPA). Ayrıntı: [dogrulama/README.md](dogrulama/README.md).
 - `SHA256SUMS`: ham dosyaların, ayıklanmış tabloların ve uygulamaya giren JSON'ların özetleri. Denetim: `sha256sum -c SHA256SUMS` (bu klasörde).
 

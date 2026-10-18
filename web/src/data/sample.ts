@@ -8,7 +8,7 @@ import type { Inventory } from "@/lib/calc/ghg";
 import type { PathwayInput } from "@/lib/calc/pathway";
 import type { EnvInput, MaterialityTopic, SafetyInput, TaxonomyActivity, TaxonomyTotals, WorkforceInput } from "@/lib/calc/indicators";
 import type { Profile } from "@/lib/calc/applicability";
-import { FUELS } from "@/lib/calc/ghg";
+import { defaultNonCo2, FUELS } from "@/lib/calc/ghg";
 import { DEFAULT_TOLERANCES, emptyReconciliation, type Reconciliation } from "@/lib/reconcile";
 import { csvGrid, parseGrid, type TrialBalance } from "@/lib/trial-balance";
 import type { ImportRecord } from "@/lib/imports";
@@ -85,9 +85,9 @@ export const SAMPLE_CLIENT: ClientData = {
   },
   ghg: {
     fuels: [
-      { id: "f1", fuel: "coal", label: "Koklaşabilir kömür — yüksek fırın", amount: 700_000, ncv: FUELS.coal.ncv, ef: FUELS.coal.ef, mobile: false, quality: "measured" },
-      { id: "f2", fuel: "natural_gas", label: "Doğal gaz — haddehane fırınları", amount: 60_000_000, ncv: FUELS.natural_gas.ncv, ef: FUELS.natural_gas.ef, mobile: false, quality: "measured" },
-      { id: "f3", fuel: "diesel", label: "Motorin — saha araçları", amount: 380_000, ncv: FUELS.diesel.ncv, ef: FUELS.diesel.ef, mobile: true, quality: "calculated" },
+      { id: "f1", fuel: "coal", label: "Koklaşabilir kömür — yüksek fırın", amount: 700_000, ncv: FUELS.coal.ncv, ef: FUELS.coal.ef, ...defaultNonCo2("coal", false), mobile: false, quality: "measured" },
+      { id: "f2", fuel: "natural_gas", label: "Doğal gaz — haddehane fırınları", amount: 60_000_000, ncv: FUELS.natural_gas.ncv, ef: FUELS.natural_gas.ef, ...defaultNonCo2("natural_gas", false), mobile: false, quality: "measured" },
+      { id: "f3", fuel: "diesel", label: "Motorin — saha araçları", amount: 380_000, ncv: FUELS.diesel.ncv, ef: FUELS.diesel.ef, ...defaultNonCo2("diesel", true), mobile: true, quality: "calculated" },
     ],
     process: [{ id: "p1", label: "Kireçtaşı ve dolomit kalsinasyonu", tco2e: 90_000, quality: "calculated" }],
     refrigerants: [{ id: "r1", gas: "R-410A", leakedKg: 120, quality: "estimated" }],

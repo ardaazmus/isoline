@@ -1,13 +1,14 @@
 /**
  * Bulk import of GHG inventory lines from CSV (Excel "CSV UTF-8" or Turkish Excel ";" exports).
  * One row per line; the `type` column decides how the row is read:
- *   fuel        item = fuel id, amount in the fuel's unit, optional ncv/ef override, use = stationary|mobile
+ *   fuel        item = fuel id, amount in the fuel's unit, optional ncv/ef override, use = stationary|mobile,
+ *               optional ch4/n2o in kg/TJ (empty = IPCC 2006 default for the fuel and use)
  *   process     amount = tCO₂e
  *   refrigerant item = gas (e.g. R-410A), amount = kg leaked
  *   electricity amount = MWh, connection = transmission|distribution, certified_mwh, optional supplier_factor
  *   scope3      item = category 1–15, amount, unit, factor (tCO₂e per unit), factor_source
  */
-import { FUELS, GWP_AR6, type FuelId, type Inventory, type Quality } from "./calc/ghg";
+import { defaultNonCo2, FUELS, GWP_AR6, type FuelId, type Inventory, type Quality } from "./calc/ghg";
 
 export const CSV_COLUMNS = [
   "type",
@@ -24,6 +25,8 @@ export const CSV_COLUMNS = [
   "factor",
   "factor_source",
   "quality",
+  "ch4",
+  "n2o",
 ] as const;
 
 export type ImportIssue = { row: number; key: string; vars?: Record<string, string | number> };
@@ -142,6 +145,21 @@ export function importInventoryRows(rows: string[][]): ImportResult {
         const f = FUELS[item as FuelId];
         const ncv = parseNumber(col(r, "ncv"));
         const ef = parseNumber(col(r, "ef"));
+        const mobile = col(r, "use").toLowerCase() === "mobile";
+        const d = defaultNonCo2(f.id, mobile);
+        // ch4/n2o: empty → default; a number ≥ 0 (0 included) → that value; anything else → issue
+        const gas = (name: "ch4" | "n2o", fallback: number) => {
+          const s = col(r, name);
+          if (s === "") return fallback;
+          const v = parseNumber(s);
+          return Number.isFinite(v) && v >= 0 ? v : null;
+        };
+        const ch4 = gas("ch4", d.ch4);
+        const n2o = gas("n2o", d.n2o);
+        if (ch4 === null || n2o === null) {
+          result.issues.push({ row: n, key: "badGasFactor", vars: { value: ch4 === null ? col(r, "ch4") : col(r, "n2o") } });
+          return;
+        }
         result.lines.fuels.push({
           id: uid(n),
           fuel: f.id,
@@ -149,7 +167,9 @@ export function importInventoryRows(rows: string[][]): ImportResult {
           amount,
           ncv: Number.isFinite(ncv) && ncv > 0 ? ncv : f.ncv,
           ef: Number.isFinite(ef) && ef > 0 ? ef : f.ef,
-          mobile: col(r, "use").toLowerCase() === "mobile",
+          ch4,
+          n2o,
+          mobile,
           quality,
         });
         return;
@@ -208,12 +228,12 @@ export function importInventoryRows(rows: string[][]): ImportResult {
 /** Header and one example row per type; shared by the CSV and Excel templates. */
 export const INVENTORY_TEMPLATE_ROWS: string[][] = [
   [...CSV_COLUMNS],
-  "fuel;Doğal gaz - kazan dairesi;natural_gas;1250000;Sm3;;;stationary;;;;;;measured".split(";"),
-  "fuel;Motorin - saha araçları;diesel;38000;L;;;mobile;;;;;;calculated".split(";"),
-  "process;Kireçtaşı kalsinasyonu;;9000;tCO2e;;;;;;;;;calculated".split(";"),
-  "refrigerant;Klima bakımı;R-410A;12;kg;;;;;;;;;estimated".split(";"),
-  "electricity;Ana tesis;;30000;MWh;;;;distribution;6000;;;;measured".split(";"),
-  "scope3;Satın alınan çelik;1;15000;t;;;;;;;1,9;Tedarikçi beyanı;estimated".split(";"),
+  "fuel;Doğal gaz - kazan dairesi;natural_gas;1250000;Sm3;;;stationary;;;;;;measured;;".split(";"),
+  "fuel;Motorin - saha araçları;diesel;38000;L;;;mobile;;;;;;calculated;;".split(";"),
+  "process;Kireçtaşı kalsinasyonu;;9000;tCO2e;;;;;;;;;calculated;;".split(";"),
+  "refrigerant;Klima bakımı;R-410A;12;kg;;;;;;;;;estimated;;".split(";"),
+  "electricity;Ana tesis;;30000;MWh;;;;distribution;6000;;;;measured;;".split(";"),
+  "scope3;Satın alınan çelik;1;15000;t;;;;;;;1,9;Tedarikçi beyanı;estimated;;".split(";"),
 ];
 
 /** Template with one example row per type; ";" so Turkish Excel opens it in columns. */

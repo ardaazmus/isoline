@@ -54,6 +54,7 @@ async function run(c: Case): Promise<{ out: Outputs; ms: number }> {
     case "ghg": {
       const r = computeInventory(input.inventory as Inventory);
       Object.assign(out, { scope1: r.scope1, scope2Location: r.scope2Location, scope2Market: r.scope2Market, scope3: r.scope3, energyGj: r.energyGj });
+      Object.assign(out, { "gas.co2": r.combustionGases.co2, "gas.ch4": r.combustionGases.ch4, "gas.n2o": r.combustionGases.n2o });
       for (const fc of (input.factorChecks ?? []) as { ref: string; value: string; ncv?: string }[]) {
         const o = resolveRef(BUILTIN_SETS, fc.ref);
         out[`factor ${fc.ref}`] = o?.factor.value ?? NaN;

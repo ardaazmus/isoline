@@ -238,3 +238,20 @@ describe("CBAM default values of further countries of origin", () => {
     expect(setsForYear(BUILTIN_SETS, 2026).filter((s) => s.family === "eu_cbam_dv").map((s) => s.country)).toEqual(["TR", "CN", "IN", "UA", "EG", "OTHER"]);
   });
 });
+
+describe("factor CSV: CH₄ and N₂O", () => {
+  it("reads optional CH₄ and N₂O for fuels, round-trips them and refuses negatives", () => {
+    const r = importFactorCsv("kind;key;value;ncv;ch4;n2o\nfuel_co2;natural_gas;56,4;0,0346;1;0,1\nfuel_co2;diesel;74;0,036;;\nfuel_co2;lpg;63;0,047;-1;", "c1");
+    expect(r.factors.map((f) => [f.key, f.ch4, f.n2o])).toEqual([
+      ["natural_gas", 1, 0.1],
+      ["diesel", undefined, undefined],
+    ]);
+    expect(r.issues.map((i) => [i.row, i.key])).toEqual([[4, "badValue"]]);
+    const set: FactorSet = { ...custom(true), factors: r.factors };
+    expect(importFactorCsv(factorSetCsv(set), "c1").factors).toEqual(r.factors);
+  });
+  it("lists the combustion GWPs it uses in the AR6 set", () => {
+    const gwp = BUILTIN_SETS.find((s) => s.id === "ipcc_ar6_gwp")!;
+    expect(gwp.factors.filter((f) => ["CH4-fossil", "N2O"].includes(f.key)).map((f) => f.value)).toEqual([29.8, 273]);
+  });
+});

@@ -31,14 +31,19 @@ const inventory = (year, parts) => ({
   ...parts,
 });
 
-/** A fuel line whose factors are given per mmBtu (HHV, US practice), expressed in the app's GJ and t/TJ units. */
-const hhvFuel = (id, label, amount, mmbtuPerUnit, kgCo2PerMmbtu) => ({
+/**
+ * A fuel line whose factors are given per mmBtu (HHV, US practice), expressed in the app's units:
+ * GJ per unit, t CO₂/TJ, kg CH₄ and N₂O per TJ.
+ */
+const hhvFuel = (id, label, amount, mmbtuPerUnit, kgCo2PerMmbtu, kgCh4PerMmbtu, kgN2oPerMmbtu) => ({
   id,
   fuel: "natural_gas",
   label,
   amount,
   ncv: num(R(mmbtuPerUnit).mul(GJ_PER_MMBTU)),
   ef: num(R(kgCo2PerMmbtu).div(GJ_PER_MMBTU)),
+  ch4: num(R(kgCh4PerMmbtu).mul(1000).div(GJ_PER_MMBTU)),
+  n2o: num(R(kgN2oPerMmbtu).mul(1000).div(GJ_PER_MMBTU)),
   mobile: false,
   quality: "measured",
 });
@@ -55,17 +60,17 @@ write({
     kind: "regulator-facility-record",
     cite: "US EPA GHGRP, tesis 1004616, raporlama yılı 2023, C_FUEL_LEVEL_INFORMATION (birim GP-1); 40 CFR 98 Tablo C-1",
     url: "https://data.epa.gov/efservice/C_FUEL_LEVEL_INFORMATION/FACILITY_ID/=/1004616/REPORTING_YEAR/=/2023/JSON",
-    page: "tek satır: tier1_fuel_quantity 4011026965 scf, tier1_co2_combustion_emissions 218358.5",
+    page: "tek satır: tier1_fuel_quantity 4011026965 scf; tier1_co2_combustion_emissions 218358.5; tier1_ch4_combustion_emissions 4.12; tier1_n2o_combustion_emissions 0.412",
   },
   engine: "ghg",
   input: {
     inventory: inventory(2023, {
-      fuels: [hhvFuel("f1", "Doğal gaz (ABD ağırlıklı ortalama)", 4_011_026_965, "0.001026", "53.06")],
+      fuels: [hhvFuel("f1", "Doğal gaz (ABD ağırlıklı ortalama)", 4_011_026_965, "0.001026", "53.06", "0.001", "0.0001")],
     }),
   },
-  expected: { scope1: "218358.5" },
+  expected: { "gas.co2": "218358.5", "gas.ch4": "4.12", "gas.n2o": "0.412" },
   notes:
-    "Tablo C-1: üst ısıl değer 1,026 × 10⁻³ mmBtu/scf, 53,06 kg CO₂/mmBtu. Uygulamaya GJ ve t/TJ olarak girildi (1 mmBtu = 1,05505585262 GJ); çarpım birim dönüşümünden bağımsızdır. Kayıt CH₄ 4,12 t (102,9 t CO₂e) ve N₂O 0,412 t (122,6 t CO₂e) da raporluyor; uygulamanın yakıt satırları yalnız CO₂ hesapladığı için karşılaştırma CO₂ ile yapılır. CO₂e toplamına göre fark %0,10'dur.",
+    "Tablo C-1: üst ısıl değer 1,026 × 10⁻³ mmBtu/scf, 53,06 kg CO₂/mmBtu; Tablo C-2: 1,0 × 10⁻³ kg CH₄ ve 1,0 × 10⁻⁴ kg N₂O/mmBtu. Uygulamaya GJ, t/TJ ve kg/TJ olarak girildi (1 mmBtu = 1,05505585262 GJ); çarpım birim dönüşümünden bağımsızdır. Karşılaştırma gaz kütleleriyle yapılır: GHGRP 2023 CO₂e'yi AR4 GWP'leriyle (25, 298) hesaplıyor, uygulama AR6 kullanıyor. Kayıttaki CH₄ ve N₂O üç anlamlı basamağa yuvarlanmış; sapma bundan gelir.",
 });
 
 write({
@@ -81,15 +86,18 @@ write({
   engine: "ghg",
   input: {
     inventory: inventory(2023, {
-      fuels: [hhvFuel("f1", "Doğal gaz kazanı", 6_000_000, "0.001025", "53.06")],
+      fuels: [hhvFuel("f1", "Doğal gaz kazanı", 6_000_000, "0.001025", "53.06", "0.001", "0.0001")],
     }),
   },
   expected: {
-    scope1: "326.3",
+    "gas.co2": "326.3",
+    "gas.ch4": "0.00615",
+    "gas.n2o": "0.000615",
+    scope1: "326.7",
     energyGj: R(6150).mul(GJ_PER_MMBTU).toFixed(6),
   },
   notes:
-    "6.000.000 scf × 1.025 Btu/scf = 61.500 therm = 6.150 mmBtu; × 53,06 kg CO₂/mmBtu = 326,3 t CO₂ (belgede basılı). Enerji beklentisi, basılı 6.150 mmBtu'nun tam birim dönüşümüdür. Belgenin CO₂e toplamı 326,7 t (CH₄ ve N₂O dahil); uygulama yakıt satırında yalnız CO₂ hesapladığı için fark %0,12'dir.",
+    "6.000.000 scf × 1.025 Btu/scf = 61.500 therm = 6.150 mmBtu. × 53,06 kg CO₂/mmBtu = 326,3 t CO₂; × 1,0 g CH₄ = 6,15 kg; × 0,10 g N₂O = 0,615 kg (belgede basılı). Belgenin CO₂e toplamı 326,7 t AR5 GWP'leriyle (28, 265); uygulama AR6 (29,8, 273) kullanır, fark %0,01'in altında. Enerji beklentisi, basılı 6.150 mmBtu'nun tam birim dönüşümüdür.",
 });
 
 // ---------------------------------------------------------------- Scope 2, GHG Protocol worked examples

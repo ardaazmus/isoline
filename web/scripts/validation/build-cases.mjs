@@ -23,6 +23,10 @@ const P = {
   ipccDieselNcvPerL: "0.03612", ipccGasNcv: "0.0345", ipccGasEf: "56.1",
   // IPCC AR6 WG1 Table 7.SM.7 GWP100: R-32 771, R-125 3740; R-410A = 50/50
   gwpR32: "771", gwpR125: "3740",
+  // IPCC AR6 WG1 Table 7.15 GWP100 (p. 1017): CH4 fossil 29.8, N2O 273
+  gwpCh4: "29.8", gwpN2o: "273",
+  // CH4 and N2O, kg/TJ: IPCC 2006 Vol.2 Table 2.3 (manufacturing, p. 2.18) and Table 3.2.2 (road, p. 3.21)
+  nonCo2: { gasStationary: ["1", "0.1"], ligniteStationary: ["10", "1.5"], dieselRoad: ["3.9", "3.9"] },
   // ETKB information forms (docs/kaynak-veri/etkb), tCO2e/MWh
   etkb: { 2022: { tr: "0.445", di: "0.478", gas: "0.379" }, 2023: { tr: "0.436", di: "0.469", gas: "0.405" } },
   // DESNZ 2026 full set (docs/kaynak-veri/desnz), kg CO2e per unit
@@ -37,10 +41,15 @@ const P = {
 
 // ---------------------------------------------------------------- Profile 1: local producer, 2024
 {
-  const gas = { amount: "5000000", ncv: R(P.tuikGasNcvTjPerMm3).div(1000), ef: R(P.tuikGasEf) };
-  const lig = { amount: "12000", ncv: R(P.tuikLigniteNcv), ef: R(P.tuikLigniteEf) };
-  const die = { amount: "85000", ncv: R(P.ipccDieselNcvPerL), ef: R(P.tuikDieselEf) };
-  const fuelT = (f) => R(f.amount).mul(f.ncv).mul(f.ef).div(1000);
+  const gas = { amount: "5000000", ncv: R(P.tuikGasNcvTjPerMm3).div(1000), ef: R(P.tuikGasEf), nc: P.nonCo2.gasStationary };
+  const lig = { amount: "12000", ncv: R(P.tuikLigniteNcv), ef: R(P.tuikLigniteEf), nc: P.nonCo2.ligniteStationary };
+  const die = { amount: "85000", ncv: R(P.ipccDieselNcvPerL), ef: R(P.tuikDieselEf), nc: P.nonCo2.dieselRoad };
+  const fuels = [gas, lig, die];
+  const tj = (f) => R(f.amount).mul(f.ncv).div(1000);
+  const co2T = (f) => tj(f).mul(f.ef);
+  const ch4T = (f) => tj(f).mul(f.nc[0]).div(1000);
+  const n2oT = (f) => tj(f).mul(f.nc[1]).div(1000);
+  const fuelT = (f) => co2T(f).add(ch4T(f).mul(P.gwpCh4)).add(n2oT(f).mul(P.gwpN2o));
   const gwp410 = R(P.gwpR32).add(P.gwpR125).div(2);
   const ref = R(25).mul(gwp410).div(1000);
   const s1 = sum([fuelT(gas), fuelT(lig), fuelT(die), ref]);
@@ -53,16 +62,16 @@ const P = {
     id: "p1-local-producer-2024",
     profile: "local",
     title: "Yerel üretici, 2024: TÜİK 2024 ve ETKB 2023 faktörleriyle Kapsam 1-2, DESNZ ile Kapsam 3",
-    source: { kind: "synthetic-official-factors", cite: "TÜİK NID 2026 (Ek 4, Tablo 3.7); ETKB 2023 bilgi formu; IPCC AR6 GWP; DESNZ 2026", url: "docs/kaynak-veri" },
+    source: { kind: "synthetic-official-factors", cite: "TÜİK NID 2026 (Ek 4, Tablo 3.7); IPCC 2006 Cilt 2 Tablo 2.3 ve 3.2.2 (CH₄, N₂O); ETKB 2023 bilgi formu; IPCC AR6 GWP; DESNZ 2026", url: "docs/kaynak-veri" },
     engine: "ghg",
     tolerance: { relative: 1e-9 },
     input: {
       inventory: {
         year: 2024,
         fuels: [
-          { id: "f1", fuel: "natural_gas", label: "Doğal gaz", amount: 5000000, ncv: gas.ncv.toNumber(), ef: 55.9, mobile: false, quality: "measured", factorRef: "tuik_nir_2024/tuik_nir_2024:natural_gas" },
-          { id: "f2", fuel: "lignite", label: "Linyit", amount: 12000, ncv: 8.35, ef: 105.5, mobile: false, quality: "measured", factorRef: "tuik_nir_2024/tuik_nir_2024:lignite" },
-          { id: "f3", fuel: "diesel", label: "Motorin", amount: 85000, ncv: 0.03612, ef: 72.3, mobile: true, quality: "calculated", factorRef: "tuik_nir_2024/tuik_nir_2024:diesel" },
+          { id: "f1", fuel: "natural_gas", label: "Doğal gaz", amount: 5000000, ncv: gas.ncv.toNumber(), ef: 55.9, ch4: 1, n2o: 0.1, mobile: false, quality: "measured", factorRef: "tuik_nir_2024/tuik_nir_2024:natural_gas" },
+          { id: "f2", fuel: "lignite", label: "Linyit", amount: 12000, ncv: 8.35, ef: 105.5, ch4: 10, n2o: 1.5, mobile: false, quality: "measured", factorRef: "tuik_nir_2024/tuik_nir_2024:lignite" },
+          { id: "f3", fuel: "diesel", label: "Motorin", amount: 85000, ncv: 0.03612, ef: 72.3, ch4: 3.9, n2o: 3.9, mobile: true, quality: "calculated", factorRef: "tuik_nir_2024/tuik_nir_2024:diesel" },
         ],
         process: [],
         refrigerants: [{ id: "r1", gas: "R-410A", leakedKg: 25, quality: "estimated" }],
@@ -88,7 +97,16 @@ const P = {
         { ref: "desnz_2026/desnz_2026:hotel_turkey", value: fx(R(P.desnzHotelTrKg).div(1000)) },
       ],
     },
-    expected: { scope1: fx(s1), scope2Location: fx(s2l), scope2Market: fx(s2m), scope3: fx(s3), energyGj: fx(energy) },
+    expected: {
+      scope1: fx(s1),
+      "gas.co2": fx(sum(fuels.map(co2T))),
+      "gas.ch4": fx(sum(fuels.map(ch4T))),
+      "gas.n2o": fx(sum(fuels.map(n2oT))),
+      scope2Location: fx(s2l),
+      scope2Market: fx(s2m),
+      scope3: fx(s3),
+      energyGj: fx(energy),
+    },
   };
   // The library's factors are part of the check: each must equal the official value the case uses.
   for (const c of p1.input.factorChecks) {
@@ -147,7 +165,10 @@ const P = {
 {
   const before = P.etkb[2022];
   const after = P.etkb[2023];
-  const gas = R(2400000).mul(P.ipccGasNcv).mul(P.ipccGasEf).div(1000);
+  // CO2 plus CH4 and N2O at the Table 2.3 defaults for natural gas (1 and 0.1 kg/TJ)
+  const gasTj = R(2400000).mul(P.ipccGasNcv).div(1000);
+  const [gasCh4, gasN2o] = P.nonCo2.gasStationary;
+  const gas = gasTj.mul(P.ipccGasEf).add(gasTj.mul(gasCh4).div(1000).mul(P.gwpCh4)).add(gasTj.mul(gasN2o).div(1000).mul(P.gwpN2o));
   const loc = (e) => sum([R(18000).mul(e.tr), R(42000).mul(e.di), R(5000).mul(e.gas)]);
   const mkt = (e) => sum([R(18000).mul(e.tr), R(42000 - 6000).mul(e.di), R(5000).mul(e.gas)]);
   const b12 = gas.add(loc(before));
@@ -156,7 +177,7 @@ const P = {
     id: "p3-revision-2023",
     profile: "revision",
     title: "Geriye dönük revizyon: 2023 envanteri ETKB 2022 ile hesaplanmış, ETKB 2023 yayımlanınca yeniden hesap",
-    source: { kind: "synthetic-official-factors", cite: "ETKB 2022 ve 2023 bilgi formları; IPCC 2006 varsayılan doğal gaz", url: "docs/kaynak-veri/etkb" },
+    source: { kind: "synthetic-official-factors", cite: "ETKB 2022 ve 2023 bilgi formları; IPCC 2006 varsayılan doğal gaz (CO₂, CH₄, N₂O)", url: "docs/kaynak-veri/etkb" },
     engine: "recalc",
     tolerance: { relative: 1e-9 },
     input: {
@@ -165,7 +186,7 @@ const P = {
       inventory: {
         year: 2023,
         grid: { edition: "etkb_2022", transmission: Number(before.tr), distribution: Number(before.di) },
-        fuels: [{ id: "f1", fuel: "natural_gas", label: "Doğal gaz", amount: 2400000, ncv: 0.0345, ef: 56.1, mobile: false, quality: "measured" }],
+        fuels: [{ id: "f1", fuel: "natural_gas", label: "Doğal gaz", amount: 2400000, ncv: 0.0345, ef: 56.1, ch4: 1, n2o: 0.1, mobile: false, quality: "measured" }],
         process: [],
         refrigerants: [],
         electricity: [

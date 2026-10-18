@@ -1,0 +1,15 @@
+fuel;use;ch4_kg_per_tj;n2o_kg_per_tj;source;table;printed_page;ipcc_row
+natural_gas;stationary;1;0.1;IPCC 2006 Vol. 2 Ch. 2;Table 2.3 Manufacturing Industries and Construction;2.18;Natural Gas
+diesel;stationary;3;0.6;IPCC 2006 Vol. 2 Ch. 2;Table 2.3 Manufacturing Industries and Construction;2.18;Gas/Diesel Oil
+gasoline;stationary;3;0.6;IPCC 2006 Vol. 2 Ch. 2;Table 2.3 Manufacturing Industries and Construction;2.18;Motor Gasoline
+lpg;stationary;1;0.1;IPCC 2006 Vol. 2 Ch. 2;Table 2.3 Manufacturing Industries and Construction;2.18;Liquefied Petroleum Gases
+fuel_oil;stationary;3;0.6;IPCC 2006 Vol. 2 Ch. 2;Table 2.3 Manufacturing Industries and Construction;2.18;Residual Fuel Oil
+coal;stationary;10;1.5;IPCC 2006 Vol. 2 Ch. 2;Table 2.3 Manufacturing Industries and Construction;2.18;Other Bituminous Coal
+lignite;stationary;10;1.5;IPCC 2006 Vol. 2 Ch. 2;Table 2.3 Manufacturing Industries and Construction;2.18;Lignite
+natural_gas;mobile;92;3;IPCC 2006 Vol. 2 Ch. 3;Table 3.2.2 Road transport;3.21;Natural Gas
+diesel;mobile;3.9;3.9;IPCC 2006 Vol. 2 Ch. 3;Table 3.2.2 Road transport;3.21;Gas / Diesel Oil
+gasoline;mobile;3.8;5.7;IPCC 2006 Vol. 2 Ch. 3;Table 3.2.2 Road transport;3.21;Motor Gasoline - Low Mileage Light Duty Vehicle Vintage 1995 or Later
+lpg;mobile;62;0.2;IPCC 2006 Vol. 2 Ch. 3;Table 3.2.2 Road transport;3.21;Liquified petroleum gas
+fuel_oil;mobile;7;2;IPCC 2006 Vol. 2 Ch. 3;Table 3.5.3 Water-borne navigation;3.50;Ocean-going Ships (heavy fuel oil)
+coal;mobile;2;1.5;IPCC 2006 Vol. 2 Ch. 3;Table 3.4.1 Rail transport;3.43;Sub-bituminous Coal
+lignite;mobile;10;1.5;IPCC 2006 Vol. 2 Ch. 2;Table 2.3 Manufacturing Industries and Construction;2.18;Lignite (no mobile default; stationary value kept)

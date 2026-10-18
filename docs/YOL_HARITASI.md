@@ -41,10 +41,17 @@ Tamamlanan (18.10.2026): SKDM menşe ülke seçimi.
 - Ürüne menşe ülke seçimi geldi: varsayılan değer tablosu, kıyas rotası ve operatör özeti menşeye göre. Ülke değişince kütüphaneden seçilmiş değer aynı KN satırına geçiyor.
 
 Tamamlanan (18.10.2026): doğrulama paketi ([web/validation/](../web/validation/README.md)).
-- 16 vaka ve 119 kontrol; hepsi uygulamanın gerçek hesap motorlarında çalışıyor (`npm run validate`).
+- 16 vaka ve 127 kontrol; hepsi uygulamanın gerçek hesap motorlarında çalışıyor (`npm run validate`).
 - 9 vaka yayımlanmış kaynaktan alındı: AB SKDM rehberlerinin çözümlü örnekleri (çimento, ray, hidrojen, varsayılan değer ve kıyas, SKDM faktörü tablosu), US EPA'nın çözümlü örneği ve bir GHGRP tesis kaydı, GHG Protokolü Kapsam 2 tabloları. En büyük sapma %0,14.
 - 7 vaka sentetik; beklenen değerleri tam kesir aritmetiğiyle hesaplandı: üç test profili, %5 eşiği, 10.238 satırlık mizan, uzlaştırma eşikleri.
 - Bulgu: AB'nin çelik rehberi (5d) sertifika hesabına dolaylı emisyonu da katıyor. Tüzük Ek II ve Rehber No. 1 buna aykırı. Uygulama tüzüğü izliyor; fark vaka notunda belgelendi.
+
+Tamamlanan (18.10.2026): yakmada CH₄ ve N₂O ([kaynak-veri/ipcc/](kaynak-veri/ipcc/README.md)).
+- Her yakıt satırı CO₂, CH₄ ve N₂O'yu ayrı hesaplıyor; CO₂e için AR6 GWP kullanılıyor (fosil CH₄ 29,8; N₂O 273).
+- Varsayılanlar IPCC 2006'dan, Türkiye ulusal envanterinin uyguladığı gibi: sabit yakmada Tablo 2.3; araçlarda Tablo 3.2.2; gemide Tablo 3.5.3; demiryolunda Tablo 3.4.1. Değerler satırda değiştirilebiliyor.
+- Sonuç ekranında Kapsam 1 gaz dökümü var: kütle, GWP ve tCO₂e.
+- Envanter şablonu ve özel faktör CSV'si `ch4` ve `n2o` sütunlarını okuyor. Kayıtlı çalışma alanları v7 göçüyle değerleri açıkça satıra yazıyor.
+- Etki: Örnek müşteride Kapsam 1 %0,7 arttı. Araç ağırlıklı envanterlerde artış %1,5–4 olabilir; GHG Protokolü'nün %5 eşiğinin altında kalsa da baz yıl karşılaştırmasında açıklanmalı.
 
 Kod dışında yapılacak iş:
 - Uzman teyitleri.
@@ -55,7 +62,6 @@ Kodda yapılacak iş:
 - **SKDM:** gerektikçe başka menşe ülke tabloları (Türkiye, Çin, Hindistan, Ukrayna, Mısır ve diğer ülkeler tamam).
 - **TR ETS:** Başkanlık kıyas değerleri ve Ulusal Tahsisat Planı yayımlanınca parametre güncellemesi.
 - **SBTi V2.0:** Ç4 2026'da yayımlanacak yöntemlerin eklenmesi.
-- **Yakıtta CH₄ ve N₂O:** Yakıt satırları bugün yalnız CO₂ hesaplıyor. Sabit yakmada fark yaklaşık %0,1; EPA vakalarında ölçülen %0,10 ve %0,12. Araçlarda IPCC 2006 Tablo 3.2.2 varsayılanlarıyla tahminen %1,5–4, yani %0,5 hedefini aşar. Değerler eklenirken birincil metinden teyit edilecek.
 
 **Kontrol noktası:** 3 gerçek, anonimleştirilmiş müşteri verisiyle hesapların bağımsız tabloyla karşılaştırılması (sapma < %0,5). Paket hazır; müşteri verisi geldiğinde her biri bir vaka dosyası olarak eklenir. Kontrol noktası, bu üç vaka geçince kapanır.
 

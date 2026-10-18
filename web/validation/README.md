@@ -26,12 +26,12 @@ Beklenen değer hiçbir zaman uygulamanın hesap koduyla üretilmez.
 
 | Vaka | Profil | Ne sınanıyor |
 |---|---|---|
-| `p1-local-producer-2024` | Yerel üretici | Kapsam 1: TÜİK 2024 ısıl değer ve CO₂ faktörü, IPCC AR6 GWP. Kapsam 2: ETKB 2023, konum ve piyasa bazlı. Kapsam 3: DESNZ 2026. Kütüphanenin bu resmi değerleri taşıdığı da kontrol edilir. |
+| `p1-local-producer-2024` | Yerel üretici | Kapsam 1: TÜİK 2024 ısıl değer ve CO₂ faktörü; IPCC 2006 CH₄ ve N₂O (sabit ve karayolu), gaz gaz kütleler; IPCC AR6 GWP. Kapsam 2: ETKB 2023, konum ve piyasa bazlı. Kapsam 3: DESNZ 2026. Kütüphanenin bu resmi değerleri taşıdığı da kontrol edilir. |
 | `p2-cbam-exporter` | SKDM ihracatçısı | Varsayılan değerli iki ürün (Türkiye ve Çin menşeli) ve öncül paylı gerçek veri; 2026 ve 2028. İşaretleme payı, SKDM faktörü, CSCF, kıyas, ücretsiz tahsis düzeltmesi, sertifika ve maliyet. |
 | `p3-revision-2023` | Geriye dönük revizyon | ETKB 2022 ile hesaplanmış 2023 envanterinin ETKB 2023'e taşınması: önce/sonra toplamlar, değişen kalemler, yıla göre sürüm seçimi. |
 | `p3-threshold-exact-5pct`, `p3-threshold-below-5pct` | Revizyon | Kapsam 1+2 değişimi tam %5'te anlamlı, %4,9975'te değil. |
-| `r-epa-ghgrp-steel-dynamics-2023` | Yerel üretici | US EPA GHGRP tesis kaydı (tesis 1004616, 2023): 4.011.026.965 scf doğal gaz, 40 CFR 98 Tablo C-1 faktörleri. Raporlanan değer 218.358,5 t CO₂. |
-| `r-epa-cccl-boiler` | Yerel üretici | EPA'nın çözümlü kazan örneği: 6.000.000 scf = 6.150 mmBtu, 326,3 t CO₂. Enerji ve emisyon. |
+| `r-epa-ghgrp-steel-dynamics-2023` | Yerel üretici | US EPA GHGRP tesis kaydı (tesis 1004616, 2023): 4.011.026.965 scf doğal gaz, 40 CFR 98 Tablo C-1 ve C-2 faktörleri. Raporlanan kütleler: 218.358,5 t CO₂, 4,12 t CH₄, 0,412 t N₂O. |
+| `r-epa-cccl-boiler` | Yerel üretici | EPA'nın çözümlü kazan örneği: 6.000.000 scf = 6.150 mmBtu; 326,3 t CO₂, 6,15 kg CH₄, 0,615 kg N₂O, toplam 326,7 t CO₂e. Enerji ve emisyon. |
 | `r-ghgp-scope2-location` | Yerel üretici | GHG Protokolü Kapsam 2 Tablo 6.4: dört tesis, her biri kendi şebeke faktörüyle (eGRID lb/MWh dönüşümü dahil). 3.091,908 t CO₂. |
 | `r-ghgp-scope2-market` | Yerel üretici | GHG Protokolü Tablo 6.5: sertifikalı MWh, tedarikçi faktörü, kalan karışım. 2.250 t CO₂e. |
 | `r-cbam-cement-5a` | SKDM ihracatçısı | AB Rehberi 5a: çimentoda dolaylı emisyon sayılır; A sütunu 0 + klinker öncülü; 2026 FAA ve 26 sertifika. |
@@ -50,7 +50,7 @@ Son çalıştırmanın sonuçları [RESULTS.md](RESULTS.md) dosyasında. Yayıml
   - Rehber 5d (s. 44), 10.000 t ray için sertifika sayısını 15.670 − 11.980 = 3.690 olarak basıyor. 15.670'in içinde 280 t dolaylı emisyon var.
   - Tüzük 2023/956 Ek II ise demir-çeliği yalnız doğrudan emisyonun sayıldığı mallar arasında listeliyor. Aynı tarihli Rehber No. 1 de bunu tekrarlıyor (PDF s. 10).
   - Uygulama tüzüğü izliyor ve 3.410 buluyor. Vaka bu değeri bekliyor; rehberin basılı sayısı vaka notunda duruyor. Konu, kök README'deki uzman teyidi listesine eklendi.
-- **Yakıt satırlarında CH₄ ve N₂O yok.** Uygulama EPA vakalarının CO₂e toplamından %0,10 ve %0,12 sapıyor; sabit yakmada bu, %0,5 hedefinin altında. Araçlarda fark büyüyor. Yol haritasında açık iş olarak duruyor.
+- **Yakıt satırlarında CH₄ ve N₂O yoktu (giderildi, 18.10.2026).** İlk çalıştırmada uygulama, EPA vakalarının CO₂e toplamından %0,10 ve %0,12 sapıyordu; araçlarda fark %1,5–4'e çıkabiliyordu. Artık her yakıt satırı CH₄ ve N₂O'yu IPCC 2006 varsayılanlarıyla ya da girilen değerle hesaplıyor ([docs/kaynak-veri/ipcc/](../../docs/kaynak-veri/ipcc/README.md)). EPA vakaları gaz gaz kütleyle karşılaştırılıyor; GHGRP'nin CO₂e'si AR4 GWP'leriyle hesaplandığı için kütle karşılaştırması GWP seçiminden bağımsız.
 - **Araştırmanın bulduğu yayın hataları** (bu örnekler vaka olarak kullanılmadı):
   - Rehber 5d Örnek 2'de FeCr varsayılan değeri 2,280 basılmış. Doğrusu 2,820: hem Uyg. Tüz. 2025/2621 Ek I'deki değer bu, hem tablonun kendi çarpımı bununla tutuyor.
   - Aynı örnekteki boru SEE'si (1,783), basılı girdilerle yeniden üretilemiyor; hesap yaklaşık 1,803 veriyor.

@@ -4,7 +4,7 @@
   "title": "Geriye dönük revizyon: 2023 envanteri ETKB 2022 ile hesaplanmış, ETKB 2023 yayımlanınca yeniden hesap",
   "source": {
     "kind": "synthetic-official-factors",
-    "cite": "ETKB 2022 ve 2023 bilgi formları; IPCC 2006 varsayılan doğal gaz",
+    "cite": "ETKB 2022 ve 2023 bilgi formları; IPCC 2006 varsayılan doğal gaz (CO₂, CH₄, N₂O)",
     "url": "docs/kaynak-veri/etkb"
   },
   "engine": "recalc",
@@ -34,6 +34,8 @@
           "amount": 2400000,
           "ncv": 0.0345,
           "ef": 56.1,
+          "ch4": 1,
+          "n2o": 0.1,
           "mobile": false,
           "quality": "measured"
         }
@@ -81,8 +83,8 @@
     "after.scope2Location": "29571.000000000000",
     "before.scope2Market": "27113.000000000000",
     "after.scope2Market": "26757.000000000000",
-    "after.scope1": "4645.080000000000",
-    "scope12Change": "-0.011840785904728",
+    "after.scope1": "4649.807880000000",
+    "scope12Change": "-0.011839169372563",
     "significant": false,
     "changes": 3,
     "gridTo": "etkb_2023",

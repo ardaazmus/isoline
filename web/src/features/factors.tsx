@@ -135,6 +135,11 @@ function FactorTable({ set, onRemove }: { set: FactorSet; onRemove?: (id: string
                   {label(f, set)}
                   {f.year && <span className="ml-1 text-[var(--ink-3)]">({f.year})</span>}
                   {f.ncv !== undefined && <span className="block text-[11.5px] text-[var(--ink-3)]">NCV {fmt.number(f.ncv, 4)} GJ/{f.unit}</span>}
+                  {(f.ch4 !== undefined || f.n2o !== undefined) && (
+                    <span className="block text-[11.5px] text-[var(--ink-3)]">
+                      CH₄ {f.ch4 === undefined ? "–" : fmt.number(f.ch4, 2)} · N₂O {f.n2o === undefined ? "–" : fmt.number(f.n2o, 2)} kg/TJ
+                    </span>
+                  )}
                   {f.kind === "cbam_default" && (f.direct !== undefined || f.indirect !== undefined) && (
                     <span className="block text-[11.5px] text-[var(--ink-3)]">
                       {t("factors.direct")} {part(f.direct)} · {t("factors.indirect")} {part(f.indirect)}

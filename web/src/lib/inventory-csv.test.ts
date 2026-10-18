@@ -70,3 +70,32 @@ describe("importInventoryCsv", () => {
     expect(r.lines.electricity[0].certifiedMwh).toBe(100);
   });
 });
+
+describe("importInventoryCsv: CH₄ and N₂O", () => {
+  const head = "type;label;item;amount;use;ch4;n2o";
+  it("takes the IPCC default for the fuel and its use when the cells are empty", () => {
+    const r = importInventoryCsv(`${head}
+fuel;Kazan;natural_gas;100;stationary;;
+fuel;Araç;diesel;100;mobile;;`);
+    expect(r.issues).toEqual([]);
+    expect(r.lines.fuels.map((l) => [l.ch4, l.n2o])).toEqual([
+      [1, 0.1],
+      [3.9, 3.9],
+    ]);
+  });
+  it("keeps typed values, zero included, and refuses unreadable ones", () => {
+    const r = importInventoryCsv(`${head}
+fuel;A;lpg;10;mobile;0;0,25
+fuel;B;coal;10;stationary;x;1
+fuel;C;coal;10;stationary;1;-2`);
+    expect(r.lines.fuels.map((l) => [l.ch4, l.n2o])).toEqual([[0, 0.25]]);
+    expect(r.issues.map((i) => [i.row, i.key])).toEqual([
+      [3, "badGasFactor"],
+      [4, "badGasFactor"],
+    ]);
+  });
+  it("reads files written before the CH₄ and N₂O columns existed", () => {
+    const r = importInventoryCsv("type;item;amount;use\nfuel;gasoline;1000;mobile");
+    expect(r.lines.fuels[0]).toMatchObject({ ch4: 3.8, n2o: 5.7 });
+  });
+});

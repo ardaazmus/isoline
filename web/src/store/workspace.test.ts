@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { SAMPLE_CLIENT } from "@/data/sample";
-import { addV4Fields, addV5Fields, addV6Fields, unlinkV2GridPicks } from "./workspace";
+import { computeInventory } from "@/lib/calc/ghg";
+import { addV4Fields, addV5Fields, addV6Fields, addV7Fields, migrateClients, unlinkV2GridPicks } from "./workspace";
 
 describe("workspace v3 migration", () => {
   it("drops v2 grid picks from the supplier factor but keeps the typed value", () => {
@@ -55,5 +56,41 @@ describe("workspace v6 migration", () => {
     const [a, b] = addV6Fields([s as typeof SAMPLE_CLIENT, o as typeof SAMPLE_CLIENT]);
     expect(a.importLog).toEqual(SAMPLE_CLIENT.importLog);
     expect(b.importLog).toEqual([]);
+  });
+});
+
+describe("workspace v7 migration", () => {
+  it("writes the IPCC CH₄ and N₂O defaults into fuel lines that lack them and keeps typed values", () => {
+    const c = structuredClone(SAMPLE_CLIENT);
+    c.ghg.fuels = [
+      { id: "a", fuel: "natural_gas", label: "", amount: 1, ncv: 0.0345, ef: 56.1, mobile: false, quality: "measured" },
+      { id: "b", fuel: "diesel", label: "", amount: 1, ncv: 0.036, ef: 74.1, mobile: true, quality: "measured" },
+      { id: "c", fuel: "coal", label: "", amount: 1, ncv: 25.8, ef: 94.6, mobile: false, quality: "measured", ch4: 0, n2o: 2 },
+    ];
+    const before = computeInventory(c.ghg).scope1;
+    const [out] = addV7Fields([c]);
+    expect(out.ghg.fuels.map((l) => [l.ch4, l.n2o])).toEqual([
+      [1, 0.1],
+      [3.9, 3.9],
+      [0, 2],
+    ]);
+    // the stored values are the ones the engine used before, so totals do not move
+    expect(computeInventory(out.ghg).scope1).toBe(before);
+  });
+  it("runs every step for an old workspace file", () => {
+    const c = structuredClone(SAMPLE_CLIENT) as Partial<typeof SAMPLE_CLIENT>;
+    delete c.importLog;
+    c.ghg = {
+      ...c.ghg!,
+      fuels: c.ghg!.fuels.map((l) => {
+        const old = { ...l };
+        delete old.ch4;
+        delete old.n2o;
+        return old;
+      }),
+    };
+    const [out] = migrateClients([c as typeof SAMPLE_CLIENT], 5);
+    expect(out.importLog).toBeDefined();
+    expect(out.ghg.fuels.every((l) => l.ch4 !== undefined && l.n2o !== undefined)).toBe(true);
   });
 });

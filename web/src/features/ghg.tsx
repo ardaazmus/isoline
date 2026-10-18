@@ -5,16 +5,20 @@ import { Plus, Trash2 } from "lucide-react";
 import { useI18n } from "@/i18n/provider";
 import {
   computeInventory,
+  defaultNonCo2,
   electricityLocation,
   electricityMarket,
   fuelEmissions,
   FUELS,
   GRID_FACTORS,
   GWP_AR6,
+  GWP_AR6_COMBUSTION,
+  nonCo2Of,
   refrigerantEmissions,
   scope3Emissions,
   SCOPE3_CATEGORIES,
   type FuelId,
+  type FuelLine,
   type Inventory,
   type Quality,
 } from "@/lib/calc/ghg";
@@ -36,6 +40,14 @@ import { FactorPicker, useFactorSets } from "@/components/factor-picker";
 import { factorRef } from "@/lib/factors";
 
 const SOURCES = ["ghg_protocol", "ipcc_2006", "ipcc_ar6_gwp", "etkb_ef_2023"];
+
+/** The IPCC 2006 table a line's default CH₄ and N₂O come from (see NON_CO2_STATIONARY / NON_CO2_MOBILE). */
+function nonCo2Source(fuel: FuelId, mobile: boolean): "stationary" | "road" | "ship" | "rail" {
+  if (!mobile || fuel === "lignite") return "stationary";
+  if (fuel === "fuel_oil") return "ship";
+  if (fuel === "coal") return "rail";
+  return "road";
+}
 const uid = () => Math.random().toString(36).slice(2, 9);
 
 export function GhgTool() {
@@ -66,6 +78,7 @@ function Inner() {
   const r = useMemo(() => computeInventory(inv), [inv]);
   const n0 = (v: number) => fmt.number(v, 0);
   const patch = (p: Partial<Inventory>) => set({ ...inv, ...p });
+  const patchFuel = (id: string, p: Partial<FuelLine>) => patch({ fuels: inv.fuels.map((x) => (x.id === id ? { ...x, ...p } : x)) });
   const year = inv.year ?? client.profile.reportingYear;
   const grid = inv.grid ?? GRID_FACTORS;
   const editionName = useEditionName(sets);
@@ -112,13 +125,13 @@ function Inner() {
             {tab === "s1" && (
               <>
                 {inv.fuels.map((f, i) => (
-                  <InputGroup key={f.id} title={`${t("ghg.fuel")} ${i + 1} · ${fmt.number(fuelEmissions(f))} tCO₂`}>
+                  <InputGroup key={f.id} title={`${t("ghg.fuel")} ${i + 1} · ${fmt.number(fuelEmissions(f))} tCO₂e`}>
                     <TextField label={t("ghg.label")} value={f.label} onChange={(v) => patch({ fuels: inv.fuels.map((x) => (x.id === f.id ? { ...x, label: v } : x)) })} />
                     <div className="grid grid-cols-2 gap-4">
                       <SelectField<FuelId>
                         label={t("ghg.fuelType")}
                         value={f.fuel}
-                        onChange={(v) => patch({ fuels: inv.fuels.map((x) => (x.id === f.id ? { ...x, fuel: v, ncv: FUELS[v].ncv, ef: FUELS[v].ef, factorRef: undefined } : x)) })}
+                        onChange={(v) => patchFuel(f.id, { fuel: v, ncv: FUELS[v].ncv, ef: FUELS[v].ef, ...defaultNonCo2(v, f.mobile), factorRef: undefined })}
                         options={Object.keys(FUELS).map((k) => ({ value: k as FuelId, label: t(`ghg.fuels.${k}`) }))}
                       />
                       <NumberField label={t("ghg.amount")} unit={FUELS[f.fuel].unit} value={f.amount} min={0} onChange={(v) => patch({ fuels: inv.fuels.map((x) => (x.id === f.id ? { ...x, amount: v } : x)) })} />
@@ -129,14 +142,15 @@ function Inner() {
                       matchKey={f.fuel}
                       sets={sets}
                       value={f.factorRef}
-                      onPick={(o) => patch({ fuels: inv.fuels.map((x) => (x.id === f.id ? (o ? { ...x, ncv: o.factor.ncv ?? x.ncv, ef: o.factor.value, factorRef: factorRef(o) } : { ...x, factorRef: undefined }) : x)) })}
+                      onPick={(o) => patchFuel(f.id, o ? { ncv: o.factor.ncv ?? f.ncv, ef: o.factor.value, ch4: o.factor.ch4 ?? f.ch4, n2o: o.factor.n2o ?? f.n2o, factorRef: factorRef(o) } : { factorRef: undefined })}
                     />
                     <div className="grid grid-cols-2 gap-4">
                       <NumberField label={t("ghg.ncv")} unit={`GJ/${FUELS[f.fuel].unit}`} value={f.ncv} min={0} onChange={(v) => patch({ fuels: inv.fuels.map((x) => (x.id === f.id ? { ...x, ncv: v, factorRef: undefined } : x)) })} />
                       <NumberField label={t("ghg.ef")} unit="tCO₂/TJ" value={f.ef} min={0} onChange={(v) => patch({ fuels: inv.fuels.map((x) => (x.id === f.id ? { ...x, ef: v, factorRef: undefined } : x)) })} />
                     </div>
+                    <NonCo2Fields line={f} onChange={(p) => patchFuel(f.id, p)} />
                     <div className="grid grid-cols-2 gap-4">
-                      <SelectField<"0" | "1"> label={t("ghg.use")} value={f.mobile ? "1" : "0"} onChange={(v) => patch({ fuels: inv.fuels.map((x) => (x.id === f.id ? { ...x, mobile: v === "1" } : x)) })} options={[{ value: "0", label: t("ghg.stationary") }, { value: "1", label: t("ghg.mobile") }]} />
+                      <SelectField<"0" | "1"> label={t("ghg.use")} value={f.mobile ? "1" : "0"} onChange={(v) => patchFuel(f.id, { mobile: v === "1", ...defaultNonCo2(f.fuel, v === "1") })} options={[{ value: "0", label: t("ghg.stationary") }, { value: "1", label: t("ghg.mobile") }]} />
                       <QualitySelect value={f.quality} onChange={(q) => patch({ fuels: inv.fuels.map((x) => (x.id === f.id ? { ...x, quality: q } : x)) })} />
                     </div>
                     <Button variant="ghost" size="sm" className="self-start text-[var(--crit)]" onClick={() => patch({ fuels: inv.fuels.filter((x) => x.id !== f.id) })}>
@@ -144,7 +158,7 @@ function Inner() {
                     </Button>
                   </InputGroup>
                 ))}
-                <Button variant="quiet" onClick={() => patch({ fuels: [...inv.fuels, { id: uid(), fuel: "natural_gas", label: t("ghg.fuels.natural_gas"), amount: 0, ncv: FUELS.natural_gas.ncv, ef: FUELS.natural_gas.ef, mobile: false, quality: "measured" }] })}>
+                <Button variant="quiet" onClick={() => patch({ fuels: [...inv.fuels, { id: uid(), fuel: "natural_gas", label: t("ghg.fuels.natural_gas"), amount: 0, ncv: FUELS.natural_gas.ncv, ef: FUELS.natural_gas.ef, ...defaultNonCo2("natural_gas", false), mobile: false, quality: "measured" }] })}>
                   <Plus size={15} aria-hidden /> {t("ghg.addFuel")}
                 </Button>
                 {inv.process.map((p) => (
@@ -372,12 +386,87 @@ function Inner() {
             </table>
           </div>
         </div>
+        <ByGas r={r} />
         <div className="glass sheet flex min-w-0 flex-col gap-3 p-5 md:p-6">
           <SectionTitle>{t("common.notes")}</SectionTitle>
           <NoteList prefix="ghg.notes" keys={["factors", "grid", "market", "scope3", "gwp", "tsrs"]} />
         </div>
       </ToolLayout>
     </>
+  );
+}
+
+/** CH₄ and N₂O factors of a fuel line, with the IPCC default they start from and a way back to it. */
+function NonCo2Fields({ line, onChange }: { line: FuelLine; onChange: (p: Partial<FuelLine>) => void }) {
+  const { t, fmt } = useI18n();
+  const d = defaultNonCo2(line.fuel, line.mobile);
+  const v = nonCo2Of(line);
+  const custom = v.ch4 !== d.ch4 || v.n2o !== d.n2o;
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="grid grid-cols-2 gap-4">
+        <NumberField label={t("ghg.ch4")} unit="kg/TJ" value={v.ch4} min={0} onChange={(x) => onChange({ ch4: x })} />
+        <NumberField label={t("ghg.n2o")} unit="kg/TJ" value={v.n2o} min={0} onChange={(x) => onChange({ n2o: x })} />
+      </div>
+      <p className="flex flex-wrap items-center gap-x-2 text-[12px] leading-snug text-[var(--ink-3)]">
+        {t("ghg.nonCo2Default", { ch4: fmt.number(d.ch4, 1), n2o: fmt.number(d.n2o, 1), source: t(`ghg.nonCo2Src.${nonCo2Source(line.fuel, line.mobile)}`) })}
+        {custom && (
+          <Button variant="ghost" size="sm" onClick={() => onChange(d)}>
+            {t("ghg.nonCo2Reset")}
+          </Button>
+        )}
+      </p>
+    </div>
+  );
+}
+
+/** Scope 1 by gas: fuel combustion split into CO₂, CH₄ and N₂O, then fluorinated gases and process emissions. */
+function ByGas({ r }: { r: ReturnType<typeof computeInventory> }) {
+  const { t, fmt } = useI18n();
+  const g = r.combustionGases;
+  const rows = [
+    { id: "co2", label: "CO₂", mass: g.co2, gwp: 1, co2e: g.co2 },
+    { id: "ch4", label: "CH₄", mass: g.ch4, gwp: GWP_AR6_COMBUSTION.ch4, co2e: g.ch4 * GWP_AR6_COMBUSTION.ch4 },
+    { id: "n2o", label: "N₂O", mass: g.n2o, gwp: GWP_AR6_COMBUSTION.n2o, co2e: g.n2o * GWP_AR6_COMBUSTION.n2o },
+    { id: "fgas", label: t("ghg.byGasFgas"), mass: null, gwp: null, co2e: r.scope1Fugitive },
+    { id: "process", label: t("ghg.w_process"), mass: null, gwp: null, co2e: r.scope1Process },
+  ];
+  return (
+    <div className="glass sheet flex min-w-0 flex-col gap-3 overflow-x-auto p-5 md:p-6">
+      <SectionTitle aside={<ThemeIcon theme="climate" />}>{t("ghg.byGas")}</SectionTitle>
+      <table className="report-table text-[14px]">
+        <thead>
+          <tr>
+            <th>{t("ghg.gas")}</th>
+            <th className="r">{t("ghg.byGasMass")}</th>
+            <th className="r">GWP</th>
+            <th className="r">tCO₂e</th>
+            <th className="r">{t("ghg.share")}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((x, i) => (
+            <tr key={x.id} className="anim-row" style={{ ["--i" as string]: i }}>
+              <td>{x.label}</td>
+              <td className="r num">{x.mass === null ? "–" : fmt.number(x.mass, x.id === "co2" ? 0 : 2)}</td>
+              <td className="r num">{x.gwp === null ? "–" : fmt.number(x.gwp, Number.isInteger(x.gwp) ? 0 : 1)}</td>
+              <td className="r num">{fmt.number(x.co2e, 0)}</td>
+              <td className="r num">{fmt.percent(r.scope1 ? x.co2e / r.scope1 : 0)}</td>
+            </tr>
+          ))}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>{t("ghg.scope1")}</td>
+            <td />
+            <td />
+            <td className="r num">{fmt.number(r.scope1, 0)}</td>
+            <td className="r num">{fmt.percent(r.scope1 ? 1 : 0)}</td>
+          </tr>
+        </tfoot>
+      </table>
+      <p className="text-[13px] text-[var(--ink-3)]">{t("ghg.byGasNote")}</p>
+    </div>
   );
 }
 
@@ -483,6 +572,7 @@ function inventoryHelpRows(t: (k: string, v?: Record<string, string | number>) =
     ["item (scope3)", t("imp.inv.help.category")],
     ["amount", t("imp.inv.help.amount")],
     ["ncv / ef", t("imp.inv.help.ncvEf")],
+    ["ch4 / n2o", t("imp.inv.help.ch4N2o")],
     ["use", "stationary, mobile"],
     ["connection", "transmission, distribution"],
     ["certified_mwh / supplier_factor", t("imp.inv.help.electricity")],

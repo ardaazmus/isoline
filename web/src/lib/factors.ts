@@ -4,7 +4,7 @@
  * licensed IEA factors; such a set can only be used after the user confirms they hold the right to use it,
  * which keeps the licence responsibility with the user. Custom sets live in the workspace, not in the product.
  */
-import { ETKB_EDITIONS, FUELS, GWP_AR6, type FuelId } from "./calc/ghg";
+import { ETKB_EDITIONS, FUELS, GWP_AR6, GWP_AR6_COMBUSTION, type FuelId } from "./calc/ghg";
 import cbamTr from "@/data/factors/eu-cbam-defaults-tr.json";
 import eeaGrid from "@/data/factors/eea-grid-intensity.json";
 import desnz2026 from "@/data/factors/desnz-2026.json";
@@ -35,6 +35,9 @@ export type Factor = {
   unit?: string;
   /** Fuels: net calorific value, GJ per unit. */
   ncv?: number;
+  /** Fuels: CH₄ and N₂O, kg/TJ, when the source gives them; picking the factor then sets them on the line. */
+  ch4?: number;
+  n2o?: number;
   /**
    * CBAM defaults: direct and indirect parts, tCO₂e/t, kept for information. `value` is the total column, the
    * figure Implementing Regulation (EU) 2026/1740 applies (with the mark-up) when default values are used.
@@ -206,7 +209,7 @@ export const BUILTIN_SETS: FactorSet[] = [
   ...ETKB_EDITIONS.map(etkbSet),
   {
     id: "ipcc_ar6_gwp",
-    name: "IPCC AR6 WG1 — GWP100 (Table 7.SM.7)",
+    name: "IPCC AR6 WG1 — GWP100 (Tables 7.15 and 7.SM.7)",
     publisher: "IPCC Working Group I",
     licence: "open",
     licenceNote: "Published assessment values, cited with attribution.",
@@ -214,7 +217,11 @@ export const BUILTIN_SETS: FactorSet[] = [
     asOf: AS_OF,
     origin: "builtin",
     rightsConfirmed: true,
-    factors: Object.keys(GWP_AR6).map((g) => ({ id: `ipcc_ar6_gwp:${g}`, kind: "gwp" as const, key: g, label: g, value: GWP_AR6[g] })),
+    factors: [
+      { id: "ipcc_ar6_gwp:CH4-fossil", kind: "gwp" as const, key: "CH4-fossil", label: "CH₄, fossil (Table 7.15)", value: GWP_AR6_COMBUSTION.ch4 },
+      { id: "ipcc_ar6_gwp:N2O", kind: "gwp" as const, key: "N2O", label: "N₂O (Table 7.15)", value: GWP_AR6_COMBUSTION.n2o },
+      ...Object.keys(GWP_AR6).map((g) => ({ id: `ipcc_ar6_gwp:${g}`, kind: "gwp" as const, key: g, label: g, value: GWP_AR6[g] })),
+    ],
   },
   {
     // Annex I tables "Türkiye" and, where Türkiye shows "–", "Other Countries and Territories". Rows without a
@@ -392,7 +399,7 @@ export function resolveRef(sets: FactorSet[], ref: string | undefined): FactorOp
 // ---------------------------------------------------------------- CSV for custom sets
 import { parseCsv, parseNumber } from "./inventory-csv";
 
-export const FACTOR_CSV_COLUMNS = ["kind", "key", "label", "value", "unit", "ncv", "direct", "indirect", "year"] as const;
+export const FACTOR_CSV_COLUMNS = ["kind", "key", "label", "value", "unit", "ncv", "direct", "indirect", "year", "ch4", "n2o"] as const;
 
 export type FactorCsvIssue = { row: number; key: string; vars?: Record<string, string | number> };
 
@@ -422,6 +429,13 @@ export function importFactorCsv(text: string, setId: string): { factors: Factor[
     const id = `${setId}:${kind}:${key}`;
     if (seen.has(id)) return issues.push({ row: n, key: "duplicate", vars: { value: key } });
     seen.add(id);
+    // CH₄ and N₂O (kg/TJ) are optional for fuels; an empty cell keeps the line's own or default value.
+    const gas = (name: "ch4" | "n2o") => (col(r, name) === "" ? undefined : parseNumber(col(r, name)));
+    const ch4 = gas("ch4");
+    const n2o = gas("n2o");
+    for (const [name, v] of [["ch4", ch4], ["n2o", n2o]] as const) {
+      if (kind === "fuel_co2" && v !== undefined && !(Number.isFinite(v) && v >= 0)) return issues.push({ row: n, key: "badValue", vars: { value: col(r, name) } });
+    }
     const direct = parseNumber(col(r, "direct"));
     const indirect = parseNumber(col(r, "indirect"));
     const year = parseNumber(col(r, "year"));
@@ -433,6 +447,8 @@ export function importFactorCsv(text: string, setId: string): { factors: Factor[
       value,
       unit: col(r, "unit") || undefined,
       ncv: kind === "fuel_co2" ? ncv : undefined,
+      ch4: kind === "fuel_co2" ? ch4 : undefined,
+      n2o: kind === "fuel_co2" ? n2o : undefined,
       direct: kind === "cbam_default" && Number.isFinite(direct) ? direct : undefined,
       indirect: kind === "cbam_default" && Number.isFinite(indirect) ? indirect : undefined,
       year: Number.isInteger(year) ? year : undefined,
@@ -446,10 +462,10 @@ export function factorTemplateCsv(): string {
     "﻿" +
     [
       FACTOR_CSV_COLUMNS.join(";"),
-      "fuel_co2;natural_gas;Doğal gaz (tedarikçi analizi);56,4;Sm3;0,0346;;;2025",
-      "grid;DE;Almanya şebekesi (lisanslı veri);0,38;MWh;;;;2024",
-      "scope3;steel_purchased;Satın alınan çelik (tedarikçi beyanı);1,85;t;;;;2025",
-      "cbam_default;72083900;Sıcak haddelenmiş yassı (örnek satır, toplam sütunu);2,10;t;;2,10;;2026",
+      "fuel_co2;natural_gas;Doğal gaz (tedarikçi analizi);56,4;Sm3;0,0346;;;2025;1;0,1",
+      "grid;DE;Almanya şebekesi (lisanslı veri);0,38;MWh;;;;2024;;",
+      "scope3;steel_purchased;Satın alınan çelik (tedarikçi beyanı);1,85;t;;;;2025;;",
+      "cbam_default;72083900;Sıcak haddelenmiş yassı (örnek satır, toplam sütunu);2,10;t;;2,10;;2026;;",
     ].join("\r\n")
   );
 }
@@ -461,7 +477,7 @@ export function factorSetCsv(set: FactorSet): string {
   };
   return (
     "﻿" +
-    [FACTOR_CSV_COLUMNS.join(";"), ...set.factors.map((f) => [f.kind, f.key, f.label, f.value, f.unit, f.ncv, f.direct, f.indirect, f.year].map(esc).join(";"))].join("\r\n")
+    [FACTOR_CSV_COLUMNS.join(";"), ...set.factors.map((f) => [f.kind, f.key, f.label, f.value, f.unit, f.ncv, f.direct, f.indirect, f.year, f.ch4, f.n2o].map(esc).join(";"))].join("\r\n")
   );
 }
 

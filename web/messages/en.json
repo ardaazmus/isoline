@@ -498,11 +498,11 @@
       "15": "Investments"
     },
     "notes": {
-      "factors": "Default NCV and CO₂ factors are IPCC 2006 Tier 1 values and exclude CH₄ and N₂O. Replace them with supplier, BOTAŞ or national inventory values.",
+      "factors": "Default net calorific values and CO₂ factors are IPCC 2006 Tier 1 values; replace them with supplier, BOTAŞ or national inventory values. CH₄ and N₂O use the IPCC 2006 defaults, as Türkiye's national inventory does: Table 2.3 (industry) for stationary combustion and Table 3.2.2 for vehicles. For boilers in commercial buildings, the Table 2.4 values can be entered on the line.",
       "grid": "Location-based scope 2 uses the ETKB 2023 consumption-point factors: transmission 0.436, distribution 0.469 tCO₂e/MWh. Sites outside the Turkish grid can carry their own grid factor (e.g. an EEA country value).",
       "market": "No residual-mix factor is published for Türkiye; uncovered electricity uses the grid factor and the report should say so.",
       "scope3": "Scope 3 factors are entered by the user and each line records its source.",
-      "gwp": "Refrigerants use IPCC AR6 GWP100 (Table 7.SM.7, e.g. SF₆ 24,300, R-134a 1,530); state the GWP set in the report.",
+      "gwp": "IPCC AR6 GWP100 values are used: Table 7.SM.7 for refrigerants (e.g. SF₆ 24,300, R-134a 1,530) and Table 7.15 for combustion gases (fossil CH₄ 29.8; N₂O 273). State the GWP set used in the report.",
       "tsrs": "Under TSRS 2, scope 3 is not required in the first two reporting years; TSRS 2 GHG amendments apply from 2027."
     },
     "import": {
@@ -526,7 +526,8 @@
         "badConnection": "connection must be transmission or distribution ({value}).",
         "badCategory": "scope 3 category must be 1–15 ({value}).",
         "badFactor": "emission factor could not be read ({value}).",
-        "badType": "unknown row type ({value}); use fuel, process, refrigerant, electricity or scope3."
+        "badType": "unknown row type ({value}); use fuel, process, refrigerant, electricity or scope3.",
+        "badGasFactor": "CH₄ or N₂O factor could not be read ({value}); it must be 0 or a positive number in kg/TJ."
       }
     },
     "gridFactor": "Location-based grid factor",
@@ -560,7 +561,21 @@
       "baseYear": "This inventory year is your base year ({year}). The change exceeds the significance threshold, so the GHG Protocol asks for a base-year recalculation; new scope 1 + 2 (location) {s12} tCO₂e. Review the base value in the decarbonisation pathway:",
       "apply": "Recalculate and save",
       "last": "Last recalculation {date}: year {year}, grid {grid}, scope 1 + 2 {pct}."
-    }
+    },
+    "ch4": "CH₄ factor",
+    "n2o": "N₂O factor",
+    "nonCo2Default": "Default CH₄ {ch4}, N₂O {n2o} kg/TJ: {source}.",
+    "nonCo2Reset": "Back to default",
+    "nonCo2Src": {
+      "stationary": "IPCC 2006 Table 2.3 (stationary combustion in industry)",
+      "road": "IPCC 2006 Table 3.2.2 (road transport)",
+      "ship": "IPCC 2006 Table 3.5.3 (water-borne navigation)",
+      "rail": "IPCC 2006 Table 3.4.1 (railways)"
+    },
+    "byGas": "Scope 1 by gas",
+    "byGasMass": "Mass (t)",
+    "byGasFgas": "Fluorinated gases (refrigerant leaks)",
+    "byGasNote": "Combustion emissions are shown gas by gas, as the GHG Protocol requires each gas to be reported separately. CH₄ and N₂O use IPCC AR6 GWP100 (fossil CH₄ 29.8; N₂O 273). Process emissions are entered in tCO₂e, so they have no gas split."
   },
   "ets": {
     "result": "Category {cat} installation: a {deficit} tCO₂e allowance shortfall and {cost} cost expected in {year}.",
@@ -2177,7 +2192,8 @@
         "amount": "Fuel: the fuel's unit (Sm3, L, t); process: tCO2e; refrigerant: kg leaked; electricity: MWh; scope 3: the unit you choose",
         "ncvEf": "Optional; left empty, the IPCC 2006 default applies",
         "electricity": "Certified renewable MWh (YEK-G, I-REC) and supplier-specific factor (tCO2e/MWh)",
-        "factor": "Scope 3 factor (tCO2e per unit) and its source"
+        "factor": "Scope 3 factor (tCO2e per unit) and its source",
+        "ch4N2o": "Optional, kg/TJ; left empty, the IPCC 2006 default for the fuel and its use applies"
       }
     },
     "ind": {

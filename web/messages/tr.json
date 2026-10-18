@@ -498,11 +498,11 @@
       "15": "Yatırımlar"
     },
     "notes": {
-      "factors": "Varsayılan net ısıl değer ve CO₂ faktörleri IPCC 2006 Tier 1 değerleridir; CH₄ ve N₂O dahil değildir. Tedarikçi, BOTAŞ veya ulusal envanter değerleriyle değiştirin.",
+      "factors": "Varsayılan net ısıl değer ve CO₂ faktörleri IPCC 2006 Tier 1 değerleridir; tedarikçi, BOTAŞ veya ulusal envanter değerleriyle değiştirin. CH₄ ve N₂O, Türkiye ulusal envanterinde olduğu gibi IPCC 2006 varsayılanlarıyla hesaplanır: sabit yakmada Tablo 2.3 (sanayi), araçlarda Tablo 3.2.2. Ticari binalardaki kazanlar için Tablo 2.4 değerleri satıra girilebilir.",
       "grid": "Konum bazlı Kapsam 2 için ETKB 2023 tüketim noktası faktörleri kullanılır: iletim 0,436, dağıtım 0,469 tCO₂e/MWh. Türkiye şebekesi dışındaki tesislerde satıra kendi şebeke faktörü girilebilir (ör. EEA ülke değeri).",
       "market": "Türkiye için yayımlanmış kalıntı karışım faktörü yoktur; belgelenmeyen elektrik için şebeke faktörü kullanılır ve bu durum raporda açıklanmalıdır.",
       "scope3": "Kapsam 3 faktörleri kullanıcı tarafından girilir ve kaynağı her satırda kayıt altına alınır.",
-      "gwp": "Soğutucu gazlarda IPCC AR6 GWP100 değerleri kullanılır (Tablo 7.SM.7; ör. SF₆ 24.300, R-134a 1.530); kullanılan GWP seti raporda belirtilmelidir.",
+      "gwp": "IPCC AR6 GWP100 değerleri kullanılır: soğutucu gazlarda Tablo 7.SM.7 (ör. SF₆ 24.300, R-134a 1.530), yakma gazlarında Tablo 7.15 (fosil CH₄ 29,8; N₂O 273). Kullanılan GWP seti raporda belirtilmelidir.",
       "tsrs": "TSRS 2 kapsamında ilk iki raporlama yılı için Kapsam 3 açıklaması zorunlu değildir; 2027'den itibaren TSRS 2 sera gazı değişiklikleri uygulanır."
     },
     "import": {
@@ -526,7 +526,8 @@
         "badConnection": "bağlantı noktası transmission ya da distribution olmalı ({value}).",
         "badCategory": "Kapsam 3 kategorisi 1–15 arası olmalı ({value}).",
         "badFactor": "emisyon faktörü okunamadı ({value}).",
-        "badType": "satır türü tanınmadı ({value}); fuel, process, refrigerant, electricity veya scope3 olmalı."
+        "badType": "satır türü tanınmadı ({value}); fuel, process, refrigerant, electricity veya scope3 olmalı.",
+        "badGasFactor": "CH₄ veya N₂O faktörü okunamadı ({value}); kg/TJ cinsinden 0 ya da pozitif bir sayı olmalı."
       }
     },
     "gridFactor": "Konum bazlı şebeke faktörü",
@@ -560,7 +561,21 @@
       "baseYear": "Bu envanter yılı baz yılınız ({year}). Değişiklik anlamlılık eşiğini aştığı için GHG Protokolü baz yılın yeniden hesaplanmasını ister; yeni Kapsam 1 + 2 (konum) {s12} tCO₂e. Dekarbonizasyon yolundaki baz değerini gözden geçirin:",
       "apply": "Yeniden hesapla ve kaydet",
       "last": "Son yeniden hesap {date}: {year} yılı, şebeke {grid}, Kapsam 1 + 2 {pct}."
-    }
+    },
+    "ch4": "CH₄ faktörü",
+    "n2o": "N₂O faktörü",
+    "nonCo2Default": "Varsayılan CH₄ {ch4}, N₂O {n2o} kg/TJ: {source}.",
+    "nonCo2Reset": "Varsayılana dön",
+    "nonCo2Src": {
+      "stationary": "IPCC 2006 Tablo 2.3 (sanayide sabit yakma)",
+      "road": "IPCC 2006 Tablo 3.2.2 (karayolu)",
+      "ship": "IPCC 2006 Tablo 3.5.3 (deniz taşımacılığı)",
+      "rail": "IPCC 2006 Tablo 3.4.1 (demiryolu)"
+    },
+    "byGas": "Kapsam 1 gaz dökümü",
+    "byGasMass": "Kütle (t)",
+    "byGasFgas": "Florlu gazlar (soğutucu kaçağı)",
+    "byGasNote": "Yakma emisyonları gaz gaz gösterilir; GHG Protokolü her gazın ayrı raporlanmasını ister. CH₄ ve N₂O için IPCC AR6 GWP100 kullanılır (fosil CH₄ 29,8; N₂O 273). Proses emisyonları tCO₂e olarak girildiği için gaz kırılımı yoktur."
   },
   "ets": {
     "result": "Kategori {cat} tesis: {year} yılında {deficit} tCO₂e tahsisat açığı ve {cost} maliyet öngörülüyor.",
@@ -2177,7 +2192,8 @@
         "amount": "Yakıtta yakıtın birimi (Sm3, L, t), proseste tCO2e, soğutucuda kaçan kg, elektrikte MWh, Kapsam 3'te seçtiğiniz birim",
         "ncvEf": "İsteğe bağlı; boş bırakılırsa IPCC 2006 varsayılanı kullanılır",
         "electricity": "Belgeli yenilenebilir MWh (YEK-G, I-REC) ve tedarikçiye özgü faktör (tCO2e/MWh)",
-        "factor": "Kapsam 3 faktörü (tCO2e / birim) ve kaynağı"
+        "factor": "Kapsam 3 faktörü (tCO2e / birim) ve kaynağı",
+        "ch4N2o": "İsteğe bağlı, kg/TJ; boş bırakılırsa yakıt ve kullanıma göre IPCC 2006 varsayılanı kullanılır"
       }
     },
     "ind": {

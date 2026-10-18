@@ -6,7 +6,7 @@
     "kind": "regulator-facility-record",
     "cite": "US EPA GHGRP, tesis 1004616, raporlama yılı 2023, C_FUEL_LEVEL_INFORMATION (birim GP-1); 40 CFR 98 Tablo C-1",
     "url": "https://data.epa.gov/efservice/C_FUEL_LEVEL_INFORMATION/FACILITY_ID/=/1004616/REPORTING_YEAR/=/2023/JSON",
-    "page": "tek satır: tier1_fuel_quantity 4011026965 scf, tier1_co2_combustion_emissions 218358.5"
+    "page": "tek satır: tier1_fuel_quantity 4011026965 scf; tier1_co2_combustion_emissions 218358.5; tier1_ch4_combustion_emissions 4.12; tier1_n2o_combustion_emissions 0.412"
   },
   "engine": "ghg",
   "input": {
@@ -20,6 +20,8 @@
           "amount": 4011026965,
           "ncv": 0.001082487304788,
           "ef": 50.29117640382461,
+          "ch4": 0.947817120313317,
+          "n2o": 0.094781712031332,
           "mobile": false,
           "quality": "measured"
         }
@@ -33,7 +35,9 @@
     }
   },
   "expected": {
-    "scope1": "218358.5"
+    "gas.co2": "218358.5",
+    "gas.ch4": "4.12",
+    "gas.n2o": "0.412"
   },
-  "notes": "Tablo C-1: üst ısıl değer 1,026 × 10⁻³ mmBtu/scf, 53,06 kg CO₂/mmBtu. Uygulamaya GJ ve t/TJ olarak girildi (1 mmBtu = 1,05505585262 GJ); çarpım birim dönüşümünden bağımsızdır. Kayıt CH₄ 4,12 t (102,9 t CO₂e) ve N₂O 0,412 t (122,6 t CO₂e) da raporluyor; uygulamanın yakıt satırları yalnız CO₂ hesapladığı için karşılaştırma CO₂ ile yapılır. CO₂e toplamına göre fark %0,10'dur."
+  "notes": "Tablo C-1: üst ısıl değer 1,026 × 10⁻³ mmBtu/scf, 53,06 kg CO₂/mmBtu; Tablo C-2: 1,0 × 10⁻³ kg CH₄ ve 1,0 × 10⁻⁴ kg N₂O/mmBtu. Uygulamaya GJ, t/TJ ve kg/TJ olarak girildi (1 mmBtu = 1,05505585262 GJ); çarpım birim dönüşümünden bağımsızdır. Karşılaştırma gaz kütleleriyle yapılır: GHGRP 2023 CO₂e'yi AR4 GWP'leriyle (25, 298) hesaplıyor, uygulama AR6 kullanıyor. Kayıttaki CH₄ ve N₂O üç anlamlı basamağa yuvarlanmış; sapma bundan gelir."
 }

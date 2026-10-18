@@ -1,7 +1,26 @@
 import { describe, expect, it } from "vitest";
 import fc from "fast-check";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { etsCategory, freeAllocation, isPilotYear, lastBusinessDayOfNovember, lateReportFine, pilotAdjustedFine, projectEts } from "./ets";
-import { computeInventory, electricityLocation, electricityMarket, FUELS, fuelEmissions, GRID_FACTORS, GWP_AR6, refrigerantEmissions, type Inventory } from "./ghg";
+import {
+  computeInventory,
+  defaultNonCo2,
+  electricityLocation,
+  electricityMarket,
+  FUELS,
+  fuelEmissions,
+  fuelGases,
+  GRID_FACTORS,
+  GWP_AR6,
+  GWP_AR6_COMBUSTION,
+  NON_CO2_MOBILE,
+  NON_CO2_STATIONARY,
+  nonCo2Of,
+  refrigerantEmissions,
+  type FuelId,
+  type Inventory,
+} from "./ghg";
 import {
   buildPathway,
   combinedScope12Rate,
@@ -63,9 +82,103 @@ describe("TR ETS", () => {
 });
 
 describe("GHG inventory", () => {
-  it("computes fuel CO₂ as amount × NCV × EF", () => {
-    // 1,000,000 Sm³ × 0.0345 GJ × 56.1 t/TJ = 1,935.45 t
-    expect(fuelEmissions({ amount: 1_000_000, ncv: 0.0345, ef: 56.1 })).toBeCloseTo(1935.45, 2);
+  it("computes fuel CO₂ as amount × NCV × EF and adds CH₄ and N₂O with AR6 GWPs", () => {
+    // 1,000,000 Sm³ × 0.0345 GJ = 34.5 TJ; CO₂ 34.5 × 56.1 = 1,935.45 t
+    // CH₄ 34.5 × 1 kg = 0.0345 t (× 29.8); N₂O 34.5 × 0.1 kg = 0.00345 t (× 273)
+    const g = fuelGases({ fuel: "natural_gas", mobile: false, amount: 1_000_000, ncv: 0.0345, ef: 56.1 });
+    expect(g.co2).toBeCloseTo(1935.45, 9);
+    expect(g.ch4).toBeCloseTo(0.0345, 12);
+    expect(g.n2o).toBeCloseTo(0.00345, 12);
+    expect(g.co2e).toBeCloseTo(1935.45 + 0.0345 * 29.8 + 0.00345 * 273, 9);
+    expect(fuelEmissions({ fuel: "natural_gas", mobile: false, amount: 1_000_000, ncv: 0.0345, ef: 56.1, ch4: 0, n2o: 0 })).toBeCloseTo(1935.45, 9);
+  });
+  it("matches IPCC 2006 Vol. 2 Tables 2.3, 3.2.2, 3.4.1 and 3.5.3 and AR6 Table 7.15", () => {
+    expect(GWP_AR6_COMBUSTION).toEqual({ ch4: 29.8, n2o: 273 });
+    expect(NON_CO2_STATIONARY).toEqual({
+      natural_gas: { ch4: 1, n2o: 0.1 },
+      diesel: { ch4: 3, n2o: 0.6 },
+      gasoline: { ch4: 3, n2o: 0.6 },
+      lpg: { ch4: 1, n2o: 0.1 },
+      fuel_oil: { ch4: 3, n2o: 0.6 },
+      coal: { ch4: 10, n2o: 1.5 },
+      lignite: { ch4: 10, n2o: 1.5 },
+    });
+    expect(NON_CO2_MOBILE).toEqual({
+      natural_gas: { ch4: 92, n2o: 3 },
+      diesel: { ch4: 3.9, n2o: 3.9 },
+      gasoline: { ch4: 3.8, n2o: 5.7 },
+      lpg: { ch4: 62, n2o: 0.2 },
+      fuel_oil: { ch4: 7, n2o: 2 },
+      coal: { ch4: 2, n2o: 1.5 },
+      lignite: { ch4: 10, n2o: 1.5 },
+    });
+  });
+  it("matches the source records in docs/kaynak-veri/ipcc, value for value", () => {
+    const rows = (file: string) =>
+      readFileSync(join(process.cwd(), "..", "docs", "kaynak-veri", "ipcc", file), "utf8")
+        .trim()
+        .split(/\r?\n/)
+        .slice(1)
+        .map((l) => l.split(";"));
+    const csv = rows("ipcc_ch4_n2o.csv");
+    expect(csv).toHaveLength(14);
+    for (const [fuel, use, ch4, n2o] of csv) {
+      expect(defaultNonCo2(fuel as FuelId, use === "mobile")).toEqual({ ch4: Number(ch4), n2o: Number(n2o) });
+    }
+    expect(Object.fromEntries(rows("ar6_gwp_combustion.csv").map(([g, v]) => [g, Number(v)]))).toEqual({ "CH4-fossil": GWP_AR6_COMBUSTION.ch4, N2O: GWP_AR6_COMBUSTION.n2o });
+  });
+  it("uses the line's own CH₄ and N₂O factors, else the default for its fuel and use", () => {
+    expect(nonCo2Of({ fuel: "diesel", mobile: true })).toEqual({ ch4: 3.9, n2o: 3.9 });
+    expect(nonCo2Of({ fuel: "diesel", mobile: false })).toEqual({ ch4: 3, n2o: 0.6 });
+    expect(nonCo2Of({ fuel: "diesel", mobile: true, ch4: 0, n2o: 1 })).toEqual({ ch4: 0, n2o: 1 });
+    expect(nonCo2Of({ fuel: "coal", mobile: false, ch4: -5 })).toEqual({ ch4: 0, n2o: 1.5 });
+    // defaults are copies: editing one never changes the table
+    defaultNonCo2("lpg", true).ch4 = 999;
+    expect(NON_CO2_MOBILE.lpg.ch4).toBe(62);
+  });
+  it("adds about 1.6 % to diesel in road vehicles (IPCC defaults, AR6)", () => {
+    const line = { fuel: "diesel" as const, mobile: true, amount: 100_000, ncv: FUELS.diesel.ncv, ef: FUELS.diesel.ef };
+    const g = fuelGases(line);
+    // (3.9 × 29.8 + 3.9 × 273) / 74,100 = 1,180.92 / 74,100
+    expect(g.co2e / g.co2 - 1).toBeCloseTo((3.9 * 29.8 + 3.9 * 273) / 74_100, 12);
+  });
+  it("property: CO₂e is at least CO₂ and grows linearly with the amount", () => {
+    const fuels = Object.keys(FUELS) as FuelId[];
+    fc.assert(
+      fc.property(
+        fc.constantFrom(...fuels),
+        fc.boolean(),
+        fc.double({ min: 0, max: 1e9, noNaN: true }),
+        fc.option(fc.double({ min: 0, max: 500, noNaN: true }), { nil: undefined }),
+        fc.option(fc.double({ min: 0, max: 50, noNaN: true }), { nil: undefined }),
+        (fuel, mobile, amount, ch4, n2o) => {
+          const line = { fuel, mobile, amount, ncv: FUELS[fuel].ncv, ef: FUELS[fuel].ef, ch4, n2o };
+          const g = fuelGases(line);
+          expect(g.co2e).toBeGreaterThanOrEqual(g.co2);
+          expect(g.co2e).toBeCloseTo(g.co2 + 29.8 * g.ch4 + 273 * g.n2o, 6);
+          const d = fuelGases({ ...line, amount: amount * 2 });
+          expect(d.co2e).toBeCloseTo(2 * g.co2e, 3);
+        },
+      ),
+    );
+  });
+  it("reports combustion emissions by gas and keeps scope 1 equal to their CO₂e", () => {
+    const inv: Inventory = {
+      fuels: [
+        { id: "a", fuel: "natural_gas", label: "", amount: 2_000_000, ncv: 0.0345, ef: 56.1, mobile: false, quality: "measured" },
+        { id: "b", fuel: "diesel", label: "", amount: 50_000, ncv: FUELS.diesel.ncv, ef: 74.1, mobile: true, quality: "measured" },
+      ],
+      process: [],
+      refrigerants: [],
+      electricity: [],
+      scope3: [],
+      revenueMillionTry: 0,
+      productionTonnes: 0,
+    };
+    const r = computeInventory(inv);
+    const g = r.combustionGases;
+    expect(r.scope1).toBeCloseTo(g.co2 + 29.8 * g.ch4 + 273 * g.n2o, 9);
+    expect(r.scope1Mobile).toBeCloseTo(fuelEmissions(inv.fuels[1]), 9);
   });
   it("uses AR6 GWPs for refrigerant blends", () => {
     expect(GWP_AR6["R-410A"]).toBeCloseTo(2255.5);

@@ -110,3 +110,18 @@ describe("retroactive recalculation", () => {
     expect(isSignificant({ scope12Change: -0.0499 })).toBe(false);
   });
 });
+
+describe("retroactive recalculation: CH₄ and N₂O", () => {
+  const fam = (y: number, gas?: { ch4: number; n2o: number }): FactorSet => ({
+    id: `fuelfam_${y}`, name: "", publisher: "", licence: "user_licensed", licenceNote: "", url: "", asOf: "", origin: "custom", rightsConfirmed: true, family: "fuelfam", year: y,
+    factors: [{ id: `fuelfam_${y}:gas`, kind: "fuel_co2", key: "natural_gas", label: "", value: 56, ncv: 0.035, ...gas }],
+  });
+  const line = (ref: string) => ({ id: "f", fuel: "natural_gas" as const, label: "", amount: 1e6, ncv: 0.034, ef: 55.9, ch4: 5, n2o: 0.5, mobile: false, quality: "measured" as const, factorRef: ref });
+  it("takes the new edition's CH₄ and N₂O when it has them, else keeps the line's", () => {
+    const with2 = planRecalc({ ...inv(), electricity: [], fuels: [line("fuelfam_2022/fuelfam_2022:gas")] }, usableSets([fam(2022), fam(2023, { ch4: 1, n2o: 0.1 })]), 2023);
+    expect(with2.next.fuels[0]).toMatchObject({ ef: 56, ncv: 0.035, ch4: 1, n2o: 0.1 });
+    const without = planRecalc({ ...inv(), electricity: [], fuels: [line("fuelfam_2022/fuelfam_2022:gas")] }, usableSets([fam(2022), fam(2023)]), 2023);
+    expect(without.next.fuels[0]).toMatchObject({ ef: 56, ch4: 5, n2o: 0.5 });
+    expect(without.changes[0].after).toBeCloseTo(computeInventory({ ...inv(), electricity: [], process: [], refrigerants: [], fuels: without.next.fuels }).scope1, 6);
+  });
+});

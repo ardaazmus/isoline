@@ -20,6 +20,8 @@
           "amount": 6000000,
           "ncv": 0.001081432248936,
           "ef": 50.29117640382461,
+          "ch4": 0.947817120313317,
+          "n2o": 0.094781712031332,
           "mobile": false,
           "quality": "measured"
         }
@@ -33,8 +35,11 @@
     }
   },
   "expected": {
-    "scope1": "326.3",
+    "gas.co2": "326.3",
+    "gas.ch4": "0.00615",
+    "gas.n2o": "0.000615",
+    "scope1": "326.7",
     "energyGj": "6488.593494"
   },
-  "notes": "6.000.000 scf × 1.025 Btu/scf = 61.500 therm = 6.150 mmBtu; × 53,06 kg CO₂/mmBtu = 326,3 t CO₂ (belgede basılı). Enerji beklentisi, basılı 6.150 mmBtu'nun tam birim dönüşümüdür. Belgenin CO₂e toplamı 326,7 t (CH₄ ve N₂O dahil); uygulama yakıt satırında yalnız CO₂ hesapladığı için fark %0,12'dir."
+  "notes": "6.000.000 scf × 1.025 Btu/scf = 61.500 therm = 6.150 mmBtu. × 53,06 kg CO₂/mmBtu = 326,3 t CO₂; × 1,0 g CH₄ = 6,15 kg; × 0,10 g N₂O = 0,615 kg (belgede basılı). Belgenin CO₂e toplamı 326,7 t AR5 GWP'leriyle (28, 265); uygulama AR6 (29,8, 273) kullanır, fark %0,01'in altında. Enerji beklentisi, basılı 6.150 mmBtu'nun tam birim dönüşümüdür."
 }
