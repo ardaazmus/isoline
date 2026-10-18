@@ -84,7 +84,7 @@ Rapordaki her sayı bir **veri noktası değeri**dir ve şunları taşır:
 
 ### 4.2 Uzlaştırma motoru: finans ↔ ESG kuralları
 
-Kurallar katalog hâlinde tutulur. Her kuralın kimliği, açıklaması, toleransı, ciddiyeti ve dayanağı olur. İlk set, bugünkü araçların verisiyle hemen yazılabilir. U1–U5 ve U8–U10, 18.10.2026'da tarayıcıda v1 olarak çalışıyor (`web/src/lib/reconcile.ts`); U6–U7 mizan içe aktarmasını bekliyor:
+Kurallar katalog hâlinde tutulur. Her kuralın kimliği, açıklaması, toleransı, ciddiyeti ve dayanağı olur. İlk set, bugünkü araçların verisiyle hemen yazılabilir. U1–U10, 19.10.2026'da tarayıcıda v1 olarak çalışıyor (`web/src/lib/reconcile.ts`); U6 taksonomi uyumlu CapEx'i yol önlemleriyle, U7 faaliyet raporu yatırım kalemini enerji/emisyon hareketiyle karşılaştırıyor:
 
 | # | Kural | Neyi yakalar |
 |---|---|---|

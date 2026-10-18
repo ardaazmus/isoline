@@ -2090,6 +2090,9 @@
       "profileEmissions": "Kapsam testi yıllık emisyon",
       "estimated12": "Kapsam 1-2 tahmini veri payı",
       "estimated3": "Kapsam 3 tahmini veri payı",
+      "alignedCapex": "Eşleşmeyen uyumlu CapEx kalemi",
+      "energyChange": "Enerji değişimi",
+      "scope1Change": "Kapsam 1 değişimi",
       "threshold": "Eşik",
       "current": "Bu yıl",
       "prior": "Önceki yıl",
@@ -2123,6 +2126,16 @@
         "title": "Tesis emisyonu şirketinkini aşamaz",
         "why": "TR ETS tesis emisyonu şirketin Kapsam 1 toplamından büyük olamaz; büyükse tesis ve şirket sınırı çelişir. Kapsam testindeki yıllık emisyon da TR ETS değeriyle uyuşmalı.",
         "na": "TR ETS emisyonu ya da Kapsam 1 verisi yok."
+      },
+      "U6": {
+        "title": "Uyumlu yatırımın planda karşılığı var",
+        "why": "Taksonomi uyumlu CapEx kalemleri (önemlilik eşiği toplam CapEx'in %5'i) dekarbonizasyon yolundaki önlemlerle eşleşmeli; eşleşmeyen yatırım listelenir. Eşleşme, adlardaki ortak sözcüklere bakılarak bulunur.",
+        "na": "Uyumlu CapEx kalemi yok."
+      },
+      "U7": {
+        "title": "Raporlanan yatırımın etkide karşılığı var",
+        "why": "Faaliyet raporunda yatırım kalemi işlendiyse enerji ya da emisyon verisinde değişim (ya da açıklaması) beklenir; yoksa yatırımın etkisi görünmüyor demektir.",
+        "na": "Faaliyet raporunda yatırım kalemi işlenmemiş ya da önceki yıl değeri yok."
       },
       "U8": {
         "title": "Önceki yıla göre değişim",

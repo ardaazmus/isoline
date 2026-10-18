@@ -10,8 +10,19 @@ const check = (c: ClientData, id: string) => reconcile(c).rules.flatMap((r) => r
 describe("reconciliation on the sample client", () => {
   it("passes the consistent rules and flags the demo findings", () => {
     const r = reconcile(SAMPLE_CLIENT);
-    expect(Object.fromEntries(r.rules.map((x) => [x.id, x.status]))).toEqual({ U1: "pass", U2: "pass", U3: "pass", U4: "pass", U5: "pass", U8: "warn", U9: "warn", U10: "fail" });
-    expect(r.counts).toEqual({ pass: 5, explained: 0, warn: 2, fail: 1, na: 0 });
+    expect(Object.fromEntries(r.rules.map((x) => [x.id, x.status]))).toEqual({
+      U1: "pass",
+      U2: "pass",
+      U3: "pass",
+      U4: "pass",
+      U5: "pass",
+      U6: "warn",
+      U7: "na",
+      U8: "warn",
+      U9: "warn",
+      U10: "fail",
+    });
+    expect(r.counts).toEqual({ pass: 5, explained: 0, warn: 3, fail: 1, na: 1 });
   });
   it("explains one year-over-year jump and leaves the unexplained one as a warning", () => {
     expect(check(SAMPLE_CLIENT, "U8.scope3").status).toBe("explained");
@@ -23,9 +34,32 @@ describe("reconciliation on the sample client", () => {
     expect(high.a.value).toBeGreaterThan(0);
     expect(high.items!.join(" ").toLowerCase()).toContain("karbon nötr");
   });
-  it("runs every catalogued rule, U6–U7 excluded", () => {
+  it("runs every catalogued rule, including U6–U7", () => {
     expect(reconcile(SAMPLE_CLIENT).rules.map((r) => r.id)).toEqual(RULES.map((r) => r.id));
-    expect(RULES.map((r) => r.id)).not.toContain("U6");
+    expect(RULES.map((r) => r.id)).toEqual(["U1", "U2", "U3", "U4", "U5", "U6", "U7", "U8", "U9", "U10"]);
+  });
+  it("U6 lists aligned investments with no pathway measure", () => {
+    const u6 = check(SAMPLE_CLIENT, "U6.investments");
+    expect(u6.status).toBe("warn");
+    expect(u6.items).toEqual(["Çatı GES"]);
+    const c = clone();
+    c.pathway.measures.push({ id: "mx", name: "Çatı GES kurulumu", abatement: 5_000, cost: 2, startYear: 2026, rampYears: 1 });
+    expect(check(c, "U6.investments").status).toBe("pass");
+  });
+  it("U6 has nothing to check without aligned CapEx", () => {
+    const c = clone();
+    c.taxonomy.activities = [];
+    expect(rule(c, "U6").status).toBe("na");
+  });
+  it("U7 warns on a reported investment with no impact, passes when the impact moves", () => {
+    expect(rule(SAMPLE_CLIENT, "U7").status).toBe("na");
+    const c = clone();
+    c.annualReport.status.investments = "approved";
+    const warn = check(c, "U7.investments");
+    expect(warn.status).toBe("warn");
+    expect(warn.a.src).toBe("scope1Change");
+    c.reconciliation.prior = { ...c.reconciliation.prior, energy: 10_000_000 };
+    expect(check(c, "U7.investments").status).toBe("pass");
   });
 });
 
@@ -139,7 +173,7 @@ describe("rules", () => {
   });
   it("finds nothing to check on an empty client", () => {
     const r = reconcile(emptyClient("c-1", "Yeni"));
-    expect(r.counts).toEqual({ pass: 0, explained: 0, warn: 0, fail: 0, na: 8 });
+    expect(r.counts).toEqual({ pass: 0, explained: 0, warn: 0, fail: 0, na: 10 });
   });
 });
 

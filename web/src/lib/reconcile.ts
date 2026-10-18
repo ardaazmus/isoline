@@ -1,7 +1,8 @@
 /**
  * Reconciliation engine v1: cross-checks between the tools of one client, so that one fact is not reported
  * differently in two places (finance ↔ ESG, facility ↔ company, this year ↔ last year). The rules follow the
- * catalogue in docs/HEDEF_MIMARI.md §4.2. U6–U7 need investment data and arrive with the trial-balance import.
+ * catalogue in docs/HEDEF_MIMARI.md §4.2. U6 reads taxonomy aligned CapEx against pathway measures, U7 the
+ * annual-report investments item against energy/emission movement.
  *
  * Every check is a record: the values compared, the tolerance, a status and the user's explanation. A warning
  * with an explanation counts as explained; an error stays an error until the data is corrected, because an
@@ -15,7 +16,7 @@ import { netSales } from "./trial-balance";
 
 export const ENGINE_VERSION = "reconcile-v1";
 
-export type RuleId = "U1" | "U2" | "U3" | "U4" | "U5" | "U8" | "U9" | "U10";
+export type RuleId = "U1" | "U2" | "U3" | "U4" | "U5" | "U6" | "U7" | "U8" | "U9" | "U10";
 export type Severity = "error" | "warning";
 export type CheckStatus = "pass" | "explained" | "warn" | "fail" | "na";
 
@@ -46,6 +47,9 @@ export type Src =
   | "profileEmissions"
   | "estimated12"
   | "estimated3"
+  | "alignedCapex"
+  | "energyChange"
+  | "scope1Change"
   | "threshold"
   | "current"
   | "prior"
@@ -94,6 +98,8 @@ export const RULES: RuleDef[] = [
   { id: "U3", severity: "warning", basis: ["gri_standards", "kgk_scope_2026", "csrd_omnibus"], tools: ["workforce", "applicability"] },
   { id: "U4", severity: "error", basis: ["cbam_reg"], tools: ["cbam", "ghg", "ets", "applicability"] },
   { id: "U5", severity: "error", basis: ["tr_ets_reg", "ghg_protocol"], tools: ["ets", "ghg", "applicability"] },
+  { id: "U6", severity: "warning", basis: ["taxonomy_2026_73", "tsrs1"], tools: ["taxonomy", "pathway"] },
+  { id: "U7", severity: "warning", basis: ["ar_min_content", "kgk_assurance"], tools: ["annualReport", "ghg", "environment"] },
   { id: "U8", severity: "warning", basis: ["kgk_assurance", "tsrs1"], tools: ["ghg", "environment", "workforce"] },
   { id: "U9", severity: "warning", basis: ["kgk_assurance", "ghg_protocol"], tools: ["ghg"] },
   { id: "U10", severity: "error", basis: ["ecgt"], tools: ["claims"] },
@@ -293,6 +299,78 @@ export function yoyValues(c: ClientData, inv: ReturnType<typeof computeInventory
   return { current: current[m], prior: own ?? auto[m], auto: own === undefined && auto[m] !== undefined };
 }
 
+/** Share of total CapEx from which an aligned activity counts as material (internal threshold, like U9). */
+const INVEST_MATERIAL = 0.05;
+
+const TR_STOP = new Set(["ve", "ile", "için", "bir", "bu", "da", "de", "ki", "veya", "göre", "kadar", "olarak", "olan", "daha", "çok", "the", "and", "for"]);
+
+/** Significant lower-cased tokens of a Turkish measure/activity name. */
+export function nameTokens(s: string): string[] {
+  return (s.toLocaleLowerCase("tr").match(/[a-zçğıöşüâîû]+/g) ?? []).filter((w) => w.length >= 3 && !TR_STOP.has(w));
+}
+
+/** Two names name the same investment when they share at least two significant tokens. */
+export function sameInvestment(a: string, b: string): boolean {
+  const sa = new Set(nameTokens(a));
+  let shared = 0;
+  for (const w of new Set(nameTokens(b))) if (sa.has(w) && ++shared >= 2) return true;
+  return false;
+}
+
+/** Biggest year-over-year move of energy/scope 1 with its threshold and whether it stands unexplained. */
+function impactMove({ c, rec, inv }: Ctx): { diff: number; src: "energyChange" | "scope1Change"; tolerance: number; explained: boolean } | null {
+  const rows = (["energy", "scope1"] as const).map((m) => {
+    const { current, prior } = yoyValues(c, inv, rec, m);
+    return { m, current, prior };
+  });
+  if (rows.some(({ current, prior }) => !pos(prior) || !(current >= 0))) return null;
+  const moves = rows.map(({ m, current, prior }) => ({ m, diff: relDiff(current, prior!), tolerance: yoyTolerance(rec, m) }));
+  moves.sort((x, y) => Math.abs(y.diff) - Math.abs(x.diff));
+  const top = moves[0];
+  const id = `U8.${top.m}`;
+  return { diff: top.diff, src: top.m === "energy" ? "energyChange" : "scope1Change", tolerance: top.tolerance, explained: !!rec.notes[id]?.trim() };
+}
+
+function u6({ c }: Ctx): Check[] {
+  const acts = c.taxonomy.activities.filter((a) => a.aligned && a.capex > 0);
+  if (!acts.length) return [naCheck("U6", "alignedCapex", "count", "count")];
+  const base = Math.max(0, c.taxonomy.totals.capex);
+  const material = acts.filter((a) => base <= 0 || a.capex / base >= INVEST_MATERIAL);
+  const unmatched = material.filter((a) => !c.pathway.measures.some((m) => sameInvestment(a.name, m.name))).map((a) => a.name);
+  return [
+    {
+      id: "U6.investments",
+      rule: "U6",
+      rel: "count",
+      unit: "count",
+      a: { src: "alignedCapex", value: unmatched.length },
+      status: judge(unmatched.length === 0, "warning"),
+      items: unmatched,
+    },
+  ];
+}
+
+function u7(x: Ctx): Check[] {
+  const reported = ["review", "approved"].includes(x.c.annualReport.status.investments);
+  if (!reported) return [naCheck("U7", "energyChange", "share", "gte")];
+  const move = impactMove(x);
+  if (!move) return [naCheck("U7", "energyChange", "share", "gte")];
+  const moved = Math.abs(move.diff) > move.tolerance;
+  return [
+    {
+      id: "U7.investments",
+      rule: "U7",
+      rel: "gte",
+      unit: "share",
+      a: { src: move.src, value: move.diff },
+      b: { src: "threshold", value: move.tolerance },
+      diff: move.diff,
+      tolerance: move.tolerance,
+      status: judge(moved || move.explained, "warning"),
+    },
+  ];
+}
+
 function u8({ c, rec, inv }: Ctx): Check[] {
   return YOY_METRICS.map(({ id, unit }) => {
     const { current, prior } = yoyValues(c, inv, rec, id);
@@ -323,7 +401,7 @@ function u10({ c }: Ctx): Check[] {
   ];
 }
 
-const RUN: Record<RuleId, (x: Ctx) => Check[]> = { U1: u1, U2: u2, U3: u3, U4: u4, U5: u5, U8: u8, U9: u9, U10: u10 };
+const RUN: Record<RuleId, (x: Ctx) => Check[]> = { U1: u1, U2: u2, U3: u3, U4: u4, U5: u5, U6: u6, U7: u7, U8: u8, U9: u9, U10: u10 };
 
 export type ReconcileResult = { rules: RuleResult[]; counts: Record<CheckStatus, number> };
 

@@ -2090,6 +2090,9 @@
       "profileEmissions": "Scope test annual emissions",
       "estimated12": "Scope 1-2 estimated share",
       "estimated3": "Scope 3 estimated share",
+      "alignedCapex": "Unmatched aligned CapEx items",
+      "energyChange": "Energy change",
+      "scope1Change": "Scope 1 change",
       "threshold": "Threshold",
       "current": "This year",
       "prior": "Prior year",
@@ -2123,6 +2126,16 @@
         "title": "Facility within company emissions",
         "why": "TR ETS facility emissions cannot exceed the company's scope 1 total; if they do, the facility and company boundaries contradict. The scope test's annual emissions should match the TR ETS figure.",
         "na": "No TR ETS emissions or scope 1 data."
+      },
+      "U6": {
+        "title": "Aligned investment appears in the plan",
+        "why": "Taxonomy-aligned CapEx items (materiality: 5% of total CapEx) should match decarbonisation-pathway measures; unmatched investments are listed. Matching looks at shared words in the names.",
+        "na": "No aligned CapEx items."
+      },
+      "U7": {
+        "title": "Reported investment shows in the impact",
+        "why": "Once the annual report carries an investments item, energy or emissions data should move (or carry an explanation); otherwise the investment's effect is invisible.",
+        "na": "No investments item in the annual report, or no prior-year values."
       },
       "U8": {
         "title": "Change against the prior year",
