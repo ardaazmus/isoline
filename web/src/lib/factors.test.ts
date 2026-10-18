@@ -37,7 +37,8 @@ describe("factor library", () => {
     expect(own(usableSets([custom(true)]))[0].factor.value).toBeCloseTo(0.38);
   });
   it("matches CBAM defaults by CN code, closest enclosing row first", () => {
-    const sets = usableSets([custom(true)]);
+    // The Türkiye table and the custom set; the other countries' tables are covered below.
+    const sets = usableSets([custom(true)]).filter((s) => s.family !== "eu_cbam_dv" || s.country === "TR");
     // Heading 7208 (official) and the custom 7208 39 00 row under it.
     expect(findFactors(sets, "cbam_default", "7208").map((o) => o.factor.key)).toEqual(["7208", "72083900"]);
     // An exact custom row outranks the official heading it falls under.
@@ -214,5 +215,26 @@ describe("TÜİK national inventory 2026 (2024 values)", () => {
 describe("factorDigits", () => {
   it("shows small per-unit factors with about three significant digits", () => {
     expect([0.00010356, 0.0321, 0.469, 5, 56.1, 0].map(factorDigits)).toEqual([6, 4, 3, 3, 1, 3]);
+  });
+});
+
+describe("CBAM default values of further countries of origin", () => {
+  const set = (cc: string) => BUILTIN_SETS.find((s) => s.family === "eu_cbam_dv" && s.country === cc)!;
+  const f = (cc: string, cn: string) => set(cc).factors.find((x) => x.key === cn)!;
+  it("adds China, India, Ukraine, Egypt and 'Other Countries' next to Türkiye, 260 rows each", () => {
+    expect(["TR", "CN", "IN", "UA", "EG", "OTHER"].map((c) => set(c)?.factors.length)).toEqual([260, 260, 260, 260, 260, 260]);
+    expect(set("CN").id).toBe("eu_cbam_dv_cn");
+  });
+  it("takes each country's own total and flags the 'Other Countries' fallback", () => {
+    expect(f("CN", "7208")).toMatchObject({ value: 3.187 });
+    expect(f("IN", "7208")).toMatchObject({ value: 4.28 });
+    expect(f("UA", "7208")).toMatchObject({ value: 2.483 });
+    expect(f("OTHER", "7208")).toMatchObject({ value: 4.049 });
+    expect(f("EG", "7208")).toMatchObject({ value: 4.049, otherCountries: true });
+    expect(set("EG").factors.filter((x) => x.otherCountries)).toHaveLength(199);
+    expect(set("OTHER").factors.some((x) => x.otherCountries)).toBe(false);
+  });
+  it("keeps every country's table on offer for a year", () => {
+    expect(setsForYear(BUILTIN_SETS, 2026).filter((s) => s.family === "eu_cbam_dv").map((s) => s.country)).toEqual(["TR", "CN", "IN", "UA", "EG", "OTHER"]);
   });
 });

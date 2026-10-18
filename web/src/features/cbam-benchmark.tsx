@@ -3,6 +3,7 @@
 import { useI18n } from "@/i18n/provider";
 import type { CbamProduct } from "@/lib/calc/cbam";
 import { formatCn } from "@/lib/factors";
+import { useCountryName } from "@/components/factor-picker";
 import { benchmarkRowFor, resolveBenchmark, rowRoutes } from "@/lib/calc/cbam-benchmarks";
 import { NumberField, SelectField, StatusMark } from "@/components/ui";
 
@@ -19,6 +20,7 @@ export function BenchmarkField({ p, year, onChange }: { p: CbamProduct; year: nu
   const routes = row ? rowRoutes(row) : [];
   const n = (v: number | undefined) => (v === undefined ? "—" : fmt.number(v, 3));
   const manual = p.bmMode === "manual";
+  const countryName = useCountryName();
 
   return (
     <div className="flex flex-col gap-2 rounded-[12px] border border-[var(--rule)] bg-[var(--glass-strong)] p-3">
@@ -63,7 +65,7 @@ export function BenchmarkField({ p, year, onChange }: { p: CbamProduct; year: nu
           {r.status === "ok" && (
             <p className="text-[12px] leading-relaxed text-[var(--ink-3)]">
               {p.useDefault
-                ? t("cbam.bm.explainDefault", { cn: formatCn(p.cn), route: r.routes.length ? r.routes.map((x) => `(${x})`).join("/") : "—" })
+                ? t("cbam.bm.explainDefault", { cn: formatCn(p.cn), country: countryName(p.origin ?? "TR"), route: r.routes.length ? r.routes.map((x) => `(${x})`).join("/") : "—" })
                 : t("cbam.bm.explainActual", { a: n(r.a), pre: n(r.precursor), route: r.routes.length ? r.routes.map((x) => `(${x})`).join("/") : "—" })}
             </p>
           )}

@@ -30,10 +30,11 @@ export function pickEdition(sets: FactorSet[], family: string, year: number): Ed
   return { set: before ?? eds[0], exact: false };
 }
 
-/** The sets to offer for a year: one edition per family, plus every set outside a family. */
+/** The sets to offer for a year: one edition per family (and per country), plus every set outside a family. */
 export function setsForYear(sets: FactorSet[], year: number): FactorSet[] {
-  const families = new Set(sets.map((s) => s.family).filter((f): f is string => !!f));
-  const keep = new Set([...families].map((f) => pickEdition(sets, f, year)!.set.id));
+  const groups = new Map<string, FactorSet[]>();
+  for (const s of sets) if (s.family) groups.set(`${s.family}:${s.country ?? ""}`, [...(groups.get(`${s.family}:${s.country ?? ""}`) ?? []), s]);
+  const keep = new Set([...groups.values()].map((g) => pickEdition(g, g[0].family!, year)!.set.id));
   return sets.filter((s) => !s.family || keep.has(s.id));
 }
 

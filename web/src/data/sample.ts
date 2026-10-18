@@ -106,8 +106,8 @@ export const SAMPLE_CLIENT: ClientData = {
   },
   cbam: {
     products: [
-      { id: "c1", name: "Sıcak haddelenmiş rulo", cn: "7208", sector: "iron_steel", tonnes: 48_200, growth: 0.02, seeDirect: 1.92, seeIndirect: 0.21, defaultSee: 2.428, defaultRef: "eu_cbam_dv_tr/eu_cbam_dv_tr:7208", useDefault: false, benchmark: 0 },
-      { id: "c2", name: "Soğuk haddelenmiş sac", cn: "7209", sector: "iron_steel", tonnes: 12_400, growth: 0.03, seeDirect: 2.04, seeIndirect: 0.26, defaultSee: 2.51, defaultRef: "eu_cbam_dv_tr/eu_cbam_dv_tr:7209", useDefault: true, benchmark: 0 },
+      { id: "c1", name: "Sıcak haddelenmiş rulo", cn: "7208", origin: "TR", sector: "iron_steel", tonnes: 48_200, growth: 0.02, seeDirect: 1.92, seeIndirect: 0.21, defaultSee: 2.428, defaultRef: "eu_cbam_dv_tr/eu_cbam_dv_tr:7208", useDefault: false, benchmark: 0 },
+      { id: "c2", name: "Soğuk haddelenmiş sac", cn: "7209", origin: "TR", sector: "iron_steel", tonnes: 12_400, growth: 0.03, seeDirect: 2.04, seeIndirect: 0.26, defaultSee: 2.51, defaultRef: "eu_cbam_dv_tr/eu_cbam_dv_tr:7209", useDefault: true, benchmark: 0 },
     ],
     scenario: { startPrice: 77.65, priceGrowth: 0.04, originCarbonPrice: 0, eurTry: 49.5 },
   },

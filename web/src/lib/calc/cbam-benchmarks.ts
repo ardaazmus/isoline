@@ -3,12 +3,13 @@
  *   default values (Eq. 6):  SEFA = CBAM_y × CSCF_y × BM_g          BM_g  = point 5.3 Column B
  *   actual data (Eq. 2–4):   SEFA = CBAM_y × CSCF_y × BM*_g + Σ mᵢ × SEFAᵢ   BM*_g = Column A
  * With default values the production route is the one the default-value table gives for the country of origin
- * (point 5.1; Annex I of 2025/2621 as corrected by 2026/1740, Türkiye, else 'Other Countries and Territories');
+ * (point 5.1; Annex I of 2025/2621 as corrected by 2026/1740; where the country shows "-", 'Other Countries');
  * where several steel alloy grades apply, the highest value for the production year is used. Indicators (1) and
  * (2) mark values for production years 2026–27 and 2028–30. Electricity (CN 2716) has no free allocation.
  * Data: docs/kaynak-veri/cbam-bm.
  */
 import cbamBm from "@/data/factors/cbam-benchmarks.json";
+import cbamCountries from "@/data/factors/eu-cbam-defaults-countries.json";
 
 export type BmEntry = { value: number; route: string | null; period: 1 | 2 | null };
 export type BmRow = { cn: string; description: string; a: BmEntry[]; b: BmEntry[] };
@@ -49,11 +50,24 @@ export function benchmarkRowFor(cn: string) {
   return closest(CBAM_BENCHMARKS, cn, (a, b) => JSON.stringify([a.a, a.b]) === JSON.stringify([b.a, b.b]));
 }
 
-/** Production route of the Türkiye default-value table for a code (null when the table does not settle it). */
-export function defaultRouteTR(cn: string): RouteRow | null {
-  const r = closest(ROUTES_TR, cn, (a, b) => a.routes.join("/") === b.routes.join("/"));
+/** Route rows per country of origin; countries without their own table use 'Other Countries and Territories'. */
+const ROUTES_BY_ORIGIN: Record<string, RouteRow[]> = {
+  TR: ROUTES_TR,
+  ...Object.fromEntries(
+    Object.entries(cbamCountries.countries as unknown as Record<string, [string, unknown, unknown, unknown, number, string, string][]>).map(([cc, rows]) => [
+      cc,
+      rows.map((r) => ({ cn: r[0], routes: r[6] ? r[6].split("/") : [], otherCountries: r[4] === 1 })),
+    ]),
+  ),
+};
+
+/** Production route of the default-value table of the country of origin (null when the table does not settle it). */
+export function defaultRoute(cn: string, origin = "TR"): RouteRow | null {
+  const r = closest(ROUTES_BY_ORIGIN[origin] ?? ROUTES_BY_ORIGIN.OTHER, cn, (a, b) => a.routes.join("/") === b.routes.join("/"));
   return r.row;
 }
+
+export const defaultRouteTR = (cn: string) => defaultRoute(cn, "TR");
 
 /** Value for the production year and routes; null when the row is route-specific and no route applies. */
 export function pickBenchmark(entries: BmEntry[], routes: string[], year: number): number | null {
@@ -69,7 +83,7 @@ export function rowRoutes(row: BmRow): string[] {
   return [...new Set([...row.a, ...row.b].map((e) => e.route).filter((r): r is string => !!r))].sort();
 }
 
-export type BenchmarkInput = { cn: string; benchmark: number; bmMode?: "official" | "manual"; bmRoute?: string; precursorBm?: number | null };
+export type BenchmarkInput = { cn: string; origin?: string; benchmark: number; bmMode?: "official" | "manual"; bmRoute?: string; precursorBm?: number | null };
 
 export type BenchmarkResolution = {
   /** Benchmark used in the free allocation adjustment, tCO₂e/t (0 when unresolved). */
@@ -94,7 +108,7 @@ export function resolveBenchmark(p: BenchmarkInput, year: number, mode: "default
   if (digits(p.cn).startsWith("2716")) return { ...base, value: 0, status: "none" };
   const { row, status } = benchmarkRowFor(p.cn);
   if (!row) return { ...base, value: 0, status };
-  const table = defaultRouteTR(p.cn);
+  const table = defaultRoute(p.cn, p.origin ?? "TR");
   // Default values: the table's route, always (point 5.1). Actual data: the route chosen, else the table's.
   const chosen = mode === "actual" && p.bmRoute ? p.bmRoute.split("/") : null;
   const routes = chosen ?? table?.routes ?? [];

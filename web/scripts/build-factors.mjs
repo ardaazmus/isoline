@@ -165,3 +165,24 @@ fs.writeFileSync(path.join(outDir, "cbam-benchmarks.json"), JSON.stringify({
   routesTR: routes,
 }));
 console.log("benchmarks", bmRows.length, "| TR routes", routes.length);
+
+// CBAM default values for further countries of origin (2026/1740 Annex I, workbook v2): each table with the
+// 'Other Countries and Territories' fallback applied (scripts/extract/cbam-country-table.mjs), plus the route.
+const { deriveTable, parseCountriesCsv } = await import("./extract/cbam-country-table.mjs");
+const cRows = parseCountriesCsv(fs.readFileSync(path.join(src, "cbam-countries", "cbam_defaults_countries.csv"), "utf8"));
+const tables = Object.fromEntries(["CN", "IN", "UA", "EG", "OTHER"].map((c) => [c, deriveTable(cRows, c)]));
+// Descriptions are the same in every table: kept once, rows carry values only.
+const descriptions = {};
+for (const rows of Object.values(tables)) for (const r of rows) descriptions[r[0]] ??= r[1];
+const countries = Object.fromEntries(Object.entries(tables).map(([c, rows]) => [c, rows.map(([cn, , ...rest]) => [cn, ...rest])]));
+fs.writeFileSync(path.join(outDir, "eu-cbam-defaults-countries.json"), JSON.stringify({
+  source: "European Commission — CBAM default values, Implementing Regulation (EU) 2026/1740 correcting (EU) 2025/2621, Annex I, country tables (Excel 'DV correcting act_final update_06.08.xlsx', v2 2026-08-06); checked against the Official Journal text",
+  legal: "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202601740",
+  licence: "CC BY 4.0 (Commission Decision 2011/833/EU) — © European Union",
+  fetched: "2026-10-18",
+  unit: "tCO2e per tonne of good",
+  columns: ["cn", "direct", "indirect", "total", "fallbackOtherCountries", "xlsxRow", "route"],
+  descriptions,
+  countries,
+}));
+console.log("cbam countries", Object.entries(countries).map(([c, r]) => `${c} ${r.length}`).join(", "));

@@ -174,6 +174,8 @@ export type CbamProduct = {
   id: string;
   name: string;
   cn: string;
+  /** Country of origin (ISO code, or "OTHER"); selects the default-value table and the benchmark route. Missing = TR. */
+  origin?: string;
   sector: CbamSector;
   /** Tonnes exported to the EU in the first projection year. */
   tonnes: number;
@@ -315,6 +317,7 @@ export function deMinimisExempt(sector: CbamSector, importerAnnualTonnes: number
 export const OPERATOR_SUMMARY_COLUMNS = [
   "cn_code",
   "product",
+  "country_of_origin",
   "sector",
   "annex_i",
   "reporting_year",
@@ -343,6 +346,7 @@ export function operatorSummaryRows(products: CbamProduct[], s: CbamScenario, ye
     return [
       p.cn,
       p.name,
+      p.origin ?? "TR",
       p.sector,
       cov.status,
       year,

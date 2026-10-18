@@ -11,7 +11,8 @@ import { StackedBars } from "@/components/charts";
 import { Button, Callout, NumberField, SelectField, StatusMark, TextField, Toggle } from "@/components/ui";
 import { Hydrated, KeyDates, NoteList, SectionTitle, ToolActions, useTool } from "./common";
 import { FactorPicker, useFactorSets } from "@/components/factor-picker";
-import { factorRef } from "@/lib/factors";
+import { CBAM_ORIGINS, factorRef, resolveRef } from "@/lib/factors";
+import { useCountryName } from "@/components/factor-picker";
 import { BenchmarkField } from "./cbam-benchmark";
 
 const SOURCES = ["cbam_reg", "cbam_factor", "cbam_guidance3", "cbam_price", "cbam_faa"];
@@ -39,6 +40,22 @@ function Inner() {
   const years = rows.map((r) => String(r.year));
 
   const setProduct = (id: string, patch: Partial<CbamProduct>) => set({ ...data, products: data.products.map((p) => (p.id === id ? { ...p, ...patch } : p)) });
+
+  const countryName = useCountryName();
+
+  /** A new origin selects that country's default-value table: a value picked from the library follows to the same CN row. */
+
+  const changeOrigin = (p: CbamProduct, origin: string) => {
+
+    const cur = resolveRef(sets, p.defaultRef);
+
+    const table = sets.find((x) => x.family === "eu_cbam_dv" && (x.country ?? "TR") === origin);
+
+    const row = cur && table ? table.factors.find((x) => x.key === cur.factor.key) : undefined;
+
+    setProduct(p.id, row && table ? { origin, defaultSee: row.value, defaultRef: factorRef({ set: table, factor: row }) } : { origin, defaultRef: cur ? undefined : p.defaultRef });
+
+  };
   const addProduct = () =>
     set({
       ...data,
@@ -75,6 +92,13 @@ function Inner() {
                   <TextField label={t("cbam.cn")} value={p.cn} onChange={(v) => setProduct(p.id, { cn: v })} />
                   <SelectField<CbamSector> label={t("cbam.sector")} value={p.sector} onChange={(v) => setProduct(p.id, { sector: v })} options={CBAM_SECTORS.map((s) => ({ value: s, label: t(`sectors.${s}`) }))} />
                 </div>
+                <SelectField<string>
+                  label={t("cbam.origin")}
+                  hint={t("cbam.originHint")}
+                  value={p.origin ?? "TR"}
+                  onChange={(v) => changeOrigin(p, v)}
+                  options={CBAM_ORIGINS.map((c) => ({ value: c, label: countryName(c) }))}
+                />
                 <CnStatus cn={p.cn} sector={p.sector} />
                 <div className="grid grid-cols-2 gap-4">
                   <NumberField label={t("cbam.tonnes")} unit="t" value={p.tonnes} onChange={(v) => setProduct(p.id, { tonnes: v })} min={0} />
@@ -93,6 +117,7 @@ function Inner() {
                   kind="cbam_default"
                   matchKey={p.cn}
                   sets={sets}
+                  filter={(_f, s) => s.family !== "eu_cbam_dv" || (s.country ?? "TR") === (p.origin ?? "TR")}
                   value={p.defaultRef}
                   onPick={(o) =>
                     setProduct(p.id, o ? { defaultSee: o.factor.value, defaultRef: factorRef(o) } : { defaultRef: undefined })

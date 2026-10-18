@@ -120,3 +120,24 @@ describe("free allocation adjustment in the projection", () => {
     );
   });
 });
+
+describe("country of origin", () => {
+  it("takes the route from the origin's default-value table, 'Other Countries' for others", async () => {
+    const { defaultRoute } = await import("./cbam-benchmarks");
+    expect(defaultRoute("7208", "CN")?.routes).toEqual(["C"]);
+    expect(defaultRoute("7208", "EG")).toMatchObject({ routes: ["C"], otherCountries: true });
+    expect(defaultRoute("7601", "IN")?.routes).toEqual(["K"]);
+    // A country without its own table in the library uses 'Other Countries and Territories'.
+    expect(defaultRoute("7208", "BR")).toEqual(defaultRoute("7208", "OTHER"));
+  });
+  it("resolves the default benchmark on the origin's route", () => {
+    expect(resolveBenchmark(p("7209", { origin: "UA" }), 2026, "default")).toMatchObject({ value: 1.458, routes: ["C"], status: "ok" });
+    expect(resolveBenchmark(p("2523 10 00 10", { origin: "OTHER" }), 2026, "default").value).toBe(0.859);
+  });
+  it("names the origin in the operator summary", async () => {
+    const { operatorSummaryRows, OPERATOR_SUMMARY_COLUMNS } = await import("./cbam");
+    const rows = operatorSummaryRows([{ ...SAMPLE_CLIENT.cbam.products[0], origin: "CN" }, { ...SAMPLE_CLIENT.cbam.products[1], origin: undefined }], SAMPLE_CLIENT.cbam.scenario);
+    const i = OPERATOR_SUMMARY_COLUMNS.indexOf("country_of_origin");
+    expect([rows[0][i], rows[1][i]]).toEqual(["CN", "TR"]);
+  });
+});

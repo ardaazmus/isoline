@@ -3,8 +3,8 @@
 import { useRef, useState, type ReactNode } from "react";
 import { Download, FileDown, FileUp, Plus, Search, Trash2 } from "lucide-react";
 import { useI18n } from "@/i18n/provider";
-import { BUILTIN_SETS, factorDigits, factorSetCsv, factorTemplateCsv, factorUnit, importFactorCsv, usableSets, type Factor, type FactorCsvIssue, type FactorSet, type LicenceClass } from "@/lib/factors";
-import { useFactorLabel } from "@/components/factor-picker";
+import { BUILTIN_SETS, CBAM_ORIGINS, factorDigits, factorSetCsv, factorTemplateCsv, factorUnit, importFactorCsv, usableSets, type Factor, type FactorCsvIssue, type FactorSet, type LicenceClass } from "@/lib/factors";
+import { useCountryName, useFactorLabel } from "@/components/factor-picker";
 import { download, slug } from "@/lib/export";
 import { useWorkspace } from "@/store/workspace";
 import { FiguresRow, PageHeader } from "@/components/shell";
@@ -177,20 +177,24 @@ function SetHeader({ set }: { set: FactorSet }) {
 function builtinGroups(): FactorSet[][] {
   const groups = new Map<string, FactorSet[]>();
   for (const s of BUILTIN_SETS) groups.set(s.family ?? s.id, [...(groups.get(s.family ?? s.id) ?? []), s]);
-  return [...groups.values()].map((g) => g.sort((a, b) => (a.year ?? 0) - (b.year ?? 0)));
+  const order = (s: FactorSet) => (s.country ? (CBAM_ORIGINS as readonly string[]).indexOf(s.country) : 0);
+  return [...groups.values()].map((g) => g.sort((a, b) => (a.year ?? 0) - (b.year ?? 0) || order(a) - order(b)));
 }
 
 /** One tile per family: the latest edition is shown, earlier ones a click away. */
 function EditionTile({ sets }: { sets: FactorSet[] }) {
   const { t } = useI18n();
-  const [id, setId] = useState(sets.at(-1)!.id);
+  const countryName = useCountryName();
+  // Country variants open on the first (Türkiye); editions open on the latest.
+  const byCountry = sets.some((s) => s.country);
+  const [id, setId] = useState(byCountry ? sets[0].id : sets.at(-1)!.id);
   const set = sets.find((s) => s.id === id) ?? sets.at(-1)!;
   return (
     <SetTile
       set={set}
       editions={
-        <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label={t("factors.editions")}>
-          <span className="text-[12px] text-[var(--ink-3)]">{t("factors.editions")}:</span>
+        <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label={t(byCountry ? "factors.countries" : "factors.editions")}>
+          <span className="text-[12px] text-[var(--ink-3)]">{t(byCountry ? "factors.countries" : "factors.editions")}:</span>
           {sets.map((s) => (
             <button
               key={s.id}
@@ -199,7 +203,7 @@ function EditionTile({ sets }: { sets: FactorSet[] }) {
               onClick={() => setId(s.id)}
               className={cn("num h-7 rounded-full border px-2.5 text-[12px] font-medium", s.id === set.id ? "border-[var(--ink)] bg-[var(--ink)] text-white" : "border-[var(--rule)] bg-[var(--glass-strong)]")}
             >
-              {s.year}
+              {s.country ? countryName(s.country) : s.year}
             </button>
           ))}
         </div>

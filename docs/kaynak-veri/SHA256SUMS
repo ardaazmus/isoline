@@ -23,3 +23,5 @@ fdec78f2f0455bd1a762e284fcba2a40037fc303c7fca1987b6a7bdaa0145e96  cbam-bm/raw/re
 eab5304971f64e386e70ec8e12cbaddccb149d1fd28ab39aa4a91120bdc594d0  cbam-bm/cbam_benchmarks.csv
 6273d015d984e46df4691cfb294e61fe4bbd7dc576a90c94563bb4bb4c92aa4e  cbam-bm/cbam_routes.csv
 f09d89c2a14243fc00ae7402a4cccddd3dd130e1fb057f81f46da32de9665da7  ../../web/src/data/factors/cbam-benchmarks.json
+38966fa6702385ee1fb2da85ad8aad7ae82946f571c345e194f23afd5d38cdf1  cbam-countries/cbam_defaults_countries.csv
+21ca5a2ca21cb1eccd94af3b629d340b9b5aa6cac003579cf102728646977934  ../../web/src/data/factors/eu-cbam-defaults-countries.json

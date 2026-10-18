@@ -36,13 +36,17 @@ Tamamlanan (18.10.2026): SKDM resmi kıyas değerleri ve rota eşlemesi.
 - Gerçek veride A sütunu ile öncül malzeme payı toplanıyor (varsayılan pay: B − A); rota seçilebiliyor.
 - Örnek kıyas yer tutucuları kaldırıldı; elle kıyas girmek yalnız bilinçli tercih olarak duruyor.
 
+Tamamlanan (18.10.2026): SKDM menşe ülke seçimi.
+- Çin, Hindistan, Ukrayna, Mısır ve "diğer ülkeler" varsayılan değer tabloları eklendi; "diğer ülkeler" yedeği uygulanıyor. Resmî Gazete ile karşılaştırıldı: 1.482/1.482.
+- Ürüne menşe ülke seçimi geldi: varsayılan değer tablosu, kıyas rotası ve operatör özeti menşeye göre. Ülke değişince kütüphaneden seçilmiş değer aynı KN satırına geçiyor.
+
 Kod dışında yapılacak iş:
 - Uzman teyitleri.
 - IEA lisans görüşü.
 
 Kodda yapılacak iş:
 - **Faktör kütüphanesi:** TÜİK 2023 ısıl değerleri (ortak raporlama tabloları indirilebildiğinde); ETKB 2024 sürümü yayımlandığında eklenmesi.
-- **SKDM:** diğer menşe ülke tabloları (Türkiye tablosu ve kıyaslar tamam).
+- **SKDM:** gerektikçe başka menşe ülke tabloları (Türkiye, Çin, Hindistan, Ukrayna, Mısır ve diğer ülkeler tamam).
 - **TR ETS:** Başkanlık kıyas değerleri ve Ulusal Tahsisat Planı yayımlanınca parametre güncellemesi.
 - **SBTi V2.0:** Ç4 2026'da yayımlanacak yöntemlerin eklenmesi.
 

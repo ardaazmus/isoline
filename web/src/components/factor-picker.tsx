@@ -45,6 +45,12 @@ export function useFactorLabel(): (f: Factor, set: FactorSet) => string {
   };
 }
 
+/** Name of a country of origin in the UI language; "OTHER" is the 'Other Countries and Territories' table. */
+export function useCountryName(): (code: string) => string {
+  const { locale, t } = useI18n();
+  return (code) => (code === "OTHER" ? t("cbam.origins.OTHER") : (regionName(locale, code) ?? code));
+}
+
 const clip = (s: string, n: number) => (s.length > n ? `${s.slice(0, n - 1).trimEnd()}…` : s);
 
 /**
@@ -69,11 +75,11 @@ export function FactorPicker({
   /** Offer only the editions for this year (one per family); a pick from another edition stays visible. */
   year?: number;
   /** Narrows the offer further, e.g. to factors suited to a scope 3 category. */
-  filter?: (f: Factor) => boolean;
+  filter?: (f: Factor, set: FactorSet) => boolean;
 }) {
   const { t, fmt } = useI18n();
   const label = useFactorLabel();
-  const matches = findFactors(year === undefined ? sets : setsForYear(sets, year), kind, matchKey).filter((o) => !filter || filter(o.factor));
+  const matches = findFactors(year === undefined ? sets : setsForYear(sets, year), kind, matchKey).filter((o) => !filter || filter(o.factor, o.set));
   const current = resolveRef(sets, value);
   // A pick stays listed even after the key changes, so the field never silently shows another factor.
   const options = current && !matches.some((o) => factorRef(o) === factorRef(current)) ? [current, ...matches] : matches;

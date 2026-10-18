@@ -383,7 +383,7 @@
         "none": "bu kod için kıyas yok",
         "route": "rota gerekli"
       },
-      "explainDefault": "Varsayılan değer kullanıldığı için B sütunu, Türkiye varsayılan tablosundaki rota {route} ile (KN {cn}).",
+      "explainDefault": "Varsayılan değer kullanıldığı için B sütunu, {country} varsayılan tablosundaki rota {route} ile (KN {cn}).",
       "explainActual": "Gerçek veri: A sütunu (süreç kıyası) {a} + öncül payı {pre}, rota {route}.",
       "routes": {
         "A": "gri klinker / çimento",
@@ -398,6 +398,11 @@
         "K": "birincil alüminyum",
         "L": "ikincil alüminyum"
       }
+    },
+    "origin": "Menşe ülke",
+    "originHint": "Varsayılan değer tablosunu ve kıyas rotasını belirler. Listede olmayan ülkeler için 'Diğer ülkeler' tablosu geçerlidir.",
+    "origins": {
+      "OTHER": "Diğer ülkeler ve bölgeler"
     }
   },
   "ghg": {
@@ -1801,7 +1806,8 @@
       "eea_ener038": "EEA {year}",
       "tuik_ncv": "TÜİK ulusal envanter {year}",
       "desnz": "DESNZ {year}"
-    }
+    },
+    "countries": "Ülkeler"
   },
   "theme": {
     "climate": "İklim ve karbon",

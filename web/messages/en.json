@@ -383,7 +383,7 @@
         "none": "no benchmark for this code",
         "route": "route needed"
       },
-      "explainDefault": "Default values are used, so Column B on the Türkiye default-value table's route {route} (CN {cn}).",
+      "explainDefault": "Default values are used, so Column B on the route of the {country} default-value table {route} (CN {cn}).",
       "explainActual": "Actual data: Column A (process benchmark) {a} + precursors' share {pre}, route {route}.",
       "routes": {
         "A": "grey clinker / cement",
@@ -398,6 +398,11 @@
         "K": "primary aluminium",
         "L": "secondary aluminium"
       }
+    },
+    "origin": "Country of origin",
+    "originHint": "Selects the default-value table and the benchmark route. Countries not listed use the 'Other Countries and Territories' table.",
+    "origins": {
+      "OTHER": "Other countries and territories"
     }
   },
   "ghg": {
@@ -1801,7 +1806,8 @@
       "eea_ener038": "EEA {year}",
       "tuik_ncv": "TÜİK national inventory {year}",
       "desnz": "DESNZ {year}"
-    }
+    },
+    "countries": "Countries"
   },
   "theme": {
     "climate": "Climate and carbon",

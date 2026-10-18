@@ -8,6 +8,7 @@ import { ETKB_EDITIONS, FUELS, GWP_AR6, type FuelId } from "./calc/ghg";
 import cbamTr from "@/data/factors/eu-cbam-defaults-tr.json";
 import eeaGrid from "@/data/factors/eea-grid-intensity.json";
 import desnz2026 from "@/data/factors/desnz-2026.json";
+import cbamCountries from "@/data/factors/eu-cbam-defaults-countries.json";
 import tuikNir2026 from "@/data/factors/tuik-nir-2026.json";
 
 export type FactorKind = "fuel_co2" | "grid" | "gwp" | "scope3" | "cbam_default";
@@ -68,6 +69,8 @@ export type FactorSet = {
    */
   family?: string;
   year?: number;
+  /** Country the set applies to (CBAM default values per country of origin; "OTHER" = other countries). */
+  country?: string;
   /** Publication date of the edition. */
   published?: string;
   factors: Factor[];
@@ -134,6 +137,48 @@ const DESNZ_CATEGORIES: Record<string, number[]> = {
 type DesnzRow = [id: string, group: string, activity: string, type: string, sizeOrClass: string, unit: string, kgCo2e: number, sheet: string, row: number];
 type TuikRow = [fuel: FuelId, nidFuel: string, unit: string, ncv: number | null, ef: number];
 
+/** Countries of origin with their own CBAM default-value table in the library, in display order. */
+export const CBAM_ORIGINS = ["TR", "CN", "IN", "UA", "EG", "OTHER"] as const;
+export type CbamOrigin = (typeof CBAM_ORIGINS)[number];
+
+/** Table names as the Annex calls them. */
+const CBAM_COUNTRY_NAMES: Record<Exclude<CbamOrigin, "TR">, string> = { CN: "China", IN: "India", UA: "Ukraine", EG: "Egypt", OTHER: "Other Countries and Territories" };
+
+type CountryRow = [cn: string, direct: number | null, indirect: number | null, total: number, otherCountries: 0 | 1, xlsxRow: string, route: string];
+
+/** CBAM default values of one further country of origin (2026/1740 Annex I, "Other Countries" fallback applied). */
+function cbamCountrySet(cc: Exclude<CbamOrigin, "TR">): FactorSet {
+  const id = `eu_cbam_dv_${cc.toLowerCase()}`;
+  const rows = (cbamCountries.countries as unknown as Record<string, CountryRow[]>)[cc];
+  const desc = cbamCountries.descriptions as Record<string, string>;
+  return {
+    id,
+    name: `European Commission — CBAM default values, ${CBAM_COUNTRY_NAMES[cc]} (EU 2026/1740)`,
+    publisher: "European Commission (DG TAXUD)",
+    licence: "open",
+    licenceNote: "© European Union, CC BY 4.0 (Commission Decision 2011/833/EU).",
+    url: cbamCountries.legal,
+    asOf: "2026-08-06",
+    published: "2026-08-06",
+    family: "eu_cbam_dv",
+    country: cc,
+    year: 2026,
+    origin: "builtin",
+    rightsConfirmed: true,
+    usageNote: "factors.notes.eu_cbam_dv_tr",
+    factors: rows.map(([cn, direct, indirect, total, other]) => ({
+      id: `${id}:${cn}`,
+      kind: "cbam_default" as const,
+      key: cn,
+      label: desc[cn] ?? cn,
+      value: total,
+      direct: direct ?? undefined,
+      indirect: indirect ?? undefined,
+      otherCountries: (other === 1 && cc !== "OTHER") || undefined,
+    })),
+  };
+}
+
 type CbamRow = [cn: string, description: string, direct: number | null, indirect: number | null, total: number, otherCountries: 0 | 1, xlsxRow: string];
 type EeaRow = [code: string, country: string, year: number, gPerKwh: number];
 
@@ -183,6 +228,7 @@ export const BUILTIN_SETS: FactorSet[] = [
     asOf: "2026-08-06",
     published: "2026-08-06",
     family: "eu_cbam_dv",
+    country: "TR",
     year: 2026,
     origin: "builtin",
     rightsConfirmed: true,
@@ -198,6 +244,7 @@ export const BUILTIN_SETS: FactorSet[] = [
       otherCountries: other === 1 || undefined,
     })),
   },
+  ...(["CN", "IN", "UA", "EG", "OTHER"] as const).map(cbamCountrySet),
   {
     // UK DESNZ conversion factors 2026, curated scope 3 subset (docs/kaynak-veri/desnz). Published per unit in
     // kg CO₂e; stored in t CO₂e per unit (÷ 1000). Air travel includes radiative forcing (RF).
