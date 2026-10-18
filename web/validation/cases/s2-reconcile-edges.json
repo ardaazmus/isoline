@@ -1,0 +1,70 @@
+{
+  "id": "s2-reconcile-edges",
+  "profile": "stress",
+  "title": "Uzlaştırma eşik sınırları: U1 ±%0,5, U8 ±%20, U9 %20",
+  "source": {
+    "kind": "synthetic",
+    "cite": "Uzlaştırma kuralları v1 varsayılan toleransları",
+    "url": ""
+  },
+  "engine": "reconcile",
+  "input": {
+    "cases": [
+      {
+        "name": "u1-at-edge",
+        "set": {
+          "ghg.revenueMillionTry": 42210
+        },
+        "check": "U1.ghgRevenue"
+      },
+      {
+        "name": "u1-over-edge",
+        "set": {
+          "ghg.revenueMillionTry": 42210.01
+        },
+        "check": "U1.ghgRevenue"
+      },
+      {
+        "name": "u8-at-edge",
+        "set": {
+          "indicators.env.waterWithdrawalM3": 9600000,
+          "reconciliation.prior.water": 8000000,
+          "reconciliation.notes": {}
+        },
+        "check": "U8.water"
+      },
+      {
+        "name": "u8-over-edge",
+        "set": {
+          "indicators.env.waterWithdrawalM3": 9600000,
+          "reconciliation.prior.water": 7999999,
+          "reconciliation.notes": {}
+        },
+        "check": "U8.water"
+      },
+      {
+        "name": "u9-above",
+        "set": {
+          "reconciliation.tolerances.estimated": 0.76
+        },
+        "check": "U9.estimated3"
+      },
+      {
+        "name": "u9-below",
+        "set": {
+          "reconciliation.tolerances.estimated": 0.75
+        },
+        "check": "U9.estimated3"
+      }
+    ]
+  },
+  "expected": {
+    "u1-at-edge": "pass",
+    "u1-over-edge": "fail",
+    "u8-at-edge": "pass",
+    "u8-over-edge": "warn",
+    "u9-above": "pass",
+    "u9-below": "warn"
+  },
+  "notes": "U1: mizan 42 000 × 1,005 = 42 210 tam sınırda (geçer), 42 210,01 sınırın üstünde (hata). U8: 9 600 000 / 8 000 000 = tam +%20 (geçer), 9 600 000 / 7 999 999 sınırın üstünde (uyarı). U9: örnek Kapsam 3 tahmini payı ≈ %75,3; eşik %76 geçer, %75 uyarı."
+}

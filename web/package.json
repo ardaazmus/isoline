@@ -13,6 +13,8 @@
     "lint": "eslint",
     "pretest": "node scripts/gen-locales.mjs",
     "test": "vitest run",
+    "validate": "node scripts/validation/report.mjs",
+    "validate:build": "node scripts/validation/build-cases.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

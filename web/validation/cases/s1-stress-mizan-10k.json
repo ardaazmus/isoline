@@ -1,0 +1,30 @@
+{
+  "id": "s1-stress-mizan-10k",
+  "profile": "stress",
+  "title": "Sentetik mizan, 10238 satır (alt hesaplar, gizli ana hesaplar, Türkçe sayı biçimi)",
+  "source": {
+    "kind": "synthetic",
+    "cite": "scripts/validation/mizan-gen.mjs, tohum 20261018",
+    "url": ""
+  },
+  "engine": "mizan",
+  "tolerance": {
+    "relative": 1e-12
+  },
+  "limits": {
+    "ms": 3000
+  },
+  "input": {
+    "seed": 20261018,
+    "rows": 17000
+  },
+  "expected": {
+    "grossSales": "2587012702.56",
+    "deductions": "1685034539.68",
+    "netSales": "901978162.88",
+    "totalDebit": "21438124755.81",
+    "totalCredit": "21438124755.81",
+    "mainAccounts": 25,
+    "movementsBalanced": true
+  }
+}

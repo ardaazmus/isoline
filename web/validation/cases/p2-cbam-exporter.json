@@ -1,0 +1,109 @@
+{
+  "id": "p2-cbam-exporter",
+  "profile": "cbam",
+  "title": "SKDM ihracatçısı: Türkiye ve Çin menşeli varsayılan değer, öncül paylı gerçek veri; 2026 ve 2028",
+  "source": {
+    "kind": "synthetic-official-parameters",
+    "cite": "Direktif 2003/87/AT Md. 10a(1a); Uyg. Tüzüğü 2026/1740 Ek I; 2025/2620 Ek nokta 5; Karar 2026/1862",
+    "url": "docs/kaynak-veri"
+  },
+  "engine": "cbam",
+  "tolerance": {
+    "relative": 1e-9
+  },
+  "input": {
+    "years": [
+      2026,
+      2028
+    ],
+    "scenario": {
+      "startPrice": 80,
+      "priceGrowth": 0,
+      "originCarbonPrice": 0,
+      "eurTry": 0
+    },
+    "products": [
+      {
+        "id": "a",
+        "name": "a",
+        "cn": "7208",
+        "origin": "TR",
+        "sector": "iron_steel",
+        "tonnes": 10000,
+        "growth": 0,
+        "seeDirect": 0,
+        "seeIndirect": 0,
+        "defaultSee": 2.428,
+        "useDefault": true,
+        "benchmark": 0
+      },
+      {
+        "id": "b",
+        "name": "b",
+        "cn": "7209",
+        "origin": "CN",
+        "sector": "iron_steel",
+        "tonnes": 2000,
+        "growth": 0,
+        "seeDirect": 0,
+        "seeIndirect": 0,
+        "defaultSee": 3.205,
+        "useDefault": true,
+        "benchmark": 0
+      },
+      {
+        "id": "c",
+        "name": "c",
+        "cn": "7208",
+        "origin": "TR",
+        "sector": "iron_steel",
+        "tonnes": 5000,
+        "growth": 0,
+        "seeDirect": 1.85,
+        "seeIndirect": 0,
+        "defaultSee": 2.428,
+        "useDefault": false,
+        "benchmark": 0,
+        "precursorBm": 1.1
+      }
+    ]
+  },
+  "expected": {
+    "a.2026.see": "2.670800000000",
+    "a.2026.benchmark": "1.370000000000",
+    "a.2026.gross": "26708.000000000000",
+    "a.2026.faa": "13357.500000000000",
+    "a.2026.certificates": "13350.500000000000",
+    "a.2026.cost": "1068040.000000000000",
+    "b.2026.see": "3.525500000000",
+    "b.2026.benchmark": "1.458000000000",
+    "b.2026.gross": "7051.000000000000",
+    "b.2026.faa": "2843.100000000000",
+    "b.2026.certificates": "4207.900000000000",
+    "b.2026.cost": "336632.000000000000",
+    "c.2026.see": "1.850000000000",
+    "c.2026.benchmark": "1.144000000000",
+    "c.2026.gross": "9250.000000000000",
+    "c.2026.faa": "5577.000000000000",
+    "c.2026.certificates": "3673.000000000000",
+    "c.2026.cost": "293840.000000000000",
+    "a.2028.see": "3.156400000000",
+    "a.2028.benchmark": "1.370000000000",
+    "a.2028.gross": "31564.000000000000",
+    "a.2028.faa": "12330.000000000000",
+    "a.2028.certificates": "19234.000000000000",
+    "a.2028.cost": "1538720.000000000000",
+    "b.2028.see": "4.166500000000",
+    "b.2028.benchmark": "1.458000000000",
+    "b.2028.gross": "8333.000000000000",
+    "b.2028.faa": "2624.400000000000",
+    "b.2028.certificates": "5708.600000000000",
+    "b.2028.cost": "456688.000000000000",
+    "c.2028.see": "1.850000000000",
+    "c.2028.benchmark": "1.144000000000",
+    "c.2028.gross": "9250.000000000000",
+    "c.2028.faa": "5148.000000000000",
+    "c.2028.certificates": "4102.000000000000",
+    "c.2028.cost": "328160.000000000000"
+  }
+}

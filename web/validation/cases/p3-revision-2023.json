@@ -1,0 +1,94 @@
+{
+  "id": "p3-revision-2023",
+  "profile": "revision",
+  "title": "Geriye dönük revizyon: 2023 envanteri ETKB 2022 ile hesaplanmış, ETKB 2023 yayımlanınca yeniden hesap",
+  "source": {
+    "kind": "synthetic-official-factors",
+    "cite": "ETKB 2022 ve 2023 bilgi formları; IPCC 2006 varsayılan doğal gaz",
+    "url": "docs/kaynak-veri/etkb"
+  },
+  "engine": "recalc",
+  "tolerance": {
+    "relative": 1e-9
+  },
+  "input": {
+    "year": 2023,
+    "editionYears": [
+      2019,
+      2023,
+      2024,
+      2026
+    ],
+    "inventory": {
+      "year": 2023,
+      "grid": {
+        "edition": "etkb_2022",
+        "transmission": 0.445,
+        "distribution": 0.478
+      },
+      "fuels": [
+        {
+          "id": "f1",
+          "fuel": "natural_gas",
+          "label": "Doğal gaz",
+          "amount": 2400000,
+          "ncv": 0.0345,
+          "ef": 56.1,
+          "mobile": false,
+          "quality": "measured"
+        }
+      ],
+      "process": [],
+      "refrigerants": [],
+      "electricity": [
+        {
+          "id": "e1",
+          "label": "İletim",
+          "mwh": 18000,
+          "connection": "transmission",
+          "certifiedMwh": 0,
+          "supplierFactor": null,
+          "quality": "measured"
+        },
+        {
+          "id": "e2",
+          "label": "Dağıtım",
+          "mwh": 42000,
+          "connection": "distribution",
+          "certifiedMwh": 6000,
+          "supplierFactor": null,
+          "quality": "measured"
+        },
+        {
+          "id": "e3",
+          "label": "Doğal gaz santrali ikili anlaşma",
+          "mwh": 5000,
+          "connection": "distribution",
+          "certifiedMwh": 0,
+          "supplierFactor": null,
+          "gridFactor": 0.379,
+          "factorRef": "etkb_2022/etkb_2022:plant-natural-gas",
+          "quality": "measured"
+        }
+      ],
+      "scope3": [],
+      "revenueMillionTry": 0,
+      "productionTonnes": 0
+    }
+  },
+  "expected": {
+    "before.scope2Location": "29981.000000000000",
+    "after.scope2Location": "29571.000000000000",
+    "before.scope2Market": "27113.000000000000",
+    "after.scope2Market": "26757.000000000000",
+    "after.scope1": "4645.080000000000",
+    "scope12Change": "-0.011840785904728",
+    "significant": false,
+    "changes": 3,
+    "gridTo": "etkb_2023",
+    "edition.2019": "etkb_2020",
+    "edition.2023": "etkb_2023",
+    "edition.2024": "etkb_2023",
+    "edition.2026": "etkb_2023"
+  }
+}

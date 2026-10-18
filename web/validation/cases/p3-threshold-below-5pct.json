@@ -1,0 +1,95 @@
+{
+  "id": "p3-threshold-below-5pct",
+  "profile": "revision",
+  "title": "Anlamlılık eşiği: Kapsam 1+2 değişimi %4.9975",
+  "source": {
+    "kind": "synthetic",
+    "cite": "GHG Protokolü Kurumsal Standart bölüm 5 (anlamlılık eşiği uygulamada %5)",
+    "url": ""
+  },
+  "engine": "recalc",
+  "tolerance": {
+    "relative": 1e-12
+  },
+  "input": {
+    "year": 2023,
+    "customSets": [
+      {
+        "id": "testgrid_2022",
+        "name": "Test grid 2022",
+        "publisher": "test",
+        "licence": "user_licensed",
+        "licenceNote": "",
+        "url": "",
+        "asOf": "2022-01-01",
+        "origin": "custom",
+        "rightsConfirmed": true,
+        "family": "testgrid",
+        "year": 2022,
+        "factors": [
+          {
+            "id": "testgrid_2022:x",
+            "kind": "grid",
+            "key": "X",
+            "label": "X",
+            "value": 0.4
+          }
+        ]
+      },
+      {
+        "id": "testgrid_2023",
+        "name": "Test grid 2023",
+        "publisher": "test",
+        "licence": "user_licensed",
+        "licenceNote": "",
+        "url": "",
+        "asOf": "2023-01-01",
+        "origin": "custom",
+        "rightsConfirmed": true,
+        "family": "testgrid",
+        "year": 2023,
+        "factors": [
+          {
+            "id": "testgrid_2023:x",
+            "kind": "grid",
+            "key": "X",
+            "label": "X",
+            "value": 0.41999
+          }
+        ]
+      }
+    ],
+    "inventory": {
+      "year": 2022,
+      "grid": {
+        "edition": "etkb_2023",
+        "transmission": 0.436,
+        "distribution": 0.469
+      },
+      "fuels": [],
+      "process": [],
+      "refrigerants": [],
+      "scope3": [],
+      "revenueMillionTry": 0,
+      "productionTonnes": 0,
+      "electricity": [
+        {
+          "id": "e1",
+          "label": "Hat",
+          "mwh": 1000,
+          "connection": "distribution",
+          "certifiedMwh": 0,
+          "supplierFactor": null,
+          "gridFactor": 0.4,
+          "factorRef": "testgrid_2022/testgrid_2022:x",
+          "quality": "measured"
+        }
+      ]
+    }
+  },
+  "expected": {
+    "scope12Change": "0.049975000000000",
+    "significant": false,
+    "after.scope2Location": "419.990000000000"
+  }
+}

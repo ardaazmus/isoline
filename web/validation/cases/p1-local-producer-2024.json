@@ -1,0 +1,157 @@
+{
+  "id": "p1-local-producer-2024",
+  "profile": "local",
+  "title": "Yerel üretici, 2024: TÜİK 2024 ve ETKB 2023 faktörleriyle Kapsam 1-2, DESNZ ile Kapsam 3",
+  "source": {
+    "kind": "synthetic-official-factors",
+    "cite": "TÜİK NID 2026 (Ek 4, Tablo 3.7); ETKB 2023 bilgi formu; IPCC AR6 GWP; DESNZ 2026",
+    "url": "docs/kaynak-veri"
+  },
+  "engine": "ghg",
+  "tolerance": {
+    "relative": 1e-9
+  },
+  "input": {
+    "inventory": {
+      "year": 2024,
+      "fuels": [
+        {
+          "id": "f1",
+          "fuel": "natural_gas",
+          "label": "Doğal gaz",
+          "amount": 5000000,
+          "ncv": 0.03454,
+          "ef": 55.9,
+          "mobile": false,
+          "quality": "measured",
+          "factorRef": "tuik_nir_2024/tuik_nir_2024:natural_gas"
+        },
+        {
+          "id": "f2",
+          "fuel": "lignite",
+          "label": "Linyit",
+          "amount": 12000,
+          "ncv": 8.35,
+          "ef": 105.5,
+          "mobile": false,
+          "quality": "measured",
+          "factorRef": "tuik_nir_2024/tuik_nir_2024:lignite"
+        },
+        {
+          "id": "f3",
+          "fuel": "diesel",
+          "label": "Motorin",
+          "amount": 85000,
+          "ncv": 0.03612,
+          "ef": 72.3,
+          "mobile": true,
+          "quality": "calculated",
+          "factorRef": "tuik_nir_2024/tuik_nir_2024:diesel"
+        }
+      ],
+      "process": [],
+      "refrigerants": [
+        {
+          "id": "r1",
+          "gas": "R-410A",
+          "leakedKg": 25,
+          "quality": "estimated"
+        }
+      ],
+      "electricity": [
+        {
+          "id": "e1",
+          "label": "Dağıtım",
+          "mwh": 9500,
+          "connection": "distribution",
+          "certifiedMwh": 1500,
+          "supplierFactor": null,
+          "quality": "measured"
+        },
+        {
+          "id": "e2",
+          "label": "İletim",
+          "mwh": 30000,
+          "connection": "transmission",
+          "certifiedMwh": 0,
+          "supplierFactor": null,
+          "quality": "measured"
+        }
+      ],
+      "scope3": [
+        {
+          "id": "s1",
+          "category": 4,
+          "label": "Kara nakliyesi",
+          "amount": 1200000,
+          "unit": "tonne.km",
+          "factor": 0.00010356,
+          "factorSource": "DESNZ 2026",
+          "quality": "estimated",
+          "factorRef": "desnz_2026/desnz_2026:freight_hgv_avg_laden"
+        },
+        {
+          "id": "s2",
+          "category": 6,
+          "label": "Otel, Türkiye",
+          "amount": 300,
+          "unit": "Room per night",
+          "factor": 0.0321,
+          "factorSource": "DESNZ 2026",
+          "quality": "estimated",
+          "factorRef": "desnz_2026/desnz_2026:hotel_turkey"
+        }
+      ],
+      "revenueMillionTry": 0,
+      "productionTonnes": 0
+    },
+    "factorChecks": [
+      {
+        "ref": "tuik_nir_2024/tuik_nir_2024:natural_gas",
+        "value": "55.9",
+        "ncv": "0.034540000000"
+      },
+      {
+        "ref": "tuik_nir_2024/tuik_nir_2024:lignite",
+        "value": "105.5",
+        "ncv": "8.35"
+      },
+      {
+        "ref": "tuik_nir_2024/tuik_nir_2024:diesel",
+        "value": "72.3"
+      },
+      {
+        "ref": "etkb_2023/etkb_2023:distribution",
+        "value": "0.469"
+      },
+      {
+        "ref": "etkb_2023/etkb_2023:transmission",
+        "value": "0.436"
+      },
+      {
+        "ref": "desnz_2026/desnz_2026:freight_hgv_avg_laden",
+        "value": "0.000103560000"
+      },
+      {
+        "ref": "desnz_2026/desnz_2026:hotel_turkey",
+        "value": "0.032100000000"
+      }
+    ]
+  },
+  "expected": {
+    "scope1": "20503.392960000000",
+    "scope2Location": "17535.500000000000",
+    "scope2Market": "16832.000000000000",
+    "scope3": "133.902000000000",
+    "energyGj": "418170.200000000000",
+    "factor tuik_nir_2024/tuik_nir_2024:natural_gas": "55.9",
+    "ncv tuik_nir_2024/tuik_nir_2024:natural_gas": "0.034540000000",
+    "factor tuik_nir_2024/tuik_nir_2024:lignite": "105.5",
+    "ncv tuik_nir_2024/tuik_nir_2024:lignite": "8.35",
+    "factor tuik_nir_2024/tuik_nir_2024:diesel": "72.3",
+    "factor etkb_2023/etkb_2023:distribution": "0.469",
+    "factor etkb_2023/etkb_2023:transmission": "0.436",
+    "factor desnz_2026/desnz_2026:freight_hgv_avg_laden": "0.000103560000",
+    "factor desnz_2026/desnz_2026:hotel_turkey": "0.032100000000"
+  }
+}
