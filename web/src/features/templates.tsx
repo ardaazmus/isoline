@@ -8,6 +8,7 @@ import { TEMPLATES, type Template } from "@/data/templates";
 import { SOURCES } from "@/data/sources";
 import { FAMILY_COLOR, NAV } from "@/data/nav";
 import { toolSummary } from "@/lib/summary";
+import { buildContentIndex } from "@/lib/content-index";
 import { buildDocx } from "@/lib/docx";
 import { sectionsOf } from "@/lib/approval";
 import { docApproval } from "./approval";
@@ -66,6 +67,7 @@ function Detail({ tp }: { tp: Template }) {
   const [busy, setBusy] = useState(false);
   const [exportError, setExportError] = useState<string | null>(null);
   const navHref = (tool: string) => NAV.flatMap((g) => g.items).find((i) => i.id === tool)?.href ?? "";
+  const index = buildContentIndex(tp, client, t, fmt);
 
   const exportDocx = async () => {
     setBusy(true);
@@ -79,6 +81,11 @@ function Detail({ tp }: { tp: Template }) {
         labels: { refs: t("tpl.refs"), figures: t("tpl.figures"), draft: t("tpl.draftHere"), sources: t("note.source") },
         sources: tp.sources.map((s) => `${SOURCES[s].cite} — ${SOURCES[s].url}`),
         approval: docApproval(client, sectionsOf(tp.sections.flatMap((s) => s.tools ?? [])), t, fmt),
+        contentIndex: {
+          title: t("tpl.contentIndex"),
+          labels: { section: t("tpl.indexSection"), refs: t("tpl.refs"), figures: t("tpl.figures") },
+          rows: index,
+        },
         sections: tp.sections.map((s) => ({
           title: t(`tpl.${tp.id}.sections.${s.id}.title`),
           guide: t(`tpl.${tp.id}.sections.${s.id}.guide`),
@@ -153,6 +160,30 @@ function Detail({ tp }: { tp: Template }) {
           <p className="text-[12.5px] text-[var(--ink-3)]">{t("tpl.figuresFrom", { client: client.name })}</p>
         </aside>
       </div>
+      <section className="mt-10 flex flex-col gap-3">
+        <h2 className="text-[16px] font-semibold">{t("tpl.contentIndex")}</h2>
+        <p className="max-w-[70ch] text-[13.5px] text-[var(--ink-2)]">{t("tpl.contentIndexCaption")}</p>
+        <div className="overflow-x-auto">
+          <table className="report-table text-[13.5px]">
+            <thead>
+              <tr>
+                <th>{t("tpl.indexSection")}</th>
+                <th>{t("tpl.refs")}</th>
+                <th>{t("tpl.figures")}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {index.map((row) => (
+                <tr key={row.section}>
+                  <td className="font-medium">{row.section}</td>
+                  <td className="text-[var(--ink-2)]">{row.refs}</td>
+                  <td className="num">{row.figures}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
   );
 }

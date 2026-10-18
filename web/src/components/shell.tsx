@@ -61,6 +61,7 @@ const ICONS: Record<string, LucideIcon> = {
   trialBalance: FileSpreadsheet,
   requests: ListTodo,
   auditor: ShieldCheck,
+  sites: Building2,
 };
 
 export const BRAND = "Isoline";

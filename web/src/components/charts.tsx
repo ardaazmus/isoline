@@ -582,6 +582,78 @@ export function MaccChart({
   );
 }
 
+// ---------------------------------------------------------------------------
+export type SankeyNode = { id: string; label: string; column: 0 | 1 };
+export type SankeyLink = { from: string; to: string; value: number; color: string; dash?: boolean };
+
+/** Two-column flow diagram (sources → scopes): ribbon width follows the value. Light-theme SVG. */export function Sankey({
+  nodes,
+  links,
+  height = 340,
+  label,
+  valueFormat,
+}: {
+  nodes: SankeyNode[];
+  links: SankeyLink[];
+  height?: number;
+  label: string;
+  valueFormat: (v: number) => string;
+}) {
+  const [ref, width] = useWidth<HTMLDivElement>();
+  const m = { t: 14, r: 176, b: 14, l: 176 };
+  const plotH = height - m.t - m.b;
+  const gap = 10;
+  const flows = links.filter((l) => l.value > 0);
+  const val = (id: string, col: 0 | 1) => flows.filter((l) => (col === 0 ? l.from === id : l.to === id)).reduce((s, l) => s + l.value, 0);
+  const live = nodes.filter((n) => val(n.id, n.column) > 0);
+  const total = Math.max(1e-9, ...([0, 1] as const).map((c) => live.filter((n) => n.column === c).reduce((s, n) => s + val(n.id, c), 0)));
+  const k = (plotH - gap * Math.max(0, live.length - 1)) / total;
+  const bars = new Map<string, { y: number; h: number }>();
+  ([0, 1] as const).forEach((c) => {
+    let y = m.t;
+    for (const n of live.filter((x) => x.column === c)) {
+      const h = Math.max(2, val(n.id, c) * k);
+      bars.set(n.id, { y, h });
+      y += h + gap;
+    }
+  });
+  const off = new Map<string, number>();
+  const ribbons = flows.map((l) => {
+    const a = bars.get(l.from)!;
+    const b = bars.get(l.to)!;
+    const ya = a.y + (off.get(l.from) ?? 0) + (l.value * k) / 2;
+    const yb = b.y + (off.get(l.to) ?? 0) + (l.value * k) / 2;
+    off.set(l.from, (off.get(l.from) ?? 0) + l.value * k);
+    off.set(l.to, (off.get(l.to) ?? 0) + l.value * k);
+    const x0 = m.l;
+    const x1 = width - m.r;
+    const mx = (x0 + x1) / 2;
+    return { l, ya, yb, d: `M ${x0} ${ya} C ${mx} ${ya}, ${mx} ${yb}, ${x1} ${yb}`, w: Math.max(1.5, l.value * k) };
+  });
+  return (
+    <div ref={ref} className="min-w-0">
+      <svg data-chart width={width} height={height} role="img" aria-label={label} className="block">
+        {ribbons.map(({ l, d, w }) => (
+          <path key={l.from + l.to} d={d} fill="none" stroke={l.color} strokeWidth={w} strokeOpacity={0.45} strokeDasharray={l.dash ? "5 4" : undefined} strokeLinecap="round" />
+        ))}
+        {live.map((n) => {
+          const b = bars.get(n.id)!;
+          const left = n.column === 0;
+          const x = left ? m.l - 9 : width - m.r + 1;
+          return (
+            <g key={n.id}>
+              <rect x={x} y={b.y} width={8} height={b.h} rx={2} fill="var(--ink)" />
+              <text x={left ? x - 6 : x + 14} y={b.y + Math.max(11, b.h / 2)} dy="0.32em" textAnchor={left ? "end" : "start"} fontSize={11} fill="var(--ink-2)">
+                {n.label} · <tspan className="num">{valueFormat(val(n.id, n.column))}</tspan>
+              </text>
+            </g>
+          );
+        })}
+      </svg>
+    </div>
+  );
+}
+
 /** Horizontal proportion bar used in KPI rows (taxonomy, recovery rates). */
 export function ShareBar({ parts, label }: { parts: { value: number; color: string; label: string; hatch?: boolean }[]; label: string }) {
   return (

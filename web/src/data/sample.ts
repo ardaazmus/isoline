@@ -15,6 +15,7 @@ import type { ImportRecord } from "@/lib/imports";
 import type { Approvals } from "@/lib/approval";
 import { emptyRequests, type Requests } from "@/lib/requests";
 import { emptyAudit, type AuditState } from "@/lib/auditor";
+import { emptySites, type Site } from "@/lib/sites";
 import { SAMPLE_TB_FILE, sampleTrialBalanceCsv } from "./sample-trial-balance";
 import type { StageStatus } from "./journey";
 
@@ -50,6 +51,8 @@ export type ClientData = {
   requests: Requests;
   /** Auditor notes and evidence requests (Faz 4): read-only role writes here, never tool data. */
   audit: AuditState;
+  /** Registered sites for hierarchy and consolidation (Faz 1 local slice). */
+  sites: Site[];
 };
 
 /** SHA-256 of sampleTrialBalanceCsv(): the sample records the same evidence hash a real import would. */
@@ -215,6 +218,11 @@ export const SAMPLE_CLIENT: ClientData = {
     },
   },
   audit: emptyAudit(),
+  sites: [
+    { id: "site-gebze", name: "Gebze Üretim Kampüsü", kind: "factory", share: 100, control: "operational" },
+    { id: "site-izmir", name: "İzmir Montaj Tesisi", kind: "factory", share: 100, control: "operational" },
+    { id: "site-hq", name: "Merkez Ofis", kind: "office", share: 100, control: "operational" },
+  ],
 };
 
 /** A fresh, empty client built from the same shape; numbers start at zero. */
@@ -269,5 +277,6 @@ export function emptyClient(id: string, name: string): ClientData {
     approvals: {},
     requests: emptyRequests(),
     audit: emptyAudit(),
+    sites: [],
   };
 }

@@ -25,6 +25,7 @@ export const NAV: NavGroup[] = [
     family: "climate",
     items: [
       { id: "ghg", href: "/tools/ghg", family: "climate" },
+      { id: "sites", href: "/sites", family: "climate" },
       { id: "cbam", href: "/tools/cbam", family: "climate" },
       { id: "ets", href: "/tools/ets", family: "climate" },
       { id: "pathway", href: "/tools/pathway", family: "climate" },

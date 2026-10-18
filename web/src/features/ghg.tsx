@@ -24,7 +24,7 @@ import {
 } from "@/lib/calc/ghg";
 import { FiguresRow, InputGroup, PageHeader, ToolLayout } from "@/components/shell";
 import { Figure } from "@/components/figure";
-import { Waterfall } from "@/components/charts";
+import { Sankey, Waterfall } from "@/components/charts";
 import { Button, NumberField, SelectField, StatusMark, Tabs, TextField } from "@/components/ui";
 import { INVENTORY_TEMPLATE_ROWS, inventoryTemplateCsv, type ImportResult } from "@/lib/inventory-csv";
 import { importInventoryFile, lastImport, logImport, type FileRead } from "@/lib/imports";
@@ -99,6 +99,27 @@ function Inner() {
   ];
 
   const cats = SCOPE3_CATEGORIES.filter((c) => (r.scope3ByCategory[c] ?? 0) > 0);
+  const sankeyCats = [...cats].sort((a, b) => (r.scope3ByCategory[b] ?? 0) - (r.scope3ByCategory[a] ?? 0)).slice(0, 4);
+  const sankeyNodes = [
+    { id: "st", label: t("ghg.w_stationary"), column: 0 as const },
+    { id: "mo", label: t("ghg.w_mobile"), column: 0 as const },
+    { id: "pr", label: t("ghg.w_process"), column: 0 as const },
+    { id: "fu", label: t("ghg.w_fugitive"), column: 0 as const },
+    { id: "el", label: t("ghg.electricityFlow"), column: 0 as const },
+    ...sankeyCats.map((c) => ({ id: `c${c}`, label: t("ghg.scope3Flow", { c }), column: 0 as const })),
+    { id: "s1", label: t("ghg.scope1"), column: 1 as const },
+    { id: "s2", label: t("ghg.scope2loc"), column: 1 as const },
+    { id: "s3", label: t("ghg.scope3"), column: 1 as const },
+  ];
+  const sankeyLinks = [
+    { from: "st", to: "s1", value: r.scope1Stationary, color: "var(--th-climate)" },
+    { from: "mo", to: "s1", value: r.scope1Mobile, color: "var(--th-climate)" },
+    { from: "pr", to: "s1", value: r.scope1Process, color: "var(--th-climate)" },
+    { from: "fu", to: "s1", value: r.scope1Fugitive, color: "var(--th-climate)", dash: true },
+    { from: "el", to: "s2", value: r.scope2Location, color: "var(--th-climate-2)" },
+    ...sankeyCats.map((c) => ({ from: `c${c}`, to: "s3", value: r.scope3ByCategory[c] ?? 0, color: "var(--th-climate-3)", dash: true })),
+  ];
+  const sankeyLabel = (id: string) => sankeyNodes.find((n) => n.id === id)?.label ?? id;
 
   return (
     <>
@@ -321,6 +342,34 @@ function Inner() {
           }
         >
           <Waterfall label={t("ghg.chartWaterfall")} steps={steps} yFormat={(v) => fmt.compact(v)} />
+        </Figure>
+        <Figure
+          title={t("ghg.chartSankey")}
+          caption={t("ghg.chartSankeyCaption")}
+          meta={meta}
+          csv={{ header: ["from", "to", "tco2e"], rows: sankeyLinks.map((l) => [sankeyLabel(l.from), sankeyLabel(l.to), Math.round(l.value)]) }}
+          table={
+            <table className="report-table text-[14px]">
+              <thead>
+                <tr>
+                  <th>{t("ghg.flowFrom")}</th>
+                  <th>{t("ghg.flowTo")}</th>
+                  <th className="r">tCO₂e</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sankeyLinks.map((l) => (
+                  <tr key={l.from + l.to}>
+                    <td>{sankeyLabel(l.from)}</td>
+                    <td>{sankeyLabel(l.to)}</td>
+                    <td className="r num">{n0(l.value)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          }
+        >
+          <Sankey label={t("ghg.chartSankey")} nodes={sankeyNodes} links={sankeyLinks} valueFormat={(v) => fmt.compact(v)} />
         </Figure>
 
         <div className="grid gap-6 lg:grid-cols-2">

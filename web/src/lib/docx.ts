@@ -46,6 +46,25 @@ function approvalTable(a: DocApproval): Table {
   });
 }
 
+export type DocIndex = {
+  title: string;
+  labels: { section: string; refs: string; figures: string };
+  rows: { section: string; refs: string; figures: string }[];
+};
+
+function indexTable(idx: DocIndex): Table {
+  const border = { style: BorderStyle.SINGLE, size: 4, color: "D5DCE4" };
+  const cell = (text: string, bold = false) => new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: text || "—", size: 18, bold })] })] });
+  return new Table({
+    width: { size: 100, type: WidthType.PERCENTAGE },
+    borders: { top: { style: BorderStyle.SINGLE, size: 12, color: INK }, bottom: border, left: { style: BorderStyle.NONE, size: 0, color: "FFFFFF" }, right: { style: BorderStyle.NONE, size: 0, color: "FFFFFF" }, insideHorizontal: border, insideVertical: { style: BorderStyle.NONE, size: 0, color: "FFFFFF" } },
+    rows: [
+      new TableRow({ tableHeader: true, children: [idx.labels.section, idx.labels.refs, idx.labels.figures].map((h) => cell(h, true)) }),
+      ...idx.rows.map((r) => new TableRow({ children: [r.section, r.refs, r.figures].map((v) => cell(v)) })),
+    ],
+  });
+}
+
 export async function buildDocx(opts: {
   title: string;
   subtitle: string;
@@ -55,6 +74,7 @@ export async function buildDocx(opts: {
   labels: { refs: string; figures: string; draft: string; sources: string };
   sources: string[];
   approval?: DocApproval;
+  contentIndex?: DocIndex;
 }): Promise<Blob> {
   const children: (Paragraph | Table)[] = [
     new Paragraph({ heading: HeadingLevel.TITLE, children: [new TextRun({ text: opts.title, color: INK })] }),
@@ -77,6 +97,10 @@ export async function buildDocx(opts: {
     }
     children.push(new Paragraph({ spacing: { before: 160 }, children: [new TextRun({ text: opts.labels.draft, color: "9A6412", size: 20 })] }));
   });
+  if (opts.contentIndex && opts.contentIndex.rows.length) {
+    children.push(new Paragraph({ heading: HeadingLevel.HEADING_1, spacing: { before: 480 }, children: [new TextRun({ text: opts.contentIndex.title, color: INK })] }));
+    children.push(indexTable(opts.contentIndex));
+  }
   children.push(new Paragraph({ heading: HeadingLevel.HEADING_2, spacing: { before: 480 }, children: [new TextRun({ text: opts.labels.sources, color: INK })] }));
   opts.sources.forEach((s) => children.push(new Paragraph({ children: [new TextRun({ text: s, size: 18, color: MUTED })] })));
   const doc = new Document({
