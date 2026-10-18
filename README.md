@@ -45,7 +45,7 @@ npm --prefix web run typecheck
 | | Taksonomi göstergeleri | Ciro, CapEx, OpEx uyum oranları; %10 önemlilik kontrolü (AB 2026/73) |
 | İnsan ve yönetişim | Çift önemlilik matrisi | ESRS konularında etki ve finansal puanlama, etkileşimli matris |
 | | İSG ve çalışan göstergeleri | LTIFR, TRIR, ağırlık oranı, ücret farkı, devir, eğitim; aynı gösterge dosyasından toplu içe aktarma |
-| Raporlama | Veri talepleri | Hazırlanacak raporlardan (kapsam testi önerisi ya da seçim) çıkan veri kalemi listesi; her kalem onu isteyen şablon bölümüne ve atfına bağlı; sorumlu birim, kaynak belge, birim, dönem, sorumlu kişi, son tarih, durum, not; bölüm bazında ilerleme ve gecikme; kabulde dosya içe aktarma kaydına (SHA-256) bağlantı; onaylı bölümde kilit; CSV/Excel olarak gönderip doldurulmuş hâlini geri yükleme |
+| Raporlama | Veri talepleri | Hazırlanacak raporlardan (kapsam testi önerisi ya da seçim) çıkan veri kalemi listesi; her kalem onu isteyen şablon bölümüne ve atfına bağlı; sorumlu birim, kaynak belge, birim, dönem, sorumlu kişi, son tarih, durum, not, teslim edilen belgenin adı ve tarihi (araç ekranlarındaki "Kaynak belgeler" grubuyla aynı kayıt); bölüm bazında ilerleme ve gecikme; kabulde dosya içe aktarma kaydına (SHA-256) bağlantı; onaylı bölümde kilit; CSV/Excel olarak gönderip doldurulmuş hâlini geri yükleme |
 | | Faaliyet raporu kontrolü | Asgari içerik yönetmeliği (RG 28395) + SPK + BDDK maddeleri, sorumlu/durum takibi, Word çıktısı |
 | | Şablon kütüphanesi | 11 şablon (TSRS tam, TSRS önce iklim, GRI, ESRS 2026, gönüllü standart, SKDM operatör paketi, TR ETS izleme planı, faaliyet raporu TTK/halka açık, CDP, yeşil tahvil); hesaplanmış rakamlarla Word'e aktarım |
 | | Çerçeve eşleme | 20 veri grubu: TSRS 2 ↔ GRI ↔ ESRS ↔ gönüllü standart ↔ CDP |

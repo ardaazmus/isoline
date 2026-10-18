@@ -6,8 +6,8 @@
  * Nothing here adds a requirement: an item enters the list only when a section of a chosen template draws on
  * its tool (`TemplateSection.tools`), narrowed by the data points the section names (`points`) and by the
  * framework's crosswalk column ("—" = no counterpart). Every item carries those template sections and their
- * references as its trace. Tracking (owner, due date, status, note) is stored per client; a locked (approved)
- * section freezes its items like the rest of its data.
+ * references as its trace. Tracking (owner, due date, status, note, and the source document of a hand-entered
+ * value) is stored per client; a locked (approved) section freezes its items like the rest of its data.
  */
 import type { ClientData } from "@/data/sample";
 import { CROSSWALK } from "@/data/crosswalk";
@@ -163,7 +163,14 @@ export type RequestStatus = (typeof REQUEST_STATUSES)[number];
 /** The import record an accepted item was checked against: file, hash and time, copied at acceptance. */
 export type RequestEvidence = { fileName: string; sha256: string; importedAt: string };
 
-export type RequestTrack = { owner: string; due: string; status: RequestStatus; note: string; acceptedAt?: string; evidence?: RequestEvidence };
+/**
+ * The document a hand-entered value comes from (workflow step 2: "elle girişte belge notu"): its name or
+ * reference and its date. A file import carries its own evidence (file, SHA-256); this is the record for
+ * everything typed in.
+ */
+export type SourceNote = { doc: string; date: string };
+
+export type RequestTrack = { owner: string; due: string; status: RequestStatus; note: string; source?: SourceNote; acceptedAt?: string; evidence?: RequestEvidence };
 
 export type Requests = {
   /** Templates the user picked; null follows the applicability suggestion. */
@@ -181,6 +188,7 @@ export function trackOf(r: Requests | undefined, id: string): RequestTrack {
 
 export const OWNER_MAX = 120;
 export const NOTE_MAX = 500;
+export const DOC_MAX = 200;
 
 /** One line of text: runs of whitespace (line breaks included) become one space; capped. */
 export function cleanText(s: string, max: number): string {
@@ -195,9 +203,12 @@ export function isDay(s: string): boolean {
   return d.getUTCFullYear() === +m[1] && d.getUTCMonth() === +m[2] - 1 && d.getUTCDate() === +m[3];
 }
 
-const isEmptyTrack = (t: RequestTrack) => !t.owner && !t.due && t.status === "todo" && !t.note;
+const isEmptyTrack = (t: RequestTrack) => !t.owner && !t.due && t.status === "todo" && !t.note && !t.source;
 
-export type TrackPatch = Partial<Pick<RequestTrack, "owner" | "due" | "status" | "note">>;
+/** Backed by a document: a linked file import or a source note naming the document. */
+export const hasEvidence = (t: RequestTrack) => !!t.evidence || !!t.source?.doc;
+
+export type TrackPatch = Partial<Pick<RequestTrack, "owner" | "due" | "status" | "note">> & { sourceDoc?: string; sourceDate?: string };
 
 /**
  * Applies a change to one item. Accepting an item records the time and, when its tool has a file import,
@@ -212,6 +223,9 @@ export function setTrack(req: Requests, dp: Pick<DataPoint, "id" | "importTool">
     status: patch.status ?? prev.status,
     note: patch.note !== undefined ? cleanText(patch.note, NOTE_MAX) : prev.note,
   };
+  const doc = patch.sourceDoc !== undefined ? cleanText(patch.sourceDoc, DOC_MAX) : (prev.source?.doc ?? "");
+  const date = patch.sourceDate !== undefined ? (isDay(patch.sourceDate) ? patch.sourceDate : "") : (prev.source?.date ?? "");
+  if (doc || date) next.source = { doc, date };
   if (next.status === "accepted") {
     if (prev.status === "accepted") {
       if (prev.acceptedAt) next.acceptedAt = prev.acceptedAt;
@@ -233,7 +247,10 @@ export function itemLocked(approvals: Approvals | undefined, dp: Pick<DataPoint,
   return isLocked(approvalOf(approvals, dp.section));
 }
 
-const sameTrack = (a: RequestTrack | undefined, b: RequestTrack | undefined) => JSON.stringify(a ?? null) === JSON.stringify(b ?? null);
+/** Field by field, so tracking read from storage and tracking just built compare equal whatever their key order. */
+const canon = (t: RequestTrack | undefined) =>
+  t ? [t.owner, t.due, t.status, t.note, t.source?.doc, t.source?.date, t.acceptedAt, t.evidence?.fileName, t.evidence?.sha256, t.evidence?.importedAt] : null;
+const sameTrack = (a: RequestTrack | undefined, b: RequestTrack | undefined) => JSON.stringify(canon(a)) === JSON.stringify(canon(b));
 
 /** The locked section a change to the request tracking would touch, or null if the change is allowed. */
 export function requestsLockedBy(c: Pick<ClientData, "approvals"> & { requests?: Requests }, next: Requests): SectionId | null {
@@ -252,7 +269,7 @@ export function isOverdue(t: RequestTrack, today: string | null): boolean {
   return !!today && !!t.due && t.due < today && (t.status === "todo" || t.status === "requested");
 }
 
-export type SectionProgress = { section: SectionId; total: number; counts: Record<RequestStatus, number>; overdue: number; locked: boolean };
+export type SectionProgress = { section: SectionId; total: number; counts: Record<RequestStatus, number>; overdue: number; evidenced: number; locked: boolean };
 
 /** Item counts by status per section, in section order; sections with no items are left out. */
 export function sectionProgress(items: RequestItem[], req: Requests, approvals: Approvals | undefined, today: string | null): SectionProgress[] {
@@ -261,12 +278,14 @@ export function sectionProgress(items: RequestItem[], req: Requests, approvals: 
     if (!own.length) return [];
     const counts = Object.fromEntries(REQUEST_STATUSES.map((s) => [s, 0])) as Record<RequestStatus, number>;
     let overdue = 0;
+    let evidenced = 0;
     for (const i of own) {
       const t = trackOf(req, i.id);
       counts[t.status]++;
       if (isOverdue(t, today)) overdue++;
+      if (hasEvidence(t)) evidenced++;
     }
-    return [{ section, total: own.length, counts, overdue, locked: isLocked(approvalOf(approvals, section)) }];
+    return [{ section, total: own.length, counts, overdue, evidenced, locked: isLocked(approvalOf(approvals, section)) }];
   });
 }
 
@@ -313,18 +332,18 @@ export function markRequested(req: Requests, items: RequestItem[], approvals: Ap
 
 // ── File exchange (CSV and Excel) ─────────────────────────────────────────────────────────────────────
 
-export const REQUEST_COLUMNS = ["id", "section", "item", "role", "document", "unit", "period", "owner", "due", "status", "note"] as const;
+export const REQUEST_COLUMNS = ["id", "section", "item", "role", "document", "unit", "period", "owner", "due", "status", "note", "sourceDoc", "sourceDate"] as const;
 export type RequestColumn = (typeof REQUEST_COLUMNS)[number];
 export type FileLang = "tr" | "en";
 
 /** File headers and status words. They live here, not in messages, because the importer must read them back. */
 export const FILE_TEXT: Record<FileLang, { headers: Record<RequestColumn, string>; statuses: Record<RequestStatus, string> }> = {
   tr: {
-    headers: { id: "Kod", section: "Bölüm", item: "Veri kalemi", role: "Sorumlu birim", document: "Kaynak belge", unit: "Birim", period: "Dönem", owner: "Sorumlu kişi", due: "Son tarih", status: "Durum", note: "Not" },
+    headers: { id: "Kod", section: "Bölüm", item: "Veri kalemi", role: "Sorumlu birim", document: "Kaynak belge", unit: "Birim", period: "Dönem", owner: "Sorumlu kişi", due: "Son tarih", status: "Durum", note: "Not", sourceDoc: "Teslim edilen belge", sourceDate: "Belge tarihi" },
     statuses: { todo: "Gönderilmedi", requested: "Talep edildi", received: "Teslim alındı", accepted: "Kabul edildi" },
   },
   en: {
-    headers: { id: "Code", section: "Section", item: "Data item", role: "Owner role", document: "Source document", unit: "Unit", period: "Period", owner: "Owner", due: "Due date", status: "Status", note: "Note" },
+    headers: { id: "Code", section: "Section", item: "Data item", role: "Owner role", document: "Source document", unit: "Unit", period: "Period", owner: "Owner", due: "Due date", status: "Status", note: "Note", sourceDoc: "Document provided", sourceDate: "Document date" },
     statuses: { todo: "Not sent", requested: "Requested", received: "Received", accepted: "Accepted" },
   },
 };
@@ -349,7 +368,7 @@ export function requestTable(items: RequestItem[], req: Requests, lang: FileLang
     ...items.map((i) => {
       const t = trackOf(req, i.id);
       const x = text(i);
-      return [i.id, x.section, x.item, x.role, x.document, x.unit, i.period, t.owner, t.due, ft.statuses[t.status], t.note];
+      return [i.id, x.section, x.item, x.role, x.document, x.unit, i.period, t.owner, t.due, ft.statuses[t.status], t.note, t.source?.doc ?? "", t.source?.date ?? ""];
     }),
   ];
 }
@@ -382,7 +401,11 @@ export function parseDue(raw: string): string | null {
 }
 
 export type RequestRow = { row: number; id: string } & TrackPatch;
-export type RequestFileIssue = { row: number; key: "missingColumns" | "empty" | "missingId" | "badStatus" | "badDate" | "duplicate" | "unknownId" | "locked"; vars?: Record<string, string | number> };
+export type RequestFileIssue = {
+  row: number;
+  key: "missingColumns" | "empty" | "missingId" | "badStatus" | "badDate" | "badDocDate" | "duplicate" | "unknownId" | "locked";
+  vars?: Record<string, string | number>;
+};
 export type RequestFile = { rows: RequestRow[]; issues: RequestFileIssue[]; read: number };
 
 /**
@@ -430,6 +453,12 @@ export function parseRequestRows(grid: string[][], opts: { csv?: boolean } = {})
     const rec: RequestRow = { row, id };
     if (col.has("owner")) rec.owner = cleanText(text(r, "owner"), OWNER_MAX);
     if (col.has("note")) rec.note = cleanText(text(r, "note"), NOTE_MAX);
+    if (col.has("sourceDoc")) rec.sourceDoc = cleanText(text(r, "sourceDoc"), DOC_MAX);
+    if (col.has("sourceDate")) {
+      const d = parseDue(text(r, "sourceDate"));
+      if (d === null) out.issues.push({ row, key: "badDocDate", vars: { value: text(r, "sourceDate").trim() } });
+      else rec.sourceDate = d;
+    }
     if (col.has("due")) {
       const d = parseDue(text(r, "due"));
       if (d === null) out.issues.push({ row, key: "badDate", vars: { value: text(r, "due").trim() } });
@@ -474,7 +503,7 @@ export function applyRequestRows(
       issues.push({ row: r.row, key: "unknownId", vars: { id: r.id } });
       continue;
     }
-    const after = setTrack(next, item, { owner: r.owner, due: r.due, status: r.status, note: r.note }, importLog, at);
+    const after = setTrack(next, item, { owner: r.owner, due: r.due, status: r.status, note: r.note, sourceDoc: r.sourceDoc, sourceDate: r.sourceDate }, importLog, at);
     if (sameTrack(trackOf(after, item.id), trackOf(next, item.id))) continue;
     if (itemLocked(approvals, item)) {
       issues.push({ row: r.row, key: "locked", vars: { id: r.id } });
@@ -485,6 +514,11 @@ export function applyRequestRows(
   }
   return { next, changed, issues };
 }
+
+const isSource = (x: unknown): x is SourceNote => {
+  const v = x as Partial<SourceNote> | null;
+  return !!v && typeof v.doc === "string" && typeof v.date === "string" && (v.doc !== "" || isDay(v.date));
+};
 
 const isEvidence = (e: unknown): e is RequestEvidence => {
   const x = e as Partial<RequestEvidence> | null;
@@ -504,6 +538,7 @@ export function asRequests(v: unknown): Requests {
       due: typeof t.due === "string" && isDay(t.due) ? t.due : "",
       status: t.status as RequestStatus,
       note: typeof t.note === "string" ? t.note : "",
+      ...(isSource(t.source) ? { source: { doc: t.source.doc, date: isDay(t.source.date) ? t.source.date : "" } } : {}),
       ...(t.status === "accepted" && typeof t.acceptedAt === "string" ? { acceptedAt: t.acceptedAt } : {}),
       ...(t.status === "accepted" && isEvidence(t.evidence) ? { evidence: { fileName: t.evidence.fileName, sha256: t.evidence.sha256, importedAt: t.evidence.importedAt } } : {}),
     };

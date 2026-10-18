@@ -15,6 +15,7 @@ import { CBAM_ORIGINS, cbamDefaultRow, factorRef, resolveRef } from "@/lib/facto
 import { useCountryName } from "@/components/factor-picker";
 import { BenchmarkField } from "./cbam-benchmark";
 import { ApprovalBar, useApproval } from "./approval";
+import { SourceNotes } from "./source-notes";
 
 const SOURCES = ["cbam_reg", "cbam_factor", "cbam_guidance3", "cbam_price", "cbam_faa"];
 
@@ -77,6 +78,7 @@ function Inner() {
       />
       <ApprovalBar section="cbam" />
       <ToolLayout
+        notes={<SourceNotes section="cbam" />}
         locked={locked}
         family="climate"
         inputs={

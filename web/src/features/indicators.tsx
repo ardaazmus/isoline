@@ -13,6 +13,7 @@ import { th, type ThemeId } from "@/data/themes";
 import { Hydrated, NoteList, SectionTitle, ToolActions, useTool } from "./common";
 import { IndicatorImport } from "./indicator-import";
 import { ApprovalBar, useApproval } from "./approval";
+import { SourceNotes } from "./source-notes";
 
 // ---------------------------------------------------------------- Environment
 export function EnvironmentTool() {
@@ -43,6 +44,7 @@ function EnvInner() {
       />
       <ApprovalBar section="environment" />
       <ToolLayout
+        notes={<SourceNotes section="environment" />}
         locked={locked}
         family="environment"
         inputs={
@@ -193,6 +195,7 @@ function WorkInner() {
       />
       <ApprovalBar section="workforce" />
       <ToolLayout
+        notes={<SourceNotes section="workforce" />}
         locked={locked}
         family="people"
         inputs={
@@ -341,6 +344,7 @@ function TaxInner() {
       />
       <ApprovalBar section="taxonomy" />
       <ToolLayout
+        notes={<SourceNotes section="taxonomy" />}
         locked={locked}
         family="environment"
         inputs={

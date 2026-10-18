@@ -11,6 +11,7 @@ import { Button, NumberField, Tabs, TextField } from "@/components/ui";
 import { CATEGORICAL } from "@/data/themes";
 import { Hydrated, NoteList, SectionTitle, ToolActions, useTool } from "./common";
 import { ApprovalBar, useApproval } from "./approval";
+import { SourceNotes } from "./source-notes";
 
 const SOURCES = ["sbti_criteria", "sbti_v2", "ndc3"];
 /** Measures are categories, not themes: they take the ordered categorical sequence. */
@@ -57,6 +58,7 @@ function Inner() {
       />
       <ApprovalBar section="pathway" />
       <ToolLayout
+        notes={<SourceNotes section="pathway" />}
         locked={locked}
         family="climate"
         inputs={

@@ -10,6 +10,7 @@ import { Callout, NumberField, SelectField, StatusMark } from "@/components/ui";
 import { Hydrated, KeyDates, NoteList, SectionTitle, ToolActions, useTool } from "./common";
 import { eventDate } from "@/data/regulations";
 import { ApprovalBar, useApproval } from "./approval";
+import { SourceNotes } from "./source-notes";
 
 const SOURCES = ["climate_law", "tr_ets_reg", "kpk_2026_1"];
 const FROM = 2026;
@@ -49,6 +50,7 @@ function Inner() {
       />
       <ApprovalBar section="ets" />
       <ToolLayout
+        notes={<SourceNotes section="ets" />}
         locked={locked}
         family="climate"
         inputs={

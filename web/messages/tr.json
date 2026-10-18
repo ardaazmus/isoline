@@ -2296,7 +2296,7 @@
     "helpSheet": "Nasıl doldurulur",
     "help": {
       "codes": "Her satır bir veri kalemi. Kod sütununu değiştirmeyin; liste geri yüklenince satırlar bu kodla eşleşir.",
-      "fill": "Sorumlu kişi, Son tarih (GG.AA.YYYY ya da YYYY-AA-GG), Durum ve Not sütunlarını doldurun. Diğer sütunlar bilgi içindir.",
+      "fill": "Sorumlu kişi, Son tarih (GG.AA.YYYY ya da YYYY-AA-GG), Durum ve Not sütunlarını doldurun. Veriyi gönderirken Teslim edilen belge ve Belge tarihi sütunlarına belgenin adını ve tarihini yazın. Diğer sütunlar bilgi içindir.",
       "statuses": "Durum değerleri: {list}.",
       "evidence": "Kaynak belgeleri ayrıca dosya olarak gönderin. Kişisel veride yalnız toplam sayılar istenir."
     },
@@ -2347,7 +2347,8 @@
       "evidence": "Kanıt",
       "section": "Bölüm",
       "accepted": "Kabul edilen",
-      "open": "Bekleyen"
+      "open": "Bekleyen",
+      "evidenced": "Belgeli"
     },
     "fig": {
       "items": "Veri kalemi",
@@ -2364,7 +2365,8 @@
       "caption": "Kabul edilen kalemlerin payı; kilitli bölümün kalemleri değiştirilemez.",
       "share": "{a} / {n} kabul edildi",
       "overdue": "{n} gecikmiş",
-      "locked": "Kilitli"
+      "locked": "Kilitli",
+      "of": "{a} / {n}"
     },
     "table": {
       "title": "Talep listesi",
@@ -2376,7 +2378,7 @@
       "locked": "Bölüm onaylı ve kilitli; yeniden açılınca değiştirilebilir.",
       "acceptedOn": "Kabul: {date}",
       "evidenceTitle": "{file} · {date} · SHA-256 {hash}",
-      "noEvidence": "Dosya kanıtı yok",
+      "noEvidence": "Kanıt yok: belgeyi yazın",
       "ownerPh": "Ad",
       "notePh": "Not"
     },
@@ -2393,7 +2395,8 @@
         "badDate": "tarih anlaşılmadı (“{value}”); son tarih değiştirilmedi.",
         "duplicate": "{id} kodu ikinci kez geçiyor; satır atlandı.",
         "unknownId": "{id} bu listede yok; satır atlandı.",
-        "locked": "{id} kilitli bir bölümde; değişiklik uygulanmadı."
+        "locked": "{id} kilitli bir bölümde; değişiklik uygulanmadı.",
+        "badDocDate": "belge tarihi anlaşılmadı (“{value}”); değiştirilmedi."
       }
     },
     "units": {
@@ -2504,5 +2507,13 @@
       "tb_export": "Muhasebe programından mizan çıktısı (Excel)",
       "rec_prior": "Önceki yılın sürdürülebilirlik raporu ve envanteri"
     }
+  },
+  "src": {
+    "title": "Kaynak belgeler",
+    "summary": "{n} / {total} veri kaleminin belgesi kayıtlı",
+    "hint": "Elle girdiğiniz değerin hangi belgeden geldiğini yazın: belge adı ya da numarası ve tarihi. Dosyayla yüklenen veride kanıt, içe aktarma kaydıdır (dosya ve SHA-256).",
+    "expected": "Beklenen: {doc}",
+    "doc": "Belge adı ya da numarası",
+    "date": "Belge tarihi"
   }
 }

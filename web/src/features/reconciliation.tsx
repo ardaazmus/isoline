@@ -28,6 +28,7 @@ import { Button, Callout, NumberField, StatusMark, cn } from "@/components/ui";
 import { useActiveClient } from "@/store/workspace";
 import { Hydrated, useTool } from "./common";
 import { ApprovalBar, useApproval } from "./approval";
+import { SourceNotes } from "./source-notes";
 import { todayLocal } from "@/lib/dates";
 
 const MARK: Record<CheckStatus, "verified" | "estimated" | "review" | "critical" | "na"> = { pass: "verified", explained: "estimated", warn: "review", fail: "critical", na: "na" };
@@ -113,6 +114,7 @@ function Inner() {
       />
       <ApprovalBar section="reconciliation" />
       <ToolLayout
+        notes={<SourceNotes section="reconciliation" />}
         locked={locked}
         family="reporting"
         inputs={

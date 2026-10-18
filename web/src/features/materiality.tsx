@@ -11,6 +11,7 @@ import { PillarLegend, ScoreScale, ThemeIcon, ThemeRing } from "@/components/dat
 import { ESRS_THEME, PILLAR_THEME, th, type Pillar, type ThemeId } from "@/data/themes";
 import { Hydrated, NoteList, SectionTitle, ToolActions, useTool } from "./common";
 import { ApprovalBar, useApproval } from "./approval";
+import { SourceNotes } from "./source-notes";
 
 const pillarOf = (id: string): Pillar => (id[0] === "E" || id[0] === "S" || id[0] === "G" ? id[0] : "X");
 const themeOf = (id: string): ThemeId => ESRS_THEME[id] ?? PILLAR_THEME[pillarOf(id)];
@@ -46,6 +47,7 @@ function Inner() {
       />
       <ApprovalBar section="materiality" />
       <ToolLayout
+        notes={<SourceNotes section="materiality" />}
         locked={locked}
         family="people"
         inputs={

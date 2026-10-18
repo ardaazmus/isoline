@@ -115,6 +115,46 @@ export function TextField({ label, value, onChange, hint }: { label: string; val
   );
 }
 
+/** A text field that saves on blur or Enter, so cleaning the stored text (trimming) never fights the typing. */
+export function DraftInput({
+  value,
+  onCommit,
+  label,
+  placeholder,
+  disabled,
+  className,
+  width,
+}: {
+  value: string;
+  onCommit: (v: string) => void;
+  label: string;
+  placeholder?: string;
+  disabled?: boolean;
+  className?: string;
+  width?: string;
+}) {
+  const [draft, setDraft] = useState<string | null>(null);
+  return (
+    <input
+      aria-label={label}
+      placeholder={placeholder}
+      disabled={disabled}
+      value={draft ?? value}
+      onFocus={() => setDraft(value)}
+      onChange={(e) => setDraft(e.target.value)}
+      onBlur={() => {
+        if (draft !== null && draft !== value) onCommit(draft);
+        setDraft(null);
+      }}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") e.currentTarget.blur();
+      }}
+      className={cn("field-input h-9 text-[13.5px]", className)}
+      style={width ? { width } : undefined}
+    />
+  );
+}
+
 export function SelectField<T extends string>({
   label,
   value,

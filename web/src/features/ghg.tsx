@@ -39,6 +39,7 @@ import { Hydrated, NoteList, SectionTitle, ToolActions, useTool } from "./common
 import { FactorPicker, useFactorSets } from "@/components/factor-picker";
 import { factorRef } from "@/lib/factors";
 import { ApprovalBar, useApproval } from "./approval";
+import { SourceNotes } from "./source-notes";
 
 const SOURCES = ["ghg_protocol", "ipcc_2006", "ipcc_ar6_gwp", "etkb_ef_2023"];
 
@@ -109,6 +110,7 @@ function Inner() {
       />
       <ApprovalBar section="ghg" />
       <ToolLayout
+        notes={<SourceNotes section="ghg" />}
         locked={locked}
         family="climate"
         inputs={

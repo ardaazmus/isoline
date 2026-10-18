@@ -93,6 +93,12 @@ Tamamlanan (18.10.2026): veri talep listesi (iş akışı 1–2. adım; Faz 4'te
 - Birim başına ad ve ortak son tarihle toplu atama yapılabiliyor. Gönderilen kalemler tek düğmeyle "talep edildi" yapılabiliyor.
 - Kayıtlı çalışma alanları v9 göçüyle talep listesi alıyor. CSV formül kaçışı artık kendi çıktısını her durumda birebir geri okuyor.
 
+Tamamlanan (18.10.2026): elle girişte kaynak notu (iş akışı 2. adım, "her değerin arkasında kanıt").
+- Dokuz araç ekranının giriş panelinde "Kaynak belgeler" grubu var: envanter, SKDM, TR ETS, yol, önemlilik, çevre, çalışan, taksonomi, uzlaştırma. Her veri kalemi için belge adı ya da numarası ve belge tarihi giriliyor.
+- Not, veri talep listesindeki kayıtla aynı yerde tutuluyor. Talep listesinde görünüyor ve düzenlenebiliyor; CSV ve Excel dosyasında "Teslim edilen belge" ve "Belge tarihi" sütunlarıyla gidip geliyor.
+- Kanıt: dosya içe aktarma kaydı (SHA-256) ya da belge adı. İlerleme tablosu bölüm başına belgeli kalem sayısını gösteriyor. Kanıtsız kabul edilen kalemde uyarı var.
+- Onaylı bölümün notları ekranda ve depoda kilitli. Ek göç gerekmedi: not, mevcut v9 kaydına isteğe bağlı alan olarak eklendi.
+
 Kod dışında yapılacak iş:
 - Uzman teyitleri.
 - IEA lisans görüşü.

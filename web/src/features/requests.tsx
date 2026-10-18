@@ -19,6 +19,7 @@ import {
   assignByRole,
   FILE_TEXT,
   generateRequests,
+  hasEvidence,
   importRequestsFile,
   isOverdue,
   itemLocked,
@@ -45,7 +46,7 @@ import { FiguresRow, InputGroup, PageHeader, ToolLayout } from "@/components/she
 import { GroupRow, InlineBar, ThemeIcon } from "@/components/data";
 import { SourceNote } from "@/components/figure";
 import { ImportPreview, IssueList } from "@/components/file-import";
-import { Button, Callout, cn, Field, Tabs, TextField } from "@/components/ui";
+import { Button, Callout, cn, DraftInput, Field, Tabs, TextField } from "@/components/ui";
 import { Hydrated } from "./common";
 
 /** Theme of a section's group row; an item takes its crosswalk row's theme when it has one. */
@@ -151,7 +152,7 @@ function Requests() {
       [t("req.help.evidence")],
     ];
     const buf = await xlsxWorkbook([
-      { name: t("req.sheet"), rows: table(), widths: [18, 22, 44, 20, 50, 16, 10, 22, 12, 14, 40], text: [0, 6, 7, 10] },
+      { name: t("req.sheet"), rows: table(), widths: [18, 22, 44, 20, 50, 16, 10, 22, 12, 14, 40, 36, 12], text: [0, 6, 7, 10, 11] },
       { name: t("req.helpSheet"), rows: help, widths: [110] },
     ]);
     download(fileName("xlsx"), buf, XLSX_MIME);
@@ -321,6 +322,7 @@ function Requests() {
                       <th>{t("req.col.accepted")}</th>
                       <th className="r">{t("req.col.open")}</th>
                       <th className="r">{t("req.fig.overdue")}</th>
+                      <th className="r">{t("req.col.evidenced")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -348,6 +350,7 @@ function Requests() {
                           </td>
                           <td className="r num">{p.total - a}</td>
                           <td className={cn("r num", p.overdue > 0 && "font-semibold text-[var(--crit)]")}>{p.overdue}</td>
+                          <td className="r num">{t("req.progress.of", { a: p.evidenced, n: p.total })}</td>
                         </tr>
                       );
                     })}
@@ -395,7 +398,7 @@ function Requests() {
                 </label>
               </div>
               <div className="overflow-x-auto">
-                <table className="report-table min-w-[1360px] text-[13.5px]">
+                <table className="report-table min-w-[1440px] text-[13.5px]">
                   <thead>
                     <tr>
                       <th className="min-w-[300px]">{t("req.col.item")}</th>
@@ -491,7 +494,7 @@ function ItemRow({ item: i, track: tr, today, index, locked, onEdit }: { item: R
         <span className="num text-[12px] text-[var(--ink-3)]">{i.period}</span>
       </td>
       <td>
-        <TextCell value={tr.owner} label={`${t("req.col.owner")}: ${name}`} placeholder={t("req.table.ownerPh")} disabled={locked} onCommit={(v) => onEdit({ owner: v })} width="9.5rem" />
+        <DraftInput value={tr.owner} label={`${t("req.col.owner")}: ${name}`} placeholder={t("req.table.ownerPh")} disabled={locked} onCommit={(v) => onEdit({ owner: v })} width="9.5rem" />
       </td>
       <td>
         <input
@@ -531,51 +534,41 @@ function ItemRow({ item: i, track: tr, today, index, locked, onEdit }: { item: R
         {tr.status === "accepted" && tr.acceptedAt && <span className="mt-1 block pl-7 text-[12px] text-[var(--ink-3)]">{t("req.table.acceptedOn", { date: fmt.date(localDay(tr.acceptedAt)) })}</span>}
       </td>
       <td>
-        <TextCell value={tr.note} label={`${t("req.col.note")}: ${name}`} placeholder={t("req.table.notePh")} disabled={locked} onCommit={(v) => onEdit({ note: v })} width="13rem" />
+        <DraftInput value={tr.note} label={`${t("req.col.note")}: ${name}`} placeholder={t("req.table.notePh")} disabled={locked} onCommit={(v) => onEdit({ note: v })} width="13rem" />
       </td>
       <td className="text-[12.5px]">
-        {tr.evidence ? (
-          <span
-            className="flex flex-col"
-            title={t("req.table.evidenceTitle", { file: tr.evidence.fileName, date: fmt.date(localDay(tr.evidence.importedAt)), hash: tr.evidence.sha256 })}
-          >
-            <span className="inline-flex max-w-[170px] items-center gap-1.5 text-[var(--ink)]">
-              <FileCheck2 size={14} aria-hidden className="shrink-0 text-[var(--b-600)]" />
-              <span className="truncate">{tr.evidence.fileName}</span>
+        <span className="flex flex-col gap-1.5">
+          {tr.evidence && (
+            <span
+              className="flex flex-col"
+              title={t("req.table.evidenceTitle", { file: tr.evidence.fileName, date: fmt.date(localDay(tr.evidence.importedAt)), hash: tr.evidence.sha256 })}
+            >
+              <span className="inline-flex max-w-[200px] items-center gap-1.5 text-[var(--ink)]">
+                <FileCheck2 size={14} aria-hidden className="shrink-0 text-[var(--b-600)]" />
+                <span className="truncate">{tr.evidence.fileName}</span>
+              </span>
+              <span className="num text-[11.5px] text-[var(--ink-3)]">SHA-256 {tr.evidence.sha256.slice(0, 12)}…</span>
             </span>
-            <span className="num text-[11.5px] text-[var(--ink-3)]">SHA-256 {tr.evidence.sha256.slice(0, 12)}…</span>
-          </span>
-        ) : tr.status === "accepted" && i.importTool ? (
-          <span className="text-[var(--ink-3)]">{t("req.table.noEvidence")}</span>
-        ) : (
-          <span className="text-[var(--ink-3)]">—</span>
-        )}
+          )}
+          <DraftInput value={tr.source?.doc ?? ""} label={`${t("src.doc")}: ${name}`} placeholder={t("src.doc")} disabled={locked} onCommit={(v) => onEdit({ sourceDoc: v })} width="12.5rem" />
+          <input
+            type="date"
+            aria-label={`${t("src.date")}: ${name}`}
+            title={t("src.date")}
+            disabled={locked}
+            value={tr.source?.date ?? ""}
+            onChange={(e) => onEdit({ sourceDate: e.target.value })}
+            className="field-input h-9 text-[13.5px]"
+            style={{ width: "9.5rem" }}
+          />
+          {tr.status === "accepted" && !hasEvidence(tr) && (
+            <span className="flex items-center gap-1 text-[12px] font-medium text-[var(--warn)]">
+              <CircleAlert size={12} aria-hidden /> {t("req.table.noEvidence")}
+            </span>
+          )}
+        </span>
       </td>
     </tr>
-  );
-}
-
-/** A text input that saves on blur or Enter, so cleaning (trimming) never fights the typing. */
-function TextCell({ value, label, placeholder, disabled, onCommit, width }: { value: string; label: string; placeholder: string; disabled: boolean; onCommit: (v: string) => void; width: string }) {
-  const [draft, setDraft] = useState<string | null>(null);
-  return (
-    <input
-      aria-label={label}
-      placeholder={placeholder}
-      disabled={disabled}
-      value={draft ?? value}
-      onFocus={() => setDraft(value)}
-      onChange={(e) => setDraft(e.target.value)}
-      onBlur={() => {
-        if (draft !== null && draft !== value) onCommit(draft);
-        setDraft(null);
-      }}
-      onKeyDown={(e) => {
-        if (e.key === "Enter") e.currentTarget.blur();
-      }}
-      className="field-input h-9 text-[13.5px]"
-      style={{ width }}
-    />
   );
 }
 

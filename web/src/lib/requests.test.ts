@@ -19,6 +19,7 @@ import {
   emptyRequests,
   FILE_TEXT,
   generateRequests,
+  hasEvidence,
   importRequestsFile,
   isOverdue,
   markRequested,
@@ -46,9 +47,9 @@ const approved = (section: string): Approvals => ({ [section]: { status: "approv
 const get = (obj: unknown, path: string) => path.split(".").reduce<unknown>((o, k) => (o as Record<string, unknown> | null | undefined)?.[k], obj);
 const ids = (items: RequestItem[]) => items.map((i) => i.id);
 const text = (i: RequestItem) => ({ section: i.section, item: `item ${i.id}`, role: i.role, document: `doc ${i.id}`, unit: i.unit });
-const four = (r: Requests, id: string) => {
+const fields = (r: Requests, id: string) => {
   const t = trackOf(r, id);
-  return { owner: t.owner, due: t.due, status: t.status, note: t.note };
+  return { owner: t.owner, due: t.due, status: t.status, note: t.note, source: t.source ?? null };
 };
 
 describe("data point catalogue", () => {
@@ -243,6 +244,28 @@ describe("tracking", () => {
     );
   });
 
+  it("keeps the source document of a hand-entered value, cleaned, and counts it as evidence", () => {
+    let r = setTrack(emptyRequests(), base, { sourceDoc: "  Doğrulama raporu\n 2024 ", sourceDate: "2025-03-31" }, [], AT);
+    expect(r.items.pathway_base).toEqual({ owner: "", due: "", status: "todo", note: "", source: { doc: "Doğrulama raporu 2024", date: "2025-03-31" } });
+    expect(hasEvidence(r.items.pathway_base)).toBe(true);
+    r = setTrack(r, base, { sourceDate: "31.03.2025" }, [], AT);
+    expect(r.items.pathway_base.source).toEqual({ doc: "Doğrulama raporu 2024", date: "" });
+    // a date alone is no evidence; clearing both forgets the item
+    r = setTrack(r, base, { sourceDoc: "", sourceDate: "2025-03-31" }, [], AT);
+    expect(hasEvidence(r.items.pathway_base)).toBe(false);
+    r = setTrack(r, base, { sourceDate: "" }, [], AT);
+    expect(r.items).toEqual({});
+    // accepted with a file import: the file is evidence even without a note
+    const acc = setTrack(emptyRequests(), elec, { status: "accepted" }, ghgLog, AT);
+    expect(hasEvidence(acc.items.ghg_electricity)).toBe(true);
+    expect(hasEvidence(setTrack(emptyRequests(), base, { status: "accepted" }, ghgLog, AT).items.pathway_base)).toBe(false);
+  });
+
+  it("a locked section freezes its source notes too", () => {
+    const c = { approvals: approved("pathway"), requests: emptyRequests() };
+    expect(requestsLockedBy(c, setTrack(c.requests, base, { sourceDoc: "Rapor" }, [], AT))).toBe("pathway");
+  });
+
   it("a locked section freezes its items, and only its items", () => {
     const c = { approvals: approved("ghg"), requests: emptyRequests() };
     expect(requestsLockedBy(c, setTrack(c.requests, elec, { owner: "X" }, [], AT))).toBe("ghg");
@@ -275,6 +298,8 @@ describe("tracking", () => {
   it("counts progress per section, overdue only while not delivered", () => {
     const items = generateRequests(SAMPLE_CLIENT, ALL);
     const p = sectionProgress(items, SAMPLE_CLIENT.requests, SAMPLE_CLIENT.approvals, "2026-10-18");
+    expect(p.find((x) => x.section === "trialBalance")!.evidenced).toBe(1);
+    expect(p.find((x) => x.section === "ghg")!.evidenced).toBe(0);
     expect(p.reduce((s, x) => s + x.total, 0)).toBe(items.length);
     for (const x of p) expect(Object.values(x.counts).reduce((a, b) => a + b, 0)).toBe(x.total);
     const work = p.find((x) => x.section === "workforce")!;
@@ -289,13 +314,13 @@ describe("file exchange", () => {
   const items = generateRequests(SAMPLE_CLIENT, ALL);
   const day = fc.date({ min: new Date("2000-01-01T00:00:00Z"), max: new Date("2099-12-31T00:00:00Z"), noInvalidDate: true }).map((d) => d.toISOString().slice(0, 10));
   const nasty = fc.oneof(fc.string(), fc.constantFrom("=1+1", "'=x", "-5", "@SUM(A1)", 'a "quoted"; b', "satır\nikinci", "1.000", "  boş  "));
-  const track = fc.record({ owner: nasty, due: fc.oneof(fc.constant(""), day), status: fc.constantFrom(...REQUEST_STATUSES), note: nasty });
+  const track = fc.record({ owner: nasty, due: fc.oneof(fc.constant(""), day), status: fc.constantFrom(...REQUEST_STATUSES), note: nasty, sourceDoc: nasty, sourceDate: fc.oneof(fc.constant(""), day) });
   const state = fc.array(fc.tuple(fc.constantFrom(...items), track), { maxLength: 25 }).map((steps) => steps.reduce((r, [i, p]) => setTrack(r, i, p, SAMPLE_CLIENT.importLog, AT), emptyRequests()));
   const back = (r: Requests, parsed: ReturnType<typeof parseRequestRows>) => {
     expect(parsed.issues).toEqual([]);
     const out = applyRequestRows(emptyRequests(), items, parsed.rows, undefined, SAMPLE_CLIENT.importLog, AT);
     expect(out.issues).toEqual([]);
-    for (const i of items) expect(four(out.next, i.id), i.id).toEqual(four(r, i.id));
+    for (const i of items) expect(fields(out.next, i.id), i.id).toEqual(fields(r, i.id));
   };
 
   it("property: a CSV export reads back to the same tracking, in both languages", () => {
@@ -310,7 +335,7 @@ describe("file exchange", () => {
   it("property: an Excel export reads back to the same tracking", async () => {
     await fc.assert(
       fc.asyncProperty(state, fc.constantFrom<FileLang>("tr", "en"), async (r, lang) => {
-        const buf = await xlsxWorkbook([{ name: "Talepler", rows: requestTable(items, r, lang, text), text: [0, 6, 7, 10] }]);
+        const buf = await xlsxWorkbook([{ name: "Talepler", rows: requestTable(items, r, lang, text), text: [0, 6, 7, 10, 11] }]);
         const read = await importRequestsFile(buf, "talepler.xlsx");
         expect(read.ok).toBe(true);
         if (read.ok) back(r, read.result);
@@ -323,7 +348,7 @@ describe("file exchange", () => {
     const r = setTrack(emptyRequests(), items[0], { owner: "Şükrü Öztürk", status: "requested", due: "2026-11-30" }, [], AT);
     const rows = requestTable(items, r, "tr", text);
     const read = await importRequestsFile(new TextEncoder().encode(toCsv(rows[0], rows.slice(1))).buffer as ArrayBuffer, "talepler.csv");
-    expect(read.ok && four(applyRequestRows(emptyRequests(), items, read.result.rows, undefined, [], AT).next, items[0].id)).toEqual(four(r, items[0].id));
+    expect(read.ok && fields(applyRequestRows(emptyRequests(), items, read.result.rows, undefined, [], AT).next, items[0].id)).toEqual(fields(r, items[0].id));
   });
 
   it("reads due dates as people type them", () => {
@@ -367,6 +392,25 @@ describe("file exchange", () => {
     expect(parseRequestRows([]).issues[0].key).toBe("empty");
   });
 
+  it("reads the document columns and reports a bad document date", () => {
+    const p = parseRequestRows([
+      ["Kod", "Teslim edilen belge", "Belge tarihi"],
+      ["env_energy", "Enerji yönetim raporu 2026", "15.01.2027"],
+      ["env_waste", "Atık beyanı", "geçen ay"],
+    ]);
+    expect(p.rows).toEqual([
+      { row: 2, id: "env_energy", sourceDoc: "Enerji yönetim raporu 2026", sourceDate: "2027-01-15" },
+      { row: 3, id: "env_waste", sourceDoc: "Atık beyanı" },
+    ]);
+    expect(p.issues).toEqual([{ row: 3, key: "badDocDate", vars: { value: "geçen ay" } }]);
+  });
+
+  it("stored tracking in another key order still counts as unchanged", () => {
+    const stored = asRequests({ items: { [items[0].id]: { source: { date: "2026-01-02", doc: "Fatura" }, note: "n", status: "requested", due: "", owner: "A" } } });
+    const rows = requestTable(items, stored, "tr", text);
+    expect(applyRequestRows(stored, items, parseRequestRows(rows).rows, approved(items[0].section), [], AT)).toEqual({ next: stored, changed: 0, issues: [] });
+  });
+
   it("a row that changes nothing is not counted, even in a locked section", () => {
     const r = setTrack(emptyRequests(), items[0], { owner: "A" }, [], AT);
     const rows = requestTable(items, r, "en", text);
@@ -384,14 +428,16 @@ describe("asRequests", () => {
       items: {
         a: { owner: "X", due: "2026-13-01", status: "requested", note: 5 },
         b: { status: "lost" },
-        c: { owner: "Y", due: "2026-11-30", status: "received", note: "", evidence: { fileName: "f", sha256: "s", importedAt: "t" } },
+        c: { owner: "Y", due: "2026-11-30", status: "received", note: "", evidence: { fileName: "f", sha256: "s", importedAt: "t" }, source: { doc: "Fatura", date: "2026-02-30" } },
+        e: { owner: "", due: "", status: "todo", note: "", source: { doc: "", date: "x" } },
         d: { owner: "", due: "", status: "accepted", note: "", acceptedAt: AT, evidence: { sha256: "s" } },
       },
     });
     expect(r.templates).toEqual(["gri"]);
     expect(r.items).toEqual({
       a: { owner: "X", due: "", status: "requested", note: "" },
-      c: { owner: "Y", due: "2026-11-30", status: "received", note: "" },
+      c: { owner: "Y", due: "2026-11-30", status: "received", note: "", source: { doc: "Fatura", date: "" } },
+      e: { owner: "", due: "", status: "todo", note: "" },
       d: { owner: "", due: "", status: "accepted", note: "", acceptedAt: AT },
     });
   });
