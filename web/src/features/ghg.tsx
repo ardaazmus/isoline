@@ -38,6 +38,7 @@ import { InlineBar, ThemeIcon } from "@/components/data";
 import { th } from "@/data/themes";
 import { Hydrated, NoteList, SectionTitle, ToolActions, useTool } from "./common";
 import { FactorPicker, useFactorSets } from "@/components/factor-picker";
+import { useToday } from "@/lib/dates";
 import { factorRef } from "@/lib/factors";
 import { ApprovalBar, useApproval } from "./approval";
 import { SourceNotes } from "./source-notes";
@@ -86,7 +87,17 @@ function Inner() {
   const year = inv.year ?? client.profile.reportingYear;
   const grid = inv.grid ?? GRID_FACTORS;
   const editionName = useEditionName(sets);
-  const meta = { sources: SOURCES, boundary: t("ghg.boundary"), unit: "tCO₂e", status: client.sample ? ("sample" as const) : undefined };
+  const today = useToday();
+  const meta = {
+    sources: SOURCES,
+    boundary: t("ghg.boundary"),
+    unit: "tCO₂e",
+    status: client.sample ? ("sample" as const) : undefined,
+    edition: editionName(gridEdition(inv)),
+    computedAt: today ?? undefined,
+    estimatedShare: r.estimatedShare,
+    periodWarning: inv.year !== undefined && inv.year !== client.profile.reportingYear ? t("ghg.yearMismatch", { year: inv.year, reporting: client.profile.reportingYear }) : undefined,
+  };
 
   const steps = [
     { id: "st", label: t("ghg.w_stationary"), value: r.scope1Stationary, color: "var(--th-climate)" },

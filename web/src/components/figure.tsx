@@ -13,6 +13,14 @@ export type NoteMeta = {
   unit?: string;
   /** Overrides the derived status label. */
   status?: "verified" | "estimated" | "sample" | "review";
+  /** Factor edition the figures were computed with (roadmap item 5, "kaynak şeridi"). */
+  edition?: string;
+  /** ISO date the figures were computed; rendered in the viewer's locale. */
+  computedAt?: string;
+  /** Share of the total from estimated data (0–1); rendered as the quality note. */
+  estimatedShare?: number;
+  /** Boundary/period mismatch warning, e.g. inventory year vs reporting year. */
+  periodWarning?: string;
 };
 
 const worst = (cs: Confidence[]): Confidence => (cs.includes("unverified") ? "unverified" : cs.includes("secondary") ? "secondary" : "official");
@@ -77,6 +85,30 @@ export function SourceNote({ meta, compact }: { meta: NoteMeta; compact?: boolea
         <div>
           <span className="label mr-2">{t("note.unit")}</span>
           {meta.unit}
+        </div>
+      )}
+      {meta.edition && (
+        <div>
+          <span className="label mr-2">{t("note.edition")}</span>
+          {meta.edition}
+        </div>
+      )}
+      {meta.computedAt && (
+        <div>
+          <span className="label mr-2">{t("note.computedAt")}</span>
+          <span className="num">{fmt.date(meta.computedAt)}</span>
+        </div>
+      )}
+      {meta.estimatedShare !== undefined && Number.isFinite(meta.estimatedShare) && (
+        <div>
+          <span className="label mr-2">{t("note.estimatedShare")}</span>
+          <span className="num">{fmt.percent(meta.estimatedShare, 0)}</span>
+        </div>
+      )}
+      {meta.periodWarning && (
+        <div className="flex items-center gap-2">
+          <span aria-hidden className="inline-block w-4 border-t-2 border-dotted border-[var(--warn)]" />
+          <span className="text-[var(--warn)]">{meta.periodWarning}</span>
         </div>
       )}
       <div className="flex items-center gap-2">
