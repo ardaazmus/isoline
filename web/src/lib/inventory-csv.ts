@@ -8,7 +8,8 @@
  *   electricity amount = MWh, connection = transmission|distribution, certified_mwh, optional supplier_factor
  *   scope3      item = category 1–15, amount, unit, factor (tCO₂e per unit), factor_source
  */
-import { defaultNonCo2, FUELS, GWP_AR6, type FuelId, type Inventory, type Quality } from "./calc/ghg";
+import { defaultNonCo2, FUELS, GWP_AR6, nonCo2Of, type FuelId, type FuelLine, type Inventory, type Quality } from "./calc/ghg";
+import { toCsv } from "./export";
 
 export const CSV_COLUMNS = [
   "type",
@@ -239,4 +240,42 @@ export const INVENTORY_TEMPLATE_ROWS: string[][] = [
 /** Template with one example row per type; ";" so Turkish Excel opens it in columns. */
 export function inventoryTemplateCsv(): string {
   return "﻿" + INVENTORY_TEMPLATE_ROWS.map((r) => r.join(";")).join("\r\n");
+}
+
+export type GasOrigin = "default" | "manual";
+
+/**
+ * Whether a line's CH₄/N₂O factor is the IPCC default for its fuel and use. Absent counts as
+ * default (the engine fills it in); a value equal to the default does too, so an exported file
+ * re-imported keeps its labels.
+ */
+export function gasOrigin(line: Pick<FuelLine, "fuel" | "mobile" | "ch4" | "n2o">, name: "ch4" | "n2o"): GasOrigin {
+  const v = line[name];
+  return v === undefined || v === defaultNonCo2(line.fuel, line.mobile)[name] ? "default" : "manual";
+}
+
+/**
+ * Current fuel lines as an import-compatible CSV, with ch4_origin/n2o_origin columns labelling
+ * each factor "IPCC default" or manual (N2 finding: the default must be visible in exports).
+ * The origin columns are ignored on import; values round-trip exactly.
+ */
+export function fuelLinesCsv(fuels: FuelLine[], originLabel: (o: GasOrigin) => string): string {
+  const rows = fuels.map((f) => {
+    const g = nonCo2Of(f);
+    return [
+      "fuel",
+      f.label,
+      f.fuel,
+      f.amount,
+      f.ncv,
+      f.ef,
+      f.mobile ? "mobile" : "stationary",
+      f.quality,
+      g.ch4,
+      g.n2o,
+      originLabel(gasOrigin(f, "ch4")),
+      originLabel(gasOrigin(f, "n2o")),
+    ] as (string | number)[];
+  });
+  return toCsv(["type", "label", "item", "amount", "ncv", "ef", "use", "quality", "ch4", "n2o", "ch4_origin", "n2o_origin"], rows);
 }

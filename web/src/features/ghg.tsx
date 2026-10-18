@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Plus, Trash2 } from "lucide-react";
+import { FileDown, Plus, Trash2 } from "lucide-react";
 import { useI18n } from "@/i18n/provider";
 import {
   computeInventory,
@@ -26,7 +26,8 @@ import { FiguresRow, InputGroup, PageHeader, ToolLayout } from "@/components/she
 import { Figure } from "@/components/figure";
 import { Sankey, Waterfall } from "@/components/charts";
 import { Button, NumberField, SelectField, StatusMark, Tabs, TextField } from "@/components/ui";
-import { INVENTORY_TEMPLATE_ROWS, inventoryTemplateCsv, type ImportResult } from "@/lib/inventory-csv";
+import { download, slug } from "@/lib/export";
+import { fuelLinesCsv, INVENTORY_TEMPLATE_ROWS, inventoryTemplateCsv, type ImportResult } from "@/lib/inventory-csv";
 import { importInventoryFile, lastImport, logImport, type FileRead } from "@/lib/imports";
 import { xlsxWorkbook, XLSX_MIME } from "@/lib/spreadsheet";
 import { FileImport, ImportPreview, IssueList } from "@/components/file-import";
@@ -185,9 +186,27 @@ function Inner() {
                     </Button>
                   </InputGroup>
                 ))}
-                <Button variant="quiet" onClick={() => patch({ fuels: [...inv.fuels, { id: uid(), fuel: "natural_gas", label: t("ghg.fuels.natural_gas"), amount: 0, ncv: FUELS.natural_gas.ncv, ef: FUELS.natural_gas.ef, ...defaultNonCo2("natural_gas", false), mobile: false, quality: "measured" }] })}>
-                  <Plus size={15} aria-hidden /> {t("ghg.addFuel")}
-                </Button>
+                <div className="flex flex-wrap gap-2">
+                  <Button variant="quiet" onClick={() => patch({ fuels: [...inv.fuels, { id: uid(), fuel: "natural_gas", label: t("ghg.fuels.natural_gas"), amount: 0, ncv: FUELS.natural_gas.ncv, ef: FUELS.natural_gas.ef, ...defaultNonCo2("natural_gas", false), mobile: false, quality: "measured" }] })}>
+                    <Plus size={15} aria-hidden /> {t("ghg.addFuel")}
+                  </Button>
+                  {inv.fuels.length > 0 && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      title={t("ghg.exportFuelsHint")}
+                      onClick={() =>
+                        download(
+                          `${slug(client.name)}-${t("ghg.exportFuelsFile")}.csv`,
+                          fuelLinesCsv(inv.fuels, (o) => t(o === "default" ? "ghg.originDefault" : "ghg.originManual")),
+                          "text/csv;charset=utf-8",
+                        )
+                      }
+                    >
+                      <FileDown size={15} aria-hidden /> {t("ghg.exportFuels")}
+                    </Button>
+                  )}
+                </div>
                 {inv.process.map((p) => (
                   <InputGroup key={p.id} title={t("ghg.process")}>
                     <TextField label={t("ghg.label")} value={p.label} onChange={(v) => patch({ process: inv.process.map((x) => (x.id === p.id ? { ...x, label: v } : x)) })} />

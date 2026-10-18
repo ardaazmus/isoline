@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import fc from "fast-check";
-import { importInventoryCsv, inventoryTemplateCsv, parseCsv, parseNumber } from "./inventory-csv";
-import { computeInventory } from "./calc/ghg";
+import { fuelLinesCsv, gasOrigin, importInventoryCsv, inventoryTemplateCsv, parseCsv, parseNumber } from "./inventory-csv";
+import { computeInventory, type FuelLine } from "./calc/ghg";
 
 describe("parseNumber", () => {
   it("reads Turkish and English number formats", () => {
@@ -97,5 +97,41 @@ fuel;C;coal;10;stationary;1;-2`);
   it("reads files written before the CH₄ and N₂O columns existed", () => {
     const r = importInventoryCsv("type;item;amount;use\nfuel;gasoline;1000;mobile");
     expect(r.lines.fuels[0]).toMatchObject({ ch4: 3.8, n2o: 5.7 });
+  });
+});
+
+describe("fuel line origin labels", () => {
+  const line = (p: Partial<FuelLine>): FuelLine => ({
+    id: "f1",
+    fuel: "diesel",
+    label: "Jeneratör",
+    amount: 1000,
+    ncv: 0.043,
+    ef: 74.1,
+    mobile: false,
+    quality: "measured",
+    ...p,
+  });
+  const tag = (o: "default" | "manual") => (o === "default" ? "IPCC varsayılanı" : "elle girilmiş");
+  it("calls absent or default-equal factors default, edited ones manual", () => {
+    expect(gasOrigin(line({}), "ch4")).toBe("default");
+    expect(gasOrigin(line({ ch4: 3, n2o: 0.6 }), "n2o")).toBe("default");
+    expect(gasOrigin(line({ ch4: 0 }), "ch4")).toBe("manual");
+    expect(gasOrigin(line({ n2o: 2 }), "n2o")).toBe("manual");
+  });
+  it("exports labelled rows that re-import to the same values with the same labels", () => {
+    const fuels = [line({}), line({ ch4: 0, label: "Özel" })];
+    const csv = fuelLinesCsv(fuels, tag);
+    expect(csv).toContain("IPCC varsayılanı");
+    expect(csv).toContain("elle girilmiş");
+    const back = importInventoryCsv(csv);
+    expect(back.issues).toEqual([]);
+    expect(back.lines.fuels.map((l) => [l.label, l.ch4, l.n2o])).toEqual([
+      ["Jeneratör", 3, 0.6],
+      ["Özel", 0, 0.6],
+    ]);
+    const relabelled = fuelLinesCsv(back.lines.fuels, tag);
+    expect(relabelled).toContain("IPCC varsayılanı");
+    expect(relabelled).toContain("elle girilmiş");
   });
 });
