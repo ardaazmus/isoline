@@ -65,7 +65,11 @@ describe("keys used by the code exist in tr.json", () => {
     const { NAV } = await import("@/data/nav");
     const { evaluate } = await import("@/lib/calc/applicability");
     const { SAMPLE_CLIENT, emptyClient } = await import("@/data/sample");
+    const { DATA_POINTS, REQUEST_STATUSES, ROLES } = await import("@/lib/requests");
     const need: string[] = [];
+    DATA_POINTS.forEach((d) => need.push(`req.items.${d.id}`, `req.docs.${d.id}`, `req.units.${d.unit}`, `nav.${d.section}`));
+    ROLES.forEach((r) => need.push(`req.role.${r}`));
+    REQUEST_STATUSES.forEach((s) => need.push(`req.status.${s}`));
     TEMPLATES.forEach((tp) => {
       need.push(`tpl.${tp.id}.title`, `tpl.${tp.id}.summary`, `tpl.kinds.${tp.kind}`, `tpl.status.${tp.status}`);
       tp.sections.forEach((s) => need.push(`tpl.${tp.id}.sections.${s.id}.title`, `tpl.${tp.id}.sections.${s.id}.guide`));

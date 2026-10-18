@@ -13,11 +13,17 @@ describe("CSV export", () => {
     expect(csv.split("\r\n")[1]).toBe('-5;"-12,5";1e-3');
   });
   it("property: csvUnsafe undoes csvSafe for any text", () => {
+    const text = fc.oneof(fc.string(), fc.tuple(fc.constantFrom("", "'", "''", "'''"), fc.constantFrom("=", "+", "-", "@", "\t", "\r"), fc.string()).map((p) => p.join("")));
     fc.assert(
-      fc.property(fc.string(), (s) => {
-        // text this app wrote comes back unchanged; only a pre-existing "'=" prefix is ambiguous and is read as an escape
-        expect(csvUnsafe(csvSafe(s))).toBe(/^'[=+\-@\t\r]/.test(s) ? s.slice(1) : s);
+      fc.property(text, (s) => {
+        // text this app wrote comes back unchanged, including text that already began with "'="
+        expect(csvUnsafe(csvSafe(s))).toBe(s);
       }),
     );
+  });
+  it("escapes an existing apostrophe prefix once more", () => {
+    expect(csvSafe("'=1+1")).toBe("''=1+1");
+    expect(csvUnsafe("''=1+1")).toBe("'=1+1");
+    expect(csvSafe("'note")).toBe("'note");
   });
 });

@@ -1,14 +1,18 @@
 import type { Family } from "./nav";
+import type { CrossCol } from "./crosswalk";
 /**
  * Report template library. Section titles and guidance live in messages under
  * tpl.<template>.sections.<section>.title / .guide; references stay untranslated.
- * Tools named in `tools` feed the section with computed figures.
+ * Tools named in `tools` feed the section with computed figures. `points` narrows a section to the crosswalk
+ * data points its references name (e.g. Scope 1 and 2 only), so the data request list does not ask for more.
  */
-export type TemplateSection = { id: string; refs: string[]; tools?: string[] };
+export type TemplateSection = { id: string; refs: string[]; tools?: string[]; points?: string[] };
 export type Template = {
   id: string;
   kind: "sustainability" | "annual" | "carbon" | "finance";
   family: Family;
+  /** The crosswalk column of the template's framework; a data point with no counterpart there ("—") is not needed. */
+  crosswalk?: CrossCol;
   sources: string[];
   /** "review" = structure derived from secondary sources; confirm before use. */
   status: "verified" | "review";
@@ -20,10 +24,11 @@ export const TEMPLATES: Template[] = [
     id: "tsrs_full",
     kind: "sustainability",
     family: "reporting",
+    crosswalk: "tsrs",
     sources: ["tsrs1", "tsrs2", "kgk_scope_decision"],
     status: "verified",
     sections: [
-      { id: "basis", refs: ["TSRS 1 ¶ 20–24, 64–72"] },
+      { id: "basis", refs: ["TSRS 1 ¶ 20–24, 64–72"], tools: ["reconciliation"] },
       { id: "governance", refs: ["TSRS 1 ¶ 26–27", "TSRS 2 ¶ 5–7"] },
       { id: "strategy_ro", refs: ["TSRS 1 ¶ 28–31", "TSRS 2 ¶ 8–12"], tools: ["materiality"] },
       { id: "business_model", refs: ["TSRS 1 ¶ 32", "TSRS 2 ¶ 13"] },
@@ -42,6 +47,7 @@ export const TEMPLATES: Template[] = [
     id: "tsrs_climate_first",
     kind: "sustainability",
     family: "reporting",
+    crosswalk: "tsrs",
     sources: ["tsrs1", "tsrs2", "kgk_relief_ext"],
     status: "verified",
     sections: [
@@ -50,7 +56,7 @@ export const TEMPLATES: Template[] = [
       { id: "strategy_ro", refs: ["TSRS 2 ¶ 8–12"] },
       { id: "transition_plan", refs: ["TSRS 2 ¶ 14"], tools: ["pathway"] },
       { id: "risk_management", refs: ["TSRS 2 ¶ 24–26"] },
-      { id: "ghg_s12", refs: ["TSRS 2 ¶ 29(a)(i)(1)–(2)"], tools: ["ghg"] },
+      { id: "ghg_s12", refs: ["TSRS 2 ¶ 29(a)(i)(1)–(2)"], tools: ["ghg"], points: ["scope1", "scope2"] },
       { id: "targets", refs: ["TSRS 2 ¶ 33–36"], tools: ["pathway"] },
     ],
   },
@@ -58,6 +64,7 @@ export const TEMPLATES: Template[] = [
     id: "gri",
     kind: "sustainability",
     family: "people",
+    crosswalk: "gri",
     sources: ["gri_standards"],
     status: "verified",
     sections: [
@@ -68,8 +75,8 @@ export const TEMPLATES: Template[] = [
       { id: "strategy_policies", refs: ["GRI 2-22 – 2-28"] },
       { id: "stakeholders", refs: ["GRI 2-29 – 2-30"] },
       { id: "material_topics", refs: ["GRI 3-1 – 3-3"], tools: ["materiality"] },
-      { id: "climate_energy", refs: ["GRI 102 / GRI 103 (2027)", "GRI 305 / 302 (2026)"], tools: ["ghg", "environment"] },
-      { id: "water_waste", refs: ["GRI 303", "GRI 306"], tools: ["environment"] },
+      { id: "climate_energy", refs: ["GRI 102 / GRI 103 (2027)", "GRI 305 / 302 (2026)"], tools: ["ghg", "environment"], points: ["scope1", "scope2", "scope3", "intensity", "energy"] },
+      { id: "water_waste", refs: ["GRI 303", "GRI 306"], tools: ["environment"], points: ["water", "waste"] },
       { id: "biodiversity", refs: ["GRI 101 (2026)"] },
       { id: "people_gri", refs: ["GRI 401, 403, 404, 405"], tools: ["workforce"] },
       { id: "content_index", refs: ["GRI 1 Req. 7"] },
@@ -79,6 +86,7 @@ export const TEMPLATES: Template[] = [
     id: "esrs_2026",
     kind: "sustainability",
     family: "reporting",
+    crosswalk: "esrs",
     sources: ["esrs_2026", "csrd_omnibus", "taxonomy_2026_73"],
     status: "review",
     sections: [
@@ -95,13 +103,14 @@ export const TEMPLATES: Template[] = [
     id: "vss",
     kind: "sustainability",
     family: "people",
+    crosswalk: "vss",
     sources: ["vss_2026"],
     status: "review",
     sections: [
       { id: "b1", refs: ["B1"] },
       { id: "b2", refs: ["B2"] },
-      { id: "b3", refs: ["B3"], tools: ["ghg", "environment"] },
-      { id: "b4_b7", refs: ["B4–B7"], tools: ["environment"] },
+      { id: "b3", refs: ["B3"], tools: ["ghg", "environment"], points: ["scope1", "scope2", "intensity", "energy"] },
+      { id: "b4_b7", refs: ["B4–B7"], tools: ["environment"], points: ["water", "waste"] },
       { id: "b8_b10", refs: ["B8–B10"], tools: ["workforce"] },
       { id: "b11", refs: ["B11"] },
       { id: "c1_c4", refs: ["C1–C4"], tools: ["pathway"] },
@@ -117,7 +126,7 @@ export const TEMPLATES: Template[] = [
     sections: [
       { id: "installation", refs: ["Impl. Reg. 2025/2547"] },
       { id: "goods_routes", refs: ["Reg. 2023/956 Annex I"] },
-      { id: "attributed", refs: ["Guidance No. 3, Eq. 55–58"], tools: ["ghg"] },
+      { id: "attributed", refs: ["Guidance No. 3, Eq. 55–58"], tools: ["ghg"], points: ["scope1", "scope2"] },
       { id: "precursors", refs: ["Guidance No. 3, Eq. 59–62"] },
       { id: "see", refs: ["Guidance No. 3, Eq. 59–63"], tools: ["cbam"] },
       { id: "electricity_cbam", refs: ["Reg. 2023/956 Annex IV"] },
@@ -133,7 +142,7 @@ export const TEMPLATES: Template[] = [
     status: "review",
     sections: [
       { id: "mp_installation", refs: ["TR ETS Yön. (RG 33353)"] },
-      { id: "mp_sources", refs: ["TR ETS Yön."] , tools: ["ghg"] },
+      { id: "mp_sources", refs: ["TR ETS Yön."], tools: ["ghg"], points: ["scope1"] },
       { id: "mp_tiers", refs: ["TR ETS Yön."] },
       { id: "mp_dataflow", refs: ["TR ETS Yön."] },
       { id: "mp_allocation", refs: ["TR ETS Yön. md. 13/7"], tools: ["ets"] },
@@ -151,7 +160,7 @@ export const TEMPLATES: Template[] = [
       { id: "ar_rights", refs: ["Yön. md. 9"] },
       { id: "ar_rnd", refs: ["Yön. md. 10"] },
       { id: "ar_activities", refs: ["Yön. md. 11"] },
-      { id: "ar_financial", refs: ["Yön. md. 12"] },
+      { id: "ar_financial", refs: ["Yön. md. 12"], tools: ["trialBalance"] },
       { id: "ar_risks", refs: ["Yön. md. 13"] },
       { id: "ar_other", refs: ["Yön. md. 14–15"] },
       { id: "ar_sustainability_summary", refs: ["TSRS / GRI özeti"], tools: ["ghg", "workforce", "environment"] },
@@ -168,7 +177,7 @@ export const TEMPLATES: Template[] = [
       { id: "ar_chair_ceo", refs: ["—"] },
       { id: "ar_general", refs: ["Yön. md. 8"] },
       { id: "ar_activities", refs: ["Yön. md. 11"] },
-      { id: "ar_financial", refs: ["Yön. md. 12"] },
+      { id: "ar_financial", refs: ["Yön. md. 12"], tools: ["trialBalance"] },
       { id: "ar_risks", refs: ["Yön. md. 13 · RESK"] },
       { id: "ar_cg", refs: ["SPK II-17.1 · URF / KYBF"] },
       { id: "ar_sust_compliance", refs: ["SPK Sürdürülebilirlik İlkeleri Uyum Çerçevesi"] },
@@ -180,6 +189,7 @@ export const TEMPLATES: Template[] = [
     id: "cdp_climate",
     kind: "sustainability",
     family: "climate",
+    crosswalk: "cdp",
     sources: ["cdp_2026"],
     status: "review",
     sections: [

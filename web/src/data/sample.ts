@@ -13,6 +13,7 @@ import { DEFAULT_TOLERANCES, emptyReconciliation, type Reconciliation } from "@/
 import { csvGrid, parseGrid, type TrialBalance } from "@/lib/trial-balance";
 import type { ImportRecord } from "@/lib/imports";
 import type { Approvals } from "@/lib/approval";
+import { emptyRequests, type Requests } from "@/lib/requests";
 import { SAMPLE_TB_FILE, sampleTrialBalanceCsv } from "./sample-trial-balance";
 import type { StageStatus } from "./journey";
 
@@ -44,6 +45,8 @@ export type ClientData = {
   importLog: ImportRecord[];
   /** Approval status and lock per tool section (workflow step 4); a missing section is a draft. */
   approvals: Approvals;
+  /** Data request list (workflow steps 1–2): chosen templates and tracking per data item. */
+  requests: Requests;
 };
 
 /** SHA-256 of sampleTrialBalanceCsv(): the sample records the same evidence hash a real import would. */
@@ -196,6 +199,18 @@ export const SAMPLE_CLIENT: ClientData = {
   trialBalance: { fileName: SAMPLE_TB_FILE, sha256: SAMPLE_TB_SHA256, importedAt: "2026-10-18T09:00:00.000Z", ...sampleTb },
   approvals: {},
   importLog: [{ tool: "trialBalance", fileName: SAMPLE_TB_FILE, sha256: SAMPLE_TB_SHA256, importedAt: "2026-10-18T09:00:00.000Z", rows: sampleTb.rows, applied: sampleTb.accounts.length }],
+  // Sample tracking: owners are departments, not people. The trial balance was accepted against its import.
+  requests: {
+    templates: null,
+    items: {
+      tb_export: { owner: "Muhasebe", due: "2026-10-17", status: "accepted", note: "", acceptedAt: "2026-10-18T09:30:00.000Z", evidence: { fileName: SAMPLE_TB_FILE, sha256: SAMPLE_TB_SHA256, importedAt: "2026-10-18T09:00:00.000Z" } },
+      ghg_electricity: { owner: "Muhasebe", due: "2026-10-31", status: "received", note: "12 aylık fatura dökümü geldi; sayaç bazında kontrol edilecek." },
+      ghg_stationary: { owner: "Enerji yöneticisi", due: "2026-10-31", status: "requested", note: "" },
+      ohs_hours: { owner: "İSG uzmanı", due: "2026-10-15", status: "requested", note: "" },
+      ohs_incidents: { owner: "İSG uzmanı", due: "2026-10-15", status: "requested", note: "Yalnız toplam sayılar; kişi bilgisi istenmez." },
+      work_headcount: { owner: "İK", due: "2026-11-14", status: "requested", note: "" },
+    },
+  },
 };
 
 /** A fresh, empty client built from the same shape; numbers start at zero. */
@@ -248,5 +263,6 @@ export function emptyClient(id: string, name: string): ClientData {
     trialBalance: null,
     importLog: [],
     approvals: {},
+    requests: emptyRequests(),
   };
 }

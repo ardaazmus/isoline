@@ -65,15 +65,18 @@ export function gridToStrings(grid: Grid): string[][] {
 
 export const XLSX_MIME = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
-/** An .xlsx workbook built in the browser; text that reads as a number is written as a number cell. */
-export async function xlsxWorkbook(sheets: { name: string; rows: string[][]; widths?: number[] }[]): Promise<ArrayBuffer> {
+/**
+ * An .xlsx workbook built in the browser; text that reads as a number is written as a number cell, except in
+ * the `text` columns (free text such as names and notes, which must come back exactly as written).
+ */
+export async function xlsxWorkbook(sheets: { name: string; rows: string[][]; widths?: number[]; text?: number[] }[]): Promise<ArrayBuffer> {
   const XLSX = await import("xlsx");
   const wb = XLSX.utils.book_new();
   for (const s of sheets) {
     const ws = XLSX.utils.aoa_to_sheet(
       s.rows.map((r, i) =>
-        r.map((c) => {
-          if (i === 0 || c.trim() === "" || !/^-?[\d.,]+$/.test(c.trim())) return c;
+        r.map((c, j) => {
+          if (i === 0 || s.text?.includes(j) || c.trim() === "" || !/^-?[\d.,]+$/.test(c.trim())) return c;
           const n = parseNumber(c);
           return Number.isFinite(n) ? n : c;
         }),

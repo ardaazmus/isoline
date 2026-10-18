@@ -6,7 +6,8 @@ import type { ThemeId } from "./themes";
  * ESRS 2023 numbering (the revised 2026 set may renumber) and the VSME module codes.
  * "—" means no direct counterpart.
  */
-export type CrossRow = { id: string; theme: ThemeId; tool?: string; tsrs: string; gri: string; esrs: string; vss: string; cdp: string };
+export type CrossCol = "tsrs" | "gri" | "esrs" | "vss" | "cdp";
+export type CrossRow = { id: string; theme: ThemeId; tool?: string } & Record<CrossCol, string>;
 
 export const CROSSWALK: CrossRow[] = [
   { id: "governance", theme: "governance", tsrs: "TSRS 2 ¶ 6", gri: "2-9, 2-12, 2-13", esrs: "ESRS 2 GOV-1, GOV-2", vss: "—", cdp: "M4" },

@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { SAMPLE_CLIENT } from "@/data/sample";
 import { computeInventory } from "@/lib/calc/ghg";
-import { addV4Fields, addV5Fields, addV6Fields, addV7Fields, isClientShape, migrateClients, unlinkV2GridPicks, useWorkspace } from "./workspace";
+import { addV4Fields, addV5Fields, addV6Fields, addV7Fields, addV9Fields, isClientShape, migrateClients, unlinkV2GridPicks, useWorkspace } from "./workspace";
+import { DATA_POINTS, emptyRequests, setTrack, trackOf } from "@/lib/requests";
 import { JOURNEYS } from "@/data/journey";
 import { EVENTS, eventDate } from "@/data/regulations";
 
@@ -135,6 +136,41 @@ describe("workspace v8: approvals and the period lock", () => {
     useWorkspace.getState().update("approvals", {});
     useWorkspace.getState().update("ghg", { ...ghg(), fuels: [] });
     expect(ghg().fuels.length).toBe(0);
+    useWorkspace.getState().restoreSample();
+  });
+});
+
+describe("workspace v9: data request list", () => {
+  it("gives the sample its tracking, other clients none, and keeps the accepted trial balance only with the sample file", () => {
+    const s = structuredClone(SAMPLE_CLIENT) as Partial<typeof SAMPLE_CLIENT>;
+    delete s.requests;
+    const other = { ...structuredClone(s), id: "c-r", sample: false };
+    const replaced = { ...structuredClone(s), trialBalance: { ...SAMPLE_CLIENT.trialBalance!, sha256: "f".repeat(64) } };
+    const [a, b, c] = addV9Fields([s, other, replaced] as (typeof SAMPLE_CLIENT)[]);
+    expect(a.requests).toEqual(SAMPLE_CLIENT.requests);
+    expect(b.requests).toEqual(emptyRequests());
+    expect(c.requests.items.tb_export).toBeUndefined();
+    expect(c.requests.items.ghg_electricity).toEqual(SAMPLE_CLIENT.requests.items.ghg_electricity);
+  });
+  it("repairs stored tracking from an old or hand-edited file", () => {
+    const c = { ...structuredClone(SAMPLE_CLIENT), requests: { templates: "gri", items: { ghg_mobile: { status: "requested", owner: "X", due: "yarın" } } } };
+    const [out] = migrateClients([c as unknown as typeof SAMPLE_CLIENT], 8);
+    expect(out.requests).toEqual({ templates: null, items: { ghg_mobile: { owner: "X", due: "", status: "requested", note: "" } } });
+  });
+  it("the store refuses tracking changes in a locked section and accepts them elsewhere", () => {
+    useWorkspace.getState().restoreSample();
+    const id = useWorkspace.getState().activeId;
+    const client = () => useWorkspace.getState().clients.find((x) => x.id === id)!;
+    const ghg = DATA_POINTS.find((d) => d.id === "ghg_mobile")!;
+    const env = DATA_POINTS.find((d) => d.id === "env_energy")!;
+    useWorkspace.getState().update("approvals", { ghg: { status: "approved", preparedBy: "A", approvedBy: "B", approvedAt: "2026-10-18T10:00:00.000Z", log: [] } });
+    useWorkspace.getState().update("requests", setTrack(client().requests, ghg, { owner: "Filo" }, [], "2026-10-18T10:00:00.000Z"));
+    expect(trackOf(client().requests, "ghg_mobile").owner).toBe("");
+    useWorkspace.getState().update("requests", setTrack(client().requests, env, { owner: "Tesis" }, [], "2026-10-18T10:00:00.000Z"));
+    expect(trackOf(client().requests, "env_energy").owner).toBe("Tesis");
+    useWorkspace.getState().update("approvals", {});
+    useWorkspace.getState().update("requests", setTrack(client().requests, ghg, { owner: "Filo" }, [], "2026-10-18T10:00:00.000Z"));
+    expect(trackOf(client().requests, "ghg_mobile").owner).toBe("Filo");
     useWorkspace.getState().restoreSample();
   });
 });

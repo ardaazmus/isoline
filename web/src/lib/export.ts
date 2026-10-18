@@ -15,15 +15,16 @@ export function download(filename: string, content: BlobPart, mime: string) {
 /**
  * A text cell a spreadsheet would read as a formula (starting with =, +, -, @, tab or CR) gets a leading
  * apostrophe (OWASP "CSV injection"): notes and labels are user text and may land in Excel. Plain numbers,
- * negative ones included, stay numbers.
+ * negative ones included, stay numbers. Text that already starts with apostrophes before such a character
+ * gets one more, so csvUnsafe always gives back exactly what was written.
  */
 export function csvSafe(s: string): string {
-  return /^[=+\-@\t\r]/.test(s) && !/^[-+]?\d+(?:[.,]\d+)?(?:e[-+]?\d+)?$/i.test(s) ? `'${s}` : s;
+  return /^'*[=+\-@\t\r]/.test(s) && !/^[-+]?\d+(?:[.,]\d+)?(?:e[-+]?\d+)?$/i.test(s) ? `'${s}` : s;
 }
 
 /** Undoes csvSafe when a file this app wrote is read back. */
 export function csvUnsafe(s: string): string {
-  return /^'[=+\-@\t\r]/.test(s) ? s.slice(1) : s;
+  return /^'+[=+\-@\t\r]/.test(s) ? s.slice(1) : s;
 }
 
 function csvCell(v: unknown): string {

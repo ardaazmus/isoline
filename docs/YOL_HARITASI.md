@@ -79,6 +79,20 @@ Tamamlanan (18.10.2026): onay durumu ve dönem kilidi (iş akışı 4. adım; Fa
 - Kayıtlı çalışma alanları v8 göçüyle onay kaydı alıyor.
 - v1'de hesap yok: kişiler yazılan adlarla kaydediliyor. Kimlik doğrulama Faz 3'te gelecek.
 
+Tamamlanan (18.10.2026): veri talep listesi (iş akışı 1–2. adım; Faz 4'teki PBC listesinin tarayıcıdaki ilk sürümü).
+- "Veri talepleri" ekranı raporlama grubunda. Liste, hazırlanacak raporlardan çıkıyor: kapsam testi şablonları öneriyor, kullanıcı ekleyip çıkarabiliyor.
+- 39 veri kalemi araç girdilerinden türetildi. Her kalemde onay bölümü, sorumlu birim (finans, İK, İSG, üretim, sürdürülebilirlik), kaynak belge, birim ve dönem var.
+- Yeni gereklilik eklenmiyor: kalem ancak seçilen bir şablon bölümü onun aracını kullanıyorsa listeye giriyor. Dayanak olarak o bölümün atıfları gösteriliyor.
+  - Bölümün adıyla sınırladığı veri noktaları dışarıda kalıyor. Örnek: TSRS iklim-önce yalnız Kapsam 1–2 istiyor.
+  - Çapraz tabloda karşılığı "—" olan veri noktaları da dışarıda. Örnek: VSME'de Kapsam 3 yok.
+  - Mizan, faaliyet raporunun finansal durum bölümüne (Yön. md. 12) bağlandı; uzlaştırma, TSRS hazırlama esaslarına (finansal tablolarla bağlantı).
+- Her kalem için sorumlu kişi, son tarih, durum (gönderilmedi, talep edildi, teslim alındı, kabul edildi) ve not tutuluyor. Son tarihi geçen ve teslim alınmayan kalem gecikmiş sayılıyor.
+- Kabul edilen kalem, aracının son dosya içe aktarma kaydına bağlanıyor: dosya, tarih, SHA-256.
+- Onaylanan bölümün kalemleri ekranda ve depoda kilitli.
+- Liste, süzgeçle birlikte CSV ya da Excel olarak birime veya müşteriye gönderiliyor. Doldurulmuş hâli geri yükleniyor; önizleme değişiklikleri ve sorunlu satırları gösteriyor.
+- Birim başına ad ve ortak son tarihle toplu atama yapılabiliyor. Gönderilen kalemler tek düğmeyle "talep edildi" yapılabiliyor.
+- Kayıtlı çalışma alanları v9 göçüyle talep listesi alıyor. CSV formül kaçışı artık kendi çıktısını her durumda birebir geri okuyor.
+
 Kod dışında yapılacak iş:
 - Uzman teyitleri.
 - IEA lisans görüşü.

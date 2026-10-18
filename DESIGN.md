@@ -400,6 +400,15 @@ A glass sheet strip between the result band and the tool layout (`features/appro
 
 A locked section disables its whole inputs panel through one `fieldset`, so fields take the existing dashed disabled border. The reset-to-sample action is disabled too. The overview ends with a full-width tile listing every section's status, preparer, approver and date.
 
+### Data Request List (workflow steps 1–2)
+A reporting-family tool page (`features/requests.tsx`) in the usual inputs-and-results layout.
+- **Band:** on-band CSV and Excel exports of the filtered list, on-band primary "upload filled list". The upload opens the bulk import preview panel above the results (summary line, per-row issues in signal red, primary apply, ghost cancel).
+- **Inputs panel:** "reports to prepare" is a checkbox list of every template. The ones the applicability check points to carry a 12px accent-ink line naming the finding; a ghost "back to the suggestion" appears once the choice is changed by hand. "Assign owners" has one text field per department, a due-date field, a primary "fill empty fields" and a quiet "mark unsent as requested".
+- **Figures:** accepted / total on the family lead tile, then items, overdue (crit figure when above zero) and items without an owner.
+- **Progress sheet:** one row per section with its theme chip, an in-cell bar of the accepted share, and open and overdue counts. The section name filters the list; a cobalt lock marks a locked section.
+- **Request sheet:** status tabs with counts (all, the four statuses, overdue), section and role selects, then a ruled table grouped by section with group rows. The first cell carries the data point's theme chip (its crosswalk theme), the label, the source document in 12.5px slate and the trace references in 11.5px muted ink (the full trace in the tooltip); personal data adds a shield note. Owner, due date, status and note are compact 36px fields. Status uses the line language: dotted muted not sent, dashed periwinkle requested, dotted amber received (to review), solid cobalt accepted. A past due date takes the signal-red border, an icon and "overdue". The evidence cell shows the import file and the first 12 characters of its SHA-256 beside a cobalt file-check icon. The sheet ends with the collar citing the chosen templates' sources.
+- **Lock:** rows of a locked section have every field disabled (dashed) and say why in the row tooltip.
+
 ### Navigation
 - **Rail:** glass, 262px, 20px radius. Groups open with a 3px bar in the family strong colour whose length is proportional to the group's share of tools, then an uppercase label. Items are 14px, 11px radius, with a 28px icon chip (8px radius) tinted 80% ice wash with line icons in the family strong colour; the active item becomes a paper chip with semibold ink and the icon chip fills with the family strong colour and a white icon. Hover is a 60% paper wash.
 - **Top bar:** three glass pills; the wordmark sits beside the three-isoline mark (cobalt, periwinkle, navy dot).

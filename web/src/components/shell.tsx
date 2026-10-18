@@ -18,6 +18,7 @@ import {
   MessageSquareWarning,
   Library,
   LayoutDashboard,
+  ListTodo,
   Menu,
   Network,
   Palette,
@@ -57,6 +58,7 @@ const ICONS: Record<string, LucideIcon> = {
   themes: Palette,
   reconciliation: GitCompareArrows,
   trialBalance: FileSpreadsheet,
+  requests: ListTodo,
 };
 
 export const BRAND = "Isoline";
