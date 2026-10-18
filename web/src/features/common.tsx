@@ -4,6 +4,7 @@ import { type ReactNode } from "react";
 import { Download, RotateCcw } from "lucide-react";
 import { useI18n } from "@/i18n/provider";
 import { useToday } from "@/lib/dates";
+import { lockedBy } from "@/lib/approval";
 import { SAMPLE_CLIENT, type ClientData } from "@/data/sample";
 import { useActiveClient, useHydrated, useWorkspace, type ToolKey } from "@/store/workspace";
 import { download, slug } from "@/lib/export";
@@ -33,7 +34,8 @@ export function ToolActions<K extends ToolKey>({ tool }: { tool: K }) {
           const base = client.sample ? SAMPLE_CLIENT[tool] : null;
           if (base) set(structuredClone(base));
         }}
-        disabled={!client.sample}
+        // a locked (approved) section cannot be reset; the store would refuse the change anyway
+        disabled={!client.sample || !!lockedBy(client, tool, SAMPLE_CLIENT[tool])}
         title={t("actions.resetHint")}
       >
         <RotateCcw size={15} aria-hidden />

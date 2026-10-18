@@ -70,6 +70,15 @@ Tamamlanan (18.10.2026): raporlama incelemesinin doğrulanması ([DENETIM_RAPORL
   - %5 yeniden hesap eşiği GHG Protokolü'ne değil SBTi'ye (C27) ait.
 - Raporun iş akışı sadeleştirildi: 5 adım, 3 rol, 4 durum, 3 görünürlük düzeyi.
 
+Tamamlanan (18.10.2026): onay durumu ve dönem kilidi (iş akışı 4. adım; Faz 4'ten öne alındı).
+- 11 araç bölümü (envanter, SKDM, TR ETS, yol, önemlilik, çevre, çalışan, taksonomi, mizan, uzlaştırma, yeşil iddia) Taslak → Kontrolde → Onaylandı (kilitli) → Yayımlandı akışında ilerliyor.
+- Hazırlayan kendi işini onaylayamıyor. Geri gönderme ve yeniden açma gerekçe istiyor. Her geçiş silinmeyen bir geçmişe yazılıyor.
+- Onaylanan bölümün girdileri ekranda pasif. Depo da kilitli bölüme yazmayı reddediyor; "örneğe dön" ve araç içinden dosya içe aktarma da bu kurala takılıyor. Ortak `indicators` verisinde çevre ve çalışan bölümleri ayrı kilitleniyor.
+- Word çıktıları "Hazırlayan / Onaylayan / tarih / durum" bloğunu basıyor. Onaylanmamış veri kullanılıyorsa belge "TASLAK" uyarısı taşıyor.
+- Genel bakışta bütün bölümlerin onay tablosu var.
+- Kayıtlı çalışma alanları v8 göçüyle onay kaydı alıyor.
+- v1'de hesap yok: kişiler yazılan adlarla kaydediliyor. Kimlik doğrulama Faz 3'te gelecek.
+
 Kod dışında yapılacak iş:
 - Uzman teyitleri.
 - IEA lisans görüşü.

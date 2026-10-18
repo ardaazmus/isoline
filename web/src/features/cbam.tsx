@@ -14,6 +14,7 @@ import { FactorPicker, useFactorSets } from "@/components/factor-picker";
 import { CBAM_ORIGINS, cbamDefaultRow, factorRef, resolveRef } from "@/lib/factors";
 import { useCountryName } from "@/components/factor-picker";
 import { BenchmarkField } from "./cbam-benchmark";
+import { ApprovalBar, useApproval } from "./approval";
 
 const SOURCES = ["cbam_reg", "cbam_factor", "cbam_guidance3", "cbam_price", "cbam_faa"];
 
@@ -27,6 +28,7 @@ export function CbamTool() {
 
 function Inner() {
   const { t, fmt } = useI18n();
+  const { locked } = useApproval("cbam");
   const [data, set, client] = useTool("cbam");
   const sets = useFactorSets();
   const rows = useMemo(() => projectPortfolio(data.products, data.scenario), [data]);
@@ -73,7 +75,9 @@ function Inner() {
         result={data.products.length ? t("cbam.result", { cost: eurC(y2030.cost), total: eurC(cumulative) }) : t("cbam.empty")}
         actions={<ToolActions tool="cbam" />}
       />
+      <ApprovalBar section="cbam" />
       <ToolLayout
+        locked={locked}
         family="climate"
         inputs={
           <>

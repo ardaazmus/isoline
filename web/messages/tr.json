@@ -2239,5 +2239,47 @@
       },
       "rowsOnly": "{rows} satır · şirket geneli"
     }
+  },
+  "appr": {
+    "title": "Onay durumu",
+    "status": {
+      "draft": "Taslak",
+      "review": "Kontrolde",
+      "approved": "Onaylandı, kilitli",
+      "published": "Yayımlandı, kilitli"
+    },
+    "preparedBy": "Hazırlayan: {name}",
+    "approvedBy": "Onaylayan: {name}, {date}",
+    "by": "Adınız",
+    "reason": "Gerekçe (geri gönderme, yeniden açma)",
+    "action": {
+      "submit": "Kontrole gönder",
+      "sendBack": "Geri gönder",
+      "approve": "Onayla ve kilitle",
+      "publish": "Yayımlandı olarak işaretle",
+      "reopen": "Yeniden aç"
+    },
+    "history": "Geçmiş ({n})",
+    "logLine": "{by}: {from} → {to}",
+    "lockedNote": "Bu bölüm onaylandı ve kilitli; girdiler değiştirilemez. Değişiklik gerekiyorsa gerekçesini yazıp yeniden açın; önceki onay geçmişte kalır.",
+    "error": {
+      "badMove": "Bu durumdan bu adım atılamaz.",
+      "needName": "Adınızı yazın.",
+      "samePerson": "Hazırlayan kendi işini onaylayamaz; onayı başka biri vermeli.",
+      "needReason": "Geri gönderme ve yeniden açma için gerekçe yazın."
+    },
+    "overview": "Bölümlerin onay durumu",
+    "overviewCaption": "Hazırlayan ile onaylayan farklı kişi olmalı. Onaylanan bölüm kilitlenir; raporlar kilitli veriden alıntı yapar.",
+    "section": "Bölüm",
+    "approvedAt": "Onay tarihi",
+    "doc": {
+      "title": "Onay durumu",
+      "section": "Bölüm",
+      "status": "Durum",
+      "preparedBy": "Hazırlayan",
+      "approvedBy": "Onaylayan",
+      "date": "Onay tarihi",
+      "draft": "TASLAK: Bu belge onaylanmamış veri içeriyor. Yayımlamadan önce ilgili bölümleri onaylatın."
+    }
   }
 }

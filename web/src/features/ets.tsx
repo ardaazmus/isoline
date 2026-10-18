@@ -9,6 +9,7 @@ import { StackedBars } from "@/components/charts";
 import { Callout, NumberField, SelectField, StatusMark } from "@/components/ui";
 import { Hydrated, KeyDates, NoteList, SectionTitle, ToolActions, useTool } from "./common";
 import { eventDate } from "@/data/regulations";
+import { ApprovalBar, useApproval } from "./approval";
 
 const SOURCES = ["climate_law", "tr_ets_reg", "kpk_2026_1"];
 const FROM = 2026;
@@ -24,6 +25,7 @@ export function EtsTool() {
 
 function Inner() {
   const { t, fmt } = useI18n();
+  const { locked } = useApproval("ets");
   const [d, set, client] = useTool("ets");
   const rows = useMemo(() => projectEts(d, FROM, TO), [d]);
   const cat = etsCategory(d.emissions);
@@ -45,7 +47,9 @@ function Inner() {
         }
         actions={<ToolActions tool="ets" />}
       />
+      <ApprovalBar section="ets" />
       <ToolLayout
+        locked={locked}
         family="climate"
         inputs={
           <>

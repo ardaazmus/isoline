@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { SAMPLE_CLIENT } from "@/data/sample";
 import { computeInventory } from "@/lib/calc/ghg";
-import { addV4Fields, addV5Fields, addV6Fields, addV7Fields, isClientShape, migrateClients, unlinkV2GridPicks } from "./workspace";
+import { addV4Fields, addV5Fields, addV6Fields, addV7Fields, isClientShape, migrateClients, unlinkV2GridPicks, useWorkspace } from "./workspace";
 import { JOURNEYS } from "@/data/journey";
 import { EVENTS, eventDate } from "@/data/regulations";
 
@@ -113,5 +113,28 @@ describe("workspace import", () => {
     expect(deadlines.length).toBeGreaterThan(0);
     for (const d of deadlines) expect(EVENTS.some((e) => e.date === d)).toBe(true);
     expect(() => eventDate("no_such_event")).toThrow();
+  });
+});
+
+describe("workspace v8: approvals and the period lock", () => {
+  it("adds an empty approvals record to clients that lack one", () => {
+    const c = structuredClone(SAMPLE_CLIENT) as Partial<typeof SAMPLE_CLIENT>;
+    delete c.approvals;
+    const [out] = migrateClients([c as typeof SAMPLE_CLIENT], 7);
+    expect(out.approvals).toEqual({});
+  });
+  it("the store refuses a change to a locked section and accepts it after reopening", () => {
+    const st = useWorkspace.getState();
+    st.restoreSample();
+    const id = useWorkspace.getState().activeId;
+    const ghg = () => useWorkspace.getState().clients.find((x) => x.id === id)!.ghg;
+    const fuels = ghg().fuels.length;
+    useWorkspace.getState().update("approvals", { ghg: { status: "approved", preparedBy: "A", approvedBy: "B", approvedAt: "2026-10-18T10:00:00.000Z", log: [] } });
+    useWorkspace.getState().update("ghg", { ...ghg(), fuels: [] });
+    expect(ghg().fuels.length).toBe(fuels);
+    useWorkspace.getState().update("approvals", {});
+    useWorkspace.getState().update("ghg", { ...ghg(), fuels: [] });
+    expect(ghg().fuels.length).toBe(0);
+    useWorkspace.getState().restoreSample();
   });
 });

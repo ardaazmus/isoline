@@ -238,11 +238,18 @@ export function PageHeader({ title, result, actions, family = "compass", aside }
   );
 }
 
-/** Inputs in a glass panel on the left, a bento of results on the right; stacks on narrow screens. */
-export function ToolLayout({ inputs, children, family }: { inputs: ReactNode; children: ReactNode; family: Family }) {
+/**
+ * Inputs in a glass panel on the left, a bento of results on the right; stacks on narrow screens. A locked
+ * (approved) section disables every input, button and file picker in the panel at once.
+ */
+export function ToolLayout({ inputs, children, family, locked = false }: { inputs: ReactNode; children: ReactNode; family: Family; locked?: boolean }) {
   return (
     <div data-family={family} className="grid gap-6 xl:grid-cols-[340px_minmax(0,1fr)]">
-      <aside className="glass order-2 flex min-w-0 flex-col gap-5 self-start p-5 xl:sticky xl:top-[76px] xl:order-1 xl:max-h-[calc(100dvh-90px)] xl:overflow-y-auto">{inputs}</aside>
+      <aside className="glass order-2 flex min-w-0 flex-col gap-5 self-start p-5 xl:sticky xl:top-[76px] xl:order-1 xl:max-h-[calc(100dvh-90px)] xl:overflow-y-auto">
+        <fieldset disabled={locked} className="m-0 flex min-w-0 flex-col gap-5 border-0 p-0">
+          {inputs}
+        </fieldset>
+      </aside>
       <section className="order-1 flex min-w-0 flex-col gap-6 xl:order-2">{children}</section>
     </div>
   );

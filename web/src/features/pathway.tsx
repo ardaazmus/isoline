@@ -10,6 +10,7 @@ import { LineChart, MaccChart } from "@/components/charts";
 import { Button, NumberField, Tabs, TextField } from "@/components/ui";
 import { CATEGORICAL } from "@/data/themes";
 import { Hydrated, NoteList, SectionTitle, ToolActions, useTool } from "./common";
+import { ApprovalBar, useApproval } from "./approval";
 
 const SOURCES = ["sbti_criteria", "sbti_v2", "ndc3"];
 /** Measures are categories, not themes: they take the ordered categorical sequence. */
@@ -25,6 +26,7 @@ export function PathwayTool() {
 
 function Inner() {
   const { t, fmt } = useI18n();
+  const { locked } = useApproval("pathway");
   const [d, set, client] = useTool("pathway");
   const [tab, setTab] = useState<"base" | "measures" | "actuals">("base");
   const rows = useMemo(() => buildPathway(d, 2050), [d]);
@@ -53,7 +55,9 @@ function Inner() {
         }
         actions={<ToolActions tool="pathway" />}
       />
+      <ApprovalBar section="pathway" />
       <ToolLayout
+        locked={locked}
         family="climate"
         inputs={
           <>

@@ -12,6 +12,7 @@ import { GroupRow, InlineBar, ThemeIcon } from "@/components/data";
 import { th, type ThemeId } from "@/data/themes";
 import { Hydrated, NoteList, SectionTitle, ToolActions, useTool } from "./common";
 import { IndicatorImport } from "./indicator-import";
+import { ApprovalBar, useApproval } from "./approval";
 
 // ---------------------------------------------------------------- Environment
 export function EnvironmentTool() {
@@ -24,6 +25,7 @@ export function EnvironmentTool() {
 
 function EnvInner() {
   const { t, fmt } = useI18n();
+  const { locked } = useApproval("environment");
   const [ind, set, client] = useTool("indicators");
   const e = ind.env;
   const r = useMemo(() => environment(e), [e]);
@@ -39,7 +41,9 @@ function EnvInner() {
         result={t("env.result", { toe: fmt.compact(r.energyToe), ren: fmt.percent(r.renewableShare), rec: fmt.percent(r.wasteRecoveryRate) })}
         actions={<ToolActions tool="indicators" />}
       />
+      <ApprovalBar section="environment" />
       <ToolLayout
+        locked={locked}
         family="environment"
         inputs={
           <>
@@ -172,6 +176,7 @@ export function WorkforceTool() {
 
 function WorkInner() {
   const { t, fmt } = useI18n();
+  const { locked } = useApproval("workforce");
   const [ind, set, client] = useTool("indicators");
   const s = safetyRates(ind.safety);
   const w = workforce(ind.workforce);
@@ -186,7 +191,9 @@ function WorkInner() {
         result={t("work.result", { ltifr: fmt.number(s.ltifr, 2), gap: fmt.percent(w.payGap), train: fmt.number(w.trainingPerEmployee, 1) })}
         actions={<ToolActions tool="indicators" />}
       />
+      <ApprovalBar section="workforce" />
       <ToolLayout
+        locked={locked}
         family="people"
         inputs={
           <>
@@ -317,6 +324,7 @@ export function TaxonomyTool() {
 
 function TaxInner() {
   const { t, fmt } = useI18n();
+  const { locked } = useApproval("taxonomy");
   const [tax, set, client] = useTool("taxonomy");
   const k = useMemo(() => taxonomyKpis(tax.activities, tax.totals, tax.notAssessed), [tax]);
   const [open, setOpen] = useState<string | null>(null);
@@ -331,7 +339,9 @@ function TaxInner() {
         result={t("tax.result", { turnover: fmt.percent(k.turnover.aligned), capex: fmt.percent(k.capex.aligned) })}
         actions={<ToolActions tool="taxonomy" />}
       />
+      <ApprovalBar section="taxonomy" />
       <ToolLayout
+        locked={locked}
         family="environment"
         inputs={
           <>

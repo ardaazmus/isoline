@@ -391,6 +391,15 @@ Compact, firm and blue; they never shout louder than the result band and never t
 ### Bulk Data Import (Excel / CSV)
 An input group inside the glass inputs panel (GHG inventory, environment and workforce indicators; `components/file-import.tsx`): a 12.5px muted hint, then small quiet buttons with line icons (CSV template, Excel template with a spreadsheet icon, upload file; the file input itself is hidden and accepts xlsx, xls, ods and csv). Under the group, an 11.5px slate evidence line names the last import: file, date, record count and the first 12 characters of its SHA-256 (full hash in the tooltip). After upload a preview panel appears: 12px radius, hairline border, strong glass (80% white), 12px padding, 13px text; a semibold summary line (file, line count, rows), a 12.5px slate count by category, a scrollable list (max 128px) of per-row issues in signal red, then small actions: primary "add", quiet "replace", ghost "cancel". A confirmation after applying uses the note callout.
 
+### Approval Bar (workflow step 4)
+A glass sheet strip between the result band and the tool layout (`features/approval.tsx`), 16–20px padding.
+- **First row:** an uppercase "Approval" label, then the status as a status mark in the line language: dashed draft, dotted amber review, solid cobalt approved and published. A cobalt lock icon leads when the section is locked.
+- **Then:** a 13px slate line naming the preparer and the approver with the date.
+- **Right-aligned:** a name field, a reason field (only when sending back or reopening is open), small buttons for the open moves (primary for "send for review" and "approve and lock", quiet for the others) and a ghost "history (n)" toggle.
+- **Below:** the locked note in 13px ink-2; an inline signal-red error line; the history as a ruled list, newest first.
+
+A locked section disables its whole inputs panel through one `fieldset`, so fields take the existing dashed disabled border. The reset-to-sample action is disabled too. The overview ends with a full-width tile listing every section's status, preparer, approver and date.
+
 ### Navigation
 - **Rail:** glass, 262px, 20px radius. Groups open with a 3px bar in the family strong colour whose length is proportional to the group's share of tools, then an uppercase label. Items are 14px, 11px radius, with a 28px icon chip (8px radius) tinted 80% ice wash with line icons in the family strong colour; the active item becomes a paper chip with semibold ink and the icon chip fills with the family strong colour and a white icon. Hover is a 60% paper wash.
 - **Top bar:** three glass pills; the wordmark sits beside the three-isoline mark (cobalt, periwinkle, navy dot).

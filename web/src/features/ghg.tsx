@@ -38,6 +38,7 @@ import { th } from "@/data/themes";
 import { Hydrated, NoteList, SectionTitle, ToolActions, useTool } from "./common";
 import { FactorPicker, useFactorSets } from "@/components/factor-picker";
 import { factorRef } from "@/lib/factors";
+import { ApprovalBar, useApproval } from "./approval";
 
 const SOURCES = ["ghg_protocol", "ipcc_2006", "ipcc_ar6_gwp", "etkb_ef_2023"];
 
@@ -72,6 +73,7 @@ function QualitySelect({ value, onChange }: { value: Quality; onChange: (q: Qual
 
 function Inner() {
   const { t, fmt } = useI18n();
+  const { locked } = useApproval("ghg");
   const [inv, set, client] = useTool("ghg");
   const sets = useFactorSets();
   const [tab, setTab] = useState<"s1" | "s2" | "s3" | "norm">("s1");
@@ -105,7 +107,9 @@ function Inner() {
         result={t("ghg.result", { total: fmt.compact(r.totalLocation), s12: fmt.compact(r.scope1 + r.scope2Location), est: fmt.percent(r.estimatedShare, 0) })}
         actions={<ToolActions tool="ghg" />}
       />
+      <ApprovalBar section="ghg" />
       <ToolLayout
+        locked={locked}
         family="climate"
         inputs={
           <>

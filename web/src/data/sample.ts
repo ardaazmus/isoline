@@ -12,6 +12,7 @@ import { defaultNonCo2, FUELS } from "@/lib/calc/ghg";
 import { DEFAULT_TOLERANCES, emptyReconciliation, type Reconciliation } from "@/lib/reconcile";
 import { csvGrid, parseGrid, type TrialBalance } from "@/lib/trial-balance";
 import type { ImportRecord } from "@/lib/imports";
+import type { Approvals } from "@/lib/approval";
 import { SAMPLE_TB_FILE, sampleTrialBalanceCsv } from "./sample-trial-balance";
 import type { StageStatus } from "./journey";
 
@@ -41,6 +42,8 @@ export type ClientData = {
   trialBalance: TrialBalance | null;
   /** Evidence log of file imports (newest first): file, SHA-256, time, rows. */
   importLog: ImportRecord[];
+  /** Approval status and lock per tool section (workflow step 4); a missing section is a draft. */
+  approvals: Approvals;
 };
 
 /** SHA-256 of sampleTrialBalanceCsv(): the sample records the same evidence hash a real import would. */
@@ -191,6 +194,7 @@ export const SAMPLE_CLIENT: ClientData = {
     lang: "tr",
   },
   trialBalance: { fileName: SAMPLE_TB_FILE, sha256: SAMPLE_TB_SHA256, importedAt: "2026-10-18T09:00:00.000Z", ...sampleTb },
+  approvals: {},
   importLog: [{ tool: "trialBalance", fileName: SAMPLE_TB_FILE, sha256: SAMPLE_TB_SHA256, importedAt: "2026-10-18T09:00:00.000Z", rows: sampleTb.rows, applied: sampleTb.accounts.length }],
 };
 
@@ -243,5 +247,6 @@ export function emptyClient(id: string, name: string): ClientData {
     claims: { text: "", lang: "tr" },
     trialBalance: null,
     importLog: [],
+    approvals: {},
   };
 }

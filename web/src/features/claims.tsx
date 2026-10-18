@@ -8,6 +8,7 @@ import { FiguresRow, InputGroup, PageHeader, ToolLayout } from "@/components/she
 import { SourceNote } from "@/components/figure";
 import { Button, Callout, SelectField, StatusMark, cn } from "@/components/ui";
 import { Hydrated, SectionTitle, useTool } from "./common";
+import { ApprovalBar, useApproval } from "./approval";
 
 const RULES: ClaimRule[] = ["offset", "future", "absolute", "generic"];
 const TONE: Record<ClaimRule, "crit" | "warn"> = { offset: "crit", future: "crit", absolute: "warn", generic: "warn" };
@@ -22,6 +23,7 @@ export function ClaimsTool() {
 
 function Inner() {
   const { t, locale } = useI18n();
+  const { locked } = useApproval("claims");
   // The text is stored on the client so reconciliation rule U10 screens the same text.
   const [claims, setClaims] = useTool("claims");
   const uiLang = CLAIM_LANGS.includes(locale) ? locale : "tr";
@@ -40,7 +42,9 @@ function Inner() {
         title={t("nav.claims")}
         result={hits.length ? t("claims.result", { n: hits.length, high: counts.offset + counts.future }) : t("claims.clean")}
       />
+      <ApprovalBar section="claims" />
       <ToolLayout
+        locked={locked}
         family="reporting"
         inputs={
           <>

@@ -27,6 +27,7 @@ import { SourceNote } from "@/components/figure";
 import { GroupRow } from "@/components/data";
 import { Button, Callout, StatusMark, cn } from "@/components/ui";
 import { Hydrated, SectionTitle, useTool } from "./common";
+import { ApprovalBar, useApproval } from "./approval";
 
 type Mark = "verified" | "estimated" | "review" | "critical" | "na";
 
@@ -40,6 +41,7 @@ export function TrialBalancePage() {
 
 function Inner() {
   const { t, fmt, locale } = useI18n();
+  const { locked } = useApproval("trialBalance");
   const [tb, setTb, client] = useTool("trialBalance");
   const update = useWorkspace((s) => s.update);
   const file = useRef<HTMLInputElement>(null);
@@ -93,7 +95,9 @@ function Inner() {
           if (f) void onFile(f);
         }}
       />
+      <ApprovalBar section="trialBalance" />
       <ToolLayout
+        locked={locked}
         family="reporting"
         inputs={
           <>

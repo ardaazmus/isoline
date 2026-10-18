@@ -5,13 +5,14 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import { useEffect, useSyncExternalStore } from "react";
 import { emptyClient, SAMPLE_CLIENT, type ClientData } from "@/data/sample";
 import { defaultNonCo2 } from "@/lib/calc/ghg";
+import { lockedBy } from "@/lib/approval";
 import type { FactorSet } from "@/lib/factors";
 import { emptyReconciliation } from "@/lib/reconcile";
 
 export type ToolKey = Exclude<keyof ClientData, "id" | "name" | "sector" | "sample">;
 
 type Workspace = {
-  version: 7;
+  version: 8;
   clients: ClientData[];
   activeId: string;
   /** Workspace-wide custom factor sets (bring your own data); shared by every client. */
@@ -78,9 +79,14 @@ export function addV7Fields(clients: ClientData[]): ClientData[] {
   );
 }
 
+/** v8: clients gain approval status per tool section; every section starts as a draft. */
+export function addV8Fields(clients: ClientData[]): ClientData[] {
+  return clients.map((c) => (c.approvals && typeof c.approvals === "object" ? c : { ...c, approvals: {} }));
+}
+
 /** Every migration step in order, for persisted state and imported workspace files. */
 export function migrateClients(clients: ClientData[], from: number): ClientData[] {
-  return addV7Fields(addV6Fields(addV5Fields(addV4Fields(from < 3 ? unlinkV2GridPicks(clients) : clients))));
+  return addV8Fields(addV7Fields(addV6Fields(addV5Fields(addV4Fields(from < 3 ? unlinkV2GridPicks(clients) : clients)))));
 }
 
 /** v5: clients gain an imported trial balance; the sample client gets the sample's, others start with none. */
@@ -110,7 +116,7 @@ const newId = () => `c-${Date.now().toString(36)}-${Math.random().toString(36).s
 export const useWorkspace = create<Workspace>()(
   persist(
     (set) => ({
-      version: 7,
+      version: 8,
       clients: [structuredClone(SAMPLE_CLIENT)],
       activeId: SAMPLE_CLIENT.id,
       customSets: [],
@@ -134,8 +140,9 @@ export const useWorkspace = create<Workspace>()(
           const others = s.clients.filter((c) => c.id !== SAMPLE_CLIENT.id);
           return { clients: [structuredClone(SAMPLE_CLIENT), ...others], activeId: SAMPLE_CLIENT.id };
         }),
+      // A change to an approved (locked) section is refused here as well as on screen; reopening unlocks it.
       update: (key, value) =>
-        set((s) => ({ clients: s.clients.map((c) => (c.id === s.activeId ? { ...c, [key]: value } : c)) })),
+        set((s) => ({ clients: s.clients.map((c) => (c.id === s.activeId && !lockedBy(c, key, value) ? { ...c, [key]: value } : c)) })),
       importWorkspace: (data) => {
         const d = data as { app?: string; version?: number; clients?: ClientData[]; customSets?: FactorSet[] };
         if (!d || d.app !== "isoline" || !Array.isArray(d.clients) || d.clients.length === 0) {
@@ -150,10 +157,10 @@ export const useWorkspace = create<Workspace>()(
     }),
     {
       name: "isoline-workspace",
-      version: 7,
+      version: 8,
       migrate: (persisted, from) => {
         const st = persisted as Partial<Workspace>;
-        const next: Partial<Workspace> = { ...st, version: 7, customSets: st.customSets ?? [] };
+        const next: Partial<Workspace> = { ...st, version: 8, customSets: st.customSets ?? [] };
         if (st.clients) next.clients = migrateClients(st.clients, from);
         return next as Workspace;
       },
@@ -166,7 +173,7 @@ export const useWorkspace = create<Workspace>()(
 
 export function exportWorkspace(): string {
   const { clients, customSets } = useWorkspace.getState();
-  return JSON.stringify({ app: "isoline", version: 7, exportedAt: new Date().toISOString(), clients, customSets }, null, 2);
+  return JSON.stringify({ app: "isoline", version: 8, exportedAt: new Date().toISOString(), clients, customSets }, null, 2);
 }
 
 /** True once local storage has been read; tools render after this to avoid hydration mismatches. */

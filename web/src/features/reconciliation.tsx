@@ -27,6 +27,8 @@ import { SourceNote } from "@/components/figure";
 import { Button, Callout, NumberField, StatusMark, cn } from "@/components/ui";
 import { useActiveClient } from "@/store/workspace";
 import { Hydrated, useTool } from "./common";
+import { ApprovalBar, useApproval } from "./approval";
+import { todayLocal } from "@/lib/dates";
 
 const MARK: Record<CheckStatus, "verified" | "estimated" | "review" | "critical" | "na"> = { pass: "verified", explained: "estimated", warn: "review", fail: "critical", na: "na" };
 const REL: Record<string, string> = { eq: "≈", lte: "≤", gte: "≥" };
@@ -53,6 +55,7 @@ function useValue() {
 
 function Inner() {
   const { t, fmt } = useI18n();
+  const { locked } = useApproval("reconciliation");
   const [stored, setRec, client] = useTool("reconciliation");
   const rec = stored ?? emptyReconciliation();
   const result = reconcile(client);
@@ -108,7 +111,9 @@ function Inner() {
           </>
         }
       />
+      <ApprovalBar section="reconciliation" />
       <ToolLayout
+        locked={locked}
         family="reporting"
         inputs={
           <>
@@ -160,15 +165,18 @@ function Inner() {
             </a>
           ))}
         </nav>
-        {result.rules.map((r) => (
-          <RuleCard key={r.id} rule={r} rec={rec} onNote={setNote} onPrior={(m, v) => {
-            const prior = { ...rec.prior };
-            if (v === undefined) delete prior[m];
-            else prior[m] = v;
-            patch({ prior });
-          }} />
-        ))}
-        <p className="text-[12px] text-[var(--ink-3)]">{t("rec.engine", { engine: ENGINE_VERSION, date: fmt.date(new Date().toISOString().slice(0, 10)) })}</p>
+        {/* explanations and prior-year values are data too: an approved section keeps them read-only */}
+        <fieldset disabled={locked} className="m-0 flex min-w-0 flex-col gap-6 border-0 p-0">
+          {result.rules.map((r) => (
+            <RuleCard key={r.id} rule={r} rec={rec} onNote={setNote} onPrior={(m, v) => {
+              const prior = { ...rec.prior };
+              if (v === undefined) delete prior[m];
+              else prior[m] = v;
+              patch({ prior });
+            }} />
+          ))}
+        </fieldset>
+        <p className="text-[12px] text-[var(--ink-3)]">{t("rec.engine", { engine: ENGINE_VERSION, date: fmt.date(todayLocal()) })}</p>
       </ToolLayout>
     </div>
   );

@@ -7,6 +7,7 @@ import { AR_GROUPS, AR_ITEMS } from "@/data/annual-report";
 import { SOURCES } from "@/data/sources";
 import type { ArStatus } from "@/data/sample";
 import { buildDocx } from "@/lib/docx";
+import { docApproval } from "./approval";
 import { download, slug } from "@/lib/export";
 import { netSales } from "@/lib/trial-balance";
 import { FiguresRow, PageHeader } from "@/components/shell";
@@ -54,6 +55,7 @@ function Inner() {
           .map((s) => SOURCES[s])
           .filter(Boolean)
           .map((s) => `${s.cite} — ${s.url}`),
+        approval: docApproval(client, client.trialBalance ? ["trialBalance"] : [], t, fmt),
         sections: groups.map((g) => {
           const own = items.filter((i) => i.group === g);
           const applicableHere = own.filter((i) => st(i.id) !== "na").length;

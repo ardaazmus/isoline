@@ -220,7 +220,7 @@ Raporun "Ocak toplama → Haziran yayım" takvimi bir sektör pratiği, standart
 
 | # | İş | Neden | Büyüklük |
 |---|---|---|---|
-| 1 | **Durum + kilit** (Taslak → Kontrolde → Onaylandı → Yayımlandı) bütün araçlara; onaylayan adı ve zaman damgası | Güvence kuruluşlarının ilk istediği: görev ayrılığı ve dondurulmuş dönem | Orta |
+| 1 | **Durum + kilit** (Taslak → Kontrolde → Onaylandı → Yayımlandı) bütün araçlara; onaylayan adı ve zaman damgası. **Yapıldı (18.10.2026):** 11 bölüm, görev ayrılığı, gerekçeli geri gönderme ve yeniden açma, silinmeyen geçmiş, ekranda ve depoda kilit, Word'de onay bloğu ve "TASLAK" uyarısı, genel bakışta durum tablosu. | Güvence kuruluşlarının ilk istediği: görev ayrılığı ve dondurulmuş dönem | Orta |
 | 2 | **Veri talep listesi**: seçilen raporların ihtiyaç duyduğu verilerden sahip, son tarih ve durum listesi; CSV olarak müşteriye | Rakiplerin en güçlü olduğu, Isoline'ın en zayıf olduğu yer | Orta |
 | 3 | **Elle girişte kaynak notu** (belge adı, tarih) | Her değerin arkasında kanıt | Küçük |
 | 4 | **Tek rapor paketi + künye**: Word'ler, CSV'ler, uzlaştırma kaydı, kanıt listesi ve görünürlük düzeyi; ilk satırda düzey etiketi | Teslim ve denetim izi | Orta |

@@ -9,6 +9,8 @@ import { SOURCES } from "@/data/sources";
 import { FAMILY_COLOR, NAV } from "@/data/nav";
 import { toolSummary } from "@/lib/summary";
 import { buildDocx } from "@/lib/docx";
+import { sectionsOf } from "@/lib/approval";
+import { docApproval } from "./approval";
 import { download, slug } from "@/lib/export";
 import { useActiveClient } from "@/store/workspace";
 import { PageHeader } from "@/components/shell";
@@ -76,6 +78,7 @@ function Detail({ tp }: { tp: Template }) {
         intro: t("tpl.docIntro"),
         labels: { refs: t("tpl.refs"), figures: t("tpl.figures"), draft: t("tpl.draftHere"), sources: t("note.source") },
         sources: tp.sources.map((s) => `${SOURCES[s].cite} — ${SOURCES[s].url}`),
+        approval: docApproval(client, sectionsOf(tp.sections.flatMap((s) => s.tools ?? [])), t, fmt),
         sections: tp.sections.map((s) => ({
           title: t(`tpl.${tp.id}.sections.${s.id}.title`),
           guide: t(`tpl.${tp.id}.sections.${s.id}.guide`),

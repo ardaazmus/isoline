@@ -18,7 +18,9 @@ import { SampleFlag, StatusMark, cn } from "@/components/ui";
 import { CountUp, ThemeIcon } from "@/components/data";
 import { th, type ThemeId } from "@/data/themes";
 import { Hydrated } from "./common";
-import { useToday } from "@/lib/dates";
+import { localDay, useToday } from "@/lib/dates";
+import { approvalOf, SECTION_IDS } from "@/lib/approval";
+import { NAV } from "@/data/nav";
 import { useActiveClient } from "@/store/workspace";
 
 
@@ -226,7 +228,54 @@ function Inner() {
             <ShareBar label={k.sub} parts={[{ value: k.bar, color: th(k.theme), label: k.sub }]} />
           </Tile>
         ))}
+
+        <ApprovalTile />
       </div>
     </div>
+  );
+}
+
+const APPROVAL_MARK = { draft: "estimated", review: "review", approved: "verified", published: "verified" } as const;
+
+/** Approval status of every tool section of the active client (workflow step 4). */
+function ApprovalTile() {
+  const { t, fmt, locale } = useI18n();
+  const c = useActiveClient();
+  const href = (id: string) => NAV.flatMap((g) => g.items).find((i) => i.id === id)?.href ?? "";
+  return (
+    <Tile title={t("appr.overview")} className="md:col-span-6 xl:col-span-12">
+      <div className="overflow-x-auto">
+        <table className="report-table text-[13.5px]">
+          <thead>
+            <tr>
+              <th>{t("appr.section")}</th>
+              <th>{t("appr.doc.status")}</th>
+              <th>{t("appr.doc.preparedBy")}</th>
+              <th>{t("appr.doc.approvedBy")}</th>
+              <th>{t("appr.approvedAt")}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {SECTION_IDS.map((id, i) => {
+              const a = approvalOf(c.approvals, id);
+              return (
+                <tr key={id} className="anim-row" style={{ ["--i" as string]: i }}>
+                  <td>
+                    <Link href={`/${locale}${href(id)}`}>{t(`nav.${id}`)}</Link>
+                  </td>
+                  <td>
+                    <StatusMark kind={APPROVAL_MARK[a.status]} label={t(`appr.status.${a.status}`)} />
+                  </td>
+                  <td>{a.preparedBy || "—"}</td>
+                  <td>{a.approvedBy || "—"}</td>
+                  <td className="num">{a.approvedAt ? fmt.date(localDay(a.approvedAt)) : "—"}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <p className="text-[12.5px] text-[var(--ink-3)]">{t("appr.overviewCaption")}</p>
+    </Tile>
   );
 }

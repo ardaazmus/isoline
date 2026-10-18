@@ -10,6 +10,7 @@ import { NumberField, StatusMark, Toggle } from "@/components/ui";
 import { PillarLegend, ScoreScale, ThemeIcon, ThemeRing } from "@/components/data";
 import { ESRS_THEME, PILLAR_THEME, th, type Pillar, type ThemeId } from "@/data/themes";
 import { Hydrated, NoteList, SectionTitle, ToolActions, useTool } from "./common";
+import { ApprovalBar, useApproval } from "./approval";
 
 const pillarOf = (id: string): Pillar => (id[0] === "E" || id[0] === "S" || id[0] === "G" ? id[0] : "X");
 const themeOf = (id: string): ThemeId => ESRS_THEME[id] ?? PILLAR_THEME[pillarOf(id)];
@@ -24,6 +25,7 @@ export function MaterialityTool() {
 
 function Inner() {
   const { t, fmt } = useI18n();
+  const { locked } = useApproval("materiality");
   const [m, set, client] = useTool("materiality");
   const [sel, setSel] = useState<string | null>(m.topics[0]?.id ?? null);
   const scored = useMemo(() => m.topics.map((tp) => ({ tp, c: classify(tp, m.threshold) })), [m]);
@@ -42,7 +44,9 @@ function Inner() {
         result={t("mat.result", { n: material.length, total: m.topics.length, double: scored.filter((s) => s.c.kind === "double").length })}
         actions={<ToolActions tool="materiality" />}
       />
+      <ApprovalBar section="materiality" />
       <ToolLayout
+        locked={locked}
         family="people"
         inputs={
           <>

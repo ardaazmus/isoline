@@ -2239,5 +2239,47 @@
       },
       "rowsOnly": "{rows} rows · company-wide"
     }
+  },
+  "appr": {
+    "title": "Approval",
+    "status": {
+      "draft": "Draft",
+      "review": "In review",
+      "approved": "Approved, locked",
+      "published": "Published, locked"
+    },
+    "preparedBy": "Prepared by {name}",
+    "approvedBy": "Approved by {name}, {date}",
+    "by": "Your name",
+    "reason": "Reason (send back, reopen)",
+    "action": {
+      "submit": "Send for review",
+      "sendBack": "Send back",
+      "approve": "Approve and lock",
+      "publish": "Mark as published",
+      "reopen": "Reopen"
+    },
+    "history": "History ({n})",
+    "logLine": "{by}: {from} → {to}",
+    "lockedNote": "This section is approved and locked; its inputs cannot change. If a change is needed, reopen it with a reason; the earlier approval stays in the history.",
+    "error": {
+      "badMove": "This step is not open from the current status.",
+      "needName": "Type your name.",
+      "samePerson": "The preparer cannot approve their own work; someone else must approve.",
+      "needReason": "Sending back and reopening need a reason."
+    },
+    "overview": "Approval status by section",
+    "overviewCaption": "The preparer and the approver must be different people. An approved section is locked; reports quote locked data.",
+    "section": "Section",
+    "approvedAt": "Approved on",
+    "doc": {
+      "title": "Approval status",
+      "section": "Section",
+      "status": "Status",
+      "preparedBy": "Prepared by",
+      "approvedBy": "Approved by",
+      "date": "Approved on",
+      "draft": "DRAFT: this document contains data that has not been approved. Have the sections approved before publishing."
+    }
   }
 }
