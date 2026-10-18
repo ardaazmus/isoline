@@ -1,0 +1,1304 @@
+<?xml version="1.0"?>
+<DIV6 N="C" TYPE="SUBPART" VOLUME="26" hierarchy_metadata="{&amp;quot;path&amp;quot;:&amp;quot;/on/_SUBSTITUTE_DATE_/title-40/part-98/subpart-C&amp;quot;,&amp;quot;citation&amp;quot;:&amp;quot;40 CFR Part 98 Subpart C&amp;quot;}">
+<HEAD>Subpart C&#x2014;General Stationary Fuel Combustion Sources</HEAD>
+<DIV8 N="98.30" TYPE="SECTION" hierarchy_metadata="{&quot;path&quot;:&quot;/on/_SUBSTITUTE_DATE_/title-40/section-98.30&quot;,&quot;citation&quot;:&quot;40 CFR 98.30&quot;}">
+<HEAD>&#xA7; 98.30 Definition of the source category.</HEAD>
+<P>(a) Stationary fuel combustion sources are devices that combust solid, liquid, or gaseous fuel, generally for the purposes of producing electricity, generating steam, or providing useful heat or energy for industrial, commercial, or institutional use, or reducing the volume of waste by removing combustible matter. Stationary fuel combustion sources include, but are not limited to, boilers, simple and combined-cycle combustion turbines, engines, incinerators, and process heaters.</P>
+<P>(b) This source category does not include:</P>
+<P>(1) Portable equipment, as defined in &#xA7; 98.6.</P>
+<P>(2) Emergency generators and emergency equipment, as defined in &#xA7; 98.6.</P>
+<P>(3) Irrigation pumps at agricultural operations.</P>
+<P>(4) Flares, unless otherwise required by provisions of another subpart of this part to use methodologies in this subpart.</P>
+<P>(5) Electricity generating units that are subject to subpart D of this part.</P>
+<P>(c) For a unit that combusts hazardous waste (as defined in &#xA7; 261.3 of this chapter), reporting of GHG emissions is not required unless either of the following conditions apply:</P>
+<P>(1) Continuous emission monitors (CEMS) are used to quantify CO<E T="52">2</E> mass emissions.</P>
+<P>(2) Any fuel listed in Table C-1 of this subpart is also combusted in the unit. In this case, report GHG emissions from combustion of all fuels listed in Table C-1 of this subpart.</P>
+<P>(d) You are not required to report GHG emissions from pilot lights. A pilot light is a small auxiliary flame that ignites the burner of a combustion device when the control valve opens.</P>
+<CITA TYPE="N">[74 FR 56374, Oct. 30, 2009, as amended at 75 FR 79140, Dec. 17, 2010]
+</CITA>
+</DIV8>
+
+<DIV8 N="98.31" TYPE="SECTION" hierarchy_metadata="{&quot;path&quot;:&quot;/on/_SUBSTITUTE_DATE_/title-40/section-98.31&quot;,&quot;citation&quot;:&quot;40 CFR 98.31&quot;}">
+<HEAD>&#xA7; 98.31 Reporting threshold.</HEAD>
+<P>You must report GHG emissions under this subpart if your facility contains one or more stationary fuel combustion sources and the facility meets the applicability requirements of either &#xA7;&#xA7; 98.2(a)(1), 98.2(a)(2), or 98.2(a)(3).</P>
+</DIV8>
+
+<DIV8 N="98.32" TYPE="SECTION" hierarchy_metadata="{&quot;path&quot;:&quot;/on/_SUBSTITUTE_DATE_/title-40/section-98.32&quot;,&quot;citation&quot;:&quot;40 CFR 98.32&quot;}">
+<HEAD>&#xA7; 98.32 GHGs to report.</HEAD>
+<P>You must report CO<E T="52">2</E>, CH<E T="52">4</E>, and N<E T="52">2</E>O mass emissions from each stationary fuel combustion unit, except as otherwise indicated in this subpart.</P>
+<CITA TYPE="N">[75 FR 79140, Dec. 17, 2010]
+</CITA>
+</DIV8>
+
+<DIV8 N="98.33" TYPE="SECTION" hierarchy_metadata="{&quot;path&quot;:&quot;/on/_SUBSTITUTE_DATE_/title-40/section-98.33&quot;,&quot;citation&quot;:&quot;40 CFR 98.33&quot;}">
+<HEAD>&#xA7; 98.33 Calculating GHG emissions.</HEAD>
+<P>You must calculate CO<E T="52">2</E> emissions according to paragraph (a) of this section, and calculate CH<E T="52">4</E> and N<E T="52">2</E>O emissions according to paragraph (c) of this section.</P>
+<P>(a) <I>CO</I><E T="54">2</E> <I>emissions from fuel combustion.</I> Calculate CO<E T="52">2</E> mass emissions by using one of the four calculation methodologies in paragraphs (a)(1) through (a)(4) of this section, subject to the applicable conditions, requirements, and restrictions set forth in paragraph (b) of this section. Alternatively, for units that meet the conditions of paragraph (a)(5) of this section, you may use CO<E T="52">2</E> mass emissions calculation methods from part 75 of this chapter, as described in paragraph (a)(5) of this section. For units that combust both biomass and fossil fuels, you must calculate and report CO<E T="52">2</E> emissions from the combustion of biomass separately using the methods in paragraph (e) of this section, except as otherwise provided in paragraphs (a)(5)(iv) and (e) of this section and in &#xA7; 98.36(d).</P>
+<P>(1) <I>Tier 1 Calculation Methodology.</I> Calculate the annual CO<E T="52">2</E> mass emissions for each type of fuel by using Equation C-1, C-1a, or C-1b of this section (as applicable).</P>
+<P>(i) Use Equation C-1 except when natural gas billing records are used to quantify fuel usage and gas consumption is expressed in units of therms or million Btu. In that case, use Equation C-1a or C-1b, as applicable.</P>
+<img src="/graphics/er17de10.015.gif"/>
+<EXTRACT>
+<FP>where:
+</FP>
+<FP-2>CO<E T="52">2</E> = Annual CO<E T="52">2</E> mass emissions for the specific fuel type (metric tons).
+</FP-2>
+<FP-2>Fuel = Mass or volume of fuel combusted per year, from company records as defined in &#xA7; 98.6 (express mass in short tons for solid fuel, volume in standard cubic feet for gaseous fuel, and volume in gallons for liquid fuel).
+</FP-2>
+<FP-2>HHV = Default high heat value of the fuel, from Table C-1 of this subpart (mmBtu per mass or mmBtu per volume, as applicable).
+</FP-2>
+<FP-2>EF = Fuel-specific default CO<E T="52">2</E> emission factor, from Table C-1 of this subpart (kg CO<E T="52">2</E>/mmBtu).
+</FP-2>
+<FP-2>1 &#xD7; 10<E T="51">&#x2212;3</E> = Conversion factor from kilograms to metric tons.</FP-2></EXTRACT>
+<P>(ii) If natural gas consumption is obtained from billing records and fuel usage is expressed in therms, use Equation C-1a.</P>
+<img src="/graphics/er17de10.016.gif"/>
+<EXTRACT>
+<FP>where:
+</FP>
+<FP-2>CO<E T="52">2</E> = Annual CO<E T="52">2</E> mass emissions from natural gas combustion (metric tons).
+</FP-2>
+<FP-2>Gas = Annual natural gas usage, from billing records (therms).
+</FP-2>
+<FP-2>EF = Fuel-specific default CO<E T="52">2</E> emission factor for natural gas, from Table C-1 of this subpart (kg CO<E T="52">2</E>/mmBtu).
+</FP-2>
+<FP-2>0.1 = Conversion factor from therms to mmBtu
+</FP-2>
+<FP-2>1 &#xD7; 10<E T="51">&#x2212;3</E> = Conversion factor from kilograms to metric tons.</FP-2></EXTRACT>
+<P>(iii) If natural gas consumption is obtained from billing records and fuel usage is expressed in mmBtu, use Equation C-1b.</P>
+<img src="/graphics/er17de10.017.gif"/>
+<EXTRACT>
+<FP>where:
+</FP>
+<FP-2>CO<E T="52">2</E> = Annual CO<E T="52">2</E> mass emissions from natural gas combustion (metric tons).
+</FP-2>
+<FP-2>Gas = Annual natural gas usage, from billing records (mmBtu).
+</FP-2>
+<FP-2>EF = Fuel-specific default CO<E T="52">2</E> emission factor for natural gas, from Table C-1 of this subpart (kg CO<E T="52">2</E>/mmBtu).
+</FP-2>
+<FP-2>1 &#xD7; 10<E T="51">&#x2212;3</E> = Conversion factor from kilograms to metric tons.</FP-2></EXTRACT>
+<P>(2) <I>Tier 2 Calculation Methodology.</I> Calculate the annual CO<E T="52">2</E> mass emissions for each type of fuel by using either Equation C2a or C2c of this section, as appropriate.</P>
+<P>(i) Equation C-2a of this section applies to any type of fuel listed in Table C-1 of the subpart, except for municipal solid waste (MSW). For MSW combustion, use Equation C-2c of this section.</P>
+<MATH BORDER="NODRAW" DEEP="18" HTYPE="CENTER" POSITION="NOFLOAT" ROTATION="P" SPAN="2" STRIP="YES">
+<img src="/graphics/er30oc09.005.gif"/></MATH>
+<EXTRACT>
+<FP>Where:
+</FP>
+<FP-2>CO<E T="52">2</E> = Annual CO<E T="52">2</E> mass emissions for a specific fuel type (metric tons).
+</FP-2>
+<FP-2>Fuel = Mass or volume of the fuel combusted during the year, from company records as defined in &#xA7; 98.6 (express mass in short tons for solid fuel, volume in standard cubic feet for gaseous fuel, and volume in gallons for liquid fuel).
+</FP-2>
+<FP-2>HHV = Annual average high heat value of the fuel (mmBtu per mass or volume). The average HHV shall be calculated according to the requirements of paragraph (a)(2)(ii) of this section.
+</FP-2>
+<FP-2>EF = Fuel-specific default CO<E T="52">2</E> emission factor, from Table C-1 of this subpart (kg CO<E T="52">2</E>/mmBtu).
+</FP-2>
+<FP-2>1 &#xD7; 10<E T="51">&#x2212;3</E> = Conversion factor from kilograms to metric tons.</FP-2></EXTRACT>
+<P>(ii) The minimum required sampling frequency for determining the annual average HHV (<I>e.g.,</I> monthly, quarterly, semi-annually, or by lot) is specified in &#xA7; 98.34. The method for computing the annual average HHV is a function of unit size and how frequently you perform or receive from the fuel supplier the results of fuel sampling for HHV. The method is specified in paragraph (a)(2)(ii)(A) or (a)(2)(ii)(B) of this section, as applicable.</P>
+<P>(A) If the results of fuel sampling are received monthly or more frequently, then for each unit with a maximum rated heat input capacity greater than or equal to 100 mmBtu/hr (or for a group of units that includes at least one unit of that size), the annual average HHV shall be calculated using Equation C-2b of this section. If multiple HHV determinations are made in any month, average the values for the month arithmetically.</P>
+<MATH BORDER="NODRAW" DEEP="63" HTYPE="CENTER" POSITION="NOFLOAT" ROTATION="P" SPAN="2" STRIP="YES">
+<img src="/graphics/er30oc09.006.gif"/></MATH>
+<EXTRACT>
+<FP>Where:
+</FP>
+<FP-2>(HHV)<E T="52">annual</E> = Weighted annual average high heat value of the fuel (mmBtu per mass or volume).
+&gt;</FP-2>
+<FP-2>(HHV)<E T="52">I</E> = Measured high heat value of the fuel, for sample period &#x201C;i&#x201D; (which may be the arithmetic average of multiple determinations), or, if applicable, an appropriate substitute data value (mmBtu per mass or volume).
+</FP-2>
+<FP-2>(Fuel)<E T="52">I</E> = Mass or volume of the fuel combusted during the sample period &#x201C;i,&#x201D; (<I>e.g.,</I> monthly, quarterly, semi-annually, or by lot) from company records (express mass in short tons for solid fuel, volume in standard cubic feet (<I>e.g.,</I> for gaseous fuel, and volume in gallons for liquid fuel).
+</FP-2>
+<FP-2>n = Number of sample periods in the year.</FP-2></EXTRACT>
+<P>(B) If the results of fuel sampling are received less frequently than monthly, or, for a unit with a maximum rated heat input capacity less than 100 mmBtu/hr (or a group of such units) regardless of the HHV sampling frequency, the annual average HHV shall either be computed according to paragraph (a)(2)(ii)(A) of this section or as the arithmetic average HHV for all values for the year (including valid samples and substitute data values under &#xA7; 98.35).</P>
+<P>(iii) For units that combust municipal solid waste (MSW) and that produce steam, use Equation C-2c of this section. Equation C-2c of this section may also be used for any other solid fuel listed in Table C-1 of this subpart provided that steam is generated by the unit.</P>
+<MATH BORDER="NODRAW" DEEP="18" HTYPE="CENTER" POSITION="NOFLOAT" ROTATION="P" SPAN="2" STRIP="YES">
+<img src="/graphics/er30oc09.007.gif"/></MATH>
+<EXTRACT>
+<FP>Where:
+</FP>
+<FP-2>CO<E T="52">2</E> = Annual CO<E T="52">2</E> mass emissions from MSW or solid fuel combustion (metric tons).
+</FP-2>
+<FP-2>Steam = Total mass of steam generated by MSW or solid fuel combustion during the reporting year (lb steam).
+</FP-2>
+<FP-2>B = Ratio of the boiler's maximum rated heat input capacity to its design rated steam output capacity (mmBtu/lb steam).
+</FP-2>
+<FP-2>EF = Fuel-specific default CO<E T="52">2</E> emission factor, from Table C-1 of this subpart (kg CO<E T="52">2</E>/mmBtu).
+</FP-2>
+<FP-2>1 &#xD7; 10<E T="51">&#x2212;3</E> = Conversion factor from kilograms to metric tons.</FP-2></EXTRACT>
+<P>(3) <I>Tier 3 Calculation Methodology.</I> Calculate the annual CO<E T="52">2</E> mass emissions for each fuel by using either Equation C3, C4, or C5 of this section, as appropriate.</P>
+<P>(i) For a solid fuel, use Equation C-3 of this section.</P>
+<MATH BORDER="NODRAW" DEEP="26" HTYPE="CENTER" POSITION="NOFLOAT" ROTATION="P" SPAN="2" STRIP="YES">
+<img src="/graphics/er30oc09.008.gif"/></MATH>
+<EXTRACT>
+<FP>Where:
+</FP>
+<FP-2>CO<E T="52">2</E> = Annual CO<E T="52">2</E> mass emissions from the combustion of the specific solid fuel (metric tons).
+</FP-2>
+<FP-2>Fuel = Annual mass of the solid fuel combusted, from company records as defined in &#xA7; 98.6 (short tons).
+</FP-2>
+<FP-2>CC = Annual average carbon content of the solid fuel (percent by weight, expressed as a decimal fraction, e.g., 95% = 0.95). The annual average carbon content shall be determined using the same procedures as specified for HHV in paragraph (a)(2)(ii) of this section.
+</FP-2>
+<FP-2>44/12 = Ratio of molecular weights, CO<E T="52">2</E> to carbon.
+</FP-2>
+<FP-2>0.91 = Conversion factor from short tons to metric tons.</FP-2></EXTRACT>
+<P>(ii) For a liquid fuel, use Equation C-4 of this section.</P>
+<MATH BORDER="NODRAW" DEEP="26" HTYPE="CENTER" POSITION="NOFLOAT" ROTATION="P" SPAN="2" STRIP="YES">
+<img src="/graphics/er30oc09.009.gif"/></MATH>
+<EXTRACT>
+<FP>Where:
+</FP>
+<FP-2>CO<E T="52">2</E> = Annual CO<E T="52">2</E> mass emissions from the combustion of the specific liquid fuel (metric tons).
+</FP-2>
+<FP-2>Fuel = Annual volume of the liquid fuel combusted (gallons). The volume of fuel combusted must be measured directly, using fuel flow meters calibrated according to &#xA7; 98.3(i). Fuel billing meters may be used for this purpose. Tank drop measurements may also be used.
+</FP-2>
+<FP-2>CC = Annual average carbon content of the liquid fuel (kg C per gallon of fuel). The annual average carbon content shall be determined using the same procedures as specified for HHV in paragraph (a)(2)(ii) of this section.
+</FP-2>
+<FP-2>44/12 = Ratio of molecular weights, CO<E T="52">2</E> to carbon.
+</FP-2>
+<FP-2>0.001 = Conversion factor from kg to metric tons.</FP-2></EXTRACT>
+<P>(iii) For a gaseous fuel, use equation C-5 to this section.</P>
+<img src="/graphics/er25ap24.000.gif"/>
+<EXTRACT>
+<FP-2>Where:
+</FP-2>
+<FP-2>CO<E T="52">2</E> = Annual CO<E T="52">2</E> mass emissions from combustion of the specific gaseous fuel (metric tons).
+</FP-2>
+<FP-2>Fuel = Annual volume of the gaseous fuel combusted (scf). The volume of fuel combusted must be measured directly, using fuel flow meters calibrated according to &#xA7; 98.3(i). Fuel billing meters may be used for this purpose.
+</FP-2>
+<FP-2>CC = Annual average carbon content of the gaseous fuel (kg C per kg of fuel). The annual average carbon content shall be determined using the procedures specified in paragraphs (a)(3)(iii)(A)(<I>1</I>) and (<I>2</I>) of this section.
+</FP-2>
+<FP-2>MW = Annual average molecular weight of the gaseous fuel (kg per kg-mole). The annual average molecular weight shall be determined using the procedures specified in paragraphs (a)(3)(iii)(B)(<I>1</I>) and (<I>2</I>) of this section.
+</FP-2>
+<FP-2>MVC = Molar volume conversion factor at standard conditions, as defined in &#xA7; 98.6. Use 849.5 scf per kg mole if you select 68 &#xB0;F as standard temperature and 836.6 scf per kg mole if you select 60 &#xB0;F as standard temperature.
+</FP-2>
+<FP-2>44/12 = Ratio of molecular weights, CO<E T="52">2</E> to carbon.
+</FP-2>
+<FP-2>0.001 = Conversion factor from kg to metric tons.</FP-2></EXTRACT>
+<P>(A) The minimum required sampling frequency for determining the annual average carbon content (<I>e.g.,</I> monthly, quarterly, semi-annually, or by lot) is specified in &#xA7; 98.34. The method for computing the annual average carbon content for equation C-5 to this section is a function of unit size and how frequently you perform or receive from the fuel supplier the results of fuel sampling for carbon content. The methods are specified in paragraphs (a)(3)(iii)(A)(<I>1</I>) and (<I>2</I>) of this section, as applicable.</P>
+<P>(<I>1</I>) If the results of fuel sampling are received monthly or more frequently, then for each unit with a maximum rated heat input capacity greater than or equal to 100 mmBtu/hr (or for a group of units that includes at least one unit of that size), the annual average carbon content for equation C-5 shall be calculated using equation C-5A to this section. If multiple carbon content determinations are made in any month, average the values for the month arithmetically.</P>
+<img src="/graphics/er25ap24.001.gif"/>
+<EXTRACT>
+<FP-2>Where:
+</FP-2>
+<FP-2>(CC)<E T="52">annual</E> = Weighted annual average carbon content of the fuel (kg C per kg of fuel).
+</FP-2>
+<FP-2>(CC)<E T="52">i</E> = Measured carbon content of the fuel, for sample period &#x201C;i&#x201D; (which may be the arithmetic average of multiple determinations), or, if applicable, an appropriate substitute data value (kg C per kg of fuel).
+</FP-2>
+<FP-2>(Fuel)<E T="52">i</E> = Volume of the fuel (scf) combusted during the sample period &#x201C;i&#x201D; (<I>e.g.,</I> monthly, quarterly, semi-annually, or by lot) from company records.
+</FP-2>
+<FP-2>(MW)<E T="52">i</E> = Measured molecular weight of the fuel, for sample period &#x201C;i&#x201D; (which may be the arithmetic average of multiple determinations), or, if applicable, an appropriate substitute data value (kg per kg-mole).
+</FP-2>
+<FP-2>MVC = Molar volume conversion factor at standard conditions, as defined in &#xA7; 98.6. Use 849.5 scf per kg-mole if you select 68 &#xB0;F as standard temperature and 836.6 scf per kg-mole if you select 60 &#xB0;F as standard temperature.
+</FP-2>
+<FP-2>n = Number of sample periods in the year.</FP-2></EXTRACT>
+<P>(<I>2</I>) If the results of fuel sampling are received less frequently than monthly, or, for a unit with a maximum rated heat input capacity less than 100 mmBtu/hr (or a group of such units) regardless of the carbon content sampling frequency, the annual average carbon content for equation C-5 shall either be computed according to paragraph (a)(3)(iii)(A)(<I>1</I>) of this section or as the arithmetic average carbon content for all values for the year (including valid samples and substitute data values under &#xA7; 98.35).</P>
+<P>(B) The minimum required sampling frequency for determining the annual average molecular weight (<I>e.g.,</I> monthly, quarterly, semi-annually, or by lot) is specified in &#xA7; 98.34. The method for computing the annual average molecular weight for equation C-5 is a function of unit size and how frequently you perform or receive from the fuel supplier the results of fuel sampling for molecular weight. The methods are specified in paragraphs (a)(3)(iii)(B)(<I>1</I>) and (<I>2</I>) of this section, as applicable.</P>
+<P>(<I>1</I>) If the results of fuel sampling are received monthly or more frequently, then for each unit with a maximum rated heat input capacity greater than or equal to 100 mmBtu/hr (or for a group of units that includes at least one unit of that size), the annual average molecular weight for equation C-5 shall be calculated using equation C-5B to this section. If multiple molecular weight determinations are made in any month, average the values for the month arithmetically.</P>
+<img src="/graphics/er25ap24.002.gif"/>
+<EXTRACT>
+<FP-2>Where:
+</FP-2>
+<FP-2>(MW)<E T="52">annual</E> = Weighted annual average molecular weight of the fuel (kg per kg-mole).
+</FP-2>
+<FP-2>(MW)<E T="52">i</E> = Measured molecular weight of the fuel, for sample period &#x201C;i&#x201D; (which may be the arithmetic average of multiple determinations), or, if applicable, an appropriate substitute data value (kg per kg-mole).
+</FP-2>
+<FP-2>(Fuel)<E T="52">i</E> = Volume of the fuel (scf) combusted during the sample period &#x201C;i&#x201D; (<I>e.g.,</I> monthly, quarterly, semi-annually, or by lot) from company records.
+</FP-2>
+<FP-2>MVC = Molar volume conversion factor at standard conditions, as defined in &#xA7; 98.6. Use 849.5 scf per kg-mole if you select 68 &#xB0;F as standard temperature and 836.6 scf per kg-mole if you select 60 &#xB0;F as standard temperature.
+</FP-2>
+<FP-2>n = Number of sample periods in the year.</FP-2></EXTRACT>
+<P>(<I>2</I>) If the results of fuel sampling are received less frequently than monthly, or, for a unit with a maximum rated heat input capacity less than 100 mmBtu/hr (or a group of such units) regardless of the molecular weight sampling frequency, the annual average molecular weight for equation C-5 shall either be computed according to paragraph (a)(3)(iii)(B)(<I>1</I>) of this section or as the arithmetic average molecular weight for all values for the year (including valid samples and substitute data values under &#xA7; 98.35).</P>
+<P>(iv) Fuel flow meters that measure mass flow rates may be used for liquid or gaseous fuels, provided that the fuel density is used to convert the readings to volumetric flow rates. The density shall be measured at the same frequency as the carbon content. You must measure the density using one of the following appropriate methods. You may use a method published by a consensus-based standards organization, if such a method exists, or you may use industry standard practice. Consensus-based standards organizations include, but are not limited to, the following: ASTM International (100 Barr Harbor Drive, P.O. Box CB700, West Conshohocken, Pennsylvania 19428-B2959, (800) 262-1373, <I>http://www.astm.org</I>), the American National Standards Institute (ANSI, 1819 L Street, NW., 6th floor, Washington, DC 20036, (202) 293-8020, <I>http://www.ansi.org</I>), the American Gas Association (AGA), 400 North Capitol Street, NW., 4th Floor, Washington, DC 20001, (202) 824-7000, <I>http://www.aga.org</I>), the American Society of Mechanical Engineers (ASME, Three Park Avenue, New York, NY 10016-5990, (800) 843-2763, <I>http://www.asme.org</I>), the American Petroleum Institute (API, 1220 L Street, NW., Washington, DC 20005-4070, (202) 682-8000, <I>http://www.api.org</I>), and the North American Energy Standards Board (NAESB, 801 Travis Street, Suite 1675, Houston, TX 77002, (713) 356-0060, <I>http://www.api.org</I>). The method(s) used shall be documented in the GHG Monitoring Plan required under &#xA7; 98.3(g)(5).</P>
+<P>(v) The following default density values may be used for fuel oil, in lieu of using the methods in paragraph (a)(3)(iv) of this section: 6.8 lb/gal for No. 1 oil; 7.2 lb/gal for No. 2 oil; 8.1 lb/gal for No. 6 oil.</P>
+<P>(4) <I>Tier 4 Calculation Methodology.</I> Calculate the annual CO<E T="52">2</E> mass emissions from all fuels combusted in a unit, by using quality-assured data from continuous emission monitoring systems (CEMS).</P>
+<P>(i) This methodology requires a CO<E T="52">2</E> concentration monitor and a stack gas volumetric flow rate monitor, except as otherwise provided in paragraph (a)(4)(iv) of this section. Hourly measurements of CO<E T="52">2</E> concentration and stack gas flow rate are converted to CO<E T="52">2</E> mass emission rates in metric tons per hour.</P>
+<P>(ii) When the CO<E T="52">2</E> concentration is measured on a wet basis, Equation C-6 of this section is used to calculate the hourly CO<E T="52">2</E> emission rates:</P>
+<MATH BORDER="NODRAW" DEEP="18" HTYPE="CENTER" POSITION="NOFLOAT" ROTATION="P" SPAN="1" STRIP="YES">
+<img src="/graphics/er30oc09.011.gif"/></MATH>
+<EXTRACT>
+<FP>Where:
+</FP>
+<FP-2>CO<E T="52">2</E> = CO<E T="52">2</E> mass emission rate (metric tons/hr).
+</FP-2>
+<FP-2>C<E T="52">CO2</E> = Hourly average CO<E T="52">2</E> concentration (% CO<E T="52">2</E>).
+</FP-2>
+<FP-2>Q = Hourly average stack gas volumetric flow rate (scfh).
+</FP-2>
+<FP-2>5.18 &#xD7; 10<E T="51">&#x2212;7</E> = Conversion factor (metric tons/scf/% CO<E T="52">2</E>).</FP-2></EXTRACT>
+<P>(iii) If the CO<E T="52">2</E> concentration is measured on a dry basis, a correction for the stack gas moisture content is required. You shall either continuously monitor the stack gas moisture content using a method described in &#xA7; 75.11(b)(2) of this chapter or use an appropriate default moisture percentage. For coal, wood, and natural gas combustion, you may use the default moisture values specified in &#xA7; 75.11(b)(1) of this chapter. Alternatively, for any type of fuel, you may determine an appropriate site-specific default moisture value (or values), using measurements made with EPA Method 4&#x2014;Determination Of Moisture Content In Stack Gases, in appendix A-3 to part 60 of this chapter. Moisture data from the relative accuracy test audit (RATA) of a CEMS may be used for this purpose. If this option is selected, the site-specific moisture default value(s) must represent the fuel(s) or fuel blends that are combusted in the unit during normal, stable operation, and must account for any distinct difference(s) in the stack gas moisture content associated with different process operating conditions. For each site-specific default moisture percentage, at least nine Method 4 runs are required, except where the option to use moisture data from a RATA is selected, and the applicable regulation allows a single moisture determination to represent two or more RATA runs. In that case, you may base the site-specific moisture percentage on the number of moisture runs allowed by the RATA regulation. Calculate each site-specific default moisture value by taking the arithmetic average of the Method 4 runs. Each site-specific moisture default value shall be updated whenever the owner or operator believes the current value is non-representative, due to changes in unit or process operation, but in any event no less frequently than annually. Use the updated moisture value in the subsequent CO<E T="52">2</E> emissions calculations. For each unit operating hour, a moisture correction must be applied to Equation C-6 of this section as follows:</P>
+<img src="/graphics/er17de10.002.gif"/>
+<EXTRACT>
+<FP>where:
+</FP>
+<FP-2>CO<E T="52">2</E>* = Hourly CO<E T="52">2</E> mass emission rate, corrected for moisture (metric tons/hr).
+</FP-2>
+<FP-2>CO<E T="52">2</E> = Hourly CO<E T="52">2</E> mass emission rate from Equation C-6 of this section, uncorrected (metric tons/hr).
+</FP-2>
+<FP-2>%H<E T="52">2</E>O = Hourly moisture percentage in the stack gas (measured or default value, as appropriate).</FP-2></EXTRACT>
+<P>(iv) An oxygen (O<E T="52">2</E>) concentration monitor may be used in lieu of a CO<E T="52">2</E> concentration monitor to determine the hourly CO<E T="52">2</E> concentrations, in accordance with Equation F-14a or F-14b (as applicable) in appendix F to part 75 of this chapter, if the effluent gas stream monitored by the CEMS consists solely of combustion products (<I>i.e.,</I> no process CO<E T="52">2</E> emissions or CO<E T="52">2</E> emissions from sorbent are mixed with the combustion products) and if only fuels that are listed in Table 1 in section 3.3.5 of appendix F to part 75 of this chapter are combusted in the unit. If the O<E T="52">2</E> monitoring option is selected, the F-factors used in Equations F-14a and F-14b shall be determined according to section 3.3.5 or section 3.3.6 of appendix F to part 75 of this chapter, as applicable. If Equation F-14b is used, the hourly moisture percentage in the stack gas shall be determined in accordance with paragraph (a)(4)(iii) of this section.</P>
+<P>(v) Each hourly CO<E T="52">2</E> mass emission rate from Equation C-6 or C-7 of this section is multiplied by the operating time to convert it from metric tons per hour to metric tons. The operating time is the fraction of the hour during which fuel is combusted (e.g., the unit operating time is 1.0 if the unit operates for the whole hour and is 0.5 if the unit operates for 30 minutes in the hour). For common stack configurations, the operating time is the fraction of the hour during which effluent gases flow through the common stack.</P>
+<P>(vi) The hourly CO<E T="52">2</E> mass emissions are then summed over each calendar quarter and the quarterly totals are summed to determine the annual CO<E T="52">2</E> mass emissions.</P>
+<P>(vii) If both biomass and fossil fuel are combusted during the year, determine and report the biogenic CO<E T="52">2</E> mass emissions separately, as described in paragraph (e) of this section.</P>
+<P>(viii) If a portion of the flue gases generated by a unit subject to Tier 4 (<I>e.g.,</I> a slip stream) is continuously diverted from the main flue gas exhaust system for the purpose of heat recovery or some other similar process, and then exhausts through a stack that is not equipped with the continuous emission monitors to measure CO<E T="52">2</E> mass emissions, CO<E T="52">2</E> emissions shall be determined as follows:</P>
+<P>(A) At least once a year, use EPA Methods 2 and 3A, and (if necessary) Method 4 in appendices A-2 and A-3 to part 60 of this chapter to perform emissions testing at a set point that best represents normal, stable process operating conditions. A minimum of three one-hour Method 3A tests are required, to determine the CO<E T="52">2</E> concentration. A Method 2 test shall be performed during each Method 3A run, to determine the stack gas volumetric flow rate. If moisture correction is necessary, a Method 4 run shall also be performed during each Method 3A run. Important parametric information related to the stack gas flow rate (<I>e.g.,</I> damper positions, fan settings, <I>etc.</I>) shall also be recorded during the test.</P>
+<P>(B) Calculate a CO<E T="52">2</E> mass emission rate (in metric tons/hr) from the stack test data, using a version of Equation C-6 in paragraph (a)(4)(ii) of this section, modified as follows. In the Equation C-6 nomenclature, replace the words &#x201C;Hourly average&#x201D; in the definitions of &#x201C;C<E T="52">CO2</E>&#x201D; and &#x201C;Q&#x201D; with the words &#x201C;3-run average&#x201D;. Substitute the arithmetic average values of CO<E T="52">2</E> concentration and stack gas flow rate from the emission testing into modified Equation C-6. If CO<E T="52">2</E> is measured on a dry basis, a moisture correction of the calculated CO<E T="52">2</E> mass emission rate is required. Use Equation C-7 in paragraph (a)(4)(ii) of this section to make this correction; replace the word &#x201C;Hourly&#x201D; with the words &#x201C;3-run average&#x201D; in the equation nomenclature.</P>
+<P>(C) The results of each annual stack test shall be used in the GHG emissions calculations for the year of the test.</P>
+<P>(D) If, for the majority of the operating hours during the year, the diverted stream is withdrawn at a steady rate at or near the tested set point (as evidenced by fan and damper settings and/or other parameters), you may use the calculated CO<E T="52">2</E> mass emission rate from paragraph (a)(4)(viii)(B) of this section to estimate the CO<E T="52">2</E> mass emissions for all operating hours in which flue gas is diverted from the main exhaust system. Otherwise, you must account for the variation in the flow rate of the diverted stream, as described in paragraph (c)(4)(viii)(E) of this section.</P>
+<P>(E) If the flow rate of the diverted stream varies significantly throughout the year, except as provided below, repeat the stack test and emission rate calculation procedures described in paragraphs (c)(4)(viii)(A) and (c)(4)(viii)(B) of this section at a minimum of two more set points across the range of typical operating conditions to develop a correlation between CO<E T="52">2</E> mass emission rate and the parametric data. If additional testing is not feasible, use the following approach to develop the necessary correlation. Assume that the average CO<E T="52">2</E> concentration obtained in the annual stack test is the same at all operating set points. Then, beginning with the measured flow rate from the stack test and the associated parametric data, perform an engineering analysis to estimate the stack gas flow rate at two or more additional set points. Calculate the CO<E T="52">2</E> mass emission rate at each set point.</P>
+<P>(F) Calculate the annual CO<E T="52">2</E> mass emissions for the diverted stream as follows. For a steady-state process, multiply the number of hours in which flue gas was diverted from the main exhaust system by the CO<E T="52">2</E> mass emission rate from the stack test. Otherwise, using the best available information and engineering judgment, apply the most representative CO<E T="52">2</E> mass emission rate from the correlation in paragraph (c)(4)(viii)(E) of this section to determine the CO<E T="52">2</E> mass emissions for each hour in which flue gas was diverted, and sum the results. To simplify the calculations, you may count partial operating hours as full hours.</P>
+<P>(G) Finally, add the CO<E T="52">2</E> mass emissions from paragraph(c)(4)(viii)(F) of this section to the annual CO<E T="52">2</E> mass emissions measured by the CEMS at the main stack. Report this sum as the total annual CO<E T="52">2</E> mass emissions for the unit.</P>
+<P>(H) The exact method and procedures used to estimate the CO<E T="52">2</E> mass emissions for the diverted portion of the flue gas exhaust stream shall be documented in the Monitoring Plan required under &#xA7; 98.3(g)(5).</P>
+<P>(5) <I>Alternative methods for certain units subject to Part 75 of this chapter.</I> Certain units that are not subject to subpart D of this part and that report data to EPA according to part 75 of this chapter may qualify to use the alternative methods in this paragraph (a)(5), in lieu of using any of the four calculation methodology tiers.</P>
+<P>(i) For a unit that combusts only natural gas and/or fuel oil, is not subject to subpart D of this part, monitors and reports heat input data year-round according to appendix D to part 75 of this chapter, but is not required by the applicable part 75 program to report CO<E T="52">2</E> mass emissions data, calculate the annual CO<E T="52">2</E> mass emissions for the purposes of this part as follows:</P>
+<P>(A) Use the hourly heat input data from appendix D to part 75 of this chapter, together with Equation G-4 in appendix G to part 75 of this chapter to determine the hourly CO<E T="52">2</E> mass emission rates, in units of tons/hr;</P>
+<P>(B) Use Equations F-12 and F-13 in appendix F to part 75 of this chapter to calculate the quarterly and cumulative annual CO<E T="52">2</E> mass emissions, respectively, in units of short tons; and</P>
+<P>(C) Divide the cumulative annual CO<E T="52">2</E> mass emissions value by 1.1023 to convert it to metric tons.</P>
+<P>(ii) For a unit that combusts only natural gas and/or fuel oil, is not subject to subpart D of this part, monitors and reports heat input data year-round according to &#xA7; 75.19 of this chapter but is not required by the applicable part 75 program to report CO<E T="52">2</E> mass emissions data, calculate the annual CO<E T="52">2</E> mass emissions for the purposes of this part as follows:</P>
+<P>(A) Calculate the hourly CO<E T="52">2</E> mass emissions, in units of short tons, using Equation LM-11 in &#xA7; 75.19(c)(4)(iii) of this chapter.</P>
+<P>(B) Sum the hourly CO<E T="52">2</E> mass emissions values over the entire reporting year to obtain the cumulative annual CO<E T="52">2</E> mass emissions, in units of short tons.</P>
+<P>(C) Divide the cumulative annual CO<E T="52">2</E> mass emissions value by 1.1023 to convert it to metric tons.</P>
+<P>(iii) For a unit that is not subject to subpart D of this part, uses flow rate and CO<E T="52">2</E> (or O<E T="52">2</E>) CEMS to report heat input data year-round according to part 75 of this chapter, but is not required by the applicable part 75 program to report CO<E T="52">2</E> mass emissions data, calculate the annual CO<E T="52">2</E> mass emissions as follows:</P>
+<P>(A) Use Equation F-11 or F-2 (as applicable) in appendix F to part 75 of this chapter to calculate the hourly CO<E T="52">2</E> mass emission rates from the CEMS data. If an O<E T="52">2</E> monitor is used, convert the hourly average O<E T="52">2</E> readings to CO<E T="52">2</E> using Equation F-14a or F-14b in appendix F to part 75 of this chapter (as applicable), before applying Equation F-11 or F-2.</P>
+<P>(B) Use Equations F-12 and F-13 in appendix F to part 75 of this chapter to calculate the quarterly and cumulative annual CO<E T="52">2</E> mass emissions, respectively, in units of short tons.</P>
+<P>(C) Divide the cumulative annual CO<E T="52">2</E> mass emissions value by 1.1023 to convert it to metric tons.</P>
+<P>(iv) For units that qualify to use the alternative CO<E T="52">2</E> emissions calculation methods in paragraphs (a)(5)(i) through (a)(5)(iii) of this section, if both biomass and fossil fuel are combusted during the year, separate calculation and reporting of the biogenic CO<E T="52">2</E> mass emissions (as described in paragraph (e) of this section) is optional, only for the 2010 reporting year, as provided in &#xA7; 98.3(c)(12).</P>
+<P>(b) <I>Use of the four tiers.</I> Use of the four tiers of CO<E T="52">2</E> emissions calculation methodologies described in paragraph (a) of this section is subject to the following conditions, requirements, and restrictions:</P>
+<P>(1) The Tier 1 Calculation Methodology:</P>
+<P>(i) May be used for any fuel listed in Table C-1 of this subpart that is combusted in a unit with a maximum rated heat input capacity of 250 mmBtu/hr or less.</P>
+<P>(ii) May be used for MSW in a unit of any size that does not produce steam, if the use of Tier 4 is not required.</P>
+<P>(iii) May be used for solid, gaseous, or liquid biomass fuels in a unit of any size provided that the fuel is listed in Table C-1 of this subpart.</P>
+<P>(iv) May not be used if you routinely perform fuel sampling and analysis for the fuel high heat value (HHV) or routinely receive the results of HHV sampling and analysis from the fuel supplier at the minimum frequency specified in &#xA7; 98.34(a), or at a greater frequency. In such cases, Tier 2 shall be used. This restriction does not apply to paragraphs (b)(1)(ii), (b)(1)(v), (b)(1)(vi), and (b)(1)(vii) of this section.</P>
+<P>(v) May be used for natural gas combustion in a unit of any size, in cases where the annual natural gas consumption is obtained from fuel billing records in units of therms or mmBtu.</P>
+<P>(vi) May be used for MSW combustion in a small, batch incinerator that burns no more than 1,000 tons per year of MSW.</P>
+<P>(vii) May be used for the combustion of MSW and/or tires in a unit, provided that no more than 10 percent of the unit's annual heat input is derived from those fuels, combined.</P>
+<P>(viii) May be used for the combustion of a fuel listed in Table C-1 if the fuel is combusted in a unit with a maximum rated heat input capacity greater than 250 mmBtu/hr (or, pursuant to &#xA7; 98.36(c)(3), in a group of units served by a common supply pipe, having at least one unit with a maximum rated heat input capacity greater than 250 mmBtu/hr), provided that both of the following conditions apply:</P>
+<P>(A) The use of Tier 4 is not required.</P>
+<P>(B) The fuel provides less than 10 percent of the annual heat input to the unit, or if &#xA7; 98.36(c)(3) applies, to the group of units served by a common supply pipe.</P>
+<P>(2) The Tier 2 Calculation Methodology:</P>
+<P>(i) May be used for the combustion of any type of fuel in a unit with a maximum rated heat input capacity of 250 mmBtu/hr or less provided that the fuel is listed in Table C-1 of this subpart.</P>
+<P>(ii) May be used in a unit with a maximum rated heat input capacity greater than 250 mmBtu/hr for the combustion of natural gas and/or distillate fuel oil.</P>
+<P>(iii) May be used for MSW in a unit of any size that produces steam, if the use of Tier 4 is not required.</P>
+<P>(3) The Tier 3 Calculation Methodology:</P>
+<P>(i) May be used for a unit of any size that combusts any type of fuel listed in Table C-1 of this subpart (except for MSW), unless the use of Tier 4 is required.</P>
+<P>(ii) Shall be used for a unit with a maximum rated heat input capacity greater than 250 mmBtu/hr that combusts any type of fuel listed in Table C-1 of this subpart (except MSW), unless either of the following conditions apply:</P>
+<P>(A) The use of Tier 1 or 2 is permitted, as described in paragraphs (b)(1)(iii), (b)(1)(v), (b)(1)(viii), and (b)(2)(ii) of this section.</P>
+<P>(B) The use of Tier 4 is required.</P>
+<P>(iii) Shall be used for a fuel not listed in Table C-1 of this subpart if the fuel is combusted in a unit with a maximum rated heat input capacity greater than 250 mmBtu/hr (or, pursuant to &#xA7; 98.36(c)(3), in a group of units served by a common supply pipe, having at least one unit with a maximum rated heat input capacity greater than 250 mmBtu/hr), provided that both of the following conditions apply:</P>
+<P>(A) The use of Tier 4 is not required.</P>
+<P>(B) The fuel provides 10% or more of the annual heat input to the unit or, if &#xA7; 98.36(c)(3) applies, to the group of units served by a common supply pipe.</P>
+<P>(iv) Shall be used when specified in another applicable subpart of this part, regardless of unit size.</P>
+<P>(4) The Tier 4 Calculation Methodology:</P>
+<P>(i) May be used for a unit of any size, combusting any type of fuel. Tier 4 may also be used for any group of stationary fuel combustion units, process units, or manufacturing units that share a common stack or duct.</P>
+<P>(ii) Shall be used if the unit meets all six of the conditions specified in paragraphs (b)(4)(ii)(A) through (b)(4)(ii)(F) of this section:</P>
+<P>(A) The unit has a maximum rated heat input capacity greater than 250 mmBtu/hr, or if the unit combusts municipal solid waste and has a maximum rated input capacity greater than 600 tons per day of MSW.</P>
+<P>(B) The unit combusts solid fossil fuel or MSW as the primary fuel.</P>
+<P>(C) The unit has operated for more than 1,000 hours in any calendar year since 2005.</P>
+<P>(D) The unit has installed CEMS that are required either by an applicable Federal or State regulation or the unit's operating permit.</P>
+<P>(E) The installed CEMS include a gas monitor of any kind or a stack gas volumetric flow rate monitor, or both and the monitors have been certified, either in accordance with the requirements of part 75 of this chapter, part 60 of this chapter, or an applicable State continuous monitoring program.</P>
+<P>(F) The installed gas or stack gas volumetric flow rate monitors are required, either by an applicable Federal or State regulation or by the unit's operating permit, to undergo periodic quality assurance testing in accordance with either appendix B to part 75 of this chapter, appendix F to part 60 of this chapter, or an applicable State continuous monitoring program.</P>
+<P>(iii) Shall be used for a unit with a maximum rated heat input capacity of 250 mmBtu/hr or less and for a unit that combusts municipal solid waste with a maximum rated input capacity of 600 tons of MSW per day or less, if the unit meets all of the following three conditions:</P>
+<P>(A) The unit has both a stack gas volumetric flow rate monitor and a CO<E T="52">2</E> concentration monitor.</P>
+<P>(B) The unit meets the conditions specified in paragraphs (b)(4)(ii)(B) through (b)(4)(ii)(D) of this section.</P>
+<P>(C) The CO<E T="52">2</E> and stack gas volumetric flow rate monitors meet the conditions specified in paragraphs (b)(4)(ii)(E) and (b)(4)(ii)(F) of this section.</P>
+<P>(iv) May apply to common stack or duct configurations where:</P>
+<P>(A) The combined effluent gas streams from two or more stationary fuel combustion units are vented through a monitored common stack or duct. In this case, Tier 4 shall be used if all of the conditions in paragraph (b)(4)(iv)(A)(1) of this section or if the conditions in paragraph (b)(4)(iv)(A)(2) of this section are met.</P>
+<P>(<I>1</I>) At least one of the units meets the requirements of paragraphs (b)(4)(ii)(A) through (b)(4)(ii)(C) of this section, and the CEMS installed at the common stack (or duct) meet the requirements of paragraphs (b)(4)(ii)(D) through (b)(4)(ii)(F) of this section.</P>
+<P>(<I>2</I>) At least one of the units and the monitors installed at the common stack or duct meet the requirements of paragraph (b)(4)(iii) of this section.</P>
+<P>(B) The combined effluent gas streams from a process or manufacturing unit and a stationary fuel combustion unit are vented through a monitored common stack or duct. In this case, Tier 4 shall be used if the combustion unit and the monitors installed at the common stack or duct meet the applicability criteria specified in paragraph (b)(4)(iv)(A)(<I>1</I>), or (b)(4)(iv)(A)(<I>2</I>) of this section.</P>
+<P>(C) The combined effluent gas streams from two or more manufacturing or process units are vented through a common stack or duct. In this case, if any of the units is required by an applicable subpart of this part to use Tier 4, the CO<E T="52">2</E> mass emissions may be monitored at each individual unit, or the combined CO<E T="52">2</E> mass emissions may be monitored at the common stack or duct. However, if it is not feasible to monitor the individual units, the combined CO<E T="52">2</E> mass emissions shall be monitored at the common stack or duct.</P>
+<P>(5) The Tier 4 Calculation Methodology shall be used:</P>
+<P>(i) Starting on January 1, 2010, for a unit that is required to report CO<E T="52">2</E> mass emissions beginning on that date, if all of the monitors needed to measure CO<E T="52">2</E> mass emissions have been installed and certified by that date.</P>
+<P>(ii) No later than January 1, 2011, for a unit that is required to report CO<E T="52">2</E> mass emissions beginning on January 1, 2010, if all of the monitors needed to measure CO<E T="52">2</E> mass emissions have not been installed and certified by January 1, 2010. In this case, you may use Tier 2 or Tier 3 to report GHG emissions for 2010. However, if the required CEMS are certified some time in 2010, you need not wait until January 1, 2011 to begin using Tier 4. Rather, you may switch from Tier 2 or Tier 3 to Tier 4 as soon as CEMS certification testing is successfully completed. If this reporting option is chosen, you must document the change in CO<E T="52">2</E> calculation methodology in the Monitoring Plan required under &#xA7; 98.3(g)(5) and in the GHG emissions report under &#xA7; 98.3(c). Data recorded by the CEMS during a certification test period in 2010 may be used for reporting under this part, provided that the following two conditions are met:</P>
+<P>(A) The certification tests are passed in sequence, with no test failures.</P>
+<P>(B) No unscheduled maintenance or repair of the CEMS is performed during the certification test period.</P>
+<P>(iii) No later than 180 days following the date on which a change is made that triggers Tier 4 applicability under paragraph (b)(4)(ii) or (b)(4)(iii) of this section (<I>e.g.,</I> a change in the primary fuel, manner of unit operation, or installed continuous monitoring equipment).</P>
+<P>(6) You may elect to use any applicable higher tier for one or more of the fuels combusted in a unit. For example, if a 100 mmBtu/hr unit combusts natural gas and distillate fuel oil, you may elect to use Tier 1 for natural gas and Tier 3 for the fuel oil, even though Tier 1 could have been used for both fuels. However, for units that use either the Tier 4 or the alternative calculation methodology specified in paragraph (a)(5)(iii) of this section, CO<E T="52">2</E> emissions from the combustion of all fuels shall be based solely on CEMS measurements.</P>
+<P>(c) <I>Calculation of CH</I><E T="54">4</E> <I>and N</I><E T="54">2</E><I>O emissions from stationary combustion sources.</I> You must calculate annual CH<E T="52">4</E> and N<E T="52">2</E>O mass emissions only for units that are required to report CO<E T="52">2</E> emissions using the calculation methodologies of this subpart and for only those fuels that are listed in Table C-2 of this subpart.</P>
+<P>(1) Use Equation C-8 of this section to estimate CH<E T="52">4</E> and N<E T="52">2</E>O emissions for any fuels for which you use the Tier 1 or Tier 3 calculation methodologies for CO<E T="52">2</E>, except when natural gas usage in units of therms or mmBtu is obtained from gas billing records. In that case, use Equation C-8a in paragraph (c)(1)(i) of this section or Equation C-8b in paragraph (c)(1)(ii) of this section (as applicable). For Equation C-8, use the same values for fuel consumption that you use for the Tier 1 or Tier 3 calculation.</P>
+<MATH BORDER="NODRAW" DEEP="11" HTYPE="CENTER" POSITION="NOFLOAT" ROTATION="P" SPAN="2" STRIP="YES">
+<img src="/graphics/er30oc09.013.gif"/></MATH>
+<EXTRACT>
+<FP>Where:
+</FP>
+<FP-2>CH<E T="52">4</E> or N<E T="52">2</E>O = Annual CH<E T="52">4</E> or N<E T="52">2</E>O emissions from the combustion of a particular type of fuel (metric tons).
+</FP-2>
+<FP-2>Fuel = Mass or volume of the fuel combusted, either from company records or directly measured by a fuel flow meter, as applicable (mass or volume per year).
+</FP-2>
+<FP-2>HHV = Default high heat value of the fuel from Table C-1 of this subpart; alternatively, for Tier 3, if actual HHV data are available for the reporting year, you may average these data using the procedures specified in paragraph (a)(2)(ii) of this section, and use the average value in Equation C-8 (mmBtu per mass or volume).
+</FP-2>
+<FP-2>EF = Fuel-specific default emission factor for CH<E T="52">4</E> or N<E T="52">2</E>O, from table C-2 to this subpart (kg CH<E T="52">4</E> or N<E T="52">2</E>O per mmBtu), except for natural gas-fired reciprocating internal combustion engines and gas turbines at facilities subject to subpart W of this part, which must use a CH<E T="52">4</E> emission factor determined in accordance with &#xA7; 98.233(z)(4).
+</FP-2>
+<FP-2>1 &#xD7; 10<E T="51">&#x2212;3</E> = Conversion factor from kilograms to metric tons.</FP-2></EXTRACT>
+<P>(i) Use Equation C-8a to calculate CH<E T="52">4</E> and N<E T="52">2</E>O emissions when natural gas usage is obtained from gas billing records in units of therms.</P>
+<img src="/graphics/er17de10.018.gif"/>
+<EXTRACT>
+<FP>where:
+</FP>
+<FP-2>CH<E T="52">4</E> or N<E T="52">2</E>O = Annual CH<E T="52">4</E> or N<E T="52">2</E>O emissions from the combustion of natural gas (metric tons).
+</FP-2>
+<FP-2>Fuel = Annual natural gas usage, from gas billing records (therms).
+</FP-2>
+<FP-2>EF = Fuel-specific default emission factor for CH<E T="52">4</E> or N<E T="52">2</E>O, from table C-2 to this subpart (kg CH<E T="52">4</E> or N<E T="52">2</E>O per mmBtu), except for natural gas-fired reciprocating internal combustion engines and gas turbines at facilities subject to subpart W of this part, which must use a CH<E T="52">4</E> emission factor determined in accordance with &#xA7; 98.233(z)(4).
+</FP-2>
+<FP-2>0.1 = Conversion factor from therms to mmBtu
+</FP-2>
+<FP-2>1 &#xD7; 10<E T="51">&#x2212;3</E> = Conversion factor from kilograms to metric tons.</FP-2></EXTRACT>
+<P>(ii) Use Equation C-8b to calculate CH<E T="52">4</E> and N<E T="52">2</E>O emissions when natural gas usage is obtained from gas billing records in units of mmBtu.</P>
+<P><I>CH</I><E T="52">4</E> or <I>N</I><E T="52">2</E><I>O</I> = 1 &#xD7; 10<E T="51">&#x2212;3</E> * <I>Fuel</I> * <I>EF</I> (Eq. C-8b)</P>
+<EXTRACT>
+<FP>where:
+</FP>
+<FP-2>CH<E T="52">4</E> or N<E T="52">2</E>O = Annual CH<E T="52">4</E> or N<E T="52">2</E>O emissions from the combustion of natural gas (metric tons).
+</FP-2>
+<FP-2>Fuel = Annual natural gas usage, from gas billing records (mmBtu).
+</FP-2>
+<FP-2>EF = Fuel-specific default emission factor for CH<E T="52">4</E> or N<E T="52">2</E>O, from table C-2 to this subpart (kg CH<E T="52">4</E> or N<E T="52">2</E>O per mmBtu), except for natural gas-fired reciprocating internal combustion engines and gas turbines at facilities subject to subpart W of this part, which must use a CH<E T="52">4</E> emission factor determined in accordance with &#xA7; 98.233(z)(4).
+</FP-2>
+<FP-2>1 &#xD7; 10<E T="51">&#x2212;3</E> = Conversion factor from kilograms to metric tons.</FP-2></EXTRACT>
+<P>(2) Use Equation C-9a of this section to estimate CH<E T="52">4</E> and N<E T="52">2</E>O emissions for any fuels for which you use the Tier 2 Equation C-2a of this section to estimate CO<E T="52">2</E> emissions. Use the same values for fuel consumption and HHV that you use for the Tier 2 calculation.</P>
+<MATH BORDER="NODRAW" DEEP="18" HTYPE="CENTER" POSITION="NOFLOAT" ROTATION="P" SPAN="2" STRIP="YES">
+<img src="/graphics/er30oc09.014.gif"/></MATH>
+<EXTRACT>
+<FP>Where:
+</FP>
+<FP-2>CH<E T="52">4</E> or N<E T="52">2</E>O = Annual CH<E T="52">4</E> or N<E T="52">2</E>O emissions from the combustion of a particular type of fuel (metric tons).
+</FP-2>
+<FP-2>Fuel = Mass or volume of the fuel combusted during the reporting year.
+</FP-2>
+<FP-2>HHV = High heat value of the fuel, averaged for all valid measurements for the reporting year (mmBtu per mass or volume).
+</FP-2>
+<FP-2>EF = Fuel-specific default emission factor for CH<E T="52">4</E> or N<E T="52">2</E>O, from table C-2 to this subpart (kg CH<E T="52">4</E> or N<E T="52">2</E>O per mmBtu), except for natural gas-fired reciprocating internal combustion engines and gas turbines at facilities subject to subpart W of this part, which must use a CH<E T="52">4</E> emission factor determined in accordance with &#xA7; 98.233(z)(4).
+</FP-2>
+<FP-2>1 &#xD7; 10<E T="51">&#x2212;3</E> = Conversion factor from kilograms to metric tons.</FP-2></EXTRACT>
+<P>(3) Use Equation C-9b of this section to estimate CH<E T="52">4</E> and N<E T="52">2</E>O emissions for any fuels for which you use Equation C-2c of this section to calculate the CO<E T="52">2</E> emissions. Use the same values for steam generation and the ratio &#x201C;B&#x201D; that you use for Equation C-2c.</P>
+<MATH BORDER="NODRAW" DEEP="18" HTYPE="CENTER" POSITION="NOFLOAT" ROTATION="P" SPAN="2" STRIP="YES">
+<img src="/graphics/er30oc09.015.gif"/></MATH>
+<EXTRACT>
+<FP>Where:
+</FP>
+<FP-2>CH<E T="52">4</E> or N<E T="52">2</E>O = Annual CH<E T="52">4</E> or N<E T="52">2</E>O emissions from the combustion of a solid fuel (metric tons).
+</FP-2>
+<FP-2>Steam = Total mass of steam generated by solid fuel combustion during the reporting year (lb steam).
+</FP-2>
+<FP-2>B = Ratio of the boiler's maximum rated heat input capacity to its design rated steam output (mmBtu/lb steam).
+</FP-2>
+<FP-2>EF = Fuel-specific emission factor for CH<E T="52">4</E> or N<E T="52">2</E>O, from Table C-2 of this subpart (kg CH<E T="52">4</E> or N<E T="52">2</E>O per mmBtu).
+</FP-2>
+<FP-2>1 &#xD7; 10<E T="51">&#x2212;3</E> = Conversion factor from kilograms to metric tons.</FP-2></EXTRACT>
+<P>(4) Use Equation C-10 of this section for: units subject to subpart D of this part; units that qualify for and elect to use the alternative CO<E T="52">2</E> mass emissions calculation methodologies described in paragraph (a)(5) of this section; and units that use the Tier 4 Calculation Methodology.</P>
+<MATH BORDER="NODRAW" DEEP="15" HTYPE="CENTER" POSITION="NOFLOAT" ROTATION="P" SPAN="2" STRIP="YES">
+<img src="/graphics/er30oc09.016.gif"/></MATH>
+<EXTRACT>
+<FP>Where:
+</FP>
+<FP-2>CH<E T="52">4</E> or N<E T="52">2</E>O = Annual CH<E T="52">4</E> or N<E T="52">2</E>O emissions from the combustion of a particular type of fuel (metric tons).
+</FP-2>
+<FP-2>(HI)<E T="52">A</E> = Cumulative annual heat input from combustion of the fuel (mmBtu).
+</FP-2>
+<FP-2>EF = Fuel-specific default emission factor for CH<E T="52">4</E> or N<E T="52">2</E>O, from table C-2 to this subpart (kg CH<E T="52">4</E> or N<E T="52">2</E>O per mmBtu), except for natural gas-fired reciprocating internal combustion engines and gas turbines at facilities subject to subpart W of this part, which must use a CH<E T="52">4</E> emission factor determined in accordance with &#xA7; 98.233(z)(4).
+</FP-2>
+<FP-2>0.001 = Conversion factor from kg to metric tons.</FP-2></EXTRACT>
+<P>(i) If only one type of fuel listed in Table C-2 of this subpart is combusted during the reporting year, substitute the cumulative annual heat input from combustion of the fuel into Equation C-10 of this section to calculate the annual CH<E T="52">4</E> or N<E T="52">2</E>O emissions. For units in the Acid Rain Program and units that report heat input data to EPA year-round according to part 75 of this chapter, obtain the cumulative annual heat input directly from the electronic data reports required under &#xA7; 75.64 of this chapter. For Tier 4 units, use the best available information, as described in paragraph (c)(4)(ii)(C) of this section, to estimate the cumulative annual heat input (HI)<E T="52">A</E>.</P>
+<P>(ii) If more than one type of fuel listed in Table C-2 of this subpart is combusted during the reporting year, use Equation C-10 of this section separately for each type of fuel, except as provided in paragraph (c)(4)(ii)(B) of this section. Determine the appropriate values of (HI)<E T="52">A</E> as follows:</P>
+<P>(A) For units in the Acid Rain Program and other units that report heat input data to EPA year-round according to part 75 of this chapter, obtain (HI)<E T="52">A</E> for each type of fuel from the electronic data reports required under &#xA7; 75.64 of this chapter, except as otherwise provided in paragraphs (c)(4)(ii)(B) and (c)(4)(ii)(D) of this section.</P>
+<P>(B) For a unit that uses CEMS to monitor hourly heat input according to part 75 of this chapter, the value of (HI)<E T="52">A</E> obtained from the electronic data reports under &#xA7; 75.64 of this chapter may be attributed exclusively to the fuel with the highest F-factor, when the reporting option in 3.3.6.5 of appendix F to part 75 of this chapter is selected and implemented.</P>
+<P>(C) For Tier 4 units, use the best available information (<I>e.g.,</I> fuel feed rate measurements, fuel heating values, engineering analysis) to estimate the value of (HI)<E T="52">A</E> for each type of fuel. Instrumentation used to make these estimates is not subject to the calibration requirements of &#xA7; 98.3(i) or to the QA requirements of &#xA7; 98.34.</P>
+<P>(D) Units in the Acid Rain Program and other units that report heat input data to EPA year-round according to part 75 of this chapter may use the best available information described in paragraph (c)(4)(ii)(C) of this section, to estimate (HI)<E T="52">A</E> for each fuel type, whenever fuel-specific heat input values cannot be directly obtained from the electronic data reports under &#xA7; 75.64 of this chapter.</P>
+<P>(5) When multiple fuels are combusted during the reporting year, sum the fuel-specific results from Equations C-8, C-8a, C-8b, C-9a, C-9b, or C-10 of this section (as applicable) to obtain the total annual CH<E T="52">4</E> and N<E T="52">2</E>O emissions, in metric tons.</P>
+<P>(6) Calculate the annual CH<E T="52">4</E> and N<E T="52">2</E>O mass emissions from the combustion of blended fuels as follows:</P>
+<P>(i) If the mass, volume, or heat input of each component fuel in the blend is determined before the fuels are mixed and combusted, calculate and report CH<E T="52">4</E> and N<E T="52">2</E>O emissions separately for each component fuel, using the applicable procedures in this paragraph (c).</P>
+<P>(ii) If the mass, volume, or heat input of each component fuel in the blend is not determined before the fuels are mixed and combusted, a reasonable estimate of the percentage composition of the blend, based on best available information, is required. Perform the following calculations for each component fuel &#x201C;i&#x201D; that is listed in table C-2 to this subpart:</P>
+<P>(A) Multiply (% Fuel)i, the estimated mass, volume, or heat input percentage of component fuel &#x201C;i&#x201D; (expressed as a decimal fraction), by the total annual mass, volume, or heat input of the blended fuel combusted during the reporting year, to obtain an estimate of the annual value for component &#x201C;i&#x201D;;</P>
+<P>(B) [Reserved]</P>
+<P>(C) Calculate the annual CH<E T="52">4</E> and N<E T="52">2</E>O emissions from component &#x201C;i&#x201D;, using equation C-8 (fuel mass or volume) to this section, C-8a (fuel heat input) to this section, C-8b (fuel heat input) to this section, C-9a (fuel mass or volume) to this section, or C-10 (fuel heat input) to this section, as applicable;</P>
+<P>(D) Sum the annual CH<E T="52">4</E> emissions across all component fuels to obtain the annual CH<E T="52">4</E> emissions for the blend. Similarly sum the annual N<E T="52">2</E>O emissions across all component fuels to obtain the annual N<E T="52">2</E>O emissions for the blend. Report these annual emissions totals.</P>
+<P>(d) <I>Calculation of CO</I><E T="54">2</E> <I>from sorbent.</I> (1) When a unit is a fluidized bed boiler, is equipped with a wet flue gas desulfurization system, or uses other acid gas emission controls with sorbent injection to remove acid gases, if the chemical reaction between the acid gas and the sorbent produces CO<E T="52">2</E> emissions, use Equation C-11 of this section to calculate the CO<E T="52">2</E> emissions from the sorbent, except when those CO<E T="52">2</E> emissions are monitored by CEMS. When a sorbent other than CaCO<E T="52">3</E> is used, determine site-specific values of R and MW<E T="52">S</E>.</P>
+<MATH BORDER="NODRAW" DEEP="33" HTYPE="CENTER" POSITION="NOFLOAT" ROTATION="P" SPAN="2" STRIP="YES">
+<img src="/graphics/er30oc09.017.gif"/></MATH>
+<EXTRACT>
+<FP>Where:
+</FP>
+<FP-2>CO<E T="52">2</E> = CO<E T="52">2</E> emitted from sorbent for the reporting year (metric tons).
+</FP-2>
+<FP-2>S = Limestone or other sorbent used in the reporting year, from company records (short tons).
+</FP-2>
+<FP-2>R = The number of moles of CO<E T="52">2</E> released per mole of sorbent used (R = 1.00 when the sorbent is CaCO<E T="52">3</E> and the targeted acid gas species is SO<E T="52">2</E>).
+</FP-2>
+<FP-2>MW<E T="52">CO2</E> = Molecular weight of carbon dioxide (44).
+</FP-2>
+<FP-2>MW<E T="52">S</E> = Molecular weight of sorbent (100 if calcium carbonate).
+</FP-2>
+<FP-2>0.91 = Conversion factor from short tons to metric tons.</FP-2></EXTRACT>
+<P>(2) The total annual CO<E T="52">2</E> mass emissions reported for the unit shall include the CO<E T="52">2</E> emissions from the combustion process and the CO<E T="52">2</E> emissions from the sorbent.</P>
+<P>(e) <I>Biogenic CO</I><E T="54">2</E> <I>emissions from combustion of biomass with other fuels.</I> Use the applicable procedures of this paragraph (e) to estimate biogenic CO<E T="52">2</E> emissions from units that combust a combination of biomass and fossil fuels (<I>i.e.,</I> either co-fired or blended fuels). Separate reporting of biogenic CO<E T="52">2</E> emissions from the combined combustion of biomass and fossil fuels is required for those biomass fuels listed in table C-1 to this subpart, MSW, and tires. In addition, when a biomass fuel that is not listed in table C-1 to this subpart is combusted in a unit that has a maximum rated heat input greater than 250 mmBtu/hr, if the biomass fuel accounts for 10% or more of the annual heat input to the unit, and if the unit does not use CEMS to quantify its annual CO<E T="52">2</E> mass emissions, then, pursuant to paragraph (b)(3)(iii) of this section, Tier 3 must be used to determine the carbon content of the biomass fuel and to calculate the biogenic CO<E T="52">2</E> emissions from combustion of the fuel. Notwithstanding these requirements, in accordance with &#xA7; 98.3(c)(12), separate reporting of biogenic CO<E T="52">2</E> emissions is optional for the 2010 reporting year for units subject to subpart D of this part and for units that use the CO<E T="52">2</E> mass emissions calculation methodologies in part 75 of this chapter, pursuant to paragraph (a)(5) of this section. However, if the owner or operator opts to report biogenic CO<E T="52">2</E> emissions separately for these units, the appropriate method(s) in this paragraph (e) shall be used.</P>
+<P>(1) You may use equation C-1 to this section to calculate the annual CO<E T="52">2</E> mass emissions from the combustion of the biomass fuels listed in table C-1 to this subpart, in a unit of any size, including units equipped with a CO<E T="52">2</E> CEMS, except when the use of Tier 2 is required as specified in paragraph (b)(1)(iv) of this section. Determine the quantity of biomass combusted using one of the following procedures in this paragraph (e)(1), as appropriate, and document the selected procedures in the Monitoring Plan under &#xA7; 98.3(g):</P>
+<P>(i) Company records.</P>
+<P>(ii) The procedures in paragraph (e)(4) of this section.</P>
+<P>(iii) The best available information for premixed fuels that contain biomass and fossil fuels (<I>e.g.,</I> liquid fuel mixtures containing biodiesel).</P>
+<P>(2) You may use the procedures of this paragraph if the following three conditions are met: First, a CO<E T="52">2</E> CEMS (or a surrogate O<E T="52">2</E> monitor) and a stack gas flow rate monitor are used to determine the annual CO<E T="52">2</E> mass emissions (either according to part 75 of this chapter, the Tier 4 Calculation Methodology, or the alternative calculation methodology specified in paragraph (a)(5)(iii) of this section); second, neither MSW nor tires is combusted in the unit during the reporting year; and third, the CO<E T="52">2</E> emissions consist solely of combustion products (<I>i.e.,</I> no process or sorbent emissions included).</P>
+<P>(i) For each operating hour, use Equation C-12 of this section to determine the volume of CO<E T="52">2</E> emitted.</P>
+<MATH BORDER="NODRAW" DEEP="29" HTYPE="CENTER" POSITION="NOFLOAT" ROTATION="P" SPAN="2" STRIP="YES">
+<img src="/graphics/er30oc09.018.gif"/></MATH>
+<EXTRACT>
+<FP>Where:
+</FP>
+<FP-2>V<E T="52">CO2h</E> = Hourly volume of CO<E T="52">2</E> emitted (scf).
+</FP-2>
+<FP-2>(%CO<E T="52">2</E>)<E T="52">h</E> = Hourly average CO<E T="52">2</E> concentration, measured by the CO<E T="52">2</E> concentration monitor, or, if applicable, calculated from the hourly average O<E T="52">2</E> concentration (%CO<E T="52">2</E>).
+</FP-2>
+<FP-2>Q<E T="52">h</E> = Hourly average stack gas volumetric flow rate, measured by the stack gas volumetric flow rate monitor (scfh).
+</FP-2>
+<FP-2>t<E T="52">h</E> = Source operating time (decimal fraction of the hour during which the source combusts fuel, i.e., 1.0 for a full operating hour, 0.5 for 30 minutes of operation, etc.).
+</FP-2>
+<FP-2>100 = Conversion factor from percent to a decimal fraction.</FP-2></EXTRACT>
+<P>(ii) Sum all of the hourly V<E T="52">CO2h</E> values for the reporting year, to obtain V<E T="52">total</E>, the total annual volume of CO<E T="52">2</E> emitted.</P>
+<P>(iii) Calculate the annual volume of CO<E T="52">2</E> emitted from fossil fuel combustion using Equation C-13 of this section. If two or more types of fossil fuel are combusted during the year, perform a separate calculation with Equation C-13 of this section for each fuel and sum the results.</P>
+<MATH BORDER="NODRAW" DEEP="29" HTYPE="CENTER" POSITION="NOFLOAT" ROTATION="P" SPAN="1" STRIP="YES">
+<img src="/graphics/er30oc09.019.gif"/></MATH>
+<EXTRACT>
+<FP>Where:
+</FP>
+<FP-2>V<E T="52">ff</E> = Annual volume of CO<E T="52">2</E> emitted from combustion of a particular fossil fuel (scf).
+</FP-2>
+<FP-2>Fuel = Total quantity of the fossil fuel combusted in the reporting year, from company records, as defined in &#xA7; 98.6 (lb for solid fuel, gallons for liquid fuel, and scf for gaseous fuel).
+</FP-2>
+<FP-2>F<E T="52">c</E> = Fuel-specific carbon based F-factor, either a default value from Table 1 in section 3.3.5 of appendix F to part 75 of this chapter, or a site-specific value determined under section 3.3.6 of appendix F to part 75 (scf CO<E T="52">2</E>/mmBtu).
+</FP-2>
+<FP-2>HHV = High heat value of the fossil fuel, from fuel sampling and analysis (annual average value in Btu/lb for solid fuel, Btu/gal for liquid fuel and Btu/scf for gaseous fuel, sampled as specified (e.g., monthly, quarterly, semi-annually, or by lot) in &#xA7; 98.34(a)(2)). The average HHV shall be calculated according to the requirements of paragraph (a)(2)(ii) of this section.
+</FP-2>
+<FP-2>10
+<SU>6</SU> = Conversion factor, Btu per mmBtu.</FP-2></EXTRACT>
+<P>(iv) Subtract V<E T="52">ff</E> from V<E T="52">total</E> to obtain V<E T="52">bio</E>, the annual volume of CO<E T="52">2</E> from the combustion of biomass.</P>
+<P>(v) Calculate the biogenic percentage of the annual CO<E T="52">2</E> emissions,expressed as a decimal fraction, using Equation C-14 of this section:</P>
+<MATH BORDER="NODRAW" DEEP="30" HTYPE="CENTER" POSITION="NOFLOAT" ROTATION="P" SPAN="1" STRIP="YES">
+<img src="/graphics/er30oc09.020.gif"/></MATH>
+<P>(vi) Calculate the annual biogenic CO<E T="52">2</E> mass emissions, in metric tons, by multiplying the results obtained from Equation C-14 of this section by the annual CO<E T="52">2</E> mass emissions in metric tons, as determined:</P>
+<P>(A) Under paragraph (a)(4)(vi) of this section, for units using the Tier 4 Calculation Methodology.</P>
+<P>(B) Under paragraph (a)(5)(iii)(B) of this section, for units using the alternative calculation methodology specified in paragraph (a)(5)(iii).</P>
+<P>(C) From the electronic data report required under &#xA7; 75.64 of this chapter, for units in the Acid Rain Program and other units using CEMS to monitor and report CO<E T="52">2</E> mass emissions according to part 75 of this chapter. However, before calculating the annual biogenic CO<E T="52">2</E> mass emissions, multiply the cumulative annual CO<E T="52">2</E> mass emissions by 0.91 to convert from short tons to metric tons.</P>
+<P>(3) You must use the procedures in paragraphs (e)(3)(i) through (iii) of this section to determine the annual biogenic CO<E T="52">2</E> emissions from the combustion of MSW, except as otherwise provided in paragraph (e)(3)(iv) of this section. These procedures also may be used for any unit that co-fires biomass and fossil fuels, including units equipped with a CO<E T="52">2</E> CEMS.</P>
+<P>(i) Use an applicable CO<E T="52">2</E> emissions calculation method in this section to quantify the total annual CO<E T="52">2</E> mass emissions from the unit.</P>
+<P>(ii) Determine the relative proportions of biogenic and non-biogenic CO<E T="52">2</E> emissions in the flue gas on a quarterly basis using the method specified in &#xA7; 98.34(d) (for units that combust MSW as the primary fuel or as the only fuel with a biogenic component) or in &#xA7; 98.34(e) (for other units, including units that combust tires).</P>
+<P>(iii) Determine the annual biogenic CO<E T="52">2</E> mass emissions from the unit by multiplying the total annual CO<E T="52">2</E> mass emissions by the annual average biogenic decimal fraction obtained from &#xA7; 98.34(d) or &#xA7; 98.34(e), as applicable.</P>
+<P>(iv) In lieu of following the procedures in paragraphs (e)(3)(i) through (iii) of this section, the procedures of this paragraph (e)(3)(iv) may be used for the combustion of tires regardless of the percent of the annual heat input provided by tires. The calculation procedure in this paragraph (e)(3)(iv) may be used for the combustion of MSW if the combustion of MSW provides no more than 10 percent of the annual heat input to the unit or if a small, batch incinerator combusts no more than 1,000 tons per year of MSW.</P>
+<P>(A) Calculate the total annual CO<E T="52">2</E> emissions from combustion of MSW and/or tires in the unit, using the applicable methodology in paragraphs (a)(1) through (3) of this section for units using Tier 1, Tier 2, or Tier 3; otherwise use the Tier 1 calculation methodology in paragraph (a)(1) of this section for units using either the Tier 4 or Alternative Part 75 calculation methodologies to calculate total CO<E T="52">2</E> emissions.</P>
+<P>(B) Multiply the result from paragraph (e)(3)(iv)(A) of this section by the appropriate default factor to determine the annual biogenic CO<E T="52">2</E> emissions, in metric tons. For MSW, use a default factor of 0.60 and for tires, use a default factor of 0.24.</P>
+<P>(4) If Equation C-1 or Equation C-2a of this section is selected to calculate the annual biogenic mass emissions for wood, wood waste, or other solid biomass-derived fuel, Equation C-15 of this section may be used to quantify biogenic fuel consumption, provided that all of the required input parameters are accurately quantified. Similar equations and calculation methodologies based on steam generation and boiler efficiency may be used, provided that they are documented in the GHG Monitoring Plan required by &#xA7; 98.3(g)(5).</P>
+<MATH BORDER="NODRAW" DEEP="30" HTYPE="CENTER" POSITION="NOFLOAT" ROTATION="P" SPAN="2" STRIP="YES">
+<img src="/graphics/er30oc09.021.gif"/></MATH>
+<EXTRACT>
+<FP>Where:
+</FP>
+<FP-2>(Fuel)<E T="52">p</E> = Quantity of biomass consumed during the measurement period &#x201C;p&#x201D; (tons/year or tons/month, as applicable).
+</FP-2>
+<FP-2>H = Average enthalpy of the boiler steam for the measurement period (Btu/lb).
+</FP-2>
+<FP-2>S = Total boiler steam production for the measurement period (lb/month or lb/year, as applicable).
+</FP-2>
+<FP-2>(HI)<E T="52">nb</E> = Heat input from co-fired fossil fuels and non-biomass-derived fuels for the measurement period, based on company records of fuel usage and default or measured HHV values (Btu/month or Btu/year, as applicable).
+</FP-2>
+<FP-2>(HHV)<E T="52">bio</E> = Default or measured high heat value of the biomass fuel (Btu/lb).
+</FP-2>
+<FP-2>(Eff)<E T="52">bio</E> = Percent efficiency of biomass-to-energy conversion, expressed as a decimal fraction.
+</FP-2>
+<FP-2>2000 = Conversion factor (lb/ton).</FP-2></EXTRACT>
+<P>(5) For units subject to subpart D of this part and for units that use the methods in part 75 of this chapter to quantify CO<E T="52">2</E> mass emissions in accordance with paragraph (a)(5) of this section, you may calculate biogenic CO<E T="52">2</E> emissions from the combustion of biomass fuels listed in Table C-1 of this subpart using Equation C-15a. This equation may not be used to calculate biogenic CO<E T="52">2</E> emissions from the combustion of tires or MSW; the methods described in paragraph (e)(3) of this section must be used for those fuels. Whenever (HI)<E T="52">A</E>, the annual heat input from combustion of biomass fuel in Equation C-15a, cannot be determined solely from the information in the electronic emissions reports under &#xA7; 75.64 of this chapter (<I>e.g.,</I> in cases where a unit uses CEMS in combination with multiple F-factors, a worst-case F-factor, or a prorated F-factor to report heat input rather than reporting heat input based on fuel type), use the best available information (as described in &#xA7;&#xA7; 98.33(c)(4)(ii)(C) and (c)(4)(ii)(D)) to determine (HI)<E T="52">A</E>.</P>
+<P><I>CO</I><E T="54">2</E> = 0.001 * (HI)<E T="54">A</E> <I>* EF</I> (Eq. C-15a)</P>
+<EXTRACT>
+<FP>where:
+</FP>
+<FP-2>CO<E T="52">2</E> = Annual CO<E T="52">2</E> mass emissions from the combustion of a particular type of biomass fuel listed in Table C-1 (metric tons)
+</FP-2>
+<FP-2>(HI)<E T="52">A</E> = Annual heat input from the biomass fuel, obtained, where feasible, from the electronic emissions reports required under &#xA7; 75.64 of this chapter. Where this is not feasible use best available information, as described in &#xA7;&#xA7; 98.33(c)(4)(ii)(C) and (c)(4)(ii)(D) (mmBtu)
+</FP-2>
+<FP-2>EF = CO<E T="52">2</E> emission factor for the biomass fuel, from Table C-1 (kg CO<E T="52">2</E>/mmBtu)
+</FP-2>
+<FP-2>0.001 = Conversion factor from kg to metric tons</FP-2></EXTRACT>
+<CITA TYPE="N">[74 FR 56374, Oct. 30, 2009, as amended at 75 FR 79140, Dec. 17, 2010; 78 FR 71950, Nov. 29, 2013; 81 FR 89251, Dec. 9, 2016; 89 FR 31900, Apr. 25, 2024; 89 FR 42220, May 14, 2024]
+</CITA>
+</DIV8>
+
+<DIV8 N="98.34" TYPE="SECTION" hierarchy_metadata="{&quot;path&quot;:&quot;/on/_SUBSTITUTE_DATE_/title-40/section-98.34&quot;,&quot;citation&quot;:&quot;40 CFR 98.34&quot;}">
+<HEAD>&#xA7; 98.34 Monitoring and QA/QC requirements.</HEAD>
+<P>The CO<E T="52">2</E> mass emissions data for stationary fuel combustion sources shall be monitored as follows:</P>
+<P>(a) For the Tier 2 Calculation Methodology:</P>
+<P>(1) All fuel samples shall be taken at a location in the fuel handling system that provides a sample representative of the fuel combusted. The fuel sampling and analysis may be performed by either the owner or operator or the supplier of the fuel.</P>
+<P>(2) The minimum required frequency of the HHV sampling and analysis for each type of fuel or fuel mixture (blend) is specified in this paragraph. When the specified frequency for a particular fuel or blend is based on a specified time period (<I>e.g.,</I> week, month, quarter, or half-year), fuel sampling and analysis is required only for those time periods in which the fuel or blend is combusted. The owner or operator may perform fuel sampling and analysis more often than the minimum required frequency, in order to obtain a more representative annual average HHV.</P>
+<P>(i) For natural gas, semiannual sampling and analysis is required (<I>i.e.,</I> twice in a calendar year, with consecutive samples taken at least four months apart).</P>
+<P>(ii) For coal and fuel oil, and for any other solid or liquid fuel that is delivered in lots, analysis of at least one representative sample from each fuel lot is required. For fuel oil, as an alternative to sampling each fuel lot, a sample may be taken upon each addition of oil to the unit's storage tank. Flow proportional sampling, continuous drip sampling, or daily manual oil sampling may also be used, in lieu of sampling each fuel lot. If the daily manual oil sampling option is selected, sampling from a particular tank is required only on days when oil from the tank is combusted by the unit (or units) served by the tank. If you elect to sample from the storage tank upon each addition of oil to the tank, you must take at least one sample from each tank that is currently in service and whenever oil is added to the tank, for as long as the tank remains in service. You need not take any samples from a storage tank while it is out of service. Rather, take a sample when the tank is brought into service and whenever oil is added to the tank, for as long as the tank remains in service. If multiple additions of oil are made to a particular in-service tank on a given day (<I>e.g.,</I> from multiple deliveries), one sample taken after the final addition of oil is sufficient. For the purposes of this section, a fuel lot is defined as a shipment or delivery of a single type of fuel (<I>e.g.,</I> ship load, barge load, group of trucks, group of railroad cars, oil delivery via pipeline from a tank farm, <I>etc.</I>). However, if multiple deliveries of a particular type of fuel are received from the same supply source in a given calendar month, the deliveries for that month may be considered, collectively, to comprise a fuel lot, requiring only one representative sample, subject to the following conditions:</P>
+<P>(A) For coal, the &#x201C;type&#x201D; of fuel means the rank of the coal (<I>i.e.,</I> anthracite, bituminous, sub-bituminous, or lignite). For fuel oil, the &#x201C;type&#x201D; of fuel means the grade number or classification of the oil (<I>e.g.,</I> No. 1 oil, No. 2 oil, kerosene, Jet A fuel, <I>etc.</I>).</P>
+<P>(B) The owner or operator shall document in the monitoring plan under &#xA7; 98.3(g)(5) how the monthly sampling of each type of fuel is performed.</P>
+<P>(iii) For liquid fuels other than fuel oil, and for gaseous fuels other than natural gas (including biogas), sampling and analysis is required at least once per calendar quarter. To the extent practicable, consecutive quarterly samples shall be taken at least 30 days apart.</P>
+<P>(iv) For other solid fuels (except MSW), weekly sampling is required to obtain composite samples, which are then analyzed monthly.</P>
+<P>(v) For fuel blends that are received already mixed, or that are mixed on-site without measuring the exact amount of each component, as described in paragraph (a)(3)(ii) of this section, determine the HHV of the blend as follows. For blends of solid fuels (except MSW), weekly sampling is required to obtain composite samples, which are analyzed monthly. For blends of liquid or gaseous fuels, sampling and analysis is required at least once per calendar quarter. More frequent sampling is recommended if the composition of the blend varies significantly during the year.</P>
+<P>(3) <I>Special considerations for blending of fuels.</I> In situations where different types of fuel listed in Table C-1 of this subpart (for example, different ranks of coal or different grades of fuel oil) are in the same state of matter (<I>i.e.,</I> solid, liquid, or gas), and are blended prior to combustion, use the following procedures to determine the appropriate CO<E T="52">2</E> emission factor and HHV for the blend.</P>
+<P>(i) If the fuels to be blended are received separately, and if the quantity (mass or volume) of each fuel is measured before the fuels are mixed and combusted, then, for each component of the blend, calculate the CO<E T="52">2</E> mass emissions separately. Substitute into Equation C-2a of this subpart the total measured mass or volume of the component fuel (from company records), together with the appropriate default CO<E T="52">2</E> emission factor from Table C-1, and the annual average HHV, calculated according to &#xA7; 98.33(a)(2)(ii). In this case, the fact that the fuels are blended prior to combustion is of no consequence.</P>
+<P>(ii) If the fuel is received as a blend (<I>i.e.,</I> already mixed) or if the components are mixed on site without precisely measuring the mass or volume of each one individually, a reasonable estimate of the relative proportions of the components of the blend must be made, using the best available information (<I>e.g.,</I> the approximate annual average mass or volume percentage of each fuel, based on the typical or expected range of values). Determine the appropriate CO<E T="52">2</E> emission factor and HHV for use in Equation C-2a of this subpart, as follows:</P>
+<P>(A) Consider the blend to be the &#x201C;fuel type,&#x201D; measure its HHV at the frequency prescribed in paragraph (a)(2)(v) of this section, and determine the annual average HHV value for the blend according to &#xA7; 98.33(a)(2)(ii).</P>
+<P>(B) Calculate a heat-weighted CO<E T="52">2</E> emission factor, (EF)<E T="52">B</E>, for the blend, using Equation C-16 of this section. The heat-weighting in Equation C-16 is provided by the default HHVs (from Table C-1) and the estimated mass or volume percentages of the components of the blend.</P>
+<P>(C) Substitute into Equation C-2a of this subpart, the annual average HHV for the blend (from paragraph (a)(3)(ii)(A) of this section) and the calculated value of (EF)<E T="52">B</E>, along with the total mass or volume of the blend combusted during the reporting year, to determine the annual CO<E T="52">2</E> mass emissions from combustion of the blend.</P>
+<img src="/graphics/er17de10.003.gif"/>
+<EXTRACT>
+<FP>where:
+</FP>
+<FP-2>(EF)<E T="52">B</E> = Heat-weighted CO<E T="52">2</E> emission factor for the blend (kg CO<E T="52">2</E>/mmBtu)
+</FP-2>
+<FP-2>(HHV)<E T="52">i</E> = Default high heat value for fuel &#x201C;i&#x201D; in the blend, from Table C-1 (mmBtu per mass or volume)
+</FP-2>
+<FP-2>(%Fuel)<E T="52">i</E> = Estimated mass or volume percentage of fuel &#x201C;i&#x201D; (mass % or volume %, as applicable, expressed as a decimal fraction; <I>e.g.,</I> 25% = 0.25)
+</FP-2>
+<FP-2>(EF)<E T="52">i</E> = Default CO<E T="52">2</E> emission factor for fuel &#x201C;i&#x201D; from Table C-1 (mmBtu per mass or volume)
+</FP-2>
+<FP-2>(HHV)<E T="52">B</E> = Annual average high heat value for the blend, calculated according to &#xA7; 98.33(a)(2)(ii) (mmBtu per mass or volume)</FP-2></EXTRACT>
+<P>(iii) Note that for the case described in paragraph (a)(3)(ii) of this section, if measured HHV values for the individual fuels in the blend or for the blend itself are not routinely received at the minimum frequency prescribed in paragraph (a)(2) of this section (or at a greater frequency), and if the unit qualifies to use Tier 1, calculate (HHV)<E T="52">B</E>*, the heat-weighted default HHV for the blend, using Equation C-17 of this section. Then, use Equation C-16 of this section, replacing the term (HHV)<E T="52">B</E> with (HHV)<E T="52">B</E>* in the denominator, to determine the heat-weighted CO<E T="52">2</E> emission factor for the blend. Finally, substitute into Equation C-1 of this subpart, the calculated values of (HHV)<E T="52">B</E>* and (EF)<E T="52">B</E>, along with the total mass or volume of the blend combusted during the reporting year, to determine the annual CO<E T="52">2</E> mass emissions from combustion of the blend.</P>
+<img src="/graphics/er17de10.004.gif"/>
+<EXTRACT>
+<FP>where:
+</FP>
+<FP-2>(HHV)<E T="52">B</E>* = Heat-weighted default high heat value for the blend (mmBtu per mass or Volume)
+</FP-2>
+<FP-2>(HHV)<E T="52">i</E> = Default high heat value for fuel &#x201C;i&#x201D; in the blend, from Table C-1 (mmBtu per mass or volume)
+</FP-2>
+<FP-2>(%Fuel)<E T="52">i</E> = Estimated mass or volume percentage of fuel &#x201C;i&#x201D; in the blend (mass % or volume %, as applicable, expressed as a decimal fraction)</FP-2></EXTRACT>
+<P>(iv) If the fuel blend described in paragraph (a)(3)(ii) of this section consists of a mixture of fuel(s) listed in Table C-1 of this subpart and one or more fuels not listed in Table C-1, calculate CO<E T="52">2</E> and other GHG emissions only for the Table C-1 fuel(s), using the best available estimate of the mass or volume percentage(s) of the Table C-1 fuel(s) in the blend. In this case, Tier 1 shall be used, with the following modifications to Equations C-17 and C-1, to account for the fact that not all of the fuels in the blend are listed in Table C-1:</P>
+<P>(A) In Equation C-17, apply the term (Fuel)<E T="52">i</E> only to the Table C-1 fuels. For each Table C-1 fuel, (Fuel)<E T="52">i</E> will be the estimated mass or volume percentage of the fuel in the blend, divided by the sum of the mass or volume percentages of the Table C-1 fuels. For example, suppose that a blend consists of two Table C-1 fuels (&#x201C;A&#x201D; and &#x201C;B&#x201D;) and one fuel type (&#x201C;C&#x201D;) not listed in the Table, and that the volume percentages of fuels A, B, and C in the blend, expressed as decimal fractions, are, respectively, 0.50, 0.30, and 0.20. The term (Fuel)<E T="52">i</E> in Equation C-17 for fuel A will be 0.50/(0.50 + 0.30) = 0.625, and for fuel B, (Fuel)<E T="52">i</E> will be 0.30/(0.50 + 0.30) = 0.375.</P>
+<P>(B) In Equation C-1, the term &#x201C;Fuel&#x201D; will be equal to the total mass or volume of the blended fuel combusted during the year multiplied by the sum of the mass or volume percentages of the Table C-1 fuels in the blend. For the example in paragraph (a)(3)(iv)(A) of this section, &#x201C;Fuel&#x201D; = (Annual volume of the blend combusted)(0.80).</P>
+<P>(4) If, for a particular type of fuel, HHV sampling and analysis is performed more often than the minimum frequency specified in paragraph (a)(2) of this section, the results of all valid fuel analyses shall be used in the GHG emission calculations.</P>
+<P>(5) If, for a particular type of fuel, valid HHV values are obtained at less than the minimum frequency specifed in paragraph (a)(2) of this section, appropriate substitute data values shall be used in the emissions calculations, in accordance with missing data procedures of &#xA7; 98.35.</P>
+<P>(6) You must use one of the following appropriate fuel sampling and analysis methods. The HHV may be calculated using chromatographic analysis together with standard heating values of the fuel constituents, provided that the gas chromatograph is operated, maintained, and calibrated according to the manufacturer's instructions. Alternatively, you may use a method published by a consensus-based standards organization if such a method exists, or you may use industry standard practice to determine the high heat values. Consensus-based standards organizations include, but are not limited to, the following: ASTM International (100 Barr Harbor Drive, P.O. Box CB700, West Conshohocken, Pennsylvania 19428-B2959, (800) 262-1373, <I>http://www.astm.org),</I> the American National Standards Institute (ANSI, 1819 L Street, NW., 6th floor, Washington, DC 20036, (202) 293-8020, <I>http://www.ansi.org</I>), the American Gas Association (AGA, 400 North Capitol Street, NW., 4th Floor, Washington, DC 20001, (202) 824-7000, <I>http://www.aga.org</I>), the American Society of Mechanical Engineers (ASME, Three Park Avenue, New York, NY 10016-5990, (800) 843-2763, <I>http://www.asme.org</I>), the American Petroleum Institute (API, 1220 L Street, NW., Washington, DC 20005-4070, (202) 682-8000, <I>http://www.api.org</I>), and the North American Energy Standards Board (NAESB, 801 Travis Street, Suite 1675, Houston, TX 77002, (713) 356-0060, <I>http://www.api.org</I>). The method(s) used shall be documented in the Monitoring Plan required under &#xA7; 98.3(g)(5).</P>
+<P>(b) For the Tier 3 Calculation Methodology:</P>
+<P>(1) You must calibrate each oil and gas flow meter according to &#xA7; 98.3(i) and the provisions of this paragraph (b)(1).</P>
+<P>(i) Perform calibrations using any of the test methods and procedures in this paragraph (b)(1)(i). The method(s) used shall be documented in the Monitoring Plan required under &#xA7; 98.3(g)(5).</P>
+<P>(A) You may use the calibration procedures specified by the flow meter manufacturer.</P>
+<P>(B) You may use an appropriate flow meter calibration method published by a consensus-based standards organization, if such a method exists. Consensus-based standards organizations include, but are not limited to, the following: ASTM International (100 Barr Harbor Drive, P.O. Box CB700, West Conshohocken, Pennsylvania 19428-B2959, (800) 262-1373, <I>http://www.astm.org</I>), the American National Standards Institute (ANSI, 1819 L Street, NW., 6th floor, Washington, DC 20036, (202) 293-8020, <I>http://www.ansi.org</I>), the American Gas Association (AGA, 400 North Capitol Street, NW., 4th Floor, Washington, DC 20001, (202) 824-7000, <I>http://www.aga.org</I>), the American Society of Mechanical Engineers (ASME, Three Park Avenue, New York, NY 10016-5990, (800) 843-2763, <I>http://www.asme.org</I>), the American Petroleum Institute (API, 1220 L Street, NW., Washington, DC 20005-4070, (202) 682-8000, <I>http://www.api.org</I>), and the North American Energy Standards Board (NAESB, 801 Travis Street, Suite 1675, Houston, TX 77002, (713) 356-0060, <I>http://www.api.org</I>).</P>
+<P>(C) You may use an industry-accepted practice.</P>
+<P>(ii) In addition to the initial calibration required by &#xA7; 98.3(i), recalibrate each fuel flow meter (except as otherwise provided in paragraph (b)(1)(iii) of this section) according to one of the following. You may recalibrate annually, at the minimum frequency specified by the manufacturer, or at the interval specified by industry standard practice.</P>
+<P>(iii) Fuel billing meters are exempted from the initial and ongoing calibration requirements of this paragraph and from the Monitoring Plan and recordkeeping requirements of &#xA7;&#xA7; 98.3(g)(5)(i)(C), (g)(6), and (g)(7), provided that the fuel supplier and the unit combusting the fuel do not have any common owners and are not owned by subsidiaries or affiliates of the same company. Meters used exclusively to measure the flow rates of fuels that are only used for unit startup are also exempted from the initial and ongoing calibration requirements of this paragraph.</P>
+<P>(iv) For the initial calibration of an orifice, nozzle, or venturi meter; in-situ calibration of the transmitters is sufficient. A primary element inspection (PEI) shall be performed at least once every three years.</P>
+<P>(v) For the continuously-operating units and processes described in &#xA7; 98.3(i)(6), the required flow meter recalibrations and, if necessary, the PEIs may be postponed until the next scheduled maintenance outage.</P>
+<P>(vi) If a mixture of liquid or gaseous fuels is transported by a common pipe, you may either separately meter each of the fuels prior to mixing, using flow meters calibrated according to &#xA7; 98.3(i), or consider the fuel mixture to be the &#x201C;fuel type&#x201D; and meter the mixed fuel, using a flow meter calibrated according to &#xA7; 98.3(i).</P>
+<P>(2) Oil tank drop measurements (if used to determine liquid fuel use volume) shall be performed according to any an appropriate method published by a consensus-based standards organization (e.g., the American Petroleum Institute).</P>
+<P>(3) The carbon content and, if applicable, molecular weight of the fuels shall be determined according to the procedures in this paragraph (b)(3).</P>
+<P>(i) All fuel samples shall be taken at a location in the fuel handling system that provides a sample representative of the fuel combusted. The fuel sampling and analysis may be performed by either the owner or operator or by the supplier of the fuel.</P>
+<P>(ii) For each type of fuel, the minimum required frequency for collecting and analyzing samples for carbon content and (if applicable) molecular weight is specified in this paragraph. When the sampling frequency is based on a specified time period (<I>e.g.,</I> week, month, quarter, or half-year), fuel sampling and analysis is required for only those time periods in which the fuel is combusted.</P>
+<P>(A) For natural gas, semiannual sampling and analysis is required (<I>i.e.,</I> twice in a calendar year, with consecutive samples taken at least four months apart).</P>
+<P>(B) For coal and fuel oil and for any other solid or liquid fuel that is delivered in lots, analysis of at least one representative sample from each fuel lot is required. For fuel oil, as an alternative to sampling each fuel lot, a sample may be taken upon each addition of oil to the storage tank. Flow proportional sampling, continuous drip sampling, or daily manual oil sampling may also be used, in lieu of sampling each fuel lot. If the daily manual oil sampling option is selected, sampling from a particular tank is required only on days when oil from the tank is combusted by the unit (or units) served by the tank. If you elect to sample from the storage tank upon each addition of oil to the tank, you must take at least one sample from each tank that is currently in service and whenever oil is added to the tank, for as long as the tank remains in service. You need not take any samples from a storage tank while it is out of service. Rather, take a sample when the tank is brought into service and whenever oil is added to the tank, for as long as the tank remains in service. If multiple additions of oil are made to a particular in service tank on a given day (<I>e.g.,</I> from multiple deliveries), one sample taken after the final addition of oil is sufficient. For the purposes of this section, a fuel lot is defined as a shipment or delivery of a single type of fuel (<I>e.g.,</I> ship load, barge load, group of trucks, group of railroad cars, oil delivery via pipeline from a tank farm, <I>etc.</I>). However, if multiple deliveries of a particular type of fuel are received from the same supply source in a given calendar month, the deliveries for that month may be considered, collectively, to comprise a fuel lot, requiring only one representative sample, subject to the following conditions:</P>
+<P>(<I>1</I>) For coal, the &#x201C;type&#x201D; of fuel means the rank of the coal (<I>i.e.,</I> anthracite, bituminous, sub-bituminous, or lignite). For fuel oil, the &#x201C;type&#x201D; of fuel means the grade number or classification of the oil (<I>e.g.,</I> No. 1 oil, No. 2 oil, kerosene, Jet A fuel, <I>etc.</I>).</P>
+<P>(<I>2</I>) The owner or operator shall document in the monitoring plan under &#xA7; 98.3(g)(5) how the monthly sampling of each type of fuel is performed.</P>
+<P>(C) For liquid fuels other than fuel oil and for biogas, sampling and analysis is required at least once per calendar quarter. To the extent practicable, consecutive quarterly samples shall be taken at least 30 days apart.</P>
+<P>(D) For other solid fuels (except MSW), weekly sampling is required to obtain composite samples, which are then analyzed monthly.</P>
+<P>(E) For gaseous fuels other than natural gas and biogas (<I>e.g.,</I> process gas), daily sampling and analysis to determine the carbon content and molecular weight of the fuel is required if continuous, on-line equipment, such as a gas chromatograph, is in place to make these measurements. Otherwise, weekly sampling and analysis shall be performed.</P>
+<P>(F) For mixtures (blends) of solid fuels, weekly sampling is required to obtain composite samples, which are analyzed monthly. For blends of liquid fuels, and for gas mixtures consisting only of natural gas and biogas, sampling and analysis is required at least once per calendar quarter. For gas mixtures that contain gases other than natural gas (including biogas), daily sampling and analysis to determine the carbon content and molecular weight of the fuel is required if continuous, on-line equipment is in place to make these measurements. Otherwise, weekly sampling and analysis shall be performed.</P>
+<P>(iii) If, for a particular type of fuel, sampling and analysis for carbon content and molecular weight is performed more often than the minimum frequency specified in paragraph (b)(3) of this section, the results of all valid fuel analyses shall be used in the GHG emission calculations.</P>
+<P>(iv) If, for a particular type of fuel, sampling and analysis for carbon content and molecular weight is performed at less than the minimum frequency specified in paragraph (b)(3) of this section, appropriate substitute data values shall be used in the emissions calculations, in accordance with the missing data procedures of &#xA7; 98.35.</P>
+<P>(v) To calculate the CO<E T="52">2</E> mass emissions from combustion of a blend of fuels in the same state of matter (solid, liquid, or gas), you may either:</P>
+<P>(A) Apply Equation C-3, C-4 or C-5 of this subpart (as applicable) to each component of the blend, if the mass or volume, the carbon content, and (if applicable), the molecular weight of each component are accurately measured prior to blending; or</P>
+<P>(B) Consider the blend to be the &#x201C;fuel type.&#x201D; Then, at the frequency specified in paragraph (b)(3)(ii)(F) of this section, measure the carbon content and, if applicable, the molecular weight of the blend and calculate the annual average value of each parameter in the manner described in &#xA7; 98.33(a)(2)(ii). Also measure the mass or volume of the blended fuel combusted during the reporting year. Substitute these measured values into Equation C-3, C-4, or C-5 of this subpart (as applicable).</P>
+<P>(4) You must use one of the following appropriate fuel sampling and analysis methods. The results of chromatographic analysis of the fuel may be used, provided that the gas chromatograph is operated, maintained, and calibrated according to the manufacturer's instructions. Alternatively, you may use a method published by a consensus-based standards organization if such a method exists, or you may use industry standard practice to determine the carbon content and molecular weight (for gaseous fuel) of the fuel. Consensus-based standards organizations include, but are not limited to, the following: ASTM International (100 Barr Harbor Drive, P.O. Box CB700, West Conshohocken, Pennsylvania 19428-B2959, (800) 262-1373, <I>http://www.astm.org</I>), the American National Standards Institute (ANSI, 1819 L Street, NW., 6th floor, Washington, DC 20036, (202) 293-8020, <I>http://www.ansi.org</I>), the American Gas Association (AGA, 400 North Capitol Street, NW., 4th Floor, Washington, DC 20001, (202) 824-7000, <I>http://www.aga.org</I>), the American Society of Mechanical Engineers (ASME, Three Park Avenue, New York, NY 10016-5990, (800) 843-2763, <I>http://www.asme.org</I>), the American Petroleum Institute (API, 1220 L Street, NW., Washington, DC 20005-4070, (202) 682-8000, <I>http://www.api.org</I>), and the North American Energy Standards Board (NAESB, 801 Travis Street, Suite 1675, Houston, TX 77002, (713) 356-0060, <I>http://www.api.org</I>). The method(s) used shall be documented in the Monitoring Plan required under &#xA7; 98.3(g)(5).</P>
+<P>(c) For the Tier 4 Calculation Methodology, the CO<E T="52">2</E>, flow rate, and (if applicable) moisture monitors must be certified prior to the applicable deadline specified in &#xA7; 98.33(b)(5).</P>
+<P>(1) For initial certification, you may use any one of the following three procedures in this paragraph.</P>
+<P>(i) &#xA7;&#xA7; 75.20(c)(2), (c)(4), and (c)(5) through (c)(7) of this chapter and appendix A to part 75 of this chapter.</P>
+<P>(ii) The calibration drift test and relative accuracy test audit (RATA) procedures of Performance Specification 3 in appendix B to part 60 of this chapter (for the CO<E T="52">2</E> concentration monitor) and Performance Specification 6 in appendix B to part 60 of this chapter (for the continuous emission rate monitoring system (CERMS)).</P>
+<P>(iii) The provisions of an applicable State continuous monitoring program.</P>
+<P>(2) If an O<E T="52">2</E> concentration monitor is used to determine CO<E T="52">2</E> concentrations, the applicable provisions of part 75 of this chapter, part 60 of this chapter, or an applicable State continuous monitoring program shall be followed for initial certification and on-going quality assurance, and all required RATAs of the monitor shall be done on a percent CO<E T="52">2</E> basis.</P>
+<P>(3) For ongoing quality assurance, follow the applicable procedures in either appendix B to part 75 of this chapter, appendix F to part 60 of this chapter, or an applicable State continuous monitoring program. If appendix F to part 60 of this chapter is selected for on-going quality assurance, perform daily calibration drift assessments for both the CO<E T="52">2</E> monitor (or surrogate O<E T="52">2</E> monitor) and the flow rate monitor, conduct cylinder gas audits of the CO<E T="52">2</E> concentration monitor in three of the four quarters of each year (except for non-operating quarters), and perform annual RATAs of the CO<E T="52">2</E> concentration monitor and the CERMS.</P>
+<P>(4) For the purposes of this part, the stack gas volumetric flow rate monitor RATAs required by appendix B to part 75 of this chapter and the annual RATAs of the CERMS required by appendix F to part 60 of this chapter need only be done at one operating level, representing normal load or normal process operating conditions, both for initial certification and for ongoing quality assurance.</P>
+<P>(5) If, for any source operating hour, quality assured data are not obtained with a CO<E T="52">2</E> monitor (or surrogate O<E T="52">2</E> monitor), flow rate monitor, or (if applicable) moisture monitor, use appropriate substitute data values in accordance with the missing data provisions of &#xA7; 98.35.</P>
+<P>(6) For applications where CO<E T="52">2</E> concentrations in process and/or combustion flue gasses are lower or higher than the typical CO<E T="52">2</E> span value for coal-based fuels (<I>e.g.,</I> 20 percent CO<E T="52">2</E> for a coal fired boiler), cylinder gas audits of the CO<E T="52">2</E> monitor under appendix F to part 60 of this chapter may be performed at 40-60 percent and 80-100 percent of CO<E T="52">2</E> span, in lieu of the prescribed calibration levels of 5-8 percent and 10-14 percent CO<E T="52">2</E> by volume.</P>
+<P>(7) Hourly average data from the CEMS shall be validated in a manner consistent with one of the following: &#xA7;&#xA7; 60.13(h)(2)(i) through (h)(2)(vi) of this chapter; &#xA7; 75.10(d)(1) of this chapter; or the hourly data validation requirements of an applicable State CEM regulation.</P>
+<P>(d) Except as otherwise provided in &#xA7; 98.33(e)(3)(iv), when municipal solid waste (MSW) is either the primary fuel combusted in a unit or the only fuel with a biogenic component combusted in the unit, determine the biogenic portion of the CO<E T="52">2</E> emissions using ASTM D6866-16 and ASTM D7459-08 (both incorporated by reference, see &#xA7; 98.7). Perform the ASTM D7459-08 sampling and the ASTM D6866-16 analysis at least once in every calendar quarter in which MSW is combusted in the unit. Collect each gas sample during normal unit operating conditions for at least 24 total (not necessarily consecutive) hours, or longer if the facility deems it necessary to obtain a representative sample. Notwithstanding this requirement, if the types of fuels combusted and their relative proportions are consistent throughout the year, the minimum required sampling time may be reduced to 8 hours if at least two 8-hour samples and one 24-hour sample are collected under normal operating conditions, and arithmetic average of the biogenic fraction of the flue gas from the 8-hour samples (expressed as a decimal) is within &#xB1;5 percent of the biogenic fraction from the 24-hour test. There must be no overlapping of the 8-hour and 24-hour test periods. Document the results of the demonstration in the unit's monitoring plan. If the types of fuels and their relative proportions are not consistent throughout the year, an optional sampling approach that facilities may wish to consider to obtain a more representative sample is to collect an integrated sample by extracting a small amount of flue gas (<I>e.g.,</I> 1 to 5 cc) in each unit operating hour during the quarter. Separate the total annual CO<E T="52">2</E> emissions into the biogenic and non-biogenic fractions using the average proportion of biogenic emissions of all samples analyzed during the reporting year. Express the results as a decimal fraction (<I>e.g.,</I> 0.30, if 30 percent of the CO<E T="52">2</E> is biogenic). When MSW is the primary fuel for multiple units at the facility, and the units are fed from a common fuel source, testing at only one of the units is sufficient.</P>
+<P>(e) For other units that combust combinations of biomass fuel(s) (or heterogeneous fuels that have a biomass component, <I>e.g.,</I> tires) and fossil (or other non-biogenic) fuel(s), in any proportions, ASTM D6866-16 and ASTM D7459-08 (both incorporated by reference, see &#xA7; 98.7) may be used to determine the biogenic portion of the CO<E T="52">2</E> emissions in every calendar quarter in which biomass and non-biogenic fuels are co-fired in the unit. Follow the procedures in paragraph (d) of this section. If multiple units at the facility are fed from a common fuel source, testing at only one of the units is sufficient.</P>
+<P>(f) The records required under &#xA7; 98.3(g)(2)(i) shall include an explanation of how the following parameters are determined from company records (or, if applicable, from the best available information):</P>
+<P>(1) Fuel consumption, when the Tier 1 and Tier 2 Calculation Methodologies are used, including cases where &#xA7; 98.36(c)(4) applies.</P>
+<P>(2) Fuel consumption, when solid fuel is combusted and the Tier 3 Calculation Methodology is used.</P>
+<P>(3) Fossil fuel consumption when &#xA7; 98.33(e)(2) applies to a unit that uses CEMS to quantify CO<E T="52">2</E> emissions and that combusts both fossil and biomass fuels.</P>
+<P>(4) Sorbent usage, when &#xA7; 98.33(d) applies.</P>
+<P>(5) Quantity of steam generated by a unit when &#xA7; 98.33(a)(2)(iii) applies.</P>
+<P>(6) Biogenic fuel consumption and high heating value, as applicable, under &#xA7;&#xA7; 98.33(e)(5) and (e)(6).</P>
+<P>(7) Fuel usage for CH<E T="52">4</E> and N<E T="52">2</E>O emissions calculations under &#xA7; 98.33(c)(4)(ii).</P>
+<P>(8) Mass of biomass combusted, for premixed fuels that contain biomass and fossil fuels under &#xA7; 98.33(e)(1)(iii).</P>
+<CITA TYPE="N">[74 FR 56374, Oct. 30, 2009, as amended at 75 FR 79146, Dec. 17, 2010; 81 FR 89251, Dec. 9, 2016; 89 FR 31902, Apr. 25, 2024]
+</CITA>
+</DIV8>
+
+<DIV8 N="98.35" TYPE="SECTION" hierarchy_metadata="{&quot;path&quot;:&quot;/on/_SUBSTITUTE_DATE_/title-40/section-98.35&quot;,&quot;citation&quot;:&quot;40 CFR 98.35&quot;}">
+<HEAD>&#xA7; 98.35 Procedures for estimating missing data.</HEAD>
+<P>Whenever a quality-assured value of a required parameter is unavailable (e.g., if a CEMS malfunctions during unit operation or if a required fuel sample is not taken), a substitute data value for the missing parameter shall be used in the calculations.</P>
+<P>(a) For all units subject to the requirements of the Acid Rain Program, and all other stationary combustion units subject to the requirements of this part that monitor and report emissions and heat input data year-round in accordance with part 75 of this chapter, the missing data substitution procedures in part 75 of this chapter shall be followed for CO<E T="52">2</E> concentration, stack gas flow rate, fuel flow rate, high heating value, and fuel carbon content.</P>
+<P>(b) For units that use the Tier 1, Tier 2, Tier 3, and Tier 4 Calculation Methodologies, perform missing data substitution as follows for each parameter:</P>
+<P>(1) For each missing value of the high heating value, carbon content, or molecular weight of the fuel, substitute the arithmetic average of the quality-assured values of that parameter immediately preceding and immediately following the missing data incident. If the &#x201C;after&#x201D; value has not been obtained by the time that the GHG emissions report is due, you may use the &#x201C;before&#x201D; value for missing data substitution or the best available estimate of the parameter, based on all available process data (e.g., electrical load, steam production, operating hours). If, for a particular parameter, no quality-assured data are available prior to the missing data incident, the substitute data value shall be the first quality-assured value obtained after the missing data period.</P>
+<P>(2) For missing records of CO<E T="52">2</E> concentration, stack gas flow rate, percent moisture, fuel usage, and sorbent usage, the substitute data value shall be the best available estimate of the parameter, based on all available process data (e.g., electrical load, steam production, operating hours, etc.). You must document and retain records of the procedures used for all such estimates.</P>
+<CITA TYPE="N">[74 FR 56374, Oct. 30, 2009, as amended at 75 FR 79150, Dec. 17, 2010]
+</CITA>
+</DIV8>
+
+<DIV8 N="98.36" TYPE="SECTION" hierarchy_metadata="{&quot;path&quot;:&quot;/on/_SUBSTITUTE_DATE_/title-40/section-98.36&quot;,&quot;citation&quot;:&quot;40 CFR 98.36&quot;}">
+<HEAD>&#xA7; 98.36 Data reporting requirements.</HEAD>
+<P>(a) In addition to the facility-level information required under &#xA7; 98.3, the annual GHG emissions report shall contain the unit-level or process-level data specified in paragraphs (b) through (f) of this section, as applicable, for each stationary fuel combustion source (e.g., individual unit, aggregation of units, common pipe, or common stack) except as otherwise provided in this paragraph (a). For the data specified in paragraphs (b)(9)(iii), (c)(2)(ix), (e)(2)(i), (e)(2)(ii)(A), (e)(2)(ii)(C), (e)(2)(ii)(D), (e)(2)(iv)(A), (e)(2)(iv)(C), (e)(2)(iv)(F), and (e)(2)(ix)(D) through (F) of this section, the owner or operator of a stationary fuel combustion source that does not meet the criteria specified in paragraph (f) of this section may elect either to report the data specified in this sentence in the annual report or to use verification software according to &#xA7; 98.5(b) in lieu of reporting these data. If you elect to use this verification software, you must use the verification software according to &#xA7; 98.5(b) for all of these data that apply to the stationary fuel combustion source.</P>
+<P>(b) <I>Units that use the four tiers.</I> You shall report the following information for stationary combustion units that use the Tier 1, Tier 2, Tier 3, or Tier 4 methodology in &#xA7; 98.33(a) to calculate CO<E T="52">2</E> emissions, except as otherwise provided in paragraphs (c) and (d) of this section:</P>
+<P>(1) The unit ID number.</P>
+<P>(2) A code representing the type of unit.</P>
+<P>(3) Maximum rated heat input capacity of the unit, in mmBtu/hr.</P>
+<P>(4) Each type of fuel combusted in the unit during the report year.</P>
+<P>(5) The methodology (<I>i.e.,</I> tier) used to calculate the CO<E T="52">2</E> emissions for each type of fuel combusted (<I>i.e.,</I> Tier 1, 2, 3, or 4).</P>
+<P>(6) The methodology start date, for each fuel type.</P>
+<P>(7) The methodology end date, for each fuel type.</P>
+<P>(8) For a unit that uses Tiers 1, 2, or 3:</P>
+<P>(i) The annual CO<E T="52">2</E> mass emissions (including biogenic CO<E T="52">2</E>), and the annual CH<E T="52">4</E>, and N<E T="52">2</E>O mass emissions for each type of fuel combusted during the reporting year, expressed in metric tons of each gas and in metric tons of CO<E T="52">2</E>e; and</P>
+<P>(ii) Metric tons of biogenic CO<E T="52">2</E> emissions (if applicable).</P>
+<P>(9) For a unit that uses Tier 4:</P>
+<P>(i) If the total annual CO<E T="52">2</E> mass emissions measured by the CEMS consists entirely of non-biogenic CO<E T="52">2</E> (<I>i.e.,</I> CO<E T="52">2</E> from fossil fuel combustion plus, if applicable, CO<E T="52">2</E> from sorbent and/or process CO<E T="52">2</E>), report the total annual CO<E T="52">2</E> mass emissions, expressed in metric tons. You are not required to report the combustion CO<E T="52">2</E> emissions by fuel type.</P>
+<P>(ii) Report the total annual CO<E T="52">2</E> mass emissions measured by the CEMS. If this total includes both biogenic and non-biogenic CO<E T="52">2</E>, separately report the annual non-biogenic CO<E T="52">2</E> mass emissions and the annual CO<E T="52">2</E> mass emissions from biomass combustion, each expressed in metric tons. You are not required to report the combustion CO<E T="52">2</E> emissions by fuel type.</P>
+<P>(iii) An estimate of the heat input from each type of fuel listed in Table C-2 of this subpart that was combusted in the unit during the report year.</P>
+<P>(iv) The annual CH<E T="52">4</E> and N<E T="52">2</E>O emissions for each type of fuel listed in Table C-2 of this subpart that was combusted in the unit during the report year, expressed in metric tons of each gas and in metric tons of CO<E T="52">2</E>e.</P>
+<P>(10) Annual CO<E T="52">2</E> emissions from sorbent (if calculated using Equation C-11 of this subpart), expressed in metric tons.</P>
+<P>(11) If applicable, the plant code (as defined in &#xA7; 98.6).</P>
+<P>(12) For natural gas-fired reciprocating internal combustion engines or gas turbines at facilities subject to subpart W of this part, which must use a CH<E T="52">4</E> emission factor determined in accordance with &#xA7; 98.233(z)(4), you must also report:</P>
+<P>(i) Type of equipment (<I>i.e.</I>, two-stroke lean-burn reciprocating internal combustion engine, four-stroke lean-burn reciprocating internal combustion engine, four-stroke rich-burn reciprocating internal combustion engine, or gas turbine).</P>
+<P>(ii) Method by which the CH<E T="52">4</E> emission factor was determined: performance test, manufacturer data, or default emission factor.</P>
+<P>(iii) Value of the CH<E T="52">4</E> emission factor.</P>
+<P>(c) <I>Reporting alternatives for units using the four Tiers.</I> You may use any of the applicable reporting alternatives of this paragraph to simplify the unit-level reporting required under paragraph (b) of this section:</P>
+<P>(1) <I>Aggregation of units.</I> If a facility contains two or more units (e.g., boilers or combustion turbines), each of which has a maximum rated heat input capacity of 250 mmBtu/hr or less, you may report the combined GHG emissions for the group of units in lieu of reporting GHG emissions from the individual units, provided that the use of Tier 4 is not required or elected for any of the units and the units use the same tier for any common fuels combusted. If this option is selected, the following information shall be reported instead of the information in paragraph (b) of this section:</P>
+<P>(i) Group ID number, beginning with the prefix &#x201C;GP&#x201D;.</P>
+<P>(ii) [Reserved]</P>
+<P>(iii) Cumulative maximum rated heat input capacity of the group (mmBtu/hr). The cumulative maximum rated heat input capacity shall be determined as the sum of the maximum rated heat input capacities for all units in the group, excluding units less than 10 (mmBtu/hr).</P>
+<P>(iv) The highest maximum rated heat input capacity of any unit in the group (mmBtu/hr).</P>
+<P>(v) Each type of fuel combusted in the group of units during the reporting year.</P>
+<P>(vi) Annual CO<E T="52">2</E> mass emissions and annual CH<E T="52">4</E>, and N<E T="52">2</E>O mass emissions, aggregated for each type of fuel combusted in the group of units during the report year, expressed in metric tons of each gas and in metric tons of CO<E T="52">2</E>e. If any of the units burn biomass, report also the annual CO<E T="52">2</E> emissions from combustion of all biomass fuels combined, expressed in metric tons.</P>
+<P>(vii) The methodology (<I>i.e.,</I> tier) used to calculate the CO<E T="52">2</E> mass emissions for each type of fuel combusted in the units (<I>i.e.,</I> Tier 1, Tier 2, or Tier 3).</P>
+<P>(viii) The methodology start date, for each fuel type.</P>
+<P>(ix) The methodology end date, for each fuel type.</P>
+<P>(x) The calculated CO<E T="52">2</E> mass emissions (if any) from sorbent expressed in metric tons.</P>
+<P>(xi) If applicable, the plant code (as defined in &#xA7; 98.6).</P>
+<P>(xii) For natural gas-fired reciprocating internal combustion engines or gas turbines at facilities subject to subpart W of this part, which must use a CH<E T="52">4</E> emission factor determined in accordance with &#xA7; 98.233(z)(4), you must report the equipment type (<I>i.e.</I>, two-stroke lean-burn reciprocating internal combustion engine, four-stroke lean-burn reciprocating internal combustion engine, four-stroke rich-burn reciprocating internal combustion engine, and gas turbine), the method by which the CH<E T="52">4</E> emission factor was determined (<I>i.e.</I>, performance test, manufacturer data, or default emission factor), and the average value of the CH<E T="52">4</E> emission factor.</P>
+<P>(2) <I>Monitored common stack or duct configurations.</I> When the flue gases from two or more stationary fuel combustion units at a facility are combined together in a common stack or duct before exiting to the atmosphere and if CEMS are used to continuously monitor CO<E T="52">2</E> mass emissions at the common stack or duct according to the Tier 4 Calculation Methodology, you may report the combined emissions from the units sharing the common stack or duct, in lieu of separately reporting the GHG emissions from the individual units. This monitoring and reporting alternative may also be used when process off-gases or a mixture of combustion products and process gases are combined together in a common stack or duct before exiting to the atmosphere. Whenever the common stack or duct monitoring option is applied, the following information shall be reported instead of the information in paragraph (b) of this section:</P>
+<P>(i) Common stack or duct identification number, beginning with the prefix &#x201C;CS&#x201D;.</P>
+<P>(ii) Number of units sharing the common stack or duct. Report &#x201C;1&#x201D; when the flue gas flowing through the common stack or duct includes combustion products and/or process off-gases, and all of the effluent comes from a single unit (<I>e.g.,</I> a furnace, kiln, petrochemical production unit, or smelter).</P>
+<P>(iii) Combined maximum rated heat input capacity of the units sharing the common stack or duct (mmBtu/hr). This data element is required only when all of the units sharing the common stack are stationary fuel combustion units.</P>
+<P>(iv) Each type of fuel combusted in the units during the year.</P>
+<P>(v) The methodology (tier) used to calculate the CO<E T="52">2</E> mass emissions, <I>i.e.,</I> Tier 4.</P>
+<P>(vi) The methodology start date.</P>
+<P>(vii) The methodology end date.</P>
+<P>(viii) Total annual CO<E T="52">2</E> mass emissions measured by the CEMS, expressed in metric tons. If any of the units burn both fossil fuels and biomass, separately report the annual non-biogenic CO<E T="52">2</E> mass emissions (<I>i.e.,</I> CO<E T="52">2</E> from fossil fuel combustion plus, if applicable, CO<E T="52">2</E> from sorbent and/or process CO<E T="52">2</E>) and the annual CO<E T="52">2</E> mass emissions from biomass combustion, each expressed in metric tons.</P>
+<P>(ix) An estimate of the heat input from each type of fuel listed in Table C-2 of this subpart that was combusted in the units sharing the common stack or duct during the report year.</P>
+<P>(x) For each type of fuel listed in Table C-2 of this subpart that was combusted during the report year in the units sharing the common stack or duct during the report year, the annual CH<E T="52">4</E> and N<E T="52">2</E>O mass emissions from the units sharing the common stack or duct, expressed in metric tons of each gas and in metric tons of CO<E T="52">2</E>e.</P>
+<P>(xi) If applicable, the plant code (as defined in &#xA7; 98.6).</P>
+<P>(3) <I>Common pipe configurations.</I> When two or more stationary combustion units at a facility combust the same type of liquid or gaseous fuel and the fuel is fed to the individual units through a common supply line or pipe, you may report the combined emissions from the units served by the common supply line, in lieu of separately reporting the GHG emissions from the individual units, provided that the total amount of fuel combusted by the units is accurately measured at the common pipe or supply line using a fuel flow meter, or, for natural gas, the amount of fuel combusted may be obtained from gas billing records. For Tier 3 applications, the flow meter shall be calibrated in accordance with &#xA7; 98.34(b). If a portion of the fuel measured (or obtained from gas billing records) at the main supply line is diverted to either: A flare; or another stationary fuel combustion unit (or units), including units that use a CO<E T="52">2</E> mass emissions calculation method in part 75 of this chapter; or a chemical or industrial process (where it is used as a raw material but not combusted), and the remainder of the fuel is distributed to a group of combustion units for which you elect to use the common pipe reporting option, you may use company records to subtract out the diverted portion of the fuel from the fuel measured (or obtained from gas billing records) at the main supply line prior to performing the GHG emissions calculations for the group of units using the common pipe option. If the diverted portion of the fuel is combusted, the GHG emissions from the diverted portion shall be accounted for in accordance with the applicable provisions of this part. When the common pipe option is selected, the applicable tier shall be used based on the maximum rated heat input capacity of the largest unit served by the common pipe configuration, except where the applicable tier is based on criteria other than unit size. For example, if the maximum rated heat input capacity of the largest unit is greater than 250 mmBtu/hr, Tier 3 will apply, unless the fuel transported through the common pipe is natural gas or distillate oil, in which case Tier 2 may be used, in accordance with &#xA7; 98.33(b)(2)(ii). As a second example, in accordance with &#xA7; 98.33(b)(1)(v), Tier 1 may be used regardless of unit size when natural gas is transported through the common pipe, if the annual fuel consumption is obtained from gas billing records in units of therms or mmBtu. When the common pipe reporting option is selected, the following information shall be reported instead of the information in paragraph (b) of this section:</P>
+<P>(i) Common pipe identification number, beginning with the prefix &#x201C;CP&#x201D;.</P>
+<P>(ii) Cumulative maximum rated heat input capacity of the units served by the common pipe (mmBtu/hr). The cumulative maximum rated heat input capacity shall be determined as the sum of the maximum rated heat input capacities for all units served by the common pipe, excluding units less than 10 (mmBtu/hr).</P>
+<P>(iii) The highest maximum rated heat input capacity of any unit served by the common pipe (mmBtu/hr).</P>
+<P>(iv) The fuels combusted in the units during the reporting year.</P>
+<P>(v) The methodology used to calculate the CO<E T="52">2</E> mass emissions (i.e., Tier 1, Tier 2, or Tier 3).</P>
+<P>(vi) If any of the units burns biomass, the annual CO<E T="52">2</E> emissions from combustion of all biomass fuels from the units served by the common pipe, expressed in metric tons.</P>
+<P>(vii) Annual CO<E T="52">2</E> mass emissions and annual CH<E T="52">4</E> and N<E T="52">2</E>O emissions from each fuel type for the units served by the common pipe, expressed in metric tons of each gas and in metric tons of CO<E T="52">2</E>e.</P>
+<P>(viii) Methodology start date.</P>
+<P>(ix) Methodology end date.</P>
+<P>(x) If applicable, the plant code (as defined in &#xA7; 98.6).</P>
+<P>(xi) For natural gas-fired reciprocating internal combustion engines or gas turbines at facilities subject to subpart W of this part, which must use a CH<E T="52">4</E> emission factor determined in accordance with &#xA7; 98.233(z)(4), you must report the equipment type (<I>i.e.</I>, two-stroke lean-burn reciprocating internal combustion engine, four-stroke lean-burn reciprocating internal combustion engine, four-stroke rich-burn reciprocating internal combustion engine, and gas turbine) the method by which the CH<E T="52">4</E> emission factor was determined (<I>i.e.</I>, performance test, manufacturer data, or default emission factor), and the average value of the CH<E T="52">4</E> emission factor.</P>
+<P>(4) The following alternative reporting option applies to facilities at which a common liquid or gaseous fuel supply is shared between one or more large combustion units, such as boilers or combustion turbines (including units subject to subpart D of this part and other units subject to part 75 of this chapter) and small combustion sources, including, but not limited to, space heaters, hot water heaters, and lab burners. In this case, you may simplify reporting by attributing all of the GHG emissions from combustion of the shared fuel to the large combustion unit(s), provided that:</P>
+<P>(i) The total quantity of the fuel combusted during the report year in the units sharing the fuel supply is measured, either at the &#x201C;gate&#x201D; to the facility or at a point inside the facility, using a fuel flow meter, billing meter, or tank drop measurements (as applicable);</P>
+<P>(ii) On an annual basis, at least 95 percent (by mass or volume) of the shared fuel is combusted in the large combustion unit(s), and the remainder is combusted in the small combustion sources. Company records may be used to determine the percentage distribution of the shared fuel to the large and small units; and</P>
+<P>(iii) The use of this reporting option is documented in the Monitoring Plan required under &#xA7; 98.3(g)(5). Indicate in the Monitoring Plan which units share the common fuel supply and the method used to demonstrate that this alternative reporting option applies. For the small combustion sources, a description of the types of units and the approximate number of units is sufficient.</P>
+<P>(d) <I>Units subject to part 75 of this chapter.</I> (1) For stationary combustion units that are subject to subpart D of this part, you shall report the following unit-level information:</P>
+<P>(i) Unit or stack identification numbers. Use exact same unit, common stack, common pipe, or multiple stack identification numbers that represent the monitored locations (<I>e.g.,</I> 1, 2, CS001, MS1A, CP001, <I>etc.</I>) that are reported under &#xA7; 75.64 of this chapter.</P>
+<P>(ii) Annual CO<E T="52">2</E> emissions at each monitored location, expressed in both short tons and metric tons. Separate reporting of biogenic CO<E T="52">2</E> emissions under &#xA7; 98.3(c)(4)(ii) and &#xA7; 98.3(c)(4)(iii)(A) is optional only for the 2010 reporting year, as provided in &#xA7; 98.3(c)(12).</P>
+<P>(iii) Annual CH<E T="52">4</E> and N<E T="52">2</E>O emissions at each monitored location, for each fuel type listed in Table C-2 that was combusted during the year (except as otherwise provided in &#xA7; 98.33(c)(4)(ii)(B)), expressed in metric tons of CO<E T="52">2</E>e.</P>
+<P>(iv) The total heat input from each fuel listed in Table C-2 that was combusted during the year (except as otherwise provided in &#xA7; 98.33(c)(4)(ii)(B)), expressed in mmBtu.</P>
+<P>(v) Identification of the Part 75 methodology used to determine the CO<E T="52">2</E> mass emissions.</P>
+<P>(vi) Methodology start date.</P>
+<P>(vii) Methodology end date.</P>
+<P>(viii) Acid Rain Program indicator.</P>
+<P>(ix) Annual CO<E T="52">2</E> mass emissions from the combustion of biomass, expressed in metric tons of CO<E T="52">2</E>e, except where the reporting provisions of &#xA7;&#xA7; 98.3(c)(12)(i) through (c)(12)(iii) are implemented for the 2010 reporting year.</P>
+<P>(x) If applicable, the plant code (as defined in &#xA7; 98.6).</P>
+<P>(2) For units that use the alternative CO<E T="52">2</E> mass emissions calculation methods provided in &#xA7; 98.33(a)(5), you shall report the following unit-level information:</P>
+<P>(i) Unit, stack, or pipe ID numbers. Use exact same unit, common stack, common pipe, or multiple stack identification numbers that represent the monitored locations (<I>e.g.,</I> 1, 2, CS001, MS1A, CP001, <I>etc.</I>) that are reported under &#xA7; 75.64 of this chapter.</P>
+<P>(ii) For units that use the alternative methods specified in &#xA7; 98.33(a)(5)(i) and (ii) to monitor and report heat input data year-round according to appendix D to part 75 of this chapter or &#xA7; 75.19 of this chapter:</P>
+<P>(A) Each type of fuel combusted in the unit during the reporting year.</P>
+<P>(B) The methodology used to calculate the CO<E T="52">2</E> mass emissions for each fuel type.</P>
+<P>(C) Methodology start date.</P>
+<P>(D) Methodology end date.</P>
+<P>(E) A code or flag to indicate whether heat input is calculated according to appendix D to part 75 of this chapter or &#xA7; 75.19 of this chapter.</P>
+<P>(F) Annual CO<E T="52">2</E> emissions at each monitored location, across all fuel types, expressed in metric tons of CO<E T="52">2</E>e.</P>
+<P>(G) Annual heat input from each type of fuel listed in Table C-2 of this subpart that was combusted during the reporting year, expressed in mmBtu.</P>
+<P>(H) Annual CH<E T="52">4</E> and N<E T="52">2</E>O emissions at each monitored location, from each fuel type listed in Table C-2 of this subpart that was combusted during the reporting year (except as otherwise provided in &#xA7; 98.33(c)(4)(ii)(D)), expressed in metric tons CO<E T="52">2</E>e.</P>
+<P>(I) Annual CO<E T="52">2</E> mass emissions from the combustion of biomass, expressed in metric tons CO<E T="52">2</E>e, except where the reporting provisions of &#xA7;&#xA7; 98.3(c)(12)(i) through (c)(12)(iii) are implemented for the 2010 reporting year.</P>
+<P>(J) If applicable, the plant code (as defined in &#xA7; 98.6).</P>
+<P>(iii) For units with continuous monitoring systems that use the alternative method for units with continuous monitoring systems in &#xA7; 98.33(a)(5)(iii) to monitor heat input year-round according to part 75 of this chapter:</P>
+<P>(A) Each type of fuel combusted during the reporting year.</P>
+<P>(B) Methodology used to calculate the CO<E T="52">2</E> mass emissions.</P>
+<P>(C) Methodology start date.</P>
+<P>(D) Methodology end date.</P>
+<P>(E) A code or flag to indicate that the heat input data is derived from CEMS measurements.</P>
+<P>(F) The total annual CO<E T="52">2</E> emissions at each monitored location, expressed in metric tons of CO<E T="52">2</E>e.</P>
+<P>(G) Annual heat input from each type of fuel listed in Table C-2 of this subpart that was combusted during the reporting year, expressed in mmBtu.</P>
+<P>(H) Annual CH<E T="52">4</E> and N<E T="52">2</E>O emissions at each monitored location, from each fuel type listed in Table C-2 of this subpart that was combusted during the reporting year (except as otherwise provided in &#xA7; 98.33(c)(4)(ii)(B)), expressed in metric tons CO<E T="52">2</E>e.</P>
+<P>(I) Annual CO<E T="52">2</E> mass emissions from the combustion of biomass, expressed in metric tons CO<E T="52">2</E>e, except where the reporting provisions of &#xA7;&#xA7; 98.3(c)(12)(i) through (c)(12)(iii) are implemented for the 2010 reporting year.</P>
+<P>(J) If applicable, the plant code (as defined in &#xA7; 98.6).</P>
+<P>(e) <I>Verification data.</I> You must keep on file, in a format suitable for inspection and auditing, sufficient data to verify the reported GHG emissions. This data and information must, where indicated in this paragraph (e), be included in the annual GHG emissions report.</P>
+<P>(1) The applicable verification data specified in this paragraph (e) are not required to be kept on file or reported for units that meet any one of the three following conditions:</P>
+<P>(i) Are subject to the Acid Rain Program.</P>
+<P>(ii) Use the alternative methods for units with continuous monitoring systems provided in &#xA7; 98.33(a)(5).</P>
+<P>(iii) Are not in the Acid Rain Program, but are required to monitor and report CO<E T="52">2</E> mass emissions and heat input data year-round, in accordance with part 75 of this chapter.</P>
+<P>(2) For stationary combustion sources using the Tier 1, Tier 2, Tier 3, and Tier 4 Calculation Methodologies in &#xA7; 98.33(a) to quantify CO<E T="52">2</E> emissions, the following additional information shall be kept on file and included in the GHG emissions report, where indicated:</P>
+<P>(i) For the Tier 1 Calculation Methodology, report:</P>
+<P>(A) The total quantity of each type of fuel combusted in the unit or group of aggregated units (as applicable) during the reporting year, in short tons for solid fuels, gallons for liquid fuels and standard cubic feet for gaseous fuels, or, if applicable, therms or mmBtu for natural gas.</P>
+<P>(B) If applicable, the moisture content used to calculate the wood and wood residuals wet basis HHV for use in Equations C-1 and C-8 of this subpart, in percent.</P>
+<P>(ii) For the Tier 2 Calculation Methodology, report:</P>
+<P>(A) The total quantity of each type of fuel combusted in the unit or group of aggregated units (as applicable) during each month of the reporting year. Express the quantity of each fuel combusted during the measurement period in short tons for solid fuels, gallons for liquid fuels, and scf for gaseous fuels.</P>
+<P>(B) The frequency of the HHV determinations (e.g., once a month, once per fuel lot).</P>
+<P>(C) The annual average, and, where applicable, monthly high heat values used in the CO<E T="52">2</E> emissions calculations for each type of fuel combusted during the reporting year, in mmBtu per short ton for solid fuels, mmBtu per gallon for liquid fuels, and mmBtu per scf for gaseous fuels. Report an HHV value for each calendar month in which HHV determination is required. If multiple values are obtained in a given month, report the arithmetic average value for the month.</P>
+<P>(D) If Equation C-2c of this subpart is used to calculate CO<E T="52">2</E> mass emissions, report the total quantity (<I>i.e.,</I> pounds) of steam produced from MSW or solid fuel combustion during each month of the reporting year, and the ratio of the maximum rate heat input capacity to the design rated steam output capacity of the unit, in mmBtu per lb of steam.</P>
+<P>(E) For each HHV used in the CO<E T="52">2</E> emissions calculations for each type of fuel combusted during the reporting year, indicate whether the HHV is a measured value or a substitute data value.</P>
+<P>(iii) For the Tier 2 Calculation Methodology, keep records of the methods used to determine the HHV for each type of fuel combusted and the date on which each fuel sample was taken, except where fuel sampling data are received from the fuel supplier. In that case, keep records of the dates on which the results of the fuel analyses for HHV are received.</P>
+<P>(iv) For the Tier 3 Calculation Methodology, report:</P>
+<P>(A) The quantity of each type of fuel combusted in the unit or group of units (as applicable) during each month of the reporting year, in short tons for solid fuels, gallons for liquid fuels, and scf for gaseous fuels.</P>
+<P>(B) The frequency of carbon content and, if applicable, molecular weight determinations for each type of fuel for the reporting year (e.g., daily, weekly, monthly, semiannually, once per fuel lot).</P>
+<P>(C) The carbon content and, if applicable, gas molecular weight values used in the emission calculations (including both valid and substitute data values). For each calendar month of the reporting year in which carbon content and, if applicable, molecular weight determination is required, report a value of each parameter. If multiple values of a parameter are obtained in a given month, report the arithmetic average value for the month. Express carbon content as a decimal fraction for solid fuels, kg C per gallon for liquid fuels, and kg C per kg of fuel for gaseous fuels. Express the gas molecular weights in units of kg per kg-mole.</P>
+<P>(D) The total number of valid carbon content determinations and, if applicable, molecular weight determinations made during the reporting year, for each fuel type.</P>
+<P>(E) The number of substitute data values used for carbon content and, if applicable, molecular weight used in the annual GHG emissions calculations.</P>
+<P>(F) The annual average HHV, when measured HHV data, rather than a default HHV from Table C-1 of this subpart, are used to calculate CH<E T="52">4</E> and N<E T="52">2</E>O emissions for a Tier 3 unit, in accordance with &#xA7; 98.33(c)(1).</P>
+<P>(G) The value of the molar volume constant (MVC) used in Equation C-5 (if applicable).</P>
+<P>(v) For the Tier 3 Calculation Methodology, keep records of the following:</P>
+<P>(A) For liquid and gaseous fuel combustion, the dates and results of the initial calibrations and periodic recalibrations of the required fuel flow meters.</P>
+<P>(B) For fuel oil combustion, the method from &#xA7; 98.34(b) used to make tank drop measurements (if applicable).</P>
+<P>(C) The methods used to determine the carbon content and (if applicable) the molecular weight of each type of fuel combusted.</P>
+<P>(D) The methods used to calibrate the fuel flow meters).</P>
+<P>(E) The date on which each fuel sample was taken, except where fuel sampling data are received from the fuel supplier. In that case, keep records of the dates on which the results of the fuel analyses for carbon content and (if applicable) molecular weight are received.</P>
+<P>(vi) For the Tier 4 Calculation Methodology, report:</P>
+<P>(A) The total number of source operating hours in the reporting year.</P>
+<P>(B) The cumulative CO<E T="52">2</E> mass emissions in each quarter of the reporting year, i.e., the sum of the hourly values calculated from Equation C-6 or C-7 of this subpart (as applicable), in metric tons.</P>
+<P>(C) For CO<E T="52">2</E> concentration, stack gas flow rate, and (if applicable) stack gas moisture content, the percentage of source operating hours in which a substitute data value of each parameter was used in the emissions calculations.</P>
+<P>(vii) For the Tier 4 Calculation Methodology, keep records of:</P>
+<P>(A) Whether the CEMS certification and quality assurance procedures of part 75 of this chapter, part 60 of this chapter, or an applicable State continuous monitoring program were used.</P>
+<P>(B) The dates and results of the initial certification tests of the CEMS.</P>
+<P>(C) The dates and results of the major quality assurance tests performed on the CEMS during the reporting year, i.e., linearity checks, cylinder gas audits, and relative accuracy test audits (RATAs).</P>
+<P>(viii) If CO<E T="52">2</E> emissions that are generated from acid gas scrubbing with sorbent injection are not captured using CEMS, report:</P>
+<P>(A) The total amount of sorbent used during the report year, in short tons.</P>
+<P>(B) The molecular weight of the sorbent.</P>
+<P>(C) The ratio (&#x201C;R&#x201D;) in Equation C-11 of this subpart.</P>
+<P>(ix) For units that combust both fossil fuel and biomass, when biogenic CO<E T="52">2</E> is determined according to &#xA7; 98.33(e)(2), you shall report the following additional information, as applicable:</P>
+<P>(A) The annual volume of CO<E T="52">2</E> emitted from the combustion of all fuels,<I>i.e.</I>, V<E T="52">total</E>, in scf.</P>
+<P>(B) The annual volume of CO<E T="52">2</E> emitted from the combustion of fossil fuels, <I>i.e.</I>, V<E T="52">ff</E>, in scf. If more than one type of fossil fuel was combusted, report the combustion volume of CO<E T="52">2</E> for each fuel separately as well as the total.</P>
+<P>(C) The annual volume of CO<E T="52">2</E> emitted from the combustion of biomass,<I>i.e.</I>, V<E T="52">bio</E>, in scf.</P>
+<P>(D) The carbon-based F-factor used in Equation C-13 of this subpart, for each type of fossil fuel combusted, in scf CO<E T="52">2</E> per mmBtu.</P>
+<P>(E) The annual average HHV value used in Equation C-13 of this subpart, for each type of fossil fuel combusted, in Btu/lb, Btu/gal, or Btu/scf, as appropriate.</P>
+<P>(F) The total quantity of each type of fossil fuel combusted during the reporting year, in lb, gallons, or scf, as appropriate.</P>
+<P>(G) Annual biogenic CO<E T="52">2</E> mass emissions, in metric tons.</P>
+<P>(x) When ASTM methods D7459-08 and D6866-16 (both incorporated by reference, see &#xA7; 98.7) are used to determine the biogenic portion of the annual CO<E T="52">2</E> emissions from MSW combustion, as described in &#xA7; 98.34(d), report:</P>
+<P>(A) The results of each quarterly sample analysis, expressed as a decimal fraction (e.g., if the biogenic fraction of the CO<E T="52">2</E> emissions from MSW combustion is 30 percent, report 0.30).</P>
+<P>(B) The annual biogenic CO<E T="52">2</E> mass emissions from MSW combustion, in metric tons.</P>
+<P>(xi) When ASTM methods D7459-08 and D6866-16 (both incorporated by reference, see &#xA7; 98.7) are used in accordance with &#xA7; 98.34(e) to determine the biogenic portion of the annual CO<E T="52">2</E> emissions from a unit that co-fires biogenic fuels (or partly-biogenic fuels, including tires) and non-biogenic fuels, you shall report the results of each quarterly sample analysis, expressed as a decimal fraction (<I>e.g.,</I> if the biogenic fraction of the CO<E T="52">2</E> emissions is 30 percent, report 0.30).</P>
+<P>(3) Within 30 days of receipt of a written request from the Administrator, you shall submit explanations of the following:</P>
+<P>(i) An explanation of how company records are used to quantify fuel consumption, if the Tier 1 or Tier 2 Calculation Methodology is used to calculate CO<E T="52">2</E> emissions.</P>
+<P>(ii) An explanation of how company records are used to quantify fuel consumption, if solid fuel is combusted and the Tier 3 Calculation Methodology is used to calculate CO<E T="52">2</E> emissions.</P>
+<P>(iii) An explanation of how sorbent usage is quantified.</P>
+<P>(iv) An explanation of how company records are used to quantify fossil fuel consumption in units that uses CEMS to quantify CO<E T="52">2</E> emissions and combusts both fossil fuel and biomass.</P>
+<P>(v) An explanation of how company records are used to measure steam production, when it is used to calculate CO<E T="52">2</E> mass emissions under &#xA7; 98.33(a)(2)(iii) or to quantify solid fuel usage under &#xA7; 98.33(c)(3).</P>
+<P>(4) Within 30 days of receipt of a written request from the Administrator, you shall submit the verification data and information described in paragraphs (e)(2)(iii), (e)(2)(v), and (e)(2)(vii) of this section.</P>
+<P>(f) Each stationary fuel combustion source (e.g., individual unit, aggregation of units, common pipe, or common stack) subject to reporting under paragraph (b) or (c) of this section must indicate if both of the following two conditions are met:</P>
+<P>(1) The stationary fuel combustion source contains at least one combustion unit connected to a fuel-fired electric generator owned or operated by an entity that is subject to regulation of customer billing rates by the public utility commission (excluding generators that are connected to combustion units that are subject to subpart D of this part).</P>
+<P>(2) The stationary fuel combustion source is located at a facility for which the sum of the nameplate capacities for all electric generators specified in paragraph (f)(1) of this section is greater than or equal to 1 megawatt electric output.</P>
+<CITA TYPE="N">[74 FR 56374, Oct. 30, 2009, as amended at 75 FR 79151, Dec. 17, 2010; 78 FR 71950, Nov. 29, 2013; 79 FR 63782, Oct. 24, 2014; 81 FR 89251, Dec. 9, 2016; 89 FR 31902, Apr. 25, 2024; 89 FR 42220, May 14, 2024]
+</CITA>
+</DIV8>
+
+<DIV8 N="98.37" TYPE="SECTION" hierarchy_metadata="{&quot;path&quot;:&quot;/on/_SUBSTITUTE_DATE_/title-40/section-98.37&quot;,&quot;citation&quot;:&quot;40 CFR 98.37&quot;}">
+<HEAD>&#xA7; 98.37 Records that must be retained.</HEAD>
+<P>In addition to the requirements of &#xA7; 98.3(g), you must retain:</P>
+<P>(a) The applicable records specified in &#xA7;&#xA7; 98.34(f), 98.35(b), and 98.36(e).</P>
+<P>(b) The applicable verification software records as identified in this paragraph (b). For each stationary fuel combustion source that elects to use the verification software specified in &#xA7; 98.5(b) rather than report data specified in paragraphs (b)(9)(iii), (c)(2)(ix), (e)(2)(i), (e)(2)(ii)(A), (C), and (D), (e)(2)(iv)(A), (C), and (F), and (e)(2)(ix)(D) through (F) of this section, you must keep a record of the file generated by the verification software for the applicable data specified in paragraphs (b)(1) through (37) of this section. Retention of this file satisfies the recordkeeping requirement for the data in paragraphs (b)(1) through (37) of this section.</P>
+<P>(1) Mass of each solid fuel combusted (tons/year) (equation C-1 to &#xA7; 98.33).</P>
+<P>(2) Volume of each liquid fuel combusted (gallons/year) (equation C-1 to &#xA7; 98.33).</P>
+<P>(3) Volume of each gaseous fuel combusted (scf/year) (equation C-1 to &#xA7; 98.33).</P>
+<P>(4) Annual natural gas usage (therms/year) (equation C-1a to &#xA7; 98.33).</P>
+<P>(5) Annual natural gas usage (mmBtu/year) (equation C-1b to &#xA7; 98.33).</P>
+<P>(6) Mass of each solid fuel combusted (tons/year) (equation C-2a to &#xA7; 98.33).</P>
+<P>(7) Volume of each liquid fuel combusted (gallons/year) (equation C-2a to &#xA7; 98.33).</P>
+<P>(8) Volume of each gaseous fuel combusted (scf/year) (equation C-2a to &#xA7; 98.33).</P>
+<P>(9) Measured high heat value of each solid fuel, for month (which may be the arithmetic average of multiple determinations), or, if applicable, an appropriate substitute data value (mmBtu per ton) (equation C-2b to &#xA7; 98.33). Annual average HHV of each solid fuel (mmBtu per ton) (equation C-2a to &#xA7; 98.33).</P>
+<P>(10) Measured high heat value of each liquid fuel, for month (which may be the arithmetic average of multiple determinations), or, if applicable, an appropriate substitute data value (mmBtu per gallons) (equation C-2b to &#xA7; 98.33). Annual average HHV of each liquid fuel (mmBtu per gallons) (equation C-2a to &#xA7; 98.33).</P>
+<P>(11) Measured high heat value of each gaseous fuel, for month (which may be the arithmetic average of multiple determinations), or, if applicable, an appropriate substitute data value (mmBtu per scf) (equation C-2b to &#xA7; 98.33). Annual average HHV of each gaseous fuel (mmBtu per scf) (equation C-2a to &#xA7; 98.33).</P>
+<P>(12) Mass of each solid fuel combusted during month (tons) (equation C-2b to &#xA7; 98.33).</P>
+<P>(13) Volume of each liquid fuel combusted during month (gallons) (equation C-2b to &#xA7; 98.33).</P>
+<P>(14) Volume of each gaseous fuel combusted during month (scf) (equation C-2b, equation C-5A, equation C-5B to &#xA7; 98.33).</P>
+<P>(15) Total mass of steam generated by municipal solid waste or each solid fuel combustion during the reporting year (pounds steam) (equation C-2c to &#xA7; 98.33).</P>
+<P>(16) Ratio of the boiler's maximum rated heat input capacity to its design rated steam output capacity (MMBtu/pounds steam) (equation C-2c to &#xA7; 98.33).</P>
+<P>(17) Annual mass of each solid fuel combusted (short tons/year) (equation C-3 to &#xA7; 98.33).</P>
+<P>(18) Annual average carbon content of each solid fuel (percent by weight, expressed as a decimal fraction) (equation C-3 to &#xA7; 98.33). Where applicable, monthly carbon content of each solid fuel (which may be the arithmetic average of multiple determinations), or, if applicable, an appropriate substitute data value (percent by weight, expressed as a decimal fraction) (equation C-2b to &#xA7; 98.33&#x2014;see the definition of &#x201C;CC&#x201D; in equation C-3 to &#xA7; 98.33).</P>
+<P>(19) Annual volume of each liquid fuel combusted (gallons/year) (equation C-4 to &#xA7; 98.33).</P>
+<P>(20) Annual average carbon content of each liquid fuel (kg C per gallon of fuel) (equation C-4 to &#xA7; 98.33). Where applicable, monthly carbon content of each liquid fuel (which may be the arithmetic average of multiple determinations), or, if applicable, an appropriate substitute data value (kg C per gallon of fuel) (equation C-2b to &#xA7; 98.33&#x2014;see the definition of &#x201C;CC&#x201D; in equation C-3 to &#xA7; 98.33).</P>
+<P>(21) Annual volume of each gaseous fuel combusted (scf/year) (equation C-5 to &#xA7; 98.33).</P>
+<P>(22) Annual average carbon content of each gaseous fuel (kg C per kg of fuel) (equation C-5 to &#xA7; 98.33). Where applicable, monthly carbon content of each gaseous (which may be the arithmetic average of multiple determinations), or, if applicable, an appropriate substitute data value (kg C per kg of fuel) (equation C-5A to &#xA7; 98.33).</P>
+<P>(23) Annual average molecular weight of each gaseous fuel (kg/kg-mole) (equation C-5 to &#xA7; 98.33). Where applicable, monthly molecular weight of each gaseous (which may be the arithmetic average of multiple determinations), or, if applicable, an appropriate substitute data value (kg/kg-mole) (equation C-5B to &#xA7; 98.33).</P>
+<P>(24) Molar volume conversion factor at standard conditions, as defined in &#xA7; 98.6 (scf per kg-mole) (equation C-5 to &#xA7; 98.33).</P>
+<P>(25) Identify for each fuel if you will use the default high heat value from table C-1 to this subpart, or actual high heat value data (equation C-8 to &#xA7; 98.33).</P>
+<P>(26) High heat value of each solid fuel (mmBtu/tons) (equation C-8 to &#xA7; 98.33).</P>
+<P>(27) High heat value of each liquid fuel (mmBtu/gallon) (equation C-8 to &#xA7; 98.33).</P>
+<P>(28) High heat value of each gaseous fuel (mmBtu/scf) (equation C-8 to &#xA7; 98.33).</P>
+<P>(29) Cumulative annual heat input from combustion of each fuel (mmBtu) (equation C-10 to &#xA7; 98.33).</P>
+<P>(30) Total quantity of each solid fossil fuel combusted in the reporting year, as defined in &#xA7; 98.6 (pounds) (equation C-13 to &#xA7; 98.33).</P>
+<P>(31) Total quantity of each liquid fossil fuel combusted in the reporting year, as defined in &#xA7; 98.6 (gallons) (equation C-13 to &#xA7; 98.33).</P>
+<P>(32) Total quantity of each gaseous fossil fuel combusted in the reporting year, as defined in &#xA7; 98.6 (scf) (equation C-13 to &#xA7; 98.33).</P>
+<P>(33) High heat value of the each solid fossil fuel (Btu/lb) (equation C-13 to &#xA7; 98.33).</P>
+<P>(34) High heat value of the each liquid fossil fuel (Btu/gallons) (equation C-13 to &#xA7; 98.33).</P>
+<P>(35) High heat value of the each gaseous fossil fuel (Btu/scf) (equation C-13 to &#xA7; 98.33).</P>
+<P>(36) Fuel-specific carbon based F-factor per fuel (scf CO<E T="52">2</E>/mmBtu) (equation C-13 to &#xA7; 98.33).</P>
+<P>(37) Moisture content used to calculate the wood and wood residuals wet basis HHV (percent), if applicable (equations C-1 and C-8 to &#xA7; 98.33).</P>
+<CITA TYPE="N">[79 FR 63783, Oct. 24, 2014, as amended at 81 FR 89252, Dec. 9, 2016; 89 FR 31903, Apr. 25, 2024]
+</CITA>
+</DIV8>
+
+<DIV8 N="98.38" TYPE="SECTION" hierarchy_metadata="{&quot;path&quot;:&quot;/on/_SUBSTITUTE_DATE_/title-40/section-98.38&quot;,&quot;citation&quot;:&quot;40 CFR 98.38&quot;}">
+<HEAD>&#xA7; 98.38 Definitions.</HEAD>
+<P>All terms used in this subpart have the same meaning given in the Clean Air Act and subpart A of this part.</P>
+</DIV8>
+
+<DIV9 N="Table C-1 to Subpart C of Part 98" TYPE="APPENDIX" hierarchy_metadata="{&quot;path&quot;:&quot;/on/_SUBSTITUTE_DATE_/title-40/part-98/appendix-Table C-1 to Subpart C of Part 98&quot;,&quot;citation&quot;:&quot;Table C-1 to Subpart C of Part 98, Title 40&quot;}">
+<HEAD>Table C-1 to Subpart C of Part 98&#x2014;Default CO<E T="52">2</E> Emission Factors and High Heat Values for Various Types of Fuel
+</HEAD>
+<DIV width="100%"><DIV class="gpotbl_div">
+<TABLE border="1" cellpadding="1" cellspacing="1" class="gpo_table" frame="void" width="100%">
+<CAPTION><P class="title">Default CO<sub>2</sub> Emission Factors and High Heat Values for Various Types of Fuel</P></CAPTION>
+<THEAD>
+<TR>
+<TH class="center border-top-single border-bottom-single border-right-single">Fuel type</TH>
+<TH class="center border-top-single border-bottom-single border-right-single">Default high heat value</TH>
+<TH class="center border-top-single border-bottom-single">Default CO<sub>2</sub><br/>emission<br/>factor</TH>
+</TR>
+</THEAD>
+<TBODY>
+<TR>
+<TD class="center border-bottom-single border-right-single">Coal and coke</TD>
+<TD class="left border-bottom-single border-right-single">mmBtu/short ton</TD>
+<TD class="right border-bottom-single">kg CO<sub>2</sub>/mmBtu</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Anthracite</TD>
+<TD class="left border-right-single">25.09</TD>
+<TD class="right">103.69</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Bituminous</TD>
+<TD class="left border-right-single">24.93</TD>
+<TD class="right">93.28</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Subbituminous</TD>
+<TD class="left border-right-single">17.25</TD>
+<TD class="right">97.17</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Lignite</TD>
+<TD class="left border-right-single">14.21</TD>
+<TD class="right">97.72</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Coal Coke</TD>
+<TD class="left border-right-single">24.80</TD>
+<TD class="right">113.67</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Mixed (Commercial sector)</TD>
+<TD class="left border-right-single">21.39</TD>
+<TD class="right">94.27</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Mixed (Industrial coking)</TD>
+<TD class="left border-right-single">26.28</TD>
+<TD class="right">93.90</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Mixed (Industrial sector)</TD>
+<TD class="left border-right-single">22.35</TD>
+<TD class="right">94.67</TD>
+</TR>
+<TR>
+<TD class="left border-bottom-single border-right-single">Mixed (Electric Power sector)</TD>
+<TD class="left border-bottom-single border-right-single">19.73</TD>
+<TD class="right border-bottom-single">95.52</TD>
+</TR>
+<TR>
+<TD class="center border-bottom-single border-right-single">Natural gas</TD>
+<TD class="left border-bottom-single border-right-single">mmBtu/scf</TD>
+<TD class="right border-bottom-single">kg CO<sub>2</sub>/mmBtu</TD>
+</TR>
+<TR>
+<TD class="left border-bottom-single border-right-single">(Weighted U.S. Average)</TD>
+<TD class="left border-bottom-single border-right-single">1.026 &#xD7; 10<sup>&#x2212;3</sup></TD>
+<TD class="right border-bottom-single">53.06</TD>
+</TR>
+<TR>
+<TD class="center border-bottom-single border-right-single">Petroleum products&#x2014;liquid</TD>
+<TD class="left border-bottom-single border-right-single">mmBtu/gallon</TD>
+<TD class="right border-bottom-single">kg CO<sub>2</sub>/mmBtu</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Distillate Fuel Oil No. 1</TD>
+<TD class="left border-right-single">0.139</TD>
+<TD class="right">73.25</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Distillate Fuel Oil No. 2</TD>
+<TD class="left border-right-single">0.138</TD>
+<TD class="right">73.96</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Distillate Fuel Oil No. 4</TD>
+<TD class="left border-right-single">0.146</TD>
+<TD class="right">75.04</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Residual Fuel Oil No. 5</TD>
+<TD class="left border-right-single">0.140</TD>
+<TD class="right">72.93</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Residual Fuel Oil No. 6</TD>
+<TD class="left border-right-single">0.150</TD>
+<TD class="right">75.10</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Used Oil</TD>
+<TD class="left border-right-single">0.138</TD>
+<TD class="right">74.00</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Kerosene</TD>
+<TD class="left border-right-single">0.135</TD>
+<TD class="right">75.20</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Liquefied petroleum gases (LPG) <sup>1</sup></TD>
+<TD class="left border-right-single">0.092</TD>
+<TD class="right">61.71</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Propane <sup>1</sup></TD>
+<TD class="left border-right-single">0.091</TD>
+<TD class="right">62.87</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Propylene <sup>2</sup></TD>
+<TD class="left border-right-single">0.091</TD>
+<TD class="right">67.77</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Ethane <sup>1</sup></TD>
+<TD class="left border-right-single">0.068</TD>
+<TD class="right">59.60</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Ethanol</TD>
+<TD class="left border-right-single">0.084</TD>
+<TD class="right">68.44</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Ethylene <sup>2</sup></TD>
+<TD class="left border-right-single">0.058</TD>
+<TD class="right">65.96</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Isobutane <sup>1</sup></TD>
+<TD class="left border-right-single">0.099</TD>
+<TD class="right">64.94</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Isobutylene <sup>1</sup></TD>
+<TD class="left border-right-single">0.103</TD>
+<TD class="right">68.86</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Butane <sup>1</sup></TD>
+<TD class="left border-right-single">0.103</TD>
+<TD class="right">64.77</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Butylene <sup>1</sup></TD>
+<TD class="left border-right-single">0.105</TD>
+<TD class="right">68.72</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Naphtha (&lt;401 deg F)</TD>
+<TD class="left border-right-single">0.125</TD>
+<TD class="right">68.02</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Natural Gasoline</TD>
+<TD class="left border-right-single">0.110</TD>
+<TD class="right">66.88</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Other Oil (&gt;401 deg F)</TD>
+<TD class="left border-right-single">0.139</TD>
+<TD class="right">76.22</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Pentanes Plus</TD>
+<TD class="left border-right-single">0.110</TD>
+<TD class="right">70.02</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Petrochemical Feedstocks</TD>
+<TD class="left border-right-single">0.125</TD>
+<TD class="right">71.02
+</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Special Naphtha</TD>
+<TD class="left border-right-single">0.125</TD>
+<TD class="right">72.34</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Unfinished Oils</TD>
+<TD class="left border-right-single">0.139</TD>
+<TD class="right">74.54</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Heavy Gas Oils</TD>
+<TD class="left border-right-single">0.148</TD>
+<TD class="right">74.92</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Lubricants</TD>
+<TD class="left border-right-single">0.144</TD>
+<TD class="right">74.27</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Motor Gasoline</TD>
+<TD class="left border-right-single">0.125</TD>
+<TD class="right">70.22</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Aviation Gasoline</TD>
+<TD class="left border-right-single">0.120</TD>
+<TD class="right">69.25</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Kerosene-Type Jet Fuel</TD>
+<TD class="left border-right-single">0.135</TD>
+<TD class="right">72.22</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Asphalt and Road Oil</TD>
+<TD class="left border-right-single">0.158</TD>
+<TD class="right">75.36</TD>
+</TR>
+<TR>
+<TD class="left border-bottom-single border-right-single">Crude Oil</TD>
+<TD class="left border-bottom-single border-right-single">0.138</TD>
+<TD class="right border-bottom-single">74.54</TD>
+</TR>
+<TR>
+<TD class="left border-right-single primary-indent-hanging-2">Petroleum products&#x2014;solid</TD>
+<TD class="left border-right-single">mmBtu/short ton</TD>
+<TD class="right">kg CO<sub>2</sub>/mmBtu.</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Petroleum Coke</TD>
+<TD class="left border-right-single">30.00</TD>
+<TD class="right">102.41.</TD>
+</TR>
+<TR>
+<TD class="left border-right-single primary-indent-hanging-2">Petroleum products&#x2014;gaseous</TD>
+<TD class="left border-right-single">mmBtu/scf</TD>
+<TD class="right">kg CO<sub>2</sub>/mmBtu.</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Propane Gas</TD>
+<TD class="left border-right-single">2.516 &#xD7; 10<sup>&#x2212;3</sup></TD>
+<TD class="right">61.46.</TD>
+</TR>
+<TR>
+<TD class="center border-bottom-single border-right-single">Other fuels&#x2014;solid</TD>
+<TD class="left border-bottom-single border-right-single">mmBtu/short ton</TD>
+<TD class="right border-bottom-single">kg CO<sub>2</sub>/mmBtu</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Municipal Solid Waste</TD>
+<TD class="left border-right-single">9.95 <sup>3</sup></TD>
+<TD class="right">90.7</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Tires</TD>
+<TD class="left border-right-single">28.00</TD>
+<TD class="right">85.97</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Plastics</TD>
+<TD class="left border-right-single">38.00</TD>
+<TD class="right">75.00
+</TD>
+</TR>
+<TR>
+<TD class="center border-bottom-single border-right-single">Other fuels&#x2014;gaseous</TD>
+<TD class="left border-bottom-single border-right-single">mmBtu/scf</TD>
+<TD class="right border-bottom-single">kg CO<sub>2</sub>/mmBtu</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Blast Furnace Gas</TD>
+<TD class="left border-right-single">0.092 &#xD7; 10<sup>&#x2212;3</sup></TD>
+<TD class="right">274.32</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Coke Oven Gas</TD>
+<TD class="left border-right-single">0.599 &#xD7; 10<sup>&#x2212;3</sup></TD>
+<TD class="right">46.85
+</TD>
+</TR>
+<TR>
+<TD class="left border-bottom-single border-right-single">Fuel Gas <sup>4</sup></TD>
+<TD class="left border-bottom-single border-right-single">1.388 &#xD7; 10<sup>&#x2212;3</sup></TD>
+<TD class="right border-bottom-single">59.00</TD>
+</TR>
+<TR>
+<TD class="center border-bottom-single border-right-single">Biomass fuels&#x2014;solid</TD>
+<TD class="left border-bottom-single border-right-single">mmBtu/short ton</TD>
+<TD class="right border-bottom-single">kg CO<sub>2</sub>/mmBtu</TD>
+</TR>
+<TR>
+<TD class="left border-bottom-single border-right-single">Wood and Wood Residuals (dry basis) <sup>5</sup></TD>
+<TD class="left border-bottom-single border-right-single">17.48</TD>
+<TD class="right border-bottom-single">93.80</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Agricultural Byproducts</TD>
+<TD class="left border-right-single">8.25</TD>
+<TD class="right">118.17</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Peat</TD>
+<TD class="left border-right-single">8.00</TD>
+<TD class="right">111.84</TD>
+</TR>
+<TR>
+<TD class="left border-bottom-single border-right-single">Solid Byproducts</TD>
+<TD class="left border-bottom-single border-right-single">10.39</TD>
+<TD class="right border-bottom-single">105.51</TD>
+</TR>
+<TR>
+<TD class="center border-bottom-single border-right-single">Biomass fuels&#x2014;gaseous</TD>
+<TD class="left border-bottom-single border-right-single">mmBtu/scf</TD>
+<TD class="right border-bottom-single">kg CO<sub>2</sub>/mmBtu</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Landfill Gas</TD>
+<TD class="left border-right-single">0.485 &#xD7; 10<sup>&#x2212;3</sup></TD>
+<TD class="right">52.07</TD>
+</TR>
+<TR>
+<TD class="left border-bottom-single border-right-single">Other Biomass Gases</TD>
+<TD class="left border-bottom-single border-right-single">0.655 &#xD7; 10<sup>&#x2212;3</sup></TD>
+<TD class="right border-bottom-single">52.07</TD>
+</TR>
+<TR>
+<TD class="center border-bottom-single border-right-single">Biomass Fuels&#x2014;Liquid</TD>
+<TD class="left border-bottom-single border-right-single">mmBtu/gallon</TD>
+<TD class="right border-bottom-single">kg CO<sub>2</sub>/mmBtu</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Ethanol</TD>
+<TD class="left border-right-single">0.084</TD>
+<TD class="right">68.44</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Biodiesel (100%)</TD>
+<TD class="left border-right-single">0.128</TD>
+<TD class="right">73.84</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Rendered Animal Fat</TD>
+<TD class="left border-right-single">0.125</TD>
+<TD class="right">71.06</TD>
+</TR>
+<TR>
+<TD class="left border-bottom-single border-right-single">Vegetable Oil</TD>
+<TD class="left border-bottom-single border-right-single">0.120</TD>
+<TD class="right border-bottom-single">81.55
+</TD>
+</TR>
+</TBODY>
+<TFOOT><TR><TD colspan="3"><sup>1</sup> The HHV for components of LPG determined at 60 &#xB0;F and saturation pressure with the exception of ethylene.
+</TD></TR><TR><TD colspan="3"><sup>2</sup> Ethylene HHV determined at 41 &#xB0;F (5 &#xB0;C) and saturation pressure.
+</TD></TR><TR><TD colspan="3"><sup>3</sup> Use of this default HHV is allowed only for: (a) Units that combust MSW, do not generate steam, and are allowed to use Tier 1; (b) units that derive no more than 10 percent of their annual heat input from MSW and/or tires; and (c) small batch incinerators that combust no more than 1,000 tons of MSW per year.
+</TD></TR><TR><TD colspan="3"><sup>4</sup> Reporters subject to subpart X of this part that are complying with &#xA7; 98.243(d) or subpart Y of this part may only use the default HHV and the default CO<sub>2</sub> emission factor for fuel gas combustion under the conditions prescribed in &#xA7; 98.243(d)(2)(i) and (d)(2)(ii) and &#xA7; 98.252(a)(1) and (a)(2), respectively. Otherwise, reporters subject to subpart X or subpart Y shall use either Tier 3 (Equation C-5) or Tier 4.
+</TD></TR><TR><TD colspan="3"><sup>5</sup> Use the following formula to calculate a wet basis HHV for use in Equation C-1: HHV<sub>w</sub> = ((100 &#x2212; M)/100)*HHV<sub>d</sub> where HHV<sub>w</sub> = wet basis HHV, M = moisture content (percent) and HHV<sub>d</sub> = dry basis HHV from Table C-1.</TD></TR></TFOOT></TABLE>
+</DIV></DIV>
+<CITA TYPE="N">[78 FR 71950, Nov. 29, 2013, as amended at 81 FR 89252, Dec. 9, 2016]
+</CITA>
+</DIV9>
+
+<DIV9 N="Table C-2 to Subpart C of Part 98" TYPE="APPENDIX" hierarchy_metadata="{&quot;path&quot;:&quot;/on/_SUBSTITUTE_DATE_/title-40/part-98/appendix-Table C-2 to Subpart C of Part 98&quot;,&quot;citation&quot;:&quot;Table C-2 to Subpart C of Part 98, Title 40&quot;}">
+<HEAD>Table C-2 to Subpart C of Part 98&#x2014;Default CH<E T="52">4</E> and N<E T="52">2</E>O Emission Factors for Various Types of Fuel
+</HEAD>
+<DIV width="100%"><DIV class="gpotbl_div">
+<TABLE border="1" cellpadding="1" cellspacing="1" class="gpo_table" frame="void" width="100%">
+<THEAD>
+<TR>
+<TH class="center border-top-single border-bottom-single border-right-single">Fuel type</TH>
+<TH class="center border-top-single border-bottom-single border-right-single">Default CH<sub>4</sub> emission factor (kg CH<sub>4</sub>/mmBtu)</TH>
+<TH class="center border-top-single border-bottom-single">Default N<sub>2</sub> O emission factor (kg N<sub>2</sub> O/mmBtu)</TH>
+</TR>
+</THEAD>
+<TBODY>
+<TR>
+<TD class="left border-right-single">Coal and Coke (All fuel types in Table C-1)</TD>
+<TD class="left border-right-single">1.1 &#xD7; 10<sup>&#x2212;02</sup></TD>
+<TD class="left">1.6 &#xD7; 10<sup>&#x2212;03</sup></TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Natural Gas<sup>1</sup></TD>
+<TD class="left border-right-single">1.0 &#xD7; 10&#x2212;<sup>03</sup></TD>
+<TD class="left">1.0 &#xD7; 10&#x2212;<sup>04</sup>
+</TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Petroleum Products (All fuel types in Table C-1)</TD>
+<TD class="left border-right-single">3.0 &#xD7; 10<sup>&#x2212;03</sup></TD>
+<TD class="left">6.0 &#xD7; 10<sup>&#x2212;04</sup></TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Fuel Gas</TD>
+<TD class="left border-right-single">3.0 &#xD7; 10<sup>&#x2212;03</sup></TD>
+<TD class="left">6.0 &#xD7; 10<sup>&#x2212;04</sup></TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Other Fuels&#x2014;Solid</TD>
+<TD class="left border-right-single">3.2 &#xD7; 10<sup>&#x2212;02</sup></TD>
+<TD class="left">4.2 &#xD7; 10<sup>&#x2212;03</sup></TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Blast Furnace Gas</TD>
+<TD class="left border-right-single">2.2 &#xD7; 10<sup>&#x2212;05</sup></TD>
+<TD class="left">1.0 &#xD7; 10<sup>&#x2212;04</sup></TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Coke Oven Gas</TD>
+<TD class="left border-right-single">4.8 &#xD7; 10<sup>&#x2212;04</sup></TD>
+<TD class="left">1.0 &#xD7; 10<sup>&#x2212;04</sup></TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Biomass Fuels&#x2014;Solid (All fuel types in Table C-1, except wood and wood residuals)</TD>
+<TD class="left border-right-single">3.2 &#xD7; 10<sup>&#x2212;02</sup></TD>
+<TD class="left">4.2 &#xD7; 10<sup>&#x2212;03</sup></TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Wood and wood residuals</TD>
+<TD class="left border-right-single">7.2 &#xD7; 10<sup>&#x2212;03</sup></TD>
+<TD class="left">3.6 &#xD7; 10<sup>&#x2212;03</sup></TD>
+</TR>
+<TR>
+<TD class="left border-right-single">Biomass Fuels&#x2014;Gaseous (All fuel types in Table C-1)</TD>
+<TD class="left border-right-single">3.2 &#xD7; 10<sup>&#x2212;03</sup></TD>
+<TD class="left">6.3 &#xD7; 10<sup>&#x2212;04</sup></TD>
+</TR>
+<TR>
+<TD class="left border-bottom-single border-right-single">Biomass Fuels&#x2014;Liquid (All fuel types in Table C-1)</TD>
+<TD class="left border-bottom-single border-right-single">1.1 &#xD7; 10<sup>&#x2212;03</sup></TD>
+<TD class="left border-bottom-single">1.1 &#xD7; 10<sup>&#x2212;04</sup>
+</TD>
+</TR>
+</TBODY>
+<TFOOT><TR><TD colspan="3">Note: Those employing this table are assumed to fall under the IPCC definitions of the &#x201C;Energy Industry&#x201D; or &#x201C;Manufacturing Industries and Construction&#x201D;. In all fuels except for coal the values for these two categories are identical. For coal combustion, those who fall within the IPCC &#x201C;Energy Industry&#x201D; category may employ a value of 1g of CH<sub>4</sub>/mmBtu.
+</TD></TR><TR><TD colspan="3"><sup>1</sup> Reporters subject to subpart W of this part may only use the default CH<sub>4</sub> emission factor for natural gas-fired combustion units that are not reciprocating internal combustion engines or gas turbines. For natural gas-fired reciprocating internal combustion engines or gas turbines, at facilities subject to subpart W of this part, reporters must use a CH<sub>4</sub> emission factor determined in accordance with &#xA7; 98.233(z)(4).</TD></TR></TFOOT></TABLE>
+</DIV></DIV>
+<CITA TYPE="N">[78 FR 71952, Nov. 29, 2013, as amended at 81 FR 89252, Dec. 9, 2016; 89 FR 42220, May 14, 2024]
+</CITA>
+</DIV9>
+
+</DIV6>

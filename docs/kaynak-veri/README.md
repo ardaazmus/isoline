@@ -23,6 +23,7 @@ Ayrıntılı İngilizce kaynak notları: [SOURCE_NOTES.md](SOURCE_NOTES.md) (SKD
 - `raw/eea_fig2_country_level_api.json`, `raw/eea_fig1_eu_level_api.json`: EEA şekil verileri (Plone REST API).
 - `cbam_defaults_TR.csv`: Türkiye tablosunun 283 satırı ve Türkiye'de "–" olan 10 kod için "Diğer ülkeler ve bölgeler" satırı. Ondalık virgül, noktalı virgülle ayrılmış.
 - `eea_grid_intensity.csv`: 27 üye ülke ve AB-27 için 2024 değerleri, gCO₂e/kWh.
+- `dogrulama/`: doğrulama paketinin gerçek kaynaklı vakalarının orijinal belgeleri (AB SKDM rehberleri, US EPA). Ayrıntı: [dogrulama/README.md](dogrulama/README.md).
 - `SHA256SUMS`: ham dosyaların, ayıklanmış tabloların ve uygulamaya giren JSON'ların özetleri. Denetim: `sha256sum -c SHA256SUMS` (bu klasörde).
 
 ## Uygulamaya nasıl girer

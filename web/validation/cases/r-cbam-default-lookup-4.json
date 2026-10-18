@@ -1,0 +1,66 @@
+{
+  "id": "r-cbam-default-lookup-4",
+  "profile": "cbam",
+  "title": "AB SKDM Rehberi 4: varsayılan değer işaretleme payı ve varsayılan kıyas, CN 7318 15, 2026-2028",
+  "source": {
+    "kind": "official-worked-example",
+    "cite": "AB Komisyonu DG TAXUD, Guidance Document No. 4 (ücretsiz tahsis düzeltmesi), 14.08.2026, Tablo 2-3 ve 2-4",
+    "url": "https://taxation-customs.ec.europa.eu/document/download/3aa2c730-4f1b-4524-8f71-d9cfe4880ac7_en?filename=Guidance%20No.%204%20-%20CBAM%20calculation%20of%20the%20free%20allocation%20adjustment%20to%20the%20number%20of%20CBAM%20certificates%20to%20be%20surrendered.pdf",
+    "page": "Tablo 2-3 s. 19; Tablo 2-4 s. 21"
+  },
+  "engine": "cbam",
+  "input": {
+    "years": [
+      2026,
+      2027,
+      2028
+    ],
+    "scenario": {
+      "startPrice": 75.36,
+      "priceGrowth": 0,
+      "originCarbonPrice": 0,
+      "eurTry": 0
+    },
+    "products": [
+      {
+        "name": "bolts",
+        "growth": 0,
+        "seeDirect": 0,
+        "seeIndirect": 0,
+        "defaultSee": 3,
+        "useDefault": true,
+        "benchmark": 0,
+        "id": "bolts",
+        "cn": "73181520",
+        "origin": "OTHER",
+        "sector": "iron_steel",
+        "tonnes": 100
+      },
+      {
+        "name": "stainless",
+        "growth": 0,
+        "seeDirect": 0,
+        "seeIndirect": 0,
+        "defaultSee": 3,
+        "useDefault": true,
+        "benchmark": 0,
+        "id": "stainless",
+        "cn": "73181535",
+        "origin": "OTHER",
+        "sector": "iron_steel",
+        "tonnes": 100
+      }
+    ]
+  },
+  "expected": {
+    "bolts.2026.see": "3.300",
+    "bolts.2027.see": "3.600",
+    "bolts.2028.see": "3.900",
+    "bolts.2026.benchmark": "1.364",
+    "bolts.2028.benchmark": "1.364",
+    "stainless.2026.benchmark": "1.154",
+    "stainless.2027.benchmark": "1.154",
+    "stainless.2028.benchmark": "1.116"
+  },
+  "notes": "Rehberin örneği Cezayir; kütüphanede Cezayir tablosu yok, kullanıcı 'Diğer ülkeler'i seçip Cezayir değerini elle girer. 'Diğer ülkeler' tablosunun 7318 15 rotası da (C) olduğu için varsayılan kıyas rehberle aynı satırdan seçilir. 7318 15 35 (paslanmaz) için kıyas rotaya değil döneme bağlıdır: 2026-27 1,154, 2028-30 1,116."
+}

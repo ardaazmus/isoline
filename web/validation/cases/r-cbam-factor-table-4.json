@@ -1,0 +1,60 @@
+{
+  "id": "r-cbam-factor-table-4",
+  "profile": "cbam",
+  "title": "AB SKDM Rehberi 4 Tablo 2-1: SKDM faktörü ve CSCF, 2026-2034",
+  "source": {
+    "kind": "official-parameter-table",
+    "cite": "AB Komisyonu DG TAXUD, Guidance Document No. 4, 14.08.2026, Tablo 2-1; Uygulama Kararı (AB) 2026/1862 Md. 1",
+    "url": "https://taxation-customs.ec.europa.eu/document/download/3aa2c730-4f1b-4524-8f71-d9cfe4880ac7_en?filename=Guidance%20No.%204%20-%20CBAM%20calculation%20of%20the%20free%20allocation%20adjustment%20to%20the%20number%20of%20CBAM%20certificates%20to%20be%20surrendered.pdf",
+    "page": "s. 13"
+  },
+  "engine": "cbam",
+  "input": {
+    "years": [
+      2026,
+      2027,
+      2028,
+      2029,
+      2030,
+      2031,
+      2032,
+      2033,
+      2034
+    ],
+    "scenario": {
+      "startPrice": 75.36,
+      "priceGrowth": 0,
+      "originCarbonPrice": 0,
+      "eurTry": 0
+    },
+    "products": [
+      {
+        "name": "unit",
+        "growth": 0,
+        "seeDirect": 2,
+        "seeIndirect": 0,
+        "defaultSee": 0,
+        "useDefault": false,
+        "benchmark": 1,
+        "id": "unit",
+        "cn": "28041000",
+        "origin": "OTHER",
+        "sector": "hydrogen",
+        "tonnes": 1,
+        "bmMode": "manual"
+      }
+    ]
+  },
+  "expected": {
+    "unit.2026.faa": "0.975",
+    "unit.2027.faa": "0.95",
+    "unit.2028.faa": "0.90",
+    "unit.2029.faa": "0.775",
+    "unit.2030.faa": "0.515",
+    "unit.2031.faa": "0.39",
+    "unit.2032.faa": "0.265",
+    "unit.2033.faa": "0.14",
+    "unit.2034.faa": "0"
+  },
+  "notes": "Kıyas 1 t CO₂/t olan 1 t ürün için FAA = SKDM faktörü × CSCF. CSCF 2026-2030 için 1,00 (Karar 2026/1862); 2031 sonrası tabloda ön değer 1,0."
+}

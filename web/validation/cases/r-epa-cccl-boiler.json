@@ -1,0 +1,40 @@
+{
+  "id": "r-epa-cccl-boiler",
+  "profile": "local",
+  "title": "EPA Kurumsal İklim Liderliği Merkezi çözümlü örneği: doğal gaz kazanı, 12 aylık fatura",
+  "source": {
+    "kind": "official-worked-example",
+    "cite": "US EPA Center for Corporate Climate Leadership, Direct Emissions from Stationary Combustion Sources (Aralık 2023), Example Emissions Calculation, Tablo 1",
+    "url": "https://www.epa.gov/sites/default/files/2020-12/documents/stationaryemissions.pdf",
+    "page": "basılı s. 6-7 (PDF s. 9-10)"
+  },
+  "engine": "ghg",
+  "input": {
+    "inventory": {
+      "year": 2023,
+      "fuels": [
+        {
+          "id": "f1",
+          "fuel": "natural_gas",
+          "label": "Doğal gaz kazanı",
+          "amount": 6000000,
+          "ncv": 0.001081432248936,
+          "ef": 50.29117640382461,
+          "mobile": false,
+          "quality": "measured"
+        }
+      ],
+      "process": [],
+      "refrigerants": [],
+      "electricity": [],
+      "scope3": [],
+      "revenueMillionTry": 0,
+      "productionTonnes": 0
+    }
+  },
+  "expected": {
+    "scope1": "326.3",
+    "energyGj": "6488.593494"
+  },
+  "notes": "6.000.000 scf × 1.025 Btu/scf = 61.500 therm = 6.150 mmBtu; × 53,06 kg CO₂/mmBtu = 326,3 t CO₂ (belgede basılı). Enerji beklentisi, basılı 6.150 mmBtu'nun tam birim dönüşümüdür. Belgenin CO₂e toplamı 326,7 t (CH₄ ve N₂O dahil); uygulama yakıt satırında yalnız CO₂ hesapladığı için fark %0,12'dir."
+}

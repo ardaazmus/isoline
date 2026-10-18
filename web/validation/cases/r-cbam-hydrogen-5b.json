@@ -1,0 +1,47 @@
+{
+  "id": "r-cbam-hydrogen-5b",
+  "profile": "cbam",
+  "title": "AB SKDM Rehberi 5b: 100 t hidrojen, 2028, buhar reformu ve ısı ihracı",
+  "source": {
+    "kind": "official-worked-example",
+    "cite": "AB Komisyonu DG TAXUD, Guidance Document No. 5b (hidrojen), 14.08.2026, bölüm 4",
+    "url": "https://taxation-customs.ec.europa.eu/document/download/04ceca3b-466e-4ed9-a1a5-a47c2e5e5be0_en?filename=Guidance%20No.%205b%20-%20Sector-specific%20guidance%20document%20on%20hydrogen.pdf",
+    "page": "s. 18-19"
+  },
+  "engine": "cbam",
+  "input": {
+    "years": [
+      2028
+    ],
+    "scenario": {
+      "startPrice": 75.36,
+      "priceGrowth": 0,
+      "originCarbonPrice": 0,
+      "eurTry": 0
+    },
+    "products": [
+      {
+        "name": "h2",
+        "growth": 0,
+        "seeDirect": 8.396,
+        "seeIndirect": 0,
+        "defaultSee": 0,
+        "useDefault": false,
+        "benchmark": 0,
+        "id": "h2",
+        "cn": "28041000",
+        "origin": "OTHER",
+        "sector": "hydrogen",
+        "tonnes": 100
+      }
+    ]
+  },
+  "expected": {
+    "h2.2028.see": "8.396",
+    "h2.2028.gross": "839.6",
+    "h2.2028.benchmark": "5.089",
+    "h2.2028.faa": "458.0",
+    "h2.2028.certificates": "381.6"
+  },
+  "notes": "Kıyas 5,089 t CO₂/t H₂ (2025/2620, öncülsüz). SEFA = 5,089 × 0,90 × 1,00 = 4,580; 839,6 − 458,0 = 381,6 sertifika (basılı)."
+}

@@ -1,0 +1,69 @@
+{
+  "id": "r-ghgp-scope2-location",
+  "profile": "local",
+  "title": "GHG Protokolü Kapsam 2 Rehberi Tablo 6.4: konum bazlı, dört tesis",
+  "source": {
+    "kind": "official-worked-example",
+    "cite": "GHG Protocol Scope 2 Guidance (2015), Tablo 6.4 (eGRID 2010 ve IEA 2011 faktörleri)",
+    "url": "https://ghgprotocol.org/sites/default/files/2023-03/Scope%202%20Guidance.pdf",
+    "page": "basılı s. 50 (PDF s. 52)"
+  },
+  "engine": "ghg",
+  "input": {
+    "inventory": {
+      "year": 2013,
+      "fuels": [],
+      "process": [],
+      "refrigerants": [],
+      "electricity": [
+        {
+          "id": "e1",
+          "label": "ABD NYUP (eGRID)",
+          "mwh": 2500,
+          "connection": "distribution",
+          "certifiedMwh": 0,
+          "supplierFactor": null,
+          "quality": "measured",
+          "gridFactor": 0.2475661796223
+        },
+        {
+          "id": "e2",
+          "label": "ABD RFCE (eGRID)",
+          "mwh": 2500,
+          "connection": "distribution",
+          "certifiedMwh": 0,
+          "supplierFactor": null,
+          "quality": "measured",
+          "gridFactor": 0.4543725488764
+        },
+        {
+          "id": "e3",
+          "label": "Danimarka (IEA)",
+          "mwh": 3000,
+          "connection": "distribution",
+          "certifiedMwh": 0,
+          "supplierFactor": null,
+          "quality": "measured",
+          "gridFactor": 0.3152
+        },
+        {
+          "id": "e4",
+          "label": "Belçika (IEA)",
+          "mwh": 2000,
+          "connection": "distribution",
+          "certifiedMwh": 0,
+          "supplierFactor": null,
+          "quality": "measured",
+          "gridFactor": 0.1957
+        }
+      ],
+      "scope3": [],
+      "revenueMillionTry": 0,
+      "productionTonnes": 0
+    }
+  },
+  "expected": {
+    "scope2Location": "3091.908"
+  },
+  "notes": "eGRID faktörleri lb CO₂/MWh olarak basılı; 1 lb = 0,45359237 kg ile t/MWh'e çevrildi. Karşılaştırma basılı CO₂ toplamıyla (3.091,908 t) yapılır. Basılı CO₂e toplamı 3.100,876 t, ABD tesislerinin CH₄ ve N₂O payını da içerir. Bu iki gaz yalnız ABD tesislerinde var ve uygulamanın şebeke faktörü tek bir CO₂e değeri olarak girildiği için ayrı tutulmadı."
+}

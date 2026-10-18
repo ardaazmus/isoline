@@ -1,0 +1,23 @@
+[
+{
+  "facility_id": 1004616,
+  "reporting_year": 2023,
+  "facility_name": "Steel Dynamics Columbus, LLC",
+  "ghg_quantity": 0.412,
+  "ghg_gas_name": "Nitrous Oxide"
+},
+{
+  "facility_id": 1004616,
+  "reporting_year": 2023,
+  "facility_name": "Steel Dynamics Columbus, LLC",
+  "ghg_quantity": 4.12,
+  "ghg_gas_name": "Methane"
+},
+{
+  "facility_id": 1004616,
+  "reporting_year": 2023,
+  "facility_name": "Steel Dynamics Columbus, LLC",
+  "ghg_quantity": 218358.5,
+  "ghg_gas_name": "Carbon Dioxide"
+}
+]

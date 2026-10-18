@@ -1,0 +1,49 @@
+{
+  "id": "r-cbam-steel-rails-5d",
+  "profile": "cbam",
+  "title": "AB SKDM Rehberi 5d Örnek 1: 10.000 t ray, 2027, yüksek fırın rotası (kabarcık yaklaşımı)",
+  "source": {
+    "kind": "official-worked-example",
+    "cite": "AB Komisyonu DG TAXUD, Guidance Document No. 5d (demir-çelik), 14.08.2026, Örnek 1, Tablo 4-6 ve ithalat hesabı",
+    "url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en?filename=Guidance%20No.%205d%20-%20Sector-specific%20guidance%20document%20on%20iron%20and%20steel.pdf",
+    "page": "s. 43-44"
+  },
+  "engine": "cbam",
+  "input": {
+    "years": [
+      2027
+    ],
+    "scenario": {
+      "startPrice": 75.36,
+      "priceGrowth": 0,
+      "originCarbonPrice": 0,
+      "eurTry": 0
+    },
+    "products": [
+      {
+        "name": "rails",
+        "growth": 0,
+        "seeDirect": 1.539,
+        "seeIndirect": 0.028,
+        "defaultSee": 0,
+        "useDefault": false,
+        "benchmark": 0,
+        "id": "rails",
+        "cn": "730210",
+        "origin": "OTHER",
+        "sector": "iron_steel",
+        "tonnes": 10000,
+        "bmRoute": "C",
+        "precursorBm": 1.204552
+      }
+    ]
+  },
+  "expected": {
+    "rails.2027.see": "1.539",
+    "rails.2027.gross": "15390",
+    "rails.2027.benchmark": "1.261",
+    "rails.2027.faa": "11980",
+    "rails.2027.certificates": "3410"
+  },
+  "notes": "Rehber sertifikayı 15.670 − 11.980 = 3.690 olarak basıyor; 15.670 dolaylı emisyonu (280 t) da içeriyor. Oysa Tüzük 2023/956 Ek II ve aynı tarihli Rehber No. 1 (PDF s. 10: 'For other CBAM goods, only direct emissions are covered') demir-çelikte yalnız doğrudan emisyonu sayar. Uygulama tüzüğü izler; beklenen sertifika sayısı basılı doğrudan emisyon ile basılı FAA'nın farkıdır (3.410). SEFA ray 1,261 = 0,057 + 1,042 × 1,156; uygulama 1,2616 bulur (%0,04)."
+}

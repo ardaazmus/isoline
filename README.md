@@ -97,6 +97,7 @@ Yayına almadan önce teyit edilmesi gerekenler (araştırmada **DOĞRULANAMADI*
 - Yeni TSRS eşiklerinin 2023–2024 referans yıllarına uygulanışı
 - BDDK faaliyet raporu içeriği
 - IPCC/GWP varsayılanları
+- Demir-çelikte sertifika hesabının yalnız doğrudan emisyonla yapılması (Tüzük 2023/956 Ek II; uygulama böyle hesaplıyor). AB Rehberi 5d Örnek 1 dolaylı emisyonu da katıyor (bkz. `web/validation/README.md`, "Bulgular").
 
 SKDM Ek II şebeke faktörleri IEA lisanslıdır ve uygulama içinde veri seti olarak dağıtılmamalıdır.
 

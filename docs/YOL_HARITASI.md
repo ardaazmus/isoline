@@ -40,6 +40,12 @@ Tamamlanan (18.10.2026): SKDM menşe ülke seçimi.
 - Çin, Hindistan, Ukrayna, Mısır ve "diğer ülkeler" varsayılan değer tabloları eklendi; "diğer ülkeler" yedeği uygulanıyor. Resmî Gazete ile karşılaştırıldı: 1.482/1.482.
 - Ürüne menşe ülke seçimi geldi: varsayılan değer tablosu, kıyas rotası ve operatör özeti menşeye göre. Ülke değişince kütüphaneden seçilmiş değer aynı KN satırına geçiyor.
 
+Tamamlanan (18.10.2026): doğrulama paketi ([web/validation/](../web/validation/README.md)).
+- 16 vaka ve 119 kontrol; hepsi uygulamanın gerçek hesap motorlarında çalışıyor (`npm run validate`).
+- 9 vaka yayımlanmış kaynaktan alındı: AB SKDM rehberlerinin çözümlü örnekleri (çimento, ray, hidrojen, varsayılan değer ve kıyas, SKDM faktörü tablosu), US EPA'nın çözümlü örneği ve bir GHGRP tesis kaydı, GHG Protokolü Kapsam 2 tabloları. En büyük sapma %0,14.
+- 7 vaka sentetik; beklenen değerleri tam kesir aritmetiğiyle hesaplandı: üç test profili, %5 eşiği, 10.238 satırlık mizan, uzlaştırma eşikleri.
+- Bulgu: AB'nin çelik rehberi (5d) sertifika hesabına dolaylı emisyonu da katıyor. Tüzük Ek II ve Rehber No. 1 buna aykırı. Uygulama tüzüğü izliyor; fark vaka notunda belgelendi.
+
 Kod dışında yapılacak iş:
 - Uzman teyitleri.
 - IEA lisans görüşü.
@@ -49,8 +55,9 @@ Kodda yapılacak iş:
 - **SKDM:** gerektikçe başka menşe ülke tabloları (Türkiye, Çin, Hindistan, Ukrayna, Mısır ve diğer ülkeler tamam).
 - **TR ETS:** Başkanlık kıyas değerleri ve Ulusal Tahsisat Planı yayımlanınca parametre güncellemesi.
 - **SBTi V2.0:** Ç4 2026'da yayımlanacak yöntemlerin eklenmesi.
+- **Yakıtta CH₄ ve N₂O:** Yakıt satırları bugün yalnız CO₂ hesaplıyor. Sabit yakmada fark yaklaşık %0,1; EPA vakalarında ölçülen %0,10 ve %0,12. Araçlarda IPCC 2006 Tablo 3.2.2 varsayılanlarıyla tahminen %1,5–4, yani %0,5 hedefini aşar. Değerler eklenirken birincil metinden teyit edilecek.
 
-**Kontrol noktası:** 3 gerçek, anonimleştirilmiş müşteri verisiyle hesapların bağımsız tabloyla karşılaştırılması (sapma < %0,5).
+**Kontrol noktası:** 3 gerçek, anonimleştirilmiş müşteri verisiyle hesapların bağımsız tabloyla karşılaştırılması (sapma < %0,5). Paket hazır; müşteri verisi geldiğinde her biri bir vaka dosyası olarak eklenir. Kontrol noktası, bu üç vaka geçince kapanır.
 
 ## Faz 3–6 — Denetime hazır platform
 

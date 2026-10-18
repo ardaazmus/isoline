@@ -1,0 +1,48 @@
+{
+  "id": "r-cbam-cement-5a",
+  "profile": "cbam",
+  "title": "AB SKDM Rehberi 5a: 100 t Portland çimentosu, 2026, gerçek veri ve klinker öncülü",
+  "source": {
+    "kind": "official-worked-example",
+    "cite": "AB Komisyonu DG TAXUD, Guidance Document No. 5a (çimento), 14.08.2026, bölüm 4.3",
+    "url": "https://taxation-customs.ec.europa.eu/document/download/f87a2022-9dcb-45cb-a415-4c460e5ad672_en?filename=Guidance%20No.%205a%20-%20Sector-specific%20guidance%20document%20on%20cement.pdf",
+    "page": "s. 28-29"
+  },
+  "engine": "cbam",
+  "input": {
+    "years": [
+      2026
+    ],
+    "scenario": {
+      "startPrice": 75.36,
+      "priceGrowth": 0,
+      "originCarbonPrice": 0,
+      "eurTry": 0
+    },
+    "products": [
+      {
+        "name": "cement",
+        "growth": 0,
+        "seeDirect": 0.7852,
+        "seeIndirect": 0.0919,
+        "defaultSee": 0,
+        "useDefault": false,
+        "benchmark": 0,
+        "id": "cement",
+        "cn": "25232900",
+        "origin": "OTHER",
+        "sector": "cement",
+        "tonnes": 100,
+        "precursorBm": 0.6327
+      }
+    ]
+  },
+  "expected": {
+    "cement.2026.see": "0.8771",
+    "cement.2026.gross": "87.71",
+    "cement.2026.benchmark": "0.6327",
+    "cement.2026.faa": "61.7",
+    "cement.2026.certificates": "26"
+  },
+  "notes": "Çimentoda dolaylı emisyon sayılır (Ek II'de değil). Basılı: 78,52 + 9,19 = 87,71 t; FAA 100 × 0,6327 × 0,975 × 1,00 = 61,7; 87,7 − 61,7 = 26 sertifika. Örnek tesis Lübnan'da; kütüphanede Lübnan tablosu yok ve gerçek veride menşe yalnız rota seçimini etkiler (çimentoda rota yok)."
+}

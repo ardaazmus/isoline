@@ -1,0 +1,57 @@
+{
+  "id": "r-ghgp-scope2-market",
+  "profile": "local",
+  "title": "GHG Protokolü Kapsam 2 Rehberi Tablo 6.5: piyasa bazlı; sertifika, tedarikçi ve kalan karışım",
+  "source": {
+    "kind": "official-worked-example",
+    "cite": "GHG Protocol Scope 2 Guidance (2015), Tablo 6.5",
+    "url": "https://ghgprotocol.org/sites/default/files/2023-03/Scope%202%20Guidance.pdf",
+    "page": "basılı s. 51 (PDF s. 53)"
+  },
+  "engine": "ghg",
+  "input": {
+    "inventory": {
+      "year": 2013,
+      "fuels": [],
+      "process": [],
+      "refrigerants": [],
+      "electricity": [
+        {
+          "id": "e1",
+          "label": "ABD operasyonları",
+          "mwh": 5000,
+          "connection": "distribution",
+          "certifiedMwh": 4000,
+          "supplierFactor": null,
+          "quality": "measured",
+          "gridFactor": 0.5
+        },
+        {
+          "id": "e2",
+          "label": "AB: tedarikçi programı",
+          "mwh": 3000,
+          "connection": "distribution",
+          "certifiedMwh": 0,
+          "supplierFactor": 0.25,
+          "quality": "measured"
+        },
+        {
+          "id": "e3",
+          "label": "AB: kalan karışım (RE-DISS Belçika 2013)",
+          "mwh": 2000,
+          "connection": "distribution",
+          "certifiedMwh": 0,
+          "supplierFactor": 0.5,
+          "quality": "measured"
+        }
+      ],
+      "scope3": [],
+      "revenueMillionTry": 0,
+      "productionTonnes": 0
+    }
+  },
+  "expected": {
+    "scope2Market": "2250"
+  },
+  "notes": "Satır sonuçları basılı: 0 + 0 + 0 + 500 + 750 + 1.000 = 2.250 t CO₂e. Konum bazlı değer bu tabloda yayımlanmadığı için karşılaştırılmaz."
+}

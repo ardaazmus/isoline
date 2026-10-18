@@ -1,0 +1,39 @@
+{
+  "id": "r-epa-ghgrp-steel-dynamics-2023",
+  "profile": "local",
+  "title": "EPA GHGRP tesis kaydı: Steel Dynamics Columbus 2023, doğal gaz, Tier 1 (Denklem C-1)",
+  "source": {
+    "kind": "regulator-facility-record",
+    "cite": "US EPA GHGRP, tesis 1004616, raporlama yılı 2023, C_FUEL_LEVEL_INFORMATION (birim GP-1); 40 CFR 98 Tablo C-1",
+    "url": "https://data.epa.gov/efservice/C_FUEL_LEVEL_INFORMATION/FACILITY_ID/=/1004616/REPORTING_YEAR/=/2023/JSON",
+    "page": "tek satır: tier1_fuel_quantity 4011026965 scf, tier1_co2_combustion_emissions 218358.5"
+  },
+  "engine": "ghg",
+  "input": {
+    "inventory": {
+      "year": 2023,
+      "fuels": [
+        {
+          "id": "f1",
+          "fuel": "natural_gas",
+          "label": "Doğal gaz (ABD ağırlıklı ortalama)",
+          "amount": 4011026965,
+          "ncv": 0.001082487304788,
+          "ef": 50.29117640382461,
+          "mobile": false,
+          "quality": "measured"
+        }
+      ],
+      "process": [],
+      "refrigerants": [],
+      "electricity": [],
+      "scope3": [],
+      "revenueMillionTry": 0,
+      "productionTonnes": 0
+    }
+  },
+  "expected": {
+    "scope1": "218358.5"
+  },
+  "notes": "Tablo C-1: üst ısıl değer 1,026 × 10⁻³ mmBtu/scf, 53,06 kg CO₂/mmBtu. Uygulamaya GJ ve t/TJ olarak girildi (1 mmBtu = 1,05505585262 GJ); çarpım birim dönüşümünden bağımsızdır. Kayıt CH₄ 4,12 t (102,9 t CO₂e) ve N₂O 0,412 t (122,6 t CO₂e) da raporluyor; uygulamanın yakıt satırları yalnız CO₂ hesapladığı için karşılaştırma CO₂ ile yapılır. CO₂e toplamına göre fark %0,10'dur."
+}
