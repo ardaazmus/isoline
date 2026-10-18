@@ -13,6 +13,7 @@ Ayrıntılı İngilizce kaynak notları: [SOURCE_NOTES.md](SOURCE_NOTES.md) (SKD
 | `eea_ener038`: elektrik üretiminin sera gazı yoğunluğu | Avrupa Çevre Ajansı (EEA), gösterge ENER038, şekil 2 (ülke) ve şekil 1 (AB-27) | 10 Temmuz 2026; 2024 erken tahmini | CC BY 4.0, kaynak: EEA |
 | `etkb_2020` … `etkb_2023`: Türkiye elektrik üretim ve tüketim noktası faktörleri | ETKB (EVÇED) bilgi formu ETKB-EVÇED-FRM-042, [etkb/](etkb/README.md) | hesaplama yılları 2020–2023 | resmi kamu verisi, kaynak gösterilerek |
 | `desnz_2026`: Kapsam 3 seçkisi (51 faktör) | Birleşik Krallık DESNZ, conversion factors 2026, [desnz/](desnz/README.md) | 11 Haziran 2026 | Open Government Licence v3.0 |
+| SKDM kıyas değerleri ve üretim rotaları (hesap motorunda) | Uygulama Tüzüğü (AB) 2025/2620 Ek nokta 5.3; rota: 2026/1740 varsayılan değer dosyası F sütunu, [cbam-bm/](cbam-bm/README.md) | Resmî Gazete L 22.12.2025 | © Avrupa Birliği (Karar 2011/833/AB) |
 | `tuik_nir_2024`: yakıt ısıl değerleri ve CO₂ faktörleri | TÜİK, Türkiye ulusal envanter belgesi 2026 (UNFCCC), [tuik/](tuik/README.md) | envanter yılı 2024; sunuş 14 Nisan 2026 | resmi belge, kaynak gösterilerek; PDF dağıtılmıyor |
 
 ## Dosyalar

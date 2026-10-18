@@ -364,9 +364,41 @@
       "penalty": "Teslim edilmeyen her sertifika için standart ceza ton başına €100'dür.",
       "csCf": "Ücretsiz tahsis düzeltmesi = kütle × SKDM faktörü × CSCF × kıyas değeri (Uygulama Tüzüğü 2025/2620). CSCF 2026–2030 için her yıl %100'dür (Uygulama Kararı (AB) 2026/1862); 2031–2033 için henüz belirlenmediğinden 1 alınır. Kıyas değeri ve rota eşlemesi 2025/2620 ekinden alınmalıdır."
     },
-    "sampleWarning": "Örnek müşterideki kıyas ve varsayılan değerler gösterim amaçlıdır, resmi değer değildir. Gerçek hesap için ürününüzün KN kodu ve üretim rotasına ait değerleri Uygulama Tüzükleri 2025/2620 ve 2025/2621'den girin.",
+    "sampleWarning": "Örnek müşterideki ihracat miktarları ve gerçek emisyon değerleri gösterim amaçlıdır. Varsayılan değerler (Uygulama Tüzüğü 2026/1740) ve kıyas değerleri (2025/2620) resmi tablolardan gelir; kendi ürününüz için KN kodunu 8 hane olarak girin.",
     "operatorExport": "Operatör veri özeti (CSV)",
-    "operatorExportHint": "AB'deki ithalatçınıza ürün bazında gömülü emisyon özetini gönderin. Bu dosya Komisyon'un resmi iletişim şablonu değildir; doğrulayıcı raporuyla birlikte kullanın."
+    "operatorExportHint": "AB'deki ithalatçınıza ürün bazında gömülü emisyon özetini gönderin. Bu dosya Komisyon'un resmi iletişim şablonu değildir; doğrulayıcı raporuyla birlikte kullanın.",
+    "bm": {
+      "mode": "Kıyas değeri",
+      "official": "Resmi tablo (2025/2620)",
+      "manual": "Elle girilen",
+      "manualHint": "Yalnız resmi tablo uygulanamıyorsa kullanın ve gerekçesini kaydedin.",
+      "route": "Üretim rotası",
+      "routeTable": "Varsayılan değer tablosundaki rota",
+      "precursor": "Öncül malzemelerin payı",
+      "precursorHint": "Tedarikçinin doğruladığı öncül gömülü ücretsiz tahsis kıyası (Σ mᵢ × BMᵢ), t/t. Boş bırakılırsa B − A farkı kullanılır: {value}.",
+      "value": "{year} kıyası:",
+      "status": {
+        "ok": "resmi değer",
+        "ambiguous": "8 haneli KN kodu gerekli",
+        "none": "bu kod için kıyas yok",
+        "route": "rota gerekli"
+      },
+      "explainDefault": "Varsayılan değer kullanıldığı için B sütunu, Türkiye varsayılan tablosundaki rota {route} ile (KN {cn}).",
+      "explainActual": "Gerçek veri: A sütunu (süreç kıyası) {a} + öncül payı {pre}, rota {route}.",
+      "routes": {
+        "A": "gri klinker / çimento",
+        "B": "beyaz klinker / çimento",
+        "C": "karbon çeliği, yüksek fırın / bazik oksijen fırını",
+        "D": "karbon çeliği, doğrudan indirgenmiş demir / elektrik ark ocağı",
+        "E": "karbon çeliği, hurda / elektrik ark ocağı",
+        "F": "düşük alaşımlı çelik, yüksek fırın / bazik oksijen fırını",
+        "G": "düşük alaşımlı çelik, doğrudan indirgenmiş demir / elektrik ark ocağı",
+        "H": "düşük alaşımlı çelik, hurda / elektrik ark ocağı",
+        "J": "yüksek alaşımlı çelik (elektrik ark ocağı)",
+        "K": "birincil alüminyum",
+        "L": "ikincil alüminyum"
+      }
+    }
   },
   "ghg": {
     "result": "Toplam envanter {total} tCO₂e; bunun {s12} tCO₂e'si Kapsam 1 ve 2. Tahmini verinin payı {est}.",

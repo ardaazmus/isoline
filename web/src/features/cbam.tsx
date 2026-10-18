@@ -12,6 +12,7 @@ import { Button, Callout, NumberField, SelectField, StatusMark, TextField, Toggl
 import { Hydrated, KeyDates, NoteList, SectionTitle, ToolActions, useTool } from "./common";
 import { FactorPicker, useFactorSets } from "@/components/factor-picker";
 import { factorRef } from "@/lib/factors";
+import { BenchmarkField } from "./cbam-benchmark";
 
 const SOURCES = ["cbam_reg", "cbam_factor", "cbam_guidance3", "cbam_price", "cbam_faa"];
 
@@ -97,10 +98,8 @@ function Inner() {
                     setProduct(p.id, o ? { defaultSee: o.factor.value, defaultRef: factorRef(o) } : { defaultRef: undefined })
                   }
                 />
-                <div className="grid grid-cols-2 gap-4">
-                  <NumberField label={t("cbam.defaultSee")} unit="t/t" value={p.defaultSee} onChange={(v) => setProduct(p.id, { defaultSee: v, defaultRef: undefined })} min={0} />
-                  <NumberField label={t("cbam.benchmark")} unit="t/t" value={p.benchmark} onChange={(v) => setProduct(p.id, { benchmark: v })} min={0} />
-                </div>
+                <NumberField label={t("cbam.defaultSee")} unit="t/t" value={p.defaultSee} onChange={(v) => setProduct(p.id, { defaultSee: v, defaultRef: undefined })} min={0} />
+                <BenchmarkField p={p} year={2026} onChange={(patch) => setProduct(p.id, patch)} />
                 <Button variant="ghost" size="sm" className="self-start text-[var(--crit)]" onClick={() => set({ ...data, products: data.products.filter((x) => x.id !== p.id) })}>
                   <Trash2 size={14} aria-hidden />
                   {t("actions.remove")}

@@ -364,9 +364,41 @@
       "penalty": "The standard penalty is €100 per certificate not surrendered.",
       "csCf": "Free allocation adjustment = mass × CBAM factor × CSCF × benchmark (Implementing Regulation 2025/2620). The CSCF is 100 % for each year 2026–2030 (Implementing Decision (EU) 2026/1862); 2031–2033 are not yet determined and use 1. Take the benchmark and route mapping from the 2025/2620 annex."
     },
-    "sampleWarning": "Benchmarks and default values for the sample client are illustrative, not official. For a real calculation enter the values for your CN code and route from Implementing Regulations 2025/2620 and 2025/2621.",
+    "sampleWarning": "The sample client's export volumes and actual emissions are illustrative. Default values (Implementing Regulation 2026/1740) and benchmarks (2025/2620) come from the official tables; for your own product enter the 8-digit CN code.",
     "operatorExport": "Operator data summary (CSV)",
-    "operatorExportHint": "Send your EU importer a per-product embedded-emissions summary. This file is not the Commission's official communication template; use it with the verifier's report."
+    "operatorExportHint": "Send your EU importer a per-product embedded-emissions summary. This file is not the Commission's official communication template; use it with the verifier's report.",
+    "bm": {
+      "mode": "Benchmark",
+      "official": "Official table (2025/2620)",
+      "manual": "Entered by hand",
+      "manualHint": "Use only when the official table cannot apply, and record why.",
+      "route": "Production route",
+      "routeTable": "Route of the default-value table",
+      "precursor": "Precursors' share",
+      "precursorHint": "Embedded free-allocation benchmark of precursors verified by the supplier (Σ mᵢ × BMᵢ), t/t. Left empty, Column B − Column A applies: {value}.",
+      "value": "{year} benchmark:",
+      "status": {
+        "ok": "official value",
+        "ambiguous": "8-digit CN code needed",
+        "none": "no benchmark for this code",
+        "route": "route needed"
+      },
+      "explainDefault": "Default values are used, so Column B on the Türkiye default-value table's route {route} (CN {cn}).",
+      "explainActual": "Actual data: Column A (process benchmark) {a} + precursors' share {pre}, route {route}.",
+      "routes": {
+        "A": "grey clinker / cement",
+        "B": "white clinker / cement",
+        "C": "carbon steel, blast furnace / basic oxygen furnace",
+        "D": "carbon steel, direct reduced iron / electric arc furnace",
+        "E": "carbon steel, scrap / electric arc furnace",
+        "F": "low alloy steel, blast furnace / basic oxygen furnace",
+        "G": "low alloy steel, direct reduced iron / electric arc furnace",
+        "H": "low alloy steel, scrap / electric arc furnace",
+        "J": "high alloy steel (electric arc furnace)",
+        "K": "primary aluminium",
+        "L": "secondary aluminium"
+      }
+    }
   },
   "ghg": {
     "result": "Total inventory {total} tCO₂e, of which {s12} tCO₂e is scope 1 and 2. Share of estimated data {est}.",

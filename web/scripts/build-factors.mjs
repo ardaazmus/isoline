@@ -125,3 +125,43 @@ fs.writeFileSync(path.join(outDir, "tuik-nir-2026.json"), JSON.stringify({
   rows: trows,
 }));
 console.log("desnz rows", drows.length, "| tuik fuels", trows.length);
+
+// CBAM benchmarks, Implementing Regulation (EU) 2025/2620 Annex point 5.3 (Column A: process benchmark BMg*,
+// Column B: default benchmark BMg), and the production route of the default-value tables (2026/1740 workbook,
+// column F) for Türkiye, falling back to 'Other Countries and Territories' where Türkiye shows "-".
+const bm = parseCsv(fs.readFileSync(path.join(src, "cbam-bm", "cbam_benchmarks.csv"), "utf8"));
+const bh = bm[0];
+/** "0,666 (A) | 0,859 (B)" -> [[0.666, "A", null], [0.859, "B", null]]; "(F)(1)" -> route F, period 1. */
+const entries = (cell) =>
+  cell.split(" | ").map((part) => {
+    const m = part.trim().match(/^([\d,]+)\s*((?:\([A-Z0-9]+\))*)$/);
+    if (!m) throw new Error("benchmark cell: " + part);
+    const inds = [...m[2].matchAll(/\(([A-Z0-9]+)\)/g)].map((x) => x[1]);
+    return [Number(m[1].replace(",", ".")), inds.find((x) => /^[A-L]$/.test(x)) ?? null, Number(inds.find((x) => /^[12]$/.test(x)) ?? 0) || null];
+  });
+const bmRows = bm.slice(1).map((r) => [r[bh.indexOf("cn")].replace(/\s/g, ""), r[bh.indexOf("description")], entries(r[bh.indexOf("column_a")]), entries(r[bh.indexOf("column_b")])]);
+const rt = parseCsv(fs.readFileSync(path.join(src, "cbam-bm", "cbam_routes.csv"), "utf8"));
+const rh = rt[0];
+const isNum = (v) => /^\d+(,\d+)?$/.test(String(v).trim());
+const other = new Map(rt.slice(1).filter((r) => /Other/.test(r[rh.indexOf("sheet")])).map((r) => [r[rh.indexOf("cn")].replace(/\s/g, ""), r]));
+const routes = [];
+for (const r of rt.slice(1).filter((x) => /rkiye/.test(x[rh.indexOf("sheet")]))) {
+  const cn = r[rh.indexOf("cn")].replace(/\s/g, "");
+  if (isNum(r[rh.indexOf("total")])) routes.push([cn, r[rh.indexOf("route")].replace(/[()]/g, ""), 0]);
+  else {
+    const o = other.get(cn);
+    if (o && isNum(o[rh.indexOf("total")])) routes.push([cn, o[rh.indexOf("route")].replace(/[()]/g, ""), 1]);
+  }
+}
+fs.writeFileSync(path.join(outDir, "cbam-benchmarks.json"), JSON.stringify({
+  source: "Commission Implementing Regulation (EU) 2025/2620, Annex point 5.3 'CBAM benchmark values' (OJ L, 22.12.2025); routes: default-value workbook (Implementing Regulation (EU) 2026/1740), column 'Underlying production route determining CBAM BM'",
+  url: "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32025R2620",
+  licence: "© European Union, https://eur-lex.europa.eu — reuse authorised (Commission Decision 2011/833/EU)",
+  fetched: "2026-10-18",
+  unit: "tCO2e per tonne of good",
+  columns: ["cn", "description", "columnA [value, route, period]", "columnB [value, route, period]"],
+  rows: bmRows,
+  routeColumns: ["cn", "route (letters joined by /)", "fromOtherCountries"],
+  routesTR: routes,
+}));
+console.log("benchmarks", bmRows.length, "| TR routes", routes.length);

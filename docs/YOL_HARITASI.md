@@ -30,13 +30,19 @@ Tamamlanan (18.10.2026): sürümlü faktör tabloları.
 - Envanter yılına göre sürüm seçimi; yeni sürümde önce/sonra raporlu geriye dönük yeniden hesap ve GHG Protokolü %5 anlamlılık uyarısı.
 - Kaynaklar ve SHA-256 özetleri: [kaynak-veri/](kaynak-veri/README.md).
 
+Tamamlanan (18.10.2026): SKDM resmi kıyas değerleri ve rota eşlemesi.
+- Uygulama Tüzüğü 2025/2620 Ek nokta 5.3 (570 KN satırı) alındı; Resmî Gazete PDF'iyle 570/570 eşleşti.
+- Varsayılan değerde B sütunu, Türkiye varsayılan tablosunun rotasıyla kullanılıyor; birden fazla alaşım değeri varsa en yükseği, üretim yılına göre (1)/(2) değeri.
+- Gerçek veride A sütunu ile öncül malzeme payı toplanıyor (varsayılan pay: B − A); rota seçilebiliyor.
+- Örnek kıyas yer tutucuları kaldırıldı; elle kıyas girmek yalnız bilinçli tercih olarak duruyor.
+
 Kod dışında yapılacak iş:
 - Uzman teyitleri.
 - IEA lisans görüşü.
 
 Kodda yapılacak iş:
 - **Faktör kütüphanesi:** TÜİK 2023 ısıl değerleri (ortak raporlama tabloları indirilebildiğinde); ETKB 2024 sürümü yayımlandığında eklenmesi.
-- **SKDM:** diğer menşe ülke tabloları (Türkiye tablosu tamam), kıyas değerleri ve rota eşlemesi (2025/2620).
+- **SKDM:** diğer menşe ülke tabloları (Türkiye tablosu ve kıyaslar tamam).
 - **TR ETS:** Başkanlık kıyas değerleri ve Ulusal Tahsisat Planı yayımlanınca parametre güncellemesi.
 - **SBTi V2.0:** Ç4 2026'da yayımlanacak yöntemlerin eklenmesi.
 

@@ -12,6 +12,7 @@
  * yearly default carbon prices may be used (Art. 9(4)), and none are published yet, so the default route
  * gets no deduction. The Art. 9(5) implementing rules are still a draft (Ares(2026)4841230, not adopted).
  */
+import { resolveBenchmark } from "./cbam-benchmarks";
 
 export type CbamSector = "iron_steel" | "aluminium" | "cement" | "fertilisers" | "hydrogen" | "electricity";
 
@@ -184,8 +185,14 @@ export type CbamProduct = {
   /** Default value from Implementing Reg. 2025/2621 (Annex I), tCO₂e/t, entered by the user. */
   defaultSee: number;
   useDefault: boolean;
-  /** Free-allocation benchmark for the production route (Impl. Reg. 2025/2620), tCO₂e/t. */
+  /** Benchmark entered by hand, tCO₂e/t; used only when bmMode is "manual". */
   benchmark: number;
+  /** "official" (default): CBAM benchmark of Impl. Reg. 2025/2620 for the CN code and route; "manual": benchmark. */
+  bmMode?: "official" | "manual";
+  /** Actual data: production route letters ("C", "C/F"); default = the route of the default-value table. */
+  bmRoute?: string;
+  /** Actual data: precursors' embedded benchmark per tonne of good (Σ mᵢ × BMᵢ); null = Column B − Column A. */
+  precursorBm?: number | null;
   /** Factor library reference for the default value, when picked from the library. */
   defaultRef?: string;
 };
@@ -240,7 +247,7 @@ export function projectProduct(
     const see = effectiveSee(p, year, route);
     const gross = tonnes * see;
     const factor = cbamFactor(year);
-    const faa = Math.min(gross, tonnes * Math.max(0, p.benchmark) * factor * cscf(year));
+    const faa = Math.min(gross, tonnes * resolveBenchmark(p, year, route).value * factor * cscf(year));
     const price = priceFor(s, year);
     // Art. 9(1): actual emissions only; the default route would need yearly default carbon prices (Art. 9(4)).
     const deduction =

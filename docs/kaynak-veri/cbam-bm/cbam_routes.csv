@@ -1,0 +1,567 @@
+﻿sheet;row;cn;route;total
+Türkiye;4;2507 00 80 80;;-
+Türkiye;5;2523 10 00 10;;-
+Türkiye;6;2523 10 00 90;;-
+Türkiye;7;2523 21 00;;-
+Türkiye;8;2523 29 00;;-
+Türkiye;9;2523 30 00;;1,950
+Türkiye;10;2523 90 00 10;;-
+Türkiye;11;2523 90 00 90;;-
+Türkiye;13;2808 00 00;;2,720
+Türkiye;14;2814 10 00;;2,270
+Türkiye;15;2814 20 00;;0,680
+Türkiye;16;2834 21 00;;2,220
+Türkiye;17;3102;;see below
+Türkiye;18;3102 10 12;;0,500
+Türkiye;19;3102 10 15;;0,820
+Türkiye;20;3102 10 19;;1,510
+Türkiye;21;3102 10 90;;1,480
+Türkiye;22;3102 21 00;;0,680
+Türkiye;23;3102 29 00;;1,460
+Türkiye;24;3102 30 10;;1,690
+Türkiye;25;3102 30 90;;2,600
+Türkiye;26;3102 40 10;;2,230
+Türkiye;27;3102 40 90;;2,230
+Türkiye;28;3102 50 00;;4,240
+Türkiye;29;3102 60 00;;2,180
+Türkiye;30;3102 80 00;;1,640
+Türkiye;31;3102 90 00;;1,690
+Türkiye;32;3105;;see below
+Türkiye;33;3105 10 00;;0,860
+Türkiye;34;3105 20 10;;1,120
+Türkiye;35;3105 20 90;;0,770
+Türkiye;36;3105 30 00;;0,550
+Türkiye;37;3105 40 00;;0,360
+Türkiye;38;3105 51 00;;1,540
+Türkiye;39;3105 59 00;;0,660
+Türkiye;40;3105 90 20;;1,480
+Türkiye;41;3105 90 80;;0,760
+Türkiye;43;7601;(K);1,700
+Türkiye;44;7603;(K);3,369
+Türkiye;45;7604 10 10;(K);3,741
+Türkiye;46;7604 10 90;(K);3,741
+Türkiye;47;7604 21 00;(K);3,741
+Türkiye;48;7604 29 10;(K);3,741
+Türkiye;49;7604 29 90;(K);3,741
+Türkiye;50;7605;(K);3,424
+Türkiye;51;7606;(K);2,714
+Türkiye;52;7607;(K);3,071
+Türkiye;53;7608;(K);2,754
+Türkiye;54;7609 00 00;(K);3,775
+Türkiye;55;7610 10 00;(K);2,674
+Türkiye;56;7610 90;(K);2,674
+Türkiye;57;7610 90 10;(K);2,674
+Türkiye;58;7610 90 90;(K);2,674
+Türkiye;59;7611 00 00;(K);4,520
+Türkiye;60;7612;(K);4,520
+Türkiye;61;7613 00 00;(K);4,520
+Türkiye;62;7614;(K);3,741
+Türkiye;63;7616 10 00;(K);3,060
+Türkiye;64;7616 91 00;(K);3,060
+Türkiye;65;7616 99 10;(K);3,060
+Türkiye;66;7616 99 90;(K);3,060
+Türkiye;68;2804 10 00;;10,820
+Türkiye;70;2601 12 00;;0,210
+Türkiye;71;7201;;1,850
+Türkiye;72;7202 11;;1,690
+Türkiye;73;7202 19;;-
+Türkiye;74;7202 41;;2,350
+Türkiye;75;7202 49;;-
+Türkiye;76;7202 60 00;;3,480
+Türkiye;77;7203;;-
+Türkiye;78;7205;(C)/(F);1,890
+Türkiye;79;7206;;see below
+Türkiye;80;7206 10 00;(C);1,960
+Türkiye;81;7206 90 00;(C);1,960
+Türkiye;82;7207;;see below
+Türkiye;83;7207 11 11;(C);2,310
+Türkiye;84;7207 11 14;(C);2,310
+Türkiye;85;7207 11 16;(C);2,310
+Türkiye;86;7207 11 90;(C);3,087
+Türkiye;87;7207 12 10;(C);2,310
+Türkiye;88;7207 12 90;(C);3,087
+Türkiye;89;7207 19 12;(C);2,310
+Türkiye;90;7207 19 19;(C);3,087
+Türkiye;91;7207 19 80;(C);2,310
+Türkiye;92;7207 20 11;(C);2,310
+Türkiye;93;7207 20 15;(C);2,310
+Türkiye;94;7207 20 17;(C);2,310
+Türkiye;95;7207 20 19;(C);3,087
+Türkiye;96;7207 20 32;(C);2,310
+Türkiye;97;7207 20 39;(C);3,087
+Türkiye;98;7207 20 52;(C);2,310
+Türkiye;99;7207 20 59;(C);3,087
+Türkiye;100;7207 20 80;(C);2,310
+Türkiye;101;7208;(C);2,428
+Türkiye;102;7209;(C);2,510
+Türkiye;103;7210;(C);2,510
+Türkiye;104;7211;;see below
+Türkiye;105;7211 13 00;(C);2,428
+Türkiye;106;7211 14 00;(C);2,428
+Türkiye;107;7211 19 00;(C);2,428
+Türkiye;108;7211 23;(C);2,510
+Türkiye;109;7211 29 00;(C);2,510
+Türkiye;110;7211 90;(C);2,510
+Türkiye;111;7212;(C);2,510
+Türkiye;112;7213;(C);2,310
+Türkiye;113;7214;;see below
+Türkiye;114;7214 10 00;(C);3,087
+Türkiye;115;7214 20 00;(C);2,310
+Türkiye;116;7214 30 00;(C);2,310
+Türkiye;117;7214 91;(C);2,310
+Türkiye;118;7214 99;(C);2,310
+Türkiye;119;7215;(C);2,310
+Türkiye;120;7216;(C);2,310
+Türkiye;121;7217;;see below
+Türkiye;122;7217 10;(C);2,310
+Türkiye;123;7217 20;(C);2,310
+Türkiye;124;7217 30;(C);2,310
+Türkiye;125;7217 90;(C);2,310
+Türkiye;126;7218;;see below
+Türkiye;127;7218 10 00;;5,970
+Türkiye;128;7218 91;;5,470
+Türkiye;129;7218 99 11;;5,470
+Türkiye;130;7218 99 19;;5,970
+Türkiye;131;7218 99 20;;5,470
+Türkiye;132;7218 99 80;;5,970
+Türkiye;133;7219;;see below
+Türkiye;134;7219 11 00;;5,470
+Türkiye;135;7219 12;;5,470
+Türkiye;136;7219 13;;5,470
+Türkiye;137;7219 14;;5,470
+Türkiye;138;7219 21;;5,470
+Türkiye;139;7219 22;;5,470
+Türkiye;140;7219 23 00;;5,470
+Türkiye;141;7219 24 00;;5,470
+Türkiye;142;7219 31 00;;5,540
+Türkiye;143;7219 32;;5,540
+Türkiye;144;7219 33;;5,540
+Türkiye;145;7219 34;;5,540
+Türkiye;146;7219 35;;5,540
+Türkiye;147;7219 90;;5,540
+Türkiye;148;7220;;see below
+Türkiye;149;7220 11 00;;5,470
+Türkiye;150;7220 12 00;;5,470
+Türkiye;151;7220 20;;5,540
+Türkiye;152;7220 90;;5,540
+Türkiye;153;7221;;5,310
+Türkiye;154;7222;;see below
+Türkiye;155;7222 11;;5,310
+Türkiye;156;7222 19;;5,310
+Türkiye;157;7222 20;;5,310
+Türkiye;158;7222 30;;5,970
+Türkiye;159;7222 40;;5,310
+Türkiye;160;7223;;see below
+Türkiye;161;7223 00;;5,310
+Türkiye;162;7224;;see below
+Türkiye;163;7224 10;(F);6,950
+Türkiye;164;7224 90 02;(F);6,450
+Türkiye;165;7224 90 03;(F);6,450
+Türkiye;166;7224 90 05;(F);6,450
+Türkiye;167;7224 90 07;(F);6,450
+Türkiye;168;7224 90 14;(F);6,450
+Türkiye;169;7224 90 18;(F);6,950
+Türkiye;170;7224 90 31;(F);6,450
+Türkiye;171;7224 90 38;(F);6,450
+Türkiye;172;7224 90 90;(F);6,950
+Türkiye;173;7225;;see below
+Türkiye;174;7225 11 00;(C);8,500
+Türkiye;175;7225 19 10;(C);6,450
+Türkiye;176;7225 19 90;(C);6,520
+Türkiye;177;7225 30;(F);6,450
+Türkiye;178;7225 40;(F);6,450
+Türkiye;179;7225 50;(F);6,520
+Türkiye;180;7225 91 00;(F);6,520
+Türkiye;181;7225 92 00;(F);6,520
+Türkiye;182;7225 99 00;(F);6,520
+Türkiye;183;7226;;see below
+Türkiye;184;7226 11 00;(C);8,500
+Türkiye;185;7226 19 10;(C);6,450
+Türkiye;186;7226 19 80;(C);6,520
+Türkiye;187;7226 20 00;(F);6,450
+Türkiye;188;7226 91;(F);6,450
+Türkiye;189;7226 92 00;(F);6,520
+Türkiye;190;7226 99;(F);6,520
+Türkiye;191;7227;(C)/(F);6,290
+Türkiye;192;7228;;see below
+Türkiye;193;7228 10 20;(F);6,290
+Türkiye;194;7228 10 50;(F);6,950
+Türkiye;195;7228 10 90;(F);6,290
+Türkiye;196;7228 20;(F);6,290
+Türkiye;197;7228 30;(C)/(F);6,290
+Türkiye;198;7228 40;(F);6,950
+Türkiye;199;7228 50;(C)/(F);6,290
+Türkiye;200;7228 60;(F);6,290
+Türkiye;201;7228 70;(F);6,290
+Türkiye;202;7228 80 00;(F);6,290
+Türkiye;203;7229;(C)/(F);6,290
+Türkiye;204;7301;(C);2,510
+Türkiye;205;7302;(C);5,360
+Türkiye;206;7303;;see below
+Türkiye;207;7303 00;;2,480
+Türkiye;208;7304;;see below
+Türkiye;209;7304 11 00;;5,690
+Türkiye;210;7304 19;(C);2,340
+Türkiye;211;7304 22 00;;5,690
+Türkiye;212;7304 23 00;(C);2,340
+Türkiye;213;7304 24 00;;5,690
+Türkiye;214;7304 29;(C);2,340
+Türkiye;215;7304 31;(C);2,340
+Türkiye;216;7304 39;(C);2,340
+Türkiye;217;7304 41 00;;5,690
+Türkiye;218;7304 49;;5,690
+Türkiye;219;7304 51;(F);2,360
+Türkiye;220;7304 59;(C)/(F);2,360
+Türkiye;221;7304 90 00;(C);2,340
+Türkiye;222;7305;(C);2,182
+Türkiye;223;7306;;see below
+Türkiye;224;7306 11 00;;5,920
+Türkiye;225;7306 19 00;(C);2,244
+Türkiye;226;7306 21 00;;5,920
+Türkiye;227;7306 29 00;(C);2,244
+Türkiye;228;7306 30 12;(C);2,244
+Türkiye;229;7306 30 18;(C);2,244
+Türkiye;230;7306 30 41;(C);2,244
+Türkiye;231;7306 30 49;(C);2,244
+Türkiye;232;7306 30 72;(C);2,244
+Türkiye;233;7306 30 77;(C);2,244
+Türkiye;234;7306 30 80;(C);2,244
+Türkiye;235;7306 40 20;;5,920
+Türkiye;236;7306 40 80;;5,850
+Türkiye;237;7306 50 21;(F);2,244
+Türkiye;238;7306 50 29;(F);2,244
+Türkiye;239;7306 50 80;(F);2,244
+Türkiye;240;7306 61 10;;5,920
+Türkiye;241;7306 61 92;(C);2,244
+Türkiye;242;7306 61 99;(C);2,244
+Türkiye;243;7306 69 10;;5,920
+Türkiye;244;7306 69 90;(C);2,244
+Türkiye;245;7306 90 00;(C);2,244
+Türkiye;246;7307;;see below
+Türkiye;247;7307 11;;3,151
+Türkiye;248;7307 19 10;;3,151
+Türkiye;249;7307 19 90;(C);3,151
+Türkiye;250;7307 21 00;;3,710
+Türkiye;251;7307 22;;3,710
+Türkiye;252;7307 23;;3,710
+Türkiye;253;7307 29;;3,710
+Türkiye;254;7307 91 00;(C);3,151
+Türkiye;255;7307 92;(C);3,151
+Türkiye;256;7307 93;(C);3,151
+Türkiye;257;7307 99;(C);3,151
+Türkiye;258;7308;(C);5,520
+Türkiye;259;7309;(C);5,600
+Türkiye;260;7310;(C);3,030
+Türkiye;261;7311;;see below
+Türkiye;262;7311 00;(C);5,430
+Türkiye;263;7318;;see below
+Türkiye;264;7318 11 00;(C);2,832
+Türkiye;265;7318 12 10;;5,690
+Türkiye;266;7318 12 90;(C);2,832
+Türkiye;267;7318 13 00;(C);2,832
+Türkiye;268;7318 14 10;;5,690
+Türkiye;269;7318 14 91;(C);2,832
+Türkiye;270;7318 14 99;(C);2,832
+Türkiye;271;7318 15;(C);5,430
+Türkiye;272;7318 16;(C);3,790
+Türkiye;273;7318 19 00;(C);2,832
+Türkiye;274;7318 21 00;(C);2,832
+Türkiye;275;7318 22 00;(C);3,430
+Türkiye;276;7318 23 00;(C);2,832
+Türkiye;277;7318 24 00;(C);2,832
+Türkiye;278;7318 29 00;(C);2,832
+Türkiye;279;7326;;see below
+Türkiye;280;7326 11 00;(C);3,000
+Türkiye;281;7326 19;(C);3,000
+Türkiye;282;7326 20 00;(C);2,583
+Türkiye;283;7326 90 30;(C);2,583
+Türkiye;284;7326 90 40;(C);2,583
+Türkiye;285;7326 90 50;(C);2,583
+Türkiye;286;7326 90 60;(C);2,583
+Türkiye;287;7326 90 92;(C);3,000
+Türkiye;288;7326 90 94;(C);3,000
+Türkiye;289;7326 90 96;(C);3,000
+Türkiye;290;7326 90 98;(C);2,583
+_Other Countries and Territorie;4;2507 00 80 80;;0,280
+_Other Countries and Territorie;5;2523 10 00 10;(B);1,370
+_Other Countries and Territorie;6;2523 10 00 90;(A);1,410
+_Other Countries and Territorie;7;2523 21 00;;1,450
+_Other Countries and Territorie;8;2523 29 00;;1,440
+_Other Countries and Territorie;9;2523 30 00;;2,030
+_Other Countries and Territorie;10;2523 90 00 10;(B);1,490
+_Other Countries and Territorie;11;2523 90 00 90;(A);1,370
+_Other Countries and Territorie;13;2808 00 00;;2,810
+_Other Countries and Territorie;14;2814 10 00;;3,130
+_Other Countries and Territorie;15;2814 20 00;;0,960
+_Other Countries and Territorie;16;2834 21 00;;2,330
+_Other Countries and Territorie;17;3102;;see below
+_Other Countries and Territorie;18;3102 10 12;;0,900
+_Other Countries and Territorie;19;3102 10 15;;1,470
+_Other Countries and Territorie;20;3102 10 19;;2,720
+_Other Countries and Territorie;21;3102 10 90;;2,660
+_Other Countries and Territorie;22;3102 21 00;;0,970
+_Other Countries and Territorie;23;3102 29 00;;1,620
+_Other Countries and Territorie;24;3102 30 10;;1,790
+_Other Countries and Territorie;25;3102 30 90;;2,750
+_Other Countries and Territorie;26;3102 40 10;;2,360
+_Other Countries and Territorie;27;3102 40 90;;2,360
+_Other Countries and Territorie;28;3102 50 00;;4,390
+_Other Countries and Territorie;29;3102 60 00;;2,310
+_Other Countries and Territorie;30;3102 80 00;;1,960
+_Other Countries and Territorie;31;3102 90 00;;2,280
+_Other Countries and Territorie;32;3105;;see below
+_Other Countries and Territorie;33;3105 10 00;;1,000
+_Other Countries and Territorie;34;3105 20 10;;1,230
+_Other Countries and Territorie;35;3105 20 90;;0,840
+_Other Countries and Territorie;36;3105 30 00;;0,780
+_Other Countries and Territorie;37;3105 40 00;;0,510
+_Other Countries and Territorie;38;3105 51 00;;1,660
+_Other Countries and Territorie;39;3105 59 00;;0,930
+_Other Countries and Territorie;40;3105 90 20;;1,570
+_Other Countries and Territorie;41;3105 90 80;;0,820
+_Other Countries and Territorie;43;7601;(K);2,203
+_Other Countries and Territorie;44;7603;(K);2,945
+_Other Countries and Territorie;45;7604 10 10;(K);3,233
+_Other Countries and Territorie;46;7604 10 90;(K);3,251
+_Other Countries and Territorie;47;7604 21 00;(K);3,251
+_Other Countries and Territorie;48;7604 29 10;(K);3,233
+_Other Countries and Territorie;49;7604 29 90;(K);3,251
+_Other Countries and Territorie;50;7605;(K);3,184
+_Other Countries and Territorie;51;7606;(K);3,717
+_Other Countries and Territorie;52;7607;(K);3,893
+_Other Countries and Territorie;53;7608;(K);3,220
+_Other Countries and Territorie;54;7609 00 00;(K);3,322
+_Other Countries and Territorie;55;7610 10 00;(K);3,212
+_Other Countries and Territorie;56;7610 90;(K);3,212
+_Other Countries and Territorie;57;7610 90 10;(K);3,212
+_Other Countries and Territorie;58;7610 90 90;(K);3,212
+_Other Countries and Territorie;59;7611 00 00;(K);4,037
+_Other Countries and Territorie;60;7612;(K);3,944
+_Other Countries and Territorie;61;7613 00 00;(K);4,037
+_Other Countries and Territorie;62;7614;(K);3,297
+_Other Countries and Territorie;63;7616 10 00;(K);3,891
+_Other Countries and Territorie;64;7616 91 00;(K);3,891
+_Other Countries and Territorie;65;7616 99 10;(K);2,953
+_Other Countries and Territorie;66;7616 99 90;(K);3,891
+_Other Countries and Territorie;68;2804 10 00;;17,740
+_Other Countries and Territorie;70;2601 12 00;;0,686
+_Other Countries and Territorie;71;7201;;3,480
+_Other Countries and Territorie;72;7202 11;;1,690
+_Other Countries and Territorie;73;7202 19;;5,590
+_Other Countries and Territorie;74;7202 41;;2,350
+_Other Countries and Territorie;75;7202 49;;2,870
+_Other Countries and Territorie;76;7202 60 00;;4,014
+_Other Countries and Territorie;77;7203;;1,325
+_Other Countries and Territorie;78;7205;(C)/(F);3,715
+_Other Countries and Territorie;79;7206;;see below
+_Other Countries and Territorie;80;7206 10 00;(C);3,750
+_Other Countries and Territorie;81;7206 90 00;(C);3,750
+_Other Countries and Territorie;82;7207;;see below
+_Other Countries and Territorie;83;7207 11 11;(C);3,996
+_Other Countries and Territorie;84;7207 11 14;(C);3,996
+_Other Countries and Territorie;85;7207 11 16;(C);3,996
+_Other Countries and Territorie;86;7207 11 90;(C);4,053
+_Other Countries and Territorie;87;7207 12 10;(C);3,996
+_Other Countries and Territorie;88;7207 12 90;(C);4,053
+_Other Countries and Territorie;89;7207 19 12;(C);3,996
+_Other Countries and Territorie;90;7207 19 19;(C);4,053
+_Other Countries and Territorie;91;7207 19 80;(C);3,996
+_Other Countries and Territorie;92;7207 20 11;(C);3,996
+_Other Countries and Territorie;93;7207 20 15;(C);3,996
+_Other Countries and Territorie;94;7207 20 17;(C);3,996
+_Other Countries and Territorie;95;7207 20 19;(C);4,053
+_Other Countries and Territorie;96;7207 20 32;(C);3,996
+_Other Countries and Territorie;97;7207 20 39;(C);4,053
+_Other Countries and Territorie;98;7207 20 52;(C);3,996
+_Other Countries and Territorie;99;7207 20 59;(C);4,053
+_Other Countries and Territorie;100;7207 20 80;(C);3,996
+_Other Countries and Territorie;101;7208;(C);4,049
+_Other Countries and Territorie;102;7209;(C);4,101
+_Other Countries and Territorie;103;7210;(C);4,101
+_Other Countries and Territorie;104;7211;;see below
+_Other Countries and Territorie;105;7211 13 00;(C);4,049
+_Other Countries and Territorie;106;7211 14 00;(C);4,049
+_Other Countries and Territorie;107;7211 19 00;(C);4,049
+_Other Countries and Territorie;108;7211 23;(C);4,101
+_Other Countries and Territorie;109;7211 29 00;(C);4,101
+_Other Countries and Territorie;110;7211 90;(C);4,101
+_Other Countries and Territorie;111;7212;(C);4,101
+_Other Countries and Territorie;112;7213;(C);3,996
+_Other Countries and Territorie;113;7214;;see below
+_Other Countries and Territorie;114;7214 10 00;(C);4,053
+_Other Countries and Territorie;115;7214 20 00;(C);3,996
+_Other Countries and Territorie;116;7214 30 00;(C);3,996
+_Other Countries and Territorie;117;7214 91;(C);3,996
+_Other Countries and Territorie;118;7214 99;(C);3,996
+_Other Countries and Territorie;119;7215;(C);3,996
+_Other Countries and Territorie;120;7216;(C);3,996
+_Other Countries and Territorie;121;7217;;see below
+_Other Countries and Territorie;122;7217 10;(C);3,996
+_Other Countries and Territorie;123;7217 20;(C);3,996
+_Other Countries and Territorie;124;7217 30;(C);3,996
+_Other Countries and Territorie;125;7217 90;(C);3,996
+_Other Countries and Territorie;126;7218;;see below
+_Other Countries and Territorie;127;7218 10 00;;5,006
+_Other Countries and Territorie;128;7218 91;;4,940
+_Other Countries and Territorie;129;7218 99 11;;4,940
+_Other Countries and Territorie;130;7218 99 19;;5,006
+_Other Countries and Territorie;131;7218 99 20;;4,940
+_Other Countries and Territorie;132;7218 99 80;;5,006
+_Other Countries and Territorie;133;7219;;see below
+_Other Countries and Territorie;134;7219 11 00;;4,940
+_Other Countries and Territorie;135;7219 12;;4,940
+_Other Countries and Territorie;136;7219 13;;4,940
+_Other Countries and Territorie;137;7219 14;;4,940
+_Other Countries and Territorie;138;7219 21;;4,940
+_Other Countries and Territorie;139;7219 22;;4,940
+_Other Countries and Territorie;140;7219 23 00;;4,940
+_Other Countries and Territorie;141;7219 24 00;;4,940
+_Other Countries and Territorie;142;7219 31 00;;5,020
+_Other Countries and Territorie;143;7219 32;;5,020
+_Other Countries and Territorie;144;7219 33;;5,020
+_Other Countries and Territorie;145;7219 34;;5,020
+_Other Countries and Territorie;146;7219 35;;5,020
+_Other Countries and Territorie;147;7219 90;;5,020
+_Other Countries and Territorie;148;7220;;see below
+_Other Countries and Territorie;149;7220 11 00;;4,940
+_Other Countries and Territorie;150;7220 12 00;;4,940
+_Other Countries and Territorie;151;7220 20;;5,020
+_Other Countries and Territorie;152;7220 90;;5,020
+_Other Countries and Territorie;153;7221;;4,820
+_Other Countries and Territorie;154;7222;;see below
+_Other Countries and Territorie;155;7222 11;;4,820
+_Other Countries and Territorie;156;7222 19;;4,820
+_Other Countries and Territorie;157;7222 20;;4,820
+_Other Countries and Territorie;158;7222 30;;5,006
+_Other Countries and Territorie;159;7222 40;;4,820
+_Other Countries and Territorie;160;7223;;see below
+_Other Countries and Territorie;161;7223 00;;4,820
+_Other Countries and Territorie;162;7224;;see below
+_Other Countries and Territorie;163;7224 10;(F);5,589
+_Other Countries and Territorie;164;7224 90 02;(F);5,500
+_Other Countries and Territorie;165;7224 90 03;(F);5,500
+_Other Countries and Territorie;166;7224 90 05;(F);5,500
+_Other Countries and Territorie;167;7224 90 07;(F);5,500
+_Other Countries and Territorie;168;7224 90 14;(F);5,500
+_Other Countries and Territorie;169;7224 90 18;(F);5,589
+_Other Countries and Territorie;170;7224 90 31;(F);5,500
+_Other Countries and Territorie;171;7224 90 38;(F);5,500
+_Other Countries and Territorie;172;7224 90 90;(F);5,589
+_Other Countries and Territorie;173;7225;;see below
+_Other Countries and Territorie;174;7225 11 00;(C);7,100
+_Other Countries and Territorie;175;7225 19 10;(C);5,500
+_Other Countries and Territorie;176;7225 19 90;(C);5,588
+_Other Countries and Territorie;177;7225 30;(F);5,500
+_Other Countries and Territorie;178;7225 40;(F);5,500
+_Other Countries and Territorie;179;7225 50;(F);5,588
+_Other Countries and Territorie;180;7225 91 00;(F);5,588
+_Other Countries and Territorie;181;7225 92 00;(F);5,588
+_Other Countries and Territorie;182;7225 99 00;(F);5,588
+_Other Countries and Territorie;183;7226;;see below
+_Other Countries and Territorie;184;7226 11 00;(C);7,100
+_Other Countries and Territorie;185;7226 19 10;(C);5,500
+_Other Countries and Territorie;186;7226 19 80;(C);5,588
+_Other Countries and Territorie;187;7226 20 00;(F);5,500
+_Other Countries and Territorie;188;7226 91;(F);5,500
+_Other Countries and Territorie;189;7226 92 00;(F);5,590
+_Other Countries and Territorie;190;7226 99;(F);5,588
+_Other Countries and Territorie;191;7227;(C)/(F);5,400
+_Other Countries and Territorie;192;7228;;see below
+_Other Countries and Territorie;193;7228 10 20;(F);5,400
+_Other Countries and Territorie;194;7228 10 50;(F);5,589
+_Other Countries and Territorie;195;7228 10 90;(F);5,400
+_Other Countries and Territorie;196;7228 20;(F);5,400
+_Other Countries and Territorie;197;7228 30;(C)/(F);5,400
+_Other Countries and Territorie;198;7228 40;(F);5,589
+_Other Countries and Territorie;199;7228 50;(C)/(F);5,400
+_Other Countries and Territorie;200;7228 60;(F);5,400
+_Other Countries and Territorie;201;7228 70;(F);5,400
+_Other Countries and Territorie;202;7228 80 00;(F);5,400
+_Other Countries and Territorie;203;7229;(C)/(F);5,400
+_Other Countries and Territorie;204;7301;(C);4,063
+_Other Countries and Territorie;205;7302;(C);4,887
+_Other Countries and Territorie;206;7303;;see below
+_Other Countries and Territorie;207;7303 00;;4,150
+_Other Countries and Territorie;208;7304;;see below
+_Other Countries and Territorie;209;7304 11 00;;5,184
+_Other Countries and Territorie;210;7304 19;(C);3,981
+_Other Countries and Territorie;211;7304 22 00;;5,184
+_Other Countries and Territorie;212;7304 23 00;(C);3,981
+_Other Countries and Territorie;213;7304 24 00;;5,184
+_Other Countries and Territorie;214;7304 29;(C);3,981
+_Other Countries and Territorie;215;7304 31;(C);3,981
+_Other Countries and Territorie;216;7304 39;(C);3,981
+_Other Countries and Territorie;217;7304 41 00;;5,184
+_Other Countries and Territorie;218;7304 49;;5,184
+_Other Countries and Territorie;219;7304 51;(F);3,878
+_Other Countries and Territorie;220;7304 59;(C)/(F);3,878
+_Other Countries and Territorie;221;7304 90 00;(C);3,981
+_Other Countries and Territorie;222;7305;(C);4,060
+_Other Countries and Territorie;223;7306;;see below
+_Other Countries and Territorie;224;7306 11 00;;5,369
+_Other Countries and Territorie;225;7306 19 00;(C);4,141
+_Other Countries and Territorie;226;7306 21 00;;5,369
+_Other Countries and Territorie;227;7306 29 00;(C);4,141
+_Other Countries and Territorie;228;7306 30 12;(C);4,141
+_Other Countries and Territorie;229;7306 30 18;(C);4,090
+_Other Countries and Territorie;230;7306 30 41;(C);4,141
+_Other Countries and Territorie;231;7306 30 49;(C);4,141
+_Other Countries and Territorie;232;7306 30 72;(C);4,141
+_Other Countries and Territorie;233;7306 30 77;(C);4,141
+_Other Countries and Territorie;234;7306 30 80;(C);4,141
+_Other Countries and Territorie;235;7306 40 20;;5,369
+_Other Countries and Territorie;236;7306 40 80;;5,296
+_Other Countries and Territorie;237;7306 50 21;(F);4,128
+_Other Countries and Territorie;238;7306 50 29;(F);4,056
+_Other Countries and Territorie;239;7306 50 80;(F);4,128
+_Other Countries and Territorie;240;7306 61 10;;5,369
+_Other Countries and Territorie;241;7306 61 92;(C);4,141
+_Other Countries and Territorie;242;7306 61 99;(C);4,141
+_Other Countries and Territorie;243;7306 69 10;;5,369
+_Other Countries and Territorie;244;7306 69 90;(C);4,141
+_Other Countries and Territorie;245;7306 90 00;(C);4,141
+_Other Countries and Territorie;246;7307;;see below
+_Other Countries and Territorie;247;7307 11;;3,929
+_Other Countries and Territorie;248;7307 19 10;;3,929
+_Other Countries and Territorie;249;7307 19 90;(C);4,053
+_Other Countries and Territorie;250;7307 21 00;;4,498
+_Other Countries and Territorie;251;7307 22;;4,498
+_Other Countries and Territorie;252;7307 23;;4,498
+_Other Countries and Territorie;253;7307 29;;4,498
+_Other Countries and Territorie;254;7307 91 00;(C);4,072
+_Other Countries and Territorie;255;7307 92;(C);4,072
+_Other Countries and Territorie;256;7307 93;(C);4,072
+_Other Countries and Territorie;257;7307 99;(C);4,072
+_Other Countries and Territorie;258;7308;(C);5,064
+_Other Countries and Territorie;259;7309;(C);5,468
+_Other Countries and Territorie;260;7310;(C);4,228
+_Other Countries and Territorie;261;7311;;see below
+_Other Countries and Territorie;262;7311 00;(C);5,385
+_Other Countries and Territorie;263;7318;;see below
+_Other Countries and Territorie;264;7318 11 00;(C);3,962
+_Other Countries and Territorie;265;7318 12 10;;5,119
+_Other Countries and Territorie;266;7318 12 90;(C);3,962
+_Other Countries and Territorie;267;7318 13 00;(C);3,962
+_Other Countries and Territorie;268;7318 14 10;;5,119
+_Other Countries and Territorie;269;7318 14 91;(C);3,962
+_Other Countries and Territorie;270;7318 14 99;(C);3,962
+_Other Countries and Territorie;271;7318 15;(C);4,801
+_Other Countries and Territorie;272;7318 16;(C);4,693
+_Other Countries and Territorie;273;7318 19 00;(C);3,962
+_Other Countries and Territorie;274;7318 21 00;(C);3,962
+_Other Countries and Territorie;275;7318 22 00;(C);4,322
+_Other Countries and Territorie;276;7318 23 00;(C);3,963
+_Other Countries and Territorie;277;7318 24 00;(C);3,962
+_Other Countries and Territorie;278;7318 29 00;(C);3,962
+_Other Countries and Territorie;279;7326;;see below
+_Other Countries and Territorie;280;7326 11 00;(C);4,080
+_Other Countries and Territorie;281;7326 19;(C);4,080
+_Other Countries and Territorie;282;7326 20 00;(C);4,051
+_Other Countries and Territorie;283;7326 90 30;(C);4,051
+_Other Countries and Territorie;284;7326 90 40;(C);4,051
+_Other Countries and Territorie;285;7326 90 50;(C);4,051
+_Other Countries and Territorie;286;7326 90 60;(C);4,051
+_Other Countries and Territorie;287;7326 90 92;(C);4,080
+_Other Countries and Territorie;288;7326 90 94;(C);4,080
+_Other Countries and Territorie;289;7326 90 96;(C);4,080
+_Other Countries and Territorie;290;7326 90 98;(C);4,151

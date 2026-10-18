@@ -18,3 +18,8 @@ ddbe8aaa56d4dcaa26c13c59ede25aaa6787853365b8aa75a6e715d50d5ad117  tuik/tuik_ncv.
 9b928cec669d21a914a161501512805c8f4e0f5337b91f126916e35dc91804b7  tuik/tuik_co2_ef.csv
 121a4ac6fb92668816ebe76b34f549e68b3c13dc5ac6843c4a3fc0c63e59b7ec  ../../web/src/data/factors/desnz-2026.json
 39eddb6b3e70f68626fe983c9076be0fd202362a41d73812f53784505c2059a8  ../../web/src/data/factors/tuik-nir-2026.json
+fdec78f2f0455bd1a762e284fcba2a40037fc303c7fca1987b6a7bdaa0145e96  cbam-bm/raw/reg_2025_2620.html
+8bbba79e7f33f0e4943140c28e91a8810612f2fa770bd6dcad33fdb7045e4c05  cbam-bm/raw/reg_2025_2620.pdf
+eab5304971f64e386e70ec8e12cbaddccb149d1fd28ab39aa4a91120bdc594d0  cbam-bm/cbam_benchmarks.csv
+6273d015d984e46df4691cfb294e61fe4bbd7dc576a90c94563bb4bb4c92aa4e  cbam-bm/cbam_routes.csv
+f09d89c2a14243fc00ae7402a4cccddd3dd130e1fb057f81f46da32de9665da7  ../../web/src/data/factors/cbam-benchmarks.json
