@@ -88,7 +88,7 @@ function TopBar({ onMenu }: { onMenu: () => void }) {
   const rest = pathname.split("/").slice(2).join("/");
   return (
     <header
-      className="sticky z-30 pt-3"
+      className="no-print sticky z-30 pt-3"
       style={{ top: "env(safe-area-inset-top, 0px)", paddingLeft: "max(16px, env(safe-area-inset-left, 0px))", paddingRight: "max(16px, env(safe-area-inset-right, 0px))" }}
     >
       <div className="flex items-center gap-3">
@@ -163,7 +163,7 @@ function Rail({ open, onClose }: { open: boolean; onClose: () => void }) {
       <nav
         aria-label={t("shell.nav")}
         className={cn(
-          "glass fixed bottom-3 left-3 top-[76px] z-40 w-[262px] overflow-y-auto rounded-[20px] pb-6 pt-5 transition-transform duration-200",
+          "no-print glass fixed bottom-3 left-3 top-[76px] z-40 w-[262px] overflow-y-auto rounded-[20px] pb-6 pt-5 transition-transform duration-200",
           "lg:sticky lg:top-[76px] lg:z-0 lg:h-[calc(100dvh-88px)] lg:translate-x-0",
           open ? "translate-x-0" : "-translate-x-[110%]",
         )}
@@ -251,7 +251,7 @@ export function PageHeader({ title, result, actions, family = "compass", aside }
 export function ToolLayout({ inputs, notes, children, family, locked = false }: { inputs: ReactNode; notes?: ReactNode; children: ReactNode; family: Family; locked?: boolean }) {
   return (
     <div data-family={family} className="grid gap-6 xl:grid-cols-[340px_minmax(0,1fr)]">
-      <aside className="glass order-2 flex min-w-0 flex-col gap-5 self-start p-5 xl:sticky xl:top-[76px] xl:order-1 xl:max-h-[calc(100dvh-90px)] xl:overflow-y-auto">
+      <aside className="no-print glass order-2 flex min-w-0 flex-col gap-5 self-start p-5 xl:sticky xl:top-[76px] xl:order-1 xl:max-h-[calc(100dvh-90px)] xl:overflow-y-auto">
         <fieldset disabled={locked} className="m-0 flex min-w-0 flex-col gap-5 border-0 p-0">
           {inputs}
           {notes}

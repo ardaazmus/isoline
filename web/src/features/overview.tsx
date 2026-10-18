@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState, type ReactNode } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Printer } from "lucide-react";
 import { useI18n } from "@/i18n/provider";
 import { evaluate } from "@/lib/calc/applicability";
 import { computeInventory } from "@/lib/calc/ghg";
@@ -255,7 +255,7 @@ function ApprovalTile() {
   };
   return (
     <Tile title={t("appr.overview")} className="md:col-span-6 xl:col-span-12">
-      <div className="flex flex-wrap items-center gap-2">
+      <div className="no-print flex flex-wrap items-center gap-2">
         <label className="text-[12.5px] text-[var(--ink-3)]" htmlFor="pkg-visibility">
           {t("appr.packageVisibility")}
         </label>
@@ -273,6 +273,14 @@ function ApprovalTile() {
         </select>
         <button type="button" onClick={downloadPackage} className="rounded-[12px] bg-[var(--b-600)] px-4 py-2 text-[13px] font-semibold text-white">
           {t("appr.packageDownload")}
+        </button>
+        <button
+          type="button"
+          onClick={() => window.print()}
+          title={t("appr.packagePrintHint")}
+          className="flex items-center gap-1.5 rounded-[12px] border border-[var(--rule)] bg-white px-4 py-2 text-[13px] font-semibold text-[var(--ink)]"
+        >
+          <Printer size={14} aria-hidden /> {t("appr.packagePrint")}
         </button>
         <span className="text-[12px] text-[var(--ink-3)]">{t("appr.packageHint")}</span>
       </div>

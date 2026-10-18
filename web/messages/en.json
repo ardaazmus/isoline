@@ -1983,6 +1983,9 @@
       "estimated": "Estimated-data threshold (U9)",
       "estimatedHint": "Internal threshold; regulation sets no fixed rate."
     },
+    "yoyByMetric": "Per-metric U8 thresholds",
+    "yoyByMetricHint": "A metric left blank uses the global threshold. Volatile rates (e.g. LTIFR) usually need a wider one.",
+    "yoyEffective": "Effective threshold: {v}",
     "later": "Rules U6–U7 (investment ↔ impact) arrive with the trial-balance import and investment data.",
     "export": "Auditor file (CSV)",
     "engine": "Reconciliation engine {engine} · run {date}",
@@ -2312,6 +2315,8 @@
     "overviewCaption": "The preparer and the approver must be different people. An approved section is locked; reports quote locked data.",
     "packageVisibility": "Package visibility",
     "packageDownload": "Download audit package (JSON)",
+    "packagePrint": "Print to PDF",
+    "packagePrintHint": "Save as PDF from the browser print dialog; header, menu and buttons are excluded.",
     "packageHint": "One file: visibility level first, then approvals, evidence SHA-256 list, request progress and the reconciliation record.",
     "visibility": {
       "internal": "Internal — company and consultant",

@@ -119,11 +119,19 @@ export type Tolerances = {
   match: number;
   /** U2–U5 consistency checks where definitions may differ slightly (year-end vs average headcount). */
   near: number;
-  /** U8: year-over-year change that needs an explanation. */
+  /** U8: year-over-year change that needs an explanation (default for every metric). */
   yoy: number;
+  /** U8 per-metric overrides; a metric without an entry uses `yoy`. Volatile rates (LTIFR) usually need more room than Scope 1. */
+  yoyByMetric?: Partial<Record<YoyMetric, number>>;
   /** U9: share of emissions from estimated data that triggers a warning (internal threshold). */
   estimated: number;
 };
+
+/** Effective year-over-year threshold for one metric: its override, else the global U8 threshold. */
+export function yoyTolerance(rec: Reconciliation, m: YoyMetric): number {
+  const o = rec.tolerances.yoyByMetric?.[m];
+  return typeof o === "number" && Number.isFinite(o) && o >= 0 ? o : rec.tolerances.yoy;
+}
 
 export const DEFAULT_TOLERANCES: Tolerances = { match: 0.005, near: 0.05, yoy: 0.2, estimated: 0.2 };
 
@@ -291,7 +299,8 @@ function u8({ c, rec, inv }: Ctx): Check[] {
     const base = { id: `U8.${id}`, rule: "U8" as const, rel: "yoy" as const, unit, metric: id, a: { src: "current" as const, value: current } };
     if (!pos(prior) || !(current >= 0)) return { ...base, status: "na" as const };
     const diff = relDiff(current, prior);
-    return { ...base, b: { src: "prior" as const, value: prior }, diff, tolerance: rec.tolerances.yoy, status: judge(Math.abs(diff) <= rec.tolerances.yoy, "warning") };
+    const tol = yoyTolerance(rec, id);
+    return { ...base, b: { src: "prior" as const, value: prior }, diff, tolerance: tol, status: judge(Math.abs(diff) <= tol, "warning") };
   });
 }
 

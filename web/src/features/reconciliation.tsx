@@ -14,6 +14,8 @@ import {
   reconcile,
   reconcileRecords,
   RULES,
+  YOY_METRICS,
+  yoyTolerance,
   yoyValues,
   type Check,
   type CheckStatus,
@@ -33,7 +35,7 @@ import { todayLocal } from "@/lib/dates";
 
 const MARK: Record<CheckStatus, "verified" | "estimated" | "review" | "critical" | "na"> = { pass: "verified", explained: "estimated", warn: "review", fail: "critical", na: "na" };
 const REL: Record<string, string> = { eq: "≈", lte: "≤", gte: "≥" };
-const TOLERANCE_KEYS: (keyof Tolerances)[] = ["match", "near", "yoy", "estimated"];
+const TOLERANCE_KEYS = ["match", "near", "yoy", "estimated"] as const satisfies readonly (keyof Tolerances)[];
 const navHref = (id: string) => NAV.flatMap((g) => g.items).find((i) => i.id === id)?.href ?? "";
 
 export function ReconciliationPage() {
@@ -142,6 +144,27 @@ function Inner() {
             <InputGroup title={t("rec.tolerances")}>
               {TOLERANCE_KEYS.map((k) => (
                 <NumberField key={k} label={t(`rec.tol.${k}`)} hint={t(`rec.tol.${k}Hint`)} percent min={0} max={1} value={rec.tolerances[k]} onChange={(v) => patch({ tolerances: { ...rec.tolerances, [k]: v } })} />
+              ))}
+            </InputGroup>
+            <InputGroup title={t("rec.yoyByMetric")}>
+              <p className="text-[12.5px] leading-relaxed text-[var(--ink-3)]">{t("rec.yoyByMetricHint")}</p>
+              {YOY_METRICS.map(({ id }) => (
+                <NumberField
+                  key={id}
+                  label={t(`rec.metric.${id}`)}
+                  hint={t("rec.yoyEffective", { v: fmt.percent(yoyTolerance(rec, id), 0) })}
+                  percent
+                  nullable
+                  min={0}
+                  max={2}
+                  value={rec.tolerances.yoyByMetric?.[id] ?? NaN}
+                  onChange={(v) => {
+                    const yoyByMetric = { ...rec.tolerances.yoyByMetric };
+                    if (Number.isFinite(v)) yoyByMetric[id] = v;
+                    else delete yoyByMetric[id];
+                    patch({ tolerances: { ...rec.tolerances, yoyByMetric } });
+                  }}
+                />
               ))}
             </InputGroup>
             <p className="text-[12.5px] leading-relaxed text-[var(--ink-3)]">{t("rec.later")}</p>

@@ -74,7 +74,7 @@ export function ApprovalBar({ section }: { section: SectionId }) {
           <StatusMark kind={MARK[approval.status]} label={t(`appr.status.${approval.status}`)} />
         </span>
         {who.length > 0 && <span className="text-[13px] text-[var(--ink-3)]">{who.join(" · ")}</span>}
-        <div className="flex flex-wrap items-center gap-2 xl:ml-auto">
+        <div className="no-print flex flex-wrap items-center gap-2 xl:ml-auto">
           <input
             aria-label={t("appr.by")}
             placeholder={t("appr.by")}

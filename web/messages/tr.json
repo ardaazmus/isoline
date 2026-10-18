@@ -1983,6 +1983,9 @@
       "estimated": "Tahmini veri payı eşiği (U9)",
       "estimatedHint": "Kurum içi eşik; mevzuatta sabit bir oran yok."
     },
+    "yoyByMetric": "Metrik bazında U8 eşikleri",
+    "yoyByMetricHint": "Boş bırakılan metrik genel eşiği kullanır. Oynak oranlar (ör. LTIFR) genelde daha geniş eşik ister.",
+    "yoyEffective": "Geçerli eşik: {v}",
     "later": "U6–U7 (yatırım ↔ etki) kuralları mizan içe aktarması ve yatırım verisiyle gelecek.",
     "export": "Denetçi dosyası (CSV)",
     "engine": "Uzlaştırma motoru {engine} · çalıştırma {date}",
@@ -2312,6 +2315,8 @@
     "overviewCaption": "Hazırlayan ile onaylayan farklı kişi olmalı. Onaylanan bölüm kilitlenir; raporlar kilitli veriden alıntı yapar.",
     "packageVisibility": "Paket görünürlüğü",
     "packageDownload": "Denetim paketini indir (JSON)",
+    "packagePrint": "PDF olarak yazdır",
+    "packagePrintHint": "Tarayıcının yazdırma penceresinden PDF olarak kaydedin; üst bilgi, menü ve düğmeler çıkmaz.",
     "packageHint": "Tek dosya: künye ilk satırda görünürlük düzeyi, onaylar, kanıt SHA-256 listesi, talep ilerlemesi ve uzlaştırma kaydı.",
     "visibility": {
       "internal": "İç — şirket ve danışman",

@@ -672,3 +672,45 @@ svg .anim-bar-x {
     animation: none !important;
   }
 }
+
+/* PDF package via the browser's print-to-PDF: chrome hidden with .no-print,
+   figures and tables flattened to ink on white. */
+@page {
+  size: A4;
+  margin: 13mm 12mm;
+}
+@media print {
+  html {
+    background: #fff !important;
+  }
+  body {
+    background: #fff !important;
+    color: #13233a !important;
+    font-size: 11px;
+  }
+  .glass,
+  .glass-strong,
+  .sheet {
+    background: #fff !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    border: 1px solid #d5dce4 !important;
+  }
+  figure,
+  table,
+  section {
+    break-inside: avoid;
+  }
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+  a {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+  svg text {
+    fill: #13233a;
+  }
+}

@@ -114,6 +114,16 @@ describe("rules", () => {
     c.reconciliation.tolerances.yoy = 0.3;
     expect(check(c, "U8.water").status).toBe("pass");
   });
+  it("U8 prefers a per-metric override over the global threshold", () => {
+    const c = clone();
+    c.reconciliation.tolerances.yoy = 0.05;
+    expect(check(c, "U8.water").status).toBe("warn");
+    c.reconciliation.tolerances.yoyByMetric = { water: 0.3 };
+    const k = check(c, "U8.water");
+    expect(k.status).toBe("pass");
+    expect(k.tolerance).toBe(0.3);
+    expect(check(c, "U8.scope3").tolerance).toBe(0.05);
+  });
   it("U9 follows the estimated-data threshold", () => {
     const c = clone();
     expect(check(c, "U9.estimated3").status).toBe("warn");
