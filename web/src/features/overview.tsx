@@ -21,6 +21,10 @@ import { Hydrated } from "./common";
 import { localDay, useToday } from "@/lib/dates";
 import { approvalOf, SECTION_IDS } from "@/lib/approval";
 import { NAV } from "@/data/nav";
+import { TEMPLATES } from "@/data/templates";
+import { suggestTemplates } from "@/lib/requests";
+import { buildReportPackage, packageFileName, VISIBILITIES, type Visibility } from "@/lib/report-package";
+import { download } from "@/lib/export";
 import { useActiveClient } from "@/store/workspace";
 
 
@@ -237,13 +241,41 @@ function Inner() {
 
 const APPROVAL_MARK = { draft: "estimated", review: "review", approved: "verified", published: "verified" } as const;
 
-/** Approval status of every tool section of the active client (workflow step 4). */
+/** Approval status of every tool section of the active client (workflow step 4) + single package (step 5). */
 function ApprovalTile() {
   const { t, fmt, locale } = useI18n();
   const c = useActiveClient();
+  const [visibility, setVisibility] = useState<Visibility>("authorized");
   const href = (id: string) => NAV.flatMap((g) => g.items).find((i) => i.id === id)?.href ?? "";
+  const downloadPackage = () => {
+    const suggestions = suggestTemplates(evaluate(c.profile), c.profile).map((s) => s.template);
+    const chosen = (c.requests.templates ?? suggestions).filter((id) => TEMPLATES.some((tp) => tp.id === id));
+    const pkg = buildReportPackage(c, { visibility, templateIds: chosen, exportedAt: new Date().toISOString(), today: localDay(new Date().toISOString()) });
+    download(packageFileName(c.name, pkg.exportedAt), JSON.stringify(pkg, null, 2), "application/json");
+  };
   return (
     <Tile title={t("appr.overview")} className="md:col-span-6 xl:col-span-12">
+      <div className="flex flex-wrap items-center gap-2">
+        <label className="text-[12.5px] text-[var(--ink-3)]" htmlFor="pkg-visibility">
+          {t("appr.packageVisibility")}
+        </label>
+        <select
+          id="pkg-visibility"
+          value={visibility}
+          onChange={(e) => setVisibility(e.target.value as Visibility)}
+          className="rounded-[10px] border border-[var(--rule)] bg-white px-2 py-1.5 text-[13px]"
+        >
+          {VISIBILITIES.map((v) => (
+            <option key={v} value={v}>
+              {t(`appr.visibility.${v}`)}
+            </option>
+          ))}
+        </select>
+        <button type="button" onClick={downloadPackage} className="rounded-[12px] bg-[var(--b-600)] px-4 py-2 text-[13px] font-semibold text-white">
+          {t("appr.packageDownload")}
+        </button>
+        <span className="text-[12px] text-[var(--ink-3)]">{t("appr.packageHint")}</span>
+      </div>
       <div className="overflow-x-auto">
         <table className="report-table text-[13.5px]">
           <thead>

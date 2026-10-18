@@ -2271,6 +2271,14 @@
     },
     "overview": "Bölümlerin onay durumu",
     "overviewCaption": "Hazırlayan ile onaylayan farklı kişi olmalı. Onaylanan bölüm kilitlenir; raporlar kilitli veriden alıntı yapar.",
+    "packageVisibility": "Paket görünürlüğü",
+    "packageDownload": "Denetim paketini indir (JSON)",
+    "packageHint": "Tek dosya: künye ilk satırda görünürlük düzeyi, onaylar, kanıt SHA-256 listesi, talep ilerlemesi ve uzlaştırma kaydı.",
+    "visibility": {
+      "internal": "İç — şirket ve danışman",
+      "authorized": "Yetkili — denetçi, otorite, ithalatçı",
+      "public": "Kamuya açık"
+    },
     "section": "Bölüm",
     "approvedAt": "Onay tarihi",
     "doc": {

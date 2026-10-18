@@ -2271,6 +2271,14 @@
     },
     "overview": "Approval status by section",
     "overviewCaption": "The preparer and the approver must be different people. An approved section is locked; reports quote locked data.",
+    "packageVisibility": "Package visibility",
+    "packageDownload": "Download audit package (JSON)",
+    "packageHint": "One file: visibility level first, then approvals, evidence SHA-256 list, request progress and the reconciliation record.",
+    "visibility": {
+      "internal": "Internal — company and consultant",
+      "authorized": "Authorized — auditor, authority, importer",
+      "public": "Public"
+    },
     "section": "Section",
     "approvedAt": "Approved on",
     "doc": {
