@@ -88,6 +88,23 @@ export function addV5Fields(clients: ClientData[]): ClientData[] {
   return clients.map((c) => (c.trialBalance !== undefined ? c : { ...c, trialBalance: c.sample && c.id === SAMPLE_CLIENT.id ? structuredClone(SAMPLE_CLIENT.trialBalance) : null }));
 }
 
+/**
+ * Shape check of an imported client: the parts the screens index into. A file that fails it is refused at
+ * import rather than crashing a screen later.
+ */
+export function isClientShape(c: unknown): boolean {
+  const x = c as Partial<ClientData> | null;
+  const ghg = x?.ghg as unknown as Record<string, unknown> | undefined;
+  return (
+    typeof x?.id === "string" &&
+    typeof x?.name === "string" &&
+    Array.isArray(x.profile?.history) &&
+    !!ghg &&
+    ["fuels", "process", "refrigerants", "electricity", "scope3"].every((k) => Array.isArray(ghg[k])) &&
+    Array.isArray(x.cbam?.products)
+  );
+}
+
 const newId = () => `c-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
 
 export const useWorkspace = create<Workspace>()(
@@ -124,7 +141,7 @@ export const useWorkspace = create<Workspace>()(
         if (!d || d.app !== "isoline" || !Array.isArray(d.clients) || d.clients.length === 0) {
           return { ok: false, error: "invalid" };
         }
-        const valid = d.clients.every((c) => typeof c?.id === "string" && typeof c?.name === "string" && c.profile && c.ghg && c.cbam);
+        const valid = d.clients.every(isClientShape);
         if (!valid) return { ok: false, error: "invalid_client" };
         const clients = migrateClients(d.clients, d.version ?? 2);
         set({ clients, activeId: clients[0].id, customSets: Array.isArray(d.customSets) ? d.customSets : [] });

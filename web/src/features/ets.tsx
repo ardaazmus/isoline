@@ -8,6 +8,7 @@ import { Figure, LegendItem } from "@/components/figure";
 import { StackedBars } from "@/components/charts";
 import { Callout, NumberField, SelectField, StatusMark } from "@/components/ui";
 import { Hydrated, KeyDates, NoteList, SectionTitle, ToolActions, useTool } from "./common";
+import { eventDate } from "@/data/regulations";
 
 const SOURCES = ["climate_law", "tr_ets_reg", "kpk_2026_1"];
 const FROM = 2026;
@@ -151,7 +152,7 @@ function Inner() {
             <KeyDates
               dates={[
                 { key: "ets_reg", date: "2026-08-27" },
-                { key: "ets_monitoring_plan", date: "2026-10-27" },
+                { key: "ets_monitoring_plan", date: eventDate("tr_ets_mp") },
                 { key: "ets_price_start", date: "2027-01-01" },
                 { key: "ets_report_2026", date: "2027-04-30" },
                 { key: "ets_surrender_2027", date: "2028-11-30" },

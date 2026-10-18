@@ -11,7 +11,7 @@ import { StackedBars } from "@/components/charts";
 import { Button, Callout, NumberField, SelectField, StatusMark, TextField, Toggle } from "@/components/ui";
 import { Hydrated, KeyDates, NoteList, SectionTitle, ToolActions, useTool } from "./common";
 import { FactorPicker, useFactorSets } from "@/components/factor-picker";
-import { CBAM_ORIGINS, factorRef, resolveRef } from "@/lib/factors";
+import { CBAM_ORIGINS, cbamDefaultRow, factorRef, resolveRef } from "@/lib/factors";
 import { useCountryName } from "@/components/factor-picker";
 import { BenchmarkField } from "./cbam-benchmark";
 
@@ -43,18 +43,16 @@ function Inner() {
 
   const countryName = useCountryName();
 
-  /** A new origin selects that country's default-value table: a value picked from the library follows to the same CN row. */
-
+  /**
+   * A new origin selects that country's default-value table. A value picked from the library moves to that
+   * table's row for the product; when the table has none, the link is dropped and the field is marked as a
+   * typed value, so one country's value never passes for another's. Typed values stay as typed.
+   */
   const changeOrigin = (p: CbamProduct, origin: string) => {
-
     const cur = resolveRef(sets, p.defaultRef);
-
-    const table = sets.find((x) => x.family === "eu_cbam_dv" && (x.country ?? "TR") === origin);
-
-    const row = cur && table ? table.factors.find((x) => x.key === cur.factor.key) : undefined;
-
-    setProduct(p.id, row && table ? { origin, defaultSee: row.value, defaultRef: factorRef({ set: table, factor: row }) } : { origin, defaultRef: cur ? undefined : p.defaultRef });
-
+    if (!cur || cur.set.family !== "eu_cbam_dv") return setProduct(p.id, { origin });
+    const hit = cbamDefaultRow(sets, origin, p.cn, cur.factor.key);
+    setProduct(p.id, hit ? { origin, defaultSee: hit.factor.value, defaultRef: factorRef(hit) } : { origin, defaultRef: undefined });
   };
   const addProduct = () =>
     set({
@@ -123,7 +121,14 @@ function Inner() {
                     setProduct(p.id, o ? { defaultSee: o.factor.value, defaultRef: factorRef(o) } : { defaultRef: undefined })
                   }
                 />
-                <NumberField label={t("cbam.defaultSee")} unit="t/t" value={p.defaultSee} onChange={(v) => setProduct(p.id, { defaultSee: v, defaultRef: undefined })} min={0} />
+                <NumberField
+                  label={t("cbam.defaultSee")}
+                  unit="t/t"
+                  value={p.defaultSee}
+                  onChange={(v) => setProduct(p.id, { defaultSee: v, defaultRef: undefined })}
+                  min={0}
+                  hint={p.useDefault && !p.defaultRef && p.defaultSee > 0 ? t("cbam.defaultTyped", { country: countryName(p.origin ?? "TR") }) : undefined}
+                />
                 <BenchmarkField p={p} year={2026} onChange={(patch) => setProduct(p.id, patch)} />
                 <Button variant="ghost" size="sm" className="self-start text-[var(--crit)]" onClick={() => set({ ...data, products: data.products.filter((x) => x.id !== p.id) })}>
                   <Trash2 size={14} aria-hidden />

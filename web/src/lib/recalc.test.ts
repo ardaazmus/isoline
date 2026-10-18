@@ -125,3 +125,10 @@ describe("retroactive recalculation: CH₄ and N₂O", () => {
     expect(without.changes[0].after).toBeCloseTo(computeInventory({ ...inv(), electricity: [], process: [], refrigerants: [], fuels: without.next.fuels }).scope1, 6);
   });
 });
+
+describe("edition choice: sets without a year", () => {
+  it("offers a family group with no dated edition as it is instead of failing", () => {
+    const own: FactorSet = { id: "own", name: "", publisher: "", licence: "user_licensed", licenceNote: "", url: "", asOf: "", origin: "custom", rightsConfirmed: true, family: "own_family", factors: [] };
+    expect(setsForYear([...BUILTIN_SETS, own], 2024).map((s) => s.id)).toContain("own");
+  });
+});

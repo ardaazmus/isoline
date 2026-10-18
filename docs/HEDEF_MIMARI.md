@@ -157,6 +157,8 @@ stateDiagram-v2
   Kilitli --> Kabul: denetçi
 ```
 
+Tek kullanıcılı sürümde (Faz 3 öncesi) bu makinenin sade çekirdeği kullanılır: Taslak → Kontrolde → Onaylandı (kilitli) → Yayımlandı. Eşleme ve gerekçe: [DENETIM_RAPORLAMA_2026-10.md §2.3](DENETIM_RAPORLAMA_2026-10.md).
+
 ## 6. Roller
 
 | Rol | Görür | Değiştirir | Onaylar |

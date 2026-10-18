@@ -62,10 +62,12 @@ function Detail({ tp }: { tp: Template }) {
   const { t, fmt, locale } = useI18n();
   const client = useActiveClient();
   const [busy, setBusy] = useState(false);
+  const [exportError, setExportError] = useState<string | null>(null);
   const navHref = (tool: string) => NAV.flatMap((g) => g.items).find((i) => i.id === tool)?.href ?? "";
 
   const exportDocx = async () => {
     setBusy(true);
+    setExportError(null);
     try {
       const blob = await buildDocx({
         title: t(`tpl.${tp.id}.title`),
@@ -83,6 +85,8 @@ function Detail({ tp }: { tp: Template }) {
         })),
       });
       download(`${slug(client.name)}-${tp.id}.docx`, blob, "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+    } catch (e) {
+      setExportError(t("tpl.exportError", { msg: e instanceof Error ? e.message : String(e) }));
     } finally {
       setBusy(false);
     }
@@ -103,6 +107,11 @@ function Detail({ tp }: { tp: Template }) {
           </Button>
         }
       />
+      {exportError && (
+        <p role="alert" className="-mt-4 mb-6 text-[13.5px] text-[var(--crit)]">
+          {exportError}
+        </p>
+      )}
       <div className="grid gap-12 xl:grid-cols-[minmax(0,1fr)_320px]">
         <ol className="flex min-w-0 flex-col">
           {tp.sections.map((s, i) => {

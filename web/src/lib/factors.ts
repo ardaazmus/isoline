@@ -168,7 +168,7 @@ function cbamCountrySet(cc: Exclude<CbamOrigin, "TR">): FactorSet {
     year: 2026,
     origin: "builtin",
     rightsConfirmed: true,
-    usageNote: "factors.notes.eu_cbam_dv_tr",
+    usageNote: "factors.notes.eu_cbam_dv",
     factors: rows.map(([cn, direct, indirect, total, other]) => ({
       id: `${id}:${cn}`,
       kind: "cbam_default" as const,
@@ -239,7 +239,7 @@ export const BUILTIN_SETS: FactorSet[] = [
     year: 2026,
     origin: "builtin",
     rightsConfirmed: true,
-    usageNote: "factors.notes.eu_cbam_dv_tr",
+    usageNote: "factors.notes.eu_cbam_dv",
     factors: (cbamTr.rows as unknown as CbamRow[]).map(([cn, description, direct, indirect, total, other]) => ({
       id: `eu_cbam_dv_tr:${cn}`,
       kind: "cbam_default" as const,
@@ -349,6 +349,21 @@ const normKey = (s: string) => s.replace(/[\s.]/g, "").toLowerCase();
  * the table rows it falls under (heading 7208 for 7208 39 00) and, when it is itself a heading, the rows under
  * it; the closest enclosing row comes first. A CN code shorter than a heading matches nothing.
  */
+/**
+ * The CBAM default-value row for a product of an origin: the row with the same code if the origin's table
+ * has it, else the row whose code covers the product's CN (longest such code). Null when the table has neither.
+ */
+export function cbamDefaultRow(sets: FactorSet[], origin: string, cn: string, key?: string): FactorOption | null {
+  const table = sets.find((s) => s.family === "eu_cbam_dv" && (s.country ?? "TR") === origin);
+  if (!table) return null;
+  const same = key === undefined ? undefined : table.factors.find((f) => f.key === key);
+  if (same) return { set: table, factor: same };
+  const d = normKey(cn);
+  if (d.length < CN_MIN_DIGITS) return null;
+  const cover = table.factors.filter((f) => f.kind === "cbam_default" && d.startsWith(normKey(f.key))).sort((a, b) => normKey(b.key).length - normKey(a.key).length)[0];
+  return cover ? { set: table, factor: cover } : null;
+}
+
 export function findFactors(sets: FactorSet[], kind: FactorKind, key?: string): FactorOption[] {
   const out: { o: FactorOption; rank: number }[] = [];
   const k = key === undefined ? undefined : normKey(key);
@@ -398,6 +413,7 @@ export function resolveRef(sets: FactorSet[], ref: string | undefined): FactorOp
 
 // ---------------------------------------------------------------- CSV for custom sets
 import { parseCsv, parseNumber } from "./inventory-csv";
+import { csvSafe, csvUnsafe } from "./export";
 
 export const FACTOR_CSV_COLUMNS = ["kind", "key", "label", "value", "unit", "ncv", "direct", "indirect", "year", "ch4", "n2o"] as const;
 
@@ -443,7 +459,7 @@ export function importFactorCsv(text: string, setId: string): { factors: Factor[
       id,
       kind,
       key,
-      label: col(r, "label") || key,
+      label: csvUnsafe(col(r, "label")) || key,
       value,
       unit: col(r, "unit") || undefined,
       ncv: kind === "fuel_co2" ? ncv : undefined,
@@ -472,7 +488,8 @@ export function factorTemplateCsv(): string {
 
 export function factorSetCsv(set: FactorSet): string {
   const esc = (v: unknown) => {
-    const s = v === undefined || v === null ? "" : String(v);
+    const raw = v === undefined || v === null ? "" : String(v);
+    const s = typeof v === "number" ? raw : csvSafe(raw);
     return /[";\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   };
   return (

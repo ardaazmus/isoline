@@ -24,7 +24,8 @@ export function toolSummary(c: ClientData, tool: string, t: T, fmt: Formatters):
     }
     case "cbam": {
       const rows = projectPortfolio(c.cbam.products, c.cbam.scenario);
-      const y30 = rows.find((r) => r.year === 2030)!;
+      if (!rows.length) return [];
+      const y30 = rows.find((r) => r.year === 2030) ?? rows[rows.length - 1];
       return [
         { label: t("cbam.fig2026"), value: fmt.currency(rows[0].cost) },
         { label: t("cbam.fig2030"), value: fmt.currency(y30.cost) },
@@ -33,7 +34,7 @@ export function toolSummary(c: ClientData, tool: string, t: T, fmt: Formatters):
     }
     case "ets": {
       const rows = projectEts(c.ets, 2026, 2030);
-      const p = rows.find((r) => r.priced)!;
+      const p = rows.find((r) => r.priced) ?? rows[rows.length - 1];
       return [
         { label: t("ets.category"), value: etsCategory(c.ets.emissions) },
         { label: t("ets.figDeficit", { year: p.year }), value: `${fmt.number(p.deficit)} tCO₂e` },

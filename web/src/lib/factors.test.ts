@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import fc from "fast-check";
-import { BUILTIN_SETS, factorDigits, factorRef, factorSetCsv, factorTemplateCsv, findFactors, formatCn, importFactorCsv, resolveRef, usableSets, type FactorSet } from "./factors";
+import { BUILTIN_SETS, cbamDefaultRow, factorDigits, factorRef, factorSetCsv, factorTemplateCsv, findFactors, formatCn, importFactorCsv, resolveRef, usableSets, type FactorSet } from "./factors";
 import { setsForYear } from "./recalc";
 import { FUELS, GRID_FACTORS, GWP_AR6 } from "./calc/ghg";
 import { effectiveSee } from "./calc/cbam";
@@ -253,5 +253,21 @@ describe("factor CSV: CH₄ and N₂O", () => {
   it("lists the combustion GWPs it uses in the AR6 set", () => {
     const gwp = BUILTIN_SETS.find((s) => s.id === "ipcc_ar6_gwp")!;
     expect(gwp.factors.filter((f) => ["CH4-fossil", "N2O"].includes(f.key)).map((f) => f.value)).toEqual([29.8, 273]);
+  });
+});
+
+describe("CBAM default row for an origin", () => {
+  it("keeps the same code when the origin's table has it", () => {
+    const hit = cbamDefaultRow(BUILTIN_SETS, "CN", "72091500", "7209");
+    expect(hit?.set.id).toBe("eu_cbam_dv_cn");
+    expect(hit?.factor.key).toBe("7209");
+  });
+  it("falls back to the longest code covering the product's CN, else nothing", () => {
+    const hit = cbamDefaultRow(BUILTIN_SETS, "IN", "72091500", "no-such-key");
+    expect(hit?.set.id).toBe("eu_cbam_dv_in");
+    expect("72091500".startsWith(hit!.factor.key.replace(/\s/g, ""))).toBe(true);
+    expect(cbamDefaultRow(BUILTIN_SETS, "CN", "99999999", "no-such-key")).toBeNull();
+    expect(cbamDefaultRow(BUILTIN_SETS, "DZ", "72091500")).toBeNull();
+    expect(cbamDefaultRow(BUILTIN_SETS, "CN", "72")).toBeNull();
   });
 });

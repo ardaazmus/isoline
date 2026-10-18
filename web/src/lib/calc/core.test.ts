@@ -372,7 +372,7 @@ describe("applicability", () => {
     expect(f.status).toBe("required");
     expect(f.dates.some((d) => d.key === "ets_monitoring_plan")).toBe(true);
     // RG 33353 provisional Art. 3: first monitoring plan within 2 months of 27.08.2026
-    expect(f.dates.find((d) => d.key === "ets_monitoring_plan")!.date).toBe("2026-10-27");
+    expect(f.dates.find((d) => d.key === "ets_monitoring_plan")!.date).toBe("2027-01-27");
   });
   it("dates ETS reports on 30 April and surrender on the last business day of November", () => {
     const f = trEts({ ...base, reportingYear: 2029 });

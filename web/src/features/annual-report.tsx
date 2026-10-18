@@ -8,6 +8,7 @@ import { SOURCES } from "@/data/sources";
 import type { ArStatus } from "@/data/sample";
 import { buildDocx } from "@/lib/docx";
 import { download, slug } from "@/lib/export";
+import { netSales } from "@/lib/trial-balance";
 import { FiguresRow, PageHeader } from "@/components/shell";
 import { SourceNote } from "@/components/figure";
 import { ShareBar } from "@/components/charts";
@@ -15,6 +16,8 @@ import { Button, Tabs } from "@/components/ui";
 import { Hydrated, SectionTitle, useTool } from "./common";
 
 const STATUSES: ArStatus[] = ["todo", "draft", "review", "approved", "na"];
+/** Check-box mark per status in the Word checklist: done, not applicable, still open. */
+const MARK: Record<ArStatus, string> = { approved: "☑", na: "—", todo: "☐", draft: "☐", review: "☐" };
 const STATUS_COLOR: Record<ArStatus, string> = { todo: "var(--paper-3)", draft: "var(--b-400)", review: "var(--warn)", approved: "var(--ink)", na: "var(--rule)" };
 
 export function AnnualReportTool() {
@@ -29,6 +32,7 @@ function Inner() {
   const { t, fmt } = useI18n();
   const [ar, set, client] = useTool("annualReport");
   const [busy, setBusy] = useState(false);
+  const [exportError, setExportError] = useState<string | null>(null);
   const items = useMemo(() => AR_ITEMS.filter((i) => i.profiles.includes(ar.profile)), [ar.profile]);
   const st = (id: string): ArStatus => ar.status[id] ?? "todo";
   const counts = STATUSES.reduce((m, s) => ({ ...m, [s]: items.filter((i) => st(i.id) === s).length }), {} as Record<ArStatus, number>);
@@ -38,6 +42,7 @@ function Inner() {
 
   const exportDocx = async () => {
     setBusy(true);
+    setExportError(null);
     try {
       const blob = await buildDocx({
         title: t("ar.docTitle"),
@@ -45,18 +50,29 @@ function Inner() {
         client: client.name,
         intro: t("ar.docIntro"),
         labels: { refs: t("tpl.refs"), figures: t("tpl.figures"), draft: t("tpl.draftHere"), sources: t("note.source") },
-        sources: Array.from(new Set(items.map((i) => SOURCES[i.source]?.cite).filter(Boolean))) as string[],
-        sections: groups.map((g) => ({
-          title: t(`ar.groups.${g}`),
-          guide: items
-            .filter((i) => i.group === g)
-            .map((i) => `☐ ${t(`ar.items.${i.id}`)} — ${t(`ar.status.${st(i.id)}`)}${ar.owners[i.id] ? ` (${ar.owners[i.id]})` : ""}`)
-            .join("\n"),
-          refs: Array.from(new Set(items.filter((i) => i.group === g).map((i) => i.ref))),
-          figures: [],
-        })),
+        sources: Array.from(new Set(items.map((i) => i.source)))
+          .map((s) => SOURCES[s])
+          .filter(Boolean)
+          .map((s) => `${s.cite} — ${s.url}`),
+        sections: groups.map((g) => {
+          const own = items.filter((i) => i.group === g);
+          const applicableHere = own.filter((i) => st(i.id) !== "na").length;
+          const net = g === "financial" && client.trialBalance ? netSales(client.trialBalance) : null;
+          return {
+            title: t(`ar.groups.${g}`),
+            guide: own.map((i) => `${MARK[st(i.id)]} ${t(`ar.items.${i.id}`)} — ${t(`ar.status.${st(i.id)}`)}${ar.owners[i.id] ? ` (${ar.owners[i.id]})` : ""}`).join("\n"),
+            refs: Array.from(new Set(own.map((i) => i.ref))),
+            figures: [
+              { label: t("ar.docApproved"), value: `${own.filter((i) => st(i.id) === "approved").length} / ${applicableHere}` },
+              ...(net ? [{ label: `${t("tb.figNet")} (${t("tb.figNetNote")}; ${client.trialBalance!.fileName})`, value: fmt.currency(net.net, "TRY") }] : []),
+            ],
+            status: client.sample ? t("tpl.sampleFigures") : undefined,
+          };
+        }),
       });
-      download(`${slug(client.name)}-faaliyet-raporu-kontrol.docx`, blob, "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+      download(`${slug(client.name)}-${t("ar.docFile")}.docx`, blob, "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+    } catch (e) {
+      setExportError(t("tpl.exportError", { msg: e instanceof Error ? e.message : String(e) }));
     } finally {
       setBusy(false);
     }
@@ -74,6 +90,11 @@ function Inner() {
         }
       />
       <div className="flex flex-col gap-10">
+        {exportError && (
+          <p role="alert" className="text-[13.5px] text-[var(--crit)]">
+            {exportError}
+          </p>
+        )}
         <Tabs
           label={t("ar.profileLabel")}
           value={ar.profile}

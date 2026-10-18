@@ -417,7 +417,8 @@ export function Timeline({
   events: TimelineEvent[];
   from: string;
   to: string;
-  today: string;
+  /** Today's day; omitted while it is not known (static render), then no "today" line is drawn. */
+  today?: string;
   label: string;
   fmtDate: (iso: string) => string;
 }) {
@@ -460,7 +461,7 @@ export function Timeline({
                 const x = xs(new Date(e.date));
                 const row = rows[k];
                 const cy = y + laneH / 2 + (row === 0 ? 0 : row === 1 ? -22 : 22);
-                const past = e.date < today;
+                const past = today !== undefined && e.date < today;
                 return (
                   <g key={e.id} onMouseEnter={() => setHover(e)} onMouseLeave={() => setHover(null)} onFocus={() => setHover(e)} onBlur={() => setHover(null)} tabIndex={0} role="button" aria-label={`${fmtDate(e.date)} — ${e.label}`}>
                     {row !== 0 && <line x1={x} x2={x} y1={y + laneH / 2} y2={cy} stroke={l.color} strokeOpacity={0.5} />}
@@ -482,7 +483,7 @@ export function Timeline({
             </g>
           );
         })}
-        <line x1={xs(new Date(today))} x2={xs(new Date(today))} y1={m.t - 6} y2={height - m.b} stroke="var(--crit)" strokeWidth={1.5} />
+        {today && <line x1={xs(new Date(today))} x2={xs(new Date(today))} y1={m.t - 6} y2={height - m.b} stroke="var(--crit)" strokeWidth={1.5} />}
       </svg>
       {hover && (
         <Tooltip x={xs(new Date(hover.date))} y={m.t + lanes.findIndex((l) => l.id === hover.lane) * laneH + 10} width={inner}>

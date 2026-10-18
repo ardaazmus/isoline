@@ -5,12 +5,16 @@
  * available, the inventory is recalculated: every line linked to the library moves to the new edition's
  * factor with the same key, the default grid factors move with it, and the change is recorded with the
  * totals before and after (GHG Protocol Corporate Standard ch. 5: base-year recalculation when the
- * change is significant).
+ * change is significant; the standard leaves the threshold to the company).
  */
 import { computeInventory, ETKB_EDITIONS, fuelEmissions, electricityLocation, scope3Emissions, GRID_FACTORS, type GridFactors, type Inventory, type InventoryResult } from "./calc/ghg";
 import { factorRef, resolveRef, type FactorSet } from "./factors";
 
-/** GHG Protocol practice: a base-year recalculation is needed above a significance threshold, commonly 5 %. */
+/**
+ * Significance threshold for a base-year recalculation. The GHG Protocol Corporate Standard (ch. 5) makes no
+ * recommendation on what is significant; SBTi Corporate Near-Term Criteria V5.3.1, C27, requires a threshold
+ * of 5 % or less, so 5 % is the default.
+ */
 export const SIGNIFICANCE = 0.05;
 
 /** Editions of a family, oldest first. */
@@ -34,7 +38,12 @@ export function pickEdition(sets: FactorSet[], family: string, year: number): Ed
 export function setsForYear(sets: FactorSet[], year: number): FactorSet[] {
   const groups = new Map<string, FactorSet[]>();
   for (const s of sets) if (s.family) groups.set(`${s.family}:${s.country ?? ""}`, [...(groups.get(`${s.family}:${s.country ?? ""}`) ?? []), s]);
-  const keep = new Set([...groups.values()].map((g) => pickEdition(g, g[0].family!, year)!.set.id));
+  const keep = new Set<string>();
+  for (const g of groups.values()) {
+    const pick = pickEdition(g, g[0].family!, year);
+    // a group with no dated edition (a custom set given a family but no year) is offered as it is
+    for (const s of pick ? [pick.set] : g) keep.add(s.id);
+  }
   return sets.filter((s) => !s.family || keep.has(s.id));
 }
 
@@ -96,7 +105,10 @@ const totals = (r: InventoryResult): Totals => ({ scope1: r.scope1, scope2Locati
 export function planRecalc(inv: Inventory, sets: FactorSet[], year: number, choose: Record<string, string> = {}): RecalcPlan {
   const families = [...new Set(sets.map((s) => s.family).filter((f): f is string => !!f))];
   const targets: Record<string, string> = {};
-  for (const f of families) targets[f] = choose[f] ?? pickEdition(sets, f, year)!.set.id;
+  for (const f of families) {
+    const pick = choose[f] ?? pickEdition(sets, f, year)?.set.id;
+    if (pick) targets[f] = pick; // a family without a dated edition has nothing to move to
+  }
   const target = (set: FactorSet | undefined) => (set?.family ? sets.find((s) => s.id === targets[set.family!]) : undefined);
 
   const changes: LineChange[] = [];

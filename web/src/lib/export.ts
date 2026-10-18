@@ -12,8 +12,23 @@ export function download(filename: string, content: BlobPart, mime: string) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
+/**
+ * A text cell a spreadsheet would read as a formula (starting with =, +, -, @, tab or CR) gets a leading
+ * apostrophe (OWASP "CSV injection"): notes and labels are user text and may land in Excel. Plain numbers,
+ * negative ones included, stay numbers.
+ */
+export function csvSafe(s: string): string {
+  return /^[=+\-@\t\r]/.test(s) && !/^[-+]?\d+(?:[.,]\d+)?(?:e[-+]?\d+)?$/i.test(s) ? `'${s}` : s;
+}
+
+/** Undoes csvSafe when a file this app wrote is read back. */
+export function csvUnsafe(s: string): string {
+  return /^'[=+\-@\t\r]/.test(s) ? s.slice(1) : s;
+}
+
 function csvCell(v: unknown): string {
-  const s = v === null || v === undefined ? "" : String(v);
+  const raw = v === null || v === undefined ? "" : String(v);
+  const s = typeof v === "number" ? raw : csvSafe(raw);
   return /[";\n,]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 }
 

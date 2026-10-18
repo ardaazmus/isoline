@@ -91,7 +91,7 @@
     "cbam_repurchase": "Fazla sertifikalar için geri alım talebi son günü",
     "cbam_downstream": "Alt ürün genişlemesi (öneri, müzakerede)",
     "ets_reg": "TR ETS Yönetmeliği yürürlüğe girdi",
-    "ets_monitoring_plan": "Pilot tesisler için İzleme Metodolojisi Planı (≈, 6 aya kadar uzatılabilir)",
+    "ets_monitoring_plan": "Pilot tesisler için İzleme Metodolojisi Planı (Olur 18814 ile uzatılan süre)",
     "ets_price_start": "Pilotta fiyat mekanizmasının başlaması",
     "ets_report_2026": "2026 emisyonları için doğrulanmış rapor",
     "ets_surrender_2027": "2027 emisyonları için tahsisat teslimi (Kasım'ın son iş günü)",
@@ -403,7 +403,8 @@
     "originHint": "Varsayılan değer tablosunu ve kıyas rotasını belirler. Listede olmayan ülkeler için 'Diğer ülkeler' tablosu geçerlidir.",
     "origins": {
       "OTHER": "Diğer ülkeler ve bölgeler"
-    }
+    },
+    "defaultTyped": "Elle girilmiş değer: kütüphaneden seçilmedi, {country} tablosuna bağlı değil. Kaynağını belgeleyin ya da yukarıdan tablodaki satırı seçin."
   },
   "ghg": {
     "result": "Toplam envanter {total} tCO₂e; bunun {s12} tCO₂e'si Kapsam 1 ve 2. Tahmini verinin payı {est}.",
@@ -556,9 +557,9 @@
       },
       "missing": "{label}: {edition} sürümünde aynı faktör yok; eski değer korunuyor.",
       "delta": "Kapsam 1 + 2 (konum) değişimi {pct}.",
-      "significant": "anlamlı (≥ {pct})",
+      "significant": "anlamlı (≥ {pct}, SBTi eşiği)",
       "minor": "eşiğin altında (< {pct})",
-      "baseYear": "Bu envanter yılı baz yılınız ({year}). Değişiklik anlamlılık eşiğini aştığı için GHG Protokolü baz yılın yeniden hesaplanmasını ister; yeni Kapsam 1 + 2 (konum) {s12} tCO₂e. Dekarbonizasyon yolundaki baz değerini gözden geçirin:",
+      "baseYear": "Bu envanter yılı baz yılınız ({year}). Değişiklik %5 eşiğini aşıyor: SBTi hedefi olan şirketler bu eşikte baz yılı yeniden hesaplamak zorunda (Kriter C27); GHG Protokolü eşiği şirketin belirlemesine bırakır. Yeni Kapsam 1 + 2 (konum) {s12} tCO₂e. Dekarbonizasyon yolundaki baz değerini gözden geçirin:",
       "apply": "Yeniden hesapla ve kaydet",
       "last": "Son yeniden hesap {date}: {year} yılı, şebeke {grid}, Kapsam 1 + 2 {pct}."
     },
@@ -1171,7 +1172,9 @@
       "tsrs_link": "Faaliyet raporundaki göstergelerin TSRS raporuyla aynı olması.",
       "bddk_content": "BDDK yönetmeliği Md. 6: sunuş (özet finansal bilgiler, ortaklık yapısı, yönetim değerlendirmesi, personel ve şube), yönetim ve kurumsal yönetim (komiteler, risk grubu işlemleri, destek hizmetleri) ve finansal bilgiler ile risk yönetimi (denetim komitesi değerlendirmesi, bağımsız denetim raporu, beş yıllık özet). Rapor en geç izleyen yılın Mayıs sonuna kadar yayımlanır; yönetmelikte sürdürülebilirlik eki yoktur.",
       "auditor_consistency": "Finansal bilgilerin denetlenmiş tablolarla tutarlılığı."
-    }
+    },
+    "docApproved": "Onaylanan madde / uygulanabilir",
+    "docFile": "faaliyet-raporu-kontrol"
   },
   "tpl": {
     "result": "{n} hazır şablon; her bölüm dayanağıyla birlikte gelir ve araçlardaki hesaplanmış rakamlarla Word'e aktarılır.",
@@ -1625,7 +1628,8 @@
           "guide": "İkinci taraf görüşü ve doğrulama."
         }
       }
-    }
+    },
+    "exportError": "Word dosyası oluşturulamadı: {msg}"
   },
   "cw": {
     "result": "{n} veri grubu TSRS, GRI, ESRS, gönüllü standart ve CDP arasında eşlendi.",
@@ -1799,7 +1803,7 @@
     "search": "KN kodu, ülke veya ad ile ara",
     "searchCount": "{n} / {total}",
     "notes": {
-      "eu_cbam_dv_tr": "Değer, tüzüğün uyguladığı 'toplam' sütunudur; doğrudan ve dolaylı kısımlar bilgi içindir. Varsayılan değer kullanıldığında yıla göre işaretleme (mark-up) ayrıca eklenir.",
+      "eu_cbam_dv": "Değer, tüzüğün uyguladığı 'toplam' sütunudur; doğrudan ve dolaylı kısımlar bilgi içindir. Varsayılan değer kullanıldığında yıla göre işaretleme (mark-up) ayrıca eklenir.",
       "eea_ener038": "Elektrik üretiminin emisyon yoğunluğudur (2024 erken tahmini); ithalat ve ihracat dahil değildir, tüketim karışımı faktörü değildir. AB'deki tesisler için konum bazlı yaklaşık değer olarak kullanın.",
       "etkb": "Her sürüm bir hesaplama yılının değerleridir ve yaklaşık iki yıl sonra yayımlanır. Envanter yılının sürümü henüz yoksa en güncel sürüm kullanılır; yeni sürüm çıkınca envanteri geriye dönük yeniden hesaplayın.",
       "desnz": "Birleşik Krallık hükümetinin faktörleridir; Türkiye için ülkeye özgü değil. Tedarikçi ya da ulusal veri yoksa Kapsam 3 için kullanın ve raporda belirtin. Değerler kg CO₂e'den t CO₂e'ye çevrildi; uçuşlar ışınımsal zorlama (RF) dahildir.",

@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { SAMPLE_CLIENT } from "@/data/sample";
 import { computeInventory } from "@/lib/calc/ghg";
-import { addV4Fields, addV5Fields, addV6Fields, addV7Fields, migrateClients, unlinkV2GridPicks } from "./workspace";
+import { addV4Fields, addV5Fields, addV6Fields, addV7Fields, isClientShape, migrateClients, unlinkV2GridPicks } from "./workspace";
+import { JOURNEYS } from "@/data/journey";
+import { EVENTS, eventDate } from "@/data/regulations";
 
 describe("workspace v3 migration", () => {
   it("drops v2 grid picks from the supplier factor but keeps the typed value", () => {
@@ -92,5 +94,24 @@ describe("workspace v7 migration", () => {
     const [out] = migrateClients([c as typeof SAMPLE_CLIENT], 5);
     expect(out.importLog).toBeDefined();
     expect(out.ghg.fuels.every((l) => l.ch4 !== undefined && l.n2o !== undefined)).toBe(true);
+  });
+});
+
+describe("workspace import", () => {
+  it("accepts the sample and refuses clients the screens would crash on", () => {
+    expect(isClientShape(structuredClone(SAMPLE_CLIENT))).toBe(true);
+    const noHistory = { ...structuredClone(SAMPLE_CLIENT), profile: { ...SAMPLE_CLIENT.profile, history: undefined } };
+    const noFuels = { ...structuredClone(SAMPLE_CLIENT), ghg: { ...SAMPLE_CLIENT.ghg, fuels: null } };
+    expect(isClientShape(noHistory)).toBe(false);
+    expect(isClientShape(noFuels)).toBe(false);
+    expect(isClientShape(null)).toBe(false);
+  });
+  it("journey stages survive a short history and take deadlines from the sourced calendar", () => {
+    const c = { ...structuredClone(SAMPLE_CLIENT), profile: { ...SAMPLE_CLIENT.profile, history: [SAMPLE_CLIENT.profile.history[0]] } };
+    expect(JOURNEYS.sustainability[0].derive!(c as typeof SAMPLE_CLIENT)).toBe(0);
+    const deadlines = Object.values(JOURNEYS).flatMap((st) => st.map((s) => s.deadline?.(c as typeof SAMPLE_CLIENT)).filter(Boolean));
+    expect(deadlines.length).toBeGreaterThan(0);
+    for (const d of deadlines) expect(EVENTS.some((e) => e.date === d)).toBe(true);
+    expect(() => eventDate("no_such_event")).toThrow();
   });
 });

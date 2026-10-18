@@ -91,7 +91,7 @@
     "cbam_repurchase": "Deadline to request repurchase of excess certificates",
     "cbam_downstream": "Downstream extension (proposal, in negotiation)",
     "ets_reg": "Turkish ETS Regulation in force",
-    "ets_monitoring_plan": "Monitoring methodology plan for pilot installations (≈, extendable by up to 6 months)",
+    "ets_monitoring_plan": "Monitoring methodology plan for pilot installations (deadline extended by Olur 18814)",
     "ets_price_start": "Price mechanism starts in the pilot",
     "ets_report_2026": "Verified report for 2026 emissions",
     "ets_surrender_2027": "Surrender for 2027 emissions (last working day of November)",
@@ -403,7 +403,8 @@
     "originHint": "Selects the default-value table and the benchmark route. Countries not listed use the 'Other Countries and Territories' table.",
     "origins": {
       "OTHER": "Other countries and territories"
-    }
+    },
+    "defaultTyped": "Typed value: not picked from the library and not linked to the {country} table. Document its source or pick the table row above."
   },
   "ghg": {
     "result": "Total inventory {total} tCO₂e, of which {s12} tCO₂e is scope 1 and 2. Share of estimated data {est}.",
@@ -556,9 +557,9 @@
       },
       "missing": "{label}: no matching factor in {edition}; the old value is kept.",
       "delta": "Change in scope 1 + 2 (location): {pct}.",
-      "significant": "significant (≥ {pct})",
+      "significant": "significant (≥ {pct}, SBTi threshold)",
       "minor": "below the threshold (< {pct})",
-      "baseYear": "This inventory year is your base year ({year}). The change exceeds the significance threshold, so the GHG Protocol asks for a base-year recalculation; new scope 1 + 2 (location) {s12} tCO₂e. Review the base value in the decarbonisation pathway:",
+      "baseYear": "This inventory year is your base year ({year}). The change exceeds 5 %: companies with SBTi targets must recalculate the base year at this threshold (criterion C27); the GHG Protocol leaves the threshold to the company. New scope 1 + 2 (location) {s12} tCO₂e. Review the base value in the decarbonisation pathway:",
       "apply": "Recalculate and save",
       "last": "Last recalculation {date}: year {year}, grid {grid}, scope 1 + 2 {pct}."
     },
@@ -1171,7 +1172,9 @@
       "tsrs_link": "Indicators in the annual report match the TSRS report.",
       "bddk_content": "BRSA regulation Art. 6: introduction (summary financials, shareholding, management's assessment, staff and branches), management and corporate governance (committees, risk-group transactions, outsourced services) and financial information and risk management (audit committee assessment, independent audit report, five-year summary). Publish by the end of May of the following year; the regulation has no sustainability annex.",
       "auditor_consistency": "Consistency of financial information with the audited statements."
-    }
+    },
+    "docApproved": "Approved items / applicable",
+    "docFile": "annual-report-checklist"
   },
   "tpl": {
     "result": "{n} ready templates; every section carries its basis and exports to Word with figures calculated in the tools.",
@@ -1625,7 +1628,8 @@
           "guide": "Second-party opinion and verification."
         }
       }
-    }
+    },
+    "exportError": "The Word file could not be created: {msg}"
   },
   "cw": {
     "result": "{n} data groups mapped across TSRS, GRI, ESRS, the voluntary standard and CDP.",
@@ -1799,7 +1803,7 @@
     "search": "Search by CN code, country or name",
     "searchCount": "{n} / {total}",
     "notes": {
-      "eu_cbam_dv_tr": "The value is the 'total' column the regulation applies; direct and indirect parts are for information. When a default value is used, the mark-up for the year is added on top.",
+      "eu_cbam_dv": "The value is the 'total' column the regulation applies; direct and indirect parts are for information. When a default value is used, the mark-up for the year is added on top.",
       "eea_ener038": "Emission intensity of electricity generation (2024 early estimate); imports and exports are not counted, so it is not a consumption-mix factor. Use it as an approximate location-based value for EU sites.",
       "etkb": "Each edition holds the values of one calculation year and is published about two years later. When the inventory year has no edition yet, the latest one applies; recalculate the inventory retroactively once the new edition is out.",
       "desnz": "UK government factors, not specific to Türkiye. Use them for scope 3 when no supplier or national data exists, and say so in the report. Converted from kg CO₂e to t CO₂e; flights include radiative forcing (RF).",

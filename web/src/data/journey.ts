@@ -6,6 +6,7 @@
 import type { ClientData } from "./sample";
 import { computeInventory } from "@/lib/calc/ghg";
 import { AR_ITEMS } from "./annual-report";
+import { eventDate } from "./regulations";
 
 export type StageStatus = "todo" | "doing" | "done";
 export type Track = "sustainability" | "annual" | "cbam";
@@ -24,7 +25,7 @@ const share = (n: number, d: number) => (d > 0 ? Math.min(1, n / d) : 0);
 
 export const JOURNEYS: Record<Track, Stage[]> = {
   sustainability: [
-    { id: "scope", tools: ["applicability", "regulations"], when: -6, derive: (c) => (c.profile.history[1].totalAssetsTry > 0 ? 1 : 0) },
+    { id: "scope", tools: ["applicability", "regulations"], when: -6, derive: (c) => ((c.profile.history?.[1]?.totalAssetsTry ?? 0) > 0 ? 1 : 0) },
     { id: "materiality", tools: ["materiality"], when: -5, derive: (c) => share(c.materiality.topics.filter((t) => t.scale > 1 || t.magnitude > 1).length, c.materiality.topics.length) },
     {
       id: "data",
@@ -65,12 +66,12 @@ export const JOURNEYS: Record<Track, Stage[]> = {
   ],
   cbam: [
     { id: "goods", tools: ["applicability", "cbam"], when: -9, derive: (c) => (c.cbam.products.length > 0 ? (c.cbam.products.every((p) => p.cn) ? 1 : 0.5) : 0) },
-    { id: "monitoring", tools: ["ghg", "ets"], when: -3, derive: (c) => (c.ghg.fuels.length > 0 ? 1 : 0), deadline: () => "2026-10-27" },
+    { id: "monitoring", tools: ["ghg", "ets"], when: -3, derive: (c) => (c.ghg.fuels.length > 0 ? 1 : 0), deadline: () => eventDate("tr_ets_mp") },
     { id: "embedded", tools: ["cbam"], when: 1, derive: (c) => share(c.cbam.products.filter((p) => !p.useDefault && p.seeDirect > 0).length, c.cbam.products.length) },
     { id: "verify", tools: ["templates"], when: 4 },
     { id: "pack", tools: ["templates"], when: 5 },
     { id: "cost", tools: ["cbam", "pathway"], when: 6, derive: (c) => (c.cbam.products.length && c.cbam.scenario.startPrice > 0 ? 1 : 0) },
-    { id: "declare", tools: ["regulations"], when: 9, deadline: () => "2027-09-30" },
+    { id: "declare", tools: ["regulations"], when: 9, deadline: () => eventDate("cbam_first_declaration") },
   ],
 };
 

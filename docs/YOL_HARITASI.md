@@ -27,7 +27,7 @@ Tamamlanan (18.10.2026): sürümlü faktör tabloları.
 - ETKB 2020–2023 yıllık sürümleri; değerler PDF'lerden aktarıldı ve belgelerle makineyle karşılaştırıldı.
 - DESNZ 2026 Kapsam 3 seçkisi (51 faktör, OGL v3); Kapsam 3 kategorisine göre öneriliyor.
 - TÜİK ulusal envanter 2026 (2024 ısıl değerleri ve CO₂ faktörleri).
-- Envanter yılına göre sürüm seçimi; yeni sürümde önce/sonra raporlu geriye dönük yeniden hesap ve GHG Protokolü %5 anlamlılık uyarısı.
+- Envanter yılına göre sürüm seçimi; yeni sürümde önce/sonra raporlu geriye dönük yeniden hesap ve %5 anlamlılık uyarısı (SBTi kriteri C27; GHG Protokolü eşiği şirkete bırakır).
 - Kaynaklar ve SHA-256 özetleri: [kaynak-veri/](kaynak-veri/README.md).
 
 Tamamlanan (18.10.2026): SKDM resmi kıyas değerleri ve rota eşlemesi.
@@ -51,7 +51,24 @@ Tamamlanan (18.10.2026): yakmada CH₄ ve N₂O ([kaynak-veri/ipcc/](kaynak-veri
 - Varsayılanlar IPCC 2006'dan, Türkiye ulusal envanterinin uyguladığı gibi: sabit yakmada Tablo 2.3; araçlarda Tablo 3.2.2; gemide Tablo 3.5.3; demiryolunda Tablo 3.4.1. Değerler satırda değiştirilebiliyor.
 - Sonuç ekranında Kapsam 1 gaz dökümü var: kütle, GWP ve tCO₂e.
 - Envanter şablonu ve özel faktör CSV'si `ch4` ve `n2o` sütunlarını okuyor. Kayıtlı çalışma alanları v7 göçüyle değerleri açıkça satıra yazıyor.
-- Etki: Örnek müşteride Kapsam 1 %0,7 arttı. Araç ağırlıklı envanterlerde artış %1,5–4 olabilir; GHG Protokolü'nün %5 eşiğinin altında kalsa da baz yıl karşılaştırmasında açıklanmalı.
+- Etki: Örnek müşteride Kapsam 1 %0,7 arttı. Araç ağırlıklı envanterlerde artış %1,5–4 olabilir; SBTi'nin %5 yeniden hesap eşiğinin altında kalsa da baz yıl karşılaştırmasında açıklanmalı.
+
+Tamamlanan (18.10.2026): raporlama incelemesinin doğrulanması ([DENETIM_RAPORLAMA_2026-10.md](DENETIM_RAPORLAMA_2026-10.md)).
+- Dış ajanın raporundaki 9 kod hatasından 7'si doğru, 2'si kısmen doğru çıktı; hepsi düzeltildi ve testlendi:
+  - gerçek "bugün" tarihi;
+  - Türkçe yeşil iddia ekleri;
+  - CSV formül kaçışı;
+  - faaliyet raporu Word çıktısı;
+  - görünür dışa aktarma hataları;
+  - içe aktarma doğrulaması;
+  - kaynaklı takvim tarihleri;
+  - SKDM menşe değişimi;
+  - `xlsx` paketinin depoya alınması;
+  - `next typegen`.
+- İnceleme sırasında iki hata daha bulundu ve düzeltildi:
+  - TR ETS izleme planı süresi 27.01.2027'ye uzatılmış (Olur 13.10.2026/18814);
+  - %5 yeniden hesap eşiği GHG Protokolü'ne değil SBTi'ye (C27) ait.
+- Raporun iş akışı sadeleştirildi: 5 adım, 3 rol, 4 durum, 3 görünürlük düzeyi.
 
 Kod dışında yapılacak iş:
 - Uzman teyitleri.
@@ -67,7 +84,7 @@ Kodda yapılacak iş:
 
 ## Faz 3–6 — Denetime hazır platform
 
-17.10.2026'da hedef yeniden tanımlandı: finans ve ESG verisini aynı omurgada birleştiren, her sayıyı kanıta bağlayan ve bağımsız denetçiye onaya hazır paket sunan platform. Ayrıntılar, veri modeli, iş akışı ve teknik seçimler: [HEDEF_MIMARI.md](HEDEF_MIMARI.md).
+17.10.2026'da hedef yeniden tanımlandı: finans ve ESG verisini aynı omurgada birleştiren, her sayıyı kanıta bağlayan ve bağımsız denetçiye onaya hazır paket sunan platform. Ayrıntılar, veri modeli, iş akışı ve teknik seçimler: [HEDEF_MIMARI.md](HEDEF_MIMARI.md). Raporlama iş akışının sade hâli ve açık işlerin sırası: [DENETIM_RAPORLAMA_2026-10.md](DENETIM_RAPORLAMA_2026-10.md) §2 ve §4.
 
 | Faz | Kapsam | Kontrol noktası |
 |---|---|---|
@@ -82,5 +99,5 @@ Faz 2'ye eklenenler: uzlaştırma kuralları v1 (tarayıcıda) ve Excel'den miza
 
 - **Konumlanma:** Türkiye'de danışmanlık firmaları için tarafsız, çok müşterili ve TSRS'yi esas alan görsel araç boşluğu var.
 - **Ürün kapsamı:** faaliyet raporu ile sürdürülebilirlik raporu tek motorda üretiliyor; SKDM maliyet simülatörü AB ithalatçısına veri paketi de çıkarıyor.
-- **Acil fırsat:** TR ETS pilot tesisleri için izleme planı son tarihi yaklaşık 27.10.2026.
+- **Acil fırsat:** TR ETS pilot tesisleri için izleme planı son tarihi 27.01.2027 (ilk süre 27.10.2026 idi; Olur 18814 ile uzatıldı).
 - **Hibe:** Ticaret Bakanlığı danışmanlık hibesi (%50) hedef kullanıcıyı finanse ediyor.

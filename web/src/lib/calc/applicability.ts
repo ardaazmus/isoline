@@ -4,6 +4,7 @@
  * Rules that the research could not verify are returned with status "review" (expert confirmation).
  */
 import { DE_MINIMIS_TONNES } from "./cbam";
+import { eventDate } from "@/data/regulations";
 import { etsCategory, inEts, lastBusinessDayOfNovember, PILOT_SECTORS, type PilotSector } from "./ets";
 
 export type EntityType =
@@ -199,7 +200,7 @@ export function trEts(p: Profile): Finding {
       id: "tr_ets",
       status: "required",
       firstYear: 2026,
-      dates: [{ key: "ets_monitoring_plan", date: "2026-10-27" }, ...dates],
+      dates: [{ key: "ets_monitoring_plan", date: eventDate("tr_ets_mp") }, ...dates],
       notes: [`ets.category_${cat.toLowerCase()}`, "ets.pilot", "ets.pilot_free"],
       sources,
     };

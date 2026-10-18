@@ -18,9 +18,9 @@ import { SampleFlag, StatusMark, cn } from "@/components/ui";
 import { CountUp, ThemeIcon } from "@/components/data";
 import { th, type ThemeId } from "@/data/themes";
 import { Hydrated } from "./common";
+import { useToday } from "@/lib/dates";
 import { useActiveClient } from "@/store/workspace";
 
-const TODAY = "2026-10-17";
 
 export function Overview() {
   return (
@@ -58,6 +58,7 @@ function Tile({ title, href, children, className, family = "compass", sources, t
 function Inner() {
   const { t, fmt } = useI18n();
   const c = useActiveClient();
+  const today = useToday() ?? "";
   const findings = useMemo(() => evaluate(c.profile).filter((f) => f.status === "required" || f.status === "indirect" || f.status === "review"), [c.profile]);
   const ghg = useMemo(() => computeInventory(c.ghg), [c.ghg]);
   const cbam = useMemo(() => projectPortfolio(c.cbam.products, c.cbam.scenario), [c.cbam]);
@@ -69,7 +70,7 @@ function Inner() {
     ...findings.flatMap((f) => f.dates.map((d) => ({ id: f.id + d.key, label: t(`dates.${d.key}`), date: d.date, own: true }))),
     ...EVENTS.map((e) => ({ id: e.id, label: t(`reg.events.${e.id}`), date: e.date, own: false })),
   ]
-    .filter((d) => d.date >= TODAY)
+    .filter((d) => d.date >= today)
     .sort((a, b) => a.date.localeCompare(b.date))
     .filter((d, i, arr) => arr.findIndex((x) => x.label === d.label || x.date === d.date) === i)
     .slice(0, 6);

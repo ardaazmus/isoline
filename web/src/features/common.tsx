@@ -3,6 +3,7 @@
 import { type ReactNode } from "react";
 import { Download, RotateCcw } from "lucide-react";
 import { useI18n } from "@/i18n/provider";
+import { useToday } from "@/lib/dates";
 import { SAMPLE_CLIENT, type ClientData } from "@/data/sample";
 import { useActiveClient, useHydrated, useWorkspace, type ToolKey } from "@/store/workspace";
 import { download, slug } from "@/lib/export";
@@ -51,7 +52,7 @@ export function ToolActions<K extends ToolKey>({ tool }: { tool: K }) {
 
 export function KeyDates({ dates }: { dates: { key: string; date: string }[] }) {
   const { t, fmt } = useI18n();
-  const today = "2026-10-17";
+  const today = useToday() ?? "";
   return (
     <ul className="divide-y divide-[var(--rule)] border-y border-[var(--rule)]">
       {dates.map((d) => (

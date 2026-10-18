@@ -13,6 +13,13 @@ export type RegEvent = {
 };
 
 /** Regulatory calendar. Labels live in messages under reg.events.<id>. */
+/** Date of a calendar event. Journeys and screens take deadlines from here, so every date keeps its source. */
+export function eventDate(id: string): string {
+  const e = EVENTS.find((x) => x.id === id);
+  if (!e) throw new Error(`Unknown regulatory event: ${id}`);
+  return e.date;
+}
+
 export const EVENTS: RegEvent[] = [
   // Türkiye — raporlama
   { id: "tsrs_thresholds_2026", lane: "tr_reporting", date: "2026-01-16", source: "kgk_scope_2026", confidence: "official" },
@@ -24,7 +31,8 @@ export const EVENTS: RegEvent[] = [
   // Türkiye — karbon
   { id: "climate_law", lane: "tr_carbon", date: "2025-07-09", source: "climate_law", confidence: "official" },
   { id: "tr_ets_reg", lane: "tr_carbon", date: "2026-08-27", source: "tr_ets_reg", confidence: "official" },
-  { id: "tr_ets_mp", lane: "tr_carbon", date: "2026-10-27", source: "tr_ets_reg", confidence: "official" },
+  // Yönetmelik Geçici md. 3: 2 months from 27.08.2026 (27.10.2026), extended by Olur 18814 of 13.10.2026
+  { id: "tr_ets_mp", lane: "tr_carbon", date: "2027-01-27", source: "tr_ets_mp_extension", confidence: "official" },
   { id: "tr_ets_price", lane: "tr_carbon", date: "2027-01-01", source: "kpk_2026_1", confidence: "official" },
   { id: "tr_ets_report_2026", lane: "tr_carbon", date: "2027-04-30", source: "tr_ets_reg", confidence: "official" },
   { id: "tr_local_plans", lane: "tr_carbon", date: "2027-12-31", source: "climate_law", confidence: "official" },

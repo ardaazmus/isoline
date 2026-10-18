@@ -15,7 +15,7 @@
     "test": "vitest run",
     "validate": "node scripts/validation/report.mjs",
     "validate:build": "node scripts/validation/build-cases.mjs && node scripts/validation/real-cases.mjs",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "next typegen && tsc --noEmit"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
@@ -29,7 +29,7 @@
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "tailwind-merge": "^3.7.0",
-    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
+    "xlsx": "file:vendor/xlsx-0.20.3.tgz",
     "zustand": "^5.0.15"
   },
   "devDependencies": {

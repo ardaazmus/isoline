@@ -17,20 +17,36 @@ type Pattern = { rule: ClaimRule; re: RegExp };
 
 const W = "[\\p{L}\\p{N}]"; // a word character in any script
 const b = (s: string) => `(?<!${W})(?:${s})(?!${W})`;
+/**
+ * Turkish is agglutinative: a claim keeps its meaning with case and copula suffixes ("çevre dostudur",
+ * "karbon nötrdür", "zararsızdır"), so trailing letters are allowed. Verb-forming -laş/-leş is not:
+ * "karbonsuzlaştırma" (decarbonisation) and "zararsızlaştırma" (waste treatment) are not claims.
+ */
+const bt = (s: string) => `(?<!${W})(?:${s})(?!l[ae]ş)\\p{L}*`;
 
 /** Phrase patterns per language. Turkish is matched on a Turkish-lowercased copy of the text. */
 const PATTERNS: Record<string, Pattern[]> = {
   tr: [
-    { rule: "generic", re: new RegExp(b("çevre dostu|doğa dostu|iklim dostu|ekolojik|eko dostu|yeşil (?:ürün|üretim|şirket|marka|çözüm|enerji)|çevreye duyarlı|doğaya saygılı|sürdürülebilir (?:ürün|ambalaj|üretim)|karbon dostu|gezegen dostu"), "gu") },
-    { rule: "offset", re: new RegExp(b("karbon nötr|iklim nötr|karbonsuz|sıfır karbon|net sıfır (?:ürün|hizmet|ambalaj)|karbon (?:dengelenmiş|telafi edilmiş|ayak izi sıfır)|emisyonları(?:nı)? dengeledik|co2 nötr|co₂ nötr"), "gu") },
-    { rule: "future", re: new RegExp(`${b("(?:20[2-6]\\d|20[2-6]\\d yılına kadar|20[2-6]\\d'?(?:e|a|te|ta|de|da) kadar)")}[^.!?\\n]{0,60}${b("net sıfır|karbon nötr|iklim nötr|nötr|sıfır emisyon")}|${b("net sıfır|karbon nötr|iklim nötr|sıfır emisyon")}[^.!?\\n]{0,40}${b("20[2-6]\\d")}`, "gu") },
-    { rule: "absolute", re: new RegExp(b("%100 (?:yeşil|temiz|doğal|çevre dostu|geri dönüştürülebilir)|tamamen (?:yeşil|temiz|zararsız)|en yeşil|sıfır etki|zararsız"), "gu") },
+    { rule: "generic", re: new RegExp(bt("çevre dostu|doğa dostu|iklim dostu|ekolojik|eko dostu|yeşil (?:ürün|üretim|şirket|marka|çözüm|enerji)|çevreye duyarlı|doğaya saygılı|sürdürülebilir (?:ürün|ambalaj|üretim)|karbon dostu|gezegen dostu"), "gu") },
+    {
+      rule: "offset",
+      re: new RegExp(
+        bt(
+          "karbon nötr|iklim nötr|karbonsuz|sıfır karbon|net sıfır (?:ürün|hizmet|ambalaj)|karbon (?:dengelenmiş|telafi edilmiş|ayak izi sıfır)|iklim pozitif|karbon negatif|karbon pozitif|co2 nötr|co₂ nötr" +
+            // offsetting stated as an action: "emisyonlarımızı karbon kredileriyle telafi ediyoruz", "emisyonları dengeledik"
+            "|(?:emisyon|karbon ayak iz|karbon kredi|karbon sertifika)\\p{L}*[^.!?\\n]{0,40}(?:telafi|dengele|denkleştir|nötrle)",
+        ),
+        "gu",
+      ),
+    },
+    { rule: "future", re: new RegExp(`${b("(?:20[2-6]\\d|20[2-6]\\d yılına kadar|20[2-6]\\d'?(?:e|a|te|ta|de|da) kadar)")}[^.!?\\n]{0,60}${bt("net sıfır|karbon nötr|iklim nötr|nötr|sıfır emisyon")}|${bt("net sıfır|karbon nötr|iklim nötr|sıfır emisyon")}[^.!?\\n]{0,40}${b("20[2-6]\\d")}`, "gu") },
+    { rule: "absolute", re: new RegExp(bt("%100 (?:yeşil|temiz|doğal|çevre dostu|geri dönüştürülebilir|sürdürülebilir)|tamamen (?:yeşil|temiz|zararsız|sürdürülebilir|çevre dostu)|en yeşil|sıfır etki|zararsız"), "gu") },
   ],
   en: [
     { rule: "generic", re: new RegExp(b("eco-?friendly|environmentally friendly|nature'?s friend|climate[- ]friendly|planet[- ]friendly|green (?:product|company|brand|solution|energy)|ecological|eco|earth[- ]friendly|sustainable (?:product|packaging|production)|conscious"), "giu") },
-    { rule: "offset", re: new RegExp(b("carbon[- ]neutral|climate[- ]neutral|co2[- ]neutral|co₂[- ]neutral|carbon[- ]free|net[- ]zero (?:product|service|packaging)|climate[- ]positive|carbon[- ](?:offset|compensated)|we offset (?:our|all) emissions"), "giu") },
+    { rule: "offset", re: new RegExp(b("carbon[- ]neutral|climate[- ]neutral|co2[- ]neutral|co₂[- ]neutral|carbon[- ]free|net[- ]zero (?:product|service|packaging)|climate[- ]positive|carbon[- ](?:negative|positive)|carbon[- ](?:offset|compensated)|we offset (?:our|all) emissions|(?:offset|compensate)s? (?:our|all|its|their) (?:emissions|carbon footprint)|(?:emissions|carbon footprint)[^.!?\\n]{0,40}(?:with|through|via) carbon credits"), "giu") },
     { rule: "future", re: new RegExp(`${b("(?:by |until |before )?20[2-6]\\d")}[^.!?\\n]{0,60}${b("net[- ]zero|carbon[- ]neutral|climate[- ]neutral|zero emissions?")}|${b("net[- ]zero|carbon[- ]neutral|climate[- ]neutral|zero emissions?")}[^.!?\\n]{0,40}${b("20[2-6]\\d")}`, "giu") },
-    { rule: "absolute", re: new RegExp(b("100% (?:green|clean|natural|recyclable)|completely (?:green|clean|harmless)|greenest|zero impact|harmless"), "giu") },
+    { rule: "absolute", re: new RegExp(b("100% (?:green|clean|natural|recyclable|sustainable)|(?:completely|fully|totally) (?:green|clean|harmless|sustainable)|greenest|zero impact|harmless"), "giu") },
   ],
 };
 

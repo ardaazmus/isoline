@@ -9,16 +9,16 @@ import { Figure, LegendItem } from "@/components/figure";
 import { Timeline } from "@/components/charts";
 import { StatusMark, Tabs } from "@/components/ui";
 import { SectionTitle } from "./common";
-
-const TODAY = "2026-10-17";
+import { addDays, useToday } from "@/lib/dates";
 
 export function RegulationsPage() {
   const { t, fmt } = useI18n();
   const [scope, setScope] = useState<"all" | "tr" | "eu" | "global">("all");
   const lanes = LANES.filter((l) => scope === "all" || l.id.startsWith(scope));
   const events = EVENTS.filter((e) => lanes.some((l) => l.id === e.lane));
-  const upcoming = events.filter((e) => e.date >= TODAY).sort((a, b) => a.date.localeCompare(b.date));
-  const next90 = upcoming.filter((e) => e.date <= "2027-01-15");
+  const today = useToday();
+  const upcoming = events.filter((e) => !today || e.date >= today).sort((a, b) => a.date.localeCompare(b.date));
+  const next90 = today ? upcoming.filter((e) => e.date <= addDays(today, 90)) : [];
   const src = Array.from(new Set(events.map((e) => e.source)));
   const conf = (c: string) => (c === "official" ? "verified" : c === "secondary" ? "estimated" : "review");
 
@@ -45,7 +45,7 @@ export function RegulationsPage() {
             <>
               <LegendItem kind="swatch" color="var(--ink-2)" label={t("reg.legendOfficial")} />
               <LegendItem color="var(--ink-2)" dash label={t("reg.legendSecondary")} />
-              <LegendItem color="var(--crit)" label={t("reg.today", { date: fmt.date(TODAY) })} />
+              {today && <LegendItem color="var(--crit)" label={t("reg.today", { date: fmt.date(today) })} />}
             </>
           }
           csv={{ header: ["date", "lane", "event", "source", "confidence"], rows: events.map((e) => [e.date, e.lane, t(`reg.events.${e.id}`), SOURCES[e.source]?.cite ?? e.source, e.confidence]) }}
@@ -56,7 +56,7 @@ export function RegulationsPage() {
             events={events.map((e) => ({ id: e.id, lane: e.lane, date: e.date, label: t(`reg.events.${e.id}`), confidence: e.confidence, approx: e.approx }))}
             from="2025-07-01"
             to="2034-06-30"
-            today={TODAY}
+            today={today ?? undefined}
             fmtDate={fmt.date}
           />
         </Figure>
