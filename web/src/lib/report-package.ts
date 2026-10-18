@@ -6,6 +6,7 @@
  */
 import type { ClientData } from "@/data/sample";
 import { approvalOf, allLocked, SECTION_IDS, type SectionId } from "./approval";
+import { openAuditCounts } from "./auditor";
 import { ENGINE_VERSION, reconcile } from "./reconcile";
 import { generateRequests, trackOf, hasEvidence, isOverdue } from "./requests";
 
@@ -56,6 +57,7 @@ export type ReportPackage = {
   approvals: PackageApproval[];
   requests: { templates: string[]; total: number; accepted: number; overdue: number; unevidencedAccepted: number; items: PackageItem[] };
   evidenceFiles: PackageEvidenceFile[];
+  audit: { notes: number; openNotes: number; requests: number; openRequests: number };
   reconciliation: { engine: string; counts: Record<string, number>; rules: { id: string; severity: string; status: string; checks: number }[] };
 };
 
@@ -113,6 +115,12 @@ export function buildReportPackage(
       overdue,
       unevidencedAccepted,
       items: pkgItems,
+    },
+    audit: {
+      notes: client.audit?.notes.length ?? 0,
+      openNotes: openAuditCounts(client.audit ?? { notes: [], requests: [] }).notes,
+      requests: client.audit?.requests.length ?? 0,
+      openRequests: openAuditCounts(client.audit ?? { notes: [], requests: [] }).requests,
     },
     evidenceFiles: (client.importLog ?? []).map((r) => ({
       tool: r.tool,

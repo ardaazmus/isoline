@@ -24,6 +24,7 @@ import {
   Palette,
   Route,
   Scale,
+  ShieldCheck,
   Ship,
   TrendingDown,
   Users,
@@ -59,6 +60,7 @@ const ICONS: Record<string, LucideIcon> = {
   reconciliation: GitCompareArrows,
   trialBalance: FileSpreadsheet,
   requests: ListTodo,
+  auditor: ShieldCheck,
 };
 
 export const BRAND = "Isoline";

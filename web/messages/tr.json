@@ -46,7 +46,8 @@
     "themes": "Tema ve renk rehberi",
     "reconciliation": "Uzlaştırma",
     "trialBalance": "Mizan",
-    "requests": "Veri talepleri"
+    "requests": "Veri talepleri",
+    "auditor": "Denetçi alanı"
   },
   "units": {
     "mTry": "milyon TL",
@@ -2290,6 +2291,52 @@
       "date": "Onay tarihi",
       "draft": "TASLAK: Bu belge onaylanmamış veri içeriyor. Yayımlamadan önce ilgili bölümleri onaylatın."
     }
+  },
+  "audit": {
+    "result": "{notes} açık not, {requests} açık kanıt talebi",
+    "readonly": "Denetçi görünümü salt okunurdur: araç verisini değiştirmez, yalnız not yazar ve kanıt ister. Güvence denetimi Isoline dışında, KGK yetkili kuruluşça yapılır.",
+    "vault": "Kanıt kasası",
+    "vaultHint": "Her dosya SHA-256 özetiyle kayıtlıdır; aynı özet tek kayıttır. Kabul edilen ama kanıtsız kalemler aşağıda listelenir.",
+    "file": "Dosya",
+    "tools": "Araçlar",
+    "rows": "Satır",
+    "noEvidence": "Henüz dosya kanıtı yok.",
+    "missing": "{n} kabul edilmiş kalemde kanıt yok: {items}",
+    "notes": "Denetçi notları",
+    "noNotes": "Henüz not yok.",
+    "evidenceRequests": "Kanıt talepleri",
+    "noRequests": "Henüz kanıt talebi yok.",
+    "target": "Hedef",
+    "targetSection": "bölüm",
+    "targetItem": "veri kalemi",
+    "author": "Adınız",
+    "body": "Not",
+    "bodyHint": "Hangi belgeyi, hangi değeri ve hangi dönemi sorduğunuzu yazın.",
+    "addNote": "Not ekle",
+    "reply": "Yanıt",
+    "sendReply": "Yanıtı gönder",
+    "addRequest": "Kanıt talebi ekle",
+    "reopen": "Yeniden aç",
+    "mark_open": "Açık yap",
+    "mark_closed": "Kapat",
+    "mark_fulfilled": "Karşılandı",
+    "mark_waived": "Vazgeçildi",
+    "auditorFallback": "Denetçi",
+    "cutoff": "Raporlama yılı {date}; görünüm tarihi {at}.",
+    "noteStatus": {
+      "open": "Açık",
+      "answered": "Yanıtlandı",
+      "closed": "Kapandı"
+    },
+    "reqStatus": {
+      "open": "Açık",
+      "fulfilled": "Karşılandı",
+      "waived": "Vazgeçildi"
+    },
+    "err_needName": "Adınızı yazın.",
+    "err_needBody": "Not metnini yazın.",
+    "err_needTarget": "Hedef seçin.",
+    "err_notFound": "Kayıt bulunamadı."
   },
   "req": {
     "result": "{n} veri kalemi {r} rapor için gerekiyor; {accepted} kabul edildi, {overdue} gecikmiş.",

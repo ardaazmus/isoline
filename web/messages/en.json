@@ -46,7 +46,8 @@
     "themes": "Themes and colours",
     "reconciliation": "Reconciliation",
     "trialBalance": "Trial balance",
-    "requests": "Data requests"
+    "requests": "Data requests",
+    "auditor": "Auditor workspace"
   },
   "units": {
     "mTry": "TRY million",
@@ -2290,6 +2291,52 @@
       "date": "Approved on",
       "draft": "DRAFT: this document contains data that has not been approved. Have the sections approved before publishing."
     }
+  },
+  "audit": {
+    "result": "{notes} open notes, {requests} open evidence requests",
+    "readonly": "The auditor view is read-only: it never changes tool data, it only writes notes and requests evidence. Assurance itself happens outside Isoline, by a KGK-authorised firm.",
+    "vault": "Evidence vault",
+    "vaultHint": "Every file is recorded by its SHA-256 hash; one hash is one record. Accepted items still lacking evidence are listed below.",
+    "file": "File",
+    "tools": "Tools",
+    "rows": "Rows",
+    "noEvidence": "No file evidence yet.",
+    "missing": "{n} accepted items lack evidence: {items}",
+    "notes": "Auditor notes",
+    "noNotes": "No notes yet.",
+    "evidenceRequests": "Evidence requests",
+    "noRequests": "No evidence requests yet.",
+    "target": "Target",
+    "targetSection": "section",
+    "targetItem": "data item",
+    "author": "Your name",
+    "body": "Note",
+    "bodyHint": "Say which document, which figure and which period you are asking about.",
+    "addNote": "Add note",
+    "reply": "Reply",
+    "sendReply": "Send reply",
+    "addRequest": "Add evidence request",
+    "reopen": "Reopen",
+    "mark_open": "Reopen",
+    "mark_closed": "Close",
+    "mark_fulfilled": "Fulfilled",
+    "mark_waived": "Waived",
+    "auditorFallback": "Auditor",
+    "cutoff": "Reporting year {date}; viewed {at}.",
+    "noteStatus": {
+      "open": "Open",
+      "answered": "Answered",
+      "closed": "Closed"
+    },
+    "reqStatus": {
+      "open": "Open",
+      "fulfilled": "Fulfilled",
+      "waived": "Waived"
+    },
+    "err_needName": "Type your name.",
+    "err_needBody": "Type the note.",
+    "err_needTarget": "Pick a target.",
+    "err_notFound": "Record not found."
   },
   "req": {
     "result": "{n} data items are needed for {r} reports; {accepted} accepted, {overdue} overdue.",

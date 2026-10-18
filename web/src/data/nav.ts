@@ -51,6 +51,7 @@ export const NAV: NavGroup[] = [
     family: "reporting",
     items: [
       { id: "requests", href: "/requests", family: "reporting" },
+      { id: "auditor", href: "/auditor", family: "reporting" },
       { id: "annualReport", href: "/annual-report", family: "reporting" },
       { id: "templates", href: "/templates", family: "reporting" },
       { id: "claims", href: "/claims", family: "reporting" },

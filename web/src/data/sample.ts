@@ -14,6 +14,7 @@ import { csvGrid, parseGrid, type TrialBalance } from "@/lib/trial-balance";
 import type { ImportRecord } from "@/lib/imports";
 import type { Approvals } from "@/lib/approval";
 import { emptyRequests, type Requests } from "@/lib/requests";
+import { emptyAudit, type AuditState } from "@/lib/auditor";
 import { SAMPLE_TB_FILE, sampleTrialBalanceCsv } from "./sample-trial-balance";
 import type { StageStatus } from "./journey";
 
@@ -47,6 +48,8 @@ export type ClientData = {
   approvals: Approvals;
   /** Data request list (workflow steps 1–2): chosen templates and tracking per data item. */
   requests: Requests;
+  /** Auditor notes and evidence requests (Faz 4): read-only role writes here, never tool data. */
+  audit: AuditState;
 };
 
 /** SHA-256 of sampleTrialBalanceCsv(): the sample records the same evidence hash a real import would. */
@@ -211,6 +214,7 @@ export const SAMPLE_CLIENT: ClientData = {
       work_headcount: { owner: "İK", due: "2026-11-14", status: "requested", note: "" },
     },
   },
+  audit: emptyAudit(),
 };
 
 /** A fresh, empty client built from the same shape; numbers start at zero. */
@@ -264,5 +268,6 @@ export function emptyClient(id: string, name: string): ClientData {
     importLog: [],
     approvals: {},
     requests: emptyRequests(),
+    audit: emptyAudit(),
   };
 }
