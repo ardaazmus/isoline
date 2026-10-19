@@ -14,6 +14,10 @@
     "client": "Client",
     "sample": "Sample data",
     "manageClients": "Clients",
+    "platform": "Platform",
+    "platformBand": "Toolkit: calculations are kept in this browser only. Teams, data requests, the approval chain, period close and report releases are in the platform.",
+    "platformOpen": "Go to the platform",
+    "platformImport": "Import this workspace into the platform",
     "language": "Language",
     "loading": "Loading workspace…",
     "disclaimer": "Isoline is a compliance-readiness tool; it does not replace legal advice, independent assurance or accredited verification. Every value shows its source and date; final decisions require expert approval."

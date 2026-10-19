@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, type ReactNode } from "react";
 import {
+  ArrowRight,
   BookOpenText,
   Building2,
   CalendarRange,
@@ -129,6 +130,9 @@ function TopBar({ onMenu }: { onMenu: () => void }) {
           )}
         </div>
         <div className="glass ml-auto flex h-12 shrink-0 items-center gap-3 rounded-[16px] px-3">
+          <Link href={`/${locale}/app`} className="text-[13px] font-semibold text-[var(--accent-ink)] no-underline hover:text-[var(--ink)]">
+            {t("shell.platform")}
+          </Link>
           <Link href={`/${locale}/clients`} className="hidden text-[13px] font-medium text-[var(--ink-2)] no-underline hover:text-[var(--ink)] sm:inline">
             {t("shell.manageClients")}
           </Link>
@@ -214,6 +218,26 @@ function Rail({ open, onClose }: { open: boolean; onClose: () => void }) {
   );
 }
 
+/** ADR-008: the toolkit keeps working in this browser; every page says where shared, approved work lives. */
+function PlatformBand() {
+  const { t, locale } = useI18n();
+  const link = "inline-flex h-8 items-center gap-1.5 whitespace-nowrap rounded-[10px] px-3 text-[13px] font-semibold no-underline transition-colors";
+  return (
+    <div role="note" className="no-print glass mb-5 flex flex-col gap-3 rounded-[16px] px-4 py-3 md:flex-row md:items-center md:justify-between">
+      <p className="m-0 max-w-[90ch] text-[13.5px] leading-snug text-[var(--ink-2)]">{t("shell.platformBand")}</p>
+      <div className="flex shrink-0 flex-wrap gap-2">
+        <Link href={`/${locale}/app/settings/import`} className={cn(link, "border border-[var(--rule)] bg-[var(--glass-strong)] text-[var(--ink)] hover:border-[var(--b-300)] hover:bg-[var(--paper)]")}>
+          {t("shell.platformImport")}
+        </Link>
+        <Link href={`/${locale}/app`} className={cn(link, "bg-[var(--b-600)] text-white hover:bg-[var(--b-700)]")}>
+          {t("shell.platformOpen")}
+          <ArrowRight size={15} aria-hidden />
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   return (
@@ -222,7 +246,10 @@ export function AppShell({ children }: { children: ReactNode }) {
       <div className="flex gap-6 pt-4" style={{ paddingLeft: "max(16px, env(safe-area-inset-left, 0px))", paddingRight: "max(16px, env(safe-area-inset-right, 0px))" }}>
         <Rail open={open} onClose={() => setOpen(false)} />
         <main id="main" className="min-w-0 flex-1">
-          <div className="mx-auto w-full max-w-[1360px]">{children}</div>
+          <div className="mx-auto w-full max-w-[1360px]">
+            <PlatformBand />
+            {children}
+          </div>
         </main>
       </div>
     </div>

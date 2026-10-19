@@ -14,6 +14,10 @@
     "client": "Müşteri",
     "sample": "Örnek veri",
     "manageClients": "Müşteriler",
+    "platform": "Platform",
+    "platformBand": "Araç seti: hesaplar yalnız bu tarayıcıda tutulur. Ekip, veri talepleri, onay zinciri, dönem kapanışı ve rapor yayını platformdadır.",
+    "platformOpen": "Platforma geç",
+    "platformImport": "Bu çalışma alanını platforma aktar",
     "language": "Dil",
     "loading": "Çalışma alanı yükleniyor…",
     "disclaimer": "Isoline bir uyum hazırlık aracıdır; hukuki görüş, bağımsız güvence veya akredite doğrulama yerine geçmez. Her değer kaynağı ve tarihiyle gösterilir; nihai karar uzman onayıyla verilir."

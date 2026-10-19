@@ -26,3 +26,10 @@
 - **Plan:** "Büyük kapsamlı yeniden yazım yerine strangler/adaptör göçü".
 - **Mevcut kullanıcılar:** Tarayıcıdaki verileri kaybolmaz.
 - **Parity testi:** Aynı motor iki tarafta çalıştığı için eşdeğerlik ölçülebilir.
+
+## Güncelleme (19.10.2026): ön kapı platform
+
+- Kök adres (`/`) artık platforma açılır: `/tr/app`. Oturum yoksa giriş ekranı, varsa çalışma alanı ana sayfası gelir.
+- Araç seti rotaları aynen kalır (`/tr`, `/tr/journey`, `/tr/tools/...`).
+- Karar 1'deki bant uygulandı: araç setinin her sayfasında "Platforma geç" ve "Bu çalışma alanını platforma aktar" bağlantıları var; üst çubukta da "Platform" bağlantısı bulunur.
+- Gerekçe: kök adres hâlâ araç setine açıldığı için kullanıcı yeni iş akışını göremedi. Ekip, onay, kapanış ve yayın gibi yeni iş akışları yalnız platformda.
