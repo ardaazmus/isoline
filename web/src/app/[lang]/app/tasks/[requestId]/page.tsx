@@ -3,6 +3,8 @@ import { Comments, ReviewPanel, StatusBadge, TaskForm, Versions, type TaskView }
 import { Badge, PageTitle, Section, StateBox } from "@/platform/ui";
 import { attempt, dateOnly, titled, tr } from "@/platform/server";
 import { requireWorkspace } from "@/server/http/dal";
+import { memberCan } from "@/server/policy/policy";
+import { ReopenRequestForm } from "@/platform/g5/close";
 import { listEvidence } from "@/server/evidence/service";
 import { getTask } from "@/server/data/service";
 import { unitsFor, type Dimension } from "@/server/data/units";
@@ -43,6 +45,12 @@ export default async function TaskPage({ params }: PageProps<"/[lang]/app/tasks/
       <div className="flex flex-col gap-6">
         <TaskForm task={task} units={units} projectEvidence={projectEvidence} />
         <ReviewPanel task={task} />
+        {task.request.status === "accepted" && ws.actor.role !== null && memberCan(ws.actor.role, "data.request") && (
+          <Section title={t("pf.close.correctionTitle")}>
+            <p className="text-[13px] text-[var(--ink-2)]">{t("pf.close.correctionLead")}</p>
+            <ReopenRequestForm requestId={task.request.id} />
+          </Section>
+        )}
         {!task.can.edit && !task.can.review && <p className="text-[12.5px] text-[var(--ink-3)]">{t("pf.state.read_only")}</p>}
         <div className="grid gap-6 lg:grid-cols-2">
           <Section title={t("pf.task.history")}>

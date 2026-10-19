@@ -16,6 +16,7 @@ import { acceptTask, assignRequests, closeRequest, createCampaign, linkEvidence,
 import { processScan, uploadEvidence } from "../evidence/service";
 import { ensureBucket } from "../evidence/storage";
 import { runCalculation } from "../calc/service";
+import { submitElimination, submitEntityFinancial } from "../close/service";
 import type { MemberRole } from "../policy/policy";
 
 export const DEMO_DOMAIN = "ornek.test";
@@ -77,7 +78,8 @@ export async function resetDemo(): Promise<void> {
       // children before parents: G4 facts and runs, G3 observations and requests, then the G1/G2 tables
       await sql`delete from core.factor_choices where owner_tenant_id in ${ids}`.execute(tx);
       await sql`delete from core.factor_values where set_id in (select id from core.factor_sets where owner_tenant_id in ${ids})`.execute(tx);
-      const byOwnerFirst = ["quality_issues", "metric_fact_versions", "run_inputs", "calculation_runs", "factor_sets", "notifications", "request_comments", "evidence_links", "observation_versions", "source_imports", "data_requests", "data_campaigns"];
+      await sql`delete from core.snapshot_facts where owner_tenant_id in ${ids}`.execute(tx);
+      const byOwnerFirst = ["cycle_events", "cycle_snapshots", "entity_financials", "intercompany_eliminations", "quality_issues", "metric_fact_versions", "run_inputs", "calculation_runs", "factor_sets", "notifications", "request_comments", "evidence_links", "observation_versions", "source_imports", "data_requests", "data_campaigns"];
       for (const t of byOwnerFirst) await sql`delete from ${sql.table(`core.${t}`)} where owner_tenant_id in ${ids}`.execute(tx);
       await sql`delete from core.notifications where user_id in ${users}`.execute(tx);
       const byOwner = ["evidence_access_log", "evidence_objects", "consent_records", "outbox_events", "retention_rules", "work_package_deps", "work_packages", "project_participants", "applicability_assessments", "boundary_members", "reporting_boundaries", "reporting_cycles", "deliverables"];
@@ -178,6 +180,11 @@ export async function seedDemo(opts: { reset?: boolean; credentialsFile?: string
   for (const e of [proofZ.id, proofM.id]) await processScan(e);
   // Selin runs the GHG calculation; Mehmet reviews it in the app (four eyes)
   await runCalculation({ userId: people.selin, actingTenantId: companyTenant }, wiz.cycleId, { kind: "ghg" });
+  // G5: the financial reporting boundary and the revenue of each company, waiting for Ayşe's approval (sample figures)
+  await approveBoundary(ayse, (await proposeBoundary(ayse, wiz.cycleId, "financial_reporting")).boundaryId);
+  await submitEntityFinancial(mehmetActor, wiz.cycleId, { legalEntityId: holding, netSales: "185000000" });
+  await submitEntityFinancial(mehmetActor, wiz.cycleId, { legalEntityId: uretim, netSales: "1240000000" });
+  await submitElimination(mehmetActor, wiz.cycleId, { sellerEntityId: uretim, buyerEntityId: holding, amount: "42500000", description: "Holding'e grup içi ürün satışı (örnek)" });
   // the first three gates are behind the team already (intake, organisation, scope decision)
   for (const gate of ["G0", "G1", "G2"]) {
     const wp = (await listPlan(ayse, wiz.cycleId)).find((w) => w.gate === gate)!;

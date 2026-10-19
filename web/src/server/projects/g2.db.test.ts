@@ -103,7 +103,7 @@ describe("G2: company-first journey", () => {
     expect(plan.some((p) => p.critical)).toBe(true);
   });
 
-  it("G2-03: four boundary kinds are separate; the sale shows up at year end; a manual change needs a reason", async () => {
+  it("G2-03 / G5-01: four boundary kinds are separate; the mid-year sale is day-weighted; a manual change needs a reason", async () => {
     const op = await proposeBoundary(ayse, cycle2026, "ghg_operational_control");
     const eq = await proposeBoundary(ayse, cycle2026, "ghg_equity_share");
     await proposeBoundary(ayse, cycle2026, "financial_reporting");
@@ -111,7 +111,10 @@ describe("G2: company-first journey", () => {
     const all = await listBoundaries(ayse, cycle2026);
     expect(new Set(all.map((b) => b.kind)).size).toBe(4);
     const eqB = all.find((b) => b.id === eq.boundaryId)!;
-    expect(Number(eqB.members.find((m) => m.legal_entity_id === sub2)!.inclusion_pct)).toBe(60);
+    // 100 % for 181 days, 60 % for 184 days (sale on 1 July): the year-end share is not applied to the whole year
+    const sub2Eq = eqB.members.find((m) => m.legal_entity_id === sub2)!;
+    expect(Number(sub2Eq.inclusion_pct)).toBeCloseTo((100 * 181 + 60 * 184) / 365, 3);
+    expect(sub2Eq.reason).toBe("time_weighted");
     const cbamB = all.find((b) => b.kind === "cbam_facility_product")!;
     expect(cbamB.members.filter((m) => m.included).map((m) => m.facility_id)).toEqual([gebze]);
     const opB = all.find((b) => b.id === op.boundaryId)!;

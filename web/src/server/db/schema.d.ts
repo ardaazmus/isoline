@@ -132,6 +132,33 @@ export interface CoreConsentRecords {
   terms_version: string;
 }
 
+export interface CoreCycleEvents {
+  action: string;
+  actor_user_id: string;
+  created_at: Generated<Timestamp>;
+  cycle_id: string;
+  id: Generated<string>;
+  owner_tenant_id: string;
+  project_id: string;
+  reason: string | null;
+  snapshot_id: string | null;
+}
+
+export interface CoreCycleSnapshots {
+  checklist: Json;
+  content_sha256: string;
+  cycle_id: string;
+  facts: number;
+  frozen_at: Generated<Timestamp>;
+  frozen_by: string;
+  id: Generated<string>;
+  owner_tenant_id: string;
+  project_id: string;
+  restated: Json | null;
+  status: Generated<string>;
+  version: number;
+}
+
 export interface CoreDataCampaigns {
   created_at: Generated<Timestamp>;
   created_by: string;
@@ -206,6 +233,23 @@ export interface CoreEngagements {
   status: Generated<string>;
   title: string;
   updated_at: Generated<Timestamp>;
+}
+
+export interface CoreEntityFinancials {
+  approved_at: Timestamp | null;
+  approved_by: string | null;
+  created_at: Generated<Timestamp>;
+  currency: Generated<string>;
+  cycle_id: string;
+  entered_by: string;
+  evidence_id: string | null;
+  id: Generated<string>;
+  legal_entity_id: string;
+  net_sales: Numeric;
+  note: string | null;
+  owner_tenant_id: string;
+  project_id: string;
+  status: Generated<string>;
 }
 
 export interface CoreEvidenceAccessLog {
@@ -366,6 +410,23 @@ export interface CoreIdempotencyKeys {
   route: string;
   status: number;
   user_id: string;
+}
+
+export interface CoreIntercompanyEliminations {
+  amount: Numeric;
+  approved_at: Timestamp | null;
+  approved_by: string | null;
+  buyer_entity_id: string;
+  created_at: Generated<Timestamp>;
+  cycle_id: string;
+  description: string;
+  entered_by: string;
+  evidence_id: string | null;
+  id: Generated<string>;
+  owner_tenant_id: string;
+  project_id: string;
+  seller_entity_id: string;
+  status: Generated<string>;
 }
 
 export interface CoreInvitations {
@@ -670,6 +731,21 @@ export interface CoreRunInputs {
   run_id: string;
 }
 
+export interface CoreSnapshotFacts {
+  boundary_kind: string | null;
+  facility_id: string | null;
+  fact_id: string;
+  metric_key: string;
+  owner_tenant_id: string;
+  project_id: string;
+  revision: number;
+  snapshot_id: string;
+  suppressed: boolean;
+  unit: string;
+  value_num: Numeric | null;
+  value_text: string | null;
+}
+
 export interface CoreSourceImports {
   campaign_id: string | null;
   committed_at: Timestamp | null;
@@ -789,10 +865,13 @@ export interface DB {
   "core.boundary_members": CoreBoundaryMembers;
   "core.calculation_runs": CoreCalculationRuns;
   "core.consent_records": CoreConsentRecords;
+  "core.cycle_events": CoreCycleEvents;
+  "core.cycle_snapshots": CoreCycleSnapshots;
   "core.data_campaigns": CoreDataCampaigns;
   "core.data_requests": CoreDataRequests;
   "core.deliverables": CoreDeliverables;
   "core.engagements": CoreEngagements;
+  "core.entity_financials": CoreEntityFinancials;
   "core.evidence_access_log": CoreEvidenceAccessLog;
   "core.evidence_links": CoreEvidenceLinks;
   "core.evidence_objects": CoreEvidenceObjects;
@@ -803,6 +882,7 @@ export interface DB {
   "core.factor_values": CoreFactorValues;
   "core.framework_versions": CoreFrameworkVersions;
   "core.idempotency_keys": CoreIdempotencyKeys;
+  "core.intercompany_eliminations": CoreIntercompanyEliminations;
   "core.invitations": CoreInvitations;
   "core.legacy_imports": CoreLegacyImports;
   "core.legal_entities": CoreLegalEntities;
@@ -822,6 +902,7 @@ export interface DB {
   "core.request_comments": CoreRequestComments;
   "core.retention_rules": CoreRetentionRules;
   "core.run_inputs": CoreRunInputs;
+  "core.snapshot_facts": CoreSnapshotFacts;
   "core.source_imports": CoreSourceImports;
   "core.tenants": CoreTenants;
   "core.work_package_deps": CoreWorkPackageDeps;

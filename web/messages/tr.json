@@ -2684,7 +2684,8 @@
       "engagements": "İşler ve teslimatlar",
       "tasks": "Görevlerim",
       "notifications": "Bildirimler",
-      "factors": "Faktör kütüphanesi"
+      "factors": "Faktör kütüphanesi",
+      "review": "İnceleme kuyruğu"
     },
     "kind": {
       "company": "Şirket",
@@ -2891,7 +2892,12 @@
       "evidence_digest_mismatch": "Kanıt dosyasının içeriği kayıtlı özetle eşleşmiyor.",
       "evidence_missing": "Hesabın kullandığı kanıt dosyası bulunamadı.",
       "reproduce_mismatch": "Yeniden üretilen sonuç kayıtlı sonuçla eşleşmedi.",
-      "reviewer_cannot_review": "Bu kişinin kurumdaki rolü veri incelemeye izin vermiyor; başka bir gözden geçiren seçin."
+      "reviewer_cannot_review": "Bu kişinin kurumdaki rolü veri incelemeye izin vermiyor; başka bir gözden geçiren seçin.",
+      "close_checklist_incomplete": "Kapanış kontrol listesinde tamamlanmamış zorunlu maddeler var.",
+      "cycle_not_frozen": "Dönem dondurulmuş değil.",
+      "invalid_amount": "Tutar geçersiz: negatif olmayan, en çok iki ondalıklı bir sayı girin.",
+      "same_entity": "Satan ve alan aynı tüzel kişi olamaz.",
+      "replace_instead": "Hasılat geri çekilmez; yeni tutarı girerek değiştirin."
     },
     "auth": {
       "email": "E-posta",
@@ -3314,7 +3320,10 @@
         "scope": "Kapsam ve sınır",
         "participants": "Ekip",
         "data": "Veri",
-        "calc": "Hesaplamalar"
+        "calc": "Hesaplamalar",
+        "consolidation": "Konsolidasyon",
+        "controls": "Kontroller",
+        "close": "Kapanış"
       }
     },
     "cycle": {
@@ -3467,7 +3476,8 @@
         "equity_method": "Özkaynak yöntemi — konsolidasyon dışı",
         "not_in_group": "Ana şirkete bağlı değil",
         "installation": "SKDM tesisi",
-        "not_installation": "SKDM tesisi değil"
+        "not_installation": "SKDM tesisi değil",
+        "time_weighted": "Dönem içinde değişti — gün ağırlıklı"
       },
       "applicabilityTitle": "Uygulanabilirlik",
       "applicabilityLead": "Kural motoru, şirket profiline göre her düzenleme için bir öneri ve kaynaklarını verir. Öneri hukuki görüş değildir: kararı gerekçesiyle adı geçen bir uzman verir; danışmanın kararını müşterinin yetkilisi onaylar.",
@@ -3816,7 +3826,9 @@
         "workforce": "İşgücü ve İSG",
         "finance": "Finans (mizan)",
         "cbam": "SKDM gömülü emisyon",
-        "ets": "TR-ETS kategori"
+        "ets": "TR-ETS kategori",
+        "consolidation": "Finansal konsolidasyon",
+        "reconciliation": "Mutabakat"
       },
       "kindHint": {
         "ghg": "Kabul edilmiş tesis verileri onaylı sınırdaki paylarıyla toplanır; lokasyon ve piyasa bazlı kapsam 2 ayrı hesaplanır. Kapsam 3 faktörü projede seçilmeden hesaplanmaz.",
@@ -3933,7 +3945,23 @@
         "cbam_cn_not_covered": "GTİP kodu SKDM Ek I kapsamında değil",
         "cbam_cn_partial": "GTİP kodu kısmen kapsamda; 8 haneli kodu kontrol edin",
         "cbam_default_value_used": "Gerçek SEE yok; AB varsayılan değeri ek oranla kullanıldı",
-        "yoy_change": "Önceki yılın onaylı değerine göre %30'dan büyük değişim"
+        "yoy_change": "Önceki yılın onaylı değerine göre %30'dan büyük değişim",
+        "consolidation_partial_period": "Dönemin bir kısmında kontrol: hasılat yalnız o kısmı kapsamalı",
+        "entity_financials_missing": "Konsolide edilen tüzel kişinin hasılatı girilmedi",
+        "entity_financials_not_approved": "Tüzel kişi hasılatı onay bekliyor",
+        "elimination_outside_group": "Eliminasyonun bir tarafı konsolidasyon dışında (dış satış sayılır)",
+        "elimination_not_approved": "Eliminasyon onay bekliyor",
+        "elimination_exceeds_sales": "Grup içi satış, satan şirketin hasılatından büyük",
+        "u1_revenue": "U1 · Yoğunluklarda kullanılan hasılat = konsolide/mizan hasılatı",
+        "u2_energy": "U2 · Toplam enerji ≥ sera gazı envanterindeki enerji",
+        "u3_headcount": "U3 · Çalışan sayısı ≈ uygulanabilirlik profilindeki çalışan",
+        "u4_cbam_exports": "U4 · SKDM ihracatı ≤ tesis üretimi",
+        "u5_ets_scope1": "U5 · TR-ETS doğrulanmış emisyonu ≤ tesisin kapsam 1'i",
+        "u6_taxonomy_capex": "U6 · Taksonomi uyumlu yatırım ↔ geçiş planı",
+        "u7_annual_report": "U7 · Faaliyet raporu yatırımları ↔ enerji/emisyon değişimi",
+        "u8_yoy": "U8 · Yıllık değişim",
+        "u9_estimated": "U9 · Tahmini veri payı",
+        "u10_claims": "U10 · Yeşil iddialar"
       },
       "m": {
         "ghg_scope1": "Kapsam 1",
@@ -3967,7 +3995,8 @@
         "cbam_embedded": "SKDM gömülü emisyon — {cn}",
         "cbam_embedded_total": "SKDM gömülü emisyon toplamı",
         "ets_verified_emissions": "TR-ETS doğrulanmış emisyon",
-        "ets_category": "TR-ETS kategorisi"
+        "ets_category": "TR-ETS kategorisi",
+        "finance_consolidated_net_sales": "Konsolide net satışlar"
       }
     },
     "lineage": {
@@ -4026,6 +4055,155 @@
         "public_sector": "Kamu verisi",
         "user_licensed": "Kullanıcı lisanslı"
       }
+    },
+    "cons": {
+      "title": "Konsolidasyon",
+      "ghgTitle": "Sera gazı — yaklaşıma göre ({label})",
+      "ghgLead": "GHG Protocol yaklaşımları ayrı hesaplanır ve yan yana gösterilir; yıl içinde değişen pay ve kontrol gün ağırlıklıdır (yıl sonu ağacı tüm yıla uygulanmaz).",
+      "noGhg": "Onaylı bir sera gazı sınırı ve hesap yok",
+      "notCalculated": "hesaplanmadı",
+      "shares": "Tesis payları",
+      "finTitle": "Finansal konsolidasyon (TFRS 10 / IFRS 10)",
+      "finLead": "Sera gazı kodundan ayrı çalışır: bağlı ortaklıklar hasılatın %100'ü ile tam konsolide edilir, müşterek girişim ve iştirakler özkaynak yöntemiyle dışarıda kalır, grup içi satışlar elimine edilir. Tutarlar kuruşa kadar kesin hesaplanır.",
+      "noFinBoundary": "Onaylı bir finansal raporlama sınırı yok; önce Kapsam sekmesinden oluşturup onaylayın.",
+      "entity": "Tüzel kişi",
+      "share": "Pay",
+      "treatment": "İşlem",
+      "fullConsolidation": "Tam konsolidasyon",
+      "outside": "Konsolidasyon dışı",
+      "financials": "Tüzel kişi hasılatları",
+      "netSales": "Net satışlar",
+      "noFinancials": "Henüz girilmedi.",
+      "status": {
+        "submitted": "Onay bekliyor",
+        "approved": "Onaylı",
+        "superseded": "Yerini aldı",
+        "withdrawn": "Geri çekildi"
+      },
+      "submit": "Kaydet",
+      "amountHint": "TL; ör. 1.250.000,50",
+      "note": "Not",
+      "eliminations": "Grup içi satış eliminasyonları",
+      "seller": "Satan",
+      "buyer": "Alan",
+      "amount": "Tutar",
+      "description": "Açıklama",
+      "noEliminations": "Eliminasyon yok.",
+      "addElimination": "Eliminasyon ekle",
+      "withdraw": "Geri çek",
+      "run": "Konsolide et",
+      "gross": "Toplam hasılat",
+      "eliminated": "Eliminasyon",
+      "consolidated": "Konsolide net satışlar",
+      "equityMethodNote": "Özkaynak yöntemiyle değerlenenler (hasılata girmez): {names}"
+    },
+    "controls": {
+      "title": "Kontroller",
+      "recTitle": "Mutabakat kontrolleri — {label}",
+      "lastRun": "Son çalıştıran: {name}, {at}",
+      "recLead": "Aynı rakamın iki yerde farklı raporlanmasını önleyen U1–U10 kuralları. Hata türü kurallar engelleyicidir; uyarılar gerekçeyle açıklanır.",
+      "run": "Kontrolleri çalıştır",
+      "notRun": "Henüz çalıştırılmadı.",
+      "rule": "Kural",
+      "check": "Kontrol",
+      "values": "Değer / referans",
+      "tolerance": "Tolerans",
+      "status": {
+        "pass": "Uyumlu",
+        "fail": "Uyumsuz",
+        "na": "Uygulanmadı"
+      },
+      "note": {
+        "g6": "Rapor metni ve taksonomi verisiyle (rapor stüdyosu) çalışır",
+        "in_runs": "Her hesapta ayrıca çalışır",
+        "no_production": "Tesisin üretim verisi yok",
+        "no_scope1": "Tesisin kapsam 1 sonucu yok"
+      },
+      "openIssues": "Açık bulgular ({n})",
+      "doneIssues": "Değerlendirilmiş bulgular ({n})"
+    },
+    "close": {
+      "title": "Dönem kapanışı",
+      "checklist": "Kapanış kontrol listesi — {label}",
+      "cycleStatus": {
+        "planning": "Planlama",
+        "collection": "Veri toplama",
+        "calculation": "Hesaplama",
+        "close_review": "Kapanış incelemesi",
+        "frozen": "Donduruldu",
+        "released": "Yayımlandı",
+        "reopened": "Yeniden açıldı"
+      },
+      "item": {
+        "requests_closed": "Tüm veri talepleri kapandı",
+        "boundary_approved": "Sera gazı sınırı onaylı",
+        "facts_exist": "Hesaplanmış metrikler var",
+        "facts_approved": "Tüm güncel metrikler onaylı",
+        "no_open_blockers": "Açık engelleyici bulgu yok",
+        "warnings_dispositioned": "Tüm uyarılar değerlendirildi",
+        "reconciliation_current": "Mutabakat kontrolleri son hesaptan sonra çalıştı",
+        "consolidation_done": "Hasılat konsolide edildi",
+        "scope_confirmed": "Uygulanabilirlik kararları müşteri tarafından onaylandı"
+      },
+      "why": {
+        "requests_closed": "{n} talep kabul ya da gerekçeli kapanış bekliyor.",
+        "boundary_approved": "Kapsam sekmesinde bir sera gazı sınırını onaylayın.",
+        "facts_exist": "Hesaplamalar sekmesinden hesap yapın.",
+        "facts_approved": "{n} metrik onay bekliyor.",
+        "no_open_blockers": "{n} engelleyici bulgu var; girdiyi düzeltip yeniden hesaplayın.",
+        "warnings_dispositioned": "{n} uyarı gerekçeli değerlendirme bekliyor.",
+        "reconciliation_current": "Kontroller sekmesinde mutabakatı çalıştırın.",
+        "consolidation_done": "Konsolidasyon sekmesinden hasılatı konsolide edin.",
+        "scope_confirmed": "{n} karar müşteri onayı bekliyor."
+      },
+      "ok": "tamam",
+      "notOk": "eksik",
+      "optional": "Önerilir, zorunlu değil",
+      "freeze": "Dönemi dondur",
+      "freezeConfirm": "Onaylı metrikler değişmez bir anlık görüntüye alınacak ve kilitlenecek. Devam edilsin mi?",
+      "frozen": "Donduruldu: sürüm {version}, özet {digest}…, yeniden düzenlenen {restated} metrik.",
+      "reopen": "Dönemi yeniden aç",
+      "reopenReason": "Yeniden açma gerekçesi (en az 20 karakter)",
+      "reopenLead": "Dondurulmuş görüntü değişmez. Yeniden açınca düzeltmeler yeni revizyon olur; yeni dondurmada neyin yeniden düzenlendiği listelenir.",
+      "snapshots": "Anlık görüntüler ({n})",
+      "noSnapshots": "Henüz dondurulmadı.",
+      "version": "Sürüm {v}",
+      "snapStatus": {
+        "frozen": "Geçerli",
+        "superseded": "Yerini aldı"
+      },
+      "factsN": "{n} metrik",
+      "restatedN": "{n} yeniden düzenleme",
+      "events": "Dondurma ve yeniden açma kayıtları",
+      "event": {
+        "freeze": "Donduruldu",
+        "reopen": "Yeniden açıldı"
+      },
+      "runDone": "Tamamlandı: {blockers} engelleyici, {warnings} uyarı.",
+      "snapshotTitle": "Anlık görüntü",
+      "snapshotNotFound": "Anlık görüntü bulunamadı",
+      "back": "Kapanışa dön",
+      "intact": "İçerik özeti doğrulandı",
+      "tampered": "İçerik özeti eşleşmiyor",
+      "restatedTitle": "Bu sürümde yeniden düzenlenenler",
+      "reopenRequest": "Düzeltme için geri gönder",
+      "correctionTitle": "Düzeltme",
+      "correctionLead": "Kabul edilmiş veri ancak dönem açıkken ve gerekçeyle katkı verene geri gönderilir; eski sürüm saklanır."
+    },
+    "review": {
+      "title": "İnceleme kuyruğu",
+      "lead": "Kararınızı bekleyen her şey: veri talepleri, hesaplanmış metrikler, bulgular ve konsolidasyon tutarları. Kendi işiniz burada görünmez.",
+      "empty": "Kararınızı bekleyen bir şey yok",
+      "requests": "Veri talepleri ({n})",
+      "facts": "Onay bekleyen metrikler ({n})",
+      "issues": "Değerlendirme bekleyen uyarılar ({n})",
+      "inputs": "Onay bekleyen hasılat tutarları ({n})",
+      "project": "Proje",
+      "from": "Gönderen",
+      "due": "Son tarih",
+      "critical": "kritik",
+      "new": "Yeni değer",
+      "previous": "Önceki değer"
     }
   }
 }

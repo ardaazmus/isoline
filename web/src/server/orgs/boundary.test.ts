@@ -1,6 +1,6 @@
 import fc from "fast-check";
 import { describe, expect, it } from "vitest";
-import { reachFromParent, suggestBoundary, type Control, type EdgeIn, type EntityIn, type FacilityIn } from "./boundary";
+import { reachFromParent, suggestBoundary, suggestBoundaryOverPeriod, type Control, type EdgeIn, type EntityIn, type FacilityIn } from "./boundary";
 
 const E = (id: string, isParent = false, validFrom: string | null = null, validTo: string | null = null): EntityIn => ({ id, isParent, validFrom, validTo });
 const edge = (parent: string, child: string, sharePct: number, control: Control, validFrom = "2000-01-01", validTo: string | null = null): EdgeIn => ({ parent, child, sharePct, control, validFrom, validTo });
@@ -87,6 +87,39 @@ describe("boundary suggestion (GHG Protocol ch. 3, table 1)", () => {
         for (const m of suggestBoundary("ghg_equity_share", ents, es, [], "2026-12-31").members) if (!reached.get(m.id)!.reached) expect(m.pct).toBe(0);
       }),
       { numRuns: 300 },
+    );
+  });
+});
+
+describe("boundary over a reporting period (G5-01, GHG Protocol ch. 5)", () => {
+  it("plan 09 §8 example: 60 % for the first half, 80 % for the second → equity share is day-weighted", () => {
+    const dated = [edge("H", "S", 60, "financial", "2020-01-01", "2026-06-30"), edge("H", "S", 80, "financial", "2026-07-01")];
+    const r = suggestBoundaryOverPeriod("ghg_equity_share", [E("H", true), E("S")], dated, [F("f", "S")], "2026-01-01", "2026-12-31");
+    const s = r.members.find((m) => m.id === "S")!;
+    expect(s.pct).toBeCloseTo((60 * 181 + 80 * 184) / 365, 3);
+    expect(s.reason).toBe("time_weighted");
+    expect(r.segments.map((x) => x.days)).toEqual([181, 184]);
+    // financial control stays 100 % all year: a change of share is not a change of control
+    const fc2 = suggestBoundaryOverPeriod("ghg_financial_control", [E("H", true), E("S")], dated, [F("f", "S")], "2026-01-01", "2026-12-31");
+    expect(fc2.members.find((m) => m.id === "S")).toMatchObject({ pct: 100, reason: "subsidiary" });
+  });
+
+  it("an acquisition on 1 October counts for the last quarter under operational control", () => {
+    const r = suggestBoundaryOverPeriod("ghg_operational_control", [E("H", true), E("S")], [edge("H", "S", 100, "financial", "2026-10-01")], [F("f", "S")], "2026-01-01", "2026-12-31");
+    expect(r.members.find((m) => m.id === "f")!.pct).toBeCloseTo((100 * 92) / 365, 3);
+  });
+
+  it("property: without changes inside the period the result equals the period-end suggestion", () => {
+    const kinds = ["ghg_operational_control", "ghg_financial_control", "ghg_equity_share", "financial_reporting", "cbam_facility_product"] as const;
+    fc.assert(
+      fc.property(fc.constantFrom(...kinds), fc.integer({ min: 1, max: 100 }), fc.constantFrom<Control>("financial", "joint", "significant_influence", "none", "operational"), (kind, share, control) => {
+        const ents = [E("H", true), E("S")];
+        const eds = [edge("H", "S", share, control)];
+        const facs = [F("f", "S")];
+        const a = suggestBoundaryOverPeriod(kind, ents, eds, facs, "2026-01-01", "2026-12-31");
+        const b = suggestBoundary(kind, ents, eds, facs, "2026-12-31");
+        expect(a.members.map((m) => [m.id, m.pct, m.reason]).sort()).toEqual(b.members.map((m) => [m.id, m.pct, m.reason]).sort());
+      }),
     );
   });
 });

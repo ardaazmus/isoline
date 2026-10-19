@@ -15,7 +15,7 @@
 | G2 | bitti | Organizasyon ağacı ve tarihli sahiplik, beş tür raporlama sınırı, iş/teslimat, dönem, uygulanabilirlik kararı ve müşteri onayı, ekip/RACI, 13 kapılı plan ve kritik yol, portföy |
 | G3 | bitti | Sürümlü metrik kataloğu, şablondan kampanya üreteci, kişi+tesis kapsamlı atama, 4 adımlı katılımcı formu, iade/yeniden gönderim, sürümlü gözlemler, kanıt bağlantıları, XLSX/CSV içe aktarma, hatırlatmalar, tedarikçi izni |
 | G4 | bitti | Sürümlü faktör sicili ve lisans, idempotent hesap çalışmaları (girdi/faktör/çıktı özetleri), çok tesisli Kapsam 1/2/3, çevre/işgücü/finans/SKDM/ETS sarmalayıcıları, engelleyici/uyarı kalite kuralları, dört göz onayı, metrik sürümleri ve kaynak izi, yeniden üretim |
-| G5 | başlamadı | |
+| G5 | bitti | Dönem içi gün ağırlıklı sınır, GHG yaklaşımları yan yana, TFRS 10 hasılat konsolidasyonu ve grup içi eliminasyon (kesin kuruş aritmetiği), U1–U10 mutabakat, kişiye bağlı inceleme kuyruğu, kapanış kontrol listesi, değişmez anlık görüntü, gerekçeli yeniden açma ve yeniden düzenleme listesi |
 | G6 | başlamadı | |
 | G7 | başlamadı | |
 | G8 | başlamadı | |
@@ -111,7 +111,27 @@
 
 **Açık risk:** Sayı girişinde tek ayırıcı ondalık sayılır (v1 kuralı, "900.000" = 900). Türkçe kullanıcı binlik ayırıcı niyetiyle yazabilir; G8 form turunda belirsiz biçim (tek ayırıcı + tam üç hane) için onay uyarısı eklenecek.
 
-## G5–G8
+## G5 — Konsolidasyon, kontroller, kapanış
+
+| ID | Durum | Kanıt |
+|---|---|---|
+| G5-01 | bitti | `orgs/boundary.ts` `suggestBoundaryOverPeriod`: dönem, varlık/ortaklık/tesis geçerlilik tarihlerinde dilimlenir, her üyenin payı gün ağırlıklı ortalamadır (GHG Protocol bölüm 5; plan 09 §8 örneği testte). Değişen üye `time_weighted` olarak işaretlenir. Operasyonel kontrol, finansal kontrol ve özkaynak payı ayrı sınır ve ayrı hesap; `projects/[id]/consolidation` (CTRL-08) yan yana gösterir. G2'nin dönem sonu yaklaşımı bu kapıda düzeltildi (G2 testi güncellendi) |
+| G5-02 | bitti | `close/consolidation.ts`: TFRS/IFRS 10 hasılat konsolidasyonu sera gazı kodundan ayrı; bağlı ortaklık %100, özkaynak yöntemi dışarıda, grup içi satış eliminasyonu (B86), dönemin bir kısmında kontrol uyarısı; tutarlar BigInt kuruş. Girdiler `core.entity_financials` ve `core.intercompany_eliminations` (migration 0007): giren ile onaylayan farklı (DB CHECK). Özellik testi: konsolide = Σ hasılat − Σ iç eliminasyon, kuruşu kuruşuna |
+| G5-03 | bitti | `close/reconcile.ts`: araç setinin U1–U10 katalogu sunucuda, aynı önem dereceleriyle (hata = engelleyici). U1 hasılat, U2 enerji, U3 çalışan, U4 SKDM ihracat ≤ üretim, U5 ETS ≤ kapsam 1; U8/U9 her hesapta; U6/U7/U10 rapor metniyle G6'da. Veri yoksa "uygulanmadı", asla sessiz "uyumlu" değil. Ekran `projects/[id]/controls` (CTRL-05) |
+| G5-04 | bitti | Bulgular `projects/[id]/controls` (CTRL-04): açık ve değerlendirilmiş bulgular ayrı; uyarıyı hesabı çalıştıran kapatamaz, gerekçe ≥ 10 karakter, denetim kaydı; dondurulmuş dönemde değerlendirme yapılamaz |
+| G5-05 | bitti | `app/review` (CTRL-06): kişinin kararını bekleyen veri talepleri, onay bekleyen metrikler (önceki değerle yan yana, CTRL-07 farkı), uyarılar ve hasılat tutarları; kendi işi görünmez, rol ve izin proje bazında yeniden denetlenir |
+| G5-06 | bitti | `core.cycle_snapshots` + `snapshot_facts`: dondurmada onaylı güncel metrikler içerik SHA-256 özetiyle kopyalanır, metrikler `locked` olur; kilitli metrik tetikleyiciyle değişmez; uygulama rolünün anlık görüntü satırlarını güncelleme/silme yetkisi yok. Yeniden açma gerekçeli (≥ 20 karakter), kabul edilmiş talep gerekçeyle katkı verene geri gönderilir, yeni dondurma önceki sürüme göre yeniden düzenlenen metrikleri listeler |
+| G5-07 | bitti | `projects/[id]/close` (CTRL-09): talepler kapalı, GHG sınırı onaylı, metrikler var ve onaylı, açık engelleyici yok, uyarılar değerlendirilmiş, mutabakat son hesaptan sonra, çok şirketli grupta hasılat konsolide; her eksik madde nedeniyle görünür, dondurma sunucuda yeniden denetlenir. Dondurulmuş dönemde veri girişi, hesap, onay ve bulgu kararı 409 döner |
+
+**G5 kapısı:** `g5.db.test.ts` — iki bağlı ortaklık (birinde 1 Temmuz'da %40 satış) ve iki tesis, 2025 ve 2026 dönemleri. Operasyonel kontrol ile özkaynak payı farklı ve gerekçeli sonuç veriyor (özkaynak: (100×181 + 60×184)/365); hasılat 1 700 000,25 TL olarak kesin konsolide ediliyor (eliminasyon dahil); 2025 donduruluyor, kilitli metrik veritabanı düzeyinde değişmiyor; gerekçeyle yeniden açılıp Gebze elektriği düzeltiliyor, yeniden hesaplanıp onaylanıyor, ikinci dondurma yeniden düzenlemeyi listeliyor; **birinci anlık görüntü aynı satırlar, aynı değerler ve aynı özetle duruyor.** Tarayıcıda: Ayşe'nin inceleme kuyruğu, konsolidasyon onayları ve 1 382 500 000 TL sonucu, mutabakat ve kapanış listesi doğrulandı.
+
+**Bu kapıda verilen ek kararlar:**
+- Dondurulmuş/yayımlanmış dönemde veri servisleri (taslak, gönderim, kabul, kapatma) de `cycle_frozen` döner.
+- Kapanış durumları: `frozen` → (gerekçe) → `reopened` → yeni dondurma; eski anlık görüntü `superseded` olur ama içeriği değişmez.
+
+**Ortam notu:** Bu makinede Turbopack dev sunucusu bazı sunucu modülü değişikliklerini kaçırabiliyor (eski modül → hidrasyon farkı ya da "is not a function"). Sunucu kodu değiştikten sonra tarayıcı denetiminden önce dev sunucusu yeniden başlatılır; üretim derlemesi etkilenmez.
+
+## G6–G8
 
 Kapı başladıkça buraya ayrıntılı tablo eklenir. Görev listeleri plan 13'te.
 
@@ -126,4 +146,4 @@ Kapı başladıkça buraya ayrıntılı tablo eklenir. Görev listeleri plan 13'
   - depo SeaweedFS (ADR-005; MinIO imajları kaldırıldığı için);
   - modüler monolit (ADR-007);
   - v1 araç seti `(toolkit)` rota grubunda korunuyor (ADR-008).
-- **Açık / sıradaki:** G5 (GHG ve finansal konsolidasyon kural setleri, U1..U10 tutarlılık kuralları, ayrı gözden geçiren kuyruğu, anlık görüntü ve yeniden açma, kapanış kontrol listesi; kapı: 2 bağlı ortaklık + 2 tesis / 2 dönem, kapalı görüntü değişmez).
+- **Açık / sıradaki:** G6 (rapor türleri ve bölüm taslakları, metrik belirteçli editör, standart kapsama, grafik + veri tablosu, teknik/müşteri/yönetim onayı, DOCX/XLSX/varlık paketi, tasarım ortağı turu, yayın dondurma ve ek yayın, raporlar arası mutabakat; kapı: iki rapor, dış danışman önerisi, yönetim onayı, paket, kaynak değişince eski yayın sabit).

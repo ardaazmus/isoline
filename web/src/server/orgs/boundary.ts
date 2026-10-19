@@ -34,7 +34,9 @@ export type MemberReason =
   | "equity_method"
   | "not_in_group"
   | "installation"
-  | "not_installation";
+  | "not_installation"
+  /** the share changed inside the reporting period: day-weighted average (G5-01) */
+  | "time_weighted";
 
 export type Member = { kind: "entity" | "facility"; id: string; pct: number; reason: MemberReason };
 export type Suggestion = { members: Member[]; warnings: string[] };
@@ -146,4 +148,55 @@ export function suggestBoundary(kind: BoundaryKind, entities: EntityIn[], edges:
     }
   }
   return { members, warnings };
+}
+
+// ---------------------------------------------------------------- over a reporting period (G5-01)
+
+const DAY = 86_400_000;
+const toDay = (d: string) => Date.UTC(Number(d.slice(0, 4)), Number(d.slice(5, 7)) - 1, Number(d.slice(8, 10))) / DAY;
+const fromDay = (n: number) => new Date(n * DAY).toISOString().slice(0, 10);
+
+export type PeriodSuggestion = Suggestion & { segments: { from: string; to: string; days: number }[] };
+
+/**
+ * The suggestion over a reporting period (GHG Protocol ch. 5, structural changes; plan 09 §8): an acquisition, a
+ * divestment or a change of share inside the year counts for the part of the year it applied — the year-end tree is
+ * not applied to the whole year. The period is split wherever an entity, edge or facility starts or ends; each
+ * member's share is the day-weighted average of the per-segment suggestions. A member whose share changed inside
+ * the period is marked "time_weighted".
+ */
+export function suggestBoundaryOverPeriod(kind: BoundaryKind, entities: EntityIn[], edges: EdgeIn[], facilities: FacilityIn[], start: string, end: string): PeriodSuggestion {
+  const s = toDay(start);
+  const e = toDay(end);
+  const cuts = new Set<number>([s]);
+  const add = (d: number) => {
+    if (d > s && d <= e) cuts.add(d);
+  };
+  for (const x of [...entities, ...edges, ...facilities]) {
+    if (x.validFrom) add(toDay(x.validFrom));
+    if (x.validTo) add(toDay(x.validTo) + 1);
+  }
+  const starts = [...cuts].sort((a, b) => a - b);
+  const segments = starts.map((from, i) => ({ from, to: (starts[i + 1] ?? e + 1) - 1 }));
+  const total = e - s + 1;
+  // per member: its share in each segment (0 where it does not exist)
+  const shares = new Map<string, { kind: Member["kind"]; id: string; pcts: number[]; reason: MemberReason }>();
+  const warnings = new Set<string>();
+  segments.forEach((seg, i) => {
+    const r = suggestBoundary(kind, entities, edges, facilities, fromDay(seg.from));
+    // whether there is one reporting parent is judged on the last day (a parent founded mid-year is normal)
+    r.warnings.filter((w) => i === segments.length - 1 || !w.endsWith("reporting_parent") && !w.endsWith("reporting_parents")).forEach((w) => warnings.add(w));
+    for (const m of r.members) {
+      const k = `${m.kind}:${m.id}`;
+      const a = shares.get(k) ?? { kind: m.kind, id: m.id, pcts: segments.map(() => 0), reason: m.reason };
+      a.pcts[i] = m.pct;
+      a.reason = m.reason;
+      shares.set(k, a);
+    }
+  });
+  const members: Member[] = [...shares.values()].map((a) => {
+    const weighted = a.pcts.reduce((sum, p, i) => sum + p * (segments[i].to - segments[i].from + 1), 0) / total;
+    return { kind: a.kind, id: a.id, pct: cap(weighted), reason: new Set(a.pcts).size > 1 ? "time_weighted" : a.reason };
+  });
+  return { members, warnings: [...warnings], segments: segments.map((x) => ({ from: fromDay(x.from), to: fromDay(x.to), days: x.to - x.from + 1 })) };
 }

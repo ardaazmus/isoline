@@ -270,7 +270,7 @@ function targetsFor(snap: Snapshot): string[] {
 
 export type RunResult = { runId: string; reused: boolean; facts: number; blockers: number; warnings: number };
 
-const ISSUE_TARGET = (w: Warning): { type: "run" | "factor" | "data_request" | "observation_version"; id: string } => {
+export const ISSUE_TARGET = (w: Warning): { type: "run" | "factor" | "data_request" | "observation_version"; id: string } => {
   if (w.code.startsWith("factor_") || w.code.startsWith("cbam_other")) return { type: "factor", id: w.target };
   if (w.code === "input_not_accepted") return { type: "data_request", id: w.target };
   return { type: "run", id: w.target };
@@ -352,24 +352,10 @@ export async function runCalculation(actor: Actor, cycleId: string, input: { kin
     let blockers = 0;
     let warningsN = 0;
     if (mode === "final") {
-      // findings of an earlier final run of this kind are replaced by this run's
-      await tx
-        .updateTable("core.quality_issues")
-        .set({ status: "superseded" })
-        .where("cycle_id", "=", cycle.id)
-        .where("status", "=", "open")
-        .where("run_id", "in", (eb) => eb.selectFrom("core.calculation_runs").select("id").where("cycle_id", "=", cycle.id).where("kind", "=", input.kind).where("mode", "=", "final"))
-        .execute();
-      for (const w of warnings) {
-        const sev = SEVERITY[w.code] ?? "warning";
-        if (sev === "blocker") blockers++;
-        else warningsN++;
-        const t = ISSUE_TARGET(w);
-        await tx
-          .insertInto("core.quality_issues")
-          .values({ owner_tenant_id: cycle.owner_tenant_id, project_id: cycle.project_id, cycle_id: cycle.id, run_id: run.id, rule_id: w.code, rule_version: RULE_VERSION, severity: sev, target_type: t.type, target_id: t.id, observed: w.detail ? JSON.stringify(w.detail) : null, detected_by: actor.userId })
-          .execute();
-      }
+      await supersedeOpenIssues(tx, cycle.id, input.kind);
+      const counts = await recordIssues(tx, actor, { id: run.id, owner: cycle.owner_tenant_id, project: cycle.project_id, cycle: cycle.id, boundaryKind }, warnings);
+      blockers = counts.blockers;
+      warningsN = counts.warnings;
       const written = await writeFacts(tx, { id: run.id, owner: cycle.owner_tenant_id, project: cycle.project_id, cycle: cycle.id, boundaryKind }, ev.facts, blockers > 0);
       warningsN += await yoyIssues(tx, actor, { id: run.id, owner: cycle.owner_tenant_id, project: cycle.project_id, cycle: cycle.id, year: cycle.reporting_year, boundaryKind }, written);
       if (cycle.status === "collection" || cycle.status === "planning") await tx.updateTable("core.reporting_cycles").set({ status: "calculation" }).where("id", "=", cycle.id).execute();
@@ -379,7 +365,7 @@ export async function runCalculation(actor: Actor, cycleId: string, input: { kin
   });
 }
 
-async function issueCounts(tx: Tx, runId: string) {
+export async function issueCounts(tx: Tx, runId: string) {
   const r = await tx
     .selectFrom("core.quality_issues")
     .select([sql<number>`count(*) filter (where severity = 'blocker')::int`.as("blockers"), sql<number>`count(*) filter (where severity = 'warning')::int`.as("warnings")])
@@ -388,9 +374,37 @@ async function issueCounts(tx: Tx, runId: string) {
   return { blockers: r.blockers, warnings: r.warnings };
 }
 
-type RunRef = { id: string; owner: string; project: string; cycle: string; boundaryKind: BoundaryKind | null };
+export type RunRef = { id: string; owner: string; project: string; cycle: string; boundaryKind: BoundaryKind | null };
 
-async function writeFacts(tx: Tx, run: RunRef, facts: FactOut[], blocked: boolean): Promise<{ id: string; metricKey: string; facilityId: string | null; value: number | null }[]> {
+/** Open findings of earlier final runs of this kind in the cycle give way to the new run's findings. */
+export async function supersedeOpenIssues(tx: Tx, cycleId: string, kind: string): Promise<void> {
+  await tx
+    .updateTable("core.quality_issues")
+    .set({ status: "superseded" })
+    .where("cycle_id", "=", cycleId)
+    .where("status", "=", "open")
+    .where("run_id", "in", (eb) => eb.selectFrom("core.calculation_runs").select("id").where("cycle_id", "=", cycleId).where("kind", "=", kind).where("mode", "=", "final"))
+    .execute();
+}
+
+/** Writes a run's findings with their severity (SEVERITY table, else the given default); returns the counts. */
+export async function recordIssues(tx: Tx, actor: Actor, run: RunRef, warnings: (Warning & { severity?: "blocker" | "warning"; expected?: Record<string, unknown>; tolerance?: string })[]): Promise<{ blockers: number; warnings: number }> {
+  let blockers = 0;
+  let warningsN = 0;
+  for (const w of warnings) {
+    const sev = w.severity ?? SEVERITY[w.code] ?? "warning";
+    if (sev === "blocker") blockers++;
+    else warningsN++;
+    const t = ISSUE_TARGET(w);
+    await tx
+      .insertInto("core.quality_issues")
+      .values({ owner_tenant_id: run.owner, project_id: run.project, cycle_id: run.cycle, run_id: run.id, rule_id: w.code, rule_version: RULE_VERSION, severity: sev, target_type: t.type, target_id: t.id, observed: w.detail ? JSON.stringify(w.detail) : null, expected: w.expected ? JSON.stringify(w.expected) : null, tolerance: w.tolerance ?? null, detected_by: actor.userId })
+      .execute();
+  }
+  return { blockers, warnings: warningsN };
+}
+
+export async function writeFacts(tx: Tx, run: RunRef, facts: FactOut[], blocked: boolean): Promise<{ id: string; metricKey: string; facilityId: string | null; value: number | null }[]> {
   const out: { id: string; metricKey: string; facilityId: string | null; value: number | null }[] = [];
   for (const f of facts) {
     const prev = await tx
@@ -422,8 +436,8 @@ async function writeFacts(tx: Tx, run: RunRef, facts: FactOut[], blocked: boolea
         facility_id: f.facilityId,
         boundary_kind: run.boundaryKind,
         revision: (prev?.revision ?? 0) + 1,
-        value_num: f.valueNum === undefined ? null : String(f.valueNum),
-        value_text: f.valueNum === undefined ? (f.valueText ?? "") : null,
+        value_num: f.valueExact ?? (f.valueNum === undefined ? null : String(f.valueNum)),
+        value_text: f.valueExact === undefined && f.valueNum === undefined ? (f.valueText ?? "") : null,
         unit: f.unit,
         run_id: run.id,
         status: blocked ? "validating" : "ready_for_review",
@@ -433,7 +447,7 @@ async function writeFacts(tx: Tx, run: RunRef, facts: FactOut[], blocked: boolea
       })
       .returning("id")
       .executeTakeFirstOrThrow();
-    out.push({ id: row.id, metricKey: f.metricKey, facilityId: f.facilityId, value: f.valueNum ?? null });
+    out.push({ id: row.id, metricKey: f.metricKey, facilityId: f.facilityId, value: f.valueExact !== undefined ? Number(f.valueExact) : (f.valueNum ?? null) });
   }
   return out;
 }
@@ -543,6 +557,8 @@ export async function resolveIssue(actor: Actor, issueId: string, input: { decis
     if (!i) throw notFound();
     await requireProjectAction(tx, actor, i.project_id, "quality.review");
     if (i.status !== "open") throw new HttpError(409, "invalid_transition");
+    const c = await tx.selectFrom("core.reporting_cycles").select("status").where("id", "=", i.cycle_id).executeTakeFirstOrThrow();
+    if (["frozen", "released"].includes(c.status)) throw new HttpError(409, "cycle_frozen");
     if (i.severity === "blocker") throw new HttpError(409, "blocker_requires_rerun");
     if (i.detected_by === actor.userId) throw forbidden("own_calculation");
     await tx.updateTable("core.quality_issues").set({ status: input.decision, resolution: text, resolved_by: actor.userId, resolved_at: new Date() }).where("id", "=", issueId).execute();

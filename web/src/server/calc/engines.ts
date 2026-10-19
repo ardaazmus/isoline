@@ -15,7 +15,8 @@ import { netSales, tbTotals, type TrialBalance } from "@/lib/trial-balance";
 import type { ResolvedFactor } from "./factors";
 import type { Obs, Warning } from "./ghg-engine";
 
-export type FactOut = { metricKey: string; facilityId: string | null; valueNum?: number; valueText?: string; unit: string; estimatedShare?: number; suppressed?: boolean };
+/** A result; `valueExact` (a decimal string) carries money and other figures that must not pass through floating point. */
+export type FactOut = { metricKey: string; facilityId: string | null; valueNum?: number; valueExact?: string; valueText?: string; unit: string; estimatedShare?: number; suppressed?: boolean };
 export type EngineOut = { facts: FactOut[]; used: { observations: string[]; factors: string[] }; warnings: Warning[]; detail?: Record<string, unknown> };
 
 export type Scoped = { facilities: { id: string; pct: number; country: string }[]; observations: Obs[] };

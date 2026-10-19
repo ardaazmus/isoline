@@ -8,7 +8,7 @@ import { evaluate, TSRS_THRESHOLDS, type Profile } from "@/lib/calc/applicabilit
 import { audit } from "../audit/audit";
 import { withActor, withSystem, type Actor, type Tx } from "../db/client";
 import { canonicalJson } from "../audit/audit";
-import { suggestBoundary, type BoundaryKind, type Control } from "../orgs/boundary";
+import { suggestBoundaryOverPeriod, type BoundaryKind, type Control } from "../orgs/boundary";
 import { forbidden, HttpError, notFound } from "../policy/policy";
 import { requireMemberAction, requireProjectAction } from "../tenancy/service";
 import { addDays, criticalSet, GATE_TEMPLATE, iso, reaches, schedule, WP_TRANSITIONS, type WpStatus } from "./plan";
@@ -147,11 +147,12 @@ export async function proposeBoundary(actor: Actor, cycleId: string, kind: Bound
     const entities = await tx.selectFrom("core.legal_entities").select(["id", "is_reporting_parent", "valid_from", "valid_to"]).where("owner_tenant_id", "=", owner).execute();
     const edges = await tx.selectFrom("core.ownership_edges").select(["parent_entity_id", "child_entity_id", "share_pct", "control", "valid_from", "valid_to"]).where("owner_tenant_id", "=", owner).execute();
     const facilities = await tx.selectFrom("core.facilities").select(["id", "legal_entity_id", "operated", "cbam_installation", "valid_from", "valid_to"]).where("owner_tenant_id", "=", owner).execute();
-    const s = suggestBoundary(
+    const s = suggestBoundaryOverPeriod(
       kind,
       entities.map((e) => ({ id: e.id, isParent: e.is_reporting_parent, validFrom: e.valid_from, validTo: e.valid_to })),
       edges.map((e) => ({ parent: e.parent_entity_id, child: e.child_entity_id, sharePct: Number(e.share_pct), control: e.control as Control, validFrom: e.valid_from, validTo: e.valid_to })),
       facilities.map((f) => ({ id: f.id, entityId: f.legal_entity_id, operated: f.operated, cbamInstallation: f.cbam_installation, validFrom: f.valid_from, validTo: f.valid_to })),
+      cycle.period_start,
       asOf,
     );
     if (s.warnings.includes("no_reporting_parent") || s.warnings.includes("several_reporting_parents")) throw new HttpError(422, s.warnings[0]);
@@ -167,7 +168,7 @@ export async function proposeBoundary(actor: Actor, cycleId: string, kind: Bound
         .values({ owner_tenant_id: owner, project_id: cycle.project_id, boundary_id: b.id, legal_entity_id: m.kind === "entity" ? m.id : null, facility_id: m.kind === "facility" ? m.id : null, included: m.pct > 0, inclusion_pct: String(m.pct), suggested_pct: String(m.pct), reason: m.reason })
         .execute();
     }
-    await audit(tx, actor, { action: "boundary.propose", objectType: "reporting_boundary", objectId: b.id, ownerTenantId: owner, projectId: cycle.project_id, after: { kind, revision: b.revision, asOf, members: s.members.length }, payload: { warnings: s.warnings } });
+    await audit(tx, actor, { action: "boundary.propose", objectType: "reporting_boundary", objectId: b.id, ownerTenantId: owner, projectId: cycle.project_id, after: { kind, revision: b.revision, asOf, members: s.members.length, segments: s.segments }, payload: { warnings: s.warnings } });
     return { boundaryId: b.id, revision: b.revision, warnings: s.warnings };
   });
 }

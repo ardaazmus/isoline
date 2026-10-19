@@ -7,7 +7,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, type ReactNode } from "react";
-import { Bell, Briefcase, Building2, FileInput, FlaskConical, FolderKanban, Handshake, Home, Inbox, KeyRound, LayoutGrid, LogOut, Menu, ScrollText, ShieldCheck, UserPlus, Users, Wrench, X, type LucideIcon } from "lucide-react";
+import { Bell, Briefcase, Building2, ClipboardCheck, FileInput, FlaskConical, FolderKanban, Handshake, Home, Inbox, KeyRound, LayoutGrid, LogOut, Menu, ScrollText, ShieldCheck, UserPlus, Users, Wrench, X, type LucideIcon } from "lucide-react";
 import { useI18n } from "@/i18n/provider";
 import { LOCALES } from "@/i18n/generated";
 import { cn, SampleFlag } from "@/components/ui";
@@ -34,6 +34,7 @@ const ICONS: Record<string, LucideIcon> = {
   tasks: Inbox,
   notifications: Bell,
   factors: FlaskConical,
+  review: ClipboardCheck,
 };
 
 function Mark() {

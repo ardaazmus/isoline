@@ -18,6 +18,9 @@ export function ProjectTabs({ base }: { base: string }) {
     { href: `${base}/scope`, id: "scope" },
     { href: `${base}/data`, id: "data" },
     { href: `${base}/calculations`, id: "calc" },
+    { href: `${base}/consolidation`, id: "consolidation" },
+    { href: `${base}/controls`, id: "controls" },
+    { href: `${base}/close`, id: "close" },
     { href: `${base}/participants`, id: "participants" },
   ];
   return (

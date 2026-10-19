@@ -148,3 +148,9 @@ export const AddFactorSet = z.object({
 export const ResolveIssue = z.object({ decision: z.enum(["resolved", "accepted_exception"]), resolution: z.string().trim().min(10).max(2000) });
 export const IssuesQuery = z.object({ status: z.enum(["open", "all"]).optional() });
 export const RunsQuery = z.object({ cycleId: uuid.optional() });
+
+// ---------------------------------------------------------------- G5
+const money = z.union([z.string().max(40), z.number()]);
+export const EntityFinancial = z.object({ legalEntityId: uuid, netSales: money, evidenceId: uuid.nullable().optional(), note: z.string().max(2000).nullable().optional() });
+export const Elimination = z.object({ sellerEntityId: uuid, buyerEntityId: uuid, amount: money, description: z.string().trim().min(3).max(500), evidenceId: uuid.nullable().optional() });
+export const ReopenReason = z.object({ reason: z.string().trim().min(20).max(2000) });

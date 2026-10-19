@@ -257,6 +257,7 @@ export async function closeRequest(actor: Actor, requestId: string, to: "withdra
     const r = await tx.selectFrom("core.data_requests").selectAll().where("id", "=", requestId).forUpdate().executeTakeFirst();
     if (!r) throw notFound();
     await requireProjectAction(tx, actor, r.project_id, "data.request");
+    await assertCycleOpen(tx, r.cycle_id);
     if (!["created", "assigned", "sent", "revision_required"].includes(r.status)) throw new HttpError(409, "invalid_transition");
     await tx.updateTable("core.data_requests").set({ status: to, na_reason: reason.trim() }).where("id", "=", requestId).execute();
     await tx.insertInto("core.request_comments").values({ owner_tenant_id: r.owner_tenant_id, project_id: r.project_id, request_id: r.id, author_user_id: actor.userId, kind: to === "withdrawn" ? "system" : "not_applicable", body: reason.trim() }).execute();
@@ -308,10 +309,17 @@ export function normaliseEntry(m: MetricDef, d: DraftInput): Normalised {
   return { value_num: null, unit_code: null, canonical_value: null, canonical_unit: null, value_text: d.text.trim(), lines: null };
 }
 
+/** A frozen or released cycle takes no more data (G5-06): reopen it first, with a reason. */
+async function assertCycleOpen(tx: Tx, cycleId: string): Promise<void> {
+  const c = await tx.selectFrom("core.reporting_cycles").select("status").where("id", "=", cycleId).executeTakeFirst();
+  if (c && ["frozen", "released"].includes(c.status)) throw new HttpError(409, "cycle_frozen");
+}
+
 async function requestForAssignee(tx: Tx, actor: Actor, requestId: string) {
   const r = await tx.selectFrom("core.data_requests").selectAll().where("id", "=", requestId).forUpdate().executeTakeFirst();
   if (!r) throw notFound("request_not_found");
   await requireProjectAction(tx, actor, r.project_id, "data.submit");
+  await assertCycleOpen(tx, r.cycle_id);
   if (r.assignee_user_id !== actor.userId) throw forbidden("not_assignee");
   return r;
 }
@@ -400,6 +408,7 @@ async function requestForReviewer(tx: Tx, actor: Actor, requestId: string) {
   const r = await tx.selectFrom("core.data_requests").selectAll().where("id", "=", requestId).forUpdate().executeTakeFirst();
   if (!r) throw notFound("request_not_found");
   await requireProjectAction(tx, actor, r.project_id, "data.review");
+  await assertCycleOpen(tx, r.cycle_id);
   if (r.reviewer_user_id !== actor.userId) throw forbidden("not_reviewer");
   return r;
 }

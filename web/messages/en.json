@@ -2684,7 +2684,8 @@
       "engagements": "Engagements",
       "tasks": "My tasks",
       "notifications": "Notifications",
-      "factors": "Factor library"
+      "factors": "Factor library",
+      "review": "Review queue"
     },
     "kind": {
       "company": "Company",
@@ -2891,7 +2892,12 @@
       "evidence_digest_mismatch": "The evidence file no longer matches its recorded digest.",
       "evidence_missing": "An evidence file the run used is missing.",
       "reproduce_mismatch": "The reproduced result does not match the recorded one.",
-      "reviewer_cannot_review": "This person's role in the organisation does not allow reviewing data; choose another reviewer."
+      "reviewer_cannot_review": "This person's role in the organisation does not allow reviewing data; choose another reviewer.",
+      "close_checklist_incomplete": "Required items of the close checklist are not done.",
+      "cycle_not_frozen": "The period is not frozen.",
+      "invalid_amount": "Invalid amount: enter a non-negative number with at most two decimals.",
+      "same_entity": "Seller and buyer cannot be the same legal entity.",
+      "replace_instead": "Revenue is not withdrawn; enter the new amount to replace it."
     },
     "auth": {
       "email": "E-mail",
@@ -3314,7 +3320,10 @@
         "scope": "Scope and boundary",
         "participants": "Team",
         "data": "Data",
-        "calc": "Calculations"
+        "calc": "Calculations",
+        "consolidation": "Consolidation",
+        "controls": "Controls",
+        "close": "Close"
       }
     },
     "cycle": {
@@ -3467,7 +3476,8 @@
         "equity_method": "Equity method — outside consolidation",
         "not_in_group": "Not linked to the parent",
         "installation": "CBAM installation",
-        "not_installation": "Not a CBAM installation"
+        "not_installation": "Not a CBAM installation",
+        "time_weighted": "Changed during the period — day-weighted"
       },
       "applicabilityTitle": "Applicability",
       "applicabilityLead": "The rule engine gives a suggestion per regime with its sources, based on the company profile. A suggestion is not legal advice: a named expert decides with a rationale; an advisor's decision is confirmed by the customer's representative.",
@@ -3816,7 +3826,9 @@
         "workforce": "Workforce and OHS",
         "finance": "Finance (trial balance)",
         "cbam": "CBAM embedded emissions",
-        "ets": "TR-ETS category"
+        "ets": "TR-ETS category",
+        "consolidation": "Financial consolidation",
+        "reconciliation": "Reconciliation"
       },
       "kindHint": {
         "ghg": "Accepted facility data are summed with their share in the approved boundary; location- and market-based scope 2 are kept apart. Scope 3 is not calculated until the project chooses a factor.",
@@ -3933,7 +3945,23 @@
         "cbam_cn_not_covered": "CN code outside CBAM Annex I",
         "cbam_cn_partial": "CN code partly covered; check the 8-digit code",
         "cbam_default_value_used": "No actual SEE; the EU default value with mark-up was used",
-        "yoy_change": "More than 30 % change against last year's approved value"
+        "yoy_change": "More than 30 % change against last year's approved value",
+        "consolidation_partial_period": "Controlled for part of the period: revenue must cover only that part",
+        "entity_financials_missing": "Revenue of a consolidated entity not entered",
+        "entity_financials_not_approved": "Entity revenue awaits approval",
+        "elimination_outside_group": "One side of the elimination is outside the consolidation (external sale)",
+        "elimination_not_approved": "Elimination awaits approval",
+        "elimination_exceeds_sales": "Intercompany sales exceed the seller's revenue",
+        "u1_revenue": "U1 · Revenue used in intensities = consolidated / trial balance revenue",
+        "u2_energy": "U2 · Total energy ≥ energy in the GHG inventory",
+        "u3_headcount": "U3 · Headcount ≈ employees in the applicability profile",
+        "u4_cbam_exports": "U4 · CBAM exports ≤ facility production",
+        "u5_ets_scope1": "U5 · TR-ETS verified emissions ≤ the facility's scope 1",
+        "u6_taxonomy_capex": "U6 · Taxonomy-aligned CapEx ↔ transition plan",
+        "u7_annual_report": "U7 · Annual report investments ↔ energy/emission change",
+        "u8_yoy": "U8 · Year-on-year change",
+        "u9_estimated": "U9 · Estimated data share",
+        "u10_claims": "U10 · Green claims"
       },
       "m": {
         "ghg_scope1": "Scope 1",
@@ -3967,7 +3995,8 @@
         "cbam_embedded": "CBAM embedded emissions — {cn}",
         "cbam_embedded_total": "CBAM embedded emissions, total",
         "ets_verified_emissions": "TR-ETS verified emissions",
-        "ets_category": "TR-ETS category"
+        "ets_category": "TR-ETS category",
+        "finance_consolidated_net_sales": "Consolidated net sales"
       }
     },
     "lineage": {
@@ -4026,6 +4055,155 @@
         "public_sector": "Public-sector data",
         "user_licensed": "User-licensed"
       }
+    },
+    "cons": {
+      "title": "Consolidation",
+      "ghgTitle": "GHG by approach ({label})",
+      "ghgLead": "The GHG Protocol approaches are calculated apart and shown side by side; shares and control that changed during the year are day-weighted (the year-end tree is not applied to the whole year).",
+      "noGhg": "No approved GHG boundary and calculation",
+      "notCalculated": "not calculated",
+      "shares": "Facility shares",
+      "finTitle": "Financial consolidation (IFRS 10)",
+      "finLead": "Runs apart from the GHG code: subsidiaries are fully consolidated at 100 % of revenue, joint ventures and associates stay outside under the equity method, intercompany sales are eliminated. Amounts are exact to the cent.",
+      "noFinBoundary": "No approved financial reporting boundary; create and approve one on the Scope tab first.",
+      "entity": "Legal entity",
+      "share": "Share",
+      "treatment": "Treatment",
+      "fullConsolidation": "Full consolidation",
+      "outside": "Outside the consolidation",
+      "financials": "Revenue by legal entity",
+      "netSales": "Net sales",
+      "noFinancials": "Nothing entered yet.",
+      "status": {
+        "submitted": "Awaiting approval",
+        "approved": "Approved",
+        "superseded": "Superseded",
+        "withdrawn": "Withdrawn"
+      },
+      "submit": "Save",
+      "amountHint": "TRY; e.g. 1,250,000.50",
+      "note": "Note",
+      "eliminations": "Intercompany sales eliminations",
+      "seller": "Seller",
+      "buyer": "Buyer",
+      "amount": "Amount",
+      "description": "Description",
+      "noEliminations": "No eliminations.",
+      "addElimination": "Add elimination",
+      "withdraw": "Withdraw",
+      "run": "Consolidate",
+      "gross": "Total revenue",
+      "eliminated": "Eliminations",
+      "consolidated": "Consolidated net sales",
+      "equityMethodNote": "Under the equity method (no revenue): {names}"
+    },
+    "controls": {
+      "title": "Controls",
+      "recTitle": "Reconciliation checks — {label}",
+      "lastRun": "Last run by {name}, {at}",
+      "recLead": "U1–U10 rules that stop one figure being reported differently in two places. Error rules block; warnings are explained with a reason.",
+      "run": "Run checks",
+      "notRun": "Not run yet.",
+      "rule": "Rule",
+      "check": "Check",
+      "values": "Value / reference",
+      "tolerance": "Tolerance",
+      "status": {
+        "pass": "Consistent",
+        "fail": "Inconsistent",
+        "na": "Not applied"
+      },
+      "note": {
+        "g6": "Runs with report text and taxonomy data (report studio)",
+        "in_runs": "Also runs inside every calculation",
+        "no_production": "No production data for the facility",
+        "no_scope1": "No scope 1 result for the facility"
+      },
+      "openIssues": "Open findings ({n})",
+      "doneIssues": "Reviewed findings ({n})"
+    },
+    "close": {
+      "title": "Period close",
+      "checklist": "Close checklist — {label}",
+      "cycleStatus": {
+        "planning": "Planning",
+        "collection": "Collection",
+        "calculation": "Calculation",
+        "close_review": "Close review",
+        "frozen": "Frozen",
+        "released": "Released",
+        "reopened": "Reopened"
+      },
+      "item": {
+        "requests_closed": "All data requests closed",
+        "boundary_approved": "GHG boundary approved",
+        "facts_exist": "Calculated metrics exist",
+        "facts_approved": "All current metrics approved",
+        "no_open_blockers": "No open blocking finding",
+        "warnings_dispositioned": "All warnings reviewed",
+        "reconciliation_current": "Reconciliation ran after the last calculation",
+        "consolidation_done": "Revenue consolidated",
+        "scope_confirmed": "Applicability decisions confirmed by the customer"
+      },
+      "why": {
+        "requests_closed": "{n} requests wait for acceptance or a reasoned close.",
+        "boundary_approved": "Approve a GHG boundary on the Scope tab.",
+        "facts_exist": "Calculate on the Calculations tab.",
+        "facts_approved": "{n} metrics wait for approval.",
+        "no_open_blockers": "{n} blocking findings; fix the input and calculate again.",
+        "warnings_dispositioned": "{n} warnings wait for a reasoned review.",
+        "reconciliation_current": "Run the reconciliation on the Controls tab.",
+        "consolidation_done": "Consolidate revenue on the Consolidation tab.",
+        "scope_confirmed": "{n} decisions wait for the customer's confirmation."
+      },
+      "ok": "done",
+      "notOk": "missing",
+      "optional": "Recommended, not required",
+      "freeze": "Freeze the period",
+      "freezeConfirm": "The approved metrics will be copied into an immutable snapshot and locked. Continue?",
+      "frozen": "Frozen: version {version}, digest {digest}…, {restated} metrics restated.",
+      "reopen": "Reopen the period",
+      "reopenReason": "Reason for reopening (at least 20 characters)",
+      "reopenLead": "The frozen snapshot never changes. After reopening, corrections are new revisions; the next freeze lists what was restated.",
+      "snapshots": "Snapshots ({n})",
+      "noSnapshots": "Not frozen yet.",
+      "version": "Version {v}",
+      "snapStatus": {
+        "frozen": "Current",
+        "superseded": "Superseded"
+      },
+      "factsN": "{n} metrics",
+      "restatedN": "{n} restated",
+      "events": "Freeze and reopen log",
+      "event": {
+        "freeze": "Frozen",
+        "reopen": "Reopened"
+      },
+      "runDone": "Done: {blockers} blocking, {warnings} warnings.",
+      "snapshotTitle": "Snapshot",
+      "snapshotNotFound": "Snapshot not found",
+      "back": "Back to close",
+      "intact": "Content digest verified",
+      "tampered": "Content digest does not match",
+      "restatedTitle": "Restated in this version",
+      "reopenRequest": "Send back for correction",
+      "correctionTitle": "Correction",
+      "correctionLead": "Accepted data go back to the contributor only while the period is open and with a reason; the earlier version is kept."
+    },
+    "review": {
+      "title": "Review queue",
+      "lead": "Everything waiting for your decision: data requests, calculated metrics, findings and consolidation figures. Your own work never appears here.",
+      "empty": "Nothing waits for your decision",
+      "requests": "Data requests ({n})",
+      "facts": "Metrics awaiting approval ({n})",
+      "issues": "Warnings awaiting review ({n})",
+      "inputs": "Revenue figures awaiting approval ({n})",
+      "project": "Project",
+      "from": "From",
+      "due": "Due",
+      "critical": "critical",
+      "new": "New value",
+      "previous": "Previous value"
     }
   }
 }
