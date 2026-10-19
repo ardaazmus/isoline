@@ -17,3 +17,15 @@ web/next-env.d.ts
 # OS
 .DS_Store
 Thumbs.db
+
+# Local storage identities (written by scripts/dev-env.mjs)
+deploy/seaweedfs/s3.json
+
+# Local demo sign-in details (web/src/server/seed/demo.ts)
+web/.demo-users.local.json
+
+# Other local coding tools
+.freebuff/
+
+# Local worker output (npm run worker)
+.worker.log

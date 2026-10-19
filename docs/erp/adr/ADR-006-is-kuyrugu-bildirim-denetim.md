@@ -33,3 +33,11 @@
 
 - **Sektör:** Transactional outbox, mesaj ile veritabanı yazımının tutarlılığı için yerleşik bir kalıptır.
 - **Ek altyapı yok:** PostgreSQL tabanlı kuyruk, ayrı bir mesaj aracısı (Redis, RabbitMQ) gerektirmez; planın modüler monolit önerisiyle uyumludur.
+
+## Güncelleme (19.10.2026, G1)
+
+- **Mühürlü sırlar:** Davet token'ı outbox'a düz yazılmaz; `APP_ENCRYPTION_KEY` ile AES-256-GCM mühürlenir ve işçi e-postayı gönderdikten sonra payload'dan siler (`web/src/server/crypto/seal.ts`, `web/src/server/jobs/worker.ts`).
+- **Kuyruğa yazma:** Uygulama rolü outbox'a doğrudan yazamaz; `authz.enqueue` (SECURITY DEFINER) tek giriş kapısıdır, `dedupe_key` çakışmasında sessizce tek kayıt kalır.
+- **İşçi:** `FOR UPDATE SKIP LOCKED` ile birden çok işçi çalışabilir; 8 denemeden sonra olay `dead` olur; 15 dakikadan uzun `processing` kalan olay kuyruğa döner.
+- **Denetim zinciri:** Özet `prev_hash | action | object | actor | after_digest | payload | occurred_at(UTC ISO)` üzerinden hesaplanır; `verifyChain` aynı formülle zinciri yeniden kurar.
+- **Idempotency:** Anahtar ilk istekte "işleniyor" kaydıyla alınır; eşzamanlı ikinci istek 409, farklı gövdeyle tekrar 422 alır; hata olursa anahtar silinir ve istemci yeniden deneyebilir.

@@ -15,7 +15,7 @@
 | Servis | İmaj | Görev |
 |---|---|---|
 | `db` | `postgres:16-alpine` | Kanonik kayıt sistemi |
-| `storage` | `minio/minio` | S3 uyumlu, özel bucket'lı kanıt deposu |
+| `storage` | `chrislusf/seaweedfs:4.48` | S3 uyumlu, özel bucket'lı kanıt deposu (MinIO imajları kaldırıldı; ADR-005) |
 | `mail` | `axllent/mailpit` (yalnız geliştirme) | Davet, doğrulama ve hatırlatma e-postalarını yakalar |
 | `web` | uygulama | Next.js sunucusu |
 | `worker` | uygulama | Outbox, hatırlatma ve tarama işleri |
@@ -30,7 +30,7 @@
 
 - **Veri yeri:** Veri müşterinin ya da hizmet sağlayıcının kendi ağında kalır; veri yeri ve aktarım sorusu sözleşmede basitleşir.
 - **Taşınabilirlik:** Bütün bileşenler standart protokol konuşur (PostgreSQL, S3, SMTP, OIDC). Pilot sonrası yönetilen buluta geçiş yalnız yapılandırma değişikliğidir; kod aynı kalır.
-- **Sektör pratiği:** Kurum içi (on-prem) SaaS dağıtımlarında Compose ya da Kubernetes ile PostgreSQL ve MinIO yaygın bir ikilidir.
+- **Sektör pratiği:** Kurum içi (on-prem) SaaS dağıtımlarında Compose ya da Kubernetes ile PostgreSQL ve S3 uyumlu bir depo yaygın bir ikilidir.
 
 ## Sonuçlar
 

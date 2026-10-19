@@ -1,11 +1,13 @@
-# ADR-005 — Kanıt dosyaları: MinIO (S3), sunucu tarafında özet ve tarama, kısa ömürlü imzalı URL
+# ADR-005 — Kanıt dosyaları: SeaweedFS S3 ağ geçidi, sunucu tarafında özet ve tarama, kısa ömürlü imzalı URL
 
 **Durum:** Kabul edildi (19.10.2026) · **İlgili:** plan 06 §1, §8; 12 §3–4; G1-09, G3-06; UAT-10
 
 ## Karar
 
+**Güncelleme (19.10.2026):** MinIO'nun Docker Hub deposu kaldırılmış; topluluk sürümünün imaj dağıtımı sona ermiş (hub.docker.com/v2/repositories/minio/minio → "object not found"). Bu yüzden depo **SeaweedFS 4.48** oldu. SeaweedFS Apache-2.0 lisanslı, S3 API'si sunan, yaygın kullanılan bir dağıtık dosya sistemi. Alternatifler: Garage v2.4.1 (AGPL, daha az özellik) ve RustFS 1.0 (bir aylık, yeni). Uygulama kodu yalnız S3 API'si konuştuğu için depo değiştirmek yapılandırma işidir.
+
 **Depo:**
-- MinIO, özel bucket `isoline-evidence`; herkese açık okuma ve listeleme yok.
+- SeaweedFS S3 ağ geçidi, özel bucket `isoline-evidence`; anonim erişim yok, kimlikler `s3.json` ile tanımlı.
 - İstemci kütüphanesi `@aws-sdk/client-s3` 3.1146.0 ve `s3-request-presigner`.
 
 **Yükleme sırası:**
@@ -28,7 +30,7 @@
 
 - **Plan:** Kanıtın aslının S3 uyumlu özel depoda, PostgreSQL'de ise yalnız işaretçi, bütünlük özeti ve sınıflama bilgisinin tutulmasını istiyor.
 - **Sektör ve OWASP:** Dosya yükleme rehberi tarama, boyut sınırı, MIME doğrulaması, rastgele depolama adı ve imzalı indirme önerir.
-- **Veri yeri:** MinIO kendi sunucumuzda çalışır (ADR-001); S3 API'si sayesinde buluta taşınabilir.
+- **Veri yeri:** Depo kendi sunucumuzda çalışır (ADR-001); S3 API'si sayesinde buluta taşınabilir.
 
 ## Sonuçlar
 

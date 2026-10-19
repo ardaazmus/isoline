@@ -1,35 +1,66 @@
-name: isoline
+# ISOLINE platform stack (ADR-001). Project name differs from the v2 clone ("isoline") so the two never share
+# containers or volumes. Secrets come from .env, written by `node scripts/dev-env.mjs` and never committed.
+name: isoline-main
 
 services:
   db:
     image: postgres:16-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-isoline}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-isoline-dev}
-      POSTGRES_DB: ${POSTGRES_DB:-isoline}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${PG_SUPERUSER_PASSWORD:?run node scripts/dev-env.mjs}
+      POSTGRES_DB: postgres
     ports:
-      - "${POSTGRES_PORT:-5432}:5432"
+      - "127.0.0.1:${PG_PORT:-5545}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-isoline}"]
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
       timeout: 3s
-      retries: 10
+      retries: 20
 
-  web:
-    build:
-      context: ./web
+  # S3-compatible evidence store (ADR-005). Volume data is encrypted at rest; anonymous access is off.
+  storage:
+    image: chrislusf/seaweedfs:4.48
     restart: unless-stopped
-    depends_on:
-      db:
-        condition: service_healthy
-    environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-isoline}:${POSTGRES_PASSWORD:-isoline-dev}@db:5432/${POSTGRES_DB:-isoline}?schema=public
-      AUTH_SECRET: ${AUTH_SECRET:-dev-secret-change-me}
+    command: >
+      server -dir=/data -ip.bind=0.0.0.0 -filer.encryptVolumeData -s3.encryptVolumeData
+      -s3 -s3.port=8333 -s3.config=/etc/seaweedfs/s3.json
     ports:
-      - "${WEB_PORT:-3000}:3000"
+      - "127.0.0.1:${S3_PORT:-8333}:8333"
+    volumes:
+      - s3data:/data
+      - ./deploy/seaweedfs/s3.json:/etc/seaweedfs/s3.json:ro
+
+  # Development mail catcher: invitations, verification and reminder mails land here (web UI on MAIL_UI_PORT).
+  mail:
+    image: axllent/mailpit:v1.31.4
+    restart: unless-stopped
+    environment:
+      # no reverse DNS on SMTP clients: through Docker's port forwarding each lookup times out (~8 s per mail)
+      MP_SMTP_DISABLE_RDNS: "true"
+      MP_MAX_MESSAGES: "5000"
+    ports:
+      - "127.0.0.1:${MAIL_SMTP_PORT:-1125}:1025"
+      - "127.0.0.1:${MAIL_UI_PORT:-8125}:8025"
+
+  # Malware scanning for evidence (ADR-005); optional locally: docker compose --profile scan up -d
+  scan:
+    image: clamav/clamav:stable
+    profiles: ["scan"]
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${CLAMAV_PORT:-3310}:3310"
+
+  # Optional public access through Cloudflare Tunnel (ADR-001): docker compose --profile public up -d
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    profiles: ["public"]
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN:-}
 
 volumes:
   pgdata:
+  s3data:

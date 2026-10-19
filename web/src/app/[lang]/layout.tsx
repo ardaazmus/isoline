@@ -5,7 +5,6 @@ import "../globals.css";
 import { LOCALES } from "@/i18n/generated";
 import { isLocale, localeInfo, translate } from "@/i18n/core";
 import { I18nProvider } from "@/i18n/provider";
-import { AppShell } from "@/components/shell";
 
 const geist = Geist({ subsets: ["latin", "latin-ext"], variable: "--font-geist", display: "swap" });
 
@@ -33,9 +32,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
         <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-[var(--paper)] focus:p-2">
           {translate(lang, "shell.skip")}
         </a>
-        <I18nProvider locale={lang}>
-          <AppShell>{children}</AppShell>
-        </I18nProvider>
+        <I18nProvider locale={lang}>{children}</I18nProvider>
       </body>
     </html>
   );
