@@ -85,12 +85,12 @@ export function ProjectNav({ base, steps, current, query = "", canSetup }: { bas
             const on = activeStep === s.id;
             const isCurrent = current === s.id;
             const label = `${t("pf.steps.step", { n: i + 1 })}: ${t(`pf.steps.name.${s.id}`)} — ${t(`pf.steps.state.${s.state}`)}${s.late ? `, ${t("pf.steps.late")}` : ""}${isCurrent ? ` (${t("pf.steps.current")})` : ""}`;
+            // the accessible name is the visible name plus screen-reader text (WCAG 2.5.3: visible label in the name)
             return (
               <li key={s.id} className="min-w-[104px] flex-1">
                 <Link
                   href={`${base}/${STEP_PAGES[s.id][0]}${query}`}
                   aria-current={on ? "page" : undefined}
-                  aria-label={label}
                   title={label}
                   className={cn(
                     "flex h-10 items-center gap-1.5 rounded-[10px] border border-b-[3px] border-[var(--rule)] bg-[var(--glass-strong)] px-2 text-[12.5px] font-medium text-[var(--ink-2)] no-underline transition-colors hover:bg-[var(--paper)] hover:text-[var(--ink)]",
@@ -99,8 +99,12 @@ export function ProjectNav({ base, steps, current, query = "", canSetup }: { bas
                     on && "bg-[var(--paper)] font-semibold text-[var(--ink)]",
                   )}
                 >
-                  <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[var(--b-50)] text-[11px] font-semibold text-[var(--b-700)]">{i + 1}</span>
+                  <span aria-hidden className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[var(--b-50)] text-[11px] font-semibold text-[var(--b-700)]">{i + 1}</span>
+                  <span className="sr-only">{t("pf.steps.step", { n: i + 1 })}: </span>
                   <span className="min-w-0 truncate">{t(`pf.steps.name.${s.id}`)}</span>
+                  <span className="sr-only">
+                    {` — ${t(`pf.steps.state.${s.state}`)}${s.late ? `, ${t("pf.steps.late")}` : ""}${isCurrent ? ` (${t("pf.steps.current")})` : ""}`}
+                  </span>
                   <span className="ml-auto shrink-0">
                     <StateMark state={s.state} />
                   </span>
@@ -130,7 +134,7 @@ export function ProjectNav({ base, steps, current, query = "", canSetup }: { bas
         )}
       </div>
       {sub.length > 0 && (
-        <div className="flex flex-wrap gap-1.5">
+        <div className="on-ground flex flex-wrap gap-1.5">
           {sub.map((x) => (
             <Link
               key={x.href}

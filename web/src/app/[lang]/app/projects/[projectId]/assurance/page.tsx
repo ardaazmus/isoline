@@ -1,3 +1,4 @@
+import { projectCycles } from "@/platform/cached";
 import Link from "next/link";
 import { ActionButton } from "@/platform/g5/close";
 import { AnswerForm, AskForm, EngagementForm, EngagementStatusForm } from "@/platform/g7/g7";
@@ -8,7 +9,6 @@ import { dateTime, titled, tr } from "@/platform/server";
 import { grantCan, memberCan, type Action } from "@/server/policy/policy";
 import { assuranceRoom } from "@/server/assurance/service";
 import { listEvidence } from "@/server/evidence/service";
-import { listCycles } from "@/server/projects/service";
 
 export const generateMetadata = titled("pf.as.title");
 
@@ -20,7 +20,7 @@ export default async function AssurancePage({ params, searchParams }: PageProps<
   const loaded = await loadProject(lang, projectId);
   if (!loaded.ok) return loaded.view;
   const { ws, data } = loaded.p;
-  const cycles = await listCycles(ws.actor, projectId);
+  const cycles = await projectCycles(ws.actor, projectId);
   const cycle = pickCycle(cycles, sp.cycle);
   if (!cycle)
     return (

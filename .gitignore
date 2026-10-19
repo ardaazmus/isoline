@@ -33,3 +33,9 @@ web/.demo-users.local.json
 
 # database backups (restore drill)
 backups/
+
+# browser and load suites (G8-07): e2e fixture with the generated password, Playwright output, raw load results
+web/e2e/.state/
+web/test-results/
+web/playwright-report/
+web/scripts/load/results/

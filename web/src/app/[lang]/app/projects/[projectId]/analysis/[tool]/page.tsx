@@ -1,9 +1,9 @@
+import { projectCycles } from "@/platform/cached";
 import { notFound } from "next/navigation";
 import { loadProject, pickCycle, ProjectHeader, projectCan } from "@/platform/project-shell";
 import { CbamAnalysis, EtsAnalysis, PathwayAnalysis } from "@/platform/g9/sheets";
 import { Section, StateBox } from "@/platform/ui";
 import { titled, tr } from "@/platform/server";
-import { listCycles } from "@/server/projects/service";
 import { analysisInputs } from "@/server/worksheets/service";
 import { CbamCostSheet, EtsSheet, PathwaySheet } from "@/server/worksheets/schemas";
 import { ANALYSIS_TOOLS, type AnalysisTool } from "@/server/cycle/steps";
@@ -23,7 +23,7 @@ export default async function AnalysisPage({ params, searchParams }: PageProps<"
   const loaded = await loadProject(lang, projectId);
   if (!loaded.ok) return loaded.view;
   const { ws } = loaded.p;
-  const cycles = await listCycles(ws.actor, projectId);
+  const cycles = await projectCycles(ws.actor, projectId);
   const cycle = pickCycle(cycles, sp.cycle);
   if (!cycle)
     return (

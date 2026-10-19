@@ -5,6 +5,7 @@ import { attempt, dateTime, titled, tr } from "@/platform/server";
 import { requireWorkspace } from "@/server/http/dal";
 import { memberCan } from "@/server/policy/policy";
 import { releaseAssets } from "@/server/reports/service";
+import { numberFormat } from "@/lib/intl";
 
 export const generateMetadata = titled("pf.rep.releasePage");
 
@@ -54,7 +55,7 @@ export default async function ReleasePage({ params }: PageProps<"/[lang]/app/rel
             {assets.map((a) => (
               <tr key={a.id}>
                 <Td className="font-mono text-[12.5px]">{a.path}</Td>
-                <Td className="tabular-nums text-[12.5px]">{new Intl.NumberFormat(lang).format(Math.ceil(Number(a.size_bytes) / 1024))} KB</Td>
+                <Td className="tabular-nums text-[12.5px]">{numberFormat(lang).format(Math.ceil(Number(a.size_bytes) / 1024))} KB</Td>
                 <Td className="font-mono text-[11px] text-[var(--ink-3)]">{a.sha256.slice(0, 16)}…</Td>
                 <Td>
                   <a href={`/api/v1/release-assets/${a.id}/download`} className="inline-flex items-center gap-1 text-[13px] text-[var(--b-700)]">

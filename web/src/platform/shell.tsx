@@ -6,7 +6,7 @@
  */
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Bell, BookOpen, Building2, CalendarCheck, FolderKanban, Inbox, LogOut, Menu, Settings, X, type LucideIcon } from "lucide-react";
 import { useI18n } from "@/i18n/provider";
 import { LOCALES } from "@/i18n/generated";
@@ -16,7 +16,7 @@ import { authClient, api } from "./client";
 import { navActive, visibleNav } from "./nav";
 
 export type ShellMembership = { tenantId: string; tenantName: string; kind: string; lifecycle: string; role: MemberRole; sample: boolean };
-export type ShellContext = { user: { name: string; email: string } | null; memberships: ShellMembership[]; current: ShellMembership | null; onBehalfOf?: string | null; unread?: number; inbox?: number };
+export type ShellContext = { user: { name: string; email: string } | null; memberships: ShellMembership[]; current: ShellMembership | null; onBehalfOf?: string | null; unread?: number };
 
 const ICONS: Record<string, LucideIcon> = {
   home: CalendarCheck,
@@ -78,7 +78,7 @@ function ContextBar({ ctx, onMenu }: { ctx: ShellContext; onMenu: () => void }) 
         </div>
 
         {ctx.current && (
-          <div className="glass flex h-12 min-w-0 flex-1 items-center gap-2.5 rounded-[16px] px-3.5 sm:flex-none" aria-label={t("pf.shell.context")}>
+          <div role="group" className="glass flex h-12 min-w-0 flex-1 items-center gap-2.5 rounded-[16px] px-3.5 sm:flex-none" aria-label={t("pf.shell.context")}>
             <Building2 size={16} aria-hidden className="shrink-0 text-[var(--accent-ink)]" />
             <label htmlFor="ws-switch" className="sr-only">
               {t("pf.shell.workspace")}
@@ -135,7 +135,7 @@ function ContextBar({ ctx, onMenu }: { ctx: ShellContext; onMenu: () => void }) 
             className="rounded-lg border border-[var(--rule)] bg-[var(--paper)] px-2 py-1 text-[12.5px] font-semibold uppercase tracking-[0.04em] text-[var(--ink)]"
           >
             {LOCALES.map((l) => (
-              <option key={l.code} value={l.code} aria-label={l.nativeName}>
+              <option key={l.code} value={l.code} lang={l.code} aria-label={`${l.code.toUpperCase()} – ${l.nativeName}`}>
                 {l.code.toUpperCase()}
               </option>
             ))}
@@ -159,6 +159,19 @@ function ContextBar({ ctx, onMenu }: { ctx: ShellContext; onMenu: () => void }) 
 function Rail({ ctx, open, onClose }: { ctx: ShellContext; open: boolean; onClose: () => void }) {
   const { t, locale } = useI18n();
   const pathname = usePathname();
+  // the "My work" count arrives after the page (a short server cache keeps it cheap); refreshed on every navigation
+  const [inbox, setInbox] = useState(0);
+  const tenant = ctx.current?.tenantId;
+  useEffect(() => {
+    if (!tenant) return;
+    let live = true;
+    void api<{ count: number }>("GET", "/api/v1/inbox/count").then((r) => {
+      if (live && r.ok) setInbox(r.data.count);
+    });
+    return () => {
+      live = false;
+    };
+  }, [pathname, tenant]);
   if (!ctx.current) return null;
   const items = visibleNav(ctx.current.kind, ctx.current.role);
   // the most specific child wins (…/portfolio/clients/new is "new client", not "portfolio")
@@ -186,7 +199,7 @@ function Rail({ ctx, open, onClose }: { ctx: ShellContext; open: boolean; onClos
             const href = `/${locale}${it.href}`;
             const on = navActive(it, pathname, locale);
             const Icon = ICONS[it.id] ?? FolderKanban;
-            const badge = it.id === "tasks" ? (ctx.inbox ?? 0) : 0;
+            const badge = it.id === "tasks" ? inbox : 0;
             return (
               <li key={it.id}>
                 <Link

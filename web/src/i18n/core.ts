@@ -1,4 +1,5 @@
 import { LOCALES, MESSAGES } from "./generated";
+import { dateTimeFormat } from "../lib/intl";
 
 export type LocaleCode = (typeof LOCALES)[number]["code"];
 export type Vars = Record<string, string | number>;
@@ -81,7 +82,7 @@ export function makeFormatters(locale: string) {
       const d = new Date(iso + (iso.length === 10 ? "T00:00:00" : ""));
       return Number.isNaN(d.getTime())
         ? iso
-        : new Intl.DateTimeFormat(intl, { day: "2-digit", month: "2-digit", year: "numeric" }).format(d);
+        : dateTimeFormat(intl, { day: "2-digit", month: "2-digit", year: "numeric" }).format(d);
     },
   };
 }

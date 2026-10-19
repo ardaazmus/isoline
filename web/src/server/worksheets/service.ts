@@ -7,7 +7,7 @@ import { sql } from "kysely";
 import { audit, canonicalJson } from "../audit/audit";
 import { withActor, type Actor, type Tx } from "../db/client";
 import { forbidden, HttpError, notFound, type Action } from "../policy/policy";
-import { requireProjectAction } from "../tenancy/service";
+import { projectsAllowing, reachableProjectIds, requireProjectAction } from "../tenancy/service";
 import { issueCounts, recordIssues, supersedeOpenIssues, writeFacts, type RunRef } from "../calc/service";
 import { ANALYSIS_KINDS, SHEETS, type Payload, type WorksheetKind } from "./schemas";
 import { ANNUAL_REPORT_TEMPLATES, taxonomyFacts, taxonomyWarnings, type ApprovedFact } from "./compute";
@@ -150,24 +150,22 @@ export async function returnWorksheet(actor: Actor, id: string, reason: string):
 /** Submitted worksheets this person may approve (the inbox). */
 export async function worksheetsToApprove(actor: Actor) {
   return withActor(actor, async (tx) => {
+    const reachable = await reachableProjectIds(tx, actor);
+    if (!reachable.length) return [];
     const rows = await tx
       .selectFrom("core.cycle_worksheets as w")
       .innerJoin("core.projects as p", "p.id", "w.project_id")
       .leftJoin("user as e", "e.id", "w.entered_by")
-      .select(["w.id", "w.kind", "w.version", "w.cycle_id", "w.report_id", "p.id as project_id", "p.name as project_name", "e.name as entered_by_name"])
+      .select(["w.id", "w.kind", "w.version", "w.cycle_id", "w.report_id", "p.id as project_id", "p.name as project_name", "p.owner_tenant_id", "e.name as entered_by_name"])
       .where("w.status", "=", "submitted")
       .where("w.entered_by", "!=", actor.userId)
+      .where("w.project_id", "in", reachable)
       .execute();
-    const out: typeof rows = [];
-    for (const r of rows) {
+    const allowed = await projectsAllowing(tx, actor, rows.map((r) => r.project_id), [...new Set(Object.values(APPROVE))]);
+    return rows.filter((r) => {
       const kind = r.kind as WorksheetKind;
-      const access = await requireProjectAction(tx, actor, r.project_id, APPROVE[kind]).then(
-        (a) => a,
-        () => null,
-      );
-      if (access && (!MEMBER_APPROVES.includes(kind) || access.via === "member")) out.push(r);
-    }
-    return out;
+      return allowed[APPROVE[kind]].has(r.project_id) && (!MEMBER_APPROVES.includes(kind) || r.owner_tenant_id === actor.actingTenantId);
+    });
   });
 }
 

@@ -5,7 +5,7 @@
  */
 import type { Block, SankeyLink, SankeyNode } from "@/lib/visual/layout";
 
-const MOTION = `.iso-block{transition:transform .45s ease}.iso-block:hover,.iso-block:focus{transform:translateY(-4px)}.flow-link{transition:opacity .35s ease}.flow-link:hover{opacity:.55}@media (prefers-reduced-motion: reduce){.iso-block,.flow-link{transition:none}.iso-block:hover,.iso-block:focus{transform:none}}`;
+const MOTION = `.iso-block{transition:transform .45s ease}.iso-block:hover{transform:translateY(-4px)}.flow-link{transition:opacity .35s ease}.flow-link:hover{opacity:.55}@media (prefers-reduced-motion: reduce){.iso-block,.flow-link{transition:none}.iso-block:hover{transform:none}}`;
 
 export function SiteMap({ blocks, width, height, title, desc, labels }: { blocks: Block[]; width: number; height: number; title: string; desc: string; labels: { done: (a: number, n: number) => string; returned: (n: number) => string } }) {
   return (
@@ -16,7 +16,7 @@ export function SiteMap({ blocks, width, height, title, desc, labels }: { blocks
       {blocks.map((b) => {
         const shade = b.progress >= 1 ? "#2F4FE0" : b.progress >= 0.5 ? "#5C76EA" : "#9AAAF2";
         return (
-          <g key={b.id} className="iso-block" tabIndex={0} aria-label={`${b.name}: ${labels.done(b.accepted, b.total)}${b.blockers ? `, ${labels.returned(b.blockers)}` : ""}`}>
+          <g key={b.id} className="iso-block">
             <polygon points={b.left} fill="#C9D2F7" stroke="#13233A" strokeWidth={0.6} />
             <polygon points={b.right} fill="#AEBBF3" stroke="#13233A" strokeWidth={0.6} />
             <polygon points={b.top} fill={shade} stroke={b.blockers ? "#B4232A" : "#13233A"} strokeWidth={b.blockers ? 2.4 : 0.6} strokeDasharray={b.blockers ? "5 3" : undefined} />

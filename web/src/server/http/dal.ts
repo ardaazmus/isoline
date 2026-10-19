@@ -12,6 +12,9 @@ import { sessionFrom, TENANT_COOKIE, tenantActor, type Session, type TenantActor
 
 export const getSession = cache(async (): Promise<Session | null> => sessionFrom(await headers()));
 
+/** The person's workspaces, read once per request (the platform layout and requireWorkspace both need them). */
+export const getMemberships = cache((userId: string): Promise<Membership[]> => myMemberships(userId));
+
 /** Signed-in, verified person or a redirect to the sign-in screen (with a safe return path). */
 export async function requireSession(lang: string, next?: string): Promise<Session> {
   const s = await getSession();
@@ -28,7 +31,7 @@ export type Workspace = { session: Session; memberships: Membership[]; actor: Te
  */
 export const requireWorkspace = cache(async (lang: string): Promise<Workspace> => {
   const session = await requireSession(lang);
-  const memberships = await myMemberships(session.identity.userId);
+  const memberships = await getMemberships(session.identity.userId);
   if (!memberships.length) redirect(`/${lang}/app/onboarding`);
   const chosen = (await cookies()).get(TENANT_COOKIE)?.value ?? null;
   const tenant = memberships.find((m) => m.tenantId === chosen);

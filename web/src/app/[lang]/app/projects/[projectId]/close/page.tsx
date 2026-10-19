@@ -1,3 +1,4 @@
+import { projectCycles } from "@/platform/cached";
 import Link from "next/link";
 import { CheckCircle2, Circle, XCircle } from "lucide-react";
 import { FreezeButton, ReopenForm } from "@/platform/g5/close";
@@ -6,7 +7,6 @@ import { Badge, Section, StateBox } from "@/platform/ui";
 import { dateTime, titled, tr } from "@/platform/server";
 import { grantCan, memberCan, type Action } from "@/server/policy/policy";
 import { closeChecklist } from "@/server/close/service";
-import { listCycles } from "@/server/projects/service";
 
 export const generateMetadata = titled("pf.close.title");
 
@@ -18,7 +18,7 @@ export default async function ClosePage({ params, searchParams }: PageProps<"/[l
   const loaded = await loadProject(lang, projectId);
   if (!loaded.ok) return loaded.view;
   const { ws, data } = loaded.p;
-  const cycles = await listCycles(ws.actor, projectId);
+  const cycles = await projectCycles(ws.actor, projectId);
   const cycle = pickCycle(cycles, sp.cycle);
   if (!cycle)
     return (

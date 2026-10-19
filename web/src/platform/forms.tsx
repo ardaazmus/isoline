@@ -18,12 +18,12 @@ const GRANT_TERMS = "grant-2026-10";
  * AUTH-09 workspace choice. With a single workspace there is nothing to choose: it is opened at once (the cookie is
  * still set through the same checked endpoint, so membership and the MFA rule apply as for a click).
  */
-export function ChooseWorkspace({ lang, memberships, next }: { lang: string; memberships: { tenantId: string; tenantName: string; kind: string; role: string; lifecycle: string; sample: boolean }[]; next?: string }) {
+export function ChooseWorkspace({ lang, memberships, next, auto = true }: { lang: string; memberships: { tenantId: string; tenantName: string; kind: string; role: string; lifecycle: string; sample: boolean }[]; next?: string; auto?: boolean }) {
   const { t } = useI18n();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
-  const only = memberships.length === 1 ? memberships[0].tenantId : null;
+  const only = auto && memberships.length === 1 ? memberships[0].tenantId : null;
   const tried = useRef(false);
   const open = async (tenantId: string) => {
     setBusy(tenantId);
@@ -67,7 +67,7 @@ export function ChooseWorkspace({ lang, memberships, next }: { lang: string; mem
           </li>
         ))}
       </ul>
-      <Link href={`/${lang}/app/onboarding`} className="text-[13.5px] font-medium text-[var(--b-700)]">
+      <Link href={`/${lang}/app/onboarding`} className="on-ground text-[13.5px] font-medium text-[var(--b-700)] underline">
         {t("pf.choose.newWorkspace")}
       </Link>
     </div>

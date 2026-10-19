@@ -1,3 +1,4 @@
+import { projectCycles } from "@/platform/cached";
 import Link from "next/link";
 import { IssueRow, type IssueView } from "@/platform/g4/calc";
 import { RunButton } from "@/platform/g5/close";
@@ -7,7 +8,7 @@ import { dateTime, titled, tr } from "@/platform/server";
 import { grantCan, memberCan, type Action } from "@/server/policy/policy";
 import { listIssues } from "@/server/calc/service";
 import { latestReconciliation } from "@/server/close/service";
-import { listCycles } from "@/server/projects/service";
+import { numberFormat } from "@/lib/intl";
 
 export const generateMetadata = titled("pf.controls.title");
 
@@ -21,7 +22,7 @@ export default async function ControlsPage({ params, searchParams }: PageProps<"
   const loaded = await loadProject(lang, projectId);
   if (!loaded.ok) return loaded.view;
   const { ws, data } = loaded.p;
-  const cycles = await listCycles(ws.actor, projectId);
+  const cycles = await projectCycles(ws.actor, projectId);
   const cycle = pickCycle(cycles, sp.cycle);
   if (!cycle)
     return (
@@ -36,7 +37,7 @@ export default async function ControlsPage({ params, searchParams }: PageProps<"
   const frozen = ["frozen", "released"].includes(cycle.status);
   const open = issues.filter((i) => i.status === "open");
   const done = issues.filter((i) => i.status !== "open");
-  const num = (v: number | undefined) => (v === undefined ? "—" : new Intl.NumberFormat(lang, { maximumFractionDigits: 2 }).format(v));
+  const num = (v: number | undefined) => (v === undefined ? "—" : numberFormat(lang, { maximumFractionDigits: 2 }).format(v));
   return (
     <>
       <ProjectHeader lang={lang} p={loaded.p} cycleId={cycle?.id} />

@@ -22,7 +22,7 @@
 | Migration | Kysely `Migrator`: her migration'da `up` ve `down` |
 | Tipler | `kysely-codegen` ile canlı şemadan üretilir, üretilen dosya depoya girer |
 | Roller | `isoline_owner` migration'ları uygular. `isoline_app` çalışma rolüdür: `NOBYPASSRLS`, tablo sahibi değil, yalnız gereken yetkiler |
-| İşlem bağlamı | `withActor(ctx, fn)`: bir işlem açar, `set_config('app.user_id', …, true)` ve `app.acting_tenant_id` ayarlar, işlem bitince bağlam düşer |
+| İşlem bağlamı | `withActor(ctx, fn)`: bir işlem açar, `set_config('app.user_id', …, true)` ve `app.acting_tenant_id` ayarlar, işlem bitince bağlam düşer. Güncelleme (19.10.2026, yük testi): işlemi açma ve bağlamı ayarlama tek gidişte yapılır (`begin; select set_config(…)`, basit sorgu protokolü). İki kimlik önce UUID biçimine karşı doğrulanır, sonra sabit olarak yazılır. Commit ve rollback Kysely'nin kendi işlemindeki gibidir |
 
 **Emekliye ayrılanlar:**
 - v2'deki `prisma/` klasörü ile `@prisma/client` ve `prisma` bağımlılıkları kaldırılır.

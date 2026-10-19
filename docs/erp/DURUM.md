@@ -18,7 +18,7 @@
 | G5 | bitti | Dönem içi gün ağırlıklı sınır, GHG yaklaşımları yan yana, TFRS 10 hasılat konsolidasyonu ve grup içi eliminasyon (kesin kuruş aritmetiği), U1–U10 mutabakat, kişiye bağlı inceleme kuyruğu, kapanış kontrol listesi, değişmez anlık görüntü, gerekçeli yeniden açma ve yeniden düzenleme listesi |
 | G6 | bitti | Şablondan rapor ve bölümler, metrik belirteçli sürümlü metin, kapsama, tek biçimle DOCX/CSV/XLSX/SVG, teknik → müşteri → yönetim onayı (aday özetine bağlı), değişmez yayın paketi ve devir ZIP'i, tasarım ajansı yalnız yayını görür, ek yayın, raporlar arası mutabakat, yeşil iddia engeli |
 | G7 | bitti (G7-07 kısmi) | Portföy operasyon göstergeleri (ESG notu yok), izin kapsamı/süre/iptal, güvence odası (soru-yanıt-kanıt, veri değişmez), sürümlü sektör paketi çerçevesi, demir-çelik/çimento ve lojistik/hizmet pilot paketleri; tekstil/tarım paketi ihtiyaca bağlı |
-| G8 | bitti (G8-06 isteğe bağlı, yapılmadı; G8-07 ve G8-08'in dış denetim kısmı açık) | Denetimli bağlayıcılar, tedarikçi kapısı, referans veri sürüm kaydı, izometrik tesis haritası, birimi korunan Sankey, ölçek/erişilebilirlik testleri, RLS ve sızıntı denetimi, geri yükleme tatbikatı, kapsayıcı dağıtımı, OIDC uçtan uca |
+| G8 | bitti (G8-06 isteğe bağlı, yapılmadı; G8-08'in dış denetim kısmı açık) | Denetimli bağlayıcılar, tedarikçi kapısı, referans veri sürüm kaydı, izometrik tesis haritası, birimi korunan Sankey, axe/klavye erişilebilirlik denetimi ve 50 kullanıcılı yük testi, RLS ve sızıntı denetimi, geri yükleme tatbikatı, kapsayıcı dağıtımı, OIDC uçtan uca |
 
 ## G0 — Analiz, karar, envanter
 
@@ -173,14 +173,14 @@
 | G8-04 | bitti | `lib/visual/layout.ts` + `platform/g8/visual.tsx`: proje genel bakışında izometrik tesis haritası (blok yüksekliği = dönemin tamamlanan veri talebi payı, iade kesikli kırmızı kenar, her blokta yazılı sayı), aynı veri tablo olarak; WebGL yok, `prefers-reduced-motion` desteği |
 | G8-05 | bitti | Hesaplamalar sayfasında tesis → kapsam → toplam Sankey (tCO₂e, operasyonel kontrol); özellik testi her düğümde giren = çıkan ve genişliklerin değerle orantılı olduğunu doğrular; akış tablosu karşılığı |
 | G8-06 | yapılmadı (isteğe bağlı) | Plan "optional": kaynağa dayalı yapay zekâ taslak önerisi müşteri verisini üçüncü taraf modele göndermeden kurulamadığı için bu sürüme alınmadı |
-| G8-07 | kısmi | Ölçek: 20 müşterili danışmanda portföy + göstergeler + inceleme kuyruğu < 3 sn (`g8.db.test.ts`). Erişilebilirlik: tasarım belirteçlerinin WCAG 2.2 AA kontrastı (28 test), hareket azaltma, form etiketi bağları, SVG başlık/açıklama ve tablo karşılıkları. Açık: ekran okuyucu ile elle denetim ve yük testi aracıyla eşzamanlı kullanıcı ölçümü |
+| G8-07 | bitti | **Erişilebilirlik (WCAG 2.2 AA)** — [01_ERISILEBILIRLIK.md](G8/01_ERISILEBILIRLIK.md): axe-core 4.14 ile 12 ana ekran, giriş ve görev formunun 4 adımı (18 tarama), üretim derlemesinde **0 bulgu** (her etki düzeyinde); kontrast sabit zeminin en koyu ve en açık noktasında da ölçülüyor (3.320 düğüm), harita ve Sankey etiketleri piksel üzerinden. 11 ihlal düzeltildi: katmansız bağlantı kuralı Tailwind sınıflarını eziyordu (mavi zeminde koyu metin 2,64:1), cam %58 → %78, zemine yazılan metin için `.on-ground`, rozet zemini, dil seçeneği adı (2.5.3), adım değişiminde odak, gönderim/kabul sonrası `role="status"`. Klavyeyle giriş → görev gönderimi → onay `e2e/keyboard.spec.ts` (adım ve Tab sayıları belgede). Belirteç kontrast testi 28 → 41 (cam + en koyu zemin). **Yük** — [02_YUK_TESTI.md](G8/02_YUK_TESTI.md): autocannon, 50 eşzamanlı oturum (düşünme süresi 0), 200 arka plan kiracısıyla: tüm istekler **p95 259 ms** (API ≤ 278 ms, sayfa ≤ 252 ms), 244 istek/sn, 0 hata; düzeltme sonrası beş koşuda p95 246–315 ms. Eşikler: API p95 ≤ 500 ms, sayfa p95 ≤ 1 500 ms, hata 0 (`npm run test:load` kapısı). Düzeltmeden önce portföy p95 616 ms idi: RLS'in ilgisiz müşteri satırlarında çalışması (erişilebilir proje kümesiyle daraltma), eksik dizinler (migration 0013; UX çalışmasının 0012'siyle çakışmasın diye birleştirmede yeniden numaralandı), inceleme kuyruğunda proje başına yetki denetimi (N+1), çift çalışma alanı denetimi giderildi; `portfolio/reach.db.test.ts` sonucu RLS ile birebir ve sorgu sayısının veri büyüdükçe artmadığını doğrular. 20 müşterili ölçek testi (`g8.db.test.ts`) sürüyor. Ayrı iş olarak açık: gerçek ekran okuyucuyla kullanıcı denemesi; tek web sürecinin ~255 istek/sn sınırı (yatay ölçek) ve görünen satır başına RLS maliyeti. **UX birleştirmesinden sonra** (aşağıdaki birleştirme notu): erişilebilirlik 25 taramada 0 bulgu; yükte G8-07 profili geçiyor, genişletilmiş profilde hesaplamalar sayfası eşiği aşıyor (açık) |
 | G8-08 | kısmi | `security/zz-security.db.test.ts`: `core` şemasındaki 61 tablonun tamamında RLS açık ve zorunlu (iki referans tablosu migration 0011 ile kapatıldı); ilgisiz kiracının üyesi 40+ kiracı tablosunda başka kiracıya ait sıfır satır görür; uygulama rolü denetim kaydını, anlık görüntüleri, yayınları ve gözlem/metrik sürümlerini silemez/değiştiremez. `security/routes.test.ts`: 130 API ucunun hepsi `route()` zincirinden geçer, tek açık uç davet önizlemesi, hiçbir uç RLS'i atlayan role doğrudan erişmez. Geri yükleme tatbikatı `scripts/ops/restore-drill.mjs` (61 tablo, uyuşmazlık yok). Açık: bağımsız sızma testi |
 
 **Dağıtım ve kimlik (G8 kapsamında):** `web/Dockerfile` (web standalone + worker), `docker compose --profile app` (migrate → web + worker), `scripts/server-env.mjs`; yerelde derlendi ve çalıştırıldı (sağlık 200, giriş sayfası 200). OIDC/SSO uçtan uca test: sahte kimlik sağlayıcı, PKCE, nonce, JWKS doğrulaması; başka anahtarla imzalı jeton reddedilir (`auth/oidc.db.test.ts`).
 
 ## Kapanış özeti
 
-G0–G8 tamamlandı; plan kuralı gereği eksik kalanlar açıkça `kısmi`/`yapılmadı` olarak işaretli: G7-07 (tekstil/tarım paketi, ihtiyaca göre), G8-06 (isteğe bağlı yapay zekâ), G8-07 (elle erişilebilirlik denetimi ve yük aracı), G8-08 (bağımsız sızma testi). Son doğrulama: birim/özellik testleri, PostgreSQL entegrasyon testleri, tip denetimi, lint, üretim derlemesi ve kapsayıcı yığını.
+G0–G8 tamamlandı; plan kuralı gereği eksik kalanlar açıkça `kısmi`/`yapılmadı` olarak işaretli: G7-07 (tekstil/tarım paketi, ihtiyaca göre), G8-06 (isteğe bağlı yapay zekâ), G8-08 (bağımsız sızma testi). G8-07 19.10.2026'da tamamlandı (axe/klavye denetimi, 50 kullanıcılı yük testi); gerçek ekran okuyucuyla kullanıcı denemesi ayrı iş olarak açık. Son doğrulama: birim/özellik testleri, PostgreSQL entegrasyon testleri, tarayıcı (`npm run test:e2e`) ve yük (`npm run test:load`) testleri, tip denetimi, lint, üretim derlemesi ve kapsayıcı yığını.
 
 ## Arayüz akışı — UX incelemesi Faz 1 ve 2 (19.10.2026)
 
@@ -221,7 +221,7 @@ G0–G8 tamamlandı; plan kuralı gereği eksik kalanlar açıkça `kısmi`/`yap
 | Hızlı hesap ve Kütüphane | bitti | `/app/quick/*` altında 10 hesaplayıcı tarayıcı içi deneme olarak çalışır (onay bandı ve belge notu yok). Kütüphane'de mevzuat takvimi, çerçeve eşleme ve tema rehberi var. "Döngüye kaydet" sera gazı ve çevre girdilerini kişiye atanmış açık taleplere taslak olarak yazar (`lib/quick-drafts.ts`, `server/quick/service.ts`) |
 | Araç seti emekliye ayrıldı | bitti | `(toolkit)` rota grubu, iş akışı ekranları ve araç seti kabuğu kaldırıldı. Eski adresler `next.config.ts` ile platformdaki karşılıklarına yönlenir |
 | İşlerim'e çalışma sayfaları | bitti | Onay bekleyen önemlilik, taksonomi ve faaliyet raporu sayfaları gelen kutusunda görünür (analiz senaryoları onay gerektirmez) |
-| Rol bazlı uçtan uca test (Faz 4) | bitti | `web/e2e/` (Playwright 1.63, `npm run test:e2e`), 5 rol girişi ve 7 yolculuk. Kontrol edilenler: tek çalışma alanında doğrudan "Bugün", 6 kalemli menü, ilk işin tek tıkla açılması, 7 adım ve tek "şu anki adım", engelden adıma gitme, veri girenin 4 kalemli menüsü, danışmanın müşteri tablosu (puan sütunu yok), onay bekleyen sayfanın İşlerim'den açılması, eski adreslerin yönlenmesi. Giriş hız sınırı için roller bir kez giriş yapar ve oturumları kullanılır |
+| Rol bazlı uçtan uca test (Faz 4) | bitti | `web/e2e/roles.spec.ts` (`npm run test:e2e`; G8-07 birleştirmesinden sonra Playwright 1.64.1 ve G8-07'nin e2e altyapısı), 5 rol girişi ve 7 yolculuk. Kontrol edilenler: tek çalışma alanında doğrudan "Bugün", 6 kalemli menü, ilk işin tek tıkla açılması, 7 adım ve tek "şu anki adım", engelden adıma gitme, veri girenin 4 kalemli menüsü, danışmanın müşteri tablosu (puan sütunu yok), onay bekleyen sayfanın İşlerim'den açılması, eski adreslerin yönlenmesi. Roller kurulum adımında API ile bir kez giriş yapar ve oturumları kullanılır |
 | Beş kişilik kullanılabilirlik testi (Faz 4) | bitti (uygulama bekliyor) | [UX/KULLANILABILIRLIK_TESTI.md](UX/KULLANILABILIRLIK_TESTI.md): roller, moderatör metni, 12 görev (başarı ölçütü, hedef tık, süre), gözlem formu, SEQ ve SUS, başarı ölçütleri, analiz ve rapor şablonu. Testin gerçek kullanıcılarla yapılması ürün sahibine bağlı |
 
 **Demo verisi:** Onaylı önemlilik (Selin girdi, Ayşe onayladı), Selin'in onayını bekleyen taksonomi sayfası (Mehmet girdi) ve bir geçiş planı senaryosu eklendi.
@@ -234,9 +234,40 @@ G0–G8 tamamlandı; plan kuralı gereği eksik kalanlar açıkça `kısmi`/`yap
 - 12 Playwright testi geçti;
 - tarayıcıda Hızlı hesap, Döngüye kaydet, önemlilik, taksonomi ve dekarbonizasyon yolu ekranları gezildi.
 
-**Açık:**
-- Kullanılabilirlik testinin gerçek beş kişiyle yapılması.
-- `claude/recursing-blackburn-e97d7a` dalında duran G8-07 erişilebilirlik ve yük testi çalışmasının main'e birleştirilmesi.
+**Açık:** kullanılabilirlik testinin gerçek beş kişiyle yapılması. G8-07 dalı main'e birleştirildi (aşağıdaki birleştirme notu).
+
+## G8-07 birleştirmesi (19.10.2026)
+
+`claude/recursing-blackburn-e97d7a` dalı (783f0da: axe/klavye denetimi, 50 kullanıcılı yük testi, performans düzeltmeleri) ürün sahibinin isteğiyle `main`'e birleştirildi.
+
+**Çakışmalar ve çözümleri:**
+- Dalın `0012_load_indexes` migration'ı `0013_load_indexes` olarak yeniden numaralandı; UX çalışmasının `0012_worksheets`'i yerinde kaldı.
+- Playwright altyapısında dalınki benimsendi: ayrı `isoline_e2e` veritabanı, 3211'de üretim sunucusu, API ile oturum. UX'in rol yolculukları bu altyapıya taşındı (`e2e/roles.spec.ts`).
+- Klavye testi tek çalışma alanında doğrudan Bugün'e giden akışa uyarlandı. Erişilebilirlik taraması inceleme kuyruğu yerine İşlerim'i ve UX Faz 3–4'ün yedi ekranını da kapsıyor.
+- Portföy, dalın erişilebilir proje kümesiyle daraltmasını ve UX'in türetilmiş adımlarını birlikte kullanıyor. Gelen kutusu, çalışma sayfası onayları ve döngü listesi de aynı daraltmaya ve toplu yetki denetimine (`projectsAllowing`) geçirildi.
+
+**Birleştirmeden sonra bulunan ve düzeltilenler:**
+- Erişilebilirlik: adım çubuğunun adı (2.5.3), zemindeki alt gezinti kontrastı (1.4.3), grafiklerde `role="img"` içinde odaklanabilen noktalar (4.1.2), matris noktasının adı (2.5.3).
+- Yük: sayfa başına veritabanı gidişi 93'ten 59'a (hesaplamalar) ve 86'dan 59'a (proje özeti) indi:
+  - adım sinyalleri tek sorgu oldu;
+  - işlem açılışı tek gidiş oldu (ADR-003 güncellemesi);
+  - yetki denetimi tek sorgu oldu;
+  - paylaşılan `Intl` biçimlendiricileri eklendi;
+  - menü rozeti sayfa çizildikten sonra yükleniyor;
+  - migration `0014_cycle_indexes` eklendi.
+
+  Ayrıntı: [02_YUK_TESTI.md §7](G8/02_YUK_TESTI.md).
+
+**Doğrulama (19.10.2026):**
+- tip denetimi ve lint temiz;
+- 520 birim ve özellik testi geçti (yeni `lib/intl.test.ts` ve `inbox/badge.test.ts` dahil);
+- 106 PostgreSQL entegrasyon testi geçti (yeni `db/client.db.test.ts` dahil);
+- üretim derlemesi başarılı;
+- 36 Playwright testi geçti: 25 axe taraması 0 bulgu ve 4.730 kontrast düğümü, iki klavye akışı (göreve ulaşmak 26 değil 14 Tab), 7 rol yolculuğu;
+- yük, G8-07 profili (`--profile g8-07`): 179 istek/sn, tüm istekler p95 366 ms, eşikler içinde;
+- yük, genişletilmiş profil (varsayılan): 131–134 istek/sn, API'ler ve beş sayfa eşik içinde. **Hesaplamalar sayfası p95 1,73–1,80 sn ile 1,5 sn eşiğinin üstünde; `npm run test:load` 1 ile çıkıyor.** Neden tek web sürecinin CPU doygunluğu. Eşik ve profil değiştirilmedi.
+
+**Açık:** genişletilmiş profil için web kopyalarının çoğaltılması ya da hesaplamalar sayfasının sunucu maliyetinin düşürülmesi.
 
 ## Oturum kontrol noktası (bağlam sıkıştırmasına karşı)
 
@@ -248,5 +279,11 @@ G0–G8 tamamlandı; plan kuralı gereği eksik kalanlar açıkça `kısmi`/`yap
   - kimlik Better Auth (ADR-004);
   - depo SeaweedFS (ADR-005; MinIO imajları kaldırıldığı için);
   - modüler monolit (ADR-007);
-  - v1 araç seti `(toolkit)` rota grubunda korunuyor (ADR-008).
-- **Açık / sıradaki:** Yol haritası tamam. UX Faz 1–4 uygulandı; kullanılabilirlik testi gerçek kullanıcılarla yapılacak; G8-07 dalı birleştirilmeyi bekliyor. Açık maddeler: bağımsız sızma testi, ekran okuyucuyla erişilebilirlik denetimi, yük testi aracı, ilk müşteri ihtiyacına göre tekstil/tarım paketi.
+  - v1 araç seti ayrı uygulama olarak kapandı; hesaplayıcılar Kütüphane → Hızlı hesap'ta, eski adresler yönleniyor (ADR-008 güncellemesi).
+- **Açık / sıradaki:** Yol haritası ve UX Faz 1–4 tamam; G8-07 dalı main'e birleştirildi. Açık maddeler:
+  - kullanılabilirlik testinin gerçek beş kişiyle yapılması;
+  - bağımsız sızma testi;
+  - gerçek ekran okuyucuyla kullanıcı denemesi;
+  - RLS politikalarının küme karşılaştırmasıyla yeniden yazımı (danışman portföyü büyüdükçe);
+  - web kopyalarının çoğaltılması (tek süreç doyuyor; genişletilmiş yük profilinde hesaplamalar sayfası p95 ~1,75 sn, eşik 1,5 sn);
+  - ilk müşteri ihtiyacına göre tekstil/tarım paketi.

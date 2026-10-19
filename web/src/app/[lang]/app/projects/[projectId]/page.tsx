@@ -1,3 +1,4 @@
+import { projectCycles, cycleSteps } from "@/platform/cached";
 import Link from "next/link";
 import { canSetup, loadProject, pickCycle, ProjectHeader } from "@/platform/project-shell";
 import { Section, StateBox, Table, Td } from "@/platform/ui";
@@ -5,8 +6,6 @@ import { dateOnly, titled, tr } from "@/platform/server";
 import { StepBoard } from "@/platform/steps";
 import { byUrgency, inboxItems } from "@/platform/inbox-items";
 import { InboxRows } from "@/platform/inbox-list";
-import { listCycles } from "@/server/projects/service";
-import { cycleProgress } from "@/server/cycle/progress";
 import { STEP_PAGES, type StepId } from "@/server/cycle/steps";
 import { myInbox } from "@/server/inbox/service";
 import { SiteMap } from "@/platform/g8/visual";
@@ -40,7 +39,7 @@ export default async function ProjectPage({ params, searchParams }: PageProps<"/
   const loaded = await loadProject(lang, projectId);
   if (!loaded.ok) return loaded.view;
   const { ws } = loaded.p;
-  const cycles = await listCycles(ws.actor, projectId);
+  const cycles = await projectCycles(ws.actor, projectId);
   const cycle = pickCycle(cycles, sp.cycle);
   const base = `/${lang}/app/projects/${projectId}`;
   if (!cycle)
@@ -51,7 +50,7 @@ export default async function ProjectPage({ params, searchParams }: PageProps<"/
       </>
     );
   const query = cycles[0] && cycle.id !== cycles[0].id ? `?cycle=${cycle.id}` : "";
-  const [progress, box, sites] = await Promise.all([cycleProgress(ws.actor, cycle.id), myInbox(ws.actor), siteStatus(ws.actor, projectId, cycle.id)]);
+  const [progress, box, sites] = await Promise.all([cycleSteps(ws.actor, cycle.id), myInbox(ws.actor), siteStatus(ws.actor, projectId, cycle.id)]);
   const mine = byUrgency(inboxItems(lang, box).filter((x) => x.projectId === projectId));
   const steps = progress?.steps ?? [];
   const dates = Object.fromEntries(steps.filter((s) => s.dueOn).map((s) => [s.dueOn!, dateOnly(lang, s.dueOn!)]));

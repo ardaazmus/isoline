@@ -1,3 +1,4 @@
+import { projectCycles } from "@/platform/cached";
 import Link from "next/link";
 import { FactorChoiceForm, IssueRow, RunPanel, type IssueView } from "@/platform/g4/calc";
 import { FACT_TONE, factValue, metricLabel, shortDigest } from "@/platform/g4/format";
@@ -7,10 +8,11 @@ import { dateTime, titled, tr } from "@/platform/server";
 import { grantCan, memberCan, type Action } from "@/server/policy/policy";
 import { listChoices, listFactorSets } from "@/server/calc/factors";
 import { listFacts, listIssues, listRuns } from "@/server/calc/service";
-import { listBoundaries, listCycles } from "@/server/projects/service";
+import { listBoundaries } from "@/server/projects/service";
 import { FlowSankey } from "@/platform/g8/visual";
 import { ghgFlows, sankey } from "@/lib/visual/layout";
 import { ghgFlowData } from "@/server/visual/service";
+import { numberFormat } from "@/lib/intl";
 
 export const generateMetadata = titled("pf.calc.title");
 
@@ -24,7 +26,7 @@ export default async function CalculationsPage({ params, searchParams }: PagePro
   const loaded = await loadProject(lang, projectId);
   if (!loaded.ok) return loaded.view;
   const { ws, data } = loaded.p;
-  const cycles = await listCycles(ws.actor, projectId);
+  const cycles = await projectCycles(ws.actor, projectId);
   const cycle = pickCycle(cycles, sp.cycle);
   if (!cycle)
     return (
@@ -49,7 +51,7 @@ export default async function CalculationsPage({ params, searchParams }: PagePro
   const flowData = await ghgFlowData(ws.actor, cycle.id);
   const flows = ghgFlows({ ...flowData, labels: { scope1: t("pf.calc.m.ghg_scope1"), scope2: t("pf.calc.m.ghg_scope2_location"), scope3: t("pf.calc.m.ghg_scope3"), total: t("pf.vis.total"), org: t("pf.data.organisationLevel") } });
   const flow = flows.some((f) => f.value > 0) ? sankey(flows) : null;
-  const fmtT = (v: number) => `${new Intl.NumberFormat(lang, { maximumFractionDigits: v >= 1000 ? 0 : 2 }).format(v)} tCO₂e`;
+  const fmtT = (v: number) => `${numberFormat(lang, { maximumFractionDigits: v >= 1000 ? 0 : 2 }).format(v)} tCO₂e`;
   const byFacility = current.filter((f) => f.facility_id !== null);
   return (
     <>

@@ -1,3 +1,4 @@
+import { projectCycles } from "@/platform/cached";
 import Link from "next/link";
 import { ActionButton, EliminationForm, EntityFinancialForm, RunButton } from "@/platform/g5/close";
 import { factValue, metricLabel } from "@/platform/g4/format";
@@ -6,7 +7,7 @@ import { Badge, Section, StateBox, Table, Td } from "@/platform/ui";
 import { titled, tr } from "@/platform/server";
 import { grantCan, memberCan, type Action } from "@/server/policy/policy";
 import { consolidationInputs, ghgByBoundary, latestReconciliation } from "@/server/close/service";
-import { listCycles } from "@/server/projects/service";
+import { numberFormat } from "@/lib/intl";
 
 export const generateMetadata = titled("pf.cons.title");
 
@@ -21,7 +22,7 @@ export default async function ConsolidationPage({ params, searchParams }: PagePr
   const loaded = await loadProject(lang, projectId);
   if (!loaded.ok) return loaded.view;
   const { ws, data } = loaded.p;
-  const cycles = await listCycles(ws.actor, projectId);
+  const cycles = await projectCycles(ws.actor, projectId);
   const cycle = pickCycle(cycles, sp.cycle);
   if (!cycle)
     return (
@@ -89,7 +90,7 @@ export default async function ConsolidationPage({ params, searchParams }: PagePr
                       const m = ghg.members.find((x) => x.boundary_id === b?.id && x.facility_id === fid);
                       return (
                         <Td key={a} className="tabular-nums">
-                          {m ? `%${Number(m.inclusion_pct).toLocaleString(lang, { maximumFractionDigits: 2 })}` : "—"} {m?.reason === "time_weighted" && <Badge tone="info">{t("pf.scope.reason.time_weighted")}</Badge>}
+                          {m ? `%${numberFormat(lang, { maximumFractionDigits: 2 }).format(Number(m.inclusion_pct))}` : "—"} {m?.reason === "time_weighted" && <Badge tone="info">{t("pf.scope.reason.time_weighted")}</Badge>}
                         </Td>
                       );
                     })}
@@ -110,7 +111,7 @@ export default async function ConsolidationPage({ params, searchParams }: PagePr
                 {fin.members.map((m) => (
                   <tr key={m.legal_entity_id}>
                     <Td>{m.name}</Td>
-                    <Td className="tabular-nums">%{Number(m.inclusion_pct).toLocaleString(lang, { maximumFractionDigits: 2 })}</Td>
+                    <Td className="tabular-nums">%{numberFormat(lang, { maximumFractionDigits: 2 }).format(Number(m.inclusion_pct))}</Td>
                     <Td className="text-[12.5px]">{t(Number(m.inclusion_pct) > 0 ? "pf.cons.fullConsolidation" : "pf.cons.outside")} · {t(`pf.scope.reason.${m.reason}`)}</Td>
                   </tr>
                 ))}

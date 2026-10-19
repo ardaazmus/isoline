@@ -4,6 +4,7 @@
  * Locale follows the report language (tr: 1.234,5 · en: 1,234.5).
  */
 
+import { numberFormat } from "../../lib/intl";
 export type FactValue = { metricKey: string; value: string | null; text: string | null; unit: string; suppressed?: boolean };
 
 const LOCALE: Record<string, string> = { tr: "tr-TR", en: "en-GB" };
@@ -20,9 +21,9 @@ export function formatValue(lang: string, f: Pick<FactValue, "value" | "text" | 
   if (f.suppressed) return lang === "tr" ? "gizli (küçük grup)" : "suppressed (small group)";
   if (f.value === null) return f.text ?? "—";
   const v = Number(f.value);
-  if (f.unit === "ratio") return new Intl.NumberFormat(LOCALE[lang] ?? lang, { style: "percent", maximumFractionDigits: 1, minimumFractionDigits: 0 }).format(v);
+  if (f.unit === "ratio") return numberFormat(LOCALE[lang] ?? lang, { style: "percent", maximumFractionDigits: 1, minimumFractionDigits: 0 }).format(v);
   const d = decimals(f.unit, v);
-  return new Intl.NumberFormat(LOCALE[lang] ?? lang, { maximumFractionDigits: d, minimumFractionDigits: f.unit === "TRY" ? 2 : 0 }).format(v);
+  return numberFormat(LOCALE[lang] ?? lang, { maximumFractionDigits: d, minimumFractionDigits: f.unit === "TRY" ? 2 : 0 }).format(v);
 }
 
 export const unitLabel = (unit: string) => (unit === "ratio" ? "" : unit.replace("CO2", "CO₂"));

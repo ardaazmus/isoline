@@ -1,3 +1,4 @@
+import { projectCycles } from "@/platform/cached";
 import Link from "next/link";
 import { emptyClient } from "@/data/sample";
 import type { Profile } from "@/lib/calc/applicability";
@@ -6,7 +7,7 @@ import { loadProject, pickCycle, ProjectHeader } from "@/platform/project-shell"
 import { Section, StateBox } from "@/platform/ui";
 import { titled, tr } from "@/platform/server";
 import { grantCan, memberCan } from "@/server/policy/policy";
-import { listApplicability, listBoundaries, listCycles } from "@/server/projects/service";
+import { listApplicability, listBoundaries } from "@/server/projects/service";
 import { organizationTree } from "@/server/orgs/service";
 
 export const generateMetadata = titled("pf.scope.title");
@@ -19,7 +20,7 @@ export default async function ScopePage({ params, searchParams }: PageProps<"/[l
   const loaded = await loadProject(lang, projectId);
   if (!loaded.ok) return loaded.view;
   const { ws, data } = loaded.p;
-  const cycles = await listCycles(ws.actor, projectId);
+  const cycles = await projectCycles(ws.actor, projectId);
   const cycle = pickCycle(cycles, sp.cycle);
   if (!cycle)
     return (

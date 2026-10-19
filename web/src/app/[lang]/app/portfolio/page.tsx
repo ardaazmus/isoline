@@ -5,6 +5,7 @@ import { requireWorkspace } from "@/server/http/dal";
 import { portfolio } from "@/server/projects/service";
 import { portfolioKpis } from "@/server/portfolio/kpis";
 import { STEP_PAGES } from "@/server/cycle/steps";
+import { numberFormat } from "@/lib/intl";
 
 export const generateMetadata = titled("pf.portfolio.title");
 
@@ -25,7 +26,7 @@ export default async function PortfolioPage({
   const pct = (v: number | null) =>
     v === null
       ? "—"
-      : new Intl.NumberFormat(lang, {
+      : numberFormat(lang, {
           style: "percent",
           maximumFractionDigits: 0,
         }).format(v);

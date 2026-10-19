@@ -38,15 +38,31 @@ export const systemDb = () => dbFor(process.env.DATABASE_SYSTEM_URL, "system");
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-/** Runs fn in one RLS-scoped transaction as the actor. The actor must come from a verified session. */
+/**
+ * Runs fn in one RLS-scoped transaction as the actor. The actor must come from a verified session.
+ *
+ * The transaction is opened and the context set in one round trip (a page runs a dozen of these, and under load every
+ * round trip waits its turn at the database): both ids are checked UUIDs, so they go in as literals and the two
+ * statements travel together through the simple query protocol. Commit and rollback are as Kysely's own transaction.
+ */
 export async function withActor<T>(actor: Actor, fn: (tx: Tx) => Promise<T>): Promise<T> {
   if (!UUID.test(actor.userId)) throw new Error("withActor: invalid user id");
   if (actor.actingTenantId !== null && !UUID.test(actor.actingTenantId)) throw new Error("withActor: invalid tenant id");
+  const open = `begin; select set_config('app.user_id', '${actor.userId}', true), set_config('app.acting_tenant_id', '${actor.actingTenantId ?? ""}', true)`;
   return appDb()
-    .transaction()
-    .execute(async (tx) => {
-      await sql`select set_config('app.user_id', ${actor.userId}, true), set_config('app.acting_tenant_id', ${actor.actingTenantId ?? ""}, true)`.execute(tx);
-      return fn(tx);
+    .connection()
+    .execute(async (conn) => {
+      try {
+        await sql.raw(open).execute(conn);
+        // the connection is held for the whole callback and the transaction is open on it
+        const out = await fn(conn as unknown as Tx);
+        await sql`commit`.execute(conn);
+        return out;
+      } catch (e) {
+        // as Kysely: a failed rollback surfaces instead of the original error (outside a transaction it only warns)
+        await sql`rollback`.execute(conn);
+        throw e;
+      }
     });
 }
 

@@ -23,11 +23,16 @@
   --ink: #0e1a46;
   --ink-2: #3b4a78;
   --ink-3: #5c6894;
+  /* secondary text written straight on the blue ground (page lead, links beside tiles): 4.5:1 even at the deepest
+     point of the ground gradient; applied through .on-ground */
+  --ink-ground: #32406a;
   --rule: #dbe3f7;
   --rule-strong: #172a6e;
   --focus: #2f4fe0;
 
-  --glass: rgba(255, 255, 255, 0.58);
+  /* 78%, not 58%: secondary and status text on a tile keeps 4.5:1 over the darkest point of the fixed ground
+     (G8-07 axe suite; src/lib/visual/contrast.test.ts) */
+  --glass: rgba(255, 255, 255, 0.78);
   --glass-strong: rgba(255, 255, 255, 0.8);
   --glass-stroke: rgba(255, 255, 255, 0.92);
   --glass-shadow: 0 18px 40px -22px rgba(31, 52, 160, 0.38), 0 2px 6px -3px rgba(31, 52, 160, 0.12);
@@ -171,10 +176,14 @@ body::before {
   outline-offset: 2px;
   border-radius: 6px;
 }
-a {
-  color: inherit;
-  text-underline-offset: 3px;
-  text-decoration-thickness: 1px;
+/* In the base layer: an unlayered rule outranks every Tailwind utility, so `text-white` on a link button or an
+   active tab lost to `color: inherit` and painted dark text on blue (2.6:1, found by the axe suite). */
+@layer base {
+  a {
+    color: inherit;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
 }
 h1,
 h2,
@@ -287,6 +296,14 @@ h3 {
   --fam-ink: var(--th-people-ink);
   --fam-solid: var(--th-people-ink);
 }
+/* Text on the ground instead of a tile: the lighter text tokens are remapped to their deep variants. */
+.on-ground {
+  --ink-2: var(--ink-ground);
+  --ink-3: var(--ink-ground);
+  --b-700: var(--b-800);
+  --accent-ink: var(--b-800);
+}
+
 [data-family="reporting"] {
   --fam: var(--th-economy);
   --fam-2: var(--th-economy-2);

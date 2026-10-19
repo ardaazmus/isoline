@@ -25,6 +25,12 @@ export type SheetRow = { id: string; version: number; status: string; entered_by
 const field = "field-input h-8 w-full min-w-0 text-[12.5px]";
 const num = (v: string) => (v.trim() === "" ? 0 : Number(v.replace(/\./g, "").replace(",", ".")));
 const newId = () => Math.random().toString(36).slice(2, 10);
+/** A short code for a new materiality topic (T1, T2 …): the matrix shows it next to the point. */
+const nextCode = (ids: string[]) => {
+  let n = 1;
+  while (ids.includes(`T${n}`)) n++;
+  return `T${n}`;
+};
 
 function useSave(cycleId: string, kind: WorksheetKind, reportId?: string) {
   const router = useRouter();
@@ -192,7 +198,7 @@ export function MaterialityEditor({ cycleId, initial, canEdit }: { cycleId: stri
             </tbody>
           </table>
           {canEdit && (
-            <button type="button" className="mt-2 inline-flex items-center gap-1 text-[13px] font-medium text-[var(--b-700)]" onClick={() => setP({ ...p, topics: [...p.topics, { id: newId(), name: t("pf.mat.newTopic"), pillar: "E", positive: false, scale: 1, scope: 1, irremediability: 1, impactLikelihood: 1, magnitude: 1, financialLikelihood: 1 }] })}>
+            <button type="button" className="mt-2 inline-flex items-center gap-1 text-[13px] font-medium text-[var(--b-700)]" onClick={() => setP({ ...p, topics: [...p.topics, { id: nextCode(p.topics.map((x) => x.id)), name: t("pf.mat.newTopic"), pillar: "E", positive: false, scale: 1, scope: 1, irremediability: 1, impactLikelihood: 1, magnitude: 1, financialLikelihood: 1 }] })}>
               <Plus size={14} /> {t("pf.mat.addTopic")}
             </button>
           )}

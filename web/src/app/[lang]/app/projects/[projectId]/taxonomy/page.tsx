@@ -1,9 +1,9 @@
+import { projectCycles } from "@/platform/cached";
 import Link from "next/link";
 import { loadProject, pickCycle, ProjectHeader, projectCan, sheetView } from "@/platform/project-shell";
 import { RunTaxonomy, SheetStatus, TaxonomyEditor } from "@/platform/g9/sheets";
 import { Section, StateBox } from "@/platform/ui";
 import { titled, tr } from "@/platform/server";
-import { listCycles } from "@/server/projects/service";
 import { getWorksheet } from "@/server/worksheets/service";
 import { TaxonomySheet } from "@/server/worksheets/schemas";
 
@@ -21,7 +21,7 @@ export default async function TaxonomyPage({ params, searchParams }: PageProps<"
   const loaded = await loadProject(lang, projectId);
   if (!loaded.ok) return loaded.view;
   const { ws } = loaded.p;
-  const cycles = await listCycles(ws.actor, projectId);
+  const cycles = await projectCycles(ws.actor, projectId);
   const cycle = pickCycle(cycles, sp.cycle);
   if (!cycle)
     return (

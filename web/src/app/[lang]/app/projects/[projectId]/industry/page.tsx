@@ -1,3 +1,4 @@
+import { projectCycles } from "@/platform/cached";
 import Link from "next/link";
 import { RunButton } from "@/platform/g5/close";
 import { PackForm, PackRequestsForm } from "@/platform/g7/g7";
@@ -9,7 +10,6 @@ import { grantCan, memberCan, type Action } from "@/server/policy/policy";
 import { listFacts } from "@/server/calc/service";
 import { listCampaigns } from "@/server/data/service";
 import { projectPacks } from "@/server/industry/service";
-import { listCycles } from "@/server/projects/service";
 
 export const generateMetadata = titled("pf.ind.title");
 
@@ -22,7 +22,7 @@ export default async function IndustryPage({ params, searchParams }: PageProps<"
   if (!loaded.ok) return loaded.view;
   const { ws, data } = loaded.p;
   const can = (a: Action) => ws.actor.role !== null && memberCan(ws.actor.role, a) && (data.access.via !== "grant" || grantCan(data.access.grantRole!, a));
-  const cycles = await listCycles(ws.actor, projectId);
+  const cycles = await projectCycles(ws.actor, projectId);
   const cycle = pickCycle(cycles, sp.cycle);
   const [packs, campaigns, facts] = await Promise.all([projectPacks(ws.actor, projectId), listCampaigns(ws.actor, projectId), cycle ? listFacts(ws.actor, cycle.id) : Promise.resolve([])]);
   const kpis = facts.filter((f) => f.metric_key.startsWith("ind."));

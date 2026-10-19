@@ -154,7 +154,7 @@ export function Section({ title, aside, children, id }: { title: string; aside?:
 
 export function PageTitle({ title, lead, actions }: { title: string; lead?: ReactNode; actions?: ReactNode }) {
   return (
-    <header className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+    <header className="on-ground mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
       <div className="min-w-0">
         <h1 className="text-[26px] font-semibold leading-tight tracking-[-0.025em] md:text-[30px]">{title}</h1>
         {lead && <p className="mt-1.5 max-w-[70ch] text-[15px] leading-snug text-[var(--ink-2)]">{lead}</p>}
@@ -193,7 +193,7 @@ export function Badge({ children, tone = "neutral" }: { children: ReactNode; ton
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full border px-2 py-0.5 text-[11.5px] font-semibold",
+        "inline-flex items-center rounded-full border bg-[var(--paper)] px-2 py-0.5 text-[11.5px] font-semibold",
         tone === "neutral" && "border-[var(--rule)] text-[var(--ink-2)]",
         tone === "ok" && "border-[color-mix(in_srgb,var(--ok)_40%,transparent)] text-[var(--ok)]",
         tone === "warn" && "border-[color-mix(in_srgb,var(--warn)_45%,transparent)] text-[var(--warn)]",

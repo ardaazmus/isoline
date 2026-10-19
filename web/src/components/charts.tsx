@@ -362,7 +362,7 @@ export function MaterialityMatrix({
   const ys = scaleLinear().domain([0, 5]).range([size - m.b, m.t]);
   return (
     <div ref={ref} className="min-w-0">
-      <svg data-chart width={size} height={size} role="img" aria-label={label} className="block">
+      <svg data-chart width={size} height={size} role="group" aria-label={label} className="block">
         <rect x={xs(threshold)} y={m.t} width={xs(5) - xs(threshold)} height={ys(threshold) - m.t} fill="var(--th-energy-wash)" />
         <rect x={m.l} y={m.t} width={xs(threshold) - m.l} height={ys(threshold) - m.t} fill="var(--paper-2)" />
         <rect x={xs(threshold)} y={ys(threshold)} width={xs(5) - xs(threshold)} height={ys(0) - ys(threshold)} fill="var(--paper-2)" />
@@ -389,7 +389,7 @@ export function MaterialityMatrix({
           {yLabel}
         </text>
         {points.map((p) => (
-          <g key={p.id} className="anim-pop cursor-pointer" style={{ ["--i" as string]: points.indexOf(p) }} onClick={() => onSelect?.(p.id)} tabIndex={0} role="button" aria-label={`${p.label}: ${p.x.toFixed(1)} / ${p.y.toFixed(1)}`} onKeyDown={(e) => e.key === "Enter" && onSelect?.(p.id)}>
+          <g key={p.id} className="anim-pop cursor-pointer" style={{ ["--i" as string]: points.indexOf(p) }} onClick={() => onSelect?.(p.id)} tabIndex={0} role="button" aria-label={`${p.id} ${p.label}: ${p.x.toFixed(1)} / ${p.y.toFixed(1)}`} onKeyDown={(e) => e.key === "Enter" && onSelect?.(p.id)}>
             <circle cx={xs(p.x)} cy={ys(p.y)} r={selected === p.id ? 9 : 7} fill={p.material ? p.color : "var(--paper)"} stroke={p.color} strokeWidth={2} strokeDasharray={p.material ? undefined : "3 2"} />
             <text x={xs(p.x) + 11} y={ys(p.y)} dy="0.32em" fontSize={12} fontWeight={600} fill="var(--ink)">
               {p.id}
@@ -432,7 +432,7 @@ export function Timeline({
   const years = xs.ticks(8);
   return (
     <div ref={ref} className="relative min-w-0 overflow-x-auto">
-      <svg data-chart width={inner} height={height} role="img" aria-label={label} className="block">
+      <svg data-chart width={inner} height={height} role="group" aria-label={label} className="block">
         {years.map((y) => (
           <g key={y.toISOString()}>
             <line x1={xs(y)} x2={xs(y)} y1={m.t - 6} y2={height - m.b} stroke="var(--rule)" />

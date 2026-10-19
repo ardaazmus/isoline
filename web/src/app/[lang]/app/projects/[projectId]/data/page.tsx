@@ -1,3 +1,4 @@
+import { projectCycles } from "@/platform/cached";
 import Link from "next/link";
 import { TEMPLATES } from "@/data/templates";
 import { CampaignForm } from "@/platform/g3/campaign";
@@ -6,7 +7,6 @@ import { Badge, Section, StateBox } from "@/platform/ui";
 import { titled, tr } from "@/platform/server";
 import { grantCan, memberCan } from "@/server/policy/policy";
 import { listCampaigns, suggestedTemplates } from "@/server/data/service";
-import { listCycles } from "@/server/projects/service";
 
 export const generateMetadata = titled("pf.data.title");
 
@@ -21,7 +21,7 @@ export default async function DataPage({ params, searchParams }: PageProps<"/[la
   const loaded = await loadProject(lang, projectId);
   if (!loaded.ok) return loaded.view;
   const { ws, data } = loaded.p;
-  const cycles = await listCycles(ws.actor, projectId);
+  const cycles = await projectCycles(ws.actor, projectId);
   const cycle = pickCycle(cycles, sp.cycle);
   if (!cycle)
     return (

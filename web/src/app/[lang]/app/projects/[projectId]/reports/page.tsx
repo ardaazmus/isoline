@@ -1,3 +1,4 @@
+import { projectCycles } from "@/platform/cached";
 import Link from "next/link";
 import { TEMPLATES } from "@/data/templates";
 import { CreateReportForm } from "@/platform/g6/report";
@@ -6,7 +7,6 @@ import { Badge, Section, StateBox, Table, Td } from "@/platform/ui";
 import { dateTime, titled, tr } from "@/platform/server";
 import { grantCan, memberCan, type Action } from "@/server/policy/policy";
 import { crossReportCheck, listReports } from "@/server/reports/service";
-import { listCycles } from "@/server/projects/service";
 
 export const generateMetadata = titled("pf.rep.title");
 
@@ -18,7 +18,7 @@ export default async function ReportsPage({ params }: PageProps<"/[lang]/app/pro
   if (!loaded.ok) return loaded.view;
   const { ws, data } = loaded.p;
   const can = (a: Action) => ws.actor.role !== null && memberCan(ws.actor.role, a) && (data.access.via !== "grant" || grantCan(data.access.grantRole!, a));
-  const [reports, cycles] = await Promise.all([listReports(ws.actor, projectId), listCycles(ws.actor, projectId)]);
+  const [reports, cycles] = await Promise.all([listReports(ws.actor, projectId), projectCycles(ws.actor, projectId)]);
   const shared = (await Promise.all(cycles.map((c) => crossReportCheck(ws.actor, c.id)))).flat();
   return (
     <>

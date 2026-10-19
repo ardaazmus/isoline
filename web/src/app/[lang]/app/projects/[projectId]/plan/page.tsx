@@ -1,11 +1,11 @@
+import { projectCycles, cycleSteps } from "@/platform/cached";
 import Link from "next/link";
 import { PlanTable, PlanTimeline } from "@/platform/g2/plan";
 import { loadProject, pickCycle, ProjectHeader } from "@/platform/project-shell";
 import { OkNote, Section, StateBox } from "@/platform/ui";
 import { titled, tr } from "@/platform/server";
 import { grantCan, memberCan } from "@/server/policy/policy";
-import { listCycles, listParticipants, listPlan } from "@/server/projects/service";
-import { cycleProgress } from "@/server/cycle/progress";
+import { listParticipants, listPlan } from "@/server/projects/service";
 
 export const generateMetadata = titled("pf.plan.title");
 
@@ -17,9 +17,9 @@ export default async function PlanPage({ params, searchParams }: PageProps<"/[la
   const loaded = await loadProject(lang, projectId);
   if (!loaded.ok) return loaded.view;
   const { ws, data } = loaded.p;
-  const cycles = await listCycles(ws.actor, projectId);
+  const cycles = await projectCycles(ws.actor, projectId);
   const cycle = pickCycle(cycles, sp.cycle);
-  const [items, team, progress] = cycle ? await Promise.all([listPlan(ws.actor, cycle.id), listParticipants(ws.actor, projectId), cycleProgress(ws.actor, cycle.id)]) : [[], [], null];
+  const [items, team, progress] = cycle ? await Promise.all([listPlan(ws.actor, cycle.id), listParticipants(ws.actor, projectId), cycleSteps(ws.actor, cycle.id)]) : [[], [], null];
   const steps = Object.fromEntries((progress?.steps ?? []).map((x) => [x.id, x.state]));
   const role = ws.actor.role;
   const canEdit = role !== null && memberCan(role, "plan.update") && (data.access.via !== "grant" || grantCan(data.access.grantRole!, "plan.update"));

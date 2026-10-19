@@ -5,6 +5,7 @@
  */
 import { sql } from "kysely";
 import { withActor, type Actor } from "../db/client";
+import { reachableProjectIds } from "../tenancy/service";
 
 export type ProjectKpi = {
   projectId: string;
@@ -20,11 +21,16 @@ export type ProjectKpi = {
 
 export async function portfolioKpis(actor: Actor): Promise<ProjectKpi[]> {
   return withActor(actor, async (tx) => {
-    // the newest cycle of every project the workspace can see (RLS decides which)
+    // the newest cycle of every project the workspace can reach (RLS still decides row by row)
+    const reachable = await reachableProjectIds(tx, actor);
+    if (!reachable.length) return [];
     const cycles = await tx
       .selectFrom("core.reporting_cycles as c")
+      .distinctOn("c.project_id")
       .select(["c.id", "c.project_id", "c.publish_due"])
-      .where(sql<boolean>`c.period_end = (select max(x.period_end) from core.reporting_cycles x where x.project_id = c.project_id)`)
+      .where("c.project_id", "in", reachable)
+      .orderBy("c.project_id")
+      .orderBy("c.period_end", "desc")
       .execute();
     if (!cycles.length) return [];
     const ids = cycles.map((c) => c.id);

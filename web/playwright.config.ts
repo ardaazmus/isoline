@@ -1,21 +1,43 @@
-import { defineConfig, devices } from "@playwright/test";
-
 /**
- * End-to-end journeys per role (UX Faz 4) against the demo data: `npm run db:seed -- --reset`, then
- * `npm run test:e2e`. The dev server on :3210 is reused when it runs, else started. The tests only read, so the
- * demo stays as seeded.
+ * Browser suite (G8-07): axe-core WCAG 2.2 AA scans of the main screens and the keyboard-only journey
+ * (sign-in → task submission → reviewer acceptance). Run with `npm run test:e2e`: it rebuilds the e2e database,
+ * starts the production server on port 3211 and runs the specs in e2e/. Needs a `npm run build` of the current code.
+ *
+ * Browser: the Playwright Chromium (`npx playwright install chromium`, CI) or an installed channel via PW_CHANNEL
+ * (e.g. PW_CHANNEL=chrome or msedge on a workstation without the download).
  */
+import { defineConfig, devices } from "@playwright/test";
+import { E2E_ORIGIN } from "./scripts/e2e/env";
+
+const CI = !!process.env.CI;
+
 export default defineConfig({
-  testDir: "./e2e",
+  testDir: "e2e",
+  outputDir: "test-results",
   timeout: 60_000,
-  expect: { timeout: 15_000 },
-  fullyParallel: false,
-  workers: 1,
-  reporter: [["list"]],
-  use: { baseURL: process.env.E2E_BASE_URL ?? "http://localhost:3210", locale: "tr-TR", trace: "retain-on-failure" },
+  expect: { timeout: 10_000 },
+  fullyParallel: true,
+  forbidOnly: CI,
+  retries: CI ? 1 : 0,
+  workers: CI ? 2 : 4,
+  reporter: CI ? [["list"], ["html", { open: "never", outputFolder: "playwright-report" }]] : [["list"]],
+  use: {
+    baseURL: E2E_ORIGIN,
+    locale: "tr-TR",
+    timezoneId: "Europe/Istanbul",
+    trace: "retain-on-failure",
+    channel: process.env.PW_CHANNEL || undefined,
+  },
   projects: [
-    { name: "setup", testMatch: /auth\.setup\.ts/, use: { ...devices["Desktop Chrome"] } },
-    { name: "chromium", testMatch: /.*\.spec\.ts/, dependencies: ["setup"], use: { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 900 } } },
+    { name: "setup", testMatch: /auth\.setup\.ts/ },
+    { name: "chromium", use: { ...devices["Desktop Chrome"], channel: process.env.PW_CHANNEL || undefined }, dependencies: ["setup"] },
   ],
-  webServer: process.env.E2E_BASE_URL ? undefined : { command: "npm run dev -- --port 3210", url: "http://localhost:3210/tr/auth/login", reuseExistingServer: true, timeout: 180_000 },
+  webServer: {
+    command: "npx tsx scripts/e2e/server.ts",
+    url: `${E2E_ORIGIN}/api/v1/health`,
+    reuseExistingServer: !CI,
+    timeout: 120_000,
+    stdout: "ignore",
+    stderr: "pipe",
+  },
 });

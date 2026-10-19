@@ -5,8 +5,7 @@ import { Badge, PageTitle, StateBox } from "./ui";
 import { attempt, tr } from "./server";
 import { requireWorkspace, type Workspace } from "@/server/http/dal";
 import { projectOverview } from "@/server/tenancy/service";
-import { listCycles } from "@/server/projects/service";
-import { cycleProgress } from "@/server/cycle/progress";
+import { cycleSteps, projectCycles } from "./cached";
 import { grantCan, memberCan, type Action } from "@/server/policy/policy";
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -56,9 +55,9 @@ export function canSetup(p: LoadedProject): boolean {
 export async function ProjectHeader({ lang, p, actions, cycleId }: { lang: string; p: LoadedProject; actions?: ReactNode; cycleId?: string | null }) {
   const t = tr(lang);
   const { project, access } = p.data;
-  const cycles = await listCycles(p.ws.actor, project.id);
+  const cycles = await projectCycles(p.ws.actor, project.id);
   const cycle = (cycleId ? cycles.find((c) => c.id === cycleId) : undefined) ?? cycles[0] ?? null;
-  const progress = cycle ? await cycleProgress(p.ws.actor, cycle.id) : null;
+  const progress = cycle ? await cycleSteps(p.ws.actor, cycle.id) : null;
   const query = cycle && cycles[0] && cycle.id !== cycles[0].id ? `?cycle=${cycle.id}` : "";
   return (
     <>

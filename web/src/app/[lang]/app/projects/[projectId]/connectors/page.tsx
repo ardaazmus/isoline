@@ -1,9 +1,9 @@
+import { projectCycles } from "@/platform/cached";
 import { loadProject, pickCycle, ProjectHeader } from "@/platform/project-shell";
 import { Badge, Section, StateBox } from "@/platform/ui";
 import { dateTime, titled, tr } from "@/platform/server";
 import { grantCan, memberCan } from "@/server/policy/policy";
 import { listCampaigns } from "@/server/data/service";
-import { listCycles } from "@/server/projects/service";
 import { listConnectors } from "@/server/connectors/service";
 import { ConnectorForm, TriggerButton } from "@/platform/g8/connectors";
 
@@ -17,7 +17,7 @@ export default async function ConnectorsPage({ params, searchParams }: PageProps
   const loaded = await loadProject(lang, projectId);
   if (!loaded.ok) return loaded.view;
   const { ws, data } = loaded.p;
-  const cycles = await listCycles(ws.actor, projectId);
+  const cycles = await projectCycles(ws.actor, projectId);
   const cycle = pickCycle(cycles, sp.cycle);
   const [campaigns, connectors] = await Promise.all([listCampaigns(ws.actor, projectId), listConnectors(ws.actor, projectId)]);
   const role = ws.actor.role;

@@ -1,10 +1,10 @@
+import { projectCycles } from "@/platform/cached";
 import { RevokeButton } from "@/platform/forms";
 import { AddCycleForm } from "@/platform/g2/project";
 import { loadProject, ProjectHeader } from "@/platform/project-shell";
 import { Badge, Section, Table, Td } from "@/platform/ui";
 import { dateOnly, titled, tr } from "@/platform/server";
 import { grantCan, memberCan } from "@/server/policy/policy";
-import { listCycles } from "@/server/projects/service";
 import { counterpartNames } from "@/server/tenancy/service";
 import { latestCycles } from "@/server/cycle/progress";
 
@@ -22,7 +22,7 @@ export default async function SetupPage({ params }: PageProps<"/[lang]/app/proje
   if (!loaded.ok) return loaded.view;
   const { ws, data } = loaded.p;
   const { project, access, grants } = data;
-  const [cycles, latest] = await Promise.all([listCycles(ws.actor, projectId), latestCycles(ws.actor)]);
+  const [cycles, latest] = await Promise.all([projectCycles(ws.actor, projectId), latestCycles(ws.actor)]);
   const role = ws.actor.role;
   const can = (a: "grant.manage" | "project.update") => role !== null && memberCan(role, a) && access.via !== "grant";
   const canAdd = role !== null && memberCan(role, "project.update") && (access.via !== "grant" || grantCan(access.grantRole!, "project.update"));
@@ -32,7 +32,7 @@ export default async function SetupPage({ params }: PageProps<"/[lang]/app/proje
   return (
     <>
       <ProjectHeader lang={lang} p={loaded.p} />
-      <p className="mb-5 max-w-[80ch] text-[13.5px] leading-relaxed text-[var(--ink-2)]">{t("pf.steps.setupLead")}</p>
+      <p className="on-ground mb-5 max-w-[80ch] text-[13.5px] leading-relaxed text-[var(--ink-2)]">{t("pf.steps.setupLead")}</p>
       <div className="flex flex-col gap-6">
         <Section title={t("pf.cycle.title")} id="cycles">
           {cycles.length === 0 ? (

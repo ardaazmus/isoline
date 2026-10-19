@@ -5,7 +5,7 @@
  * reviewer's accept or return-with-reason. Versions are listed newest first; nothing earlier is overwritten.
  */
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Check as CheckIcon, FileUp, Paperclip, Plus, Trash2 } from "lucide-react";
 import { useI18n } from "@/i18n/provider";
 import { Button, cn } from "@/components/ui";
@@ -27,6 +27,9 @@ const STEPS = ["what", "value", "evidence", "submit"] as const;
 
 const num = (v: string | null) => (v === null ? "" : String(Number(v)));
 
+/** After a submit or a decision the form goes away: focus the request status (a live region) so it is announced. */
+const focusStatus = () => document.getElementById("task-status")?.focus();
+
 export function TaskForm({ task, units, projectEvidence }: { task: TaskView; units: Record<string, string[]>; projectEvidence: { id: string; filename: string; scan_status: string }[] }) {
   const { t } = useI18n();
   const router = useRouter();
@@ -34,7 +37,18 @@ export function TaskForm({ task, units, projectEvidence }: { task: TaskView; uni
   const last = draft ?? task.versions[0];
   const allowed = task.metric.dimensions.flatMap((d) => units[d] ?? []);
   const numeric = !task.metric.dimensions.includes("none");
-  const [step, setStep] = useState<(typeof STEPS)[number]>(task.can.edit ? "what" : "what");
+  const [step, setStep] = useState<(typeof STEPS)[number]>("what");
+  // a step change moves focus into the step that opened (not on first render), so keyboard and screen reader users
+  // continue where the content is instead of at the top of the page
+  const panel = useRef<HTMLDivElement>(null);
+  const moved = useRef(false);
+  const go = (s: (typeof STEPS)[number]) => {
+    moved.current = true;
+    setStep(s);
+  };
+  useEffect(() => {
+    if (moved.current) panel.current?.focus();
+  }, [step]);
   const [value, setValue] = useState(last?.value_num ? num(last.value_num) : "");
   const [unit, setUnit] = useState(last?.unit_code ?? allowed[0] ?? "");
   const [text, setText] = useState(last?.value_text ?? "");
@@ -55,10 +69,13 @@ export function TaskForm({ task, units, projectEvidence }: { task: TaskView; uni
     () => {
       setSaved(true);
       router.refresh();
-      setStep("evidence");
+      go("evidence");
     },
   );
-  const submit = useSubmit(() => api("POST", `/api/v1/requests/${task.request.id}/submit`, { note: note || null }), () => router.refresh());
+  const submit = useSubmit(() => api("POST", `/api/v1/requests/${task.request.id}/submit`, { note: note || null }), () => {
+    router.refresh();
+    focusStatus();
+  });
 
   const upload = async () => {
     const f = fileRef.current?.files?.[0];
@@ -89,158 +106,160 @@ export function TaskForm({ task, units, projectEvidence }: { task: TaskView; uni
       <ol className="flex flex-wrap gap-2" aria-label={t("pf.task.steps")}>
         {STEPS.map((s, i) => (
           <li key={s}>
-            <button type="button" onClick={() => setStep(s)} aria-current={step === s ? "step" : undefined} className={cn("flex items-center gap-2 rounded-full border px-3 py-1 text-[13px]", step === s ? "border-[var(--b-600)] bg-[var(--b-600)] text-white" : "border-[var(--rule)] text-[var(--ink-2)]")}>
-              <span className="grid h-5 w-5 place-items-center rounded-full bg-white/20 text-[11px] font-semibold">{i + 1}</span>
+            <button type="button" onClick={() => go(s)} aria-current={step === s ? "step" : undefined} className={cn("flex items-center gap-2 rounded-full border px-3 py-1 text-[13px]", step === s ? "border-[var(--b-600)] bg-[var(--b-600)] text-white" : "border-[var(--rule)] text-[var(--ink-2)]")}>
+              <span className={cn("grid h-5 w-5 place-items-center rounded-full text-[11px] font-semibold", step === s ? "bg-white text-[var(--b-700)]" : "bg-[var(--b-50)] text-[var(--ink-2)]")}>{i + 1}</span>
               {t(`pf.task.step.${s}`)}
             </button>
           </li>
         ))}
       </ol>
 
-      {step === "what" && (
-        <div className="flex flex-col gap-3 text-[14px]">
-          <p className="text-[16px] font-semibold">{t(`req.items.${task.metric.code}`)}</p>
-          <dl className="grid gap-x-6 gap-y-2 md:grid-cols-[180px_minmax(0,1fr)]">
-            <dt className="text-[var(--ink-3)]">{t("pf.task.source")}</dt>
-            <dd>{t(`req.docs.${task.metric.code}`)}</dd>
-            <dt className="text-[var(--ink-3)]">{t("pf.task.unit")}</dt>
-            <dd>{t(`req.units.${task.metric.unitKey}`)}</dd>
-            <dt className="text-[var(--ink-3)]">{t("pf.task.period")}</dt>
-            <dd>{task.request.period_label}</dd>
-            <dt className="text-[var(--ink-3)]">{t("pf.task.where")}</dt>
-            <dd>{task.request.facility_name ?? t("pf.data.organisationLevel")}</dd>
-            <dt className="text-[var(--ink-3)]">{t("pf.task.aggregation")}</dt>
-            <dd>{t(`pf.task.agg.${task.metric.aggregation}`)}</dd>
-          </dl>
-          {task.metric.sensitive && <p className="rounded-[12px] border border-[var(--warn)] bg-[var(--warn-wash)] px-3 py-2 text-[13px]">{t("pf.task.sensitive")}</p>}
-          {task.request.instructions && <p className="text-[13.5px] text-[var(--ink-2)]">{task.request.instructions}</p>}
-          <div>
-            <Button variant="primary" onClick={() => setStep("value")}>
-              {t("pf.task.next")}
-            </Button>
-          </div>
-        </div>
-      )}
-
-      {step === "value" && (
-        <form onSubmit={save.submit} className="flex flex-col gap-4">
-          {task.metric.multiline ? (
-            <fieldset className="flex flex-col gap-2">
-              <legend className="mb-1 text-[13px] font-semibold">{t("pf.task.lines")}</legend>
-              {lines.map((l, i) => (
-                <div key={i} className="grid gap-2 md:grid-cols-[1fr_1fr_140px_auto] md:items-end">
-                  {task.metric.lineKeys.length ? (
-                    <Select label={t("pf.task.line")} name={`l-k-${i}`} value={l.key} onChange={(e) => setLines(lines.map((x, j) => (j === i ? { ...x, key: e.target.value } : x)))} options={task.metric.lineKeys.map((k) => ({ value: k, label: t(`pf.task.lineKey.${k}`) }))} />
-                  ) : (
-                    <Input label={t("pf.task.line")} name={`l-k-${i}`} value={l.key} onChange={(e) => setLines(lines.map((x, j) => (j === i ? { ...x, key: e.target.value } : x)))} />
-                  )}
-                  <Input label={t("pf.task.value")} name={`l-v-${i}`} inputMode="decimal" value={l.value} onChange={(e) => setLines(lines.map((x, j) => (j === i ? { ...x, value: e.target.value } : x)))} />
-                  <Select label={t("pf.task.unit")} name={`l-u-${i}`} value={l.unit} onChange={(e) => setLines(lines.map((x, j) => (j === i ? { ...x, unit: e.target.value } : x)))} options={allowed.map((u) => ({ value: u, label: u }))} />
-                  <Button size="sm" variant="ghost" aria-label={t("pf.task.removeLine")} onClick={() => setLines(lines.filter((_, j) => j !== i))}>
-                    <Trash2 size={14} aria-hidden />
-                  </Button>
-                </div>
-              ))}
-              <div>
-                <Button size="sm" onClick={() => setLines([...lines, { key: task.metric.lineKeys.find((k) => !lines.some((x) => x.key === k)) ?? "", value: "", unit: allowed[0] ?? "" }])}>
-                  <Plus size={14} aria-hidden />
-                  {t("pf.task.addLine")}
-                </Button>
-              </div>
-            </fieldset>
-          ) : numeric ? (
-            <div className="grid gap-3 md:grid-cols-[1fr_160px]">
-              <Input label={t("pf.task.value")} name="v-value" inputMode="decimal" required value={value} onChange={(e) => setValue(e.target.value)} hint={t("pf.task.numberHint")} />
-              <Select label={t("pf.task.unit")} name="v-unit" value={unit} onChange={(e) => setUnit(e.target.value)} options={allowed.map((u) => ({ value: u, label: u }))} />
-            </div>
-          ) : (
-            <div className="flex flex-col gap-1">
-              <label htmlFor="v-text" className="text-[13px] font-medium text-[var(--ink-2)]">
-                {t("pf.task.text")}
-              </label>
-              <textarea id="v-text" className="field-input min-h-[120px]" required maxLength={4000} value={text} onChange={(e) => setText(e.target.value)} />
-            </div>
-          )}
-          <div className="grid gap-3 md:grid-cols-3">
-            <Select label={t("pf.task.quality")} name="v-quality" value={quality} onChange={(e) => setQuality(e.target.value)} options={["measured", "calculated", "estimated"].map((q) => ({ value: q, label: t(`pf.task.q.${q}`) }))} />
-            <Input label={t("pf.task.sourceRef")} name="v-source" maxLength={500} value={source} onChange={(e) => setSource(e.target.value)} hint={t("pf.task.sourceRefHint")} />
-            <Input label={t("pf.task.method")} name="v-method" maxLength={2000} value={method} onChange={(e) => setMethod(e.target.value)} />
-          </div>
-          <ErrorNote code={save.error} />
-          {saved && !save.error && <OkNote>{t("pf.task.draftSaved")}</OkNote>}
-          <div>
-            <SubmitButton busy={save.busy}>{t("pf.task.saveDraft")}</SubmitButton>
-          </div>
-        </form>
-      )}
-
-      {step === "evidence" && (
-        <div className="flex flex-col gap-3">
-          <p className="text-[13.5px] text-[var(--ink-2)]">{task.metric.evidenceRequired ? t("pf.task.evidenceRequired") : t("pf.task.evidenceOptional")}</p>
-          {task.evidence.length > 0 && (
-            <ul className="flex flex-col gap-1 text-[13.5px]">
-              {task.evidence.map((e) => (
-                <li key={e.id} className="flex items-center gap-2">
-                  <Paperclip size={14} aria-hidden />
-                  {e.filename} <Badge tone={e.scan_status === "available" ? "ok" : "warn"}>{t(`pf.evidence.status.${e.scan_status}`)}</Badge>
-                </li>
-              ))}
-            </ul>
-          )}
-          <div className="flex flex-col gap-2 md:flex-row md:items-end">
-            <div className="flex min-w-0 flex-1 flex-col gap-1">
-              <label htmlFor="t-file" className="text-[13px] font-medium text-[var(--ink-2)]">
-                {t("pf.evidence.file")}
-              </label>
-              <input id="t-file" ref={fileRef} type="file" className="field-input" accept=".pdf,.png,.jpg,.jpeg,.webp,.xlsx,.xls,.docx,.csv,.txt,.json,.xml,.zip" />
-            </div>
-            <Button variant="primary" disabled={evBusy} onClick={() => void upload()}>
-              <FileUp size={15} aria-hidden />
-              {t("pf.task.uploadAndLink")}
-            </Button>
-          </div>
-          {projectEvidence.length > 0 && (
-            <div className="flex flex-col gap-2 md:flex-row md:items-end">
-              <div className="flex-1">
-                <Select label={t("pf.task.linkExisting")} name="t-pick" value={pick} onChange={(e) => setPick(e.target.value)} options={[{ value: "", label: "—" }, ...projectEvidence.filter((e) => !task.evidence.some((x) => x.id === e.id)).map((e) => ({ value: e.id, label: e.filename }))]} />
-              </div>
-              <Button
-                disabled={!pick || evBusy}
-                onClick={async () => {
-                  setEvBusy(true);
-                  const r = await api("POST", `/api/v1/requests/${task.request.id}/evidence`, { evidenceId: pick });
-                  setEvBusy(false);
-                  if (!r.ok) return setEvError(r.code);
-                  setPick("");
-                  router.refresh();
-                }}
-              >
-                {t("pf.task.link")}
+      <div ref={panel} tabIndex={-1} role="group" aria-label={`${STEPS.indexOf(step) + 1}. ${t(`pf.task.step.${step}`)}`} className="flex flex-col gap-4 rounded-[12px]">
+        {step === "what" && (
+          <div className="flex flex-col gap-3 text-[14px]">
+            <p className="text-[16px] font-semibold">{t(`req.items.${task.metric.code}`)}</p>
+            <dl className="grid gap-x-6 gap-y-2 md:grid-cols-[180px_minmax(0,1fr)]">
+              <dt className="text-[var(--ink-3)]">{t("pf.task.source")}</dt>
+              <dd>{t(`req.docs.${task.metric.code}`)}</dd>
+              <dt className="text-[var(--ink-3)]">{t("pf.task.unit")}</dt>
+              <dd>{t(`req.units.${task.metric.unitKey}`)}</dd>
+              <dt className="text-[var(--ink-3)]">{t("pf.task.period")}</dt>
+              <dd>{task.request.period_label}</dd>
+              <dt className="text-[var(--ink-3)]">{t("pf.task.where")}</dt>
+              <dd>{task.request.facility_name ?? t("pf.data.organisationLevel")}</dd>
+              <dt className="text-[var(--ink-3)]">{t("pf.task.aggregation")}</dt>
+              <dd>{t(`pf.task.agg.${task.metric.aggregation}`)}</dd>
+            </dl>
+            {task.metric.sensitive && <p className="rounded-[12px] border border-[var(--warn)] bg-[var(--warn-wash)] px-3 py-2 text-[13px]">{t("pf.task.sensitive")}</p>}
+            {task.request.instructions && <p className="text-[13.5px] text-[var(--ink-2)]">{task.request.instructions}</p>}
+            <div>
+              <Button variant="primary" onClick={() => go("value")}>
+                {t("pf.task.next")}
               </Button>
             </div>
-          )}
-          <ErrorNote code={evError} />
-          <div>
-            <Button variant="primary" onClick={() => setStep("submit")}>
-              {t("pf.task.next")}
-            </Button>
           </div>
-        </div>
-      )}
+        )}
 
-      {step === "submit" && (
-        <form onSubmit={submit.submit} className="flex flex-col gap-3">
-          <p className="text-[13.5px] text-[var(--ink-2)]">{t("pf.task.submitLead", { reviewer: task.request.reviewer_name ?? "—" })}</p>
-          {!draft && <ErrorNote code="value_required" />}
-          <Input label={t("pf.task.note")} name="t-note" maxLength={2000} value={note} onChange={(e) => setNote(e.target.value)} />
-          <ErrorNote code={submit.error} />
-          <div>
-            <SubmitButton busy={submit.busy} disabled={!draft}>
-              {task.request.returns > 0 ? t("pf.task.resubmit") : t("pf.task.submit")}
-            </SubmitButton>
+        {step === "value" && (
+          <form onSubmit={save.submit} className="flex flex-col gap-4">
+            {task.metric.multiline ? (
+              <fieldset className="flex flex-col gap-2">
+                <legend className="mb-1 text-[13px] font-semibold">{t("pf.task.lines")}</legend>
+                {lines.map((l, i) => (
+                  <div key={i} className="grid gap-2 md:grid-cols-[1fr_1fr_140px_auto] md:items-end">
+                    {task.metric.lineKeys.length ? (
+                      <Select label={t("pf.task.line")} name={`l-k-${i}`} value={l.key} onChange={(e) => setLines(lines.map((x, j) => (j === i ? { ...x, key: e.target.value } : x)))} options={task.metric.lineKeys.map((k) => ({ value: k, label: t(`pf.task.lineKey.${k}`) }))} />
+                    ) : (
+                      <Input label={t("pf.task.line")} name={`l-k-${i}`} value={l.key} onChange={(e) => setLines(lines.map((x, j) => (j === i ? { ...x, key: e.target.value } : x)))} />
+                    )}
+                    <Input label={t("pf.task.value")} name={`l-v-${i}`} inputMode="decimal" value={l.value} onChange={(e) => setLines(lines.map((x, j) => (j === i ? { ...x, value: e.target.value } : x)))} />
+                    <Select label={t("pf.task.unit")} name={`l-u-${i}`} value={l.unit} onChange={(e) => setLines(lines.map((x, j) => (j === i ? { ...x, unit: e.target.value } : x)))} options={allowed.map((u) => ({ value: u, label: u }))} />
+                    <Button size="sm" variant="ghost" aria-label={t("pf.task.removeLine")} onClick={() => setLines(lines.filter((_, j) => j !== i))}>
+                      <Trash2 size={14} aria-hidden />
+                    </Button>
+                  </div>
+                ))}
+                <div>
+                  <Button size="sm" onClick={() => setLines([...lines, { key: task.metric.lineKeys.find((k) => !lines.some((x) => x.key === k)) ?? "", value: "", unit: allowed[0] ?? "" }])}>
+                    <Plus size={14} aria-hidden />
+                    {t("pf.task.addLine")}
+                  </Button>
+                </div>
+              </fieldset>
+            ) : numeric ? (
+              <div className="grid gap-3 md:grid-cols-[1fr_160px]">
+                <Input label={t("pf.task.value")} name="v-value" inputMode="decimal" required value={value} onChange={(e) => setValue(e.target.value)} hint={t("pf.task.numberHint")} />
+                <Select label={t("pf.task.unit")} name="v-unit" value={unit} onChange={(e) => setUnit(e.target.value)} options={allowed.map((u) => ({ value: u, label: u }))} />
+              </div>
+            ) : (
+              <div className="flex flex-col gap-1">
+                <label htmlFor="v-text" className="text-[13px] font-medium text-[var(--ink-2)]">
+                  {t("pf.task.text")}
+                </label>
+                <textarea id="v-text" className="field-input min-h-[120px]" required maxLength={4000} value={text} onChange={(e) => setText(e.target.value)} />
+              </div>
+            )}
+            <div className="grid gap-3 md:grid-cols-3">
+              <Select label={t("pf.task.quality")} name="v-quality" value={quality} onChange={(e) => setQuality(e.target.value)} options={["measured", "calculated", "estimated"].map((q) => ({ value: q, label: t(`pf.task.q.${q}`) }))} />
+              <Input label={t("pf.task.sourceRef")} name="v-source" maxLength={500} value={source} onChange={(e) => setSource(e.target.value)} hint={t("pf.task.sourceRefHint")} />
+              <Input label={t("pf.task.method")} name="v-method" maxLength={2000} value={method} onChange={(e) => setMethod(e.target.value)} />
+            </div>
+            <ErrorNote code={save.error} />
+            {saved && !save.error && <OkNote>{t("pf.task.draftSaved")}</OkNote>}
+            <div>
+              <SubmitButton busy={save.busy}>{t("pf.task.saveDraft")}</SubmitButton>
+            </div>
+          </form>
+        )}
+
+        {step === "evidence" && (
+          <div className="flex flex-col gap-3">
+            <p className="text-[13.5px] text-[var(--ink-2)]">{task.metric.evidenceRequired ? t("pf.task.evidenceRequired") : t("pf.task.evidenceOptional")}</p>
+            {task.evidence.length > 0 && (
+              <ul className="flex flex-col gap-1 text-[13.5px]">
+                {task.evidence.map((e) => (
+                  <li key={e.id} className="flex items-center gap-2">
+                    <Paperclip size={14} aria-hidden />
+                    {e.filename} <Badge tone={e.scan_status === "available" ? "ok" : "warn"}>{t(`pf.evidence.status.${e.scan_status}`)}</Badge>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <div className="flex flex-col gap-2 md:flex-row md:items-end">
+              <div className="flex min-w-0 flex-1 flex-col gap-1">
+                <label htmlFor="t-file" className="text-[13px] font-medium text-[var(--ink-2)]">
+                  {t("pf.evidence.file")}
+                </label>
+                <input id="t-file" ref={fileRef} type="file" className="field-input" accept=".pdf,.png,.jpg,.jpeg,.webp,.xlsx,.xls,.docx,.csv,.txt,.json,.xml,.zip" />
+              </div>
+              <Button variant="primary" disabled={evBusy} onClick={() => void upload()}>
+                <FileUp size={15} aria-hidden />
+                {t("pf.task.uploadAndLink")}
+              </Button>
+            </div>
+            {projectEvidence.length > 0 && (
+              <div className="flex flex-col gap-2 md:flex-row md:items-end">
+                <div className="flex-1">
+                  <Select label={t("pf.task.linkExisting")} name="t-pick" value={pick} onChange={(e) => setPick(e.target.value)} options={[{ value: "", label: "—" }, ...projectEvidence.filter((e) => !task.evidence.some((x) => x.id === e.id)).map((e) => ({ value: e.id, label: e.filename }))]} />
+                </div>
+                <Button
+                  disabled={!pick || evBusy}
+                  onClick={async () => {
+                    setEvBusy(true);
+                    const r = await api("POST", `/api/v1/requests/${task.request.id}/evidence`, { evidenceId: pick });
+                    setEvBusy(false);
+                    if (!r.ok) return setEvError(r.code);
+                    setPick("");
+                    router.refresh();
+                  }}
+                >
+                  {t("pf.task.link")}
+                </Button>
+              </div>
+            )}
+            <ErrorNote code={evError} />
+            <div>
+              <Button variant="primary" onClick={() => go("submit")}>
+                {t("pf.task.next")}
+              </Button>
+            </div>
           </div>
-        </form>
-      )}
+        )}
+
+        {step === "submit" && (
+          <form onSubmit={submit.submit} className="flex flex-col gap-3">
+            <p className="text-[13.5px] text-[var(--ink-2)]">{t("pf.task.submitLead", { reviewer: task.request.reviewer_name ?? "—" })}</p>
+            {!draft && <ErrorNote code="value_required" />}
+            <Input label={t("pf.task.note")} name="t-note" maxLength={2000} value={note} onChange={(e) => setNote(e.target.value)} />
+            <ErrorNote code={submit.error} />
+            <div>
+              <SubmitButton busy={submit.busy} disabled={!draft}>
+                {task.request.returns > 0 ? t("pf.task.resubmit") : t("pf.task.submit")}
+              </SubmitButton>
+            </div>
+          </form>
+        )}
+      </div>
     </section>
   );
 }
@@ -249,8 +268,12 @@ export function ReviewPanel({ task }: { task: TaskView }) {
   const { t } = useI18n();
   const router = useRouter();
   const [reason, setReason] = useState("");
-  const accept = useSubmit(() => api("POST", `/api/v1/requests/${task.request.id}/accept`, undefined, { ifMatch: `"${task.request.row_version}"` }), () => router.refresh());
-  const back = useSubmit(() => api("POST", `/api/v1/requests/${task.request.id}/return`, { reason }), () => router.refresh());
+  const done = () => {
+    router.refresh();
+    focusStatus();
+  };
+  const accept = useSubmit(() => api("POST", `/api/v1/requests/${task.request.id}/accept`, undefined, { ifMatch: `"${task.request.row_version}"` }), done);
+  const back = useSubmit(() => api("POST", `/api/v1/requests/${task.request.id}/return`, { reason }), done);
   if (!task.can.review) return null;
   return (
     <section className="glass flex flex-col gap-3 p-5 md:p-6" aria-labelledby="review-h">

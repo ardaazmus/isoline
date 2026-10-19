@@ -7,9 +7,13 @@ import { redirect } from "next/navigation";
 
 export const generateMetadata = titled("pf.choose.title");
 
-/** AUTH-09: one person, several workspaces — choose where to work. */
-export default async function ChoosePage({ params }: PageProps<"/[lang]/app/choose">) {
+/**
+ * AUTH-09: one person, several workspaces — choose where to work. A single workspace opens straight away unless the
+ * person asked to stay (?stay=1, e.g. to open another workspace).
+ */
+export default async function ChoosePage({ params, searchParams }: PageProps<"/[lang]/app/choose">) {
   const { lang } = await params;
+  const sp = await searchParams;
   const t = tr(lang);
   const session = await requireSession(lang, `/${lang}/app/choose`);
   const memberships = await myMemberships(session.identity.userId);
@@ -17,7 +21,7 @@ export default async function ChoosePage({ params }: PageProps<"/[lang]/app/choo
   return (
     <>
       <PageTitle title={t("pf.choose.title")} lead={t("pf.choose.lead", { name: session.name })} />
-      <ChooseWorkspace lang={lang} memberships={memberships} />
+      <ChooseWorkspace lang={lang} memberships={memberships} auto={sp.stay !== "1"} />
     </>
   );
 }

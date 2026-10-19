@@ -192,7 +192,7 @@ components:
     rounded: "10px"
     padding: "7px 8px"
   glass-tile:
-    backgroundColor: "rgba(255, 255, 255, 0.58)"
+    backgroundColor: "rgba(255, 255, 255, 0.78)"
     textColor: "{colors.ink}"
     rounded: "{rounded.tile}"
     padding: "20px"
@@ -238,7 +238,7 @@ The density is that of a consultant's analysis desk: 15px body, compact controls
 The system is light only (user decision 2026-10-17): there is no dark theme, no `prefers-color-scheme` or `data-theme` variant, and an OS set to dark still renders the light app (`color-scheme: light`). The category default (white rounded cards with an emerald accent and leaf icons) and the plain grey dashboard are the confirmed rejections.
 
 **Key Characteristics:**
-- Frosted glass tiles (58% white, 14px blur, 1.4 saturate, white hairline, blue-tinted shadow, 18px radius) on a grain-washed radial blue ground.
+- Frosted glass tiles (78% white, 14px blur, 1.4 saturate, white hairline, blue-tinted shadow, 18px radius) on a grain-washed radial blue ground. 78%, not the earlier 58%: secondary and status text on a tile keeps 4.5:1 over the deepest point of the fixed ground (G8-07 axe suite, 2026-10-19).
 - One cobalt-to-periwinkle grain band per page, carrying title, one-sentence result and actions; the band stays cobalt on every family.
 - Blue for the world, ten theme ramps for the data (families scoped by `data-family` take one of them), state colours (warn, crit, ok) for meaning only, always with an arrow, icon or line form.
 - Analysis sheets (94% paper) under every chart and table; theme chips, tinted group rows, in-cell bars and segmented score scales inside tables (pattern from the Paragon +Impact reference).
@@ -373,7 +373,7 @@ Compact, firm and blue; they never shout louder than the result band and never t
 
 ### Cards / Containers
 - **Corner Style:** 18px glass tiles.
-- **Background:** glass (58% white; 80% for the strong variant used by tooltips, active nodes and inset previews) over the ground.
+- **Background:** glass (78% white; 80% for the strong variant used by tooltips, active nodes and inset previews) over the ground.
 - **Shadow Strategy:** glass float (see Elevation).
 - **Border:** 1px 92% white hairline.
 - **Internal Padding:** 20px, 24px from md; figure tiles 16px / 20px.
@@ -454,7 +454,8 @@ Ruled, inside an analysis sheet. Theme groups open with a group row; the first c
 - **Do** set a `data-family` on any tool surface and take data accents from `--fam*`, so the family's hue ramp follows automatically.
 - **Do** order a family's series by ramp step: strong for the primary series, mid for secondary or default values, light for the remainder, wash for bands and zones.
 - **Do** set governing figures in Geist 300 tabular with -0.035em tracking, and lead each figure row with the family-gradient tile.
-- **Do** tint every shadow with deep cobalt and keep tiles on the 58% glass recipe.
+- **Do** tint every shadow with deep cobalt and keep tiles on the 78% glass recipe.
+- **Do** put text that sits straight on the ground (page lead, a link beside the tiles) inside `.on-ground`: it remaps `ink-2`, `ink-3` and `b-700` to their deep variants, which keep 4.5:1 at the darkest point of the gradient. Badges carry their own paper surface.
 - **Do** honour reduced motion: rule-draw, flow march, spin, rise, particles, bar growth, line draw, point pop, row rise, ring entry, count-up and icon micro-motion all stop, and transitions drop to 0ms.
 - **Do** keep motion enter-once and short: bars 520ms with at most 12 x 32ms stagger, lines 900ms draw, points pop after the line, rows 240ms with 24ms stagger, figures count 700ms; never replay on data refresh.
 - **Do** put a theme chip on every theme-specific row, tile and card, and a group row on every themed table section.
