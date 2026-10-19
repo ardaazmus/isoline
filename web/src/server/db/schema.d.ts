@@ -112,6 +112,52 @@ export interface CoreConsentRecords {
   terms_version: string;
 }
 
+export interface CoreDataCampaigns {
+  created_at: Generated<Timestamp>;
+  created_by: string;
+  cycle_id: string;
+  default_due: string | null;
+  id: Generated<string>;
+  owner_tenant_id: string;
+  project_id: string;
+  reminder_policy: Generated<Json>;
+  row_version: Generated<number>;
+  status: Generated<string>;
+  template_ids: Generated<string[]>;
+  title: string;
+  updated_at: Generated<Timestamp>;
+}
+
+export interface CoreDataRequests {
+  accepted_at: Timestamp | null;
+  accepted_by: string | null;
+  assignee_user_id: string | null;
+  campaign_id: string;
+  created_at: Generated<Timestamp>;
+  created_by: string;
+  critical: Generated<boolean>;
+  cycle_id: string;
+  due_on: string | null;
+  facility_id: string | null;
+  id: Generated<string>;
+  instructions: string | null;
+  metric_code: string;
+  metric_version: number;
+  na_reason: string | null;
+  owner_tenant_id: string;
+  period_end: string | null;
+  period_label: string;
+  period_start: string | null;
+  project_id: string;
+  returns: Generated<number>;
+  reviewer_user_id: string | null;
+  row_version: Generated<number>;
+  status: Generated<string>;
+  submitted_at: Timestamp | null;
+  traces: Generated<Json>;
+  updated_at: Generated<Timestamp>;
+}
+
 export interface CoreDeliverables {
   created_at: Generated<Timestamp>;
   created_by: string;
@@ -150,6 +196,19 @@ export interface CoreEvidenceAccessLog {
   evidence_id: string;
   id: Generated<number>;
   owner_tenant_id: string;
+}
+
+export interface CoreEvidenceLinks {
+  created_at: Generated<Timestamp>;
+  evidence_id: string;
+  id: Generated<string>;
+  linked_by: string;
+  owner_tenant_id: string;
+  project_id: string;
+  target_id: string;
+  target_type: string;
+  unlinked_at: Timestamp | null;
+  unlinked_by: string | null;
 }
 
 export interface CoreEvidenceObjects {
@@ -299,6 +358,60 @@ export interface CoreMemberships {
   user_id: string;
 }
 
+export interface CoreMetricDefinitions {
+  aggregation: string;
+  catalog_version: string;
+  code: string;
+  created_at: Generated<Timestamp>;
+  crosswalk: string | null;
+  dimensions: string[];
+  evidence_required: Generated<boolean>;
+  grain: string;
+  line_keys: Generated<string[]>;
+  multiline: Generated<boolean>;
+  period_kind: string;
+  role: string;
+  section: string;
+  sensitive: Generated<boolean>;
+  unit_key: string;
+  version: number;
+}
+
+export interface CoreNotifications {
+  created_at: Generated<Timestamp>;
+  id: Generated<number>;
+  kind: string;
+  owner_tenant_id: string | null;
+  payload: Generated<Json>;
+  project_id: string | null;
+  read_at: Timestamp | null;
+  user_id: string;
+}
+
+export interface CoreObservationVersions {
+  canonical_unit: string | null;
+  canonical_value: Numeric | null;
+  created_at: Generated<Timestamp>;
+  decided_at: Timestamp | null;
+  decided_by: string | null;
+  entered_by: string;
+  id: Generated<string>;
+  import_id: string | null;
+  lines: Json | null;
+  method_note: string | null;
+  owner_tenant_id: string;
+  project_id: string;
+  quality: Generated<string>;
+  request_id: string;
+  revision: number;
+  source_ref: string | null;
+  status: Generated<string>;
+  submitted_at: Timestamp | null;
+  unit_code: string | null;
+  value_num: Numeric | null;
+  value_text: string | null;
+}
+
 export interface CoreOrganizations {
   country_code: Generated<string>;
   created_at: Generated<Timestamp>;
@@ -410,6 +523,17 @@ export interface CoreReportingCycles {
   updated_at: Generated<Timestamp>;
 }
 
+export interface CoreRequestComments {
+  author_user_id: string;
+  body: string;
+  created_at: Generated<Timestamp>;
+  id: Generated<string>;
+  kind: Generated<string>;
+  owner_tenant_id: string;
+  project_id: string;
+  request_id: string;
+}
+
 export interface CoreRetentionRules {
   created_at: Generated<Timestamp>;
   data_class: string;
@@ -417,6 +541,31 @@ export interface CoreRetentionRules {
   keep_years: number;
   note: string | null;
   owner_tenant_id: string;
+}
+
+export interface CoreSourceImports {
+  campaign_id: string | null;
+  committed_at: Timestamp | null;
+  created_at: Generated<Timestamp>;
+  created_by: string;
+  created_versions: Generated<string[]>;
+  cycle_id: string;
+  errors: Generated<Json>;
+  evidence_id: string;
+  file_name: string;
+  id: Generated<string>;
+  mapping: Generated<Json>;
+  owner_tenant_id: string;
+  parsed: Generated<Json>;
+  project_id: string;
+  rolled_back_at: Timestamp | null;
+  row_version: Generated<number>;
+  rows_error: Generated<number>;
+  rows_total: Generated<number>;
+  rows_valid: Generated<number>;
+  sha256: string;
+  sheet: string | null;
+  status: Generated<string>;
 }
 
 export interface CoreTenants {
@@ -512,9 +661,12 @@ export interface DB {
   "core.audit_events": CoreAuditEvents;
   "core.boundary_members": CoreBoundaryMembers;
   "core.consent_records": CoreConsentRecords;
+  "core.data_campaigns": CoreDataCampaigns;
+  "core.data_requests": CoreDataRequests;
   "core.deliverables": CoreDeliverables;
   "core.engagements": CoreEngagements;
   "core.evidence_access_log": CoreEvidenceAccessLog;
+  "core.evidence_links": CoreEvidenceLinks;
   "core.evidence_objects": CoreEvidenceObjects;
   "core.external_grants": CoreExternalGrants;
   "core.facilities": CoreFacilities;
@@ -524,6 +676,9 @@ export interface DB {
   "core.legacy_imports": CoreLegacyImports;
   "core.legal_entities": CoreLegalEntities;
   "core.memberships": CoreMemberships;
+  "core.metric_definitions": CoreMetricDefinitions;
+  "core.notifications": CoreNotifications;
+  "core.observation_versions": CoreObservationVersions;
   "core.organizations": CoreOrganizations;
   "core.outbox_events": CoreOutboxEvents;
   "core.ownership_edges": CoreOwnershipEdges;
@@ -531,7 +686,9 @@ export interface DB {
   "core.projects": CoreProjects;
   "core.reporting_boundaries": CoreReportingBoundaries;
   "core.reporting_cycles": CoreReportingCycles;
+  "core.request_comments": CoreRequestComments;
   "core.retention_rules": CoreRetentionRules;
+  "core.source_imports": CoreSourceImports;
   "core.tenants": CoreTenants;
   "core.work_package_deps": CoreWorkPackageDeps;
   "core.work_packages": CoreWorkPackages;

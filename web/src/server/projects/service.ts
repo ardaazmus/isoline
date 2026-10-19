@@ -327,7 +327,7 @@ export async function listApplicability(actor: Actor, cycleId: string) {
 
 export type RaciRole = "project_lead" | "data_lead" | "data_owner" | "contributor" | "technical_reviewer" | "report_editor" | "management_signer" | "advisor_preparer" | "advisor_reviewer" | "assurance" | "design";
 const OWNER_SIDE: RaciRole[] = ["project_lead", "data_lead", "data_owner", "contributor", "technical_reviewer", "report_editor", "management_signer"];
-const GRANT_SIDE: Record<string, RaciRole[]> = { preparer: ["advisor_preparer", "report_editor", "data_lead"], methodology: ["advisor_reviewer", "technical_reviewer"], reviewer: ["advisor_reviewer"], design: ["design"], assurance: ["assurance"] };
+const GRANT_SIDE: Record<string, RaciRole[]> = { preparer: ["advisor_preparer", "report_editor", "data_lead"], methodology: ["advisor_reviewer", "technical_reviewer"], reviewer: ["advisor_reviewer"], design: ["design"], assurance: ["assurance"], supplier: ["contributor"] };
 
 /** People who may take a role in the project: owner-tenant members and members of workspaces holding an active grant. */
 export async function participantCandidates(actor: Actor, projectId: string) {

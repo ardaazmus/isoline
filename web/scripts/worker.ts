@@ -6,6 +6,7 @@ import { existsSync } from "node:fs";
 import { closeDb } from "../src/server/db/client";
 import { ensureBucket } from "../src/server/evidence/storage";
 import { recoverStuck, runOnce } from "../src/server/jobs/worker";
+import { scanReminders } from "../src/server/data/service";
 
 if (existsSync(".env.local")) process.loadEnvFile(".env.local");
 
@@ -22,7 +23,15 @@ async function main() {
   await ensureBucket();
   console.log("worker started");
   let lastRecover = 0;
+  let lastReminderDay = "";
   while (!stopping) {
+    // reminders once per (Istanbul) day; the outbox dedupe keys make a repeated scan harmless
+    const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Istanbul" }).format(new Date());
+    if (today !== lastReminderDay) {
+      const r = await scanReminders(today);
+      if (r.queued) console.log(`queued ${r.queued} reminder(s) for ${today}`);
+      lastReminderDay = today;
+    }
     if (Date.now() - lastRecover > 60_000) {
       const n = await recoverStuck();
       if (n) console.log(`requeued ${n} stuck event(s)`);

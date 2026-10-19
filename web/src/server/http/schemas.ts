@@ -101,3 +101,29 @@ export const WorkPackagePatch = z.object({
 export const AddDependency = z.object({ dependsOnId: uuid });
 export const CreateEngagement = z.object({ title: name, scope: z.string().max(4000).nullable().optional(), advisoryTenantId: uuid.nullable().optional(), startsOn: isoDate.nullable().optional(), endsOn: isoDate.nullable().optional(), ownerTenantId: uuid.optional() });
 export const AddDeliverable = z.object({ title: name, reportKind: z.enum(REPORT_KINDS), dueOn: isoDate.nullable().optional(), projectId: uuid.nullable().optional() });
+
+// ---------------------------------------------------------------- G3
+export const CreateCampaign = z.object({ title: z.string().trim().max(200), templateIds: z.array(z.string().regex(/^[a-z0-9_]+$/)).min(1).max(20), dueOn: isoDate.nullable().optional(), facilityIds: z.array(uuid).max(500).nullable().optional() });
+export const ExtendCampaign = z.object({ templateIds: z.array(z.string().regex(/^[a-z0-9_]+$/)).min(1).max(20) });
+export const AssignRequests = z.object({ requestIds: z.array(uuid).min(1).max(1000), assigneeUserId: uuid.nullable().optional(), reviewerUserId: uuid.nullable().optional(), dueOn: isoDate.nullable().optional(), critical: z.boolean().optional() });
+export const RequestIds = z.object({ requestIds: z.array(uuid).min(1).max(1000) });
+export const CloseRequest = z.object({ to: z.enum(["withdrawn", "not_applicable"]), reason: z.string().trim().min(10).max(2000) });
+const num = z.union([z.string().max(60), z.number()]);
+export const Draft = z.object({
+  value: num.nullable().optional(),
+  unit: z.string().max(20).nullable().optional(),
+  text: z.string().max(4000).nullable().optional(),
+  lines: z.array(z.object({ key: z.string().min(1).max(60), label: z.string().max(120).optional(), value: num, unit: z.string().max(20) })).max(100).nullable().optional(),
+  quality: z.enum(["measured", "calculated", "estimated"]).optional(),
+  methodNote: z.string().max(2000).nullable().optional(),
+  sourceRef: z.string().max(500).nullable().optional(),
+});
+export const Note = z.object({ note: z.string().max(2000).nullable().optional() });
+export const Reason = z.object({ reason: z.string().trim().min(10).max(2000) });
+export const Comment = z.object({ body: z.string().trim().min(1).max(4000) });
+export const LinkEvidence = z.object({ evidenceId: uuid });
+export const MarkRead = z.object({ ids: z.array(z.number().int().positive()).max(500) });
+export const UpdateCampaign = z.object({
+  reminderPolicy: z.object({ beforeDays: z.array(z.number().int()).max(5), afterDays: z.array(z.number().int()).max(5), criticalOnlyDays: z.array(z.number().int()).max(5) }).optional(),
+  status: z.enum(["active", "closed"]).optional(),
+});

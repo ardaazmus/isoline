@@ -12,6 +12,7 @@ import { withSystem } from "../db/client";
 import { acceptInvitation, createProvisionalClient, createTenant, grantProjectAccess, inviteMember, type Identity } from "../tenancy/service";
 import { addOwnershipEdge, createFacility, createLegalEntity, createOrganization } from "../orgs/service";
 import { addDeliverable, addParticipant, createEngagement, createProjectWizard, listPlan, proposeBoundary, updateWorkPackage } from "../projects/service";
+import { assignRequests, createCampaign, listRequests, saveDraft, sendRequests } from "../data/service";
 import type { MemberRole } from "../policy/policy";
 
 export const DEMO_DOMAIN = "ornek.test";
@@ -125,6 +126,16 @@ export async function seedDemo(opts: { reset?: boolean; credentialsFile?: string
   await addParticipant(ayse, companyProject, { userId: people.mehmet, memberTenantId: companyTenant, raciRole: "data_owner", responsibilities: "Enerji ve yakıt verileri" });
   await addParticipant(ayse, companyProject, { userId: people.zeynep, memberTenantId: companyTenant, raciRole: "contributor", responsibilities: "Gebze fabrikası verileri" });
   await addParticipant(ayse, companyProject, { userId: people.elif, memberTenantId: companyTenant, raciRole: "management_signer" });
+  // G3: a climate data campaign — Gebze to Zeynep, Dilovası and organisation-wide items to Mehmet
+  const cmp = await createCampaign(ayse, wiz.cycleId, { title: "2026 iklim verisi (örnek)", templateIds: ["tsrs_climate_first"], dueOn: "2027-01-31" });
+  const reqs = await listRequests(ayse, cmp.campaignId);
+  const gebzeFac = reqs.find((r) => r.facility_name === "Gebze Fabrikası")?.facility_id;
+  await assignRequests(ayse, reqs.filter((r) => r.facility_id === gebzeFac).map((r) => r.id), { assigneeUserId: people.zeynep, reviewerUserId: people.mehmet });
+  await assignRequests(ayse, reqs.filter((r) => r.facility_id !== gebzeFac).map((r) => r.id), { assigneeUserId: people.mehmet, reviewerUserId: people.ayse });
+  await sendRequests(ayse, reqs.map((r) => r.id));
+  const zeynepActor = { userId: people.zeynep, actingTenantId: companyTenant };
+  const el = reqs.find((r) => r.facility_id === gebzeFac && r.metric_code === "ghg_electricity");
+  if (el) await saveDraft(zeynepActor, el.id, { value: "1.250.000", unit: "kWh", quality: "measured", sourceRef: "Örnek fatura özeti" });
   // the first three gates are behind the team already (intake, organisation, scope decision)
   for (const gate of ["G0", "G1", "G2"]) {
     const wp = (await listPlan(ayse, wiz.cycleId)).find((w) => w.gate === gate)!;

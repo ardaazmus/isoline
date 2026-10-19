@@ -7,7 +7,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, type ReactNode } from "react";
-import { Briefcase, Building2, FileInput, FolderKanban, Handshake, Home, KeyRound, LayoutGrid, LogOut, Menu, ScrollText, ShieldCheck, UserPlus, Users, Wrench, X, type LucideIcon } from "lucide-react";
+import { Bell, Briefcase, Building2, FileInput, FolderKanban, Handshake, Home, Inbox, KeyRound, LayoutGrid, LogOut, Menu, ScrollText, ShieldCheck, UserPlus, Users, Wrench, X, type LucideIcon } from "lucide-react";
 import { useI18n } from "@/i18n/provider";
 import { LOCALES } from "@/i18n/generated";
 import { cn, SampleFlag } from "@/components/ui";
@@ -16,7 +16,7 @@ import { authClient, api } from "./client";
 import { visibleNav } from "./nav";
 
 export type ShellMembership = { tenantId: string; tenantName: string; kind: string; lifecycle: string; role: MemberRole; sample: boolean };
-export type ShellContext = { user: { name: string; email: string } | null; memberships: ShellMembership[]; current: ShellMembership | null; onBehalfOf?: string | null };
+export type ShellContext = { user: { name: string; email: string } | null; memberships: ShellMembership[]; current: ShellMembership | null; onBehalfOf?: string | null; unread?: number };
 
 const ICONS: Record<string, LucideIcon> = {
   home: Home,
@@ -31,6 +31,8 @@ const ICONS: Record<string, LucideIcon> = {
   import: FileInput,
   portfolio: LayoutGrid,
   engagements: Briefcase,
+  tasks: Inbox,
+  notifications: Bell,
 };
 
 function Mark() {
@@ -195,6 +197,11 @@ function Rail({ ctx, open, onClose }: { ctx: ShellContext; open: boolean; onClos
                         <Icon size={15} strokeWidth={1.9} aria-hidden />
                       </span>
                       {t(`pf.nav.${it.id}`)}
+                      {it.id === "notifications" && (ctx.unread ?? 0) > 0 && (
+                        <span className="ml-auto rounded-full bg-[var(--b-600)] px-1.5 text-[11px] font-semibold text-white" aria-label={t("pf.notify.unread", { n: ctx.unread ?? 0 })}>
+                          {ctx.unread}
+                        </span>
+                      )}
                     </Link>
                   </li>
                 );

@@ -29,6 +29,10 @@ async function main() {
   } else if (cmd === "migrate") {
     const r = await migrateToLatest(need("DATABASE_OWNER_URL"));
     console.log(r.length ? r.map((x) => `${x.direction} ${x.migrationName}: ${x.status}`).join("\n") : "already at latest");
+    const { syncCatalog } = await import("../../src/server/data/catalog-sync");
+    const { closeDb } = await import("../../src/server/db/client");
+    console.log(`metric catalogue: ${(await syncCatalog()).inserted} new definition(s)`);
+    await closeDb();
   } else if (cmd === "rollback") {
     const r = await migrateDown(need("DATABASE_OWNER_URL"));
     console.log(r.map((x) => `${x.direction} ${x.migrationName}: ${x.status}`).join("\n") || "nothing to roll back");

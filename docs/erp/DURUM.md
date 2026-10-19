@@ -13,7 +13,7 @@
 | G0 | bitti | Envanter, 11 ADR, ekran haritası, göç riski, iki yolculuk, tehdit modeli |
 | G1 | bitti | Kimlik, kiracı, RLS, dış erişim izni, kanıt deposu, denetim+outbox, araç seti aktarımı; 34 entegrasyon testi |
 | G2 | bitti | Organizasyon ağacı ve tarihli sahiplik, beş tür raporlama sınırı, iş/teslimat, dönem, uygulanabilirlik kararı ve müşteri onayı, ekip/RACI, 13 kapılı plan ve kritik yol, portföy |
-| G3 | başlamadı | |
+| G3 | bitti | Sürümlü metrik kataloğu, şablondan kampanya üreteci, kişi+tesis kapsamlı atama, 4 adımlı katılımcı formu, iade/yeniden gönderim, sürümlü gözlemler, kanıt bağlantıları, XLSX/CSV içe aktarma, hatırlatmalar, tedarikçi izni |
 | G4 | başlamadı | |
 | G5 | başlamadı | |
 | G6 | başlamadı | |
@@ -71,7 +71,24 @@
 
 **Araç seti aktarımı G2'ye bağlandı:** her müşteri için "eşlenmemiş" organizasyon, ana tüzel kişi, v1 tesis kayıtları (pay < %100 olanlar ortaklık kenarıyla) ve raporlama yılının dönemi ve planı oluşur. Kullanıcı yapıyı doğrulayınca işaret kalkar.
 
-## G3–G8
+## G3 — DataOps, görev kampanyası, kanıt
+
+| ID | Durum | Kanıt |
+|---|---|---|
+| G3-01 | bitti | `core.metric_definitions` (kod + sürüm, yalnız eklenir): 39 veri noktası; boyut ve birimler, toplama türü (toplam / dönem sonu / ortalama), tesis ya da kurum düzeyi, kanıt zorunluluğu, kişisel veri işareti. `data/catalog.ts`, `catalog-sync.ts` (anlamı değişen tanım yeni sürüm ister), `catalog.test.ts`. Birimler `data/units.ts`: BigInt rasyonel kesin dönüşüm, Türkçe sayı biçimi, özellik testleri |
+| G3-02 | bitti | Kampanya üreteci v1 şablon motorunu kullanır; onaylı uygulanabilirlik kararlarından şablon önerir. Aynı veri kalemi iki rapora gerekiyorsa tek talep, iki iz. Yeniden çalıştırmada yalnız eksik talepler eklenir. `g3.db.test.ts` |
+| G3-03 | bitti | Atama: atanan ve gözden geçiren ekipte uygun rolde, birbirinden farklı (DB CHECK), katılımcının tesis kapsamı dışında atama yok. Satır düzeyi görünürlük: katılımcı yalnız kendi görevlerini görür (UAT-07 testi) |
+| G3-04 | bitti | `app/tasks/[id]`: Ne isteniyor → Değer → Kanıt → Gönder. Birim boyutu, negatif değer, çok satırlı yakıt kalemleri sunucuda denetlenir |
+| G3-05 | bitti | `app/projects/[id]/data/[kampanya]`: XLSX şablon indirme, dosya önce taranır, kanıt olarak saklanır, satır bazlı hata listesi (`import-parse.ts` + özellik testi), işleme tek işlemde, aynı dosya ikinci kez işlenmez, gözden geçirilmeden geri alınabilir |
+| G3-06 | bitti | `core.evidence_links`: talebe dosya bağlama/çözme; kanıt isteyen kalem kanıtsız gönderilemez |
+| G3-07 | bitti | `core.observation_versions`: her gönderim yeni sürüm; eski satır korunur (iade edilen `rejected`, yenisi `accepted`); karar veren ile giren aynı kişi olamaz (DB CHECK) |
+| G3-08 | bitti | Outbox `notify` işleyicisi (uygulama içi bildirim + e-posta bağlantısı), günlük hatırlatma taraması (T−7, yalnız kritikte T−2, T+1 lider özeti); kural kampanya bazında düzenlenir; tekrar taramada aynı hatırlatma ikinci kez kuyruğa girmez |
+| G3-09 | bitti | İade gerekçesi zorunlu (≥ 10 karakter), yazışma akışı, toplu atama/gönderim, "uygulanmaz" gerekçeli kapanış |
+| G3-10 | bitti (iskelet) | `supplier` izin rolü: tedarikçi yalnız kendisine atanan talebi görür, yanıtlar ve kanıt yükler; başka talep 404. Ayrı tedarikçi portal tasarımı G8-02'de |
+
+**G3 kapısı:** `g3.db.test.ts` — 3 kişi (Zeynep Gebze, Kemal Dilovası, Mehmet veri sahibi), 2 tesis, iki veri türü (sera gazı ve enerji/finans), bir iade ve yeniden gönderim, kaynak belge, dosyadan içe aktarma, hatırlatma ve tedarikçi yalıtımı gerçek PostgreSQL ve SeaweedFS ile.
+
+## G4–G8
 
 Kapı başladıkça buraya ayrıntılı tablo eklenir. Görev listeleri plan 13'te.
 
@@ -86,4 +103,4 @@ Kapı başladıkça buraya ayrıntılı tablo eklenir. Görev listeleri plan 13'
   - depo SeaweedFS (ADR-005; MinIO imajları kaldırıldığı için);
   - modüler monolit (ADR-007);
   - v1 araç seti `(toolkit)` rota grubunda korunuyor (ADR-008).
-- **Açık / sıradaki:** G3 (metrik kataloğu, kampanya üreteci, görev atama ve gözden geçirme, katılımcı formu, XLSX/CSV içe aktarma önizleme, kanıt bağlantıları, gözlem sürümleri, hatırlatma servisi, iade ve toplu işlem, tedarikçi portalı iskeleti).
+- **Açık / sıradaki:** G4 (sürümlü faktör sicili ve lisans, hesap bağlamı sarmalayıcısı, çok tesisli Scope 1/2/3, çevre/işgücü, mizan, SKDM/ETS, doğrulama/anomali politikası, MetricFactVersion + soy ağacı, eşdeğerlik testleri).

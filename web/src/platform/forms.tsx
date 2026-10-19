@@ -231,7 +231,7 @@ export function GrantForm({ projects }: { projects: { id: string; name: string }
     <form onSubmit={s.submit} className="grid gap-4 md:grid-cols-2">
       <Select label={t("pf.grants.project")} name="g-project" value={projectId} onChange={(e) => setProjectId(e.target.value)} options={projects.map((p) => ({ value: p.id, label: p.name }))} />
       <Input label={t("pf.grants.recipient")} name="g-recipient" required value={recipient} onChange={(e) => setRecipient(e.target.value)} hint={t("pf.grants.recipientHint")} />
-      <Select label={t("pf.grants.role")} name="g-role" value={role} onChange={(e) => setRole(e.target.value)} options={["preparer", "methodology", "reviewer", "design", "assurance"].map((r) => ({ value: r, label: t(`pf.grantRole.${r}`) }))} hint={t(`pf.grantRoleHint.${role}`)} />
+      <Select label={t("pf.grants.role")} name="g-role" value={role} onChange={(e) => setRole(e.target.value)} options={["preparer", "methodology", "reviewer", "design", "assurance", "supplier"].map((r) => ({ value: r, label: t(`pf.grantRole.${r}`) }))} hint={t(`pf.grantRoleHint.${role}`)} />
       <Input label={t("pf.grants.days")} name="g-days" type="number" min={1} max={365} required value={days} onChange={(e) => setDays(Number(e.target.value))} />
       <div className="md:col-span-2">
         <Input label={t("pf.grants.purpose")} name="g-purpose" required minLength={3} maxLength={500} value={purpose} onChange={(e) => setPurpose(e.target.value)} />

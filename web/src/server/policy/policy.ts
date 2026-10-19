@@ -6,7 +6,7 @@
 export const MEMBER_ROLES = ["owner", "admin", "project_lead", "data_owner", "contributor", "report_editor", "management_signer", "viewer", "preparer", "reviewer"] as const;
 export type MemberRole = (typeof MEMBER_ROLES)[number];
 
-export const GRANT_ROLES = ["preparer", "reviewer", "methodology", "design", "assurance"] as const;
+export const GRANT_ROLES = ["preparer", "reviewer", "methodology", "design", "assurance", "supplier"] as const;
 export type GrantRole = (typeof GRANT_ROLES)[number];
 
 export const ACTIONS = [
@@ -59,6 +59,8 @@ const GRANT: Record<GrantRole, Action[]> = {
   reviewer: ["project.read", "report.review"],
   design: ["project.read", "design.handoff"],
   assurance: ["project.read", "assurance.query"],
+  // a supplier answers only the requests assigned to its people (row-level policy narrows further)
+  supplier: ["project.read", "data.submit", "evidence.upload"],
 };
 
 /** Actions no grant can ever carry: customer governance stays with the customer (plan 03 §6, 05 §6). */

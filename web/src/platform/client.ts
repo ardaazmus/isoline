@@ -23,7 +23,7 @@ export const authClient = createAuthClient({
 
 export type ApiResult<T> = { ok: true; status: number; data: T } | { ok: false; status: number; code: string; details?: unknown };
 
-export async function api<T = Record<string, unknown>>(method: "GET" | "POST" | "PATCH" | "DELETE", path: string, body?: unknown, opts: { ifMatch?: string; form?: FormData } = {}): Promise<ApiResult<T>> {
+export async function api<T = Record<string, unknown>>(method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE", path: string, body?: unknown, opts: { ifMatch?: string; form?: FormData } = {}): Promise<ApiResult<T>> {
   const headers: Record<string, string> = {};
   if (method === "POST" && !opts.form) headers["idempotency-key"] = crypto.randomUUID();
   if (opts.ifMatch) headers["if-match"] = opts.ifMatch;

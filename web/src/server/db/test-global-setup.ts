@@ -19,4 +19,12 @@ export default async function setup() {
   const owner = new URL(need("DATABASE_OWNER_URL"));
   owner.pathname = `/${name}`;
   await migrateToLatest(owner.toString());
+  // the metric catalogue rows (append-only reference data) as at deploy time
+  const sys = new URL(need("DATABASE_SYSTEM_URL"));
+  sys.pathname = `/${name}`;
+  process.env.DATABASE_SYSTEM_URL = sys.toString();
+  const { syncCatalog } = await import("../data/catalog-sync");
+  const { closeDb } = await import("./client");
+  await syncCatalog();
+  await closeDb();
 }

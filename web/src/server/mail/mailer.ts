@@ -43,6 +43,25 @@ export const MAIL = {
     subject: `Isoline: ${escapeLine(tenant)} çalışma alanının sahipliği`,
     text: `Danışmanlık firmanız ${escapeLine(tenant)} için bir çalışma alanı hazırladı. Verilerin sahibi sizsiniz; alanı sahiplenmek için bağlantıyı açın (30 gün geçerli):\n${url}\n\nSahiplenene kadar rapor yayımlanamaz.`,
   }),
+  task: (kind: string, project: string, metric: string, url: string, extra = ""): Omit<Mail, "to"> => {
+    const subjects: Record<string, string> = {
+      task_sent: "Isoline: size bir veri görevi atandı",
+      task_submitted: "Isoline: gözden geçirmenizi bekleyen bir gönderim var",
+      task_returned: "Isoline: gönderiminiz düzeltme için iade edildi",
+      task_due_soon: "Isoline: veri görevinizin son tarihi yaklaşıyor",
+      tasks_late: "Isoline: projede geciken veri görevleri var",
+    };
+    return {
+      subject: subjects[kind] ?? "Isoline: görev bildirimi",
+      text: `${escapeLine(project)} projesi — ${escapeLine(metric)}${extra ? `
+${escapeLine(extra)}` : ""}
+
+Ayrıntılar ve işlem için:
+${url}
+
+Bu e-posta bir hatırlatmadır; veri yalnız uygulama içinden girilir.`,
+    };
+  },
   grant: (owner: string, project: string, role: string): Omit<Mail, "to"> => ({
     subject: `Isoline: ${escapeLine(owner)} bir projeye erişim açtı`,
     text: `${escapeLine(owner)}, "${escapeLine(project)}" projesine "${role}" rolüyle süreli erişim verdi. Portföyünüzde görünür.`,

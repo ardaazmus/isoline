@@ -52,7 +52,25 @@ async function grantMail(e: Event): Promise<void> {
   for (const a of ctx.admins) await sendMail({ to: a.email, ...MAIL.grant(ctx.g.owner, ctx.g.project, ctx.g.role) });
 }
 
+/** In-app notification, and for the kinds that need attention an e-mail with a link (never the data itself). */
+async function notify(e: Event): Promise<void> {
+  const p = e.payload as { userId: string | null; ownerTenantId: string | null; projectId: string | null; kind: string; payload: Record<string, unknown>; mail?: boolean };
+  if (!p.userId) return;
+  const ctx = await withSystem("worker: notification", async (tx) => {
+    await tx.insertInto("core.notifications").values({ user_id: p.userId!, owner_tenant_id: p.ownerTenantId, project_id: p.projectId, kind: p.kind, payload: JSON.stringify(p.payload ?? {}) }).execute();
+    const u = await tx.selectFrom("user").select(["email"]).where("id", "=", p.userId!).executeTakeFirst();
+    const proj = p.projectId ? await tx.selectFrom("core.projects").select("name").where("id", "=", p.projectId).executeTakeFirst() : undefined;
+    return { email: u?.email, project: proj?.name ?? "" };
+  });
+  if (!p.mail || !ctx.email) return;
+  const requestId = typeof p.payload?.requestId === "string" ? p.payload.requestId : null;
+  const url = appUrl(requestId ? `/tr/app/tasks/${requestId}` : p.projectId ? `/tr/app/projects/${p.projectId}` : "/tr/app/tasks");
+  const extra = p.kind === "task_returned" ? String(p.payload?.reason ?? "") : p.kind === "task_due_soon" ? `Son tarih: ${String(p.payload?.due ?? "")}` : p.kind === "tasks_late" ? `${String(p.payload?.count ?? "")} görev gecikti` : "";
+  await sendMail({ to: ctx.email, ...MAIL.task(p.kind, ctx.project, String(p.payload?.metric ?? ""), url, extra) });
+}
+
 export const HANDLERS: Record<string, Handler> = {
+  notify,
   "mail.invitation": (e) => invitationMail(e, false),
   "mail.claim": (e) => invitationMail(e, true),
   "mail.grant": grantMail,

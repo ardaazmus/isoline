@@ -9,12 +9,14 @@ import * as m0001 from "./migrations/0001_auth";
 import * as m0002 from "./migrations/0002_core";
 import * as m0003 from "./migrations/0003_legacy_import";
 import * as m0004 from "./migrations/0004_org_projects";
+import * as m0005 from "./migrations/0005_data";
 
 export const MIGRATIONS: Record<string, Migration> = {
   "0001_auth": m0001,
   "0002_core": m0002,
   "0003_legacy_import": m0003,
   "0004_org_projects": m0004,
+  "0005_data": m0005,
 };
 
 class StaticProvider implements MigrationProvider {
