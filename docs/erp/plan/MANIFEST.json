@@ -1,0 +1,112 @@
+{
+  "package": "ISOLINE_ERP_2026_Master_Plan",
+  "created_utc": "2026-10-19",
+  "database": "PostgreSQL",
+  "files": [
+    {
+      "path": "00_GELISTIRICIYE_DEVIR_TALIMATI.md",
+      "bytes": 3194,
+      "sha256": "1228c23446e64a4adbef1e16683ef40b72f0807b42e0798048d81430bdb17fe3"
+    },
+    {
+      "path": "ISOLINE_ERP_TUM_PLAN_TEK_DOSYA.md",
+      "bytes": 156266,
+      "sha256": "4d01ff7a4047402a03aca4e6b5dbfd9a834d669b3f0f021a83628caef51af8b5"
+    },
+    {
+      "path": "README.md",
+      "bytes": 6515,
+      "sha256": "e1067e25d2a1d4cb6f5dad171b10fb87fd9a5990821cc56d2dc9847f3c64de7a"
+    },
+    {
+      "path": "docs/01_URUN_STRATEJISI_VE_PRD.md",
+      "bytes": 6736,
+      "sha256": "f20ac773f8ca457ed832b568297e1c928a4886ec211bd49f7dce19143faf19c7"
+    },
+    {
+      "path": "docs/02_DANISMANLIK_IS_MODELİ_VE_SERVIS_KATALOGU.md",
+      "bytes": 7232,
+      "sha256": "a5b32a738424387a5968d0e12218bcacfa27ef9899dd5bddc4218668d3eb6d2d"
+    },
+    {
+      "path": "docs/03_TENANT_KURUM_VE_YETKI_MIMARISI.md",
+      "bytes": 10355,
+      "sha256": "706b322d1ec62e95a2fc2b2858958754bef5ea62e10c9c0e8522259d20ac85ad"
+    },
+    {
+      "path": "docs/04_EKRAN_KATALOGU_GIRIS_ONBOARDING_NAVIGASYON.md",
+      "bytes": 12622,
+      "sha256": "20426c32d7a873ae96a7b570b2a6d1a62d420238ddb7a65793682fa23741e341"
+    },
+    {
+      "path": "docs/05_IS_AKISLARI_RACI_STATE_MACHINES.md",
+      "bytes": 7267,
+      "sha256": "bd1aa300201e51145954ae0011faccc99b444376facb810d6d17bdff6df20953"
+    },
+    {
+      "path": "docs/06_POSTGRESQL_VERI_MODELI_RLS_VE_MIGRASYON.md",
+      "bytes": 9814,
+      "sha256": "7ad70ebf5b1b2b01ec1442715ebb0faafd6076e420c44b10cd7cf878d5063688"
+    },
+    {
+      "path": "docs/07_RAPORLAMA_STANDARTLARI_MEVZUAT_MOTORU.md",
+      "bytes": 12348,
+      "sha256": "cba1fb437f136d9f56f90577f2b0bd6489188fd76f13759c72f60315688f5ab9"
+    },
+    {
+      "path": "docs/08_SEKTOREL_MODULLER_VE_VERI_KATALOGU.md",
+      "bytes": 9671,
+      "sha256": "84aa104c213a35cfb185d57955921e49aa1eb0eba5983d67a9dce29aa51879eb"
+    },
+    {
+      "path": "docs/09_HESAPLAMA_KANIT_KONSOLIDASYON_DOGRULAMA.md",
+      "bytes": 8900,
+      "sha256": "2c303744290c8b1e44dce07d6d5e732c9fcaf69e276e6bb1eb7dfc2713aaec3f"
+    },
+    {
+      "path": "docs/10_RAPOR_STUDYOSU_TASARIM_DEVRI_GUVENCE.md",
+      "bytes": 6536,
+      "sha256": "106460e9faa1980638ed56476081e1925e36497b9cd43dfcfef4bbb599ba09b5"
+    },
+    {
+      "path": "docs/11_UI_UX_AYDINLIK_ANIMASYON_IZOMETRIK.md",
+      "bytes": 6969,
+      "sha256": "b9563e03fdcb4687d2e92171c04db86a3a151eea4f2c659d2c58d1d84e0817c1"
+    },
+    {
+      "path": "docs/12_TEKNOLOJI_API_ENTEGRASYON_GUVENLIK.md",
+      "bytes": 7519,
+      "sha256": "a099cd2897797bcdeb9c454982828358d62ba3837f7088b09d3a88d6c16255ca"
+    },
+    {
+      "path": "docs/13_AYRINTILI_YOL_HARITASI_BACKLOG.md",
+      "bytes": 14793,
+      "sha256": "eddf77e9c0684cd1d710e12b8648f16184fd93b3e63f316200ae561cc6eec57e"
+    },
+    {
+      "path": "docs/14_TEST_KABUL_KRITERLERI_VE_KPI.md",
+      "bytes": 6322,
+      "sha256": "c18f3ba8eaae22efc6c178c4197e2e164dccb0218092e70cf95325543ac685d6"
+    },
+    {
+      "path": "docs/15_SEKTOR_KARSILASTIRMASI_KAYNAK_SICILI.md",
+      "bytes": 15492,
+      "sha256": "9bc080453d05209f579e425227439a73d4d3d1bbaa7fdf500b677c528992da8d"
+    },
+    {
+      "path": "qa/SCENARIOS.md",
+      "bytes": 2599,
+      "sha256": "5d2766f128369ef6d6cebb409085dc2f06af74faff436fc415810362da9cca4c"
+    },
+    {
+      "path": "sql/001_core_schema_proposal.sql",
+      "bytes": 11043,
+      "sha256": "c69d358283465232fd5464a95addc2b773582d2eb0fe90cc3668409d1930d43d"
+    },
+    {
+      "path": "templates/ISSUE_SABLONU.md",
+      "bytes": 1120,
+      "sha256": "d6dc4410ed8b34f979e6fc93c6e84ff86c1d1502c54cc0559a3c311f38aea002"
+    }
+  ]
+}
