@@ -79,3 +79,29 @@ describe("U1–U5 cross-checks", () => {
     expect(reconcile({ ...base, facts: [] }).every((c) => c.status === "na")).toBe(true);
   });
 });
+
+describe("U6–U7 cross-checks (worksheets)", () => {
+  const base = { reportedRevenue: null, profileEmployees: null, production: {}, cbamExports: {} };
+  const taxonomy = { capexTotal: 1000, activities: [{ name: "Çatı güneş enerjisi santrali", capex: 400, aligned: true }, { name: "Küçük aydınlatma", capex: 20, aligned: true }, { name: "Çelik hattı", capex: 500, aligned: false }] };
+
+  it("U6 warns for a material aligned CapEx activity without a matching transition-plan measure", () => {
+    const miss = reconcile({ ...base, facts: [], taxonomy, measures: ["Atık ısı geri kazanımı"] }).find((c) => c.code === "u6_taxonomy_capex")!;
+    expect(miss).toMatchObject({ status: "fail", severity: "warning", a: 1, b: 1, items: ["Çatı güneş enerjisi santrali"] });
+    const ok = reconcile({ ...base, facts: [], taxonomy, measures: ["Güneş enerjisi santrali (çatı)"] }).find((c) => c.code === "u6_taxonomy_capex")!;
+    expect(ok.status).toBe("pass");
+    expect(status(reconcile({ ...base, facts: [], taxonomy: null, measures: [] }), "u6_taxonomy_capex")).toEqual(["na"]);
+  });
+
+  it("U7 warns when the annual report claims investments but energy and scope 1 hardly moved", () => {
+    const facts = [f("env.energy_gj", 10_100), f("ghg.scope1", 4_050, null, "ghg_operational_control")];
+    const flat = reconcile({ ...base, facts, investmentsReported: true, prior: { energyGj: 10_000, scope1: 4_000 } }).find((c) => c.code === "u7_annual_report")!;
+    expect([flat.status, flat.severity]).toEqual(["fail", "warning"]);
+    expect(status(reconcile({ ...base, facts, investmentsReported: true, prior: { energyGj: 14_000, scope1: 4_000 } }), "u7_annual_report")).toEqual(["pass"]);
+    expect(status(reconcile({ ...base, facts, investmentsReported: false, prior: { energyGj: 10_000, scope1: 4_000 } }), "u7_annual_report")).toEqual(["na"]);
+    expect(status(reconcile({ ...base, facts, investmentsReported: true, prior: null }), "u7_annual_report")).toEqual(["na"]);
+  });
+
+  it("U10 is checked at the report release, not in the close", () => {
+    expect(reconcile({ ...base, facts: [] }).find((c) => c.rule === "U10")).toMatchObject({ status: "na", note: "in_release" });
+  });
+});

@@ -70,3 +70,21 @@ Benzer ürünler (Microsoft Sustainability Manager, Watershed, Workiva, Greenly,
 
   Kendi işi kimsenin onayına gelmez. Eski `/app/review` adresi İşlerim'e yönlenir.
 - **"Bugün"** sayfasında önce "Sizden beklenen" listesi, sonra döngüleri izleyen roller için her projenin bulunduğu adım, durumu ve adımın son tarihi yer alır. Danışman aynı tabloyu müşteri bazında görür.
+
+## Güncelleme (19.10.2026, UX Faz 3): çalışma sayfaları, Analiz ve Kütüphane
+
+- **Çalışma sayfaları** (`core.cycle_worksheets`, migration 0012) döngünün yapılandırılmış girdileridir. Her kayıt yeni bir sürümdür.
+  - Akış: taslak → onaya gönder → başka biri onaylar ya da gerekçeyle geri gönderir. Veritabanı onaylayanın girenden farklı olmasını zorunlu tutar; sürüm içeriği değiştirilemez (tetikleyici).
+  - Önemlilik ve faaliyet raporu kararını şirket üyesi verir.
+  - Adımlara bağlanma:
+    - çift önemlilik 1. adımın alt sayfasıdır;
+    - taksonomi 3. adımın alt sayfasıdır; onaylı sayfa "taxonomy" hesabıyla metrik olur ve diğer metrikler gibi onaya gider;
+    - faaliyet raporu kontrol listesi 6. adımda rapor sayfasındadır; onaylı ve eksiksiz olmadan faaliyet raporu yayımlanmaz.
+  - Onay bekleyen sayfalar İşlerim'e düşer.
+- **Mutabakat:**
+  - U6 onaylı taksonomiyle geçiş planını, U7 faaliyet raporu yatırımlarıyla önceki dönemin enerji ve kapsam 1 değişimini karşılaştırır.
+  - U10 yayın anında rapor metninde çalışır ve yayını durdurur.
+- **Analiz** proje çubuğunda adımların yanındadır; döngünün adımı değildir.
+  - Dekarbonizasyon yolu, TR ETS ve SKDM maliyeti onaylı rakamlarla çalışır; varsayımlar senaryo olarak sürümlü saklanır.
+  - Analiz bildirilen rakamı değiştirmez ve döngüyü bekletmez.
+- **Kütüphane** bölümü: Hızlı hesap, faktör kütüphanesi, mevzuat takvimi, çerçeve eşleme, tema rehberi, referans veri sürümleri.

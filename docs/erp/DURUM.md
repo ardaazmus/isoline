@@ -206,11 +206,37 @@ G0–G8 tamamlandı; plan kuralı gereği eksik kalanlar açıkça `kısmi`/`yap
 - üretim derlemesi başarılı;
 - tarayıcıda dört rol gezildi: şirket sahibi, veri giren, danışman ve imza yetkilisi.
 
-**Sıradaki (Faz 3–4, ürün sahibinin gözden geçirmesinden sonra):**
-- Araç setindeki eksik hesaplayıcılar ilgili adıma taşınacak: çift önemlilik, taksonomi göstergeleri, U6–U10, faaliyet raporu kontrol listesi.
-- SKDM maliyeti, TR ETS ve dekarbonizasyon yolu "Analiz" bölümüne gelecek.
-- Kütüphane altına "Hızlı hesap" ve "Döngüye kaydet" eklenecek; araç seti rotaları yönlendirilecek.
-- Her rol için uçtan uca test ve beş kişilik kullanılabilirlik testi senaryosu hazırlanacak.
+## Arayüz akışı — UX incelemesi Faz 3 ve 4 (19.10.2026)
+
+Ürün sahibi Faz 1–2'yi inceleyip onayladı ("İnceledim, uygun"). Kararlar [ADR-008 güncellemesi](adr/ADR-008-v1-arac-seti-ile-birlikte-yasam.md) ve [ADR-011 güncellemesi](adr/ADR-011-arayuz-kabugu.md) içinde.
+
+| Madde | Durum | Kanıt |
+|---|---|---|
+| Çalışma sayfaları | bitti | Migration 0012 `core.cycle_worksheets`: sürümlü kayıt, onaylayan ≠ giren kuralı, sürüm içeriği değişmez, RLS zorunlu. `server/worksheets/{schemas,compute,service}.ts`; uçlar `/api/v1/cycles/{id}/worksheets/{kind}` ve `/api/v1/worksheets/{id}/{submit,approve,return}` |
+| Çift önemlilik (1. adım) | bitti | `projects/[id]/materiality`: araç setinin motoru ve matrisi. Şirketten ikinci bir kişi onaylar |
+| Taksonomi göstergeleri (3. adım) | bitti | `projects/[id]/taxonomy`: canlı göstergeler, %10 eşiği. Onaylı sayfa `taxonomy-run` ile 12 metrik olur (hasılat, CapEx ve OpEx için uygun / uyumlu / değerlendirilmeyen / uygun değil) ve onaya gider. Aynı sürüm aynı hesabı verir |
+| U6 ve U7 mutabakatı (4. adım) | bitti | `close/reconcile.ts`: U6 onaylı taksonomi ↔ geçiş planı önlemleri, U7 faaliyet raporu yatırımları ↔ önceki döneme göre enerji ve kapsam 1 değişimi. U10 yayında çalışır ("in_release"). U8 ve U9 her hesapta zaten vardı |
+| Faaliyet raporu kontrol listesi (6. adım) | bitti | Rapor sayfasında asgari içerik maddeleri (TTK, SPK, BDDK profilleri). Onaylı ve eksiksiz değilse yayın `ar_checklist_incomplete` hatası verir |
+| Analiz | bitti | `projects/[id]/analysis/{pathway,ets,cbam}`: onaylı rakamlar ve kayıtlı senaryo. Başlangıç yılı emisyonu o yılın onaylı döngüsünden alınır; ETS onaylı doğrulanmış emisyondan (yoksa kapsam 1) hesaplanır; SKDM ürünleri onaylı SKDM hesabından gelir |
+| Hızlı hesap ve Kütüphane | bitti | `/app/quick/*` altında 10 hesaplayıcı tarayıcı içi deneme olarak çalışır (onay bandı ve belge notu yok). Kütüphane'de mevzuat takvimi, çerçeve eşleme ve tema rehberi var. "Döngüye kaydet" sera gazı ve çevre girdilerini kişiye atanmış açık taleplere taslak olarak yazar (`lib/quick-drafts.ts`, `server/quick/service.ts`) |
+| Araç seti emekliye ayrıldı | bitti | `(toolkit)` rota grubu, iş akışı ekranları ve araç seti kabuğu kaldırıldı. Eski adresler `next.config.ts` ile platformdaki karşılıklarına yönlenir |
+| İşlerim'e çalışma sayfaları | bitti | Onay bekleyen önemlilik, taksonomi ve faaliyet raporu sayfaları gelen kutusunda görünür (analiz senaryoları onay gerektirmez) |
+| Rol bazlı uçtan uca test (Faz 4) | bitti | `web/e2e/` (Playwright 1.63, `npm run test:e2e`), 5 rol girişi ve 7 yolculuk. Kontrol edilenler: tek çalışma alanında doğrudan "Bugün", 6 kalemli menü, ilk işin tek tıkla açılması, 7 adım ve tek "şu anki adım", engelden adıma gitme, veri girenin 4 kalemli menüsü, danışmanın müşteri tablosu (puan sütunu yok), onay bekleyen sayfanın İşlerim'den açılması, eski adreslerin yönlenmesi. Giriş hız sınırı için roller bir kez giriş yapar ve oturumları kullanılır |
+| Beş kişilik kullanılabilirlik testi (Faz 4) | bitti (uygulama bekliyor) | [UX/KULLANILABILIRLIK_TESTI.md](UX/KULLANILABILIRLIK_TESTI.md): roller, moderatör metni, 12 görev (başarı ölçütü, hedef tık, süre), gözlem formu, SEQ ve SUS, başarı ölçütleri, analiz ve rapor şablonu. Testin gerçek kullanıcılarla yapılması ürün sahibine bağlı |
+
+**Demo verisi:** Onaylı önemlilik (Selin girdi, Ayşe onayladı), Selin'in onayını bekleyen taksonomi sayfası (Mehmet girdi) ve bir geçiş planı senaryosu eklendi.
+
+**Doğrulama (19.10.2026, bilgisayar yeniden başlatıldıktan sonra yeniden koşuldu):**
+- tip denetimi ve lint temiz;
+- 501 birim ve özellik testi geçti;
+- 96 PostgreSQL entegrasyon testi geçti;
+- üretim derlemesi başarılı;
+- 12 Playwright testi geçti;
+- tarayıcıda Hızlı hesap, Döngüye kaydet, önemlilik, taksonomi ve dekarbonizasyon yolu ekranları gezildi.
+
+**Açık:**
+- Kullanılabilirlik testinin gerçek beş kişiyle yapılması.
+- `claude/recursing-blackburn-e97d7a` dalında duran G8-07 erişilebilirlik ve yük testi çalışmasının main'e birleştirilmesi.
 
 ## Oturum kontrol noktası (bağlam sıkıştırmasına karşı)
 
@@ -223,4 +249,4 @@ G0–G8 tamamlandı; plan kuralı gereği eksik kalanlar açıkça `kısmi`/`yap
   - depo SeaweedFS (ADR-005; MinIO imajları kaldırıldığı için);
   - modüler monolit (ADR-007);
   - v1 araç seti `(toolkit)` rota grubunda korunuyor (ADR-008).
-- **Açık / sıradaki:** Yol haritası tamam. UX Faz 1–2 uygulandı; Faz 3–4 ürün sahibinin gözden geçirmesini bekliyor. Açık maddeler: bağımsız sızma testi, ekran okuyucuyla erişilebilirlik denetimi, yük testi aracı, ilk müşteri ihtiyacına göre tekstil/tarım paketi.
+- **Açık / sıradaki:** Yol haritası tamam. UX Faz 1–4 uygulandı; kullanılabilirlik testi gerçek kullanıcılarla yapılacak; G8-07 dalı birleştirilmeyi bekliyor. Açık maddeler: bağımsız sızma testi, ekran okuyucuyla erişilebilirlik denetimi, yük testi aracı, ilk müşteri ihtiyacına göre tekstil/tarım paketi.

@@ -233,6 +233,24 @@ export interface CoreCycleSnapshots {
   version: number;
 }
 
+export interface CoreCycleWorksheets {
+  approved_at: Timestamp | null;
+  approved_by: string | null;
+  created_at: Generated<Timestamp>;
+  cycle_id: string;
+  entered_by: string;
+  id: Generated<string>;
+  kind: string;
+  note: string | null;
+  owner_tenant_id: string;
+  payload: Json;
+  payload_sha256: string;
+  project_id: string;
+  report_id: string | null;
+  status: Generated<string>;
+  version: number;
+}
+
 export interface CoreDataCampaigns {
   created_at: Generated<Timestamp>;
   created_by: string;
@@ -1088,6 +1106,7 @@ export interface DB {
   "core.consent_records": CoreConsentRecords;
   "core.cycle_events": CoreCycleEvents;
   "core.cycle_snapshots": CoreCycleSnapshots;
+  "core.cycle_worksheets": CoreCycleWorksheets;
   "core.data_campaigns": CoreDataCampaigns;
   "core.data_requests": CoreDataRequests;
   "core.deliverables": CoreDeliverables;

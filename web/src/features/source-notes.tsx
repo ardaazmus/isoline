@@ -7,6 +7,7 @@ import { DATA_POINTS, hasEvidence, setTrack, trackOf, type DataPoint, type Track
 import { useActiveClient, useWorkspace } from "@/store/workspace";
 import { InputGroup } from "@/components/shell";
 import { DraftInput } from "@/components/ui";
+import { useQuickMode } from "./quick";
 
 /**
  * Source documents of a section's hand-entered values (workflow step 2, "elle girişte belge notu"): one line
@@ -16,6 +17,10 @@ import { DraftInput } from "@/components/ui";
  * has been accepted against it.
  */
 export function SourceNotes({ section }: { section: SectionId }) {
+  return useQuickMode() ? null : <SectionSourceNotes section={section} />;
+}
+
+function SectionSourceNotes({ section }: { section: SectionId }) {
   const { t } = useI18n();
   const client = useActiveClient();
   const update = useWorkspace((s) => s.update);

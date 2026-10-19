@@ -2703,7 +2703,11 @@
       "reference": "Referans veri sürümleri",
       "orgSection": "Kuruluş",
       "library": "Kütüphane",
-      "settings": "Ayarlar"
+      "settings": "Ayarlar",
+      "quick": "Hızlı hesap",
+      "regulations": "Mevzuat takvimi",
+      "crosswalk": "Çerçeve eşleme",
+      "themes": "Tema ve renk rehberi"
     },
     "kind": {
       "company": "Şirket",
@@ -2940,7 +2944,15 @@
       "not_asker": "Soruyu yalnız soran kişi kapatabilir.",
       "invalid_url": "Adres geçersiz (http ya da https).",
       "credentials_in_url": "Kullanıcı adı/şifre adreste olamaz; erişim anahtarı alanını kullanın.",
-      "connector_paused": "Bağlayıcı duraklatılmış."
+      "connector_paused": "Bağlayıcı duraklatılmış.",
+      "invalid_worksheet": "Girilen değerler geçersiz; işaretli alanları düzeltin.",
+      "worksheet_not_approved": "Önce çalışma sayfasının onaylı bir sürümü olmalı.",
+      "ar_checklist_incomplete": "Faaliyet raporu kontrol listesi onaylı ve eksiksiz olmadan rapor yayımlanamaz.",
+      "report_required": "Rapor seçilmedi.",
+      "not_annual_report": "Bu rapor bir faaliyet raporu değil.",
+      "report_not_expected": "Bu çalışma sayfası bir rapora bağlanmaz.",
+      "worksheet_not_found": "Çalışma sayfası bulunamadı.",
+      "invalid_items": "Aktarılacak kalem yok ya da çok fazla."
     },
     "auth": {
       "email": "E-posta",
@@ -3883,7 +3895,8 @@
         "ets": "TR-ETS kategori",
         "consolidation": "Finansal konsolidasyon",
         "reconciliation": "Mutabakat",
-        "industry": "Sektör paketi"
+        "industry": "Sektör paketi",
+        "taxonomy": "Taksonomi göstergeleri"
       },
       "kindHint": {
         "ghg": "Kabul edilmiş tesis verileri onaylı sınırdaki paylarıyla toplanır; lokasyon ve piyasa bazlı kapsam 2 ayrı hesaplanır. Kapsam 3 faktörü projede seçilmeden hesaplanmaz.",
@@ -4023,7 +4036,9 @@
         "clinker_ratio_out_of_range": "Klinker oranı olağan aralığın (%50–97) dışında",
         "calcination_factor_out_of_range": "Ölçülen proses CO₂ / klinker olağan aralığın (0,4–0,6) dışında",
         "tier1_calcination": "Kalsinasyon IPCC Tier 1 ile tahmin edildi; tesis CaO içeriğiyle Tier 2 önerilir",
-        "ttw_basis": "Yoğunluk depo-tekerlek (TTW) esaslı; ISO 14083 kuyu-tekerlek (WTW) de ister"
+        "ttw_basis": "Yoğunluk depo-tekerlek (TTW) esaslı; ISO 14083 kuyu-tekerlek (WTW) de ister",
+        "taxonomy_exceeds_total": "Faaliyetlerin toplamı dönemin toplamını aşıyor",
+        "taxonomy_not_assessed_cap": "Değerlendirilmeyen pay %10 eşiğini aşıyor"
       },
       "m": {
         "ghg_scope1": "Kapsam 1",
@@ -4066,7 +4081,19 @@
         "ind_cement_process_intensity": "Proses CO₂ (ton klinker başına)",
         "ind_logistics_tkm": "Taşıma faaliyeti",
         "ind_logistics_intensity": "Taşıma emisyon yoğunluğu",
-        "ind_services_electricity_intensity": "Elektrik yoğunluğu (m² başına)"
+        "ind_services_electricity_intensity": "Elektrik yoğunluğu (m² başına)",
+        "taxonomy_turnover_eligible": "Taksonomiye uygun hasılat payı",
+        "taxonomy_turnover_aligned": "Taksonomiyle uyumlu hasılat payı",
+        "taxonomy_turnover_not_assessed": "Değerlendirilmeyen hasılat payı",
+        "taxonomy_turnover_not_eligible": "Taksonomiye uygun olmayan hasılat payı",
+        "taxonomy_capex_eligible": "Taksonomiye uygun CapEx payı",
+        "taxonomy_capex_aligned": "Taksonomiyle uyumlu CapEx payı",
+        "taxonomy_capex_not_assessed": "Değerlendirilmeyen CapEx payı",
+        "taxonomy_capex_not_eligible": "Taksonomiye uygun olmayan CapEx payı",
+        "taxonomy_opex_eligible": "Taksonomiye uygun OpEx payı",
+        "taxonomy_opex_aligned": "Taksonomiyle uyumlu OpEx payı",
+        "taxonomy_opex_not_assessed": "Değerlendirilmeyen OpEx payı",
+        "taxonomy_opex_not_eligible": "Taksonomiye uygun olmayan OpEx payı"
       }
     },
     "lineage": {
@@ -4187,7 +4214,8 @@
         "g6": "Rapor metni ve taksonomi verisiyle (rapor stüdyosu) çalışır",
         "in_runs": "Her hesapta ayrıca çalışır",
         "no_production": "Tesisin üretim verisi yok",
-        "no_scope1": "Tesisin kapsam 1 sonucu yok"
+        "no_scope1": "Tesisin kapsam 1 sonucu yok",
+        "in_release": "Rapor yayımlanırken metin üzerinde çalışır ve yayını durdurur"
       },
       "openIssues": "Açık bulgular ({n})",
       "doneIssues": "Değerlendirilmiş bulgular ({n})"
@@ -4668,7 +4696,14 @@
         "data": "Veri talepleri",
         "evidence": "Kanıt dosyaları",
         "controls": "Mutabakat",
-        "consolidation": "Konsolidasyon"
+        "consolidation": "Konsolidasyon",
+        "materiality": "Çift önemlilik",
+        "taxonomy": "Taksonomi göstergeleri",
+        "scope": "Kapsam ve sınır",
+        "calculations": "Hesaplamalar",
+        "close": "Kapanış",
+        "reports": "Raporlar",
+        "assurance": "Güvence odası"
       },
       "setupLead": "Dönemler, takvim, ekip, sektör paketleri, veri bağlayıcıları ve paylaşım. Raporlama işinin kendisi adımlarda.",
       "setupNav": {
@@ -4712,7 +4747,8 @@
       "recent": "Son bildirimler",
       "allNotifications": "Tüm bildirimler",
       "open": "Aç",
-      "step": "Adım"
+      "step": "Adım",
+      "sheets": "Onayınızı bekleyen çalışma sayfaları ({n})"
     },
     "today": {
       "title": "Bugün",
@@ -4742,7 +4778,150 @@
         "input": "Tutar onayı",
         "section": "Rapor bölümü",
         "decision": "Rapor kararı",
-        "question": "Güvence sorusu"
+        "question": "Güvence sorusu",
+        "sheet": "Çalışma sayfası"
+      }
+    },
+    "ws": {
+      "none": "Henüz kaydedilmiş bir sürüm yok.",
+      "version": "Sürüm {v}",
+      "enteredBy": "Giren: {name}, {date}",
+      "status": {
+        "draft": "Taslak",
+        "submitted": "Onay bekliyor",
+        "approved": "Onaylı",
+        "superseded": "Yerini aldı"
+      },
+      "submit": "Onaya gönder",
+      "approve": "Onayla",
+      "return": "Geri gönder",
+      "returnReason": "Geri gönderme gerekçesi (en az 10 karakter)",
+      "waitingOther": "Başka bir kişinin onayını bekliyor; kendi girdiğiniz sürümü onaylayamazsınız.",
+      "approvedLine": "Geçerli onaylı sürüm: {v} · onaylayan {name}, {date}",
+      "save": "Yeni sürüm olarak kaydet",
+      "saved": "Sürüm {v} kaydedildi. Hazır olduğunda onaya gönderin.",
+      "remove": "Satırı kaldır",
+      "kind": {
+        "materiality": "Çift önemlilik değerlendirmesi",
+        "taxonomy": "Taksonomi göstergeleri",
+        "annual_report": "Faaliyet raporu kontrol listesi",
+        "pathway": "Dekarbonizasyon yolu",
+        "ets": "TR ETS senaryosu",
+        "cbam_cost": "SKDM maliyet senaryosu"
+      }
+    },
+    "mat": {
+      "title": "Çift önemlilik",
+      "heading": "Çift önemlilik — {label}",
+      "lead": "Her konu etki (ölçek, kapsam, telafi edilemezlik, olasılık) ve finansal (büyüklük, olasılık) yönden 1–5 arasında puanlanır; eşiği geçen konu önemlidir. Kaydedilen sürümü şirketten başka bir kişi onaylar. Onaylı liste raporun konularının dayanağıdır; TSRS önce iklim raporu için zorunlu değildir.",
+      "pillar": "Alan",
+      "pillars": {
+        "E": "Çevre",
+        "S": "Sosyal",
+        "G": "Yönetişim"
+      },
+      "addTopic": "Konu ekle",
+      "newTopic": "Yeni konu",
+      "materialList": "Önemli konular ({n})"
+    },
+    "tax": {
+      "title": "Taksonomi göstergeleri",
+      "heading": "Taksonomi göstergeleri — {label}",
+      "lead": "Faaliyetleri ve dönemin hasılat, yatırım (CapEx) ve işletme gideri (OpEx) toplamlarını girin. Uygun ve uyumlu paylar AB 2026/73 kuralıyla, %10 eşiği dahil hesaplanır. Onaylanan sürüm 'Taksonomi hesabı' ile metrik olur ve diğer metrikler gibi onaya gider.",
+      "kpis": "Göstergeler (canlı)",
+      "notEligible": "Uygun değil",
+      "runTitle": "Taksonomi hesabı",
+      "runLead": "Onaylı sürüm {v} metrik olarak yazılır; metrikler Hesaplamalar adımında onay bekler. Aynı sürüm ikinci kez aynı hesabı verir.",
+      "run": "Taksonomi hesabını çalıştır",
+      "runDone": "{n} metrik yazıldı ve onaya gitti.",
+      "runReused": "Bu sürüm zaten hesaplanmıştı; mevcut hesap kullanıldı.",
+      "toCalculations": "Hesaplamalar ve onaylar"
+    },
+    "arc": {
+      "title": "Asgari içerik kontrol listesi",
+      "lead": "Faaliyet raporunun Asgari İçerik Yönetmeliği maddeleri. Her madde 'karşılandı' ya da gerekçesiyle 'uygulanmaz' olmalı; liste başka bir kişi tarafından onaylanmadan rapor yayımlanamaz.",
+      "summary": "{total} maddeden {met} karşılandı, {na} uygulanmaz, {missing} eksik, {open} açık",
+      "complete": "Tamam",
+      "incomplete": "Eksik var",
+      "unmarked": "İşaretlenmedi",
+      "status": {
+        "met": "Karşılandı",
+        "na": "Uygulanmaz",
+        "missing": "Eksik"
+      },
+      "note": "Not ya da bölüm",
+      "naReason": "Neden uygulanmaz? (gerekli)"
+    },
+    "an": {
+      "title": "Analiz",
+      "nav": "Analiz",
+      "tools": {
+        "pathway": "Dekarbonizasyon yolu",
+        "ets": "TR ETS",
+        "cbam": "SKDM maliyeti"
+      },
+      "lead": {
+        "pathway": "1,5 °C ve 2 °C'nin altı yolu, önlemlerle beklenen seyir ve hedef yılı açığı. Başlangıç yılı emisyonu boş bırakılırsa o yılın onaylı döngüsünden alınır; bu yılın gerçekleşeni onaylı rakamlardan gelir.",
+        "ets": "TR ETS kategorisi, ücretsiz tahsisat ve açık. Doğrulanmış emisyon boş bırakılırsa bu döngünün onaylı ETS rakamı, yoksa kapsam 1 kullanılır.",
+        "cbam": "SKDM sertifika maliyeti 2026–2034. Ürünler bu döngünün onaylı SKDM hesabından gelir: KN kodu, özgül gömülü emisyon ve ton."
+      },
+      "noApproved": "Bu dönemde henüz onaylı metrik yok; analiz onaylı rakamlarla çalışır.",
+      "fromBaseCycle": "Boş = başlangıç yılı döngüsünün onaylı rakamı",
+      "fromApproved": "Boş = bu döngünün onaylı rakamı",
+      "measures": "Önlemler (geçiş planı)",
+      "newMeasure": "Yeni önlem",
+      "noBase": "Başlangıç yılı emisyonu yok: değeri girin ya da o yıl için onaylı bir döngü oluşturun.",
+      "baseFromCycle": "Başlangıç yılı döngüsünün onaylı rakamı",
+      "baseTyped": "Elle girilen değer",
+      "actual": "{year} gerçekleşen (onaylı)",
+      "bau": "Önlemsiz seyir",
+      "noEmissions": "Onaylı ETS ya da kapsam 1 rakamı yok; doğrulanmış emisyonu girin.",
+      "sectors": {
+        "electricity": "Elektrik üretimi",
+        "cement": "Çimento",
+        "iron_steel": "Demir-çelik",
+        "aluminium": "Alüminyum",
+        "fertilisers": "Gübre",
+        "other": "Diğer"
+      },
+      "source": {
+        "sheet": "Elle girilen değer",
+        "ets": "Onaylı doğrulanmış ETS emisyonu",
+        "scope1": "Onaylı kapsam 1"
+      },
+      "years": "{from}–{to} toplamı",
+      "noCbam": "Bu döngüde onaylı SKDM hesabı yok; önce Hesaplamalar adımında SKDM hesabını çalıştırıp onaylayın.",
+      "cbamProducts": "{n} ürün: {cn}"
+    },
+    "quick": {
+      "title": "Hızlı hesap",
+      "lead": "Araç setinin hesaplayıcıları, bu tarayıcıda kayıtsız deneme olarak. Sonuçlar rapora girmez; sera gazı ve çevre girdileri size atanmış veri taleplerine taslak olarak aktarılabilir.",
+      "notice": "Hızlı hesap: bu tarayıcıda, kayıt dışı bir deneme. Rakamlar raporlama döngüsüne girmez. Sera gazı ve çevre girdilerini sayfanın altındaki 'Döngüye kaydet' ile size atanmış veri taleplerine taslak olarak aktarabilirsiniz.",
+      "sample": "Örnek değerlerle doldur",
+      "sampleHint": "Bu hesaplayıcıyı örnek şirketin değerleriyle doldurur",
+      "savable": "Döngüye kaydedilebilir",
+      "saveTitle": "Döngüye kaydet",
+      "saveLead": "Yalnız girdiler aktarılır (tüketim, kaçak, hacim); hesaplanan sonuç aktarılmaz, platform kendi faktör sicilinden yeniden hesaplar. Her girdiyi size atanmış açık bir veri talebiyle eşleştirin; taslak olarak kaydedilir, siz kanıt ekleyip gönderirsiniz.",
+      "nothing": "Aktarılacak girdi yok.",
+      "noTarget": "Size atanmış açık bir talep yok",
+      "skip": "Aktarma",
+      "target": "{item} için veri talebi",
+      "save": "Seçilenleri taslak olarak kaydet ({n})",
+      "saved": "Kaydedildi",
+      "failed": "Kaydedilemedi",
+      "openTask": "Talebi aç",
+      "nextStep": "Taslaklar kaydedildi. Her talepte kanıt ekleyip gönderin; gözden geçiren kabul edince hesaba girer.",
+      "desc": {
+        "ghg": "Yakıt, elektrik, soğutucu ve kapsam 3 ile kapsam 1-2-3 envanteri.",
+        "environment": "Enerji, yenilenebilir pay, su ve atık göstergeleri.",
+        "workforce": "Çalışan, ücret farkı, eğitim ve İSG oranları.",
+        "taxonomy": "Faaliyet bazında uygun ve uyumlu hasılat, CapEx ve OpEx payları.",
+        "materiality": "Konu bazında etki ve finansal önemlilik matrisi.",
+        "cbam": "Ürün bazında 2026–2034 SKDM sertifika maliyeti.",
+        "ets": "TR ETS kategorisi, tahsisat açığı ve maliyet.",
+        "pathway": "1,5 °C yolu, önlemler ve hedef açığı.",
+        "applicability": "TSRS, SKDM ve TR ETS kapsamında mısınız?",
+        "claims": "Rapor metninde yanıltıcı yeşil iddia taraması."
       }
     }
   }

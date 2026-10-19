@@ -10,6 +10,7 @@ import { useActiveClient, useHydrated, useWorkspace, type ToolKey } from "@/stor
 import { download, slug } from "@/lib/export";
 import { Button } from "@/components/ui";
 import { Loading } from "@/components/shell";
+import { useQuickMode } from "./quick";
 
 export function useTool<K extends ToolKey>(key: K): [ClientData[K], (v: ClientData[K]) => void, ClientData] {
   const client = useActiveClient();
@@ -26,20 +27,21 @@ export function Hydrated({ children }: { children: ReactNode }) {
 export function ToolActions<K extends ToolKey>({ tool }: { tool: K }) {
   const { t } = useI18n();
   const [value, set, client] = useTool(tool);
+  const quick = useQuickMode();
   return (
     <>
       <Button
         variant="onBand"
         onClick={() => {
-          const base = client.sample ? SAMPLE_CLIENT[tool] : null;
+          const base = client.sample || quick ? SAMPLE_CLIENT[tool] : null;
           if (base) set(structuredClone(base));
         }}
         // a locked (approved) section cannot be reset; the store would refuse the change anyway
-        disabled={!client.sample || !!lockedBy(client, tool, SAMPLE_CLIENT[tool])}
-        title={t("actions.resetHint")}
+        disabled={(!client.sample && !quick) || !!lockedBy(client, tool, SAMPLE_CLIENT[tool])}
+        title={quick ? t("pf.quick.sampleHint") : t("actions.resetHint")}
       >
         <RotateCcw size={15} aria-hidden />
-        {t("actions.reset")}
+        {quick ? t("pf.quick.sample") : t("actions.reset")}
       </Button>
       <Button
         variant="onBandPrimary"

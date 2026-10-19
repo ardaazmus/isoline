@@ -33,9 +33,13 @@ export const PLATFORM_NAV: NavItem[] = [
   },
   {
     id: "library",
-    href: "/app/factors",
+    href: "/app/quick",
     children: [
+      { id: "quick", href: "/app/quick" },
       { id: "factors", href: "/app/factors", roles: [...LEADS, "data_owner", "reviewer"] },
+      { id: "regulations", href: "/app/library/regulations" },
+      { id: "crosswalk", href: "/app/library/crosswalk" },
+      { id: "themes", href: "/app/library/themes" },
       { id: "reference", href: "/app/settings/reference", roles: ADMINS },
     ],
   },

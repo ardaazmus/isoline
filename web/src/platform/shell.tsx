@@ -7,7 +7,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, type ReactNode } from "react";
-import { Bell, BookOpen, Building2, CalendarCheck, FolderKanban, Inbox, LogOut, Menu, Settings, Wrench, X, type LucideIcon } from "lucide-react";
+import { Bell, BookOpen, Building2, CalendarCheck, FolderKanban, Inbox, LogOut, Menu, Settings, X, type LucideIcon } from "lucide-react";
 import { useI18n } from "@/i18n/provider";
 import { LOCALES } from "@/i18n/generated";
 import { cn, SampleFlag } from "@/components/ui";
@@ -125,10 +125,6 @@ function ContextBar({ ctx, onMenu }: { ctx: ShellContext; onMenu: () => void }) 
               {(ctx.unread ?? 0) > 0 && <span className="absolute -right-0.5 -top-0.5 min-w-[16px] rounded-full bg-[var(--b-600)] px-1 text-center text-[10.5px] font-semibold leading-[16px] text-white">{ctx.unread}</span>}
             </Link>
           )}
-          <Link href={`/${locale}`} className="hidden items-center gap-1.5 text-[13px] font-medium text-[var(--ink-2)] no-underline hover:text-[var(--ink)] md:inline-flex">
-            <Wrench size={14} aria-hidden />
-            {t("pf.shell.toolkit")}
-          </Link>
           <label htmlFor="pf-lang" className="sr-only">
             {t("shell.language")}
           </label>

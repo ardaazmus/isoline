@@ -174,3 +174,18 @@ export const EngagementStatus = z.object({ status: z.enum(["preparing", "ready",
 
 // ---------------------------------------------------------------- G8
 export const CreateConnector = z.object({ name: z.string().trim().min(1).max(120), kind: z.enum(["http_csv", "http_json"]), url: z.string().url().max(500), secret: z.string().max(500).nullable().optional(), schedule: z.enum(["manual", "daily"]).optional() });
+
+// ---------------------------------------------------------------- cycle worksheets (UX Faz 3)
+export const WorksheetQuery = z.object({ reportId: uuid.optional() });
+export const SaveWorksheet = z.object({ payload: z.unknown(), reportId: uuid.nullable().optional(), note: z.string().trim().max(2000).nullable().optional() });
+export const WorksheetReturn = z.object({ reason: z.string().trim().min(10).max(2000) });
+
+// ---------------------------------------------------------------- quick calculation → cycle (UX Faz 3)
+export const QuickTargetsQuery = z.object({ metrics: z.string().max(400) });
+const QuickLine = z.object({ key: z.string().trim().min(1).max(60), value: z.number().finite().min(0), unit: z.string().trim().min(1).max(20) });
+export const QuickSaveBody = z.object({
+  items: z
+    .array(z.object({ requestId: uuid, draft: z.object({ metric: z.string().max(60), value: z.number().finite().min(0).optional(), unit: z.string().max(20).optional(), lines: z.array(QuickLine).max(40).optional() }) }))
+    .min(1)
+    .max(50),
+});

@@ -24,6 +24,8 @@ import { parse, prose, tokens } from "./body";
 import { releaseDocx } from "./docx";
 import { barChartSvg, csv, withUnit, type FactValue } from "./render";
 import { zip } from "./zip";
+import { ANNUAL_REPORT_TEMPLATES, annualReportStatus } from "../worksheets/compute";
+import { approvedChecklist } from "../worksheets/service";
 
 const sha = (v: unknown) => createHash("sha256").update(typeof v === "string" || v instanceof Uint8Array ? v : canonicalJson(v)).digest("hex");
 export const STAGES = ["tech_review", "customer_review", "management_signoff"] as const;
@@ -325,6 +327,11 @@ export async function releaseReport(actor: Actor, reportId: string, input: { ame
     if (refs.some((r) => !r.factId || r.stale || !snapFacts.includes(r.factId))) throw new HttpError(409, "stale_references");
     const blocking = st.claims.flatMap((c) => c.hits.filter((h) => h.rule === "offset" || h.rule === "future").map((h) => ({ section: c.section, ...h })));
     if (blocking.length) throw new HttpError(409, "claims_blocked", `claims_blocked: ${blocking.map((b) => b.text).join(", ")}`);
+    // an annual report carries the minimum-content checklist (Yön. 28395): approved and with every item covered
+    if (ANNUAL_REPORT_TEMPLATES[report.template_id]) {
+      const checklist = await approvedChecklist(tx, reportId);
+      if (!checklist || !annualReportStatus(checklist).complete) throw new HttpError(409, "ar_checklist_incomplete");
+    }
     const previous = await tx.selectFrom("core.report_releases").select(["id", "version"]).where("report_id", "=", reportId).orderBy("version", "desc").executeTakeFirst();
     if (previous && (input.amendmentReason?.trim().length ?? 0) < 20) throw new HttpError(422, "amendment_reason_required");
 

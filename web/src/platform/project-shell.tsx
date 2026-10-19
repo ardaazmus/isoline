@@ -7,7 +7,7 @@ import { requireWorkspace, type Workspace } from "@/server/http/dal";
 import { projectOverview } from "@/server/tenancy/service";
 import { listCycles } from "@/server/projects/service";
 import { cycleProgress } from "@/server/cycle/progress";
-import { grantCan, memberCan } from "@/server/policy/policy";
+import { grantCan, memberCan, type Action } from "@/server/policy/policy";
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -27,6 +27,19 @@ export async function loadProject(lang: string, projectId: string): Promise<{ ok
       ),
     };
   return { ok: true, p: { ws, data: r.data } };
+}
+
+/** May this person attempt an action in the project (role, and the grant when working through one)? */
+export function projectCan(p: LoadedProject, action: Action): boolean {
+  const role = p.ws.actor.role;
+  const { access } = p.data;
+  return role !== null && memberCan(role, action) && (access.via !== "grant" || grantCan(access.grantRole!, action));
+}
+
+/** A worksheet row as plain data for a client component (dates as ISO strings). */
+export function sheetView<T extends { created_at: Date | string; approved_at: Date | string | null }>(r: T | null) {
+  if (!r) return null;
+  return { ...r, created_at: new Date(r.created_at).toISOString(), approved_at: r.approved_at ? new Date(r.approved_at).toISOString() : null };
 }
 
 /** Who may open the project's setup (schedule, team, packs, connectors, cycles and sharing). */

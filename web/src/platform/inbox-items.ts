@@ -7,7 +7,7 @@ import type { StepId } from "@/server/cycle/steps";
 import { factValue } from "./g4/format";
 import { dateOnly, tr } from "./server";
 
-export type InboxKind = "enter" | "review" | "run" | "warning" | "input" | "section" | "decision" | "question";
+export type InboxKind = "enter" | "review" | "run" | "warning" | "input" | "sheet" | "section" | "decision" | "question";
 export type InboxItem = { key: string; kind: InboxKind; step: StepId; projectId: string; project: string; label: string; detail: string; due: string | null; overdue: boolean; href: string };
 
 export function inboxItems(lang: string, box: Inbox): InboxItem[] {
@@ -35,6 +35,20 @@ export function inboxItems(lang: string, box: Inbox): InboxItem[] {
   for (const x of box.warnings) items.push({ key: `w${x.id}`, kind: "warning", step: "calculate", projectId: x.project_id, project: x.project_name, label: t(`pf.calc.rule.${x.rule_id}`), detail: "", due: null, overdue: false, href: `${p(x.project_id)}/controls` });
   for (const x of box.inputs) items.push({ key: `i${x.id}`, kind: "input", step: "controls", projectId: x.project_id, project: x.project_name, label: x.entity_name, detail: `${factValue(lang, x.net_sales, "")} TRY`, due: null, overdue: false, href: `${p(x.project_id)}/consolidation?cycle=${x.cycle_id}` });
   for (const x of box.eliminations) items.push({ key: `x${x.id}`, kind: "input", step: "controls", projectId: x.project_id, project: x.project_name, label: t("pf.inbox.elimination", { seller: x.seller, buyer: x.buyer }), detail: `${factValue(lang, x.amount, "")} TRY`, due: null, overdue: false, href: `${p(x.project_id)}/consolidation?cycle=${x.cycle_id}` });
+  const SHEET_STEP: Record<string, StepId> = { materiality: "scope", taxonomy: "calculate", annual_report: "report" };
+  for (const x of box.sheets)
+    items.push({
+      key: `h${x.id}`,
+      kind: "sheet",
+      step: SHEET_STEP[x.kind] ?? "report",
+      projectId: x.project_id,
+      project: x.project_name,
+      label: t(`pf.ws.kind.${x.kind}`),
+      detail: [t("pf.ws.version", { v: x.version }), x.entered_by_name ? t("pf.inbox.runBy", { name: x.entered_by_name }) : null].filter(Boolean).join(" · "),
+      due: null,
+      overdue: false,
+      href: x.kind === "annual_report" && x.report_id ? `${p(x.project_id)}/reports/${x.report_id}#ar-checklist` : `${p(x.project_id)}/${x.kind}?cycle=${x.cycle_id}`,
+    });
   for (const x of box.sections) items.push({ key: `s${x.reportId}`, kind: "section", step: "report", projectId: x.projectId, project: x.projectName, label: x.reportTitle, detail: t("pf.inbox.sectionsRow", { n: x.count }), due: null, overdue: false, href: `${p(x.projectId)}/reports/${x.reportId}` });
   for (const x of box.decisions) items.push({ key: `d${x.reportId}`, kind: "decision", step: "report", projectId: x.projectId, project: x.projectName, label: x.title, detail: t(`pf.inbox.decision.${x.action}`), due: null, overdue: false, href: `${p(x.projectId)}/reports/${x.reportId}` });
   for (const x of [...box.toAnswer, ...box.toClose])

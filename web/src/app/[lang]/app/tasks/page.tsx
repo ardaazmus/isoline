@@ -15,6 +15,7 @@ const GROUPS: { kind: InboxKind; title: string }[] = [
   { kind: "run", title: "pf.inbox.runs" },
   { kind: "warning", title: "pf.inbox.warnings" },
   { kind: "input", title: "pf.inbox.inputs" },
+  { kind: "sheet", title: "pf.inbox.sheets" },
   { kind: "section", title: "pf.inbox.sections" },
   { kind: "decision", title: "pf.inbox.decisions" },
   { kind: "question", title: "pf.inbox.questions" },

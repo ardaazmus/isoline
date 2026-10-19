@@ -147,9 +147,9 @@ export const stepOfGate = (gate: string): StepId | null => (Object.entries(STEP_
 
 /** The project pages that belong to each step (the first one is the step's own page). */
 export const STEP_PAGES: Record<StepId, string[]> = {
-  scope: ["scope"],
+  scope: ["scope", "materiality"],
   collect: ["data", "evidence"],
-  calculate: ["calculations"],
+  calculate: ["calculations", "taxonomy"],
   controls: ["consolidation", "controls"],
   close: ["close"],
   report: ["reports"],
@@ -157,3 +157,7 @@ export const STEP_PAGES: Record<StepId, string[]> = {
 };
 
 export const SETUP_PAGES = ["setup", "plan", "participants", "industry", "connectors"] as const;
+
+/** The analysis area beside the cycle: scenarios on approved figures (never a step of the cycle). */
+export const ANALYSIS_TOOLS = ["pathway", "ets", "cbam"] as const;
+export type AnalysisTool = (typeof ANALYSIS_TOOLS)[number];

@@ -2703,7 +2703,11 @@
       "reference": "Reference data versions",
       "orgSection": "Organisation",
       "library": "Library",
-      "settings": "Settings"
+      "settings": "Settings",
+      "quick": "Quick calculation",
+      "regulations": "Regulation calendar",
+      "crosswalk": "Framework crosswalk",
+      "themes": "Theme and colour guide"
     },
     "kind": {
       "company": "Company",
@@ -2940,7 +2944,15 @@
       "not_asker": "Only the person who asked can close the question.",
       "invalid_url": "Invalid URL (http or https).",
       "credentials_in_url": "No user name or password in the URL; use the access token field.",
-      "connector_paused": "The connector is paused."
+      "connector_paused": "The connector is paused.",
+      "invalid_worksheet": "The values are not valid; correct the marked fields.",
+      "worksheet_not_approved": "The worksheet needs an approved version first.",
+      "ar_checklist_incomplete": "The annual report cannot be released until its checklist is approved and complete.",
+      "report_required": "No report chosen.",
+      "not_annual_report": "This report is not an annual report.",
+      "report_not_expected": "This worksheet is not tied to a report.",
+      "worksheet_not_found": "Worksheet not found.",
+      "invalid_items": "Nothing to pass, or too many items."
     },
     "auth": {
       "email": "E-mail",
@@ -3883,7 +3895,8 @@
         "ets": "TR-ETS category",
         "consolidation": "Financial consolidation",
         "reconciliation": "Reconciliation",
-        "industry": "Industry pack"
+        "industry": "Industry pack",
+        "taxonomy": "Taxonomy KPIs"
       },
       "kindHint": {
         "ghg": "Accepted facility data are summed with their share in the approved boundary; location- and market-based scope 2 are kept apart. Scope 3 is not calculated until the project chooses a factor.",
@@ -4023,7 +4036,9 @@
         "clinker_ratio_out_of_range": "Clinker ratio outside the usual range (50–97 %)",
         "calcination_factor_out_of_range": "Measured process CO₂ per clinker outside the usual range (0.4–0.6)",
         "tier1_calcination": "Calcination estimated with IPCC Tier 1; Tier 2 with plant CaO content recommended",
-        "ttw_basis": "Intensity on a tank-to-wheel basis; ISO 14083 also asks for well-to-wheel"
+        "ttw_basis": "Intensity on a tank-to-wheel basis; ISO 14083 also asks for well-to-wheel",
+        "taxonomy_exceeds_total": "The activities add up to more than the period's total",
+        "taxonomy_not_assessed_cap": "The share not assessed exceeds the 10 % threshold"
       },
       "m": {
         "ghg_scope1": "Scope 1",
@@ -4066,7 +4081,19 @@
         "ind_cement_process_intensity": "Process CO₂ (per tonne of clinker)",
         "ind_logistics_tkm": "Transport activity",
         "ind_logistics_intensity": "Transport emission intensity",
-        "ind_services_electricity_intensity": "Electricity intensity (per m²)"
+        "ind_services_electricity_intensity": "Electricity intensity (per m²)",
+        "taxonomy_turnover_eligible": "Taxonomy-eligible turnover share",
+        "taxonomy_turnover_aligned": "Taxonomy-aligned turnover share",
+        "taxonomy_turnover_not_assessed": "Turnover share not assessed",
+        "taxonomy_turnover_not_eligible": "Taxonomy-non-eligible turnover share",
+        "taxonomy_capex_eligible": "Taxonomy-eligible CapEx share",
+        "taxonomy_capex_aligned": "Taxonomy-aligned CapEx share",
+        "taxonomy_capex_not_assessed": "CapEx share not assessed",
+        "taxonomy_capex_not_eligible": "Taxonomy-non-eligible CapEx share",
+        "taxonomy_opex_eligible": "Taxonomy-eligible OpEx share",
+        "taxonomy_opex_aligned": "Taxonomy-aligned OpEx share",
+        "taxonomy_opex_not_assessed": "OpEx share not assessed",
+        "taxonomy_opex_not_eligible": "Taxonomy-non-eligible OpEx share"
       }
     },
     "lineage": {
@@ -4187,7 +4214,8 @@
         "g6": "Runs with report text and taxonomy data (report studio)",
         "in_runs": "Also runs inside every calculation",
         "no_production": "No production data for the facility",
-        "no_scope1": "No scope 1 result for the facility"
+        "no_scope1": "No scope 1 result for the facility",
+        "in_release": "Runs on the report text at release and stops the release"
       },
       "openIssues": "Open findings ({n})",
       "doneIssues": "Reviewed findings ({n})"
@@ -4668,7 +4696,14 @@
         "data": "Data requests",
         "evidence": "Evidence files",
         "controls": "Reconciliation",
-        "consolidation": "Consolidation"
+        "consolidation": "Consolidation",
+        "materiality": "Double materiality",
+        "taxonomy": "Taxonomy KPIs",
+        "scope": "Scope and boundary",
+        "calculations": "Calculations",
+        "close": "Close",
+        "reports": "Reports",
+        "assurance": "Assurance room"
       },
       "setupLead": "Cycles, schedule, team, industry packs, data connectors and sharing. The reporting work itself happens in the steps.",
       "setupNav": {
@@ -4712,7 +4747,8 @@
       "recent": "Recent notifications",
       "allNotifications": "All notifications",
       "open": "Open",
-      "step": "Step"
+      "step": "Step",
+      "sheets": "Worksheets awaiting your approval ({n})"
     },
     "today": {
       "title": "Today",
@@ -4742,7 +4778,150 @@
         "input": "Amount approval",
         "section": "Report section",
         "decision": "Report decision",
-        "question": "Assurance question"
+        "question": "Assurance question",
+        "sheet": "Worksheet"
+      }
+    },
+    "ws": {
+      "none": "No saved version yet.",
+      "version": "Version {v}",
+      "enteredBy": "Entered by {name}, {date}",
+      "status": {
+        "draft": "Draft",
+        "submitted": "Awaiting approval",
+        "approved": "Approved",
+        "superseded": "Superseded"
+      },
+      "submit": "Submit for approval",
+      "approve": "Approve",
+      "return": "Return",
+      "returnReason": "Reason for returning (at least 10 characters)",
+      "waitingOther": "Waiting for someone else's approval; you cannot approve a version you entered.",
+      "approvedLine": "Approved version in force: {v} · approved by {name}, {date}",
+      "save": "Save as a new version",
+      "saved": "Version {v} saved. Submit it for approval when it is ready.",
+      "remove": "Remove row",
+      "kind": {
+        "materiality": "Double materiality assessment",
+        "taxonomy": "Taxonomy KPIs",
+        "annual_report": "Annual report checklist",
+        "pathway": "Decarbonisation pathway",
+        "ets": "TR ETS scenario",
+        "cbam_cost": "CBAM cost scenario"
+      }
+    },
+    "mat": {
+      "title": "Double materiality",
+      "heading": "Double materiality — {label}",
+      "lead": "Each topic is scored 1–5 for impact (scale, scope, irremediability, likelihood) and financial materiality (magnitude, likelihood); a topic that reaches the threshold is material. Another person of the company approves the saved version. The approved list underpins the report's topics; a TSRS climate-first report does not require it.",
+      "pillar": "Pillar",
+      "pillars": {
+        "E": "Environment",
+        "S": "Social",
+        "G": "Governance"
+      },
+      "addTopic": "Add topic",
+      "newTopic": "New topic",
+      "materialList": "Material topics ({n})"
+    },
+    "tax": {
+      "title": "Taxonomy KPIs",
+      "heading": "Taxonomy KPIs — {label}",
+      "lead": "Enter the activities and the period's turnover, CapEx and OpEx totals. Eligible and aligned shares follow EU 2026/73, the 10 % threshold included. The approved version becomes metrics through the taxonomy run and goes to approval like other metrics.",
+      "kpis": "KPIs (live)",
+      "notEligible": "Not eligible",
+      "runTitle": "Taxonomy run",
+      "runLead": "Approved version {v} is written as metrics; they await approval in the Calculations step. The same version twice gives the same run.",
+      "run": "Run the taxonomy calculation",
+      "runDone": "{n} metrics written and sent for approval.",
+      "runReused": "This version was already calculated; the existing run is used.",
+      "toCalculations": "Calculations and approvals"
+    },
+    "arc": {
+      "title": "Minimum content checklist",
+      "lead": "The articles of the annual report minimum-content regulation. Every item must be 'met' or 'not applicable' with a reason; the report cannot be released until another person approves the list.",
+      "summary": "Of {total} items: {met} met, {na} not applicable, {missing} missing, {open} open",
+      "complete": "Complete",
+      "incomplete": "Incomplete",
+      "unmarked": "Not marked",
+      "status": {
+        "met": "Met",
+        "na": "Not applicable",
+        "missing": "Missing"
+      },
+      "note": "Note or section",
+      "naReason": "Why not applicable? (required)"
+    },
+    "an": {
+      "title": "Analysis",
+      "nav": "Analysis",
+      "tools": {
+        "pathway": "Decarbonisation pathway",
+        "ets": "TR ETS",
+        "cbam": "CBAM cost"
+      },
+      "lead": {
+        "pathway": "The 1.5 °C and well-below 2 °C paths, the expected course with measures and the gap in the target year. Empty base-year emissions are taken from that year's approved cycle; this year's actual comes from the approved figures.",
+        "ets": "TR ETS category, free allocation and deficit. Empty verified emissions use this cycle's approved ETS figure, else scope 1.",
+        "cbam": "CBAM certificate cost 2026–2034. Products come from this cycle's approved CBAM run: CN code, specific embedded emissions and tonnes."
+      },
+      "noApproved": "No approved metric in this cycle yet; the analysis runs on approved figures.",
+      "fromBaseCycle": "Empty = the approved figure of the base-year cycle",
+      "fromApproved": "Empty = this cycle's approved figure",
+      "measures": "Measures (transition plan)",
+      "newMeasure": "New measure",
+      "noBase": "No base-year emissions: enter the value or set up an approved cycle for that year.",
+      "baseFromCycle": "Approved figure of the base-year cycle",
+      "baseTyped": "Value entered by hand",
+      "actual": "{year} actual (approved)",
+      "bau": "Without measures",
+      "noEmissions": "No approved ETS or scope 1 figure; enter the verified emissions.",
+      "sectors": {
+        "electricity": "Power generation",
+        "cement": "Cement",
+        "iron_steel": "Iron and steel",
+        "aluminium": "Aluminium",
+        "fertilisers": "Fertilisers",
+        "other": "Other"
+      },
+      "source": {
+        "sheet": "Value entered by hand",
+        "ets": "Approved verified ETS emissions",
+        "scope1": "Approved scope 1"
+      },
+      "years": "Total {from}–{to}",
+      "noCbam": "No approved CBAM run in this cycle; run and approve the CBAM calculation in the Calculations step first.",
+      "cbamProducts": "{n} products: {cn}"
+    },
+    "quick": {
+      "title": "Quick calculation",
+      "lead": "The toolkit's calculators as an unrecorded sandbox in this browser. Results do not enter the report; GHG and environment inputs can be passed as drafts to data requests assigned to you.",
+      "notice": "Quick calculation: an unrecorded sandbox in this browser. The figures do not enter the reporting cycle. Use 'Save to cycle' at the bottom to pass GHG and environment inputs as drafts to data requests assigned to you.",
+      "sample": "Fill with sample values",
+      "sampleHint": "Fills this calculator with the sample company's values",
+      "savable": "Can be saved to a cycle",
+      "saveTitle": "Save to cycle",
+      "saveLead": "Only inputs are passed (consumption, leaks, volumes), never a calculated result: the platform recalculates with its own factor registry. Pair each input with an open data request assigned to you; it is saved as a draft, and you add evidence and submit it.",
+      "nothing": "No input to pass.",
+      "noTarget": "No open request assigned to you",
+      "skip": "Do not pass",
+      "target": "Data request for {item}",
+      "save": "Save the selected as drafts ({n})",
+      "saved": "Saved",
+      "failed": "Not saved",
+      "openTask": "Open the request",
+      "nextStep": "Drafts saved. Add evidence to each request and submit it; once the reviewer accepts, it enters the calculation.",
+      "desc": {
+        "ghg": "Scope 1-2-3 inventory from fuels, electricity, refrigerants and scope 3.",
+        "environment": "Energy, renewable share, water and waste indicators.",
+        "workforce": "Headcount, pay gap, training and OHS rates.",
+        "taxonomy": "Eligible and aligned turnover, CapEx and OpEx shares by activity.",
+        "materiality": "Impact and financial materiality matrix by topic.",
+        "cbam": "CBAM certificate cost 2026–2034 by product.",
+        "ets": "TR ETS category, allocation deficit and cost.",
+        "pathway": "1.5 °C pathway, measures and target gap.",
+        "applicability": "Are you in scope of TSRS, CBAM and TR ETS?",
+        "claims": "Screening report text for misleading green claims."
       }
     }
   }

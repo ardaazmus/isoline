@@ -20,6 +20,8 @@ import { issueCounts, recordIssues, supersedeOpenIssues, writeFacts, type RunRef
 import { consolidateRevenue } from "./consolidation";
 import { reconcile, RECONCILE_VERSION } from "./reconcile";
 import { signalsFor } from "../cycle/progress";
+import { SHEETS } from "../worksheets/schemas";
+import { approvedFacts } from "../worksheets/service";
 import { closeChecklistFrom } from "../cycle/steps";
 
 export const CONSOLIDATION_VERSION = "consolidation-ifrs10-2026.10.19";
@@ -243,6 +245,42 @@ async function acceptedByFacility(tx: Tx, cycleId: string, metric: string): Prom
 }
 
 /** G5-03: the U1–U5 cross-checks over the cycle's current facts; failures are findings of this run. */
+/** U6/U7 inputs: the approved taxonomy sheet, the transition plan, the annual report checklists, last year's figures. */
+async function worksheetInputs(tx: Tx, cycle: { id: string; project_id: string; reporting_year: number }) {
+  const sheet = async (kind: string, approvedOnly: boolean) =>
+    tx
+      .selectFrom("core.cycle_worksheets")
+      .select(["payload"])
+      .where("cycle_id", "=", cycle.id)
+      .where("kind", "=", kind)
+      .where("report_id", "is", null)
+      .where("status", approvedOnly ? "=" : "!=", approvedOnly ? "approved" : "superseded")
+      .orderBy("version", "desc")
+      .executeTakeFirst();
+  const tax = await sheet("taxonomy", true);
+  const taxonomy = tax ? SHEETS.taxonomy.safeParse(tax.payload) : null;
+  const plan = await sheet("pathway", false);
+  const pathway = plan ? SHEETS.pathway.safeParse(plan.payload) : null;
+  const checklists = await tx.selectFrom("core.cycle_worksheets").select(["payload"]).where("cycle_id", "=", cycle.id).where("kind", "=", "annual_report").where("status", "=", "approved").execute();
+  const investmentsReported = checklists.some((c) => {
+    const p = SHEETS.annual_report.safeParse(c.payload);
+    return p.success && p.data.items.investments?.status === "met";
+  });
+  const prev = await tx.selectFrom("core.reporting_cycles").select("id").where("project_id", "=", cycle.project_id).where("reporting_year", "=", cycle.reporting_year - 1).executeTakeFirst();
+  let prior: { energyGj: number | null; scope1: number | null } | null = null;
+  if (prev) {
+    const facts = await approvedFacts(tx, prev.id);
+    const g = (k: string) => facts.find((f) => f.metricKey === k && f.facilityId === null && (f.boundaryKind === null || f.boundaryKind === "ghg_operational_control"))?.value ?? null;
+    prior = { energyGj: g("env.energy_gj") ?? g("ghg.energy_gj"), scope1: g("ghg.scope1") };
+  }
+  return {
+    taxonomy: taxonomy?.success ? { capexTotal: taxonomy.data.totals.capex, activities: taxonomy.data.activities.map((a) => ({ name: a.name, capex: a.capex, aligned: a.aligned })) } : null,
+    measures: pathway?.success ? pathway.data.measures.map((m) => m.name) : null,
+    investmentsReported,
+    prior,
+  };
+}
+
 export async function runReconciliation(actor: Actor, cycleId: string): Promise<RunOutcome & { checks: ReturnType<typeof reconcile> }> {
   return withActor(actor, async (tx) => {
     const { cycle } = await cycleFor(tx, actor, cycleId, "calc.run");
@@ -256,6 +294,7 @@ export async function runReconciliation(actor: Actor, cycleId: string): Promise<
       profileEmployees: history?.[1]?.employees ?? null,
       production: await acceptedByFacility(tx, cycleId, "ghg_production"),
       cbamExports: await acceptedByFacility(tx, cycleId, "cbam_goods"),
+      ...(await worksheetInputs(tx, cycle)),
     };
     const iDigest = sha(input);
     const checks = reconcile(input);

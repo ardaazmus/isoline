@@ -5,6 +5,11 @@ import { Badge, Section, StateBox } from "@/platform/ui";
 import { attempt, dateTime, titled, tr } from "@/platform/server";
 import { grantCan, memberCan, type Action } from "@/server/policy/policy";
 import { getReport } from "@/server/reports/service";
+import { ArChecklist, SheetStatus } from "@/platform/g9/sheets";
+import { sheetView } from "@/platform/project-shell";
+import { getWorksheet } from "@/server/worksheets/service";
+import { AnnualReportSheet } from "@/server/worksheets/schemas";
+import { ANNUAL_REPORT_TEMPLATES } from "@/server/worksheets/compute";
 
 export const generateMetadata = titled("pf.rep.studio");
 
@@ -29,6 +34,11 @@ export default async function ReportStudio({ params, searchParams }: PageProps<"
   const stage = rep.report.status;
   const canDecide = stage === "tech_review" ? can("report.review") : stage === "customer_review" ? member && can("report.review") : stage === "management_signoff" ? member && can("report.release") : false;
   const base = `/${lang}/app/projects/${projectId}/reports/${reportId}`;
+  // an annual report carries its minimum-content checklist (the release needs it approved and complete)
+  const arProfile = ANNUAL_REPORT_TEMPLATES[rep.report.template_id] ?? null;
+  const ar = arProfile ? await getWorksheet(ws.actor, rep.report.cycle_id, "annual_report", reportId) : null;
+  const arInitial = ar?.current ? AnnualReportSheet.safeParse(ar.current.payload) : null;
+  const arOpen = stage !== "released";
   return (
     <>
       <ProjectHeader lang={lang} p={loaded.p} cycleId={rep.report.cycle_id} />
@@ -160,6 +170,15 @@ export default async function ReportStudio({ params, searchParams }: PageProps<"
           </Section>
         </div>
       </div>
+      {ar && arProfile && (
+        <div className="mt-6">
+          <Section title={t("pf.arc.title")} id="ar-checklist">
+            <p className="max-w-[90ch] text-[13px] leading-relaxed text-[var(--ink-2)]">{t("pf.arc.lead")}</p>
+            <SheetStatus current={sheetView(ar.current)} approved={sheetView(ar.approved)} me={ws.session.identity.userId} canEdit={can("report.write") && arOpen} canApprove={member && can("report.review") && arOpen} />
+            <ArChecklist key={ar.current?.id ?? "new"} cycleId={rep.report.cycle_id} reportId={reportId} initial={arInitial?.success ? arInitial.data : null} defaultProfile={arProfile} canEdit={can("report.write") && arOpen} />
+          </Section>
+        </div>
+      )}
     </>
   );
 }

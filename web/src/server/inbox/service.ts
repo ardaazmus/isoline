@@ -9,6 +9,8 @@ import type { Action } from "../policy/policy";
 import { requireProjectAction } from "../tenancy/service";
 import { reviewQueue } from "../close/service";
 import { myTasks } from "../data/service";
+import { worksheetsToApprove } from "../worksheets/service";
+import { ANALYSIS_KINDS, type WorksheetKind } from "../worksheets/schemas";
 
 type Access = Awaited<ReturnType<typeof requireProjectAction>>;
 
@@ -31,7 +33,9 @@ function accessCache(tx: Tx, actor: Actor) {
 export type InboxRun = { runId: string; projectId: string; projectName: string; kind: string; performedBy: string | null; count: number; facilityLevel: number };
 
 export async function myInbox(actor: Actor) {
-  const [tasks, queue] = await Promise.all([myTasks(actor), reviewQueue(actor)]);
+  const [tasks, queue, allSheets] = await Promise.all([myTasks(actor), reviewQueue(actor), worksheetsToApprove(actor)]);
+  // scenario sheets of the analysis area need no approval, so they never wait in anyone's inbox
+  const sheets = allSheets.filter((s) => !ANALYSIS_KINDS.includes(s.kind as WorksheetKind));
   const extra = await withActor(actor, async (tx) => {
     const can = accessCache(tx, actor);
 
@@ -122,8 +126,8 @@ export async function myInbox(actor: Actor) {
     runs.set(f.run_id, r);
   }
 
-  const total = enter.length + reviewData.length + queue.facts.length + queue.issues.length + queue.inputs.length + extra.eliminations.length + extra.sections.reduce((s, x) => s + x.count, 0) + extra.decisions.length + extra.toAnswer.length + extra.toClose.length;
-  return { enter, reviewData, runs: [...runs.values()], facts: queue.facts, warnings: queue.issues, inputs: queue.inputs, ...extra, total };
+  const total = enter.length + reviewData.length + queue.facts.length + queue.issues.length + queue.inputs.length + extra.eliminations.length + extra.sections.reduce((s, x) => s + x.count, 0) + extra.decisions.length + extra.toAnswer.length + extra.toClose.length + sheets.length;
+  return { enter, reviewData, runs: [...runs.values()], facts: queue.facts, warnings: queue.issues, inputs: queue.inputs, sheets, ...extra, total };
 }
 
 export type Inbox = Awaited<ReturnType<typeof myInbox>>;

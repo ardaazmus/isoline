@@ -10,6 +10,7 @@ import type { ClientData } from "@/data/sample";
 import { localDay } from "@/lib/dates";
 import { useActiveClient, useWorkspace } from "@/store/workspace";
 import { Button, StatusMark } from "@/components/ui";
+import { useQuickMode } from "./quick";
 
 const MARK = { draft: "estimated", review: "review", approved: "verified", published: "verified" } as const;
 const ICON: Record<ApprovalAction, typeof Send> = { submit: Send, sendBack: Undo2, approve: CircleCheck, publish: Globe, reopen: Undo2 };
@@ -32,8 +33,9 @@ export function docApproval(client: ClientData, sections: SectionId[], t: T, fmt
 /** A section's approval and whether it is locked (approved or published). */
 export function useApproval(section: SectionId): { approval: Approval; locked: boolean } {
   const client = useActiveClient();
+  const quick = useQuickMode();
   const approval = approvalOf(client.approvals, section);
-  return { approval, locked: isLocked(approval) };
+  return { approval, locked: !quick && isLocked(approval) };
 }
 
 /**
@@ -41,6 +43,11 @@ export function useApproval(section: SectionId): { approval: Approval; locked: b
  * locks the section's inputs; reopening, with a reason, unlocks them.
  */
 export function ApprovalBar({ section }: { section: SectionId }) {
+  // a sandbox calculation is never approved: the platform approves by verified identity, not a typed name
+  return useQuickMode() ? null : <SectionApprovalBar section={section} />;
+}
+
+function SectionApprovalBar({ section }: { section: SectionId }) {
   const { t, fmt } = useI18n();
   const client = useActiveClient();
   const update = useWorkspace((s) => s.update);

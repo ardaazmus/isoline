@@ -7,10 +7,10 @@
  */
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AlertTriangle, Check, Circle, CircleDot, Settings } from "lucide-react";
+import { AlertTriangle, Check, Circle, CircleDot, LineChart as ChartIcon, Settings } from "lucide-react";
 import { useI18n } from "@/i18n/provider";
 import { cn } from "@/components/ui";
-import { SETUP_PAGES, STEP_PAGES, type StepId, type StepState } from "@/server/cycle/steps";
+import { ANALYSIS_TOOLS, SETUP_PAGES, STEP_PAGES, type StepId, type StepState } from "@/server/cycle/steps";
 
 export type StepChip = { id: StepId; state: StepState; late: boolean };
 export type StepCard = StepChip & { summary: string; vars: Record<string, number>; dueOn: string | null; owner: string | null };
@@ -60,7 +60,10 @@ export function ProjectNav({ base, steps, current, query = "", canSetup }: { bas
   const seg = segmentOf(pathname, base);
   const activeStep = seg ? (Object.entries(STEP_PAGES).find(([, pages]) => pages.includes(seg))?.[0] as StepId | undefined) : undefined;
   const inSetup = seg !== null && (SETUP_PAGES as readonly string[]).includes(seg);
-  const sub: { href: string; label: string; on: boolean }[] = activeStep
+  const inAnalysis = seg === "analysis";
+  const sub: { href: string; label: string; on: boolean }[] = inAnalysis
+    ? ANALYSIS_TOOLS.map((x) => ({ href: `${base}/analysis/${x}${query}`, label: t(`pf.an.tools.${x}`), on: pathname.startsWith(`${base}/analysis/${x}`) }))
+    : activeStep
     ? STEP_PAGES[activeStep].length > 1
       ? STEP_PAGES[activeStep].map((p) => ({ href: `${base}/${p}${query}`, label: t(`pf.steps.pages.${p}`), on: seg === p }))
       : []
@@ -107,6 +110,14 @@ export function ProjectNav({ base, steps, current, query = "", canSetup }: { bas
             );
           })}
         </ol>
+        <Link
+          href={`${base}/analysis${query}`}
+          aria-current={inAnalysis ? "page" : undefined}
+          className={cn("flex h-10 shrink-0 items-center gap-1.5 rounded-[10px] px-3 text-[13px] font-medium no-underline", inAnalysis ? "bg-[var(--b-600)] text-white" : "glass text-[var(--ink-2)] hover:text-[var(--ink)]")}
+        >
+          <ChartIcon size={14} aria-hidden />
+          {t("pf.an.nav")}
+        </Link>
         {canSetup && (
           <Link
             href={`${base}/setup${query}`}

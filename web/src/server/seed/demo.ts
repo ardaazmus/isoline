@@ -18,6 +18,7 @@ import { ensureBucket } from "../evidence/storage";
 import { runCalculation } from "../calc/service";
 import { submitElimination, submitEntityFinancial } from "../close/service";
 import { createReport, getReport, saveSection } from "../reports/service";
+import { approveWorksheet, saveWorksheet, submitWorksheet } from "../worksheets/service";
 import type { MemberRole } from "../policy/policy";
 
 export const DEMO_DOMAIN = "ornek.test";
@@ -79,7 +80,7 @@ export async function resetDemo(): Promise<void> {
       // children before parents: G4 facts and runs, G3 observations and requests, then the G1/G2 tables
       await sql`delete from core.factor_choices where owner_tenant_id in ${ids}`.execute(tx);
       await sql`delete from core.factor_values where set_id in (select id from core.factor_sets where owner_tenant_id in ${ids})`.execute(tx);
-      for (const t of ["design_proofs", "release_assets", "report_releases", "report_approvals", "metric_references", "report_section_versions", "report_sections", "reports"]) await sql`delete from ${sql.table(`core.${t}`)} where owner_tenant_id in ${ids}`.execute(tx);
+      for (const t of ["cycle_worksheets", "design_proofs", "release_assets", "report_releases", "report_approvals", "metric_references", "report_section_versions", "report_sections", "reports"]) await sql`delete from ${sql.table(`core.${t}`)} where owner_tenant_id in ${ids}`.execute(tx);
       await sql`delete from core.snapshot_facts where owner_tenant_id in ${ids}`.execute(tx);
       const byOwnerFirst = ["cycle_events", "cycle_snapshots", "entity_financials", "intercompany_eliminations", "quality_issues", "metric_fact_versions", "run_inputs", "calculation_runs", "factor_sets", "notifications", "request_comments", "evidence_links", "observation_versions", "source_imports", "data_requests", "data_campaigns"];
       for (const t of byOwnerFirst) await sql`delete from ${sql.table(`core.${t}`)} where owner_tenant_id in ${ids}`.execute(tx);
@@ -221,6 +222,47 @@ export async function seedDemo(opts: { reset?: boolean; credentialsFile?: string
         "> Kaynak: ETKB 2023 tüketim noktası faktörleri, IPCC 2006, AR6 GWP (örnek veri)",
       ].join("\n"),
     });
+  // UX Faz 3 worksheets: an approved double materiality, a taxonomy sheet waiting for Selin's approval (it shows in
+  // her "My work"), and a transition-plan scenario for the analysis area
+  const selinActor = { userId: people.selin, actingTenantId: companyTenant };
+  const score = (scale: number, scope: number, irr: number, lik: number, mag: number, flik: number) => ({ scale, scope, irremediability: irr, impactLikelihood: lik, magnitude: mag, financialLikelihood: flik, positive: false });
+  const mat = await saveWorksheet(selinActor, wiz.cycleId, "materiality", {
+    threshold: 3,
+    topics: [
+      { id: "E1", name: "İklim değişikliği", pillar: "E", ...score(4, 4, 3, 5, 4, 4) },
+      { id: "E3", name: "Su ve deniz kaynakları", pillar: "E", ...score(3, 3, 3, 4, 3, 3) },
+      { id: "E5", name: "Kaynak kullanımı ve döngüsel ekonomi", pillar: "E", ...score(3, 2, 2, 4, 2, 3) },
+      { id: "S1", name: "Kendi işgücü", pillar: "S", ...score(3, 3, 2, 5, 2, 2) },
+      { id: "S4", name: "Tüketiciler ve son kullanıcılar", pillar: "S", ...score(2, 3, 2, 3, 3, 3) },
+      { id: "G1", name: "İş etiği", pillar: "G", ...score(2, 2, 1, 2, 2, 2) },
+    ],
+  });
+  await submitWorksheet(selinActor, mat.id);
+  await approveWorksheet(ayse, mat.id);
+  const tax = await saveWorksheet(mehmetActor, wiz.cycleId, "taxonomy", {
+    totals: { turnover: 1_382_500_000, capex: 96_000_000, opex: 41_000_000 },
+    activities: [
+      { id: "pv", name: "Çatı güneş enerjisi santrali", code: "4.1", turnover: 0, capex: 38_000_000, opex: 600_000, eligible: true, aligned: true },
+      { id: "hr", name: "Atık ısı geri kazanımı", code: "3.6", turnover: 0, capex: 12_500_000, opex: 300_000, eligible: true, aligned: false },
+      { id: "fl", name: "Elektrikli dağıtım araçları", code: "6.5", turnover: 0, capex: 7_200_000, opex: 1_100_000, eligible: true, aligned: true },
+    ],
+    notAssessed: [],
+  });
+  await submitWorksheet(mehmetActor, tax.id);
+  await saveWorksheet(selinActor, wiz.cycleId, "pathway", {
+    baseYear: 2024,
+    baseScope12: 4_950,
+    baseScope3: null,
+    scope2Share: 0.22,
+    targetYear: 2030,
+    bauGrowth: 0.01,
+    measures: [
+      { id: "m1", name: "Çatı güneş enerjisi santrali", abatement: 620, cost: -18, startYear: 2026, rampYears: 1 },
+      { id: "m2", name: "Atık ısı geri kazanımı (buhar kazanı)", abatement: 410, cost: -6, startYear: 2027, rampYears: 2 },
+      { id: "m3", name: "Elektrikli dağıtım araçları", abatement: 150, cost: 35, startYear: 2027, rampYears: 3 },
+    ],
+  });
+
   await withSystem("seed: label demo tenants as sample", (tx) => tx.updateTable("core.tenants").set({ sample: true }).where("id", "in", [companyTenant, advisoryTenant, provisional.tenantId]).execute());
 
   const file = opts.credentialsFile === undefined ? join(process.cwd(), ".demo-users.local.json") : opts.credentialsFile;

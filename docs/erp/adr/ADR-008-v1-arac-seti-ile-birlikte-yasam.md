@@ -33,3 +33,26 @@
 - Araç seti rotaları aynen kalır (`/tr`, `/tr/journey`, `/tr/tools/...`).
 - Karar 1'deki bant uygulandı: araç setinin her sayfasında "Platforma geç" ve "Bu çalışma alanını platforma aktar" bağlantıları var; üst çubukta da "Platform" bağlantısı bulunur.
 - Gerekçe: kök adres hâlâ araç setine açıldığı için kullanıcı yeni iş akışını göremedi. Ekip, onay, kapanış ve yayın gibi yeni iş akışları yalnız platformda.
+
+## Güncelleme (19.10.2026, UX Faz 3): araç seti ayrı uygulama olarak kapandı
+
+Bu güncelleme yukarıdaki "v1 rotaları silinmez" kararının yerini alır. Ürün sahibi Plan A'yı onayladı.
+
+- **Ayrı uygulama kalmadı.** Araç setinin kendi kabuğu (üst çubuk, menü, platform bandı) ve iş akışı ekranları kaldırıldı: genel bakış, rapor akışı, uzlaştırma, mizan, veri talepleri, denetçi alanı, faaliyet raporu kontrolü, şablonlar, tesisler, müşteriler, araç seti faktör sayfası.
+  - Bu işlerin hepsinin platformda karşılığı var: yedi adım, İşlerim, Kuruluş.
+  - Hesap motorları (`lib/calc/*`, `lib/reconcile`, `lib/requests` …) değişmedi ve sunucu tarafında kullanılmaya devam ediyor.
+- **Hesaplayıcılar Kütüphane → Hızlı hesap'ta** (`/app/quick/*`) platform kabuğunda çalışır. Bu bir tarayıcı içi deneme alanıdır:
+  - tarayıcıda ayrı bir "Hızlı hesap" çalışma alanı kullanılır;
+  - yazılan isimle onay bandı ve belge notu paneli gizlidir, çünkü platformda onay gerçek kimlikle verilir;
+  - "Örnek değerlerle doldur" düğmesi vardır.
+  - Hızlı hesaplananlar: sera gazı, çevre, işgücü, taksonomi, önemlilik, SKDM, TR ETS, dekarbonizasyon, kapsam testi, yeşil iddia.
+  - Kütüphane'de ayrıca mevzuat takvimi, çerçeve eşleme ve tema rehberi var.
+- **"Döngüye kaydet"** (sera gazı ve çevre) yalnız girdileri aktarır, hesaplanan sonucu aktarmaz (`lib/quick-drafts.ts`).
+  - Girdiler kişiye atanmış açık veri taleplerine taslak olarak yazılır (`server/quick/service.ts`, `saveDraft` kuralları).
+  - Kişi kanıt ekleyip gönderir; kabul başka birindedir.
+- **Eski adresler yönlenir** (`next.config.ts`):
+  - `/tr/tools/*` → `/tr/app/quick/*`;
+  - mevzuat, çerçeve eşleme ve tema → Kütüphane;
+  - akış ekranları → Raporlama dönemleri;
+  - `/tr` → `/tr/app`.
+- **Tarayıcıdaki eski çalışma alanları** Ayarlar → Araç seti aktarımı ile taşınmaya devam eder.
