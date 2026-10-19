@@ -29,7 +29,7 @@ export default async function IndustryPage({ params, searchParams }: PageProps<"
   const anyEnabled = packs.packs.some((p) => p.enabled);
   return (
     <>
-      <ProjectHeader lang={lang} p={loaded.p} />
+      <ProjectHeader lang={lang} p={loaded.p} cycleId={cycle?.id} />
       <div className="flex flex-col gap-6">
         <p className="max-w-[80ch] text-[13.5px] leading-relaxed text-[var(--ink-2)]">{t("pf.ind.lead")}</p>
         {packs.packs.map((p) => (

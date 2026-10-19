@@ -14,11 +14,32 @@ import { Badge, Check, ErrorNote, Input, OkNote, Select, SubmitButton, useSubmit
 const TERMS = "terms-2026-10";
 const GRANT_TERMS = "grant-2026-10";
 
-export function ChooseWorkspace({ lang, memberships }: { lang: string; memberships: { tenantId: string; tenantName: string; kind: string; role: string; lifecycle: string; sample: boolean }[] }) {
+/**
+ * AUTH-09 workspace choice. With a single workspace there is nothing to choose: it is opened at once (the cookie is
+ * still set through the same checked endpoint, so membership and the MFA rule apply as for a click).
+ */
+export function ChooseWorkspace({ lang, memberships, next }: { lang: string; memberships: { tenantId: string; tenantName: string; kind: string; role: string; lifecycle: string; sample: boolean }[]; next?: string }) {
   const { t } = useI18n();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
+  const only = memberships.length === 1 ? memberships[0].tenantId : null;
+  const tried = useRef(false);
+  const open = async (tenantId: string) => {
+    setBusy(tenantId);
+    const r = await api("POST", "/api/v1/session/tenant", { tenantId });
+    setBusy(null);
+    if (!r.ok) return r.code === "mfa_required" ? router.push(`/${lang}/app/account/security?reason=mfa_required`) : setError(r.code);
+    router.push(next ?? `/${lang}/app/home`);
+    router.refresh();
+  };
+  useEffect(() => {
+    if (!only || tried.current) return;
+    tried.current = true;
+    void open(only);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- runs once for the single workspace
+  }, [only]);
+  if (only && !error) return <p className="glass p-6 text-[14px] text-[var(--ink-2)]" role="status">{t("pf.choose.opening")}</p>;
   return (
     <div className="flex flex-col gap-3">
       <ErrorNote code={error} />
@@ -28,14 +49,7 @@ export function ChooseWorkspace({ lang, memberships }: { lang: string; membershi
             <button
               type="button"
               disabled={busy !== null}
-              onClick={async () => {
-                setBusy(m.tenantId);
-                const r = await api("POST", "/api/v1/session/tenant", { tenantId: m.tenantId });
-                setBusy(null);
-                if (!r.ok) return r.code === "mfa_required" ? router.push(`/${lang}/app/account/security?reason=mfa_required`) : setError(r.code);
-                router.push(`/${lang}/app/home`);
-                router.refresh();
-              }}
+              onClick={() => void open(m.tenantId)}
               className="glass flex w-full items-start gap-3 p-5 text-left transition-shadow hover:shadow-[0_12px_30px_-18px_rgba(31,52,160,0.6)] disabled:opacity-60"
             >
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[12px] bg-[var(--b-50)] text-[var(--b-700)]">{m.kind === "advisory" ? <Handshake size={18} aria-hidden /> : <Building2 size={18} aria-hidden />}</span>

@@ -39,7 +39,7 @@ export default async function ConsolidationPage({ params, searchParams }: PagePr
   const frozen = ["frozen", "released"].includes(cycle.status);
   return (
     <>
-      <ProjectHeader lang={lang} p={loaded.p} />
+      <ProjectHeader lang={lang} p={loaded.p} cycleId={cycle?.id} />
       <div className="flex flex-col gap-6">
         {cycles.length > 1 && (
           <nav aria-label={t("pf.calc.cycles")} className="flex flex-wrap gap-2 text-[13px]">

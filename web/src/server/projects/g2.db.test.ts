@@ -231,7 +231,7 @@ describe("G2: advisory-first journey and the portfolio (G2-09)", () => {
     expect(names).not.toContain("2026 TSRS + Faaliyet"); // grant revoked above
     expect(pf.find((x) => x.name === "X Kimya 2026")!.access).toBe("steward");
     expect(pf.find((x) => x.name === "Ege Seramik 2026")!).toMatchObject({ access: "grant", grantRole: "preparer" });
-    expect(pf.find((x) => x.name === "Ege Seramik 2026")!.next?.gate).toBe("G0");
+    expect(pf.find((x) => x.name === "Ege Seramik 2026")!.next?.step).toBe("scope");
 
     // claim: the customer's representative takes over; the advisory continues under a grant on the same rows
     const elif = await makeUser("Elif");

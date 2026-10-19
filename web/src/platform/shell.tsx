@@ -7,36 +7,26 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, type ReactNode } from "react";
-import { Bell, Briefcase, Building2, ClipboardCheck, FileInput, History, Package, FlaskConical, FolderKanban, Handshake, Home, Inbox, KeyRound, LayoutGrid, LogOut, Menu, ScrollText, ShieldCheck, UserPlus, Users, Wrench, X, type LucideIcon } from "lucide-react";
+import { Bell, BookOpen, Building2, CalendarCheck, FolderKanban, Inbox, LogOut, Menu, Settings, Wrench, X, type LucideIcon } from "lucide-react";
 import { useI18n } from "@/i18n/provider";
 import { LOCALES } from "@/i18n/generated";
 import { cn, SampleFlag } from "@/components/ui";
 import type { MemberRole } from "@/server/policy/policy";
 import { authClient, api } from "./client";
-import { visibleNav } from "./nav";
+import { navActive, visibleNav } from "./nav";
 
 export type ShellMembership = { tenantId: string; tenantName: string; kind: string; lifecycle: string; role: MemberRole; sample: boolean };
-export type ShellContext = { user: { name: string; email: string } | null; memberships: ShellMembership[]; current: ShellMembership | null; onBehalfOf?: string | null; unread?: number };
+export type ShellContext = { user: { name: string; email: string } | null; memberships: ShellMembership[]; current: ShellMembership | null; onBehalfOf?: string | null; unread?: number; inbox?: number };
 
 const ICONS: Record<string, LucideIcon> = {
-  home: Home,
+  home: CalendarCheck,
   projects: FolderKanban,
-  relationships: Handshake,
-  clientsNew: UserPlus,
-  members: Users,
-  security: ShieldCheck,
-  audit: ScrollText,
-  account: KeyRound,
-  organization: Building2,
-  import: FileInput,
-  portfolio: LayoutGrid,
-  engagements: Briefcase,
   tasks: Inbox,
-  notifications: Bell,
-  factors: FlaskConical,
-  review: ClipboardCheck,
-  handoff: Package,
-  reference: History,
+  orgSection: Building2,
+  organization: Building2,
+  library: BookOpen,
+  factors: BookOpen,
+  settings: Settings,
 };
 
 function Mark() {
@@ -124,6 +114,17 @@ function ContextBar({ ctx, onMenu }: { ctx: ShellContext; onMenu: () => void }) 
         )}
 
         <div className="glass ml-auto flex h-12 shrink-0 items-center gap-3 rounded-[16px] px-3">
+          {ctx.user && ctx.current && (
+            <Link
+              href={`/${locale}/app/notifications`}
+              className="relative rounded-lg p-1.5 text-[var(--ink-2)] no-underline hover:bg-[var(--b-50)] hover:text-[var(--ink)]"
+              aria-label={(ctx.unread ?? 0) > 0 ? t("pf.notify.unread", { n: ctx.unread ?? 0 }) : t("pf.notify.title")}
+              title={t("pf.notify.title")}
+            >
+              <Bell size={17} aria-hidden />
+              {(ctx.unread ?? 0) > 0 && <span className="absolute -right-0.5 -top-0.5 min-w-[16px] rounded-full bg-[var(--b-600)] px-1 text-center text-[10.5px] font-semibold leading-[16px] text-white">{ctx.unread}</span>}
+            </Link>
+          )}
           <Link href={`/${locale}`} className="hidden items-center gap-1.5 text-[13px] font-medium text-[var(--ink-2)] no-underline hover:text-[var(--ink)] md:inline-flex">
             <Wrench size={14} aria-hidden />
             {t("pf.shell.toolkit")}
@@ -163,7 +164,13 @@ function Rail({ ctx, open, onClose }: { ctx: ShellContext; open: boolean; onClos
   const { t, locale } = useI18n();
   const pathname = usePathname();
   if (!ctx.current) return null;
-  const groups = visibleNav(ctx.current.kind, ctx.current.role);
+  const items = visibleNav(ctx.current.kind, ctx.current.role);
+  // the most specific child wins (…/portfolio/clients/new is "new client", not "portfolio")
+  const childOn = (href: string, siblings: { href: string }[]) => {
+    const h = `/${locale}${href}`;
+    if (!(pathname === h || pathname.startsWith(`${h}/`))) return false;
+    return !siblings.some((x) => x.href.length > href.length && (pathname === `/${locale}${x.href}` || pathname.startsWith(`/${locale}${x.href}/`)));
+  };
   return (
     <>
       {open && <div className="fixed inset-0 z-30 bg-[var(--b-900)]/30 backdrop-blur-[2px] lg:hidden" onClick={onClose} aria-hidden />}
@@ -178,42 +185,57 @@ function Rail({ ctx, open, onClose }: { ctx: ShellContext; open: boolean; onClos
         <button type="button" className="absolute right-3 top-3 rounded-lg p-1 lg:hidden" onClick={onClose} aria-label={t("shell.close")}>
           <X size={18} />
         </button>
-        {groups.map((g) => (
-          <div key={g.id} className="mb-4">
-            <div className="label mb-1.5 px-5">{t(`pf.nav.group.${g.id}`)}</div>
-            <ul className="px-2.5">
-              {g.items.map((it) => {
-                const href = `/${locale}${it.href}`;
-                const on = pathname === href || pathname.startsWith(`${href}/`);
-                const Icon = ICONS[it.id] ?? FolderKanban;
-                return (
-                  <li key={it.id}>
-                    <Link
-                      href={href}
-                      onClick={onClose}
-                      aria-current={on ? "page" : undefined}
-                      className={cn(
-                        "flex items-center gap-3 rounded-[11px] px-2.5 py-[7px] text-[14px] no-underline transition-colors",
-                        on ? "bg-[var(--paper)] font-semibold text-[var(--ink)] shadow-[0_8px_20px_-14px_rgba(31,52,160,0.7)]" : "text-[var(--ink-2)] hover:bg-[color-mix(in_srgb,var(--paper)_60%,transparent)] hover:text-[var(--ink)]",
-                      )}
-                    >
-                      <span className={cn("grid h-7 w-7 shrink-0 place-items-center rounded-[8px]", on ? "bg-[var(--b-600)] text-white" : "bg-[var(--b-50)] text-[var(--b-700)]")}>
-                        <Icon size={15} strokeWidth={1.9} aria-hidden />
-                      </span>
-                      {t(`pf.nav.${it.id}`)}
-                      {it.id === "notifications" && (ctx.unread ?? 0) > 0 && (
-                        <span className="ml-auto rounded-full bg-[var(--b-600)] px-1.5 text-[11px] font-semibold text-white" aria-label={t("pf.notify.unread", { n: ctx.unread ?? 0 })}>
-                          {ctx.unread}
-                        </span>
-                      )}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        ))}
-        {ctx.current.lifecycle === "provisional" && <p className="mx-5 mt-2 text-[12px] leading-snug text-[var(--warn)]">{t("pf.shell.provisional")}</p>}
+        <ul className="flex flex-col gap-0.5 px-2.5">
+          {items.map((it) => {
+            const href = `/${locale}${it.href}`;
+            const on = navActive(it, pathname, locale);
+            const Icon = ICONS[it.id] ?? FolderKanban;
+            const badge = it.id === "tasks" ? (ctx.inbox ?? 0) : 0;
+            return (
+              <li key={it.id}>
+                <Link
+                  href={href}
+                  onClick={onClose}
+                  aria-current={on && !it.children ? "page" : undefined}
+                  className={cn(
+                    "flex items-center gap-3 rounded-[11px] px-2.5 py-[7px] text-[14px] no-underline transition-colors",
+                    on ? "bg-[var(--paper)] font-semibold text-[var(--ink)] shadow-[0_8px_20px_-14px_rgba(31,52,160,0.7)]" : "text-[var(--ink-2)] hover:bg-[color-mix(in_srgb,var(--paper)_60%,transparent)] hover:text-[var(--ink)]",
+                  )}
+                >
+                  <span className={cn("grid h-7 w-7 shrink-0 place-items-center rounded-[8px]", on ? "bg-[var(--b-600)] text-white" : "bg-[var(--b-50)] text-[var(--b-700)]")}>
+                    <Icon size={15} strokeWidth={1.9} aria-hidden />
+                  </span>
+                  {t(`pf.nav.${it.id}`)}
+                  {badge > 0 && (
+                    <span className="ml-auto rounded-full bg-[var(--b-600)] px-1.5 text-[11px] font-semibold text-white" aria-label={t("pf.inbox.badge", { n: badge })}>
+                      {badge}
+                    </span>
+                  )}
+                </Link>
+                {on && it.children && (
+                  <ul className="mb-1 ml-[22px] mt-0.5 flex flex-col border-l border-[var(--rule)] pl-3">
+                    {it.children.map((c) => {
+                      const cOn = childOn(c.href, it.children!);
+                      return (
+                        <li key={c.id}>
+                          <Link
+                            href={`/${locale}${c.href}`}
+                            onClick={onClose}
+                            aria-current={cOn ? "page" : undefined}
+                            className={cn("block rounded-[8px] px-2.5 py-[5px] text-[13.5px] no-underline", cOn ? "font-semibold text-[var(--ink)]" : "text-[var(--ink-2)] hover:text-[var(--ink)]")}
+                          >
+                            {t(`pf.nav.${c.id}`)}
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+        {ctx.current.lifecycle === "provisional" && <p className="mx-5 mt-4 text-[12px] leading-snug text-[var(--warn)]">{t("pf.shell.provisional")}</p>}
       </nav>
     </>
   );

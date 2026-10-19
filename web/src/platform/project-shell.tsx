@@ -1,10 +1,13 @@
 /** Server helpers shared by the project tabs: load the project with its access path, draw the header and tabs. */
 import type { ReactNode } from "react";
-import { ProjectTabs } from "./g2/project";
+import { ProjectNav } from "./steps";
 import { Badge, PageTitle, StateBox } from "./ui";
 import { attempt, tr } from "./server";
 import { requireWorkspace, type Workspace } from "@/server/http/dal";
 import { projectOverview } from "@/server/tenancy/service";
+import { listCycles } from "@/server/projects/service";
+import { cycleProgress } from "@/server/cycle/progress";
+import { grantCan, memberCan } from "@/server/policy/policy";
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -26,23 +29,45 @@ export async function loadProject(lang: string, projectId: string): Promise<{ ok
   return { ok: true, p: { ws, data: r.data } };
 }
 
-export function ProjectHeader({ lang, p, actions }: { lang: string; p: LoadedProject; actions?: ReactNode }) {
+/** Who may open the project's setup (schedule, team, packs, connectors, cycles and sharing). */
+export function canSetup(p: LoadedProject): boolean {
+  const role = p.ws.actor.role;
+  const { access } = p.data;
+  return role !== null && memberCan(role, "plan.update") && (access.via !== "grant" || grantCan(access.grantRole!, "plan.update"));
+}
+
+/**
+ * Project title and the cycle's step bar. The steps are those of `cycleId` when the page works on a chosen cycle,
+ * else of the newest cycle; a non-newest cycle is carried along in the step links (?cycle=).
+ */
+export async function ProjectHeader({ lang, p, actions, cycleId }: { lang: string; p: LoadedProject; actions?: ReactNode; cycleId?: string | null }) {
   const t = tr(lang);
   const { project, access } = p.data;
+  const cycles = await listCycles(p.ws.actor, project.id);
+  const cycle = (cycleId ? cycles.find((c) => c.id === cycleId) : undefined) ?? cycles[0] ?? null;
+  const progress = cycle ? await cycleProgress(p.ws.actor, cycle.id) : null;
+  const query = cycle && cycles[0] && cycle.id !== cycles[0].id ? `?cycle=${cycle.id}` : "";
   return (
     <>
       <PageTitle
         title={project.name}
         lead={
           <>
-            {t("pf.projects.ownedBy", { owner: project.owner_name })}{" "}
+            {t("pf.projects.ownedBy", { owner: project.owner_name })}
+            {cycle && <> · {t("pf.steps.cycle")} {cycle.label}</>}{" "}
             {access.via === "grant" && <Badge tone="info">{t("pf.access.grantAs", { role: t(`pf.grantRole.${access.grantRole}`) })}</Badge>}
             {access.via === "steward" && <Badge tone="warn">{t("pf.access.stewardNote")}</Badge>}
           </>
         }
         actions={actions}
       />
-      <ProjectTabs base={`/${lang}/app/projects/${project.id}`} />
+      <ProjectNav
+        base={`/${lang}/app/projects/${project.id}`}
+        steps={(progress?.steps ?? []).map((s) => ({ id: s.id, state: s.state, late: s.late }))}
+        current={progress?.current ?? null}
+        query={query}
+        canSetup={canSetup(p)}
+      />
     </>
   );
 }

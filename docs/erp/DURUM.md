@@ -182,6 +182,36 @@
 
 G0–G8 tamamlandı; plan kuralı gereği eksik kalanlar açıkça `kısmi`/`yapılmadı` olarak işaretli: G7-07 (tekstil/tarım paketi, ihtiyaca göre), G8-06 (isteğe bağlı yapay zekâ), G8-07 (elle erişilebilirlik denetimi ve yük aracı), G8-08 (bağımsız sızma testi). Son doğrulama: birim/özellik testleri, PostgreSQL entegrasyon testleri, tip denetimi, lint, üretim derlemesi ve kapsayıcı yığını.
 
+## Arayüz akışı — UX incelemesi Faz 1 ve 2 (19.10.2026)
+
+Ürün sahibi arayüzü dağınık buldu. Bağımsız inceleme ve sektör araştırması yapıldı ([inceleme sayfası](https://claude.ai/artifact/AJBQ4jLSWbsYRC8ZG2UJWz)). Faz 1 ve 2 uygulandı; kararlar [ADR-011 güncellemesi](adr/ADR-011-arayuz-kabugu.md) ve [ADR-008 güncellemesi](adr/ADR-008-v1-arac-seti-ile-birlikte-yasam.md) içinde.
+
+| Madde | Durum | Kanıt |
+|---|---|---|
+| Ön kapı platform | bitti | `/` → `/tr/app`; araç setinin her sayfasında "Platforma geç" bandı |
+| Rol bazlı "Bugün" | bitti | `app/home`: "Sizden beklenen" listesi, ardından projelerin bulunduğu adım, durumu ve son tarihi. Danışmanda müşteri tablosu. Veri giren kişi yalnız kendi işini görür |
+| Tek gelen kutusu "İşlerim" | bitti | `server/inbox/service.ts`, `app/tasks`; `/app/review` buraya yönlenir. Menüdeki rozet bekleyen iş sayısını gösterir |
+| İnceleme kuyruğu hatası | bitti | Tesis düzeyindeki metrikler artık listede (`close/service.ts`); kapanış bunlar onaylanmadan olmuyordu |
+| Altı kalemli menü | bitti | `platform/nav.ts`: alt sayfalar yalnız bölüm açıkken görünür. Şirket sahibinin gördüğü giriş sayısı 51'den 13'e indi (6 menü kalemi + 7 adım) |
+| Tek çalışma alanında seçimi atlama | bitti | `ChooseWorkspace` tek üyelikte doğrudan açar (aynı denetimli uç) |
+| Yedi adımlı proje ekranı | bitti | `platform/steps.tsx` (adım çubuğu ve özet kartları). Özet ekranında "bu projede sizden beklenen" ve "kapanışı ne engelliyor" (her satır ilgili adıma bağlı) yer alır. Kurulum bölümü: `setup`, `plan`, `participants`, `industry`, `connectors`. Kanıt dosyaları 2. adımın altında (`evidence`) |
+| Durum tek kaynaktan | bitti | `server/cycle/steps.ts` (saf kurallar ve kapanış listesi) ile `progress.ts` (toplu sinyaller: kaç proje olursa olsun sabit sorgu sayısı). Özellik testleri bir adımın, işi eksikken "tamam" olamayacağını doğrular (`steps.test.ts`). `cycle/flow.db.test.ts` kapsamdan dondurmaya kadar her aşamada adım, kapanış listesi ve kişilerin gelen kutusunun uyuştuğunu doğrular |
+| Elle kapı durumu kalktı | bitti | Plan sayfası her iş paketinde bağlı olduğu adımın durumunu gösterir; yalnız tarih ve sorumlu değişir. Portföydeki "Sıradaki" sütunu hesaplanan adımdan gelir |
+| İç dil temizliği | bitti | "Kapı G0–G12" ve "U1–U10" önekleri ekrandan kalktı; "kampanya" yerine "veri talebi listesi"; "… sekmesinde" yönlendirmeleri "… adımında" oldu |
+
+**Doğrulama (19.10.2026):**
+- tip denetimi ve lint temiz;
+- 483 birim ve özellik testi geçti;
+- 91 PostgreSQL entegrasyon testi geçti (iki ardışık temiz koşu). Öncesindeki iki koşuda Mailpit ve davet kullanan iki eski testte aralıklı hata görüldü, ayrıca tekrarlanmadı;
+- üretim derlemesi başarılı;
+- tarayıcıda dört rol gezildi: şirket sahibi, veri giren, danışman ve imza yetkilisi.
+
+**Sıradaki (Faz 3–4, ürün sahibinin gözden geçirmesinden sonra):**
+- Araç setindeki eksik hesaplayıcılar ilgili adıma taşınacak: çift önemlilik, taksonomi göstergeleri, U6–U10, faaliyet raporu kontrol listesi.
+- SKDM maliyeti, TR ETS ve dekarbonizasyon yolu "Analiz" bölümüne gelecek.
+- Kütüphane altına "Hızlı hesap" ve "Döngüye kaydet" eklenecek; araç seti rotaları yönlendirilecek.
+- Her rol için uçtan uca test ve beş kişilik kullanılabilirlik testi senaryosu hazırlanacak.
+
 ## Oturum kontrol noktası (bağlam sıkıştırmasına karşı)
 
 - **Oturum amacı:** ERP yol haritasını G0'dan G8'e uygulamak, her kapıda burada commit'lemek, GitHub'a en sonda göndermek.
@@ -193,4 +223,4 @@ G0–G8 tamamlandı; plan kuralı gereği eksik kalanlar açıkça `kısmi`/`yap
   - depo SeaweedFS (ADR-005; MinIO imajları kaldırıldığı için);
   - modüler monolit (ADR-007);
   - v1 araç seti `(toolkit)` rota grubunda korunuyor (ADR-008).
-- **Açık / sıradaki:** Yol haritası tamam; açık maddeler: bağımsız sızma testi, ekran okuyucuyla erişilebilirlik denetimi, yük testi aracı, ilk müşteri ihtiyacına göre tekstil/tarım paketi.
+- **Açık / sıradaki:** Yol haritası tamam. UX Faz 1–2 uygulandı; Faz 3–4 ürün sahibinin gözden geçirmesini bekliyor. Açık maddeler: bağımsız sızma testi, ekran okuyucuyla erişilebilirlik denetimi, yük testi aracı, ilk müşteri ihtiyacına göre tekstil/tarım paketi.

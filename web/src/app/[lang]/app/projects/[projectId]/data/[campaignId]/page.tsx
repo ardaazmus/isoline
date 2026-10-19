@@ -40,7 +40,7 @@ export default async function CampaignPage({ params }: PageProps<"/[lang]/app/pr
   }
   return (
     <>
-      <ProjectHeader lang={lang} p={loaded.p} />
+      <ProjectHeader lang={lang} p={loaded.p} cycleId={campaign.cycle_id} />
       <div className="flex flex-col gap-6">
         <Section title={campaign.title}>
           <div className="grid gap-3 md:grid-cols-3">

@@ -19,6 +19,8 @@ import { requireProjectAction } from "../tenancy/service";
 import { issueCounts, recordIssues, supersedeOpenIssues, writeFacts, type RunRef } from "../calc/service";
 import { consolidateRevenue } from "./consolidation";
 import { reconcile, RECONCILE_VERSION } from "./reconcile";
+import { signalsFor } from "../cycle/progress";
+import { closeChecklistFrom } from "../cycle/steps";
 
 export const CONSOLIDATION_VERSION = "consolidation-ifrs10-2026.10.19";
 const NO_FACTORS = createHash("sha256").update("[]").digest("hex");
@@ -309,36 +311,13 @@ export async function ghgByBoundary(actor: Actor, cycleId: string) {
 
 // ---------------------------------------------------------------- close (G5-06, G5-07)
 
-export type ChecklistItem = { id: string; ok: boolean; required: boolean; count?: number };
+export type { ChecklistItem } from "../cycle/steps";
 
-async function checklist(tx: Tx, cycle: { id: string; project_id: string }) {
-  const items: ChecklistItem[] = [];
-  const open = await tx.selectFrom("core.data_requests").select(sql<number>`count(*)::int`.as("n")).where("cycle_id", "=", cycle.id).where("status", "not in", ["accepted", "withdrawn", "not_applicable"]).executeTakeFirstOrThrow();
-  items.push({ id: "requests_closed", ok: open.n === 0, required: true, count: open.n });
-  const bnd = await tx.selectFrom("core.reporting_boundaries").select(["kind"]).where("cycle_id", "=", cycle.id).where("status", "=", "approved").execute();
-  items.push({ id: "boundary_approved", ok: bnd.some((b) => b.kind.startsWith("ghg_")), required: true });
-  const facts = await currentFacts(tx, cycle.id);
-  items.push({ id: "facts_exist", ok: facts.length > 0, required: true, count: facts.length });
-  const notApproved = facts.filter((f) => f.status !== "approved" && f.status !== "locked").length;
-  items.push({ id: "facts_approved", ok: facts.length > 0 && notApproved === 0, required: true, count: notApproved });
-  const issues = await tx
-    .selectFrom("core.quality_issues")
-    .select([sql<number>`count(*) filter (where severity = 'blocker')::int`.as("blockers"), sql<number>`count(*) filter (where severity = 'warning')::int`.as("warnings")])
-    .where("cycle_id", "=", cycle.id)
-    .where("status", "=", "open")
-    .executeTakeFirstOrThrow();
-  items.push({ id: "no_open_blockers", ok: issues.blockers === 0, required: true, count: issues.blockers });
-  items.push({ id: "warnings_dispositioned", ok: issues.warnings === 0, required: true, count: issues.warnings });
-  // the cross-checks must have run after the last calculation
-  const lastCalc = await tx.selectFrom("core.calculation_runs").select(sql<Date>`max(performed_at)`.as("at")).where("cycle_id", "=", cycle.id).where("kind", "not in", ["reconciliation"]).where("mode", "=", "final").executeTakeFirstOrThrow();
-  const lastRec = await tx.selectFrom("core.calculation_runs").select(sql<Date>`max(performed_at)`.as("at")).where("cycle_id", "=", cycle.id).where("kind", "=", "reconciliation").executeTakeFirstOrThrow();
-  items.push({ id: "reconciliation_current", ok: Boolean(lastRec.at) && (!lastCalc.at || new Date(lastRec.at) >= new Date(lastCalc.at)), required: true });
-  // more than one consolidated entity: revenue must be consolidated
-  const fin = await tx.selectFrom("core.reporting_boundaries as b").innerJoin("core.boundary_members as m", "m.boundary_id", "b.id").select(sql<number>`count(*)::int`.as("n")).where("b.cycle_id", "=", cycle.id).where("b.kind", "=", "financial_reporting").where("b.status", "=", "approved").where("m.legal_entity_id", "is not", null).where("m.inclusion_pct", ">", "0").executeTakeFirstOrThrow();
-  if (fin.n > 1) items.push({ id: "consolidation_done", ok: facts.some((f) => f.metric_key === "finance.consolidated_net_sales"), required: true });
-  const scope = await tx.selectFrom("core.applicability_assessments").select(sql<number>`count(*) filter (where confirmed_at is null)::int`.as("n")).where("cycle_id", "=", cycle.id).where("superseded_at", "is", null).where("decision", "is not", null).executeTakeFirstOrThrow();
-  items.push({ id: "scope_confirmed", ok: scope.n === 0, required: false, count: scope.n });
-  return { items, facts, canFreeze: items.every((i) => !i.required || i.ok) };
+/** The close checklist from the same signals as the cycle steps (cycle/steps.ts), plus the facts a freeze copies. */
+async function checklist(tx: Tx, cycle: { id: string; project_id: string; status: string }) {
+  const signals = (await signalsFor(tx, [cycle])).get(cycle.id)!;
+  const { items, canFreeze } = closeChecklistFrom(signals);
+  return { items, facts: await currentFacts(tx, cycle.id), canFreeze };
 }
 
 export async function closeChecklist(actor: Actor, cycleId: string) {
@@ -445,7 +424,10 @@ export async function reopenRequest(actor: Actor, requestId: string, reason: str
 
 // ---------------------------------------------------------------- reviewer queue (G5-05)
 
-/** Everything waiting for this person's decision — never their own work. */
+/**
+ * Everything waiting for this person's decision — never their own work. Facility-level metrics are included: the
+ * close needs every current metric approved, so a queue without them would hide part of the work.
+ */
 export async function reviewQueue(actor: Actor) {
   return withActor(actor, async (tx) => {
     const requests = await tx
@@ -467,7 +449,6 @@ export async function reviewQueue(actor: Actor) {
       .select(["f.id", "f.metric_key", "f.value_num", "f.value_text", "f.unit", "f.revision", "f.run_id", "f.supersedes_id", "p.id as project_id", "p.name as project_name", "fa.name as facility_name", "u.name as performed_by_name", "run.kind"])
       .where("f.status", "=", "ready_for_review")
       .where("run.performed_by", "!=", actor.userId)
-      .where("f.facility_id", "is", null)
       .orderBy("f.created_at")
       .execute();
     const issues = await tx

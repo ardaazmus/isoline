@@ -26,7 +26,7 @@ export default async function RunPage({ params }: PageProps<"/[lang]/app/project
   const ready = facts.filter((f) => f.status === "ready_for_review").length;
   return (
     <>
-      <ProjectHeader lang={lang} p={loaded.p} />
+      <ProjectHeader lang={lang} p={loaded.p} cycleId={run.cycle_id} />
       <div className="flex flex-col gap-6">
         <Section title={t("pf.calc.runHeading", { kind: t(`pf.calc.kinds.${run.kind}`) })} aside={<Link href={`/${lang}/app/projects/${projectId}/calculations?cycle=${run.cycle_id}`} className="text-[13px] text-[var(--b-700)]">{t("pf.calc.back")}</Link>}>
           <dl className="grid gap-x-6 gap-y-2 text-[13px] md:grid-cols-2">

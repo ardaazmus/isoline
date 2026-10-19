@@ -7,13 +7,13 @@ import { titled, tr } from "@/platform/server";
 import { grantCan, memberCan } from "@/server/policy/policy";
 import { listCampaigns, suggestedTemplates } from "@/server/data/service";
 import { listCycles } from "@/server/projects/service";
-import { listConnectors } from "@/server/connectors/service";
-import { ConnectorForm, TriggerButton } from "@/platform/g8/connectors";
-import { dateTime } from "@/platform/server";
 
 export const generateMetadata = titled("pf.data.title");
 
-/** DATA-01/02: the data plan — campaigns built from the chosen report templates, with their progress. */
+/**
+ * Step 2, data collection (DATA-01/02): the cycle's data request lists with their progress. Building a new list folds
+ * away once one exists; connectors moved to Setup.
+ */
 export default async function DataPage({ params, searchParams }: PageProps<"/[lang]/app/projects/[projectId]/data">) {
   const { lang, projectId } = await params;
   const sp = await searchParams;
@@ -30,13 +30,13 @@ export default async function DataPage({ params, searchParams }: PageProps<"/[la
         <StateBox state="empty" title={t("pf.cycle.none")} />
       </>
     );
-  const [campaigns, suggested, connectors] = await Promise.all([listCampaigns(ws.actor, projectId), suggestedTemplates(ws.actor, cycle.id), listConnectors(ws.actor, projectId)]);
+  const [campaigns, suggested] = await Promise.all([listCampaigns(ws.actor, projectId), suggestedTemplates(ws.actor, cycle.id)]);
   const role = ws.actor.role;
   const canRequest = role !== null && memberCan(role, "data.request") && (data.access.via !== "grant" || grantCan(data.access.grantRole!, "data.request"));
   const mine = campaigns.filter((c) => c.cycle_id === cycle.id);
   return (
     <>
-      <ProjectHeader lang={lang} p={loaded.p} />
+      <ProjectHeader lang={lang} p={loaded.p} cycleId={cycle?.id} />
       <div className="flex flex-col gap-6">
         <Section title={t("pf.data.campaigns", { label: cycle.label })}>
           {mine.length === 0 ? (
@@ -76,43 +76,21 @@ export default async function DataPage({ params, searchParams }: PageProps<"/[la
             </ul>
           )}
         </Section>
-        {(connectors.length > 0 || (canRequest && data.access.via === "member" && mine.length > 0)) && (
-          <Section title={t("pf.con.title")}>
-            <p className="text-[12.5px] leading-relaxed text-[var(--ink-3)]">{t("pf.con.lead")}</p>
-            {connectors.length > 0 && (
-              <ul className="flex flex-col gap-3">
-                {connectors.map((c) => (
-                  <li key={c.id} className="rounded-[12px] border border-[var(--rule)] bg-[var(--paper)] p-3 text-[13px]">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <span>
-                        <span className="font-semibold">{c.name}</span> · {t(`pf.con.kinds.${c.kind}`)} · <span className="font-mono text-[12px]">{c.allowed_host}</span> · {c.campaign_title} · {t(`pf.con.schedules.${c.schedule}`)}
-                      </span>
-                      {canRequest && <TriggerButton connectorId={c.id} />}
-                    </div>
-                    {c.runs.length > 0 && (
-                      <ul className="mt-2 flex flex-col gap-0.5 text-[12px] text-[var(--ink-2)]">
-                        {c.runs.slice(0, 5).map((r) => (
-                          <li key={r.id}>
-                            <Badge tone={r.status === "failed" ? "crit" : r.status === "unchanged" ? "neutral" : "ok"}>{t(`pf.con.runStatus.${r.status}`)}</Badge> {dateTime(lang, r.pulled_at)}
-                            {r.rows !== null ? ` · ${t("pf.con.rows", { rows: r.rows, valid: r.valid ?? 0 })}` : ""}
-                            {r.message ? ` · ${r.message}` : ""}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            )}
-            {canRequest && data.access.via === "member" && mine.length > 0 && <ConnectorForm campaigns={mine.map((c) => ({ id: c.id, title: c.title }))} />}
-          </Section>
-        )}
-        {canRequest && (
-          <Section title={t("pf.data.newCampaign")}>
-            <p className="text-[13px] leading-relaxed text-[var(--ink-2)]">{suggested.basedOnDecisions ? t("pf.data.fromDecisions") : t("pf.data.fromSuggestions")}</p>
-            <CampaignForm cycleId={cycle.id} lang={lang} projectId={projectId} templates={TEMPLATES.map((x) => ({ id: x.id, kind: x.kind }))} suggested={suggested.suggestions.map((s) => s.template)} />
-          </Section>
-        )}
+        {canRequest &&
+          (mine.length === 0 ? (
+            <Section title={t("pf.data.newCampaign")}>
+              <p className="text-[13px] leading-relaxed text-[var(--ink-2)]">{suggested.basedOnDecisions ? t("pf.data.fromDecisions") : t("pf.data.fromSuggestions")}</p>
+              <CampaignForm cycleId={cycle.id} lang={lang} projectId={projectId} templates={TEMPLATES.map((x) => ({ id: x.id, kind: x.kind }))} suggested={suggested.suggestions.map((s) => s.template)} />
+            </Section>
+          ) : (
+            <details className="glass rounded-[18px] p-5">
+              <summary className="cursor-pointer text-[15px] font-semibold text-[var(--ink)]">{t("pf.data.newCampaign")}</summary>
+              <div className="mt-3 flex flex-col gap-3">
+                <p className="text-[13px] leading-relaxed text-[var(--ink-2)]">{suggested.basedOnDecisions ? t("pf.data.fromDecisions") : t("pf.data.fromSuggestions")}</p>
+                <CampaignForm cycleId={cycle.id} lang={lang} projectId={projectId} templates={TEMPLATES.map((x) => ({ id: x.id, kind: x.kind }))} suggested={suggested.suggestions.map((s) => s.template)} />
+              </div>
+            </details>
+          ))}
       </div>
     </>
   );

@@ -1,47 +1,71 @@
 import Link from "next/link";
-import { StatusBadge } from "@/platform/g3/campaign";
-import { PageTitle, Section, StateBox, Table, Td } from "@/platform/ui";
-import { dateOnly, titled, tr } from "@/platform/server";
+import { PageTitle, Section, StateBox } from "@/platform/ui";
+import { dateTime, titled, tr } from "@/platform/server";
+import { inboxItems, type InboxKind } from "@/platform/inbox-items";
+import { InboxRows } from "@/platform/inbox-list";
 import { requireWorkspace } from "@/server/http/dal";
-import { myTasks } from "@/server/data/service";
+import { myInbox } from "@/server/inbox/service";
+import { myNotifications } from "@/server/data/service";
 
-export const generateMetadata = titled("pf.tasks.title");
+export const generateMetadata = titled("pf.inbox.title");
 
-/** DATA-04: what waits for me — values to enter and submissions to review — oldest due date first. */
-export default async function TasksPage({ params }: PageProps<"/[lang]/app/tasks">) {
+const GROUPS: { kind: InboxKind; title: string }[] = [
+  { kind: "enter", title: "pf.inbox.enter" },
+  { kind: "review", title: "pf.inbox.reviewData" },
+  { kind: "run", title: "pf.inbox.runs" },
+  { kind: "warning", title: "pf.inbox.warnings" },
+  { kind: "input", title: "pf.inbox.inputs" },
+  { kind: "section", title: "pf.inbox.sections" },
+  { kind: "decision", title: "pf.inbox.decisions" },
+  { kind: "question", title: "pf.inbox.questions" },
+];
+
+/**
+ * "İşlerim" (UX review 19.10.2026): the single inbox that replaced "Görevlerim", the review queue and the
+ * notification list as separate menus. Grouped by the kind of decision, oldest due first; recent notifications
+ * underneath for context.
+ */
+export default async function MyWorkPage({ params }: PageProps<"/[lang]/app/tasks">) {
   const { lang } = await params;
   const t = tr(lang);
   const ws = await requireWorkspace(lang);
-  const tasks = await myTasks(ws.actor);
-  const today = new Date().toISOString().slice(0, 10);
-  const mine = tasks.filter((x) => x.assignee_user_id === ws.session.identity.userId);
-  const review = tasks.filter((x) => x.reviewer_user_id === ws.session.identity.userId && x.assignee_user_id !== ws.session.identity.userId);
-  const table = (rows: typeof tasks) => (
-    <Table head={[t("pf.data.metric"), t("pf.tasks.project"), t("pf.data.facility"), t("pf.data.statusCol"), t("pf.data.due")]}>
-      {rows.map((x) => (
-        <tr key={x.id}>
-          <Td>
-            <Link href={`/${lang}/app/tasks/${x.id}`} className="font-medium text-[var(--b-700)]">
-              {t(`req.items.${x.metric_code}`)}
-            </Link>
-            <span className="block text-[11.5px] text-[var(--ink-3)]">{x.period_label}</span>
-          </Td>
-          <Td>{x.project_name}</Td>
-          <Td>{x.facility_name ?? t("pf.data.organisationLevel")}</Td>
-          <Td>
-            <StatusBadge status={x.status} />
-          </Td>
-          <Td className={x.due_on && x.due_on < today ? "font-semibold text-[var(--crit)]" : undefined}>{x.due_on ? dateOnly(lang, x.due_on) : "—"}</Td>
-        </tr>
-      ))}
-    </Table>
-  );
+  const [box, notes] = await Promise.all([myInbox(ws.actor), myNotifications({ userId: ws.session.identity.userId, actingTenantId: null }, 8)]);
+  const items = inboxItems(lang, box);
+  const runMetrics = box.runs.reduce((s, r) => s + r.count, 0);
   return (
     <>
-      <PageTitle title={t("pf.tasks.title")} lead={t("pf.tasks.lead")} />
+      <PageTitle title={t("pf.inbox.title")} lead={t("pf.inbox.lead")} />
       <div className="flex flex-col gap-6">
-        <Section title={t("pf.tasks.toEnter", { n: mine.length })}>{mine.length ? table(mine) : <StateBox state="empty" title={t("pf.tasks.noneToEnter")} />}</Section>
-        <Section title={t("pf.tasks.toReview", { n: review.length })}>{review.length ? table(review) : <StateBox state="empty" title={t("pf.tasks.noneToReview")} />}</Section>
+        {items.length === 0 && <StateBox state="empty" title={t("pf.inbox.empty")} />}
+        {GROUPS.map((g) => {
+          const rows = items.filter((x) => x.kind === g.kind);
+          if (!rows.length) return null;
+          return (
+            <Section key={g.kind} title={t(g.title, { n: g.kind === "run" ? runMetrics : g.kind === "section" ? box.sections.reduce((s, x) => s + x.count, 0) : rows.length })}>
+              <InboxRows lang={lang} items={rows} showKind={false} />
+            </Section>
+          );
+        })}
+        {notes.length > 0 && (
+          <Section title={t("pf.inbox.recent")} aside={<Link href={`/${lang}/app/notifications`} className="text-[13px] font-medium text-[var(--b-700)]">{t("pf.inbox.allNotifications")}</Link>}>
+            <ul className="flex flex-col divide-y divide-[var(--rule)]">
+              {notes.map((n) => {
+                const pl = n.payload as { requestId?: string; metric?: string; due?: string; count?: number };
+                return (
+                  <li key={n.id} className={`flex flex-wrap items-center gap-3 py-2 text-[13.5px] ${n.read_at ? "text-[var(--ink-2)]" : "font-medium"}`}>
+                    <span className="flex-1">{t(`pf.notify.kind.${n.kind}`, { metric: pl.metric ? t(`req.items.${pl.metric}`) : "", count: pl.count ?? 0, due: pl.due ?? "" })}</span>
+                    <span className="text-[12px] text-[var(--ink-3)]">{dateTime(lang, n.created_at)}</span>
+                    {pl.requestId && (
+                      <Link href={`/${lang}/app/tasks/${pl.requestId}`} className="text-[12.5px] text-[var(--b-700)]">
+                        {t("pf.inbox.open")}
+                      </Link>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </Section>
+        )}
       </div>
     </>
   );

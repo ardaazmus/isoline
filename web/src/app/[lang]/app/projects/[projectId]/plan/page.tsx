@@ -5,10 +5,11 @@ import { OkNote, Section, StateBox } from "@/platform/ui";
 import { titled, tr } from "@/platform/server";
 import { grantCan, memberCan } from "@/server/policy/policy";
 import { listCycles, listParticipants, listPlan } from "@/server/projects/service";
+import { cycleProgress } from "@/server/cycle/progress";
 
 export const generateMetadata = titled("pf.plan.title");
 
-/** PORT-09: the 13-gate plan of a reporting cycle — timeline, critical path, state, people and dates. */
+/** Setup → schedule and owners (PORT-09): the cycle's work packages with dates, critical path and owners; each shows its step's derived state. */
 export default async function PlanPage({ params, searchParams }: PageProps<"/[lang]/app/projects/[projectId]/plan">) {
   const { lang, projectId } = await params;
   const sp = await searchParams;
@@ -18,7 +19,8 @@ export default async function PlanPage({ params, searchParams }: PageProps<"/[la
   const { ws, data } = loaded.p;
   const cycles = await listCycles(ws.actor, projectId);
   const cycle = pickCycle(cycles, sp.cycle);
-  const [items, team] = cycle ? await Promise.all([listPlan(ws.actor, cycle.id), listParticipants(ws.actor, projectId)]) : [[], []];
+  const [items, team, progress] = cycle ? await Promise.all([listPlan(ws.actor, cycle.id), listParticipants(ws.actor, projectId), cycleProgress(ws.actor, cycle.id)]) : [[], [], null];
+  const steps = Object.fromEntries((progress?.steps ?? []).map((x) => [x.id, x.state]));
   const role = ws.actor.role;
   const canEdit = role !== null && memberCan(role, "plan.update") && (data.access.via !== "grant" || grantCan(data.access.grantRole!, "plan.update"));
   const people = [...new Map(team.map((p) => [p.user_id, { id: p.user_id, name: p.name }])).values()];
@@ -27,7 +29,7 @@ export default async function PlanPage({ params, searchParams }: PageProps<"/[la
 
   return (
     <>
-      <ProjectHeader lang={lang} p={loaded.p} />
+      <ProjectHeader lang={lang} p={loaded.p} cycleId={cycle?.id} />
       {!cycle ? (
         <StateBox state="empty" title={t("pf.cycle.none")} />
       ) : (
@@ -44,11 +46,11 @@ export default async function PlanPage({ params, searchParams }: PageProps<"/[la
             </nav>
           )}
           <Section title={t("pf.plan.timelineTitle", { label: cycle.label })}>
-            <PlanTimeline items={items} today={today} publishDue={cycle.publish_due} periodEnd={cycle.period_end} />
+            <PlanTimeline items={items} today={today} publishDue={cycle.publish_due} periodEnd={cycle.period_end} steps={steps} />
           </Section>
           <Section title={t("pf.plan.tableTitle")}>
-            {!canEdit && <p className="text-[12.5px] text-[var(--ink-3)]">{t("pf.state.read_only")}</p>}
-            <PlanTable items={items} people={people} canEdit={canEdit} today={today} />
+            <p className="text-[12.5px] text-[var(--ink-3)]">{canEdit ? t("pf.steps.derivedNote") : t("pf.state.read_only")}</p>
+            <PlanTable items={items} people={people} canEdit={canEdit} today={today} steps={steps} />
           </Section>
         </div>
       )}

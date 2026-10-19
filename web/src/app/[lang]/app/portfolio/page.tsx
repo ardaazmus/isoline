@@ -4,6 +4,7 @@ import { dateOnly, titled, tr } from "@/platform/server";
 import { requireWorkspace } from "@/server/http/dal";
 import { portfolio } from "@/server/projects/service";
 import { portfolioKpis } from "@/server/portfolio/kpis";
+import { STEP_PAGES } from "@/server/cycle/steps";
 
 export const generateMetadata = titled("pf.portfolio.title");
 
@@ -95,18 +96,19 @@ export default async function PortfolioPage({
                       {r.name}
                     </Link>
                   </Td>
-                  <Td>
-                    {r.cycle
-                      ? `${r.cycle.label} · ${t(`pf.cycle.states.${r.cycle.status}`)}`
-                      : "—"}
-                  </Td>
+                  <Td>{r.cycle ? r.cycle.label : "—"}</Td>
                   <Td className="text-[12.5px]">
                     {r.next ? (
                       <>
-                        <span className="font-semibold">{r.next.gate}</span>{" "}
-                        {t(`pf.plan.gates.${r.next.gate}`)} ·{" "}
-                        {dateOnly(lang, r.next.due_on)}
+                        <Link href={`/${lang}/app/projects/${r.id}/${STEP_PAGES[r.next.step][0]}`} className="font-semibold text-[var(--b-700)]">
+                          {t(`pf.steps.name.${r.next.step}`)}
+                        </Link>{" "}
+                        · {t(`pf.steps.state.${r.next.state}`)}
+                        <span className="block text-[var(--ink-3)]">{t(`pf.steps.summary.${r.next.step}.${r.next.summary}`, r.next.vars)}</span>
+                        {r.next.dueOn && <span className={r.next.late ? "block font-semibold text-[var(--crit)]" : "block text-[var(--ink-2)]"}>{t("pf.steps.due", { date: dateOnly(lang, r.next.dueOn) })}</span>}
                       </>
+                    ) : r.current === "complete" ? (
+                      <Badge tone="ok">{t("pf.steps.complete")}</Badge>
                     ) : (
                       "—"
                     )}
@@ -116,11 +118,6 @@ export default async function PortfolioPage({
                       {r.late > 0 && (
                         <Badge tone="crit">
                           {t("pf.portfolio.lateN", { n: r.late })}
-                        </Badge>
-                      )}
-                      {r.lateCritical > 0 && (
-                        <Badge tone="crit">
-                          {t("pf.portfolio.criticalN", { n: r.lateCritical })}
                         </Badge>
                       )}
                       {r.blocked > 0 && (

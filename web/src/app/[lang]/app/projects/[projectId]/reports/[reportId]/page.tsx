@@ -31,7 +31,7 @@ export default async function ReportStudio({ params, searchParams }: PageProps<"
   const base = `/${lang}/app/projects/${projectId}/reports/${reportId}`;
   return (
     <>
-      <ProjectHeader lang={lang} p={loaded.p} />
+      <ProjectHeader lang={lang} p={loaded.p} cycleId={rep.report.cycle_id} />
       <div className="flex flex-col gap-6">
         <Section title={rep.report.title} aside={<Badge tone={stage === "released" ? "ok" : "warn"}>{t(`pf.rep.status.${stage}`)}</Badge>}>
           <ol className="flex flex-wrap gap-2 text-[12.5px]" aria-label={t("pf.rep.chain")}>

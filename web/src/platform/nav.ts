@@ -1,54 +1,85 @@
 /**
- * Role-based platform menu (ADR-011, plan 04 §1). An item shows when the workspace kind and the member's role match;
- * hiding is only convenience — every screen and API checks permission again on the server. Items join the menu as
- * their gate lands (G3 tasks, G5 review…).
+ * Role-based platform menu (ADR-011, UX review 19.10.2026). Six top-level entries at most — Today, Reporting
+ * cycles, My work, Organisation, Library, Settings — and a section's own pages show under it only while the person
+ * is inside that section. An entry shows when the workspace kind and the member's role match; hiding is only
+ * convenience — every screen and API checks permission again on the server.
  */
 import type { MemberRole } from "@/server/policy/policy";
 
-export type NavItem = { id: string; href: string; kinds?: ("company" | "advisory" | "partner")[]; roles?: MemberRole[] };
-export type NavGroup = { id: string; items: NavItem[] };
+type Kind = "company" | "advisory" | "partner";
+export type NavLeaf = { id: string; href: string; kinds?: Kind[]; roles?: MemberRole[] };
+export type NavItem = NavLeaf & { children?: NavLeaf[] };
 
 const ADMINS: MemberRole[] = ["owner", "admin"];
+const LEADS: MemberRole[] = [...ADMINS, "project_lead", "preparer"];
+/** Everyone who works on a cycle beyond entering their own values. */
+const CYCLE_ROLES: MemberRole[] = [...LEADS, "data_owner", "reviewer", "report_editor", "management_signer", "viewer"];
 
-export const PLATFORM_NAV: NavGroup[] = [
+export const PLATFORM_NAV: NavItem[] = [
+  { id: "home", href: "/app/home" },
+  { id: "projects", href: "/app/projects", roles: CYCLE_ROLES },
+  { id: "tasks", href: "/app/tasks" },
   {
-    id: "work",
-    items: [
-      { id: "home", href: "/app/home" },
-      { id: "portfolio", href: "/app/portfolio" },
-      { id: "projects", href: "/app/projects" },
-      { id: "tasks", href: "/app/tasks" },
-      { id: "review", href: "/app/review" },
+    id: "orgSection",
+    href: "/app/organization",
+    children: [
+      { id: "organization", href: "/app/organization", roles: LEADS },
+      { id: "portfolio", href: "/app/portfolio", kinds: ["advisory", "partner"] },
+      { id: "clientsNew", href: "/app/portfolio/clients/new", kinds: ["advisory"], roles: ["owner", "admin", "preparer"] },
+      { id: "engagements", href: "/app/engagements", roles: LEADS },
+      { id: "relationships", href: "/app/relationships", roles: LEADS },
       { id: "handoff", href: "/app/handoff", kinds: ["advisory", "partner"], roles: ["owner", "admin", "report_editor"] },
-      { id: "notifications", href: "/app/notifications" },
-      { id: "engagements", href: "/app/engagements", roles: [...ADMINS, "project_lead", "preparer"] },
-      { id: "organization", href: "/app/organization", roles: [...ADMINS, "project_lead", "preparer"] },
-      { id: "factors", href: "/app/factors", roles: [...ADMINS, "project_lead", "preparer", "data_owner", "reviewer"] },
     ],
   },
   {
-    id: "share",
-    items: [
-      { id: "relationships", href: "/app/relationships", roles: [...ADMINS, "project_lead", "preparer"] },
-      { id: "clientsNew", href: "/app/portfolio/clients/new", kinds: ["advisory"], roles: ["owner", "admin", "preparer"] },
+    id: "library",
+    href: "/app/factors",
+    children: [
+      { id: "factors", href: "/app/factors", roles: [...LEADS, "data_owner", "reviewer"] },
+      { id: "reference", href: "/app/settings/reference", roles: ADMINS },
     ],
   },
   {
     id: "settings",
-    items: [
+    href: "/app/settings/members",
+    children: [
       { id: "members", href: "/app/settings/members", roles: ADMINS },
       { id: "security", href: "/app/settings/security", roles: ADMINS },
       { id: "audit", href: "/app/settings/audit", roles: ADMINS },
       { id: "import", href: "/app/settings/import", roles: ADMINS },
-      { id: "reference", href: "/app/settings/reference", roles: ADMINS },
       { id: "account", href: "/app/account/security" },
+      { id: "notifications", href: "/app/notifications" },
     ],
   },
 ];
 
-export function visibleNav(kind: string, role: MemberRole | null): NavGroup[] {
-  return PLATFORM_NAV.map((g) => ({
-    ...g,
-    items: g.items.filter((i) => (!i.kinds || i.kinds.includes(kind as "company")) && (!i.roles || (role !== null && i.roles.includes(role)))),
-  })).filter((g) => g.items.length);
+const fits = (i: NavLeaf, kind: string, role: MemberRole | null) => (!i.kinds || i.kinds.includes(kind as Kind)) && (!i.roles || (role !== null && i.roles.includes(role)));
+
+/**
+ * The menu for this workspace kind and role: a section keeps the children this person may open and points at the
+ * first of them; a section with a single child becomes that child; an empty section disappears.
+ */
+export function visibleNav(kind: string, role: MemberRole | null): NavItem[] {
+  const out: NavItem[] = [];
+  for (const item of PLATFORM_NAV) {
+    if (!fits(item, kind, role)) continue;
+    if (!item.children) {
+      out.push(item);
+      continue;
+    }
+    const children = item.children.filter((c) => fits(c, kind, role));
+    if (!children.length) continue;
+    if (children.length === 1) out.push({ ...children[0] });
+    else out.push({ ...item, href: children[0].href, children });
+  }
+  return out;
+}
+
+/** True when a path belongs to this entry or one of its children. */
+export function navActive(item: NavItem, path: string, locale: string): boolean {
+  const hit = (href: string) => {
+    const h = `/${locale}${href}`;
+    return path === h || path.startsWith(`${h}/`);
+  };
+  return hit(item.href) || (item.children ?? []).some((c) => hit(c.href));
 }

@@ -11,6 +11,7 @@ import { canonicalJson } from "../audit/audit";
 import { suggestBoundaryOverPeriod, type BoundaryKind, type Control } from "../orgs/boundary";
 import { forbidden, HttpError, notFound } from "../policy/policy";
 import { requireMemberAction, requireProjectAction } from "../tenancy/service";
+import { progressFor } from "../cycle/progress";
 import { addDays, criticalSet, GATE_TEMPLATE, iso, reaches, schedule, WP_TRANSITIONS, type WpStatus } from "./plan";
 
 const pg = (e: unknown): never => {
@@ -596,13 +597,14 @@ export async function portfolio(actor: Actor) {
     if (!projects.length) return [];
     const ids = projects.map((p) => p.id);
     const cycles = await tx.selectFrom("core.reporting_cycles").select(["id", "project_id", "label", "status", "period_end", "publish_due"]).where("project_id", "in", ids).orderBy("period_end", "desc").execute();
-    const today = iso(new Date());
-    const wps = await tx.selectFrom("core.work_packages").select(["project_id", "cycle_id", "gate", "status", "due_on", "critical"]).where("project_id", "in", ids).where("status", "!=", "done").execute();
+    // the newest cycle of each project and its derived steps (cycle/steps.ts): no hand-set gate states
+    const newest = ids.map((id) => cycles.find((c) => c.project_id === id)).filter((c): c is (typeof cycles)[number] => Boolean(c));
+    const progress = await progressFor(tx, newest);
     const grants = await tx.selectFrom("core.external_grants").select(["project_id", "role", "expires_at"]).where("project_id", "in", ids).where("recipient_tenant_id", "=", actor.actingTenantId!).where("revoked_at", "is", null).where("expires_at", ">", new Date()).execute();
     return projects.map((p) => {
       const cycle = cycles.find((c) => c.project_id === p.id) ?? null;
-      const open = wps.filter((w) => w.cycle_id === cycle?.id);
-      const next = open.slice().sort((a, b) => (a.due_on < b.due_on ? -1 : 1))[0] ?? null;
+      const prog = cycle ? progress.get(cycle.id) : undefined;
+      const step = prog && prog.current !== "complete" ? prog.steps.find((s) => s.id === prog.current)! : null;
       const g = grants.find((x) => x.project_id === p.id);
       return {
         ...p,
@@ -610,10 +612,10 @@ export async function portfolio(actor: Actor) {
         grantRole: g?.role ?? null,
         grantExpires: g?.expires_at ?? null,
         cycle,
-        next,
-        late: open.filter((w) => w.due_on < today).length,
-        lateCritical: open.filter((w) => w.due_on < today && w.critical).length,
-        blocked: open.filter((w) => w.status === "blocked").length,
+        current: prog?.current ?? null,
+        next: step ? { step: step.id, state: step.state, summary: step.summary, vars: step.vars, dueOn: step.dueOn, owner: step.owner, late: step.late } : null,
+        late: prog ? prog.steps.filter((s) => s.late).length : 0,
+        blocked: prog ? prog.steps.filter((s) => s.state === "blocked").length : 0,
       };
     });
   });

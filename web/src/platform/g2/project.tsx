@@ -1,49 +1,11 @@
 "use client";
 
-/** PORT-07..13: project tabs, new-project wizard, extra reporting cycle. */
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+/** PORT-07..13: new-project wizard and an extra reporting cycle (the project's step bar lives in ../steps.tsx). */
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useI18n } from "@/i18n/provider";
-import { cn } from "@/components/ui";
 import { api } from "../client";
 import { Check, ErrorNote, Input, OkNote, Select, SubmitButton, useSubmit } from "../ui";
-
-export function ProjectTabs({ base }: { base: string }) {
-  const { t } = useI18n();
-  const pathname = usePathname();
-  const tabs = [
-    { href: base, id: "overview" },
-    { href: `${base}/plan`, id: "plan" },
-    { href: `${base}/scope`, id: "scope" },
-    { href: `${base}/data`, id: "data" },
-    { href: `${base}/calculations`, id: "calc" },
-    { href: `${base}/consolidation`, id: "consolidation" },
-    { href: `${base}/controls`, id: "controls" },
-    { href: `${base}/close`, id: "close" },
-    { href: `${base}/reports`, id: "reports" },
-    { href: `${base}/industry`, id: "industry" },
-    { href: `${base}/assurance`, id: "assurance" },
-    { href: `${base}/participants`, id: "participants" },
-  ];
-  return (
-    <nav aria-label={t("pf.project.tabs")} className="mb-5 flex flex-wrap gap-1.5">
-      {tabs.map((x) => {
-        const on = x.href === base ? pathname === base : pathname.startsWith(x.href);
-        return (
-          <Link
-            key={x.id}
-            href={x.href}
-            aria-current={on ? "page" : undefined}
-            className={cn("rounded-[11px] px-3.5 py-1.5 text-[13.5px] font-medium no-underline transition-colors", on ? "bg-[var(--b-600)] text-white" : "glass text-[var(--ink-2)] hover:text-[var(--ink)]")}
-          >
-            {t(`pf.project.tab.${x.id}`)}
-          </Link>
-        );
-      })}
-    </nav>
-  );
-}
 
 type Opt = { id: string; name: string };
 

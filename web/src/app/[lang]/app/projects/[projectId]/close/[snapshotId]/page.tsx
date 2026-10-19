@@ -21,7 +21,7 @@ export default async function SnapshotPage({ params }: PageProps<"/[lang]/app/pr
   const restated = (snapshot.restated as { metric: string; facility: string | null; boundary: string | null; from: string | null; to: string | null }[] | null) ?? [];
   return (
     <>
-      <ProjectHeader lang={lang} p={loaded.p} />
+      <ProjectHeader lang={lang} p={loaded.p} cycleId={snapshot.cycle_id} />
       <div className="flex flex-col gap-6">
         <Section title={t("pf.close.version", { v: snapshot.version })} aside={<Link href={`/${lang}/app/projects/${projectId}/close?cycle=${snapshot.cycle_id}`} className="text-[13px] text-[var(--b-700)]">{t("pf.close.back")}</Link>}>
           <p className="text-[13.5px]">

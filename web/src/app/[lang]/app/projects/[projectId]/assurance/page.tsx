@@ -40,7 +40,7 @@ export default async function AssurancePage({ params, searchParams }: PageProps<
   };
   return (
     <>
-      <ProjectHeader lang={lang} p={loaded.p} />
+      <ProjectHeader lang={lang} p={loaded.p} cycleId={cycle?.id} />
       <div className="flex flex-col gap-6">
         <Section title={t("pf.as.engagement", { label: cycle.label })}>
           {room.engagement ? (

@@ -4,15 +4,17 @@ import { dateOnly, titled, tr } from "@/platform/server";
 import { requireWorkspace } from "@/server/http/dal";
 import { memberCan } from "@/server/policy/policy";
 import { listProjects } from "@/server/tenancy/service";
+import { latestCycles } from "@/server/cycle/progress";
+import { STEP_PAGES } from "@/server/cycle/steps";
 
 export const generateMetadata = titled("pf.projects.title");
 
-/** PORT-06/07: projects this workspace can see (own, stewarded, granted) and a new-project form for leads. */
+/** PORT-06/07: projects this workspace can see (own, stewarded, granted) with the step their newest cycle is at. */
 export default async function ProjectsPage({ params }: PageProps<"/[lang]/app/projects">) {
   const { lang } = await params;
   const t = tr(lang);
   const ws = await requireWorkspace(lang);
-  const projects = await listProjects(ws.actor);
+  const [projects, cycles] = await Promise.all([listProjects(ws.actor), latestCycles(ws.actor)]);
   const canCreate = ws.actor.role !== null && memberCan(ws.actor.role, "project.create");
   return (
     <>
@@ -34,7 +36,7 @@ export default async function ProjectsPage({ params }: PageProps<"/[lang]/app/pr
               {t("pf.projects.emptyLead")}
             </StateBox>
           ) : (
-            <Table head={[t("pf.projects.name"), t("pf.projects.ownerCol"), t("pf.projects.status"), t("pf.projects.updated")]}>
+            <Table head={[t("pf.projects.name"), t("pf.projects.ownerCol"), t("pf.steps.cycle"), t("pf.today.col.step"), t("pf.projects.updated")]}>
               {projects.map((p) => (
                 <tr key={p.id}>
                   <Td>
@@ -45,8 +47,19 @@ export default async function ProjectsPage({ params }: PageProps<"/[lang]/app/pr
                   <Td>
                     {p.owner_name} {p.owner_lifecycle === "provisional" && <Badge tone="warn">{t("pf.lifecycle.provisional")}</Badge>}
                   </Td>
+                  <Td>{cycles.get(p.id)?.cycle.label ?? "—"}</Td>
                   <Td>
-                    <Badge>{t(`pf.projectStatus.${p.status}`)}</Badge>
+                    {(() => {
+                      const c = cycles.get(p.id);
+                      if (!c) return <span className="text-[var(--ink-3)]">{t("pf.today.noCycle")}</span>;
+                      if (c.progress.current === "complete") return <Badge tone="ok">{t("pf.steps.complete")}</Badge>;
+                      const step = c.progress.steps.find((s) => s.id === c.progress.current)!;
+                      return (
+                        <Link href={`/${lang}/app/projects/${p.id}/${STEP_PAGES[step.id][0]}`} className="text-[13.5px] text-[var(--b-700)]">
+                          {t(`pf.steps.name.${step.id}`)} · {t(`pf.steps.state.${step.state}`)}
+                        </Link>
+                      );
+                    })()}
                   </Td>
                   <Td>{dateOnly(lang, p.updated_at)}</Td>
                 </tr>
