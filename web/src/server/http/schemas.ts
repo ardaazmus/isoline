@@ -154,3 +154,12 @@ const money = z.union([z.string().max(40), z.number()]);
 export const EntityFinancial = z.object({ legalEntityId: uuid, netSales: money, evidenceId: uuid.nullable().optional(), note: z.string().max(2000).nullable().optional() });
 export const Elimination = z.object({ sellerEntityId: uuid, buyerEntityId: uuid, amount: money, description: z.string().trim().min(3).max(500), evidenceId: uuid.nullable().optional() });
 export const ReopenReason = z.object({ reason: z.string().trim().min(20).max(2000) });
+
+// ---------------------------------------------------------------- G6
+export const CreateReport = z.object({ cycleId: uuid, templateId: z.string().regex(/^[a-z0-9_]+$/), title: z.string().trim().max(200).nullable().optional(), language: z.enum(["tr", "en"]).optional() });
+export const SaveSection = z.object({ body: z.string().max(100_000), baseVersion: z.number().int().min(0).nullable().optional() });
+export const AssignSection = z.object({ ownerUserId: uuid.nullable().optional(), dueOn: isoDate.nullable().optional() });
+export const ReviewSection = z.object({ decision: z.enum(["approve", "reject"]), note: z.string().max(2000).nullable().optional() });
+export const StageDecision = z.object({ decision: z.enum(["approved", "changes_requested"]), comment: z.string().max(2000).nullable().optional() });
+export const Release = z.object({ amendmentReason: z.string().trim().max(2000).nullable().optional() });
+export const ProofDecision = z.object({ decision: z.enum(["approved", "changes_requested"]), note: z.string().max(2000).nullable().optional() });

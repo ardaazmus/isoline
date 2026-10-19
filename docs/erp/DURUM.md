@@ -16,7 +16,7 @@
 | G3 | bitti | Sürümlü metrik kataloğu, şablondan kampanya üreteci, kişi+tesis kapsamlı atama, 4 adımlı katılımcı formu, iade/yeniden gönderim, sürümlü gözlemler, kanıt bağlantıları, XLSX/CSV içe aktarma, hatırlatmalar, tedarikçi izni |
 | G4 | bitti | Sürümlü faktör sicili ve lisans, idempotent hesap çalışmaları (girdi/faktör/çıktı özetleri), çok tesisli Kapsam 1/2/3, çevre/işgücü/finans/SKDM/ETS sarmalayıcıları, engelleyici/uyarı kalite kuralları, dört göz onayı, metrik sürümleri ve kaynak izi, yeniden üretim |
 | G5 | bitti | Dönem içi gün ağırlıklı sınır, GHG yaklaşımları yan yana, TFRS 10 hasılat konsolidasyonu ve grup içi eliminasyon (kesin kuruş aritmetiği), U1–U10 mutabakat, kişiye bağlı inceleme kuyruğu, kapanış kontrol listesi, değişmez anlık görüntü, gerekçeli yeniden açma ve yeniden düzenleme listesi |
-| G6 | başlamadı | |
+| G6 | bitti | Şablondan rapor ve bölümler, metrik belirteçli sürümlü metin, kapsama, tek biçimle DOCX/CSV/XLSX/SVG, teknik → müşteri → yönetim onayı (aday özetine bağlı), değişmez yayın paketi ve devir ZIP'i, tasarım ajansı yalnız yayını görür, ek yayın, raporlar arası mutabakat, yeşil iddia engeli |
 | G7 | başlamadı | |
 | G8 | başlamadı | |
 
@@ -131,7 +131,23 @@
 
 **Ortam notu:** Bu makinede Turbopack dev sunucusu bazı sunucu modülü değişikliklerini kaçırabiliyor (eski modül → hidrasyon farkı ya da "is not a function"). Sunucu kodu değiştikten sonra tarayıcı denetiminden önce dev sunucusu yeniden başlatılır; üretim derlemesi etkilenmez.
 
-## G6–G8
+## G6 — Rapor stüdyosu ve yayın
+
+| ID | Durum | Kanıt |
+|---|---|---|
+| G6-01 | bitti | `core.reports` / `report_sections` (migration 0008): rapor türü ve bölüm ana hattı araç setinin şablon kütüphanesinden (TSRS, GRI, ESRS, faaliyet raporu, SKDM…); aynı dönemden birden çok rapor. Ekran `projects/[id]/reports` (REP-01) |
+| G6-02 | bitti | `reports/body.ts`: güvenli işaretleme (başlık, paragraf, madde, kaynak notu, `[[table:ghg]]`, `[[chart:ghg_scopes]]`); rakam metne yazılmaz, `{{ghg.scope1}}` belirteci kayıtta bir metrik sürümüne bağlanır (`core.metric_references`). Bağlanamayan belirteçle gönderim yok; iyimser kilit (`baseVersion`). Stüdyo `reports/[id]` (REP-02..04): ana hat, metin, bağlı/kullanılabilir metrikler |
+| G6-03 | bitti | Bölüm başına standart atıfları ve karşılandı/kısmi/bekliyor kapsaması; açıklama indeksi taslağı yayın paketinde (`disclosure-index-draft.csv`); sayfa numarası mizanpajdan sonra |
+| G6-04 | bitti | `reports/render.ts`: DOCX, CSV, XLSX, SVG ve ekran aynı biçimleme işlevini kullanır (tr 1.234,5 · en 1,234.5); özellik testi grafik ve CSV'nin belgeyle aynı metni bastığını doğrular; SVG başlık/açıklama (erişilebilir) |
+| G6-05 | bitti | Bölüm onayı yazardan başkası (DB CHECK); rapor zinciri teknik inceleme → müşteri incelemesi → yönetim imzası, her onay aday özetine bağlı; aday değişirse zincir baştan; müşteri ve imza yalnız sahip şirket üyesi (izin hiçbir zaman imzalamaz), imza `report.release` ister |
+| G6-06 | bitti | Yayın paketi: `content.docx`, `tables/facts.csv|xlsx`, `charts/ghg_scopes.svg`, `disclosure-index-draft.csv`, `review-notes.md`, `asset-manifest.json` (anlık görüntü özeti, bölüm sürümleri, metrik kimlikleri, varlık SHA-256'ları) ve `handoff.zip` (`reports/zip.ts`, CRC-32 testli); dosyalar nesne deposunda, indirme denetim kaydıyla |
+| G6-07 | bitti | `design` izni: `authz.can_read` artık bu izni saymaz, yayın tabloları `authz.can_read_release` kullanır — ajans proje verisini veritabanı düzeyinde göremez; `app/handoff` ve `app/releases/[id]` üzerinden paket ve prova (PDF, ClamAV taraması); müşteri provayı onaylar ya da gerekçeyle değişiklik ister |
+| G6-08 | bitti | Yayın: dondurulmuş dönem, imzalı aday, tüm referanslar anlık görüntüde ve güncel, engelleyici yeşil iddia yok (U10: dengeleme/gelecek iddiaları engeller, genel/mutlak iddialar notlara). Yayın değişmez; düzeltme ≥ 20 karakter gerekçeli ek yayın, eskisi `superseded` ama içeriği ve özetleri aynı |
+| G6-09 | bitti | `crossReportCheck`: aynı metrik iki raporda farklı sürüme bağlıysa işaretlenir; rapor listesinde görünür |
+
+**G6 kapısı:** `g6.db.test.ts` — şirket elektrik verisini yükler ve hesaplar; iki rapor (TSRS önce iklim, GRI İngilizce); danışman (hazırlayıcı izniyle) bütün bölümleri yazar, proje lideri onaylar; teknik → müşteri → yönetim imzası; yayın paketi 8 dosya, rakam DOCX/CSV/SVG'de aynı; tasarım ajansı proje verisini göremez (404), yalnız yayını görür ve prova yükler; GRI'deki "carbon neutral" iddiası yayını durdurur; kaynak sonradan düzeltilince referans eskir, ek yayın gerekçesiz reddedilir, gerekçeyle sürüm 2 çıkar — **sürüm 1'in manifest özeti ve tüm dosya özetleri değişmez.** Tarayıcıda demo raporunun stüdyosu ve bağlı metrikleri doğrulandı.
+
+## G7–G8
 
 Kapı başladıkça buraya ayrıntılı tablo eklenir. Görev listeleri plan 13'te.
 
@@ -146,4 +162,4 @@ Kapı başladıkça buraya ayrıntılı tablo eklenir. Görev listeleri plan 13'
   - depo SeaweedFS (ADR-005; MinIO imajları kaldırıldığı için);
   - modüler monolit (ADR-007);
   - v1 araç seti `(toolkit)` rota grubunda korunuyor (ADR-008).
-- **Açık / sıradaki:** G6 (rapor türleri ve bölüm taslakları, metrik belirteçli editör, standart kapsama, grafik + veri tablosu, teknik/müşteri/yönetim onayı, DOCX/XLSX/varlık paketi, tasarım ortağı turu, yayın dondurma ve ek yayın, raporlar arası mutabakat; kapı: iki rapor, dış danışman önerisi, yönetim onayı, paket, kaynak değişince eski yayın sabit).
+- **Açık / sıradaki:** G7 (20 müşterili portföy panosu, dış uzman daveti, güvence odası, sektör paketi çerçevesi, metal/çimento ve hizmet/lojistik pilot paketleri).

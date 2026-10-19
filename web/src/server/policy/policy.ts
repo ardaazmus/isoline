@@ -40,12 +40,12 @@ const ALL_READ: Action[] = ["project.read"];
 
 const MEMBER: Record<MemberRole, Action[]> = {
   // a small company's owner often leads the work; four-eyes rules still apply per object (reviewer ≠ enterer, approver ≠ performer)
-  owner: ["tenant.manage", "grant.manage", "audit.read", "client.create", "project.create", "project.update", "project.read", "org.manage", "scope.decide", "plan.update", "data.request", "data.submit", "data.review", "evidence.upload", "evidence.download", "calc.run", "quality.review", "report.write", "report.review", "cycle.close"],
-  admin: ["tenant.manage", "grant.manage", "audit.read", "client.create", "project.create", "project.update", "project.read", "org.manage", "scope.decide", "plan.update", "data.request", "evidence.download"],
+  owner: ["tenant.manage", "grant.manage", "audit.read", "client.create", "project.create", "project.update", "project.read", "org.manage", "scope.decide", "plan.update", "data.request", "data.submit", "data.review", "evidence.upload", "evidence.download", "calc.run", "quality.review", "report.write", "report.review", "cycle.close", "design.handoff"],
+  admin: ["tenant.manage", "grant.manage", "audit.read", "client.create", "project.create", "project.update", "project.read", "org.manage", "scope.decide", "plan.update", "data.request", "evidence.download", "design.handoff"],
   project_lead: ["project.create", "project.update", "project.read", "org.manage", "scope.decide", "plan.update", "data.request", "data.submit", "data.review", "evidence.upload", "evidence.download", "calc.run", "quality.review", "cycle.close", "report.write", "report.review"],
   data_owner: ["project.read", "data.submit", "data.review", "evidence.upload", "evidence.download", "quality.review"],
   contributor: ["project.read", "data.submit", "evidence.upload"],
-  report_editor: ["project.read", "report.write", "evidence.download"],
+  report_editor: ["project.read", "report.write", "evidence.download", "design.handoff"],
   management_signer: ["project.read", "report.review", "report.release", "evidence.download"],
   viewer: [...ALL_READ],
   // advisory tenant's own staff (working in their own tenant or under a grant)

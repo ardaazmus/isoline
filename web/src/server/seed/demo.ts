@@ -17,6 +17,7 @@ import { processScan, uploadEvidence } from "../evidence/service";
 import { ensureBucket } from "../evidence/storage";
 import { runCalculation } from "../calc/service";
 import { submitElimination, submitEntityFinancial } from "../close/service";
+import { createReport, getReport, saveSection } from "../reports/service";
 import type { MemberRole } from "../policy/policy";
 
 export const DEMO_DOMAIN = "ornek.test";
@@ -78,6 +79,7 @@ export async function resetDemo(): Promise<void> {
       // children before parents: G4 facts and runs, G3 observations and requests, then the G1/G2 tables
       await sql`delete from core.factor_choices where owner_tenant_id in ${ids}`.execute(tx);
       await sql`delete from core.factor_values where set_id in (select id from core.factor_sets where owner_tenant_id in ${ids})`.execute(tx);
+      for (const t of ["design_proofs", "release_assets", "report_releases", "report_approvals", "metric_references", "report_section_versions", "report_sections", "reports"]) await sql`delete from ${sql.table(`core.${t}`)} where owner_tenant_id in ${ids}`.execute(tx);
       await sql`delete from core.snapshot_facts where owner_tenant_id in ${ids}`.execute(tx);
       const byOwnerFirst = ["cycle_events", "cycle_snapshots", "entity_financials", "intercompany_eliminations", "quality_issues", "metric_fact_versions", "run_inputs", "calculation_runs", "factor_sets", "notifications", "request_comments", "evidence_links", "observation_versions", "source_imports", "data_requests", "data_campaigns"];
       for (const t of byOwnerFirst) await sql`delete from ${sql.table(`core.${t}`)} where owner_tenant_id in ${ids}`.execute(tx);
@@ -204,6 +206,21 @@ export async function seedDemo(opts: { reset?: boolean; credentialsFile?: string
   // Journey 1 step 9: the company grants the advisory "preparer" access to its project for 90 days
   const grantToAdvisory = await grantProjectAccess(ayse, { projectId: companyProject, recipientTenantId: advisoryTenant, role: "preparer", purpose: "2026 rapor hazırlığı (örnek)", days: 90, termsVersion: "grant-2026-10" });
 
+  // G6: a TSRS report; the consultant (Can, through the preparer grant) drafts the GHG section with bound metrics
+  const report = await createReport({ userId: people.selin, actingTenantId: companyTenant }, wiz.cycleId, { templateId: "tsrs_climate_first" });
+  const ghgSection = (await getReport(can, report.reportId)).sections.find((x) => x.key === "ghg_s12");
+  if (ghgSection)
+    await saveSection(can, ghgSection.id, {
+      body: [
+        "# Kapsam 1 ve 2 emisyonları",
+        "",
+        "2026'da operasyonel kontrol sınırındaki toplam Kapsam 1 emisyonumuz {{ghg.scope1}}, lokasyon bazlı Kapsam 2 emisyonumuz {{ghg.scope2.location}} oldu. Piyasa bazlı Kapsam 2, YEK-G belgeleri düşüldükten sonra {{ghg.scope2.market}}.",
+        "",
+        "[[table:ghg]]",
+        "[[chart:ghg_scopes]]",
+        "> Kaynak: ETKB 2023 tüketim noktası faktörleri, IPCC 2006, AR6 GWP (örnek veri)",
+      ].join("\n"),
+    });
   await withSystem("seed: label demo tenants as sample", (tx) => tx.updateTable("core.tenants").set({ sample: true }).where("id", "in", [companyTenant, advisoryTenant, provisional.tenantId]).execute());
 
   const file = opts.credentialsFile === undefined ? join(process.cwd(), ".demo-users.local.json") : opts.credentialsFile;

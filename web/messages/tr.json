@@ -2685,7 +2685,8 @@
       "tasks": "Görevlerim",
       "notifications": "Bildirimler",
       "factors": "Faktör kütüphanesi",
-      "review": "İnceleme kuyruğu"
+      "review": "İnceleme kuyruğu",
+      "handoff": "Tasarım teslimleri"
     },
     "kind": {
       "company": "Şirket",
@@ -2894,10 +2895,24 @@
       "reproduce_mismatch": "Yeniden üretilen sonuç kayıtlı sonuçla eşleşmedi.",
       "reviewer_cannot_review": "Bu kişinin kurumdaki rolü veri incelemeye izin vermiyor; başka bir gözden geçiren seçin.",
       "close_checklist_incomplete": "Kapanış kontrol listesinde tamamlanmamış zorunlu maddeler var.",
-      "cycle_not_frozen": "Dönem dondurulmuş değil.",
+      "cycle_not_frozen": "Dönem dondurulmadan yayın yapılamaz.",
       "invalid_amount": "Tutar geçersiz: negatif olmayan, en çok iki ondalıklı bir sayı girin.",
       "same_entity": "Satan ve alan aynı tüzel kişi olamaz.",
-      "replace_instead": "Hasılat geri çekilmez; yeni tutarı girerek değiştirin."
+      "replace_instead": "Hasılat geri çekilmez; yeni tutarı girerek değiştirin.",
+      "unknown_template": "Şablon bulunamadı.",
+      "report_not_found": "Rapor bulunamadı.",
+      "section_not_found": "Bölüm bulunamadı.",
+      "body_too_long": "Bölüm metni çok uzun.",
+      "unresolved_tokens": "Metinde bağlanamayan metrik belirteçleri var.",
+      "sections_not_approved": "Tüm bölümler onaylanmadan incelemeye gönderilemez.",
+      "stale_references": "Eskimiş ya da dönem görüntüsünde olmayan metrik referansları var.",
+      "candidate_changed": "Önceki aşamaların onayladığı içerik değişti; zincir baştan işlemeli.",
+      "signoff_required": "Güncel içerik için yönetim imzası yok.",
+      "claims_blocked": "Metinde kanıtlanmamış dengeleme ya da gelecek iddiası var.",
+      "amendment_reason_required": "Düzeltilmiş yayın için en az 20 karakterlik gerekçe gerekli.",
+      "pdf_required": "Prova PDF olmalı.",
+      "malware_detected": "Dosyada zararlı içerik bulundu.",
+      "too_large": "Dosya çok büyük."
     },
     "auth": {
       "email": "E-posta",
@@ -3323,7 +3338,8 @@
         "calc": "Hesaplamalar",
         "consolidation": "Konsolidasyon",
         "controls": "Kontroller",
-        "close": "Kapanış"
+        "close": "Kapanış",
+        "reports": "Raporlar"
       }
     },
     "cycle": {
@@ -4204,6 +4220,156 @@
       "critical": "kritik",
       "new": "Yeni değer",
       "previous": "Önceki değer"
+    },
+    "handoff": {
+      "title": "Tasarım teslimleri",
+      "lead": "Tasarım izniyle size açılan yayınlar: içerik paketi ve prova akışı. Ham veri ve kanıt görünmez.",
+      "list": "Yayınlar ({n})",
+      "none": "Size açılmış bir yayın yok"
+    },
+    "rep": {
+      "title": "Raporlar",
+      "studio": "Rapor stüdyosu",
+      "list": "Raporlar ({n})",
+      "none": "Henüz rapor yok",
+      "noneLead": "Aşağıdan bir şablon seçerek dönemin raporunu başlatın; bölümler şablondan gelir.",
+      "new": "Yeni rapor",
+      "cycle": "Dönem",
+      "template": "Şablon",
+      "language": "Dil",
+      "lang": {
+        "tr": "Türkçe",
+        "en": "İngilizce"
+      },
+      "titleHint": "Boş bırakılırsa şablon adı ve dönem",
+      "create": "Raporu oluştur",
+      "progress": "İlerleme",
+      "approvedOf": "{a}/{n} bölüm onaylı",
+      "releasesCol": "Yayın",
+      "versionN": "Sürüm {v}",
+      "shared": "Birden çok raporda kullanılan metrikler",
+      "sameFact": "aynı metrik sürümü",
+      "differentFacts": "farklı sürümler — eşitleyin",
+      "status": {
+        "drafting": "Taslak",
+        "tech_review": "Teknik inceleme",
+        "customer_review": "Müşteri incelemesi",
+        "management_signoff": "Yönetim imzası",
+        "released": "Yayımlandı"
+      },
+      "notFound": "Rapor bulunamadı",
+      "chain": "Onay zinciri",
+      "coverageLine": "Kapsam: {met} karşılandı, {partial} kısmi, {pending} bekliyor / {total} bölüm",
+      "candidate": "aday {sha}",
+      "staleWarn": "{n} metrik referansı eskidi (kaynak değişti); bölümü yeniden kaydedip onaylatın:",
+      "claim": {
+        "offset": "Engelleyici: dengeleme iddiası",
+        "future": "Engelleyici: gelecek iddiası",
+        "absolute": "Uyarı: mutlak iddia",
+        "generic": "Uyarı: genel iddia"
+      },
+      "outline": "Ana hat",
+      "sectionStatus": {
+        "empty": "boş",
+        "draft": "taslak",
+        "submitted": "incelemede",
+        "approved": "onaylı"
+      },
+      "author": "Yazan: {name}",
+      "reviewer": "Onaylayan: {name}",
+      "body": "Bölüm metni",
+      "markupHint": "# başlık, ## alt başlık, boş satır paragraf, \"- \" madde, \"> \" kaynak notu. Rakam yazmayın: sağdaki belirteci kopyalayın ({{ghg.scope1}}). [[table:ghg]] sera gazı tablosu, [[chart:ghg_scopes]] kapsam grafiği ekler.",
+      "saveVersion": "Yeni sürüm kaydet",
+      "submit": "İncelemeye gönder",
+      "unresolved": "Bağlanamayan belirteçler: {tokens}",
+      "reviewNote": "İnceleme notu (iade için en az 10 karakter)",
+      "returnSection": "Düzeltmeye geri gönder",
+      "copyToken": "{token} belirtecini kopyala",
+      "copied": "kopyalandı",
+      "metrics": "Metrikler",
+      "bound": "Bu sürümde bağlı",
+      "unbound": "bağlanamadı",
+      "stale": "eskidi",
+      "available": "Kullanılabilir metrikler",
+      "noFacts": "Bu dönemde hesaplanmış metrik yok.",
+      "requestReview": "Teknik incelemeye gönder",
+      "stageComment": "Yorum (değişiklik isterken en az 10 karakter)",
+      "approveStage": {
+        "tech_review": "Teknik incelemeyi onayla",
+        "customer_review": "Müşteri olarak onayla",
+        "management_signoff": "Yönetim adına imzala"
+      },
+      "requestChanges": "Değişiklik iste",
+      "releaseLead": "Yayın; dondurulmuş dönem anlık görüntüsü, imzalanan aday ve kaynak eşleşmesiyle değişmez bir paket üretir.",
+      "amendmentReason": "Düzeltme yayını gerekçesi (en az 20 karakter)",
+      "release": "Yayımla",
+      "amend": "Düzeltilmiş sürümü yayımla",
+      "released": "Yayımlandı: sürüm {v}, manifest {sha}…",
+      "approvals": "Onaylar",
+      "releases": "Yayınlar",
+      "noReleases": "Henüz yayın yok.",
+      "releaseStatus": {
+        "released": "Geçerli",
+        "superseded": "Yerini düzeltilmiş sürüm aldı"
+      },
+      "amendmentOf": "Düzeltme gerekçesi: {reason}",
+      "stage": {
+        "tech_review": "Teknik inceleme",
+        "customer_review": "Müşteri incelemesi",
+        "management_signoff": "Yönetim imzası"
+      },
+      "coverage": {
+        "met": "Karşılandı",
+        "partial": "Kısmi",
+        "pending": "Bekliyor"
+      },
+      "releasePage": "Yayın",
+      "releaseNotFound": "Yayın bulunamadı ya da size açık değil",
+      "manifest": "Yayın manifestosu",
+      "manifestSha": "Manifest SHA-256",
+      "snapshot": "Dönem anlık görüntüsü",
+      "contents": "İçerik",
+      "contentsLine": "{s} bölüm, {f} metrik, {a} dosya",
+      "assets": "Dosyalar ({n})",
+      "path": "Dosya",
+      "size": "Boyut",
+      "download": "İndir",
+      "proofs": "Tasarım provaları ({n})",
+      "noProofs": "Henüz prova yüklenmedi.",
+      "proofFile": "Prova PDF",
+      "uploadProof": "Prova yükle",
+      "proofN": "Prova {v}",
+      "proofStatus": {
+        "submitted": "Karar bekliyor",
+        "changes_requested": "Değişiklik istendi",
+        "approved": "Onaylandı"
+      },
+      "proofNote": "Not (değişiklik isterken en az 10 karakter)",
+      "col": {
+        "metric": "Metrik",
+        "boundary": "Sınır",
+        "value": "Değer",
+        "formatted": "Gösterim",
+        "unit": "Birim",
+        "revision": "Revizyon"
+      },
+      "notes": {
+        "claims": "Yeşil iddia taraması (uyarılar)",
+        "amendment": "Düzeltme gerekçesi"
+      },
+      "docx": {
+        "release": "yayın sürümü {v}",
+        "refs": "Standart atıfları",
+        "ghgTable": "Sera gazı emisyonları",
+        "chart": "Kapsamlara göre emisyonlar",
+        "chartNote": "Grafik dosyası: charts/ghg_scopes.svg (aynı değerler)",
+        "signoff": "Onaylar",
+        "index": "Açıklama indeksi (taslak)",
+        "section": "Bölüm",
+        "status": "Durum",
+        "page": "Sayfa",
+        "pageNote": "Sayfa numaraları sayfa düzeni tamamlandıktan sonra eklenir."
+      }
     }
   }
 }

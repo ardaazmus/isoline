@@ -2685,7 +2685,8 @@
       "tasks": "My tasks",
       "notifications": "Notifications",
       "factors": "Factor library",
-      "review": "Review queue"
+      "review": "Review queue",
+      "handoff": "Design hand-offs"
     },
     "kind": {
       "company": "Company",
@@ -2894,10 +2895,24 @@
       "reproduce_mismatch": "The reproduced result does not match the recorded one.",
       "reviewer_cannot_review": "This person's role in the organisation does not allow reviewing data; choose another reviewer.",
       "close_checklist_incomplete": "Required items of the close checklist are not done.",
-      "cycle_not_frozen": "The period is not frozen.",
+      "cycle_not_frozen": "The cycle must be frozen before a release.",
       "invalid_amount": "Invalid amount: enter a non-negative number with at most two decimals.",
       "same_entity": "Seller and buyer cannot be the same legal entity.",
-      "replace_instead": "Revenue is not withdrawn; enter the new amount to replace it."
+      "replace_instead": "Revenue is not withdrawn; enter the new amount to replace it.",
+      "unknown_template": "Template not found.",
+      "report_not_found": "Report not found.",
+      "section_not_found": "Section not found.",
+      "body_too_long": "The section text is too long.",
+      "unresolved_tokens": "The text has metric tokens that could not be bound.",
+      "sections_not_approved": "All sections must be approved before review.",
+      "stale_references": "Some metric references are stale or not in the cycle snapshot.",
+      "candidate_changed": "The content approved by earlier stages has changed; the chain must start again.",
+      "signoff_required": "No management sign-off for the current content.",
+      "claims_blocked": "The text has an unsubstantiated offset or future claim.",
+      "amendment_reason_required": "An amended release needs a reason of at least 20 characters.",
+      "pdf_required": "The proof must be a PDF.",
+      "malware_detected": "The file contains malicious content.",
+      "too_large": "The file is too large."
     },
     "auth": {
       "email": "E-mail",
@@ -3323,7 +3338,8 @@
         "calc": "Calculations",
         "consolidation": "Consolidation",
         "controls": "Controls",
-        "close": "Close"
+        "close": "Close",
+        "reports": "Reports"
       }
     },
     "cycle": {
@@ -4204,6 +4220,156 @@
       "critical": "critical",
       "new": "New value",
       "previous": "Previous value"
+    },
+    "handoff": {
+      "title": "Design hand-offs",
+      "lead": "Releases opened to you through a design grant: the content package and the proof flow. Raw data and evidence stay hidden.",
+      "list": "Releases ({n})",
+      "none": "No release has been shared with you"
+    },
+    "rep": {
+      "title": "Reports",
+      "studio": "Report studio",
+      "list": "Reports ({n})",
+      "none": "No reports yet",
+      "noneLead": "Pick a template below to start the cycle's report; the sections come from the template.",
+      "new": "New report",
+      "cycle": "Cycle",
+      "template": "Template",
+      "language": "Language",
+      "lang": {
+        "tr": "Turkish",
+        "en": "English"
+      },
+      "titleHint": "Empty = template name and cycle",
+      "create": "Create report",
+      "progress": "Progress",
+      "approvedOf": "{a}/{n} sections approved",
+      "releasesCol": "Release",
+      "versionN": "Version {v}",
+      "shared": "Metrics used in more than one report",
+      "sameFact": "same metric version",
+      "differentFacts": "different versions — align them",
+      "status": {
+        "drafting": "Drafting",
+        "tech_review": "Technical review",
+        "customer_review": "Customer review",
+        "management_signoff": "Management sign-off",
+        "released": "Released"
+      },
+      "notFound": "Report not found",
+      "chain": "Approval chain",
+      "coverageLine": "Coverage: {met} met, {partial} partial, {pending} pending / {total} sections",
+      "candidate": "candidate {sha}",
+      "staleWarn": "{n} metric references are stale (the source changed); save the section again and have it approved:",
+      "claim": {
+        "offset": "Blocking: offset claim",
+        "future": "Blocking: future claim",
+        "absolute": "Warning: absolute claim",
+        "generic": "Warning: generic claim"
+      },
+      "outline": "Outline",
+      "sectionStatus": {
+        "empty": "empty",
+        "draft": "draft",
+        "submitted": "in review",
+        "approved": "approved"
+      },
+      "author": "Written by {name}",
+      "reviewer": "Approved by {name}",
+      "body": "Section text",
+      "markupHint": "# heading, ## subheading, blank line = paragraph, \"- \" bullet, \"> \" source note. Do not type numbers: copy a token from the right ({{ghg.scope1}}). [[table:ghg]] adds the GHG table, [[chart:ghg_scopes]] the scope chart.",
+      "saveVersion": "Save new version",
+      "submit": "Submit for review",
+      "unresolved": "Tokens that could not be bound: {tokens}",
+      "reviewNote": "Review note (at least 10 characters to return)",
+      "returnSection": "Return for correction",
+      "copyToken": "Copy token {token}",
+      "copied": "copied",
+      "metrics": "Metrics",
+      "bound": "Bound in this version",
+      "unbound": "not bound",
+      "stale": "stale",
+      "available": "Available metrics",
+      "noFacts": "No calculated metric in this cycle.",
+      "requestReview": "Send to technical review",
+      "stageComment": "Comment (at least 10 characters when asking for changes)",
+      "approveStage": {
+        "tech_review": "Approve technical review",
+        "customer_review": "Approve as customer",
+        "management_signoff": "Sign for management"
+      },
+      "requestChanges": "Request changes",
+      "releaseLead": "Releasing produces an immutable package from the frozen cycle snapshot, the signed candidate and matching sources.",
+      "amendmentReason": "Reason for the amended release (at least 20 characters)",
+      "release": "Release",
+      "amend": "Release the amended version",
+      "released": "Released: version {v}, manifest {sha}…",
+      "approvals": "Approvals",
+      "releases": "Releases",
+      "noReleases": "No release yet.",
+      "releaseStatus": {
+        "released": "Current",
+        "superseded": "Replaced by an amendment"
+      },
+      "amendmentOf": "Amendment reason: {reason}",
+      "stage": {
+        "tech_review": "Technical review",
+        "customer_review": "Customer review",
+        "management_signoff": "Management sign-off"
+      },
+      "coverage": {
+        "met": "Met",
+        "partial": "Partial",
+        "pending": "Pending"
+      },
+      "releasePage": "Release",
+      "releaseNotFound": "Release not found or not open to you",
+      "manifest": "Release manifest",
+      "manifestSha": "Manifest SHA-256",
+      "snapshot": "Cycle snapshot",
+      "contents": "Contents",
+      "contentsLine": "{s} sections, {f} metrics, {a} files",
+      "assets": "Files ({n})",
+      "path": "File",
+      "size": "Size",
+      "download": "Download",
+      "proofs": "Design proofs ({n})",
+      "noProofs": "No proof uploaded yet.",
+      "proofFile": "Proof PDF",
+      "uploadProof": "Upload proof",
+      "proofN": "Proof {v}",
+      "proofStatus": {
+        "submitted": "Awaiting decision",
+        "changes_requested": "Changes requested",
+        "approved": "Approved"
+      },
+      "proofNote": "Note (at least 10 characters when asking for changes)",
+      "col": {
+        "metric": "Metric",
+        "boundary": "Boundary",
+        "value": "Value",
+        "formatted": "Shown as",
+        "unit": "Unit",
+        "revision": "Revision"
+      },
+      "notes": {
+        "claims": "Green-claim screening (warnings)",
+        "amendment": "Amendment reason"
+      },
+      "docx": {
+        "release": "release version {v}",
+        "refs": "Standard references",
+        "ghgTable": "Greenhouse gas emissions",
+        "chart": "Emissions by scope",
+        "chartNote": "Chart file: charts/ghg_scopes.svg (same values)",
+        "signoff": "Approvals",
+        "index": "Disclosure index (draft)",
+        "section": "Section",
+        "status": "Status",
+        "page": "Page",
+        "pageNote": "Page numbers are added after the layout is final."
+      }
     }
   }
 }

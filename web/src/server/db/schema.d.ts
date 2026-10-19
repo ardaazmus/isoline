@@ -220,6 +220,24 @@ export interface CoreDeliverables {
   updated_at: Generated<Timestamp>;
 }
 
+export interface CoreDesignProofs {
+  decided_at: Timestamp | null;
+  decided_by: string | null;
+  decision_note: string | null;
+  filename: string;
+  id: Generated<string>;
+  owner_tenant_id: string;
+  project_id: string;
+  release_id: string;
+  sha256: string;
+  size_bytes: number;
+  status: Generated<string>;
+  storage_key: string;
+  uploaded_at: Generated<Timestamp>;
+  uploaded_by: string;
+  version: number;
+}
+
 export interface CoreEngagements {
   advisory_tenant_id: string | null;
   created_at: Generated<Timestamp>;
@@ -533,6 +551,18 @@ export interface CoreMetricFactVersions {
   value_text: string | null;
 }
 
+export interface CoreMetricReferences {
+  created_at: Generated<Timestamp>;
+  fact_id: string | null;
+  id: Generated<string>;
+  owner_tenant_id: string;
+  project_id: string;
+  rendered: string | null;
+  section_version_id: string;
+  token: string;
+  unit: string | null;
+}
+
 export interface CoreNotifications {
   created_at: Generated<Timestamp>;
   id: Generated<number>;
@@ -666,6 +696,33 @@ export interface CoreQualityIssues {
   tolerance: string | null;
 }
 
+export interface CoreReleaseAssets {
+  created_at: Generated<Timestamp>;
+  id: Generated<string>;
+  mime: string;
+  owner_tenant_id: string;
+  path: string;
+  project_id: string;
+  release_id: string;
+  sha256: string;
+  size_bytes: number;
+  storage_key: string;
+}
+
+export interface CoreReportApprovals {
+  acting_tenant_id: string | null;
+  candidate_sha256: string;
+  comment: string | null;
+  decided_at: Generated<Timestamp>;
+  decision: string;
+  id: Generated<string>;
+  owner_tenant_id: string;
+  project_id: string;
+  report_id: string;
+  stage: string;
+  user_id: string;
+}
+
 export interface CoreReportingBoundaries {
   approved_at: Timestamp | null;
   approved_by: string | null;
@@ -699,6 +756,70 @@ export interface CoreReportingCycles {
   row_version: Generated<number>;
   status: Generated<string>;
   updated_at: Generated<Timestamp>;
+}
+
+export interface CoreReportReleases {
+  amendment_of: string | null;
+  amendment_reason: string | null;
+  id: Generated<string>;
+  manifest: Json;
+  manifest_sha256: string;
+  owner_tenant_id: string;
+  project_id: string;
+  released_at: Generated<Timestamp>;
+  released_by: string;
+  report_id: string;
+  signoff_id: string;
+  snapshot_id: string;
+  status: Generated<string>;
+  version: number;
+}
+
+export interface CoreReports {
+  created_at: Generated<Timestamp>;
+  created_by: string;
+  cycle_id: string;
+  id: Generated<string>;
+  kind: string;
+  language: Generated<string>;
+  owner_tenant_id: string;
+  project_id: string;
+  row_version: Generated<number>;
+  status: Generated<string>;
+  template_id: string;
+  title: string;
+  updated_at: Generated<Timestamp>;
+}
+
+export interface CoreReportSections {
+  current_version_id: string | null;
+  due_on: string | null;
+  id: Generated<string>;
+  owner_tenant_id: string;
+  owner_user_id: string | null;
+  position: number;
+  project_id: string;
+  refs: Generated<string[]>;
+  report_id: string;
+  section_key: string;
+  status: Generated<string>;
+  tools: Generated<string[]>;
+}
+
+export interface CoreReportSectionVersions {
+  author_id: string;
+  author_tenant_id: string | null;
+  body: string;
+  created_at: Generated<Timestamp>;
+  id: Generated<string>;
+  owner_tenant_id: string;
+  project_id: string;
+  review_note: string | null;
+  reviewed_at: Timestamp | null;
+  reviewed_by: string | null;
+  section_id: string;
+  status: Generated<string>;
+  version: number;
 }
 
 export interface CoreRequestComments {
@@ -870,6 +991,7 @@ export interface DB {
   "core.data_campaigns": CoreDataCampaigns;
   "core.data_requests": CoreDataRequests;
   "core.deliverables": CoreDeliverables;
+  "core.design_proofs": CoreDesignProofs;
   "core.engagements": CoreEngagements;
   "core.entity_financials": CoreEntityFinancials;
   "core.evidence_access_log": CoreEvidenceAccessLog;
@@ -889,6 +1011,7 @@ export interface DB {
   "core.memberships": CoreMemberships;
   "core.metric_definitions": CoreMetricDefinitions;
   "core.metric_fact_versions": CoreMetricFactVersions;
+  "core.metric_references": CoreMetricReferences;
   "core.notifications": CoreNotifications;
   "core.observation_versions": CoreObservationVersions;
   "core.organizations": CoreOrganizations;
@@ -897,8 +1020,14 @@ export interface DB {
   "core.project_participants": CoreProjectParticipants;
   "core.projects": CoreProjects;
   "core.quality_issues": CoreQualityIssues;
+  "core.release_assets": CoreReleaseAssets;
+  "core.report_approvals": CoreReportApprovals;
+  "core.report_releases": CoreReportReleases;
+  "core.report_section_versions": CoreReportSectionVersions;
+  "core.report_sections": CoreReportSections;
   "core.reporting_boundaries": CoreReportingBoundaries;
   "core.reporting_cycles": CoreReportingCycles;
+  "core.reports": CoreReports;
   "core.request_comments": CoreRequestComments;
   "core.retention_rules": CoreRetentionRules;
   "core.run_inputs": CoreRunInputs;
