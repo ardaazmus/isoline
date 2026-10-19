@@ -45,7 +45,7 @@ function Inner() {
   const client = useActiveClient();
   const update = useWorkspace((s) => s.update);
   const ghg = useMemo(() => computeInventory(client.ghg), [client.ghg]);
-  const sites = client.sites ?? [];
+  const sites = useMemo(() => client.sites ?? [], [client.sites]);
   const con = useMemo(() => consolidate(sites, ghg.scope1, ghg.scope2Location), [sites, ghg.scope1, ghg.scope2Location]);
   const ghgStatus = approvalOf(client.approvals, "ghg").status;
   const isoStatus = ghgStatus === "approved" || ghgStatus === "published" ? "approved" : ghgStatus === "review" ? "review" : "draft";

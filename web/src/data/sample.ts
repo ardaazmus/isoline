@@ -15,7 +15,7 @@ import type { ImportRecord } from "@/lib/imports";
 import type { Approvals } from "@/lib/approval";
 import { emptyRequests, type Requests } from "@/lib/requests";
 import { emptyAudit, type AuditState } from "@/lib/auditor";
-import { emptySites, type Site } from "@/lib/sites";
+import type { Site } from "@/lib/sites";
 import { SAMPLE_TB_FILE, sampleTrialBalanceCsv } from "./sample-trial-balance";
 import type { StageStatus } from "./journey";
 
