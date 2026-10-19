@@ -453,7 +453,7 @@ export async function projectOverview(actor: Actor, projectId: string) {
     const p = await tx
       .selectFrom("core.projects as p")
       .innerJoin("core.tenants as t", "t.id", "p.owner_tenant_id")
-      .select(["p.id", "p.name", "p.status", "p.created_at", "p.updated_at", "p.row_version", "t.name as owner_name", "t.lifecycle as owner_lifecycle", "t.id as owner_id"])
+      .select(["p.id", "p.name", "p.status", "p.created_at", "p.updated_at", "p.row_version", "p.organization_id", "p.engagement_id", "p.description", "t.name as owner_name", "t.lifecycle as owner_lifecycle", "t.id as owner_id"])
       .where("p.id", "=", projectId)
       .executeTakeFirstOrThrow();
     const grants =

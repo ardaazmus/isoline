@@ -18,6 +18,8 @@ export const ACTIONS = [
   "project.update",
   "project.read",
   "org.manage", // organisation tree, boundaries (G2)
+  "scope.decide", // applicability decision and its customer confirmation (G2-06)
+  "plan.update", // work packages, team and RACI (G2-07/08)
   "data.request", // build campaigns, assign tasks (G3)
   "data.submit", // enter observations, upload evidence
   "data.review", // accept or return submissions (someone else's)
@@ -37,23 +39,23 @@ export type Action = (typeof ACTIONS)[number];
 const ALL_READ: Action[] = ["project.read"];
 
 const MEMBER: Record<MemberRole, Action[]> = {
-  owner: ["tenant.manage", "grant.manage", "audit.read", "client.create", "project.create", "project.update", "project.read", "org.manage", "data.request", "data.submit", "evidence.upload", "evidence.download", "report.write", "report.review", "cycle.close"],
-  admin: ["tenant.manage", "grant.manage", "audit.read", "client.create", "project.create", "project.update", "project.read", "org.manage", "data.request", "evidence.download"],
-  project_lead: ["project.create", "project.update", "project.read", "org.manage", "data.request", "data.submit", "data.review", "evidence.upload", "evidence.download", "calc.run", "quality.review", "cycle.close", "report.write", "report.review"],
+  owner: ["tenant.manage", "grant.manage", "audit.read", "client.create", "project.create", "project.update", "project.read", "org.manage", "scope.decide", "plan.update", "data.request", "data.submit", "evidence.upload", "evidence.download", "report.write", "report.review", "cycle.close"],
+  admin: ["tenant.manage", "grant.manage", "audit.read", "client.create", "project.create", "project.update", "project.read", "org.manage", "scope.decide", "plan.update", "data.request", "evidence.download"],
+  project_lead: ["project.create", "project.update", "project.read", "org.manage", "scope.decide", "plan.update", "data.request", "data.submit", "data.review", "evidence.upload", "evidence.download", "calc.run", "quality.review", "cycle.close", "report.write", "report.review"],
   data_owner: ["project.read", "data.submit", "data.review", "evidence.upload", "evidence.download", "quality.review"],
   contributor: ["project.read", "data.submit", "evidence.upload"],
   report_editor: ["project.read", "report.write", "evidence.download"],
   management_signer: ["project.read", "report.review", "report.release", "evidence.download"],
   viewer: [...ALL_READ],
   // advisory tenant's own staff (working in their own tenant or under a grant)
-  preparer: ["project.read", "client.create", "project.create", "data.request", "data.submit", "evidence.upload", "evidence.download", "calc.run", "report.write"],
+  preparer: ["project.read", "client.create", "project.create", "project.update", "org.manage", "scope.decide", "plan.update", "data.request", "data.submit", "evidence.upload", "evidence.download", "calc.run", "report.write"],
   reviewer: ["project.read", "data.review", "quality.review", "report.review", "evidence.download"],
 };
 
 /** What a grant lets the recipient tenant do inside the customer's project (plan 03 §6, 10). */
 const GRANT: Record<GrantRole, Action[]> = {
-  preparer: ["project.read", "data.request", "data.submit", "evidence.upload", "calc.run", "report.write"],
-  methodology: ["project.read", "calc.run", "data.review"],
+  preparer: ["project.read", "scope.decide", "plan.update", "data.request", "data.submit", "evidence.upload", "calc.run", "report.write"],
+  methodology: ["project.read", "scope.decide", "calc.run", "data.review"],
   reviewer: ["project.read", "report.review"],
   design: ["project.read", "design.handoff"],
   assurance: ["project.read", "assurance.query"],

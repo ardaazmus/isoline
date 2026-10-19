@@ -110,6 +110,15 @@ describe("tenant pipeline (G1-03/04)", () => {
     expect((await b.call(projectsRoute.GET, "GET", "/api/v1/projects")).status).toBe(200);
     const { b: other } = await signedUp("chooser2");
     expect((await other.call(chooseRoute.POST, "POST", "/api/v1/session/tenant", { body: { tenantId: t } })).status).toBe(404);
+    // a stale choice (a workspace the person no longer belongs to) does not lock person-level calls
+    other.cookies.set("isoline_tenant", t);
+    const me = await other.call(meRoute.GET, "GET", "/api/v1/me");
+    expect(me.status).toBe(200);
+    expect(me.json.actingTenantId).toBeNull();
+    const own = await openWorkspace(other, "Kendi A.Ş.", "company");
+    other.tenant = null;
+    expect((await other.call(chooseRoute.POST, "POST", "/api/v1/session/tenant", { body: { tenantId: own } })).status).toBe(200);
+    expect((await other.call(projectsRoute.GET, "GET", "/api/v1/projects")).status).toBe(200);
   });
 
   it("refuses foreign origins on writes (CSRF)", async () => {

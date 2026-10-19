@@ -170,9 +170,13 @@ export function route<S extends ZodType | undefined = undefined>(opts: Opts<S>, 
 
       const run = async () => {
         const wanted = requestedTenant(req);
-        const actor: TenantActor = session
-          ? await tenantActor(session, opts.tenant === "optional" ? (wanted && UUID.test(wanted) ? wanted : null) : wanted, requestId)
-          : { userId: "", actingTenantId: null, requestId, role: null, requireMfa: false };
+        const none: TenantActor = { userId: session?.identity.userId ?? "", actingTenantId: null, requestId, role: null, requireMfa: false };
+        let actor: TenantActor = none;
+        if (session && opts.tenant === "optional") {
+          // person-level calls (choose a workspace, onboarding, accept an invitation) ignore a stale or
+          // no-longer-valid workspace choice instead of failing on it
+          actor = wanted && UUID.test(wanted) ? await tenantActor(session, wanted, requestId).catch((e) => (e instanceof HttpError && (e.status === 404 || e.code === "mfa_required") ? none : Promise.reject(e))) : none;
+        } else if (session) actor = await tenantActor(session, wanted, requestId);
         if (opts.tenant !== "optional" && !opts.public && !actor.actingTenantId) return problem(400, "tenant_required");
         const out = await fn({ req, session: session!, actor, input: input as Input<S>, params, requestId });
         if (out instanceof Response) return out;

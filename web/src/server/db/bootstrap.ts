@@ -62,6 +62,8 @@ export async function bootstrapCluster(o: BootstrapOptions): Promise<void> {
   try {
     await inDb.query("CREATE EXTENSION IF NOT EXISTS pgcrypto");
     await inDb.query("CREATE EXTENSION IF NOT EXISTS citext");
+    // exclusion constraints on (uuid =, daterange &&): no overlapping ownership periods or reporting cycles
+    await inDb.query("CREATE EXTENSION IF NOT EXISTS btree_gist");
     await inDb.query("ALTER SCHEMA public OWNER TO isoline_owner");
     await inDb.query("REVOKE CREATE ON SCHEMA public FROM PUBLIC");
   } finally {

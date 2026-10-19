@@ -103,36 +103,6 @@ export function OnboardingForm({ lang }: { lang: string }) {
   );
 }
 
-export function NewProjectForm({ clients }: { clients?: { id: string; name: string }[] }) {
-  const { t } = useI18n();
-  const router = useRouter();
-  const [name, setName] = useState("");
-  const [owner, setOwner] = useState("");
-  const s = useSubmit(
-    () => api<{ projectId: string }>("POST", "/api/v1/projects", { name, ...(owner ? { ownerTenantId: owner } : {}) }),
-    () => {
-      setName("");
-      router.refresh();
-    },
-  );
-  return (
-    <form onSubmit={s.submit} className="flex flex-col gap-3 md:flex-row md:items-end">
-      <div className="flex-1">
-        <Input label={t("pf.projects.name")} name="project-name" required maxLength={200} value={name} onChange={(e) => setName(e.target.value)} />
-      </div>
-      {clients && clients.length > 0 && (
-        <div className="md:w-[260px]">
-          <Select label={t("pf.projects.owner")} name="project-owner" value={owner} onChange={(e) => setOwner(e.target.value)} options={[{ value: "", label: t("pf.projects.ownOwner") }, ...clients.map((c) => ({ value: c.id, label: c.name }))]} />
-        </div>
-      )}
-      <SubmitButton busy={s.busy} disabled={!name.trim()}>
-        {t("pf.projects.create")}
-      </SubmitButton>
-      <ErrorNote code={s.error} />
-    </form>
-  );
-}
-
 export type EvidenceRow = { id: string; filename: string; mime: string; size_bytes: number; sha256: string; classification: string; scan_status: string; uploaded_at: string | Date; uploaded_by_name: string | null };
 
 export function EvidencePanel({ projectId, items, canUpload, canDownload }: { projectId: string; items: EvidenceRow[]; canUpload: boolean; canDownload: boolean }) {

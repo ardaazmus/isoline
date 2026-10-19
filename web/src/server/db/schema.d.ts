@@ -21,6 +21,8 @@ export type JsonPrimitive = boolean | number | string | null;
 
 export type JsonValue = JsonArray | JsonObject | JsonPrimitive;
 
+export type Numeric = ColumnType<string, number | string, number | string>;
+
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
 export interface Account {
@@ -37,6 +39,34 @@ export interface Account {
   scope: string | null;
   updatedAt: Timestamp;
   userId: string;
+}
+
+export interface CoreApplicabilityAssessments {
+  confirmed_at: Timestamp | null;
+  confirmed_by: string | null;
+  created_at: Generated<Timestamp>;
+  created_by: string;
+  cycle_id: string;
+  decided_at: Timestamp | null;
+  decided_by: string | null;
+  decision: string | null;
+  decision_source: string | null;
+  engine_version: string;
+  first_year: number | null;
+  framework_version_id: string | null;
+  id: Generated<string>;
+  inputs: Json;
+  inputs_digest: string;
+  notes: Generated<string[]>;
+  owner_tenant_id: string;
+  project_id: string;
+  rationale: string | null;
+  regime: string;
+  row_version: Generated<number>;
+  source_ids: Generated<string[]>;
+  suggestion: string;
+  superseded_at: Timestamp | null;
+  updated_at: Generated<Timestamp>;
 }
 
 export interface CoreAuditEvents {
@@ -57,6 +87,19 @@ export interface CoreAuditEvents {
   request_id: string | null;
 }
 
+export interface CoreBoundaryMembers {
+  boundary_id: string;
+  facility_id: string | null;
+  id: Generated<string>;
+  included: boolean;
+  inclusion_pct: Numeric;
+  legal_entity_id: string | null;
+  owner_tenant_id: string;
+  project_id: string;
+  reason: string | null;
+  suggested_pct: Numeric | null;
+}
+
 export interface CoreConsentRecords {
   created_at: Generated<Timestamp>;
   data_classes: string[];
@@ -67,6 +110,36 @@ export interface CoreConsentRecords {
   purpose: string;
   scope: Json;
   terms_version: string;
+}
+
+export interface CoreDeliverables {
+  created_at: Generated<Timestamp>;
+  created_by: string;
+  due_on: string | null;
+  engagement_id: string;
+  id: Generated<string>;
+  owner_tenant_id: string;
+  project_id: string | null;
+  report_kind: string;
+  row_version: Generated<number>;
+  status: Generated<string>;
+  title: string;
+  updated_at: Generated<Timestamp>;
+}
+
+export interface CoreEngagements {
+  advisory_tenant_id: string | null;
+  created_at: Generated<Timestamp>;
+  created_by: string;
+  ends_on: string | null;
+  id: Generated<string>;
+  owner_tenant_id: string;
+  row_version: Generated<number>;
+  scope: string | null;
+  starts_on: string | null;
+  status: Generated<string>;
+  title: string;
+  updated_at: Generated<Timestamp>;
 }
 
 export interface CoreEvidenceAccessLog {
@@ -118,6 +191,42 @@ export interface CoreExternalGrants {
   updated_at: Generated<Timestamp>;
 }
 
+export interface CoreFacilities {
+  cbam_installation: Generated<boolean>;
+  city: string | null;
+  country_code: Generated<string>;
+  created_at: Generated<Timestamp>;
+  created_by: string;
+  id: Generated<string>;
+  kind: Generated<string>;
+  legacy_site_id: string | null;
+  legal_entity_id: string;
+  nace_code: string | null;
+  name: string;
+  operated: Generated<boolean>;
+  owner_tenant_id: string;
+  responsible_user_id: string | null;
+  row_version: Generated<number>;
+  updated_at: Generated<Timestamp>;
+  valid_from: string | null;
+  valid_to: string | null;
+}
+
+export interface CoreFrameworkVersions {
+  checked_on: string;
+  effective_from: string | null;
+  effective_to: string | null;
+  id: string;
+  jurisdiction: string;
+  note: string | null;
+  pack: string;
+  published_on: string | null;
+  source_ids: Generated<string[]>;
+  status: string;
+  title: string;
+  version: string;
+}
+
 export interface CoreIdempotencyKeys {
   created_at: Generated<Timestamp>;
   key: string;
@@ -159,6 +268,24 @@ export interface CoreLegacyImports {
   status: Generated<string>;
 }
 
+export interface CoreLegalEntities {
+  country_code: Generated<string>;
+  created_at: Generated<Timestamp>;
+  created_by: string;
+  entity_type: Generated<string>;
+  id: Generated<string>;
+  is_reporting_parent: Generated<boolean>;
+  name: string;
+  organization_id: string;
+  owner_tenant_id: string;
+  row_version: Generated<number>;
+  tax_id: string | null;
+  trade_registry_no: string | null;
+  updated_at: Generated<Timestamp>;
+  valid_from: string | null;
+  valid_to: string | null;
+}
+
 export interface CoreMemberships {
   accepted_at: Generated<Timestamp>;
   created_at: Generated<Timestamp>;
@@ -170,6 +297,21 @@ export interface CoreMemberships {
   scope: Generated<Json>;
   tenant_id: string;
   user_id: string;
+}
+
+export interface CoreOrganizations {
+  country_code: Generated<string>;
+  created_at: Generated<Timestamp>;
+  created_by: string;
+  fiscal_year_start_month: Generated<number>;
+  id: Generated<string>;
+  legacy_import_id: string | null;
+  mapping_status: Generated<string>;
+  name: string;
+  owner_tenant_id: string;
+  row_version: Generated<number>;
+  sector_code: string | null;
+  updated_at: Generated<Timestamp>;
 }
 
 export interface CoreOutboxEvents {
@@ -186,14 +328,83 @@ export interface CoreOutboxEvents {
   status: Generated<string>;
 }
 
+export interface CoreOwnershipEdges {
+  child_entity_id: string;
+  control: string;
+  created_at: Generated<Timestamp>;
+  created_by: string;
+  id: Generated<string>;
+  owner_tenant_id: string;
+  parent_entity_id: string;
+  row_version: Generated<number>;
+  share_pct: Numeric;
+  source_note: string | null;
+  updated_at: Generated<Timestamp>;
+  valid_from: string;
+  valid_to: string | null;
+}
+
+export interface CoreProjectParticipants {
+  added_by: string;
+  created_at: Generated<Timestamp>;
+  facility_ids: Generated<string[]>;
+  id: Generated<string>;
+  member_tenant_id: string;
+  owner_tenant_id: string;
+  project_id: string;
+  raci_role: string;
+  responsibilities: string | null;
+  revoked_at: Timestamp | null;
+  revoked_by: string | null;
+  user_id: string;
+}
+
 export interface CoreProjects {
   created_at: Generated<Timestamp>;
   created_by: string;
+  description: string | null;
+  engagement_id: string | null;
   id: Generated<string>;
   legacy_client_id: string | null;
   legacy_import_id: string | null;
   name: string;
+  organization_id: string | null;
   owner_tenant_id: string;
+  row_version: Generated<number>;
+  status: Generated<string>;
+  updated_at: Generated<Timestamp>;
+}
+
+export interface CoreReportingBoundaries {
+  approved_at: Timestamp | null;
+  approved_by: string | null;
+  as_of: string;
+  created_at: Generated<Timestamp>;
+  created_by: string;
+  cycle_id: string;
+  id: Generated<string>;
+  kind: string;
+  note: string | null;
+  owner_tenant_id: string;
+  project_id: string;
+  revision: Generated<number>;
+  row_version: Generated<number>;
+  status: Generated<string>;
+  updated_at: Generated<Timestamp>;
+}
+
+export interface CoreReportingCycles {
+  created_at: Generated<Timestamp>;
+  created_by: string;
+  id: Generated<string>;
+  is_base_year: Generated<boolean>;
+  label: string;
+  owner_tenant_id: string;
+  period_end: string;
+  period_start: string;
+  project_id: string;
+  publish_due: string | null;
+  reporting_year: number;
   row_version: Generated<number>;
   status: Generated<string>;
   updated_at: Generated<Timestamp>;
@@ -223,6 +434,34 @@ export interface CoreTenants {
   sample: Generated<boolean>;
   steward_tenant_id: string | null;
   terms_version: string | null;
+  updated_at: Generated<Timestamp>;
+}
+
+export interface CoreWorkPackageDeps {
+  depends_on_id: string;
+  owner_tenant_id: string;
+  project_id: string;
+  work_package_id: string;
+}
+
+export interface CoreWorkPackages {
+  accountable_user_id: string | null;
+  blocked_reason: string | null;
+  created_at: Generated<Timestamp>;
+  created_by: string;
+  critical: Generated<boolean>;
+  cycle_id: string;
+  due_on: string;
+  gate: string;
+  id: Generated<string>;
+  owner_tenant_id: string;
+  project_id: string;
+  responsible_user_id: string | null;
+  row_version: Generated<number>;
+  sort: Generated<number>;
+  starts_on: string;
+  status: Generated<string>;
+  title: string;
   updated_at: Generated<Timestamp>;
 }
 
@@ -269,19 +508,33 @@ export interface Verification {
 
 export interface DB {
   account: Account;
+  "core.applicability_assessments": CoreApplicabilityAssessments;
   "core.audit_events": CoreAuditEvents;
+  "core.boundary_members": CoreBoundaryMembers;
   "core.consent_records": CoreConsentRecords;
+  "core.deliverables": CoreDeliverables;
+  "core.engagements": CoreEngagements;
   "core.evidence_access_log": CoreEvidenceAccessLog;
   "core.evidence_objects": CoreEvidenceObjects;
   "core.external_grants": CoreExternalGrants;
+  "core.facilities": CoreFacilities;
+  "core.framework_versions": CoreFrameworkVersions;
   "core.idempotency_keys": CoreIdempotencyKeys;
   "core.invitations": CoreInvitations;
   "core.legacy_imports": CoreLegacyImports;
+  "core.legal_entities": CoreLegalEntities;
   "core.memberships": CoreMemberships;
+  "core.organizations": CoreOrganizations;
   "core.outbox_events": CoreOutboxEvents;
+  "core.ownership_edges": CoreOwnershipEdges;
+  "core.project_participants": CoreProjectParticipants;
   "core.projects": CoreProjects;
+  "core.reporting_boundaries": CoreReportingBoundaries;
+  "core.reporting_cycles": CoreReportingCycles;
   "core.retention_rules": CoreRetentionRules;
   "core.tenants": CoreTenants;
+  "core.work_package_deps": CoreWorkPackageDeps;
+  "core.work_packages": CoreWorkPackages;
   session: Session;
   twoFactor: TwoFactor;
   user: User;

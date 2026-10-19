@@ -1,7 +1,7 @@
 /**
  * Role-based platform menu (ADR-011, plan 04 §1). An item shows when the workspace kind and the member's role match;
  * hiding is only convenience — every screen and API checks permission again on the server. Items join the menu as
- * their gate lands (G2 organisation, G3 tasks, G5 review…).
+ * their gate lands (G3 tasks, G5 review…).
  */
 import type { MemberRole } from "@/server/policy/policy";
 
@@ -15,7 +15,10 @@ export const PLATFORM_NAV: NavGroup[] = [
     id: "work",
     items: [
       { id: "home", href: "/app/home" },
+      { id: "portfolio", href: "/app/portfolio" },
       { id: "projects", href: "/app/projects" },
+      { id: "engagements", href: "/app/engagements", roles: [...ADMINS, "project_lead", "preparer"] },
+      { id: "organization", href: "/app/organization", roles: [...ADMINS, "project_lead", "preparer"] },
     ],
   },
   {

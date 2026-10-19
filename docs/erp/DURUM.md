@@ -12,7 +12,7 @@
 |---|---|---|
 | G0 | bitti | Envanter, 11 ADR, ekran haritası, göç riski, iki yolculuk, tehdit modeli |
 | G1 | bitti | Kimlik, kiracı, RLS, dış erişim izni, kanıt deposu, denetim+outbox, araç seti aktarımı; 34 entegrasyon testi |
-| G2 | başlamadı | |
+| G2 | bitti | Organizasyon ağacı ve tarihli sahiplik, beş tür raporlama sınırı, iş/teslimat, dönem, uygulanabilirlik kararı ve müşteri onayı, ekip/RACI, 13 kapılı plan ve kritik yol, portföy |
 | G3 | başlamadı | |
 | G4 | başlamadı | |
 | G5 | başlamadı | |
@@ -53,7 +53,25 @@
 
 **Bilinçli olarak sonraya kalanlar:** `web` ve `worker` konteyner imajları (G8), OIDC'nin gerçek kimlik sağlayıcıyla sınanması (G8), kayıt ucunun hesap varlığını sızdırmaması (tehdit T18, G8).
 
-## G2–G8
+## G2 — Şirket, organizasyon, proje, dönem
+
+| ID | Durum | Kanıt |
+|---|---|---|
+| G2-01 | bitti | `0004_org_projects`: `organizations`, `legal_entities` (tek raporlayan ana şirket), `facilities` (işletme ve SKDM işaretli). Ekran `app/organization` (+ tüzel kişi, tesis sayfaları). `g2.db.test.ts`: holding + iki iştirak + üç tesis; katılımcı ağacı değiştiremez |
+| G2-02 | bitti | `ownership_edges`: pay, kontrol türü, geçerlilik aralığı; aynı çift için çakışan dönem veritabanında yasak (`EXCLUDE USING gist`), döngü ve %100'ü aşan pay serviste reddedilir. "Şu tarih itibarıyla" görünümü. Test: Temmuz'daki %40 satış Mart görünümünü değiştirmez, yıl sonunda %60 |
+| G2-03 | bitti | `reporting_boundaries` + `boundary_members`: operasyonel kontrol, finansal kontrol, hisse oranı (GHG Protokolü Bölüm 3 tablo 1), finansal raporlama (UFRS 10) ve SKDM. Öneri dönem sonundaki ağaçtan (`orgs/boundary.ts`, 9 birim + özellik testi); öneriden sapma gerekçe ister (DB CHECK); onaylanan sınır değişmez, yeni revizyon onaylanınca eskisi `superseded` |
+| G2-04 | bitti | `engagements` + `deliverables`: bir iş, birden çok rapor; durum makinesi; danışman kendi adının geçtiği işi görür ama değiştiremez. Ekran `app/engagements` |
+| G2-05 | bitti | `reporting_cycles`: aynı projede dönemler çakışamaz (`EXCLUDE`); proje sihirbazı (`app/projects/new`) proje + dönem + plan + proje liderini tek işlemde açar. Test: 2025 ve 2026, çakışan dönem 409 |
+| G2-06 | bitti | `framework_versions` (19 resmî sürüm kaydı, yürürlük durumu ve kaynakları) + `applicability_assessments`: v1 kural motoru öneri üretir (motor sürümü + girdi özeti saklanır); karar adı geçen kişiyle ve en az 10 karakterlik gerekçeyle; danışman kararı müşteri yetkilisinin onayını bekler. Ekran `app/projects/[id]/scope` |
+| G2-07 | bitti | `project_participants`: RACI rolleri; dış kişi yalnız etkin izinle ve iznin türüne uygun rolle (ör. yönetim imzası yalnız kurum içi). Ekran `app/projects/[id]/participants` |
+| G2-08 | bitti | `work_packages` + `work_package_deps`: plan 05'in 13 kontrol kapısı, veri toplama dönem sonu + 30 günden önce bitmez, kritik yol (`projects/plan.ts`, özellik testi), durum makinesi, bağımlılık açıkken başlatma yasağı, döngü yasağı, If-Match. Ekran `app/projects/[id]/plan` (zaman çizelgesi + tablo karşılığı) |
+| G2-09 | bitti | `app/portfolio`: yalnız yetkili projeler (kendi, geçici müşteri, izinli); dönem, sıradaki paket, geciken/kritik/engelli sayıları; puan ya da sıralama yok |
+
+**G2 kapısı:** `g2.db.test.ts` iki yolu aynı omurgada sınar. Şirket başlatır, danışmana proje izni verir, proje, dönem ve sınırı belirler. Danışman başlatır (geçici müşteri, organizasyon, proje, sınır), müşteri sahiplenir; danışman aynı satırlara artık izinle erişir. İzin iptal edilince danışmanın görünümü kapanır, karar geçmişi müşteride kalır.
+
+**Araç seti aktarımı G2'ye bağlandı:** her müşteri için "eşlenmemiş" organizasyon, ana tüzel kişi, v1 tesis kayıtları (pay < %100 olanlar ortaklık kenarıyla) ve raporlama yılının dönemi ve planı oluşur. Kullanıcı yapıyı doğrulayınca işaret kalkar.
+
+## G3–G8
 
 Kapı başladıkça buraya ayrıntılı tablo eklenir. Görev listeleri plan 13'te.
 
@@ -68,4 +86,4 @@ Kapı başladıkça buraya ayrıntılı tablo eklenir. Görev listeleri plan 13'
   - depo SeaweedFS (ADR-005; MinIO imajları kaldırıldığı için);
   - modüler monolit (ADR-007);
   - v1 araç seti `(toolkit)` rota grubunda korunuyor (ADR-008).
-- **Açık / sıradaki:** G2 (organizasyon ağacı, sahiplik kenarları, raporlama sınırı, sözleşme/teslimat, dönemler, uygulanabilirlik kararı, ekip, plan, portföy).
+- **Açık / sıradaki:** G3 (metrik kataloğu, kampanya üreteci, görev atama ve gözden geçirme, katılımcı formu, XLSX/CSV içe aktarma önizleme, kanıt bağlantıları, gözlem sürümleri, hatırlatma servisi, iade ve toplu işlem, tedarikçi portalı iskeleti).

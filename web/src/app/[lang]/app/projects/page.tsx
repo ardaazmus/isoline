@@ -1,10 +1,9 @@
 import Link from "next/link";
-import { NewProjectForm } from "@/platform/forms";
 import { Badge, PageTitle, Section, StateBox, Table, Td } from "@/platform/ui";
 import { dateOnly, titled, tr } from "@/platform/server";
 import { requireWorkspace } from "@/server/http/dal";
 import { memberCan } from "@/server/policy/policy";
-import { listProjects, listStewardedClients } from "@/server/tenancy/service";
+import { listProjects } from "@/server/tenancy/service";
 
 export const generateMetadata = titled("pf.projects.title");
 
@@ -15,16 +14,20 @@ export default async function ProjectsPage({ params }: PageProps<"/[lang]/app/pr
   const ws = await requireWorkspace(lang);
   const projects = await listProjects(ws.actor);
   const canCreate = ws.actor.role !== null && memberCan(ws.actor.role, "project.create");
-  const clients = ws.tenant.kind === "advisory" ? await listStewardedClients(ws.actor) : [];
   return (
     <>
-      <PageTitle title={t("pf.projects.title")} lead={t("pf.projects.lead")} />
+      <PageTitle
+        title={t("pf.projects.title")}
+        lead={t("pf.projects.lead")}
+        actions={
+          canCreate ? (
+            <Link href={`/${lang}/app/projects/new`} className="inline-flex h-10 items-center rounded-[12px] bg-[var(--b-600)] px-4 text-[14px] font-semibold text-white no-underline">
+              {t("pf.wizard.title")}
+            </Link>
+          ) : undefined
+        }
+      />
       <div className="flex flex-col gap-6">
-        {canCreate && (
-          <Section title={t("pf.projects.new")}>
-            <NewProjectForm clients={clients.map((c) => ({ id: c.id, name: c.name }))} />
-          </Section>
-        )}
         <Section title={t("pf.projects.list")}>
           {projects.length === 0 ? (
             <StateBox state="empty" title={t("pf.projects.emptyTitle")}>

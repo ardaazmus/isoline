@@ -1,48 +1,60 @@
 import { EvidencePanel, RevokeButton } from "@/platform/forms";
-import { Badge, PageTitle, Section, StateBox, Table, Td } from "@/platform/ui";
-import { attempt, dateOnly, titled, tr } from "@/platform/server";
-import { requireWorkspace } from "@/server/http/dal";
+import { AddCycleForm, CycleMove } from "@/platform/g2/project";
+import { loadProject, ProjectHeader } from "@/platform/project-shell";
+import { Badge, Section, Table, Td } from "@/platform/ui";
+import { dateOnly, titled, tr } from "@/platform/server";
 import { listEvidence } from "@/server/evidence/service";
 import { grantCan, memberCan } from "@/server/policy/policy";
-import { counterpartNames, projectOverview } from "@/server/tenancy/service";
-
-const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+import { listCycles } from "@/server/projects/service";
+import { counterpartNames } from "@/server/tenancy/service";
 
 export const generateMetadata = titled("pf.projects.title");
 
-/** PORT-08 (G1 part): who owns the project, how this workspace reaches it, its evidence and its external access. */
+const NEXT: Record<string, string> = { planning: "collection", collection: "calculation", calculation: "close_review", close_review: "calculation", reopened: "collection" };
+
+/** PORT-08: reporting cycles, evidence and external access of one project. */
 export default async function ProjectPage({ params }: PageProps<"/[lang]/app/projects/[projectId]">) {
   const { lang, projectId } = await params;
   const t = tr(lang);
-  const ws = await requireWorkspace(lang);
-  const r = UUID.test(projectId) ? await attempt(() => projectOverview(ws.actor, projectId)) : ({ ok: false, status: 404, code: "not_found" } as const);
-  if (!r.ok)
-    return (
-      <StateBox state={r.status === 403 ? "not_authorized" : "empty"} title={t(r.status === 403 ? "pf.state.not_authorized" : "pf.projects.notFound")}>
-        {t("pf.projects.notFoundLead")}
-      </StateBox>
-    );
-  const { project, access, grants } = r.data;
-  const evidence = await listEvidence(ws.actor, projectId);
+  const loaded = await loadProject(lang, projectId);
+  if (!loaded.ok) return loaded.view;
+  const { ws, data } = loaded.p;
+  const { project, access, grants } = data;
+  const [evidence, cycles] = await Promise.all([listEvidence(ws.actor, projectId), listCycles(ws.actor, projectId)]);
   const role = ws.actor.role;
-  const can = (a: "evidence.upload" | "evidence.download" | "grant.manage") =>
-    role !== null && memberCan(role, a) && (access.via !== "grant" || (a !== "grant.manage" && grantCan(access.grantRole!, a, access.canDownload ?? false)));
+  const can = (a: "evidence.upload" | "evidence.download" | "grant.manage" | "project.update") =>
+    role !== null && memberCan(role, a) && (access.via !== "grant" || (a !== "grant.manage" && a !== "project.update" && grantCan(access.grantRole!, a, access.canDownload ?? false)));
   const names = await counterpartNames(ws.actor, grants.map((g) => g.recipient_tenant_id));
   const now = new Date();
 
   return (
     <>
-      <PageTitle
-        title={project.name}
-        lead={
-          <>
-            {t("pf.projects.ownedBy", { owner: project.owner_name })}{" "}
-            {access.via === "grant" && <Badge tone="info">{t("pf.access.grantAs", { role: t(`pf.grantRole.${access.grantRole}`) })}</Badge>}
-            {access.via === "steward" && <Badge tone="warn">{t("pf.access.stewardNote")}</Badge>}
-          </>
-        }
-      />
+      <ProjectHeader lang={lang} p={loaded.p} />
       <div className="flex flex-col gap-6">
+        <Section title={t("pf.cycle.title")} id="cycles">
+          {cycles.length === 0 ? (
+            <p className="text-[13.5px] text-[var(--ink-3)]">{t("pf.cycle.none")}</p>
+          ) : (
+            <Table head={[t("pf.cycle.label"), t("pf.cycle.period"), t("pf.cycle.publishDue"), t("pf.cycle.status"), ""]}>
+              {cycles.map((c) => (
+                <tr key={c.id}>
+                  <Td>
+                    {c.label} {c.is_base_year && <Badge tone="info">{t("pf.cycle.baseYear")}</Badge>}
+                  </Td>
+                  <Td className="whitespace-nowrap">
+                    {dateOnly(lang, c.period_start)} – {dateOnly(lang, c.period_end)}
+                  </Td>
+                  <Td>{c.publish_due ? dateOnly(lang, c.publish_due) : "—"}</Td>
+                  <Td>
+                    <Badge>{t(`pf.cycle.states.${c.status}`)}</Badge>
+                  </Td>
+                  <Td>{can("project.update") && NEXT[c.status] && <CycleMove cycleId={c.id} to={NEXT[c.status]} etag={c.row_version} label={t("pf.cycle.moveTo", { state: t(`pf.cycle.states.${NEXT[c.status]}`) })} />}</Td>
+                </tr>
+              ))}
+            </Table>
+          )}
+          {can("project.update") && <AddCycleForm projectId={project.id} nextYear={(cycles[0]?.reporting_year ?? new Date().getFullYear()) + 1} />}
+        </Section>
         <Section title={t("pf.evidence.title")} id="evidence">
           <EvidencePanel projectId={project.id} items={evidence} canUpload={can("evidence.upload")} canDownload={can("evidence.download")} />
         </Section>

@@ -9,7 +9,9 @@ import { join } from "node:path";
 import { hashPassword } from "better-auth/crypto";
 import { sql } from "kysely";
 import { withSystem } from "../db/client";
-import { acceptInvitation, createProject, createProvisionalClient, createTenant, grantProjectAccess, inviteMember, type Identity } from "../tenancy/service";
+import { acceptInvitation, createProvisionalClient, createTenant, grantProjectAccess, inviteMember, type Identity } from "../tenancy/service";
+import { addOwnershipEdge, createFacility, createLegalEntity, createOrganization } from "../orgs/service";
+import { addDeliverable, addParticipant, createEngagement, createProjectWizard, listPlan, proposeBoundary, updateWorkPackage } from "../projects/service";
 import type { MemberRole } from "../policy/policy";
 
 export const DEMO_DOMAIN = "ornek.test";
@@ -51,29 +53,33 @@ async function existingDemo(): Promise<boolean> {
 
 /**
  * Removes the demo tenants and people (only rows marked sample or on the demo domain). Audit rows are append-only
- * for the app and system roles, so the reset runs as the database owner — a local development operation only.
+ * for the app and system roles, so the reset runs with the administrator connection — a local development
+ * operation only.
  */
 export async function resetDemo(): Promise<void> {
   if (process.env.NODE_ENV === "production") throw new Error("demo reset is not available in production");
   const { Kysely, PostgresDialect } = await import("kysely");
   const pg = (await import("pg")).default;
-  const owner = new Kysely<unknown>({ dialect: new PostgresDialect({ pool: new pg.Pool({ connectionString: process.env.DATABASE_OWNER_URL, max: 1 }) }) });
+  // FORCE RLS applies to the schema owner too, so the reset runs as the cluster administrator on the app database
+  const admin = new URL(process.env.DATABASE_ADMIN_URL!);
+  admin.pathname = new URL(process.env.DATABASE_URL!).pathname;
+  const owner = new Kysely<unknown>({ dialect: new PostgresDialect({ pool: new pg.Pool({ connectionString: admin.toString(), max: 1 }) }) });
   try {
     await owner.transaction().execute(async (tx) => {
-      const ids = sql`(select id from core.tenants where sample)`;
       const users = sql`(select id from "user" where email like ${"%@" + DEMO_DOMAIN})`;
-      await sql`delete from core.evidence_access_log where owner_tenant_id in ${ids}`.execute(tx);
-      await sql`delete from core.evidence_objects where owner_tenant_id in ${ids}`.execute(tx);
-      await sql`delete from core.consent_records where owner_tenant_id in ${ids}`.execute(tx);
+      // demo tenants: flagged sample, or created by a demo person (a run that stopped before flagging)
+      const ids = sql`(select id from core.tenants where sample or created_by in ${users})`;
+      const byOwner = ["evidence_access_log", "evidence_objects", "consent_records", "outbox_events", "retention_rules", "work_package_deps", "work_packages", "project_participants", "applicability_assessments", "boundary_members", "reporting_boundaries", "reporting_cycles", "deliverables"];
+      for (const t of byOwner) await sql`delete from ${sql.table(`core.${t}`)} where owner_tenant_id in ${ids}`.execute(tx);
       await sql`delete from core.external_grants where owner_tenant_id in ${ids} or recipient_tenant_id in ${ids}`.execute(tx);
-      await sql`delete from core.outbox_events where owner_tenant_id in ${ids}`.execute(tx);
       await sql`delete from core.audit_events where owner_tenant_id in ${ids} or acting_tenant_id in ${ids} or actor_user_id in ${users}`.execute(tx);
-      await sql`delete from core.retention_rules where owner_tenant_id in ${ids}`.execute(tx);
       await sql`delete from core.projects where owner_tenant_id in ${ids}`.execute(tx);
+      await sql`delete from core.engagements where owner_tenant_id in ${ids} or advisory_tenant_id in ${ids}`.execute(tx);
+      for (const t of ["facilities", "ownership_edges", "legal_entities", "organizations", "legacy_imports"]) await sql`delete from ${sql.table(`core.${t}`)} where owner_tenant_id in ${ids}`.execute(tx);
       await sql`delete from core.invitations where tenant_id in ${ids}`.execute(tx);
-      await sql`delete from core.memberships where tenant_id in ${ids}`.execute(tx);
-      await sql`update core.tenants set steward_tenant_id = null, lifecycle = 'active' where sample`.execute(tx);
-      await sql`delete from core.tenants where sample`.execute(tx);
+      await sql`delete from core.memberships where tenant_id in ${ids} or user_id in ${users}`.execute(tx);
+      await sql`update core.tenants set steward_tenant_id = null, lifecycle = 'active' where id in ${ids}`.execute(tx);
+      await sql`delete from core.tenants where id in ${ids}`.execute(tx);
       await sql`delete from core.idempotency_keys where user_id in ${users}`.execute(tx);
       await sql`delete from "user" where email like ${"%@" + DEMO_DOMAIN}`.execute(tx);
     });
@@ -103,14 +109,37 @@ export async function seedDemo(opts: { reset?: boolean; credentialsFile?: string
   await invite("mehmet", "data_owner");
   await invite("zeynep", "contributor");
   await invite("elif", "management_signer");
-  const companyProject = await createProject(ayse, { name: "2026 TSRS + Faaliyet Raporu" });
+  // G0-06 journey 1 step 3: holding → one legal entity → two plants (Gebze, Dilovası)
+  const org = await createOrganization(ayse, { name: "Anadolu Gıda Grubu (örnek)", sectorCode: "C10", fiscalYearStartMonth: 1 });
+  const holding = await createLegalEntity(ayse, { organizationId: org, name: "Anadolu Gıda Holding A.Ş.", entityType: "listed", isReportingParent: true });
+  const uretim = await createLegalEntity(ayse, { organizationId: org, name: "Anadolu Gıda Üretim A.Ş." });
+  await addOwnershipEdge(ayse, { parentEntityId: holding, childEntityId: uretim, sharePct: 100, control: "financial", validFrom: "2020-01-01", sourceNote: "Örnek veri" });
+  await createFacility(ayse, { legalEntityId: uretim, name: "Gebze Fabrikası", kind: "plant", city: "Kocaeli" });
+  await createFacility(ayse, { legalEntityId: uretim, name: "Dilovası Fabrikası", kind: "plant", city: "Kocaeli" });
+  const eng = await createEngagement(ayse, { title: "2026 raporlama (örnek)", startsOn: "2026-03-01", endsOn: "2027-06-30" });
+  const wiz = await createProjectWizard(ayse, { name: "2026 TSRS + Faaliyet Raporu", organizationId: org, engagementId: eng, cycle: { reportingYear: 2026, publishDue: "2027-05-31" }, planStart: "2026-03-01" });
+  const companyProject = wiz.projectId;
+  await addDeliverable(ayse, eng, { title: "TSRS sürdürülebilirlik raporu", reportKind: "tsrs", dueOn: "2027-05-31", projectId: companyProject });
+  await addDeliverable(ayse, eng, { title: "Yıllık faaliyet raporu", reportKind: "annual_report", dueOn: "2027-03-31", projectId: companyProject });
+  await proposeBoundary(ayse, wiz.cycleId, "ghg_operational_control");
+  await addParticipant(ayse, companyProject, { userId: people.mehmet, memberTenantId: companyTenant, raciRole: "data_owner", responsibilities: "Enerji ve yakıt verileri" });
+  await addParticipant(ayse, companyProject, { userId: people.zeynep, memberTenantId: companyTenant, raciRole: "contributor", responsibilities: "Gebze fabrikası verileri" });
+  await addParticipant(ayse, companyProject, { userId: people.elif, memberTenantId: companyTenant, raciRole: "management_signer" });
+  // the first three gates are behind the team already (intake, organisation, scope decision)
+  for (const gate of ["G0", "G1", "G2"]) {
+    const wp = (await listPlan(ayse, wiz.cycleId)).find((w) => w.gate === gate)!;
+    for (const status of ["active", "review", "done"] as const) await updateWorkPackage(ayse, wp.id, { status, ...(status === "active" ? { responsibleUserId: people.ayse } : {}) });
+  }
 
   // Journey 2: the advisory starts (Can), Deniz joins as reviewer
   const advisoryTenant = await createTenant(id("can"), { name: "Yeşil Eşik Danışmanlık (örnek)", kind: "advisory", termsVersion: "terms-2026-10" });
   const can = { userId: people.can, actingTenantId: advisoryTenant };
   await acceptInvitation(id("deniz"), (await inviteMember(can, { email: PEOPLE.deniz.email, role: "reviewer" })).token);
   const provisional = await createProvisionalClient(can, { name: "X Kimya A.Ş. (örnek)", contactEmail: `yetkili@xkimya.${DEMO_DOMAIN}` });
-  const provisionalProject = await createProject(can, { name: "2026 Sürdürülebilirlik Raporu (taslak)", ownerTenantId: provisional.tenantId });
+  const xorg = await createOrganization(can, { name: "X Kimya (örnek)", sectorCode: "C20", ownerTenantId: provisional.tenantId });
+  const xparent = await createLegalEntity(can, { organizationId: xorg, name: "X Kimya A.Ş.", isReportingParent: true });
+  await createFacility(can, { legalEntityId: xparent, name: "Aliağa Tesisi", kind: "plant", city: "İzmir", cbamInstallation: true });
+  const provisionalProject = (await createProjectWizard(can, { name: "2026 Sürdürülebilirlik Raporu (taslak)", ownerTenantId: provisional.tenantId, organizationId: xorg, cycle: { reportingYear: 2026, publishDue: "2027-06-30" }, planStart: "2026-04-01" })).projectId;
 
   // Journey 1 step 9: the company grants the advisory "preparer" access to its project for 90 days
   const grantToAdvisory = await grantProjectAccess(ayse, { projectId: companyProject, recipientTenantId: advisoryTenant, role: "preparer", purpose: "2026 rapor hazırlığı (örnek)", days: 90, termsVersion: "grant-2026-10" });

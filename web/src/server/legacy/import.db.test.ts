@@ -21,6 +21,10 @@ function realClient(id: string, name: string): ClientData {
   c.ghg.fuels = [{ ...SAMPLE_CLIENT.ghg.fuels[0], id: "f1" }];
   c.approvals = { ghg: { status: "approved", preparedBy: "Ali Veri", approvedBy: "Veli Onay", approvedAt: "2025-12-20", log: [] } };
   c.importLog = [{ tool: "ghg" as never, fileName: "yakit-2025.csv", sha256: csvSha, importedAt: "2025-12-01T10:00:00Z", rows: 1, applied: 1 }];
+  c.sites = [
+    { id: "s-plant", name: "Denizli Fabrika", kind: "factory", share: 100, control: "operational" },
+    { id: "s-jv", name: "Ortak Boya Tesisi", kind: "factory", share: 50, control: "equity" },
+  ];
   c.requests = { templates: null, items: { ghg_fuel: { owner: "Ayşe H.", due: "2026-01-15", status: "accepted", note: "", evidence: { fileName: "fatura.pdf", sha256: otherSha, importedAt: "2025-12-02T10:00:00Z" } } } };
   return c;
 }
@@ -88,6 +92,23 @@ describe("legacy workspace import (G1-11)", () => {
     expect((await listProjects(owner)).map((p) => p.id)).toContain(pid);
     await expect(applyImport(owner, v8, "workspace.json", "own")).rejects.toMatchObject({ status: 409, code: "import_already_applied" });
 
+    // R1/R2: an unmapped organisation with its parent, the JV site as a 50 % joint entity, and the 2025 cycle with its plan
+    const proj = await systemDb().selectFrom("core.projects").select("organization_id").where("id", "=", pid).executeTakeFirstOrThrow();
+    const org = await systemDb().selectFrom("core.organizations").select(["mapping_status"]).where("id", "=", proj.organization_id!).executeTakeFirstOrThrow();
+    expect(org.mapping_status).toBe("unmapped");
+    const ents = await systemDb().selectFrom("core.legal_entities").select(["id", "name", "is_reporting_parent"]).where("organization_id", "=", proj.organization_id!).execute();
+    expect(ents.map((e) => e.name).sort()).toEqual(["Ege Tekstil", "Ortak Boya Tesisi"]);
+    const edge = await systemDb().selectFrom("core.ownership_edges").select(["share_pct", "control"]).where("child_entity_id", "=", ents.find((e) => !e.is_reporting_parent)!.id).executeTakeFirstOrThrow();
+    expect([Number(edge.share_pct), edge.control]).toEqual([50, "joint"]);
+    const facs = await systemDb().selectFrom("core.facilities").select(["name", "operated"]).where("legal_entity_id", "in", ents.map((e) => e.id)).orderBy("name").execute();
+    expect(facs).toEqual([
+      { name: "Denizli Fabrika", operated: true },
+      { name: "Ortak Boya Tesisi", operated: false },
+    ]);
+    const cyc = await systemDb().selectFrom("core.reporting_cycles").select(["id", "reporting_year"]).where("project_id", "=", pid).executeTakeFirstOrThrow();
+    expect(cyc.reporting_year).toBe(2025);
+    expect((await systemDb().selectFrom("core.work_packages").select("id").where("cycle_id", "=", cyc.id).execute()).length).toBe(13);
+
     // the archived snapshot reproduces the reported totals (R7 parity anchor for G4)
     const imp = await systemDb().selectFrom("core.legacy_imports").select(["snapshot", "report"]).where("id", "=", r.importId).executeTakeFirstOrThrow();
     const snap = imp.snapshot as unknown as { clients: ClientData[] };
@@ -111,6 +132,7 @@ describe("legacy workspace import (G1-11)", () => {
     expect((await rollbackImport(owner, r.importId)).removedProjects).toBe(1);
     expect(await systemDb().selectFrom("core.projects").select("id").where("id", "=", pid).executeTakeFirst()).toBeUndefined();
     expect(await systemDb().selectFrom("core.evidence_objects").select("id").where("project_id", "=", pid).executeTakeFirst()).toBeUndefined();
+    expect(await systemDb().selectFrom("core.organizations").select("id").where("legacy_import_id", "=", r.importId).executeTakeFirst()).toBeUndefined();
     const trail = await systemDb().selectFrom("core.audit_events").select("action").where("project_id", "=", pid).execute();
     expect(trail.map((a) => a.action)).toContain("legacy.import_project");
     expect((await listImports(owner)).find((i) => i.id === r.importId)!.status).toBe("rolled_back");

@@ -21,6 +21,18 @@ import { audit } from "../audit/audit";
 import { withActor, withSystem, type Actor } from "../db/client";
 import { forbidden, HttpError, notFound } from "../policy/policy";
 import { requireMemberAction } from "../tenancy/service";
+import { insertCycle } from "../projects/service";
+import type { Site } from "@/lib/sites";
+
+const ENTITY_TYPES = ["listed", "bank", "bank_tmsf", "nonbank_fi", "insurer", "capital_markets_fi", "precious_metals", "unlisted_company", "public_body"];
+const FACILITY_KIND: Record<string, string> = { factory: "plant", office: "office", warehouse: "warehouse" };
+
+/** v1 consolidation choice → ownership edge control (GHG Protocol categories; see orgs/boundary.ts). */
+export function edgeControlOf(site: Pick<Site, "control" | "share">): "financial" | "operational" | "joint" | "significant_influence" {
+  if (site.control === "financial") return "financial";
+  if (site.control === "operational") return "operational";
+  return site.share >= 50 ? "joint" : "significant_influence";
+}
 
 export const MAX_IMPORT_BYTES = 20 * 1024 * 1024;
 
@@ -216,8 +228,28 @@ export async function applyImport(actor: Actor, raw: string, fileName: string, m
         owner = t.id;
         await audit(tx, actor, { action: "client.provisional_create", objectType: "tenant", objectId: owner, ownerTenantId: owner, after: { name: c.name, steward: actor.actingTenantId, legacyImport: imp.id } });
       }
-      const p = await tx.insertInto("core.projects").values({ owner_tenant_id: owner, name: r.projectName, created_by: actor.userId, legacy_import_id: imp.id, legacy_client_id: c.id }).returning("id").executeTakeFirstOrThrow();
+      // R1: the organisation is created but marked "unmapped" until a person confirms entities and facilities
+      const org = await tx.insertInto("core.organizations").values({ owner_tenant_id: owner, name: c.name.trim().slice(0, 200) || "İsimsiz", mapping_status: "unmapped", legacy_import_id: imp.id, created_by: actor.userId }).returning("id").executeTakeFirstOrThrow();
+      const entityType = ENTITY_TYPES.includes(c.profile?.entityType) ? c.profile.entityType : "unlisted_company";
+      const parent = await tx.insertInto("core.legal_entities").values({ owner_tenant_id: owner, organization_id: org.id, name: c.name.trim().slice(0, 200) || "İsimsiz", entity_type: entityType, is_reporting_parent: true, created_by: actor.userId }).returning("id").executeTakeFirstOrThrow();
+      const since = `${r.reportingYear ?? new Date().getUTCFullYear()}-01-01`;
+      for (const site of c.sites ?? []) {
+        const share = Math.min(100, Math.max(0, Number(site.share) || 0));
+        const shared = site.kind === "subsidiary" || share < 100 || site.control === "equity";
+        let holder = parent.id;
+        if (shared && share > 0) {
+          const child = await tx.insertInto("core.legal_entities").values({ owner_tenant_id: owner, organization_id: org.id, name: `${site.name}`.slice(0, 200), created_by: actor.userId }).returning("id").executeTakeFirstOrThrow();
+          await tx.insertInto("core.ownership_edges").values({ owner_tenant_id: owner, parent_entity_id: parent.id, child_entity_id: child.id, share_pct: String(share), control: edgeControlOf(site), valid_from: since, source_note: "Araç seti aktarımı; geçmiş tarihleri doğrulanmalı", created_by: actor.userId }).execute();
+          holder = child.id;
+        }
+        if (site.kind !== "subsidiary") {
+          await tx.insertInto("core.facilities").values({ owner_tenant_id: owner, legal_entity_id: holder, name: `${site.name}`.slice(0, 200), kind: FACILITY_KIND[site.kind] ?? "other", operated: site.control !== "equity", legacy_site_id: site.id, created_by: actor.userId }).execute();
+        }
+      }
+      const p = await tx.insertInto("core.projects").values({ owner_tenant_id: owner, name: r.projectName, organization_id: org.id, created_by: actor.userId, legacy_import_id: imp.id, legacy_client_id: c.id }).returning("id").executeTakeFirstOrThrow();
       projects.push({ legacyId: c.id, projectId: p.id, ownerTenantId: owner });
+      // R2: the period proposal is the profile's reporting year
+      if (r.reportingYear) await insertCycle(tx, actor, owner, p.id, { reportingYear: r.reportingYear }, new Date().toISOString().slice(0, 10));
       await audit(tx, actor, { action: "legacy.import_project", objectType: "project", objectId: p.id, ownerTenantId: owner, projectId: p.id, after: { legacyClientId: c.id, name: r.projectName, reportingYear: r.reportingYear }, payload: { importId: imp.id, warnings: r.warnings } });
       for (const ph of evidenceHashes(c)) {
         const id = randomUUID();
@@ -259,9 +291,29 @@ export async function rollbackImport(actor: Actor, importId: string): Promise<{ 
     if (ids.length) {
       const used = await tx.selectFrom("core.evidence_objects").select("id").where("project_id", "in", ids).where((eb) => eb.or([eb("legacy_import_id", "is", null), eb("scan_status", "!=", "awaiting_file")])).executeTakeFirst();
       const shared = await tx.selectFrom("core.external_grants").select("id").where("project_id", "in", ids).executeTakeFirst();
-      if (used || shared) throw new HttpError(409, "import_in_use");
+      const worked = await tx.selectFrom("core.reporting_boundaries").select("id").where("project_id", "in", ids).executeTakeFirst();
+      const decided = await tx.selectFrom("core.applicability_assessments").select("id").where("project_id", "in", ids).executeTakeFirst();
+      const moved = await tx.selectFrom("core.work_packages").select("id").where("project_id", "in", ids).where("status", "not in", ["ready", "not_ready"]).executeTakeFirst();
+      if (used || shared || worked || decided || moved) throw new HttpError(409, "import_in_use");
       await tx.deleteFrom("core.evidence_objects").where("project_id", "in", ids).execute();
+      await tx.deleteFrom("core.work_package_deps").where("project_id", "in", ids).execute();
+      await tx.deleteFrom("core.work_packages").where("project_id", "in", ids).execute();
+      await tx.deleteFrom("core.project_participants").where("project_id", "in", ids).execute();
+      await tx.deleteFrom("core.reporting_cycles").where("project_id", "in", ids).execute();
       await tx.deleteFrom("core.projects").where("id", "in", ids).execute();
+    }
+    // the organisations this import created, while still unmapped and unused by other projects
+    const orgs = await tx.selectFrom("core.organizations").select("id").where("legacy_import_id", "=", importId).where("mapping_status", "=", "unmapped").execute();
+    for (const o of orgs) {
+      const other = await tx.selectFrom("core.projects").select("id").where("organization_id", "=", o.id).executeTakeFirst();
+      if (other) continue;
+      const ents = (await tx.selectFrom("core.legal_entities").select("id").where("organization_id", "=", o.id).execute()).map((e) => e.id);
+      if (ents.length) {
+        await tx.deleteFrom("core.facilities").where("legal_entity_id", "in", ents).execute();
+        await tx.deleteFrom("core.ownership_edges").where((eb) => eb.or([eb("parent_entity_id", "in", ents), eb("child_entity_id", "in", ents)])).execute();
+        await tx.deleteFrom("core.legal_entities").where("id", "in", ents).execute();
+      }
+      await tx.deleteFrom("core.organizations").where("id", "=", o.id).execute();
     }
     if (imp.mode === "provisional") {
       for (const owner of new Set(projects.map((p) => p.owner_tenant_id))) {
