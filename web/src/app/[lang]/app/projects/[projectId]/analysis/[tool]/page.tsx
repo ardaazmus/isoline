@@ -20,7 +20,7 @@ export default async function AnalysisPage({ params, searchParams }: PageProps<"
   const sp = await searchParams;
   if (!(ANALYSIS_TOOLS as readonly string[]).includes(tool)) notFound();
   const t = tr(lang);
-  const loaded = await loadProject(lang, projectId);
+  const loaded = await loadProject(lang, projectId, sp.cycle);
   if (!loaded.ok) return loaded.view;
   const { ws } = loaded.p;
   const cycles = await projectCycles(ws.actor, projectId);

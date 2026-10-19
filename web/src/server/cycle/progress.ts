@@ -5,7 +5,7 @@
  */
 import { sql } from "kysely";
 import { withActor, type Actor, type Tx } from "../db/client";
-import { reachableProjectIds, requireProjectAction } from "../tenancy/service";
+import { projectAccess, reachableProjectIds, roleInActingTenant } from "../tenancy/service";
 import { closeChecklistFrom, deriveSteps, STEP_GATES, STEP_IDS, type ChecklistItem, type Signals, type Step, type StepId } from "./steps";
 
 export type CycleRef = { id: string; project_id: string; status: string };
@@ -65,7 +65,10 @@ type SignalRow = {
   assurance_status: string | null;
   q_open: number | null;
   q_answered: number | null;
+  work_packages: WorkPackageRow[] | null;
 };
+
+type WorkPackageRow = { gate: string; starts_on: string; due_on: string; responsible: string | null };
 
 /**
  * Signals per cycle id, in one statement: under load every round trip waits its turn at the database, so the step
@@ -73,8 +76,14 @@ type SignalRow = {
  * (a parameter, so the planner sees the real ids).
  */
 export async function signalsFor(tx: Tx, cycles: CycleRef[]): Promise<Map<string, Signals>> {
+  return (await readCycles(tx, cycles, false)).signals;
+}
+
+/** The signals and, with `plans`, each cycle's work packages (dates and owners of the steps) in the same statement. */
+async function readCycles(tx: Tx, cycles: CycleRef[], plans: boolean): Promise<{ signals: Map<string, Signals>; packages: Map<string, WorkPackageRow[]> }> {
   const out = new Map(cycles.map((c) => [c.id, empty(c.status)]));
-  if (!cycles.length) return out;
+  const packages = new Map<string, WorkPackageRow[]>();
+  if (!cycles.length) return { signals: out, packages };
   const ids = cycles.map((c) => c.id);
   const idArray = sql`${ids}::uuid[]`;
   const { rows } = await sql<SignalRow>`
@@ -151,7 +160,15 @@ export async function signalsFor(tx: Tx, cycles: CycleRef[]): Promise<Map<string
     ), qs as (
       select cycle_id, count(*) filter (where status = 'open')::int as open, count(*) filter (where status = 'answered')::int as answered
       from core.assurance_questions where cycle_id = any(${idArray}) group by cycle_id
-    )
+    )${
+      plans
+        ? sql`, wp as (
+      select w.cycle_id, json_agg(json_build_object('gate', w.gate, 'starts_on', w.starts_on, 'due_on', w.due_on, 'responsible', u.name)) as items
+      from core.work_packages w left join "user" u on u.id = w.responsible_user_id
+      where w.cycle_id = any(${idArray}) group by w.cycle_id
+    )`
+        : sql``
+    }
     select c.id as cycle_id,
       req.total as req_total, req.accepted as req_accepted, req.closed as req_closed, req.open as req_open,
       req.in_review as req_in_review, req.returned as req_returned, req.overdue as req_overdue,
@@ -161,12 +178,13 @@ export async function signalsFor(tx: Tx, cycles: CycleRef[]): Promise<Map<string
       iss.calc_blockers, iss.calc_warnings, iss.control_blockers, iss.control_warnings,
       runs.last_calc, runs.last_rec, pend.n as pending_inputs, snaps.n as snapshots,
       rep.total as rep_total, rep.sections as rep_sections, rep.approved as rep_approved, rep.in_chain as rep_in_chain, rep.released as rep_released,
-      eng.status as assurance_status, qs.open as q_open, qs.answered as q_answered
+      eng.status as assurance_status, qs.open as q_open, qs.answered as q_answered, ${plans ? sql`wp.items` : sql`null`} as work_packages
     from unnest(${idArray}) as c(id)
     left join req on req.cycle_id = c.id left join bnd on bnd.cycle_id = c.id left join fin on fin.cycle_id = c.id
     left join app on app.cycle_id = c.id left join facts on facts.cycle_id = c.id left join iss on iss.cycle_id = c.id
     left join runs on runs.cycle_id = c.id left join pend on pend.cycle_id = c.id left join snaps on snaps.cycle_id = c.id
     left join rep on rep.cycle_id = c.id left join eng on eng.cycle_id = c.id left join qs on qs.cycle_id = c.id
+    ${plans ? sql`left join wp on wp.cycle_id = c.id` : sql``}
   `.execute(tx);
   const n = (v: number | null) => v ?? 0;
   for (const r of rows) {
@@ -182,22 +200,16 @@ export async function signalsFor(tx: Tx, cycles: CycleRef[]): Promise<Map<string
     s.close = { snapshots: n(r.snapshots) };
     s.reports = { total: n(r.rep_total), sections: n(r.rep_sections), approvedSections: n(r.rep_approved), inChain: n(r.rep_in_chain), released: n(r.rep_released) };
     s.assurance = { status: r.assurance_status, openQuestions: n(r.q_open), answeredQuestions: n(r.q_answered) };
+    if (r.work_packages) packages.set(r.cycle_id, r.work_packages);
   }
-  return out;
+  return { signals: out, packages };
 }
 
 /** Dates and owner of each step from the plan's work packages; a step is late when its due date passed undone. */
-async function plansFor(tx: Tx, ids: string[]): Promise<Map<string, Map<StepId, Omit<StepPlan, "late">>>> {
+function plansFrom(ids: string[], packages: Map<string, WorkPackageRow[]>): Map<string, Map<StepId, Omit<StepPlan, "late">>> {
   const out = new Map<string, Map<StepId, Omit<StepPlan, "late">>>();
-  if (!ids.length) return out;
-  const wps = await tx
-    .selectFrom("core.work_packages as w")
-    .leftJoin("user as u", "u.id", "w.responsible_user_id")
-    .select(["w.cycle_id", "w.gate", "w.starts_on", "w.due_on", "u.name as responsible"])
-    .where("w.cycle_id", "in", ids)
-    .execute();
   for (const id of ids) {
-    const mine = wps.filter((w) => w.cycle_id === id);
+    const mine = packages.get(id) ?? [];
     const m = new Map<StepId, Omit<StepPlan, "late">>();
     for (const step of STEP_IDS) {
       const g = mine.filter((w) => STEP_GATES[step].includes(w.gate));
@@ -218,9 +230,9 @@ async function plansFor(tx: Tx, ids: string[]): Promise<Map<string, Map<StepId, 
 }
 
 export async function progressFor(tx: Tx, cycles: CycleRef[]): Promise<Map<string, CycleProgress>> {
-  // one connection per transaction: run the two lookups one after the other
-  const signals = await signalsFor(tx, cycles);
-  const plans = await plansFor(tx, cycles.map((c) => c.id));
+  // signals and work packages in one statement (one connection per transaction: every statement waits for the last)
+  const { signals, packages } = await readCycles(tx, cycles, true);
+  const plans = plansFrom(cycles.map((c) => c.id), packages);
   const day = today();
   const out = new Map<string, CycleProgress>();
   for (const c of cycles) {
@@ -239,10 +251,16 @@ export async function progressFor(tx: Tx, cycles: CycleRef[]): Promise<Map<strin
 /** One cycle's progress, for anyone who may read the project. */
 export async function cycleProgress(actor: Actor, cycleId: string): Promise<CycleProgress | null> {
   return withActor(actor, async (tx) => {
-    const c = await tx.selectFrom("core.reporting_cycles").select(["id", "project_id", "status"]).where("id", "=", cycleId).executeTakeFirst();
+    // the cycle with its project and the person's role in one statement; the access rules as requireProjectAction
+    const c = await tx
+      .selectFrom("core.reporting_cycles as c")
+      .innerJoin("core.projects as p", "p.id", "c.project_id")
+      .select(["c.id", "c.project_id", "c.status", "p.owner_tenant_id", roleInActingTenant(actor)])
+      .where("c.id", "=", cycleId)
+      .executeTakeFirst();
     if (!c) return null;
-    await requireProjectAction(tx, actor, c.project_id, "project.read");
-    return (await progressFor(tx, [c])).get(c.id) ?? null;
+    await projectAccess(tx, actor, { id: c.project_id, owner_tenant_id: c.owner_tenant_id, role: c.role }, "project.read");
+    return (await progressFor(tx, [{ id: c.id, project_id: c.project_id, status: c.status }])).get(c.id) ?? null;
   });
 }
 

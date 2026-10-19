@@ -173,7 +173,7 @@
 | G8-04 | bitti | `lib/visual/layout.ts` + `platform/g8/visual.tsx`: proje genel bakışında izometrik tesis haritası (blok yüksekliği = dönemin tamamlanan veri talebi payı, iade kesikli kırmızı kenar, her blokta yazılı sayı), aynı veri tablo olarak; WebGL yok, `prefers-reduced-motion` desteği |
 | G8-05 | bitti | Hesaplamalar sayfasında tesis → kapsam → toplam Sankey (tCO₂e, operasyonel kontrol); özellik testi her düğümde giren = çıkan ve genişliklerin değerle orantılı olduğunu doğrular; akış tablosu karşılığı |
 | G8-06 | yapılmadı (isteğe bağlı) | Plan "optional": kaynağa dayalı yapay zekâ taslak önerisi müşteri verisini üçüncü taraf modele göndermeden kurulamadığı için bu sürüme alınmadı |
-| G8-07 | bitti | **Erişilebilirlik (WCAG 2.2 AA)** — [01_ERISILEBILIRLIK.md](G8/01_ERISILEBILIRLIK.md): axe-core 4.14 ile 12 ana ekran, giriş ve görev formunun 4 adımı (18 tarama), üretim derlemesinde **0 bulgu** (her etki düzeyinde); kontrast sabit zeminin en koyu ve en açık noktasında da ölçülüyor (3.320 düğüm), harita ve Sankey etiketleri piksel üzerinden. 11 ihlal düzeltildi: katmansız bağlantı kuralı Tailwind sınıflarını eziyordu (mavi zeminde koyu metin 2,64:1), cam %58 → %78, zemine yazılan metin için `.on-ground`, rozet zemini, dil seçeneği adı (2.5.3), adım değişiminde odak, gönderim/kabul sonrası `role="status"`. Klavyeyle giriş → görev gönderimi → onay `e2e/keyboard.spec.ts` (adım ve Tab sayıları belgede). Belirteç kontrast testi 28 → 41 (cam + en koyu zemin). **Yük** — [02_YUK_TESTI.md](G8/02_YUK_TESTI.md): autocannon, 50 eşzamanlı oturum (düşünme süresi 0), 200 arka plan kiracısıyla: tüm istekler **p95 259 ms** (API ≤ 278 ms, sayfa ≤ 252 ms), 244 istek/sn, 0 hata; düzeltme sonrası beş koşuda p95 246–315 ms. Eşikler: API p95 ≤ 500 ms, sayfa p95 ≤ 1 500 ms, hata 0 (`npm run test:load` kapısı). Düzeltmeden önce portföy p95 616 ms idi: RLS'in ilgisiz müşteri satırlarında çalışması (erişilebilir proje kümesiyle daraltma), eksik dizinler (migration 0013; UX çalışmasının 0012'siyle çakışmasın diye birleştirmede yeniden numaralandı), inceleme kuyruğunda proje başına yetki denetimi (N+1), çift çalışma alanı denetimi giderildi; `portfolio/reach.db.test.ts` sonucu RLS ile birebir ve sorgu sayısının veri büyüdükçe artmadığını doğrular. 20 müşterili ölçek testi (`g8.db.test.ts`) sürüyor. Ayrı iş olarak açık: gerçek ekran okuyucuyla kullanıcı denemesi; tek web sürecinin ~255 istek/sn sınırı (yatay ölçek) ve görünen satır başına RLS maliyeti. **UX birleştirmesinden sonra** (aşağıdaki birleştirme notu): erişilebilirlik 25 taramada 0 bulgu; yükte G8-07 profili geçiyor, genişletilmiş profilde hesaplamalar sayfası eşiği aşıyor (açık) |
+| G8-07 | bitti | **Erişilebilirlik (WCAG 2.2 AA)** — [01_ERISILEBILIRLIK.md](G8/01_ERISILEBILIRLIK.md): axe-core 4.14 ile 12 ana ekran, giriş ve görev formunun 4 adımı (18 tarama), üretim derlemesinde **0 bulgu** (her etki düzeyinde); kontrast sabit zeminin en koyu ve en açık noktasında da ölçülüyor (3.320 düğüm), harita ve Sankey etiketleri piksel üzerinden. 11 ihlal düzeltildi: katmansız bağlantı kuralı Tailwind sınıflarını eziyordu (mavi zeminde koyu metin 2,64:1), cam %58 → %78, zemine yazılan metin için `.on-ground`, rozet zemini, dil seçeneği adı (2.5.3), adım değişiminde odak, gönderim/kabul sonrası `role="status"`. Klavyeyle giriş → görev gönderimi → onay `e2e/keyboard.spec.ts` (adım ve Tab sayıları belgede). Belirteç kontrast testi 28 → 41 (cam + en koyu zemin). **Yük** — [02_YUK_TESTI.md](G8/02_YUK_TESTI.md): autocannon, 50 eşzamanlı oturum (düşünme süresi 0), 200 arka plan kiracısıyla: tüm istekler **p95 259 ms** (API ≤ 278 ms, sayfa ≤ 252 ms), 244 istek/sn, 0 hata; düzeltme sonrası beş koşuda p95 246–315 ms. Eşikler: API p95 ≤ 500 ms, sayfa p95 ≤ 1 500 ms, hata 0 (`npm run test:load` kapısı). Düzeltmeden önce portföy p95 616 ms idi: RLS'in ilgisiz müşteri satırlarında çalışması (erişilebilir proje kümesiyle daraltma), eksik dizinler (migration 0013; UX çalışmasının 0012'siyle çakışmasın diye birleştirmede yeniden numaralandı), inceleme kuyruğunda proje başına yetki denetimi (N+1), çift çalışma alanı denetimi giderildi; `portfolio/reach.db.test.ts` sonucu RLS ile birebir ve sorgu sayısının veri büyüdükçe artmadığını doğrular. 20 müşterili ölçek testi (`g8.db.test.ts`) sürüyor. Ayrı iş olarak açık: gerçek ekran okuyucuyla kullanıcı denemesi; tek web sürecinin ~255 istek/sn sınırı (yatay ölçek) ve görünen satır başına RLS maliyeti. **UX birleştirmesinden sonra** (aşağıdaki birleştirme notu): erişilebilirlik 25 taramada 0 bulgu; yükte G8-07 profili (212 istek/sn) ve genişletilmiş profil (164–167 istek/sn, en yüksek sayfa p95 1,14 sn) eşik içinde ([02_YUK_TESTI.md §7.1](G8/02_YUK_TESTI.md)) |
 | G8-08 | kısmi | `security/zz-security.db.test.ts`: `core` şemasındaki 61 tablonun tamamında RLS açık ve zorunlu (iki referans tablosu migration 0011 ile kapatıldı); ilgisiz kiracının üyesi 40+ kiracı tablosunda başka kiracıya ait sıfır satır görür; uygulama rolü denetim kaydını, anlık görüntüleri, yayınları ve gözlem/metrik sürümlerini silemez/değiştiremez. `security/routes.test.ts`: 130 API ucunun hepsi `route()` zincirinden geçer, tek açık uç davet önizlemesi, hiçbir uç RLS'i atlayan role doğrudan erişmez. Geri yükleme tatbikatı `scripts/ops/restore-drill.mjs` (61 tablo, uyuşmazlık yok). Açık: bağımsız sızma testi |
 
 **Dağıtım ve kimlik (G8 kapsamında):** `web/Dockerfile` (web standalone + worker), `docker compose --profile app` (migrate → web + worker), `scripts/server-env.mjs`; yerelde derlendi ve çalıştırıldı (sağlık 200, giriş sayfası 200). OIDC/SSO uçtan uca test: sahte kimlik sağlayıcı, PKCE, nonce, JWKS doğrulaması; başka anahtarla imzalı jeton reddedilir (`auth/oidc.db.test.ts`).
@@ -267,7 +267,30 @@ G0–G8 tamamlandı; plan kuralı gereği eksik kalanlar açıkça `kısmi`/`yap
 - yük, G8-07 profili (`--profile g8-07`): 179 istek/sn, tüm istekler p95 366 ms, eşikler içinde;
 - yük, genişletilmiş profil (varsayılan): 131–134 istek/sn, API'ler ve beş sayfa eşik içinde. **Hesaplamalar sayfası p95 1,73–1,80 sn ile 1,5 sn eşiğinin üstünde; `npm run test:load` 1 ile çıkıyor.** Neden tek web sürecinin CPU doygunluğu. Eşik ve profil değiştirilmedi.
 
-**Açık:** genişletilmiş profil için web kopyalarının çoğaltılması ya da hesaplamalar sayfasının sunucu maliyetinin düşürülmesi.
+**Açık:** genişletilmiş profil için web kopyalarının çoğaltılması ya da hesaplamalar sayfasının sunucu maliyetinin düşürülmesi. → Aynı gün akşam sunucu maliyeti düşürülerek kapatıldı (aşağıda).
+
+## Yük: genişletilmiş profilin kapısı (19.10.2026 akşam)
+
+`npm run test:load` (varsayılan profil, 50 kullanıcı) eşik ve profil değişmeden geçiyor. İkinci web süreci gerekmedi; dağıtım değişmedi. Ayrıntı ve tablolar: [02_YUK_TESTI.md §7.1](G8/02_YUK_TESTI.md).
+
+**Ne değişti:**
+- Hesaplamalar sayfası verisini tek yetki denetiminden sonra tek SQL ifadesinde okuyor (`calc/view.ts`). Liste sorguları servislerle ortak; Sankey aynı olgu listesinden. Sayfa 59 gidişten 19'a, ardışık zincir 36'dan 13'e indi.
+- Her proje sayfası: dönemler ve adım çubuğu projeyle paralel başlıyor; proje + rol + paylaşımlar tek ifade; adım çubuğunda döngü + erişim tek ifade, iş paketleri sinyal ifadesinde.
+- Her sayfa: çalışma alanı denetimi zaten okunan üyelik listesinden (aynı kural ve MFA kuralı); üyelikler ve okunmamış bildirim sayısı tek ifade; oturum ve kullanıcı tek JOIN (Better Auth `advanced.database.joins`, ADR-004 notu).
+- Bugün: proje listesi erişilebilir projelerle daraltıldı. RLS 222 projenin hepsinde çalışıyordu; çağrı ~63 ms'den ~5 ms'ye indi.
+- İşlerim: dört okuma paralel.
+- `ghgFlowData` ve `unreadCount` servisleri kaldırıldı (yerlerini sayfa okumaları aldı).
+
+**Doğrulama (19.10.2026 akşam):**
+- tip denetimi ve lint temiz;
+- 522 birim ve özellik testi geçti (yeni: `ghgFlowInput` için eski SQL kuralına karşı özellik tabanlı test);
+- 108 PostgreSQL entegrasyon testi geçti. Yeni: hesaplamalar sayfası okuması üç rolde eski servislerle birebir (sıralama bozulunca test düşüyor); kişi bağlamı ve sayfa yolundaki aktör `tenantActor` ile aynı, MFA kuralı dahil;
+- 222 döngü / 1 554 adımda iş paketi okuması eskisiyle aynı (tek seferlik betik);
+- üretim derlemesi başarılı; 36 Playwright testi geçti (25 axe taraması 0 bulgu, iki klavye akışı, 7 rol yolculuğu);
+- yük, genişletilmiş profil, iki ardışık sakin koşu: 164–167 istek/sn, hesaplamalar p95 1 087–1 096 ms, proje özeti 1 119–1 136 ms, rapor stüdyosu 1 114–1 126 ms, API'ler ≤ 189 ms, 0 hata — `npm run test:load` 0 ile çıkıyor;
+- yük, G8-07 profili: 212 istek/sn, tüm istekler p95 337 ms (öğlen 179 istek/sn, 366 ms).
+
+**Açık (bu turdan):** adım sinyallerinde RLS'in satır başına maliyeti (tek döngü ~10–14 ms) ve API isteğindeki ayrı çalışma alanı denetimi işlemi; ikisi de §7.1'de.
 
 ## Oturum kontrol noktası (bağlam sıkıştırmasına karşı)
 
@@ -285,5 +308,5 @@ G0–G8 tamamlandı; plan kuralı gereği eksik kalanlar açıkça `kısmi`/`yap
   - bağımsız sızma testi;
   - gerçek ekran okuyucuyla kullanıcı denemesi;
   - RLS politikalarının küme karşılaştırmasıyla yeniden yazımı (danışman portföyü büyüdükçe);
-  - web kopyalarının çoğaltılması (tek süreç doyuyor; genişletilmiş yük profilinde hesaplamalar sayfası p95 ~1,75 sn, eşik 1,5 sn);
+  - yatay ölçek (ikinci web süreci) bugün gerekmiyor: genişletilmiş yük profili tek süreçte geçiyor (en yüksek sayfa p95 1,14 sn, eşik 1,5 sn). Gerekirse oturumlar zaten veritabanında; Better Auth hız sınırlayıcısı bellekte, ortak depo gerekir;
   - ilk müşteri ihtiyacına göre tekstil/tarım paketi.

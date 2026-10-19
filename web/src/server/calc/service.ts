@@ -574,30 +574,35 @@ export async function resolveIssue(actor: Actor, issueId: string, input: { decis
 export async function listRuns(actor: Actor, projectId: string, cycleId?: string | null) {
   return withActor(actor, async (tx) => {
     await requireProjectAction(tx, actor, projectId, "project.read");
-    let q = tx
-      .selectFrom("core.calculation_runs as r")
-      .leftJoin("user as u", "u.id", "r.performed_by")
-      .select([
-        "r.id",
-        "r.cycle_id",
-        "r.kind",
-        "r.mode",
-        "r.engine_version",
-        "r.rule_version",
-        "r.input_digest",
-        "r.factor_digest",
-        "r.output_digest",
-        "r.performed_at",
-        "r.boundary_id",
-        "u.name as performed_by_name",
-        sql<number>`(select count(*)::int from core.metric_fact_versions f where f.run_id = r.id)`.as("facts"),
-        sql<number>`(select count(*)::int from core.quality_issues i where i.run_id = r.id and i.status = 'open' and i.severity = 'blocker')`.as("open_blockers"),
-        sql<number>`(select count(*)::int from core.quality_issues i where i.run_id = r.id and i.status = 'open' and i.severity = 'warning')`.as("open_warnings"),
-      ])
-      .where("r.project_id", "=", projectId);
-    if (cycleId) q = q.where("r.cycle_id", "=", cycleId);
-    return q.orderBy("r.performed_at", "desc").limit(100).execute();
+    return runsQuery(tx, projectId, cycleId).execute();
   });
+}
+
+/** A project's runs (of one cycle), newest first, with their fact and open-issue counts: listRuns and the calculations page. */
+export function runsQuery(tx: Tx, projectId: string, cycleId?: string | null) {
+  let q = tx
+    .selectFrom("core.calculation_runs as r")
+    .leftJoin("user as u", "u.id", "r.performed_by")
+    .select([
+      "r.id",
+      "r.cycle_id",
+      "r.kind",
+      "r.mode",
+      "r.engine_version",
+      "r.rule_version",
+      "r.input_digest",
+      "r.factor_digest",
+      "r.output_digest",
+      "r.performed_at",
+      "r.boundary_id",
+      "u.name as performed_by_name",
+      sql<number>`(select count(*)::int from core.metric_fact_versions f where f.run_id = r.id)`.as("facts"),
+      sql<number>`(select count(*)::int from core.quality_issues i where i.run_id = r.id and i.status = 'open' and i.severity = 'blocker')`.as("open_blockers"),
+      sql<number>`(select count(*)::int from core.quality_issues i where i.run_id = r.id and i.status = 'open' and i.severity = 'warning')`.as("open_warnings"),
+    ])
+    .where("r.project_id", "=", projectId);
+  if (cycleId) q = q.where("r.cycle_id", "=", cycleId);
+  return q.orderBy("r.performed_at", "desc").limit(100);
 }
 
 export async function getRun(actor: Actor, runId: string) {
@@ -625,17 +630,40 @@ export async function listFacts(actor: Actor, cycleId: string) {
     const c = await tx.selectFrom("core.reporting_cycles").select(["project_id"]).where("id", "=", cycleId).executeTakeFirst();
     if (!c) throw notFound("cycle_not_found");
     await requireProjectAction(tx, actor, c.project_id, "project.read");
-    return tx
-      .selectFrom("core.metric_fact_versions as f")
-      .leftJoin("core.facilities as fa", "fa.id", "f.facility_id")
-      .select(["f.id", "f.metric_key", "f.facility_id", "fa.name as facility_name", "f.boundary_kind", "f.revision", "f.value_num", "f.value_text", "f.unit", "f.status", "f.estimated_share", "f.suppressed", "f.run_id", "f.created_at"])
-      .where("f.cycle_id", "=", cycleId)
-      .where("f.status", "not in", ["superseded"])
-      .orderBy("f.metric_key")
-      .orderBy("f.facility_id")
-      .orderBy("f.revision", "desc")
-      .execute();
+    return factsQuery(tx, cycleId).execute();
   });
+}
+
+/**
+ * A cycle's facts that are not superseded, newest revision first per metric and facility: listFacts and the
+ * calculations page. Numbers are selected as text, which is how PostgreSQL sends a numeric anyway (exact), so the
+ * rows read the same inside a JSON aggregate.
+ */
+export function factsQuery(tx: Tx, cycleId: string) {
+  return tx
+    .selectFrom("core.metric_fact_versions as f")
+    .leftJoin("core.facilities as fa", "fa.id", "f.facility_id")
+    .select([
+      "f.id",
+      "f.metric_key",
+      "f.facility_id",
+      "fa.name as facility_name",
+      "f.boundary_kind",
+      "f.revision",
+      sql<string | null>`f.value_num::text`.as("value_num"),
+      "f.value_text",
+      "f.unit",
+      "f.status",
+      sql<string | null>`f.estimated_share::text`.as("estimated_share"),
+      "f.suppressed",
+      "f.run_id",
+      "f.created_at",
+    ])
+    .where("f.cycle_id", "=", cycleId)
+    .where("f.status", "not in", ["superseded"])
+    .orderBy("f.metric_key")
+    .orderBy("f.facility_id")
+    .orderBy("f.revision", "desc");
 }
 
 export async function listIssues(actor: Actor, cycleId: string, status: "open" | "all" = "open") {

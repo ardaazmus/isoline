@@ -15,10 +15,11 @@ import { closeDb, withActor, withSystem, type Actor } from "../db/client";
 import { expire, makeUser } from "../db/test-helpers";
 import { reviewQueue } from "../close/service";
 import { createCampaign } from "../data/service";
-import { tenantActor, type Session } from "../http/api";
+import { actorOf, tenantActor, type Session } from "../http/api";
 import { ACTIONS } from "../policy/policy";
 import { createProjectWizard, portfolio } from "../projects/service";
-import { acceptInvitation, createProvisionalClient, createTenant, grantProjectAccess, inviteMember, projectsAllowing, reachableProjectIds, requireProjectAction } from "../tenancy/service";
+import { acceptInvitation, createProvisionalClient, createTenant, grantProjectAccess, inviteMember, myMemberships, projectsAllowing, reachableProjectIds, requireProjectAction } from "../tenancy/service";
+import { personContext } from "../tenancy/person";
 import { portfolioKpis } from "./kpis";
 
 type Named = { name: string; actor: Actor };
@@ -151,5 +152,30 @@ describe("G8-07 one-query workspace check", () => {
     await expect(tenantActor(session(can.userId), can.actingTenantId, "r")).rejects.toMatchObject({ status: 403, code: "mfa_required" });
     expect(await tenantActor({ ...session(can.userId), twoFactorEnabled: true }, can.actingTenantId, "r")).toMatchObject({ requireMfa: true });
     await withSystem("test: MFA rule back off", (tx) => tx.updateTable("core.tenants").set({ require_mfa: false }).where("id", "=", can.actingTenantId!).execute());
+  });
+
+  it("pages: the person context (memberships and unread count in one statement) gives tenantActor's actor and MFA rule", async () => {
+    const ctx = await personContext(can.userId);
+    expect(ctx.memberships).toEqual(await myMemberships(can.userId));
+    const mine = () => personContext(can.userId).then((c) => c.memberships.find((m) => m.tenantId === can.actingTenantId)!);
+    expect(actorOf(session(can.userId), await mine(), "r")).toEqual(await tenantActor(session(can.userId), can.actingTenantId, "r"));
+    await withSystem("test: workspace demands MFA", (tx) => tx.updateTable("core.tenants").set({ require_mfa: true }).where("id", "=", can.actingTenantId!).execute());
+    const strict = await mine();
+    expect(() => actorOf(session(can.userId), strict, "r")).toThrow(expect.objectContaining({ status: 403, code: "mfa_required" }));
+    expect(actorOf({ ...session(can.userId), twoFactorEnabled: true }, strict, "r")).toEqual(await tenantActor({ ...session(can.userId), twoFactorEnabled: true }, can.actingTenantId, "r"));
+    await withSystem("test: MFA rule back off", (tx) => tx.updateTable("core.tenants").set({ require_mfa: false }).where("id", "=", can.actingTenantId!).execute());
+    // the unread count of the menu: only this person's notifications that are not read
+    const other = people.find((p) => p.name === "other company")!.actor;
+    await withSystem("test: notifications", (tx) =>
+      tx
+        .insertInto("core.notifications")
+        .values([
+          { user_id: can.userId, kind: "test.unread", payload: "{}" },
+          { user_id: can.userId, kind: "test.read", payload: "{}", read_at: new Date() },
+          { user_id: other.userId, kind: "test.unread", payload: "{}" },
+        ])
+        .execute(),
+    );
+    expect((await personContext(can.userId)).unread).toBe(ctx.unread + 1);
   });
 });

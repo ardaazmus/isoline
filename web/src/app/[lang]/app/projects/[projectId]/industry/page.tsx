@@ -18,7 +18,7 @@ export default async function IndustryPage({ params, searchParams }: PageProps<"
   const { lang, projectId } = await params;
   const sp = await searchParams;
   const t = tr(lang);
-  const loaded = await loadProject(lang, projectId);
+  const loaded = await loadProject(lang, projectId, sp.cycle);
   if (!loaded.ok) return loaded.view;
   const { ws, data } = loaded.p;
   const can = (a: Action) => ws.actor.role !== null && memberCan(ws.actor.role, a) && (data.access.via !== "grant" || grantCan(data.access.grantRole!, a));

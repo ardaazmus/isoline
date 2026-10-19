@@ -7,13 +7,16 @@ import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { cache } from "react";
 import { HttpError } from "../policy/policy";
-import { myMemberships, type Membership } from "../tenancy/service";
-import { sessionFrom, TENANT_COOKIE, tenantActor, type Session, type TenantActor } from "./api";
+import type { Membership } from "../tenancy/service";
+import { personContext } from "../tenancy/person";
+import { actorOf, sessionFrom, TENANT_COOKIE, type Session, type TenantActor } from "./api";
 
 export const getSession = cache(async (): Promise<Session | null> => sessionFrom(await headers()));
 
-/** The person's workspaces, read once per request (the platform layout and requireWorkspace both need them). */
-export const getMemberships = cache((userId: string): Promise<Membership[]> => myMemberships(userId));
+/** The person's workspaces and unread notifications, read once per request (the platform layout and requireWorkspace). */
+export const getPerson = cache((userId: string) => personContext(userId));
+
+export const getMemberships = cache(async (userId: string): Promise<Membership[]> => (await getPerson(userId)).memberships);
 
 /** Signed-in, verified person or a redirect to the sign-in screen (with a safe return path). */
 export async function requireSession(lang: string, next?: string): Promise<Session> {
@@ -27,7 +30,8 @@ export type Workspace = { session: Session; memberships: Membership[]; actor: Te
 
 /**
  * The acting workspace from the cookie, checked against live membership and the MFA rule. Without a valid choice the
- * person goes to the workspace chooser (or onboarding when they have none).
+ * person goes to the workspace chooser (or onboarding when they have none). The membership list of this request is
+ * the live check (same rows and rule as tenantActor), so a page does not ask the database a second time.
  */
 export const requireWorkspace = cache(async (lang: string): Promise<Workspace> => {
   const session = await requireSession(lang);
@@ -37,7 +41,7 @@ export const requireWorkspace = cache(async (lang: string): Promise<Workspace> =
   const tenant = memberships.find((m) => m.tenantId === chosen);
   if (!tenant) redirect(`/${lang}/app/choose`);
   try {
-    const actor = await tenantActor(session, tenant.tenantId, randomUUID());
+    const actor = actorOf(session, tenant, randomUUID());
     return { session, memberships, actor, tenant };
   } catch (e) {
     if (e instanceof HttpError && e.code === "mfa_required") redirect(`/${lang}/app/account/security?reason=mfa_required`);

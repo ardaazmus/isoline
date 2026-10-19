@@ -1,29 +1,29 @@
 import { projectCycles } from "@/platform/cached";
 import Link from "next/link";
-import { FactorChoiceForm, IssueRow, RunPanel, type IssueView } from "@/platform/g4/calc";
+import { FactorChoiceForm, IssueRow, RunPanel } from "@/platform/g4/calc";
 import { FACT_TONE, factValue, metricLabel, shortDigest } from "@/platform/g4/format";
 import { loadProject, pickCycle, ProjectHeader } from "@/platform/project-shell";
 import { Badge, Section, StateBox, Table, Td } from "@/platform/ui";
 import { dateTime, titled, tr } from "@/platform/server";
 import { grantCan, memberCan, type Action } from "@/server/policy/policy";
-import { listChoices, listFactorSets } from "@/server/calc/factors";
-import { listFacts, listIssues, listRuns } from "@/server/calc/service";
-import { listBoundaries } from "@/server/projects/service";
+import { calculationsView } from "@/server/calc/view";
 import { FlowSankey } from "@/platform/g8/visual";
-import { ghgFlows, sankey } from "@/lib/visual/layout";
-import { ghgFlowData } from "@/server/visual/service";
+import { ghgFlowInput, ghgFlows, sankey } from "@/lib/visual/layout";
 import { numberFormat } from "@/lib/intl";
 
 export const generateMetadata = titled("pf.calc.title");
 
 const COMMON_TARGETS = ["grid:transmission", "grid:distribution", "fuel:natural_gas", "fuel:diesel", "fuel:gasoline", "fuel:lpg", "fuel:fuel_oil", "fuel:coal", "fuel:lignite", "scope3:ghg_transport", "scope3:ghg_travel"];
 
-/** DATA-17/18: calculations of a cycle — run, current facts, quality findings, runs with digests, factor choices. */
+/**
+ * DATA-17/18: calculations of a cycle — run, current facts, quality findings, runs with digests, factor choices. The
+ * page's data comes in one statement (calculationsView); the header's cycle steps were started by loadProject.
+ */
 export default async function CalculationsPage({ params, searchParams }: PageProps<"/[lang]/app/projects/[projectId]/calculations">) {
   const { lang, projectId } = await params;
   const sp = await searchParams;
   const t = tr(lang);
-  const loaded = await loadProject(lang, projectId);
+  const loaded = await loadProject(lang, projectId, sp.cycle);
   if (!loaded.ok) return loaded.view;
   const { ws, data } = loaded.p;
   const cycles = await projectCycles(ws.actor, projectId);
@@ -36,8 +36,7 @@ export default async function CalculationsPage({ params, searchParams }: PagePro
       </>
     );
   const can = (a: Action) => ws.actor.role !== null && memberCan(ws.actor.role, a) && (data.access.via !== "grant" || grantCan(data.access.grantRole!, a));
-  const [facts, issues, runs, choices, boundaries, sets] = await Promise.all([listFacts(ws.actor, cycle.id), listIssues(ws.actor, cycle.id), listRuns(ws.actor, projectId, cycle.id), listChoices(ws.actor, projectId), listBoundaries(ws.actor, cycle.id), can("calc.run") ? listFactorSets(ws.actor) : Promise.resolve([])]);
-  const approved = [...new Set(boundaries.filter((b) => b.status === "approved").map((b) => b.kind))];
+  const { facts, issues, runs, choices, approvedBoundaries: approved, factorSets: sets } = await calculationsView(ws.actor, projectId, cycle.id, { factorSets: can("calc.run") });
   // newest revision per key; group-level first
   const seen = new Set<string>();
   const current = facts.filter((f) => {
@@ -48,8 +47,7 @@ export default async function CalculationsPage({ params, searchParams }: PagePro
   });
   const group = current.filter((f) => f.facility_id === null);
   // G8-05: the flow of this cycle's GHG facts (one unit, conserved at every node)
-  const flowData = await ghgFlowData(ws.actor, cycle.id);
-  const flows = ghgFlows({ ...flowData, labels: { scope1: t("pf.calc.m.ghg_scope1"), scope2: t("pf.calc.m.ghg_scope2_location"), scope3: t("pf.calc.m.ghg_scope3"), total: t("pf.vis.total"), org: t("pf.data.organisationLevel") } });
+  const flows = ghgFlows({ ...ghgFlowInput(facts), labels: { scope1: t("pf.calc.m.ghg_scope1"), scope2: t("pf.calc.m.ghg_scope2_location"), scope3: t("pf.calc.m.ghg_scope3"), total: t("pf.vis.total"), org: t("pf.data.organisationLevel") } });
   const flow = flows.some((f) => f.value > 0) ? sankey(flows) : null;
   const fmtT = (v: number) => `${numberFormat(lang, { maximumFractionDigits: v >= 1000 ? 0 : 2 }).format(v)} tCO₂e`;
   const byFacility = current.filter((f) => f.facility_id !== null);
@@ -142,7 +140,7 @@ export default async function CalculationsPage({ params, searchParams }: PagePro
           ) : (
             <ul className="flex flex-col gap-2">
               {issues.map((i) => (
-                <IssueRow key={i.id} issue={i as unknown as IssueView} canReview={can("quality.review")} lang={lang} />
+                <IssueRow key={i.id} issue={i} canReview={can("quality.review")} lang={lang} />
               ))}
             </ul>
           )}
@@ -183,7 +181,7 @@ export default async function CalculationsPage({ params, searchParams }: PagePro
               ))}
             </ul>
           )}
-          {can("calc.run") && <FactorChoiceForm projectId={projectId} sets={sets.filter((s) => s.status === "active").map((s) => ({ id: s.id, code: s.code, name: s.name, edition_year: s.edition_year, licence: s.licence }))} targets={COMMON_TARGETS} />}
+          {can("calc.run") && <FactorChoiceForm projectId={projectId} sets={sets} targets={COMMON_TARGETS} />}
         </Section>
       </div>
     </>

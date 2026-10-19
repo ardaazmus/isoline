@@ -101,9 +101,17 @@ export async function tenantActor(session: Session, requested: string | null, re
       .executeTakeFirst(),
   );
   if (!m) throw notFound("tenant_not_found");
-  if (m.require_mfa && !session.twoFactorEnabled) throw new HttpError(403, "mfa_required");
   // the id as stored (lower case): callers compare it with ids from the database
-  return { userId, actingTenantId: m.tenant_id, requestId, role: m.role as MemberRole, requireMfa: m.require_mfa };
+  return actorOf(session, { tenantId: m.tenant_id, role: m.role as MemberRole, requireMfa: m.require_mfa }, requestId);
+}
+
+/**
+ * The actor of a live membership row (tenantActor's query, or the person's membership list a page has already read):
+ * the tenant's MFA rule applies the same way on both paths.
+ */
+export function actorOf(session: Session, m: { tenantId: string; role: MemberRole; requireMfa: boolean }, requestId: string): TenantActor {
+  if (m.requireMfa && !session.twoFactorEnabled) throw new HttpError(403, "mfa_required");
+  return { userId: session.identity.userId, actingTenantId: m.tenantId, requestId, role: m.role, requireMfa: m.requireMfa };
 }
 
 export const requestedTenant = (req: Request) => req.headers.get(TENANT_HEADER) ?? readCookie(req, TENANT_COOKIE);

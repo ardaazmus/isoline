@@ -596,11 +596,9 @@ export async function scanReminders(today: string): Promise<{ queued: number }> 
 
 export const REMINDER_KIND = "reminders.scan";
 
-export async function unreadCount(userId: string): Promise<number> {
-  return withActor({ userId, actingTenantId: null }, async (tx) => {
-    const r = await tx.selectFrom("core.notifications").select(sql<number>`count(*)`.as("n")).where("user_id", "=", userId).where("read_at", "is", null).executeTakeFirstOrThrow();
-    return Number(r.n);
-  });
+/** How many of a person's notifications are unread (the menu, through personContext). */
+export function unreadQuery(tx: Tx, userId: string) {
+  return tx.selectFrom("core.notifications").select(sql<number>`count(*)`.as("n")).where("user_id", "=", userId).where("read_at", "is", null);
 }
 
 /** Campaign reminder rule (T−n days before, T+n after; some days only for critical requests) and open/closed state. */

@@ -48,6 +48,9 @@ async function main() {
   const { getReport } = await import("../../src/server/reports/service");
   const { cycleProgress, latestCycles } = await import("../../src/server/cycle/progress");
   const { myInbox } = await import("../../src/server/inbox/service");
+  const { calculationsView } = await import("../../src/server/calc/view");
+  const { personContext } = await import("../../src/server/tenancy/person");
+  const { projectOverview } = await import("../../src/server/tenancy/service");
 
   const can = actor("can", "advisoryTenant");
   const ayse = actor("ayse", "companyTenant");
@@ -58,6 +61,10 @@ async function main() {
 
   const cases: [string, () => Promise<unknown>][] = [
     ["request pipeline: session + workspace check", async () => tenantActor((await sessionFrom(new Headers({ cookie: canCookie })))!, f.ids.advisoryTenant, "profile")],
+    // every platform page: memberships and the menu's unread count; every project page: the project with its access
+    ["page: person context", () => personContext(ayse.userId)],
+    ["project page: project and access", () => projectOverview(selin, f.ids.companyProject)],
+    ["calculations page (one statement)", () => calculationsView(selin, f.ids.companyProject, f.ids.cycleId, { factorSets: true })],
     ["portfolio (consultant, 21 projects)", () => portfolio(can)],
     ["portfolio KPIs (consultant, 21 projects)", () => portfolioKpis(can)],
     ["portfolio (company)", () => portfolio(ayse)],

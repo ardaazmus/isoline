@@ -17,7 +17,7 @@ export default async function MaterialityPage({ params, searchParams }: PageProp
   const { lang, projectId } = await params;
   const sp = await searchParams;
   const t = tr(lang);
-  const loaded = await loadProject(lang, projectId);
+  const loaded = await loadProject(lang, projectId, sp.cycle);
   if (!loaded.ok) return loaded.view;
   const { ws } = loaded.p;
   const cycles = await projectCycles(ws.actor, projectId);

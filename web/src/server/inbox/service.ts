@@ -15,10 +15,30 @@ import { ANALYSIS_KINDS, type WorksheetKind } from "../worksheets/schemas";
 export type InboxRun = { runId: string; projectId: string; projectName: string; kind: string; performedBy: string | null; count: number; facilityLevel: number };
 
 export async function myInbox(actor: Actor) {
-  const [tasks, queue, allSheets] = await Promise.all([myTasks(actor), reviewQueue(actor), worksheetsToApprove(actor)]);
+  // four independent reads, side by side (G8-07 load test: under load every round trip waits its turn)
+  const [tasks, queue, allSheets, extra] = await Promise.all([myTasks(actor), reviewQueue(actor), worksheetsToApprove(actor), otherDecisions(actor)]);
   // scenario sheets of the analysis area need no approval, so they never wait in anyone's inbox
   const sheets = allSheets.filter((s) => !ANALYSIS_KINDS.includes(s.kind as WorksheetKind));
-  const extra = await withActor(actor, async (tx) => {
+
+  const enter = tasks.filter((x) => x.assignee_user_id === actor.userId && ["assigned", "sent", "revision_required"].includes(x.status));
+  const reviewData = tasks.filter((x) => x.reviewer_user_id === actor.userId && x.assignee_user_id !== actor.userId && ["submitted", "reviewing"].includes(x.status));
+
+  // calculated metrics wait per calculation run: one decision opens the run, where every metric is listed
+  const runs = new Map<string, InboxRun>();
+  for (const f of queue.facts) {
+    const r = runs.get(f.run_id) ?? { runId: f.run_id, projectId: f.project_id, projectName: f.project_name, kind: f.kind, performedBy: f.performed_by_name, count: 0, facilityLevel: 0 };
+    r.count += 1;
+    if (f.facility_name) r.facilityLevel += 1;
+    runs.set(f.run_id, r);
+  }
+
+  const total = enter.length + reviewData.length + queue.facts.length + queue.issues.length + queue.inputs.length + extra.eliminations.length + extra.sections.reduce((s, x) => s + x.count, 0) + extra.decisions.length + extra.toAnswer.length + extra.toClose.length + sheets.length;
+  return { enter, reviewData, runs: [...runs.values()], facts: queue.facts, warnings: queue.issues, inputs: queue.inputs, sheets, ...extra, total };
+}
+
+/** Eliminations, report sections, approval-chain decisions and assurance questions waiting for this person. */
+async function otherDecisions(actor: Actor) {
+  return withActor(actor, async (tx) => {
     const reachable = await reachableProjectIds(tx, actor);
     const empty = { eliminations: [], sections: [], decisions: [], toAnswer: [], toClose: [] };
     if (!reachable.length) return empty;
@@ -102,21 +122,6 @@ export async function myInbox(actor: Actor) {
     }
     return { eliminations, sections: [...sectionsByReport.values()], decisions, toAnswer, toClose };
   });
-
-  const enter = tasks.filter((x) => x.assignee_user_id === actor.userId && ["assigned", "sent", "revision_required"].includes(x.status));
-  const reviewData = tasks.filter((x) => x.reviewer_user_id === actor.userId && x.assignee_user_id !== actor.userId && ["submitted", "reviewing"].includes(x.status));
-
-  // calculated metrics wait per calculation run: one decision opens the run, where every metric is listed
-  const runs = new Map<string, InboxRun>();
-  for (const f of queue.facts) {
-    const r = runs.get(f.run_id) ?? { runId: f.run_id, projectId: f.project_id, projectName: f.project_name, kind: f.kind, performedBy: f.performed_by_name, count: 0, facilityLevel: 0 };
-    r.count += 1;
-    if (f.facility_name) r.facilityLevel += 1;
-    runs.set(f.run_id, r);
-  }
-
-  const total = enter.length + reviewData.length + queue.facts.length + queue.issues.length + queue.inputs.length + extra.eliminations.length + extra.sections.reduce((s, x) => s + x.count, 0) + extra.decisions.length + extra.toAnswer.length + extra.toClose.length + sheets.length;
-  return { enter, reviewData, runs: [...runs.values()], facts: queue.facts, warnings: queue.issues, inputs: queue.inputs, sheets, ...extra, total };
 }
 
 export type Inbox = Awaited<ReturnType<typeof myInbox>>;

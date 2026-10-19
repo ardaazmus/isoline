@@ -6,6 +6,7 @@
  * year — "the newest factor" is not "the right factor for that year" — and says when it had to fall back.
  */
 import { createHash } from "node:crypto";
+import { sql } from "kysely";
 import { BUILTIN_SETS, importFactorCsv, type Factor, type FactorSet } from "@/lib/factors";
 import { audit, canonicalJson } from "../audit/audit";
 import { withActor, withSystem, type Actor, type Tx } from "../db/client";
@@ -122,17 +123,21 @@ export async function chooseFactor(actor: Actor, projectId: string, target: stri
 export async function listChoices(actor: Actor, projectId: string) {
   return withActor(actor, async (tx) => {
     await requireProjectAction(tx, actor, projectId, "project.read");
-    return tx
-      .selectFrom("core.factor_choices as c")
-      .innerJoin("core.factor_values as v", "v.id", "c.factor_value_id")
-      .innerJoin("core.factor_sets as s", "s.id", "v.set_id")
-      .leftJoin("user as u", "u.id", "c.chosen_by")
-      .select(["c.id", "c.target", "c.reason", "c.created_at", "v.key", "v.value", "v.unit", "s.code", "s.edition_year", "s.name as set_name", "u.name as chosen_by_name"])
-      .where("c.project_id", "=", projectId)
-      .where("c.revoked_at", "is", null)
-      .orderBy("c.target")
-      .execute();
+    return choicesQuery(tx, projectId).execute();
   });
+}
+
+/** A project's factor choices in force, by target: listChoices and the calculations page (the value as exact text). */
+export function choicesQuery(tx: Tx, projectId: string) {
+  return tx
+    .selectFrom("core.factor_choices as c")
+    .innerJoin("core.factor_values as v", "v.id", "c.factor_value_id")
+    .innerJoin("core.factor_sets as s", "s.id", "v.set_id")
+    .leftJoin("user as u", "u.id", "c.chosen_by")
+    .select(["c.id", "c.target", "c.reason", "c.created_at", "v.key", sql<string>`v.value::text`.as("value"), "v.unit", "s.code", "s.edition_year", "s.name as set_name", "u.name as chosen_by_name"])
+    .where("c.project_id", "=", projectId)
+    .where("c.revoked_at", "is", null)
+    .orderBy("c.target");
 }
 
 // ---------------------------------------------------------------- resolution for a run

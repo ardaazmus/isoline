@@ -15,8 +15,10 @@ import { createFacility, createLegalEntity, createOrganization } from "../orgs/s
 import { addParticipant, approveBoundary, createProjectWizard, proposeBoundary } from "../projects/service";
 import { acceptInvitation, createTenant, inviteMember } from "../tenancy/service";
 import { acceptTask, assignRequests, closeRequest, createCampaign, linkEvidence, listRequests, saveDraft, sendRequests, submitTask, type DraftInput } from "../data/service";
-import { addCustomSet, chooseFactor, listChoices } from "./factors";
-import { approveFact, approveRun, factLineage, getRun, listFacts, listIssues, rejectFact, reproduceRun, resolveIssue, runCalculation } from "./service";
+import { addCustomSet, chooseFactor, listChoices, listFactorSets } from "./factors";
+import { approveFact, approveRun, factLineage, getRun, listFacts, listIssues, listRuns, rejectFact, reproduceRun, resolveIssue, runCalculation } from "./service";
+import { calculationsView } from "./view";
+import { listBoundaries } from "../projects/service";
 
 let ayse: Actor, selin: Actor, mehmet: Actor, zeynep: Actor, outsider: Actor;
 let company: string, projectId: string, cycleId: string, campaignId: string;
@@ -232,5 +234,28 @@ describe("G4 calculations", () => {
     const visible = await systemDb().selectFrom("core.factor_sets").select("owner_tenant_id").where("id", "=", s.setId).executeTakeFirstOrThrow();
     expect(visible.owner_tenant_id).toBe(company);
     await expect(factLineage(outsider, (await listFacts(selin, cycleId))[0].id)).rejects.toMatchObject({ status: 404 });
+  });
+
+  it("G8-07: the calculations page reads in one statement what the list services return", async () => {
+    // by now the cycle has fact revisions (approved, rejected, superseded), open and resolved findings, several runs,
+    // a factor choice, an approved boundary and a tenant's private factor set
+    for (const who of [selin, mehmet, ayse]) {
+      const view = await calculationsView(who, projectId, cycleId, { factorSets: true });
+      expect(view.facts.length).toBeGreaterThan(5);
+      expect(view.facts).toEqual(await listFacts(who, cycleId));
+      expect(view.runs).toEqual(await listRuns(who, projectId, cycleId));
+      expect(view.choices).toEqual(await listChoices(who, projectId));
+      const issues = await listIssues(who, cycleId);
+      expect(view.issues).toEqual(issues.map((i) => ({ id: i.id, rule_id: i.rule_id, severity: i.severity, status: i.status, target_type: i.target_type, target_id: i.target_id, observed: i.observed, resolution: i.resolution, resolved_by_name: i.resolved_by_name, run_kind: i.run_kind })));
+      const boundaries = await listBoundaries(who, cycleId);
+      expect(view.approvedBoundaries).toEqual([...new Set(boundaries.filter((b) => b.status === "approved").map((b) => b.kind))]);
+      const sets = await listFactorSets(who);
+      expect(view.factorSets).toEqual(sets.filter((x) => x.status === "active").map((x) => ({ id: x.id, code: x.code, name: x.name, edition_year: x.edition_year, licence: x.licence })));
+      expect(view.factorSets.length).toBeGreaterThan(3);
+    }
+    expect((await calculationsView(selin, projectId, cycleId, { factorSets: false })).factorSets).toEqual([]);
+    // the same access answers as the list services: another tenant, a cycle that is not the project's
+    await expect(calculationsView(outsider, projectId, cycleId, { factorSets: false })).rejects.toMatchObject({ status: 404 });
+    await expect(calculationsView(selin, projectId, "00000000-0000-4000-8000-000000000000", { factorSets: false })).rejects.toMatchObject({ status: 404, code: "cycle_not_found" });
   });
 });

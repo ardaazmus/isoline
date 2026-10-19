@@ -12,9 +12,23 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export type LoadedProject = { ws: Workspace; data: Awaited<ReturnType<typeof projectOverview>> };
 
-export async function loadProject(lang: string, projectId: string): Promise<{ ok: true; p: LoadedProject } | { ok: false; view: ReactNode }> {
+/**
+ * The project with the person's access path. `cycle` is the page's ?cycle= (pickCycle): every project page then reads
+ * the cycles and that cycle's steps for its header, so both start here beside the project instead of after the page's
+ * own data (G8-07 load test: each round trip waits its turn under load). The request-scoped memo (./cached) hands the
+ * page and the header these same promises; when access is refused nobody awaits them.
+ */
+export async function loadProject(lang: string, projectId: string, cycle?: string | string[]): Promise<{ ok: true; p: LoadedProject } | { ok: false; view: ReactNode }> {
   const t = tr(lang);
   const ws = await requireWorkspace(lang);
+  if (UUID.test(projectId)) {
+    projectCycles(ws.actor, projectId)
+      .then((cycles) => {
+        const c = pickCycle(cycles, cycle);
+        return c ? cycleSteps(ws.actor, c.id) : null;
+      })
+      .catch(() => undefined);
+  }
   const r = UUID.test(projectId) ? await attempt(() => projectOverview(ws.actor, projectId)) : ({ ok: false, status: 404, code: "not_found" } as const);
   if (!r.ok)
     return {

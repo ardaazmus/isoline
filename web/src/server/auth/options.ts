@@ -46,7 +46,9 @@ export function authOptions(env: { baseUrl: string; secret: string; oidc?: { iss
       // critical actions (approval, release, grant) ask for a sign-in within the last 10 minutes
       freshAge: 60 * 10,
     },
-    advanced: { database: { generateId: "uuid" }, useSecureCookies: env.baseUrl.startsWith("https://") },
+    // joins: the session and its user in one statement (the Kysely adapter joins natively) — every request reads the
+    // session, and under load each round trip waits its turn (G8-07 load test)
+    advanced: { database: { generateId: "uuid", joins: true }, useSecureCookies: env.baseUrl.startsWith("https://") },
     // brute-force protection; integration tests turn it off with AUTH_RATE_LIMIT=off (they sign up dozens of people)
     rateLimit: { enabled: process.env.AUTH_RATE_LIMIT !== "off", window: 60, max: 100 },
     plugins,

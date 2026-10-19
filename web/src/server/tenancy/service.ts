@@ -25,21 +25,25 @@ function requireVerified(id: Identity) {
 
 // ---------------------------------------------------------------- membership and acting tenant
 
-export type Membership = { tenantId: string; tenantName: string; kind: string; lifecycle: string; role: MemberRole; sample: boolean };
+/** A live membership; `requireMfa` is the tenant's rule, so a page can build its actor from this row alone (G8-07). */
+export type Membership = { tenantId: string; tenantName: string; kind: string; lifecycle: string; role: MemberRole; sample: boolean; requireMfa: boolean };
 
 export async function myMemberships(userId: string): Promise<Membership[]> {
-  return withActor({ userId, actingTenantId: null }, async (tx) => {
-    const rows = await tx
-      .selectFrom("core.memberships as m")
-      .innerJoin("core.tenants as t", "t.id", "m.tenant_id")
-      .select(["m.tenant_id", "t.name", "t.kind", "t.lifecycle", "m.role", "t.sample"])
-      .where("m.user_id", "=", userId)
-      .where("m.revoked_at", "is", null)
-      .orderBy("t.name")
-      .execute();
-    return rows.map((r) => ({ tenantId: r.tenant_id, tenantName: r.name, kind: r.kind, lifecycle: r.lifecycle, role: r.role as MemberRole, sample: r.sample }));
-  });
+  return withActor({ userId, actingTenantId: null }, async (tx) => (await membershipsQuery(tx, userId).execute()).map(toMembership));
 }
+
+/** A person's live memberships by workspace name (myMemberships, and personContext for the platform pages). */
+export function membershipsQuery(tx: Tx, userId: string) {
+  return tx
+    .selectFrom("core.memberships as m")
+    .innerJoin("core.tenants as t", "t.id", "m.tenant_id")
+    .select(["m.tenant_id", "t.name", "t.kind", "t.lifecycle", "m.role", "t.sample", "t.require_mfa"])
+    .where("m.user_id", "=", userId)
+    .where("m.revoked_at", "is", null)
+    .orderBy("t.name");
+}
+
+export const toMembership = (r: { tenant_id: string; name: string; kind: string; lifecycle: string; role: string; sample: boolean; require_mfa: boolean }): Membership => ({ tenantId: r.tenant_id, tenantName: r.name, kind: r.kind, lifecycle: r.lifecycle, role: r.role as MemberRole, sample: r.sample, requireMfa: r.require_mfa });
 
 /** Turns a requested tenant into a verified actor; the client's tenant id is never trusted on its own. */
 export async function actorFor(userId: string, requestedTenantId: string | null, requestId?: string): Promise<Actor & { role: MemberRole | null }> {
@@ -76,18 +80,20 @@ export type ProjectAccess = { ownerTenantId: string; via: "member" | "steward" |
 
 export async function requireProjectAction(tx: Tx, actor: Actor, projectId: string, action: Action): Promise<ProjectAccess> {
   // the project and the person's role in the acting tenant (every path below checks it) in one round trip
-  const tenant = actor.actingTenantId;
-  const p = await tx
-    .selectFrom("core.projects")
-    .select((eb) => [
-      "id",
-      "owner_tenant_id",
-      tenant
-        ? eb.selectFrom("core.memberships").select("role").where("tenant_id", "=", tenant).where("user_id", "=", actor.userId).where("revoked_at", "is", null).as("role")
-        : sql<string | null>`null`.as("role"),
-    ])
-    .where("id", "=", projectId)
-    .executeTakeFirst();
+  const p = await tx.selectFrom("core.projects").select(["id", "owner_tenant_id", roleInActingTenant(actor)]).where("id", "=", projectId).executeTakeFirst();
+  return projectAccess(tx, actor, p, action);
+}
+
+/** The actor's live role in the acting tenant as a column of any query (null without an acting tenant). */
+export function roleInActingTenant(actor: Actor) {
+  return (actor.actingTenantId ? sql<string | null>`(select role from core.memberships where tenant_id = ${actor.actingTenantId} and user_id = ${actor.userId} and revoked_at is null)` : sql<string | null>`null`).as("role");
+}
+
+/**
+ * requireProjectAction's rules for a project row a caller has already read, with roleInActingTenant beside it (a
+ * page's own first statement can carry the check). No row — RLS hid the project — is a 404.
+ */
+export async function projectAccess(tx: Tx, actor: Actor, p: { id: string; owner_tenant_id: string; role: string | null } | undefined, action: Action): Promise<ProjectAccess> {
   if (!p) throw notFound("project_not_found");
   const role = (p.role as MemberRole | null) ?? null;
   const member = () => {
@@ -111,7 +117,7 @@ export async function requireProjectAction(tx: Tx, actor: Actor, projectId: stri
   const g = await tx
     .selectFrom("core.external_grants")
     .select(["role", "can_download"])
-    .where("project_id", "=", projectId)
+    .where("project_id", "=", p.id)
     .where("recipient_tenant_id", "=", actor.actingTenantId)
     .where("revoked_at", "is", null)
     .where("expires_at", ">", new Date())
@@ -322,14 +328,19 @@ export async function createProject(actor: Actor, input: { name: string; ownerTe
 }
 
 export async function listProjects(actor: Actor) {
-  return withActor(actor, async (tx) =>
-    tx
+  return withActor(actor, async (tx) => {
+    // RLS decides as before, but only over the projects this workspace can reach: without the filter it evaluated its
+    // policy functions on every project and tenant in the database (Today page, G8-07 load test: ~60 ms per call)
+    const reachable = await reachableProjectIds(tx, actor);
+    if (!reachable.length) return [];
+    return tx
       .selectFrom("core.projects as p")
       .innerJoin("core.tenants as t", "t.id", "p.owner_tenant_id")
       .select(["p.id", "p.name", "p.status", "p.owner_tenant_id", "t.name as owner_name", "t.lifecycle as owner_lifecycle", "p.updated_at"])
+      .where("p.id", "in", reachable)
       .orderBy("p.updated_at", "desc")
-      .execute(),
-  );
+      .execute();
+  });
 }
 
 // ---------------------------------------------------------------- external grants (G1-07)
@@ -524,25 +535,39 @@ export async function listStewardedClients(actor: Actor) {
 }
 
 /** One project with the way the actor reaches it (member, steward or grant) — the context bar names the owner. */
+type GrantRow = { id: string; recipient_tenant_id: string; role: string; purpose: string; expires_at: string; revoked_at: string | null; can_download: boolean };
+
 export async function projectOverview(actor: Actor, projectId: string) {
   return withActor(actor, async (tx) => {
-    const access = await requireProjectAction(tx, actor, projectId, "project.read");
-    const p = await tx
+    // the project, the person's role for the access rules (projectAccess, as requireProjectAction) and the project's
+    // grants, newest first, in one statement: every project page starts here (G8-07 load test)
+    const r = await tx
       .selectFrom("core.projects as p")
       .innerJoin("core.tenants as t", "t.id", "p.owner_tenant_id")
-      .select(["p.id", "p.name", "p.status", "p.created_at", "p.updated_at", "p.row_version", "p.organization_id", "p.engagement_id", "p.description", "t.name as owner_name", "t.lifecycle as owner_lifecycle", "t.id as owner_id"])
+      .select([
+        "p.id",
+        "p.name",
+        "p.status",
+        "p.created_at",
+        "p.updated_at",
+        "p.row_version",
+        "p.organization_id",
+        "p.engagement_id",
+        "p.description",
+        "t.name as owner_name",
+        "t.lifecycle as owner_lifecycle",
+        "t.id as owner_id",
+        roleInActingTenant(actor),
+        sql<GrantRow[]>`(select coalesce(json_agg(g order by g.created_at desc), '[]'::json) from (select id, recipient_tenant_id, role, purpose, expires_at, revoked_at, can_download, created_at from core.external_grants where project_id = p.id) g)`.as("grants"),
+      ])
       .where("p.id", "=", projectId)
-      .executeTakeFirstOrThrow();
-    const grants =
-      access.via === "member"
-        ? await tx
-            .selectFrom("core.external_grants")
-            .select(["id", "recipient_tenant_id", "role", "purpose", "expires_at", "revoked_at", "can_download"])
-            .where("project_id", "=", projectId)
-            .orderBy("created_at", "desc")
-            .execute()
-        : [];
-    return { project: p, access, grants };
+      .executeTakeFirst();
+    const access = await projectAccess(tx, actor, r && { id: r.id, owner_tenant_id: r.owner_id, role: r.role }, "project.read");
+    const p = r!;
+    const project = { id: p.id, name: p.name, status: p.status, created_at: p.created_at, updated_at: p.updated_at, row_version: p.row_version, organization_id: p.organization_id, engagement_id: p.engagement_id, description: p.description, owner_name: p.owner_name, owner_lifecycle: p.owner_lifecycle, owner_id: p.owner_id };
+    // the sharing list is for the owner's own people
+    const grants = access.via === "member" ? p.grants.map((g) => ({ id: g.id, recipient_tenant_id: g.recipient_tenant_id, role: g.role, purpose: g.purpose, expires_at: new Date(g.expires_at), revoked_at: g.revoked_at === null ? null : new Date(g.revoked_at), can_download: g.can_download })) : [];
+    return { project, access, grants };
   });
 }
 

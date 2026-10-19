@@ -91,6 +91,29 @@ export function sankey(flows: FlowIn[], size = { width: 760, height: 360 }, node
   return { nodes, links };
 }
 
+export type FlowFact = { metric_key: string; facility_id: string | null; facility_name: string | null; boundary_kind: string | null; revision: number; status: string; value_num: string | number | null };
+
+/**
+ * What ghgFlows draws, from a cycle's fact list: under operational control, the newest revision per metric and
+ * facility that is neither superseded nor rejected — facility scope 1 and scope 2 (location), organisation-level
+ * scope 1 (mobile) and scope 3. Facilities in name order.
+ */
+export function ghgFlowInput(facts: FlowFact[]): { facilities: { name: string; scope1: number; scope2: number }[]; orgScope1: number; scope3: number } {
+  const keys = ["ghg.scope1", "ghg.scope2.location", "ghg.scope1.mobile", "ghg.scope3"];
+  const cur = new Map<string, FlowFact>();
+  for (const f of facts) {
+    if (!keys.includes(f.metric_key) || f.boundary_kind !== "ghg_operational_control" || f.status === "superseded" || f.status === "rejected") continue;
+    const k = `${f.metric_key}|${f.facility_id ?? ""}`;
+    const seen = cur.get(k);
+    if (!seen || f.revision > seen.revision) cur.set(k, f);
+  }
+  const v = (metric: string, facility: string | null) => Number(cur.get(`${metric}|${facility ?? ""}`)?.value_num ?? 0);
+  const names = new Map<string, string>();
+  for (const f of cur.values()) if (f.facility_id) names.set(f.facility_id, f.facility_name ?? f.facility_id);
+  const facilities = [...names.entries()].sort((a, b) => a[1].localeCompare(b[1]) || a[0].localeCompare(b[0])).map(([id, name]) => ({ name, scope1: v("ghg.scope1", id), scope2: v("ghg.scope2.location", id) }));
+  return { facilities, orgScope1: v("ghg.scope1.mobile", null), scope3: v("ghg.scope3", null) };
+}
+
 /** Flows of a cycle's GHG facts: facility → scope, organisation-level items → scope, scopes → total. */
 export function ghgFlows(input: { facilities: { name: string; scope1: number; scope2: number }[]; orgScope1: number; scope3: number; labels: { scope1: string; scope2: string; scope3: string; total: string; org: string } }): FlowIn[] {
   const L = input.labels;

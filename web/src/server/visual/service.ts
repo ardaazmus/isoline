@@ -1,4 +1,7 @@
-/** Data for the G8-04/05 diagrams: facility collection status and the GHG flows of a cycle — both from records. */
+/**
+ * Data for the G8-04 site diagram: facility collection status, from records. (The G8-05 GHG flow is drawn from the
+ * calculations page's own fact list: lib/visual/layout ghgFlowInput.)
+ */
 import { sql } from "kysely";
 import { withActor, type Actor } from "../db/client";
 import { notFound } from "../policy/policy";
@@ -28,34 +31,5 @@ export async function siteStatus(actor: Actor, projectId: string, cycleId: strin
       const c = counts.find((x) => x.facility_id === f.id);
       return { id: f.id, name: f.name, entity: f.entity, accepted: c?.done ?? 0, total: c?.total ?? 0, blockers: c?.returned ?? 0 };
     });
-  });
-}
-
-/** Facility scope 1 and 2 (location) under operational control, organisation-level scope 1 and scope 3. */
-export async function ghgFlowData(actor: Actor, cycleId: string) {
-  return withActor(actor, async (tx) => {
-    const c = await tx.selectFrom("core.reporting_cycles").select(["project_id"]).where("id", "=", cycleId).executeTakeFirst();
-    if (!c) throw notFound("cycle_not_found");
-    await requireProjectAction(tx, actor, c.project_id, "project.read");
-    const rows = await tx
-      .selectFrom("core.metric_fact_versions as f")
-      .leftJoin("core.facilities as fa", "fa.id", "f.facility_id")
-      .select(["f.metric_key", "f.facility_id", "fa.name", "f.value_num", "f.revision", "f.status", "f.boundary_kind"])
-      .where("f.cycle_id", "=", cycleId)
-      .where("f.metric_key", "in", ["ghg.scope1", "ghg.scope2.location", "ghg.scope1.mobile", "ghg.scope3"])
-      .where("f.boundary_kind", "=", "ghg_operational_control")
-      .where("f.status", "not in", ["superseded", "rejected"])
-      .orderBy("f.revision", "desc")
-      .execute();
-    const seen = new Set<string>();
-    const cur = rows.filter((r) => {
-      const k = `${r.metric_key}|${r.facility_id ?? ""}`;
-      if (seen.has(k)) return false;
-      seen.add(k);
-      return true;
-    });
-    const v = (k: string, f: string | null) => Number(cur.find((r) => r.metric_key === k && r.facility_id === f)?.value_num ?? 0);
-    const facilities = [...new Map(cur.filter((r) => r.facility_id).map((r) => [r.facility_id!, r.name ?? r.facility_id!])).entries()].map(([id, name]) => ({ name, scope1: v("ghg.scope1", id), scope2: v("ghg.scope2.location", id) }));
-    return { facilities, orgScope1: v("ghg.scope1.mobile", null), scope3: v("ghg.scope3", null) };
   });
 }

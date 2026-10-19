@@ -12,7 +12,7 @@
 | E-posta doğrulama | Zorunlu. Doğrulanmamış hesap kiracı açamaz, daveti kabul edemez. |
 | Şifre sıfırlama | Tek kullanımlık, süreli bağlantı. Hesabın var olup olmadığı sızdırılmaz. |
 | MFA | `twoFactor` eklentisi: TOTP ve yedek kodlar. Kiracı yöneticisi ve yönetim imzacısı rollerinde **zorunlu**. |
-| Oturum | Veritabanında tutulur; httpOnly, Secure, SameSite=Lax çerez. Oturumlar listelenir, tek tek ya da toptan iptal edilir. Kritik işlemde yeniden doğrulama penceresi vardır. |
+| Oturum | Veritabanında tutulur; httpOnly, Secure, SameSite=Lax çerez. Oturumlar listelenir, tek tek ya da toptan iptal edilir. Kritik işlemde yeniden doğrulama penceresi vardır. Güncelleme (19.10.2026, yük testi): her istekte oturum ve kullanıcısı tek JOIN ifadesiyle okunur (`advanced.database.joins`, Kysely bağdaştırıcısının yerleşik birleştirmesi); önceden iki ardışık sorguydu. Oturum her istekte veritabanından doğrulanmaya devam eder (çerez önbelleği yok), iptal anında geçerlidir. |
 | SSO | `genericOAuth` ile OIDC sağlayıcısı (Keycloak, Entra ID, Google Workspace). `OIDC_ISSUER` tanımlıysa giriş ekranında görünür. |
 | Davet | Kendi `invitations` tablomuzda. Token yalnız özetiyle saklanır, tek kullanımlıktır, süreli ve iptal edilebilirdir. Kabul için daveti alan e-posta ile oturumdaki e-postanın eşleşmesi gerekir. |
 

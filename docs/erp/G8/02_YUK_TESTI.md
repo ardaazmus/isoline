@@ -142,13 +142,69 @@ Teşhis:
 | Hata | 0 | 0 |
 
 - **G8-07 kapısı birleştirilmiş kodda geçiyor**, bu sabahki dal ölçümünden de iyi.
-- **Genişletilmiş profilde hesaplamalar sayfası eşiği ~%15–20 aşıyor** (p50 ~1,45 sn); proje özeti eşiğin sınırında. `npm run test:load` bu yüzden 1 ile çıkıyor. Eşik ve profil, sonucu geçirmek için değiştirilmedi.
+- **Genişletilmiş profilde hesaplamalar sayfası eşiği ~%15–20 aşıyor** (p50 ~1,45 sn); proje özeti eşiğin sınırında. `npm run test:load` bu yüzden 1 ile çıkıyordu. Eşik ve profil, sonucu geçirmek için değiştirilmedi. Akşam giderildi: §7.1.
 - Neden: web süreci tek çekirdekte doygun ve genişletilmiş profilde isteklerin ~%31'i sunucuda üretilen sayfa (G8-07 profilinde ~%16). Doygun bir süreçte gecikme, isteğin işlemci payıyla orantılı büyür. Hesaplamalar sayfasının CPU profilinde kalan maliyet dağınık: Next.js/React işleme ~%27, uygulama kodu ~%25, soket yazımı ~%14.
 
-**Açık:**
-- Web kopyalarının çoğaltılması. Durumsuz olduğu için iki kopya genişletilmiş profili eşik içine almalı; bu tahmin ölçülmedi.
-- Ya da hesaplamalar sayfasının sunucu maliyetinin ayrıca düşürülmesi: ilk ekranda tüm tabloların çizilmemesi, Sankey'in istemci tarafında hesaplanması gibi.
-- İşlerim servisi 19–25 ifade ile en çok gidiş yapan servis (`npm run load:profile`); Bugün ve proje özeti de onu çağırır.
+### 7.1 Genişletilmiş profilin kapısı (19.10.2026 akşam)
+
+Hedef: eşik ve profil değişmeden `npm run test:load` (varsayılan profil) geçsin. Turun başında aynı iş istasyonu daha yüklüydü: 120 istek/sn, hesaplamalar p95 1 987 ms, proje özeti 1 757 ms, rapor stüdyosu 1 941 ms (üç sayfa eşiğin üstünde).
+
+**Teşhis:**
+- **Ardışık gidiş.** pg istemcisine sunucu açılışında takılan bir izleme kancasıyla (repoda değil) sunucu boştayken tek istek izlendi. Hesaplamalar sayfasının 59 gidişinin 36'sı birbirini bekliyordu: oturum 2 → üyelikler 3 → çalışma alanı denetimi 3 → proje 5 → dönemler 4 → altı liste 6 → akış verisi 5 → başlıktaki adım çubuğu 6. Yük altında her ardışık gidiş olay döngüsünde sıra bekler.
+- **Gidiş başına CPU.** Yük altındaki CPU profilinde sürenin ~%13'ü PostgreSQL'e sorgu mesajı yazımı: Windows'ta her gidiş bir soket yazma çağrısı (~45–70 µs). İstemciye yanıt yazımı ~%1. Yani her gidiş doğrudan CPU maliyetidir.
+- **Bugün sayfaları veritabanını bekliyordu.** Tek uç doygunluk ölçümünde hesaplamalar ~12 ms CPU/istek ile süreci doyururken, Bugün sayfaları süreci yarım çekirdekte bırakıyordu. Neden: `listProjects` erişilebilir proje süzgeci olmadan RLS politika fonksiyonlarını veritabanındaki 222 projenin hepsinde çalıştırıyordu (çağrı başına ~63 ms). Karışık yükte bu sayfalar havuz bağlantılarını uzun tutuyordu.
+
+**Düzeltmeler:**
+1. **Hesaplamalar sayfası tek ifade** (`calc/view.ts`). Bir yetki denetiminden sonra olgular, açık bulgular, çalıştırmalar, faktör seçimleri, onaylı sınır türleri ve etkin faktör setleri tek SQL ifadesinde okunur (`json_agg … order by`, [ADR-003 notu](../adr/ADR-003-veri-erisim-ve-migrasyon.md)). Liste sorguları servislerle paylaşılan kuruculardan gelir (`factsQuery`, `runsQuery`, `choicesQuery`). Sankey verisi aynı olgu listesinden hesaplanır (`ghgFlowInput`), ayrı sorgu yok. Sayfanın yedi işlemi bire indi.
+   - `calc/g4.db.test.ts`: üç rolde çıktı eski servislerle birebir; başka kiracı ve projeye ait olmayan döngü 404. Sıralama geçici olarak bozulunca test düştü.
+   - `lib/visual/layout.test.ts`: `ghgFlowInput` eski SQL kuralına karşı özellik tabanlı test.
+2. **Ortak proje sayfası yolu.**
+   - `loadProject` dönemleri ve adım çubuğunu projeyle paralel başlatır (`?cycle=` dahil).
+   - Proje, kişinin rolü ve paylaşımlar tek ifade. Erişim kuralları `requireProjectAction` ile ortak (`projectAccess`).
+   - Adım çubuğunda döngü ve erişim tek ifade; iş paketleri sinyal ifadesinin içinde. e2e veritabanının 222 döngüsünde ve 1 554 adımında eski okumayla fark sıfır.
+3. **Her sayfa.**
+   - Çalışma alanı denetimi, istekte zaten okunan üyelik listesinden kurulur (`actorOf`). Kural ve MFA kuralı `tenantActor` ile aynıdır (`portfolio/reach.db.test.ts`).
+   - Üyelikler ve menüdeki okunmamış bildirim sayısı tek ifade (`personContext`).
+   - Oturum ve kullanıcı tek JOIN ile okunur (Better Auth `advanced.database.joins`, [ADR-004 notu](../adr/ADR-004-kimlik-dogrulama.md)).
+4. **Bugün.** `listProjects` erişilebilir projelerle daraltıldı; RLS kararı aynı (tenancy testleri). Çağrı ~63 ms'den ~5 ms'ye indi.
+5. **İşlerim.** Dört okuma paralel; karar okuması diğer üçünü beklemiyor.
+
+**Sayfa başına veritabanı gidişi** (BEGIN/COMMIT dahil, ısınmış, tek istek) **ve kritik yol** (birbirini beklemek zorunda olan gidiş zinciri):
+
+| Ekran | Birleştirme sonrası | Öğle | Son | Kritik yol, önce → son |
+|---|---:|---:|---:|---:|
+| Hesaplamalar sayfası | 93 | 59 | **19** | 36 → **13** |
+| Proje özeti (yedi adım) | 86 | 59 | **48** | 36 → **19** |
+| Bugün, danışman (21 müşteri) | 78 | 56 | **49** | 37 → **22** |
+| Bugün, şirket sahibi | 68 | 47 | **40** | 29 → **15** |
+| Rapor stüdyosu sayfası | 60 | 37 | **26** | 34 → **18** |
+| Bugün, katkıcı | 45 | 38 | **31** | 27 → **16** |
+| İşlerim, gözden geçiren | 45 | 37 | **30** | 24 → **15** |
+
+İstek hattı (oturum + çalışma alanı denetimi) 3 ifadeden 2'ye indi (`npm run load:profile`).
+
+**Sonuçlar** (50 kullanıcı, sakin makine, son derleme, taze `e2e:prepare`):
+
+| | G8-07 profili (`--profile g8-07`) | Genişletilmiş profil (varsayılan), iki ardışık koşu |
+|---|---:|---:|
+| Verim (istek/sn) | 212 (öğlen 179) | 164–167 (öğlen 131–134) |
+| Tüm istekler p95 | 337 ms | 980–999 ms |
+| API p95 (en yüksek) | 378 ms (portföy) | 186–189 ms (portföy) |
+| Hesaplamalar sayfası p95 | 143 ms | **1 087–1 096 ms ✓** |
+| Rapor stüdyosu sayfası p95 | 167 ms | 1 114–1 126 ms ✓ |
+| Proje özeti p95 | — | 1 119–1 136 ms ✓ |
+| Bugün / Bugün (müşteriler) / İşlerim p95 | — | 754–851 ms ✓ |
+| Hata | 0 | 0 |
+
+- **Genişletilmiş profil iki ardışık koşuda geçti** (`npm run test:load` 0 ile çıktı). Eşik ve profil değişmedi. En yakın sayfa (proje özeti) eşiğin ~%24 altında.
+- G8-07 profili de geçiyor; öğlenki ölçümden daha hızlı.
+- İkinci web süreci gerekmedi; ADR yazılmadı ve dağıtım değişmedi.
+
+**Gözlemler ve açık işler:**
+- Soket yazımının pahalı olması Windows'a özgü; Linux konteynerinde gidiş başına CPU daha düşük olmalı (ölçülmedi).
+- Kalan en uzun tek ifade adım sinyalleri: tek döngüde ~10–14 ms, 21 döngüde ~40 ms veritabanı süresi. Planda maliyet RLS politika fonksiyonlarının satır başına çalışması (ör. 42 veri talebinde 14 ms). G8-07'de önerilen RLS yeniden yazımı bunu düşürür.
+- API isteğinde çalışma alanı denetimi hâlâ ayrı bir işlem (3 gidiş). Sayfa yolundaki gibi tek ifadeye indirilebilir. G8-07 profilinde API'ler sayfalardan yavaş (p50 230–290 ms).
+- Better Auth kendi havuzunu kullanır (5 bağlantı); bu turda darboğaz olarak ölçülmedi.
 
 ## 8. Çalıştırma
 
@@ -168,4 +224,4 @@ Betik:
 
 Ölçümü iş istasyonu sakinken alın: başka bir oturumun test koşusu verimi %10–35 düşürebiliyor (§7).
 
-Sorgu profili: sunucu açıkken (`npm run e2e:server`) `npm run load:profile -- --explain`. Profil artık adım çubuğunu, Bugün'ü ve İşlerim'i de kapsar.
+Sorgu profili: sunucu açıkken (`npm run e2e:server`) `npm run load:profile -- --explain`. Profil artık adım çubuğunu, Bugün'ü, İşlerim'i, her sayfanın kişi bağlamını, proje okumasını ve hesaplamalar sayfasının tek ifadesini de kapsar.
