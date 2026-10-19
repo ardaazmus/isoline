@@ -64,7 +64,28 @@ cd web && npm run worker
 | `npm run db:seed [-- --reset]` | İki referans yolculuğun örnek verisi |
 | `npm run worker` | Outbox: e-posta, kanıt taraması; yeniden deneme ve ölü mektup |
 | `npm test` | Birim ve özellik tabanlı testler |
-| `npm run test:db` | Gerçek PostgreSQL, Mailpit ve SeaweedFS ile entegrasyon testleri (`isoline_test` veritabanı her koşuda sıfırdan kurulur) |
+| `npm run test:db` | Gerçek PostgreSQL, Mailpit, SeaweedFS ve ClamAV ile entegrasyon testleri (`isoline_test` her koşuda sıfırdan kurulur; dosyalar yol sırasıyla çalışır, kiracılar arası sızıntı denetimi en sonda) |
+
+## Kapsayıcılarla çalıştırma (G8)
+
+Uygulama ve iş kuyruğu imajları `web/Dockerfile` ile derlenir (Next.js standalone sunucusu kök olmayan kullanıcıyla, salt okunur dosya sistemiyle çalışır; worker aynı derlemeden `tsx` ile).
+
+1. `node scripts/dev-env.mjs` (bir kez) → `web/.env.local` gizli değerleri.
+2. `node scripts/server-env.mjs --base-url https://isoline.kurum.local` → `deploy/app.env` (aynı gizli değerler, compose servis adlarıyla; git'e girmez).
+3. `docker compose --profile app --profile scan up -d --build` → `migrate` (migration + katalog + faktör + referans sürüm kaydı) bittikten sonra `web` ve `worker` başlar. Web `127.0.0.1:${APP_PORT:-3230}` üzerinde; dışa açmak için `--profile public` (Cloudflare Tunnel) ya da kurumun ters vekil sunucusu.
+4. Sağlık: `GET /api/v1/health` (veritabanı erişimi dahil). 19.10.2026'da bu adımlar yerelde çalıştırıldı: migrate "güncel", web sağlıklı, giriş sayfası 200, worker başladı.
+
+## Yedekleme ve geri yükleme tatbikatı
+
+- `node scripts/ops/restore-drill.mjs --backup` → `backups/isoline-<zaman>.dump` (pg_dump özel biçim, kapsayıcı içinde tutarlı anlık görüntü).
+- `node scripts/ops/restore-drill.mjs` → yedeği alır, `isoline_restore_drill` veritabanına geri yükler, `core` şemasındaki her tablonun satır sayısını kaynakla karşılaştırır, denetim zincirinin özet sütunlarını kontrol eder, geçici veritabanını siler; uyuşmazlıkta hata koduyla biter.
+- 19.10.2026 tatbikatı: 61 tablo, 2 110 satır, uyuşmazlık yok, 11 migration, 86 sn.
+- Kanıt deposu (SeaweedFS) birim düzeyinde yedeklenir (`s3data` birimi); PITR için PostgreSQL WAL arşivi üretim sunucusunda ayrıca açılır.
+
+## Kaynak bağlayıcıları ve SSO
+
+- **Bağlayıcı:** proje sahibi şirketin üyesi kurar; yalnız tanımlanan sunucuya (HTTP/HTTPS) bağlanılır, yönlendirme izlenmez, 15 sn zaman aşımı ve 15 MB sınırı vardır; erişim anahtarı AES-256-GCM ile mühürlenir. Çekilen veri dosya içe aktarmasıyla aynı yoldan (tarama, doğrulama, gözden geçirene gönderim) geçer; aynı veri ikinci kez "değişmedi" olarak kaydedilir; hata outbox'ta yeniden denenir, sonunda ölü mektup olur.
+- **OIDC/SSO:** `OIDC_ISSUER`, `OIDC_CLIENT_ID`, `OIDC_CLIENT_SECRET` verilirse kurumsal kimlik sağlayıcısı (Keycloak, Entra ID, Google Workspace…) keşif belgesiyle eklenir; yetkilendirme kodu + PKCE, nonce bağlı ve JWKS ile doğrulanmış kimlik jetonu (`oidc.db.test.ts`). Geri dönüş adresi: `<BETTER_AUTH_URL>/api/auth/callback/oidc`.
 
 ## Güvenlik notları
 

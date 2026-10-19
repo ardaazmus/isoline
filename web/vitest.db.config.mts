@@ -1,6 +1,14 @@
 // Database integration tests (*.db.test.ts) against a real PostgreSQL: a fresh "isoline_test" database is created and
 // migrated before the run (src/server/db/test-global-setup.ts). Tests use the low-privilege app role, so RLS applies.
 import { defineConfig } from "vitest/config";
+import { BaseSequencer, type TestSpecification } from "vitest/node";
+
+/** Files in path order (not by last duration): the cross-tenant check in security/zz-* runs after the data files. */
+class PathOrder extends BaseSequencer {
+  async sort(files: TestSpecification[]) {
+    return [...files].sort((a, b) => a.moduleId.localeCompare(b.moduleId));
+  }
+}
 
 process.loadEnvFile(".env.local");
 const testDb = "isoline_test";
@@ -20,6 +28,7 @@ export default defineConfig({
     // one process, files in sequence: tests share the database
     pool: "forks",
     fileParallelism: false,
+    sequence: { sequencer: PathOrder },
     testTimeout: 30_000,
     hookTimeout: 60_000,
     env: {

@@ -18,8 +18,9 @@ web/next-env.d.ts
 .DS_Store
 Thumbs.db
 
-# Local storage identities (written by scripts/dev-env.mjs)
+# Local storage identities (written by scripts/dev-env.mjs) and the container env (scripts/server-env.mjs)
 deploy/seaweedfs/s3.json
+deploy/app.env
 
 # Local demo sign-in details (web/src/server/seed/demo.ts)
 web/.demo-users.local.json
@@ -29,3 +30,6 @@ web/.demo-users.local.json
 
 # Local worker output (npm run worker)
 .worker.log
+
+# database backups (restore drill)
+backups/

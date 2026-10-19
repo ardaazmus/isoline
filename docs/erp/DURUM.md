@@ -18,7 +18,7 @@
 | G5 | bitti | Dönem içi gün ağırlıklı sınır, GHG yaklaşımları yan yana, TFRS 10 hasılat konsolidasyonu ve grup içi eliminasyon (kesin kuruş aritmetiği), U1–U10 mutabakat, kişiye bağlı inceleme kuyruğu, kapanış kontrol listesi, değişmez anlık görüntü, gerekçeli yeniden açma ve yeniden düzenleme listesi |
 | G6 | bitti | Şablondan rapor ve bölümler, metrik belirteçli sürümlü metin, kapsama, tek biçimle DOCX/CSV/XLSX/SVG, teknik → müşteri → yönetim onayı (aday özetine bağlı), değişmez yayın paketi ve devir ZIP'i, tasarım ajansı yalnız yayını görür, ek yayın, raporlar arası mutabakat, yeşil iddia engeli |
 | G7 | bitti (G7-07 kısmi) | Portföy operasyon göstergeleri (ESG notu yok), izin kapsamı/süre/iptal, güvence odası (soru-yanıt-kanıt, veri değişmez), sürümlü sektör paketi çerçevesi, demir-çelik/çimento ve lojistik/hizmet pilot paketleri; tekstil/tarım paketi ihtiyaca bağlı |
-| G8 | başlamadı | |
+| G8 | bitti (G8-06 isteğe bağlı, yapılmadı; G8-07 ve G8-08'in dış denetim kısmı açık) | Denetimli bağlayıcılar, tedarikçi kapısı, referans veri sürüm kaydı, izometrik tesis haritası, birimi korunan Sankey, ölçek/erişilebilirlik testleri, RLS ve sızıntı denetimi, geri yükleme tatbikatı, kapsayıcı dağıtımı, OIDC uçtan uca |
 
 ## G0 — Analiz, karar, envanter
 
@@ -163,9 +163,24 @@
 
 **G7 kapısı:** `g7.db.test.ts` — danışman (Yeşil Eşik) iki müşteriyi tek portföyde görür: raporunu kendisi başlatan Ege Çimento (hazırlayıcı izni) ve danışmanın geçici müşteri olarak açtığı Kuzey Lojistik (vekâlet). Ege Çimento'da çimento paketi NACE 23.51'den önerilir, açılır, klinker 800 000 t ve çimento 1 000 000 t kabul edilir: klinker oranı 0,8, Tier 1 kalsinasyon 424 320 tCO₂ (tahmini). Bağımsız denetçi soru sorar, şirket kantar kayıtlarıyla yanıtlar, denetçi kapatır; denetçi hesap/onay yapamaz. Danışman Ege Çimento raporunun bir bölümünü yazar; Ege Çimento izni iptal eder: danışman erişimini kaybeder, yazdığı bölüm aynen kalır ve şirket onu onaylar; Kuzey Lojistik raporu etkilenmez. Tarayıcıda sektör paketleri, güvence odası ve portföy operasyon sütunu doğrulandı.
 
-## G8
+## G8 — Ölçek, entegre kaynaklar, görselleştirme, güvenlik
 
-Kapı başladıkça buraya ayrıntılı tablo eklenir. Görev listeleri plan 13'te.
+| ID | Durum | Kanıt |
+|---|---|---|
+| G8-01 | bitti | `connectors/service.ts`, `core.connectors` / `connector_runs` (migration 0010): kiracı kapsamı (sahip şirket üyesi kurar, onun yetkisiyle çalışır), tek sunucu, yönlendirme yok, 15 sn / 15 MB, mühürlü anahtar; içe aktarma yoluyla tarama + doğrulama + gözden geçirene gönderim; aynı yük "değişmedi"; hata outbox'ta yeniden denenir ve ölü mektup olur (`g8.db.test.ts`, yerel HTTP sunucusuyla). Günlük zamanlama worker'da |
+| G8-02 | bitti | Tedarikçi kapısı G3-10 üzerine: `supplier` izni yalnız kendisine atanan talepleri görür (RLS), gönderimler sürümlü gözlem; görev kutusu tedarikçinin kapısıdır |
+| G8-03 | bitti | `reference/updater.ts`, `core.reference_versions`: faktör kütüphanesi, metrik kataloğu, şablonlar, mevzuat/kaynak sicili, sektör paketleri her dağıtımda özetlenir; değişiklik eklenen/çıkan/değişen kalemleriyle kaydedilir; ekran `app/settings/reference` |
+| G8-04 | bitti | `lib/visual/layout.ts` + `platform/g8/visual.tsx`: proje genel bakışında izometrik tesis haritası (blok yüksekliği = dönemin tamamlanan veri talebi payı, iade kesikli kırmızı kenar, her blokta yazılı sayı), aynı veri tablo olarak; WebGL yok, `prefers-reduced-motion` desteği |
+| G8-05 | bitti | Hesaplamalar sayfasında tesis → kapsam → toplam Sankey (tCO₂e, operasyonel kontrol); özellik testi her düğümde giren = çıkan ve genişliklerin değerle orantılı olduğunu doğrular; akış tablosu karşılığı |
+| G8-06 | yapılmadı (isteğe bağlı) | Plan "optional": kaynağa dayalı yapay zekâ taslak önerisi müşteri verisini üçüncü taraf modele göndermeden kurulamadığı için bu sürüme alınmadı |
+| G8-07 | kısmi | Ölçek: 20 müşterili danışmanda portföy + göstergeler + inceleme kuyruğu < 3 sn (`g8.db.test.ts`). Erişilebilirlik: tasarım belirteçlerinin WCAG 2.2 AA kontrastı (28 test), hareket azaltma, form etiketi bağları, SVG başlık/açıklama ve tablo karşılıkları. Açık: ekran okuyucu ile elle denetim ve yük testi aracıyla eşzamanlı kullanıcı ölçümü |
+| G8-08 | kısmi | `security/zz-security.db.test.ts`: `core` şemasındaki 61 tablonun tamamında RLS açık ve zorunlu (iki referans tablosu migration 0011 ile kapatıldı); ilgisiz kiracının üyesi 40+ kiracı tablosunda başka kiracıya ait sıfır satır görür; uygulama rolü denetim kaydını, anlık görüntüleri, yayınları ve gözlem/metrik sürümlerini silemez/değiştiremez. `security/routes.test.ts`: 130 API ucunun hepsi `route()` zincirinden geçer, tek açık uç davet önizlemesi, hiçbir uç RLS'i atlayan role doğrudan erişmez. Geri yükleme tatbikatı `scripts/ops/restore-drill.mjs` (61 tablo, uyuşmazlık yok). Açık: bağımsız sızma testi |
+
+**Dağıtım ve kimlik (G8 kapsamında):** `web/Dockerfile` (web standalone + worker), `docker compose --profile app` (migrate → web + worker), `scripts/server-env.mjs`; yerelde derlendi ve çalıştırıldı (sağlık 200, giriş sayfası 200). OIDC/SSO uçtan uca test: sahte kimlik sağlayıcı, PKCE, nonce, JWKS doğrulaması; başka anahtarla imzalı jeton reddedilir (`auth/oidc.db.test.ts`).
+
+## Kapanış özeti
+
+G0–G8 tamamlandı; plan kuralı gereği eksik kalanlar açıkça `kısmi`/`yapılmadı` olarak işaretli: G7-07 (tekstil/tarım paketi, ihtiyaca göre), G8-06 (isteğe bağlı yapay zekâ), G8-07 (elle erişilebilirlik denetimi ve yük aracı), G8-08 (bağımsız sızma testi). Son doğrulama: birim/özellik testleri, PostgreSQL entegrasyon testleri, tip denetimi, lint, üretim derlemesi ve kapsayıcı yığını.
 
 ## Oturum kontrol noktası (bağlam sıkıştırmasına karşı)
 
@@ -178,4 +193,4 @@ Kapı başladıkça buraya ayrıntılı tablo eklenir. Görev listeleri plan 13'
   - depo SeaweedFS (ADR-005; MinIO imajları kaldırıldığı için);
   - modüler monolit (ADR-007);
   - v1 araç seti `(toolkit)` rota grubunda korunuyor (ADR-008).
-- **Açık / sıradaki:** G8 (entegrasyonlar, ölçek/performans, erişilebilirlik, güvenlik sertleştirme, izometrik/3D görünüm, konteyner dağıtımı, OIDC testi).
+- **Açık / sıradaki:** Yol haritası tamam; açık maddeler: bağımsız sızma testi, ekran okuyucuyla erişilebilirlik denetimi, yük testi aracı, ilk müşteri ihtiyacına göre tekstil/tarım paketi.

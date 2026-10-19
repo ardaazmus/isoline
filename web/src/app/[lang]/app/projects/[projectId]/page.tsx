@@ -7,6 +7,9 @@ import { listEvidence } from "@/server/evidence/service";
 import { grantCan, memberCan } from "@/server/policy/policy";
 import { listCycles } from "@/server/projects/service";
 import { counterpartNames } from "@/server/tenancy/service";
+import { SiteMap } from "@/platform/g8/visual";
+import { isometric } from "@/lib/visual/layout";
+import { siteStatus } from "@/server/visual/service";
 
 export const generateMetadata = titled("pf.projects.title");
 
@@ -26,11 +29,37 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/app/pro
     role !== null && memberCan(role, a) && (access.via !== "grant" || (a !== "grant.manage" && a !== "project.update" && grantCan(access.grantRole!, a, access.canDownload ?? false)));
   const names = await counterpartNames(ws.actor, grants.map((g) => g.recipient_tenant_id));
   const now = new Date();
+  // G8-04: the facility map of the newest cycle — block height = share of data requests done
+  const sites = cycles[0] ? await siteStatus(ws.actor, projectId, cycles[0].id) : [];
+  const iso = isometric(sites);
 
   return (
     <>
       <ProjectHeader lang={lang} p={loaded.p} />
       <div className="flex flex-col gap-6">
+        {sites.length > 0 && (
+          <Section title={t("pf.vis.siteTitle", { label: cycles[0].label })} id="sites">
+            <p className="text-[12.5px] text-[var(--ink-3)]">{t("pf.vis.siteLead")}</p>
+            <SiteMap
+              blocks={iso.blocks}
+              width={iso.width}
+              height={iso.height}
+              title={t("pf.vis.siteTitle", { label: cycles[0].label })}
+              desc={t("pf.vis.siteDesc")}
+              labels={{ done: (a, n) => t("pf.vis.done", { a, n }), returned: (n) => t("pf.vis.returned", { n }) }}
+            />
+            <Table head={[t("pf.vis.entity"), t("pf.calc.facility"), t("pf.vis.progress"), t("pf.vis.returnedCol")]} caption={t("pf.vis.tableCaption")}>
+              {sites.map((x) => (
+                <tr key={x.id}>
+                  <Td className="text-[12.5px]">{x.entity}</Td>
+                  <Td>{x.name}</Td>
+                  <Td className="tabular-nums">{t("pf.vis.done", { a: x.accepted, n: x.total })}</Td>
+                  <Td className="tabular-nums">{x.blockers}</Td>
+                </tr>
+              ))}
+            </Table>
+          </Section>
+        )}
         <Section title={t("pf.cycle.title")} id="cycles">
           {cycles.length === 0 ? (
             <p className="text-[13.5px] text-[var(--ink-3)]">{t("pf.cycle.none")}</p>

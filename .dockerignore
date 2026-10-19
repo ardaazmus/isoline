@@ -1,0 +1,17 @@
+# keep the build context small and free of secrets
+**/node_modules
+**/.next
+**/*.tsbuildinfo
+.git
+backups
+arsiv
+docs
+.impeccable
+.freebuff
+.worker.log
+.env
+.env.*
+web/.env*
+web/.demo-users.local.json
+deploy/app.env
+deploy/seaweedfs/s3.json

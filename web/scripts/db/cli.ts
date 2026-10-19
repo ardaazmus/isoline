@@ -6,10 +6,12 @@
  *   npm run db:status           list applied and pending migrations
  *   npm run db:seed [-- --reset] demo tenants for the two reference journeys (sample data, labelled)
  */
+import { existsSync } from "node:fs";
 import { bootstrapCluster } from "../../src/server/db/bootstrap";
 import { migrateDown, migrateToLatest, migrationStatus } from "../../src/server/db/migrator";
 
-process.loadEnvFile(".env.local");
+// local development reads web/.env.local; containers get their environment from deploy/app.env
+if (existsSync(".env.local")) process.loadEnvFile(".env.local");
 
 const need = (k: string) => {
   const v = process.env[k];
@@ -34,6 +36,9 @@ async function main() {
     console.log(`metric catalogue: ${(await syncCatalog()).inserted} new definition(s)`);
     const { syncBuiltinFactors } = await import("../../src/server/calc/factors");
     console.log(`factor library: ${(await syncBuiltinFactors()).sets} built-in set(s) checked`);
+    const { syncReferenceVersions } = await import("../../src/server/reference/updater");
+    const ref = await syncReferenceVersions();
+    console.log(`reference data: ${ref.changed.length ? `new version of ${ref.changed.join(", ")}` : "unchanged"}`);
     await closeDb();
   } else if (cmd === "rollback") {
     const r = await migrateDown(need("DATABASE_OWNER_URL"));

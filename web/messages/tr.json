@@ -2695,7 +2695,8 @@
       "notifications": "Bildirimler",
       "factors": "Faktör kütüphanesi",
       "review": "İnceleme kuyruğu",
-      "handoff": "Tasarım teslimleri"
+      "handoff": "Tasarım teslimleri",
+      "reference": "Referans veri sürümleri"
     },
     "kind": {
       "company": "Şirket",
@@ -2929,7 +2930,10 @@
       "answer_too_short": "Yanıt en az 10 karakter olmalı.",
       "opinion_file_required": "Güvence raporu alındı demek için rapor dosyası seçilmeli.",
       "assurance_only": "Soruyu yalnız güvence izni olan kişi sorabilir.",
-      "not_asker": "Soruyu yalnız soran kişi kapatabilir."
+      "not_asker": "Soruyu yalnız soran kişi kapatabilir.",
+      "invalid_url": "Adres geçersiz (http ya da https).",
+      "credentials_in_url": "Kullanıcı adı/şifre adreste olamaz; erişim anahtarı alanını kullanın.",
+      "connector_paused": "Bağlayıcı duraklatılmış."
     },
     "auth": {
       "email": "E-posta",
@@ -4501,6 +4505,69 @@
       "sendAnswer": "Yanıtı gönder",
       "files": "{n} dosya",
       "close": "Soruyu kapat"
+    },
+    "vis": {
+      "siteTitle": "Tesis haritası — {label}",
+      "siteLead": "Blok yüksekliği dönemin veri taleplerinden tamamlanan payı gösterir; kesikli kırmızı kenar düzeltmeye iade edilmiş talep olduğunu söyler. Çevresel başarı göstergesi değildir.",
+      "siteDesc": "Tüzel kişilere göre gruplanmış tesisler; her blokta tamamlanan veri talebi sayısı yazılıdır. Aynı bilgi aşağıdaki tabloda.",
+      "done": "{a}/{n} talep tamam",
+      "returned": "{n} iade",
+      "entity": "Tüzel kişi",
+      "progress": "İlerleme",
+      "returnedCol": "İade edilen",
+      "tableCaption": "Tesislere göre veri toplama durumu",
+      "flowTitle": "Emisyon akışı (operasyonel kontrol)",
+      "flowLead": "Tesislerden kapsamlara, kapsamlardan toplama tCO₂e cinsinden; her düğümde giren ve çıkan eşittir. Aynı değerler aşağıdaki tabloda.",
+      "flowTable": "Akış tablosu",
+      "from": "Kaynak",
+      "to": "Hedef",
+      "total": "Toplam"
+    },
+    "con": {
+      "title": "Kaynak bağlayıcıları",
+      "lead": "ERP/İK sisteminizin dışa aktarımını (CSV ya da JSON) yalnız yapılandırılan sunucudan çeker; veriler dosya içe aktarmasıyla aynı yoldan geçer (tarama, satır doğrulama) ve gözden geçirene gönderilir. Aynı veri ikinci kez gelirse hiçbir şey değişmez; hata olursa iş yeniden denenir.",
+      "campaign": "Kampanya",
+      "name": "Ad",
+      "kind": "Biçim",
+      "kinds": {
+        "http_csv": "HTTP — CSV",
+        "http_json": "HTTP — JSON"
+      },
+      "url": "Adres",
+      "urlHint": "Yalnız bu sunucuya bağlanılır; yönlendirme izlenmez",
+      "secret": "Erişim anahtarı (isteğe bağlı)",
+      "secretHint": "Şifrelenmiş saklanır, yalnız bu sunucuya gönderilir",
+      "schedule": "Çalışma",
+      "schedules": {
+        "manual": "Elle",
+        "daily": "Günlük"
+      },
+      "create": "Bağlayıcıyı ekle",
+      "pull": "Şimdi çek",
+      "queued": "Kuyruğa alındı.",
+      "runStatus": {
+        "succeeded": "alındı",
+        "unchanged": "değişmedi",
+        "failed": "hata"
+      },
+      "rows": "{rows} satır, {valid} gönderildi"
+    },
+    "ref": {
+      "title": "Referans veri sürümleri",
+      "lead": "Faktör kütüphanesi, metrik kataloğu, rapor şablonları, mevzuat/kaynak sicili ve sektör paketleri kodla gelir; her dağıtımda içerik özeti karşılaştırılır, değişiklik eklenen/çıkan/değişen kalemleriyle kaydedilir.",
+      "list": "Kayıtlar ({n})",
+      "kind": "Tür",
+      "kinds": {
+        "factor_library": "Faktör kütüphanesi",
+        "metric_catalogue": "Metrik kataloğu",
+        "report_templates": "Rapor şablonları",
+        "regulation_register": "Mevzuat ve kaynak sicili",
+        "industry_packs": "Sektör paketleri"
+      },
+      "version": "Sürüm",
+      "applied": "Uygulandı",
+      "changes": "Değişiklik",
+      "counts": "{items} kalem · +{added} −{removed} ~{changed}"
     }
   }
 }

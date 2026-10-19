@@ -171,3 +171,6 @@ export const AskQuestion = z.object({ targetType: z.enum(["fact", "evidence", "r
 export const AnswerQuestion = z.object({ answer: z.string().trim().min(10).max(8000), evidenceIds: z.array(uuid).max(20).optional() });
 export const CreateAssuranceEngagement = z.object({ standard: z.enum(["isae3000", "isae3410", "issa5000", "kgk_gds", "other"]), level: z.enum(["limited", "reasonable"]), providerTenantId: uuid.nullable().optional() });
 export const EngagementStatus = z.object({ status: z.enum(["preparing", "ready", "in_progress", "opinion_received", "withdrawn"]), opinionEvidenceId: uuid.nullable().optional() });
+
+// ---------------------------------------------------------------- G8
+export const CreateConnector = z.object({ name: z.string().trim().min(1).max(120), kind: z.enum(["http_csv", "http_json"]), url: z.string().url().max(500), secret: z.string().max(500).nullable().optional(), schedule: z.enum(["manual", "daily"]).optional() });

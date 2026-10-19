@@ -157,6 +157,43 @@ export interface CoreCalculationRuns {
   rule_version: string;
 }
 
+export interface CoreConnectorRuns {
+  bytes: number | null;
+  checksum: string | null;
+  connector_id: string;
+  cursor: string | null;
+  errors: Generated<Json>;
+  id: Generated<string>;
+  import_id: string | null;
+  message: string | null;
+  owner_tenant_id: string;
+  project_id: string;
+  pulled_at: Generated<Timestamp>;
+  resource: string;
+  rows: number | null;
+  status: string;
+  triggered_by: string | null;
+  valid: number | null;
+}
+
+export interface CoreConnectors {
+  allowed_host: string;
+  campaign_id: string;
+  created_at: Generated<Timestamp>;
+  created_by: string;
+  id: Generated<string>;
+  kind: string;
+  last_checksum: string | null;
+  name: string;
+  owner_tenant_id: string;
+  project_id: string;
+  run_as: string;
+  schedule: Generated<string>;
+  secret_sealed: string | null;
+  status: Generated<string>;
+  url: string;
+}
+
 export interface CoreConsentRecords {
   created_at: Generated<Timestamp>;
   data_classes: string[];
@@ -746,6 +783,15 @@ export interface CoreQualityIssues {
   tolerance: string | null;
 }
 
+export interface CoreReferenceVersions {
+  applied_at: Generated<Timestamp>;
+  digest: string;
+  id: Generated<number>;
+  kind: string;
+  summary: Json;
+  version: string;
+}
+
 export interface CoreReleaseAssets {
   created_at: Generated<Timestamp>;
   id: Generated<string>;
@@ -1037,6 +1083,8 @@ export interface DB {
   "core.audit_events": CoreAuditEvents;
   "core.boundary_members": CoreBoundaryMembers;
   "core.calculation_runs": CoreCalculationRuns;
+  "core.connector_runs": CoreConnectorRuns;
+  "core.connectors": CoreConnectors;
   "core.consent_records": CoreConsentRecords;
   "core.cycle_events": CoreCycleEvents;
   "core.cycle_snapshots": CoreCycleSnapshots;
@@ -1073,6 +1121,7 @@ export interface DB {
   "core.project_participants": CoreProjectParticipants;
   "core.projects": CoreProjects;
   "core.quality_issues": CoreQualityIssues;
+  "core.reference_versions": CoreReferenceVersions;
   "core.release_assets": CoreReleaseAssets;
   "core.report_approvals": CoreReportApprovals;
   "core.report_releases": CoreReportReleases;

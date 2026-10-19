@@ -2695,7 +2695,8 @@
       "notifications": "Notifications",
       "factors": "Factor library",
       "review": "Review queue",
-      "handoff": "Design hand-offs"
+      "handoff": "Design hand-offs",
+      "reference": "Reference data versions"
     },
     "kind": {
       "company": "Company",
@@ -2929,7 +2930,10 @@
       "answer_too_short": "The answer needs at least 10 characters.",
       "opinion_file_required": "Choose the assurance report file to record it as received.",
       "assurance_only": "Only a person with an assurance grant can ask.",
-      "not_asker": "Only the person who asked can close the question."
+      "not_asker": "Only the person who asked can close the question.",
+      "invalid_url": "Invalid URL (http or https).",
+      "credentials_in_url": "No user name or password in the URL; use the access token field.",
+      "connector_paused": "The connector is paused."
     },
     "auth": {
       "email": "E-mail",
@@ -4501,6 +4505,69 @@
       "sendAnswer": "Send answer",
       "files": "{n} files",
       "close": "Close question"
+    },
+    "vis": {
+      "siteTitle": "Facility map — {label}",
+      "siteLead": "Block height shows the share of the cycle's data requests done; a dashed red edge means a request was returned for correction. It is not an environmental performance indicator.",
+      "siteDesc": "Facilities grouped by legal entity; each block shows the number of data requests done. The same information is in the table below.",
+      "done": "{a}/{n} requests done",
+      "returned": "{n} returned",
+      "entity": "Legal entity",
+      "progress": "Progress",
+      "returnedCol": "Returned",
+      "tableCaption": "Data collection status by facility",
+      "flowTitle": "Emission flow (operational control)",
+      "flowLead": "From facilities to scopes and from scopes to the total, in tCO₂e; every node's inflow equals its outflow. The same values are in the table below.",
+      "flowTable": "Flow table",
+      "from": "From",
+      "to": "To",
+      "total": "Total"
+    },
+    "con": {
+      "title": "Source connectors",
+      "lead": "Pulls your ERP/HR system's export (CSV or JSON) from the configured host only; the data take the same path as a file import (scan, row validation) and go to the reviewer. The same data twice change nothing; a failure is retried.",
+      "campaign": "Campaign",
+      "name": "Name",
+      "kind": "Format",
+      "kinds": {
+        "http_csv": "HTTP — CSV",
+        "http_json": "HTTP — JSON"
+      },
+      "url": "URL",
+      "urlHint": "Only this host is contacted; redirects are not followed",
+      "secret": "Access token (optional)",
+      "secretHint": "Stored encrypted, sent only to this host",
+      "schedule": "Runs",
+      "schedules": {
+        "manual": "Manually",
+        "daily": "Daily"
+      },
+      "create": "Add connector",
+      "pull": "Pull now",
+      "queued": "Queued.",
+      "runStatus": {
+        "succeeded": "received",
+        "unchanged": "unchanged",
+        "failed": "failed"
+      },
+      "rows": "{rows} rows, {valid} submitted"
+    },
+    "ref": {
+      "title": "Reference data versions",
+      "lead": "The factor library, metric catalogue, report templates, regulation/source register and industry packs ship with the code; each deploy compares their content digests and records a change with the items added, removed or changed.",
+      "list": "Records ({n})",
+      "kind": "Kind",
+      "kinds": {
+        "factor_library": "Factor library",
+        "metric_catalogue": "Metric catalogue",
+        "report_templates": "Report templates",
+        "regulation_register": "Regulation and source register",
+        "industry_packs": "Industry packs"
+      },
+      "version": "Version",
+      "applied": "Applied",
+      "changes": "Changes",
+      "counts": "{items} items · +{added} −{removed} ~{changed}"
     }
   }
 }

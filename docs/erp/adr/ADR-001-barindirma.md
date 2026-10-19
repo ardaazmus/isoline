@@ -39,3 +39,8 @@
 **Gizli bilgiler:** `.env` dosyasında durur, depoya girmez. Üretimde Docker secrets ya da harici sır yöneticisi kullanılır.
 
 **Port çakışmaları:** Bu makinede 5432 ve 5433 dolu; geliştirme portları `.env` ile seçilir. v2 klasörünün `isoline` Compose projesiyle çakışmamak için proje adı `isoline-main`dir.
+
+## Güncelleme (G8, 19.10.2026)
+
+- Uygulama ve iş kuyruğu kapsayıcı imajı olarak dağıtılır (`web/Dockerfile`, `docker compose --profile app`): web kök olmayan kullanıcıyla ve salt okunur dosya sistemiyle çalışır, `migrate` tek seferlik iş olarak önce koşar.
+- Yedekleme pg_dump özel biçimiyle alınır ve `scripts/ops/restore-drill.mjs` ile düzenli olarak geri yüklenip satır sayısıyla doğrulanır; kanıt deposu birim düzeyinde yedeklenir.

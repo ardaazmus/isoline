@@ -61,6 +61,41 @@ services:
     environment:
       TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN:-}
 
+  # ---- application (G8): docker compose --profile app --profile scan up -d --build
+  # deploy/app.env is written by `node scripts/server-env.mjs` from web/.env.local (same secrets, service names)
+  migrate:
+    image: isoline/worker:local
+    build: { context: ., dockerfile: web/Dockerfile, target: worker }
+    profiles: ["app"]
+    env_file: deploy/app.env
+    command: ["npx", "tsx", "scripts/db/cli.ts", "migrate"]
+    depends_on:
+      db: { condition: service_healthy }
+    restart: "no"
+
+  web:
+    image: isoline/web:local
+    build: { context: ., dockerfile: web/Dockerfile, target: web }
+    profiles: ["app"]
+    restart: unless-stopped
+    env_file: deploy/app.env
+    ports:
+      - "127.0.0.1:${APP_PORT:-3230}:3000"
+    read_only: true
+    tmpfs: ["/tmp", "/app/.next/cache"]
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+      storage: { condition: service_started }
+
+  worker:
+    image: isoline/worker:local
+    build: { context: ., dockerfile: web/Dockerfile, target: worker }
+    profiles: ["app"]
+    restart: unless-stopped
+    env_file: deploy/app.env
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+
 volumes:
   pgdata:
   s3data:

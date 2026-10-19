@@ -77,6 +77,11 @@ export const HANDLERS: Record<string, Handler> = {
   "evidence.scan": async (e) => {
     await processScan(String(e.payload.evidenceId));
   },
+  // G8-01: a connector pull; a thrown error is retried with back-off and ends as a dead event
+  "connector.pull": async (e) => {
+    const { pullConnector } = await import("../connectors/service");
+    await pullConnector(String(e.payload.connectorId), (e.payload.triggeredBy as string | null) ?? null);
+  },
 };
 
 /** Registers more handlers (later gates: reminders, imports, report packages). */

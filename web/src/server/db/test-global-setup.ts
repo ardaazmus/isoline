@@ -28,5 +28,7 @@ export default async function setup() {
   await syncCatalog();
   const { syncBuiltinFactors } = await import("../calc/factors");
   await syncBuiltinFactors();
+  const { syncReferenceVersions } = await import("../reference/updater");
+  await syncReferenceVersions();
   await closeDb();
 }

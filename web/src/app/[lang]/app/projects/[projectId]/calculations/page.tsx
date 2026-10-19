@@ -8,6 +8,9 @@ import { grantCan, memberCan, type Action } from "@/server/policy/policy";
 import { listChoices, listFactorSets } from "@/server/calc/factors";
 import { listFacts, listIssues, listRuns } from "@/server/calc/service";
 import { listBoundaries, listCycles } from "@/server/projects/service";
+import { FlowSankey } from "@/platform/g8/visual";
+import { ghgFlows, sankey } from "@/lib/visual/layout";
+import { ghgFlowData } from "@/server/visual/service";
 
 export const generateMetadata = titled("pf.calc.title");
 
@@ -42,6 +45,11 @@ export default async function CalculationsPage({ params, searchParams }: PagePro
     return true;
   });
   const group = current.filter((f) => f.facility_id === null);
+  // G8-05: the flow of this cycle's GHG facts (one unit, conserved at every node)
+  const flowData = await ghgFlowData(ws.actor, cycle.id);
+  const flows = ghgFlows({ ...flowData, labels: { scope1: t("pf.calc.m.ghg_scope1"), scope2: t("pf.calc.m.ghg_scope2_location"), scope3: t("pf.calc.m.ghg_scope3"), total: t("pf.vis.total"), org: t("pf.data.organisationLevel") } });
+  const flow = flows.some((f) => f.value > 0) ? sankey(flows) : null;
+  const fmtT = (v: number) => `${new Intl.NumberFormat(lang, { maximumFractionDigits: v >= 1000 ? 0 : 2 }).format(v)} tCO₂e`;
   const byFacility = current.filter((f) => f.facility_id !== null);
   return (
     <>
@@ -106,6 +114,26 @@ export default async function CalculationsPage({ params, searchParams }: PagePro
             </details>
           )}
         </Section>
+        {flow && (
+          <Section title={t("pf.vis.flowTitle")}>
+            <p className="text-[12.5px] text-[var(--ink-3)]">{t("pf.vis.flowLead")}</p>
+            <FlowSankey nodes={flow.nodes} links={flow.links} width={760} height={360} title={t("pf.vis.flowTitle")} format={fmtT} />
+            <details className="text-[13px]">
+              <summary className="cursor-pointer font-medium text-[var(--b-700)]">{t("pf.vis.flowTable")}</summary>
+              <Table head={[t("pf.vis.from"), t("pf.vis.to"), "tCO₂e"]}>
+                {flows
+                  .filter((f) => f.value > 0)
+                  .map((f, i) => (
+                    <tr key={i}>
+                      <Td>{f.source}</Td>
+                      <Td>{f.target}</Td>
+                      <Td className="tabular-nums">{fmtT(f.value)}</Td>
+                    </tr>
+                  ))}
+              </Table>
+            </details>
+          </Section>
+        )}
         <Section title={t("pf.calc.issues", { n: issues.length })}>
           {issues.length === 0 ? (
             <p className="text-[13.5px] text-[var(--ink-3)]">{t("pf.calc.noIssues")}</p>

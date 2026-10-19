@@ -7,6 +7,7 @@ import { closeDb } from "../src/server/db/client";
 import { ensureBucket } from "../src/server/evidence/storage";
 import { recoverStuck, runOnce } from "../src/server/jobs/worker";
 import { scanReminders } from "../src/server/data/service";
+import { queueDailyConnectors } from "../src/server/connectors/service";
 
 if (existsSync(".env.local")) process.loadEnvFile(".env.local");
 
@@ -30,6 +31,8 @@ async function main() {
     if (today !== lastReminderDay) {
       const r = await scanReminders(today);
       if (r.queued) console.log(`queued ${r.queued} reminder(s) for ${today}`);
+      const pulls = await queueDailyConnectors(today);
+      if (pulls) console.log(`queued ${pulls} daily connector pull(s) for ${today}`);
       lastReminderDay = today;
     }
     if (Date.now() - lastRecover > 60_000) {

@@ -40,6 +40,7 @@ export const PLATFORM_NAV: NavGroup[] = [
       { id: "security", href: "/app/settings/security", roles: ADMINS },
       { id: "audit", href: "/app/settings/audit", roles: ADMINS },
       { id: "import", href: "/app/settings/import", roles: ADMINS },
+      { id: "reference", href: "/app/settings/reference", roles: ADMINS },
       { id: "account", href: "/app/account/security" },
     ],
   },
