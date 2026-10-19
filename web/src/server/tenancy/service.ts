@@ -107,6 +107,68 @@ export async function requireProjectAction(tx: Tx, actor: Actor, projectId: stri
   return { ownerTenantId: p.owner_tenant_id, via: "grant", grantRole: g.role as GrantRole, canDownload: g.can_download };
 }
 
+/**
+ * The projects the acting workspace can reach — its own, those of the provisional clients it stewards, and those
+ * granted to it — found through indexes. A superset of what RLS lets through: lists across projects filter with it
+ * first (plain equalities, which PostgreSQL evaluates before the policy functions), so RLS checks only these rows
+ * instead of every project and tenant in the database (G8-07 load test: cost grew with other customers' data).
+ */
+export async function reachableProjectIds(tx: Tx, actor: Actor): Promise<string[]> {
+  if (!actor.actingTenantId) return [];
+  const stewarded = tx.selectFrom("core.tenants").select("id").where("steward_tenant_id", "=", actor.actingTenantId).where("lifecycle", "=", "provisional");
+  // the database clock, as the policy (grant_role) uses it: a grant RLS still honours is never left out
+  const granted = tx.selectFrom("core.external_grants").select("project_id as id").where("recipient_tenant_id", "=", actor.actingTenantId).where("revoked_at", "is", null).where("expires_at", ">", sql<Date>`now()`);
+  const rows = await tx
+    .selectFrom("core.projects")
+    .select("id")
+    .where("owner_tenant_id", "=", actor.actingTenantId)
+    .union(tx.selectFrom("core.projects").select("id").where("owner_tenant_id", "in", stewarded))
+    .union(granted)
+    .execute();
+  return rows.map((r) => r.id);
+}
+
+/**
+ * requireProjectAction for many projects and actions at once (same rules): for each action, the ids of the projects
+ * where the actor may perform it. At most four queries in all — the steward and grant lookups only for projects the
+ * workspace does not own — instead of up to four per project and action.
+ */
+export async function projectsAllowing<A extends Action>(tx: Tx, actor: Actor, projectIds: string[], actions: A[]): Promise<Record<A, Set<string>>> {
+  const out = Object.fromEntries(actions.map((a) => [a, new Set<string>()])) as Record<A, Set<string>>;
+  const ids = [...new Set(projectIds)];
+  if (!ids.length || !actor.actingTenantId) return out;
+  const role = await roleIn(tx, actor);
+  if (!role) return out;
+  const projects = await tx.selectFrom("core.projects").select(["id", "owner_tenant_id"]).where("id", "in", ids).execute();
+  const foreign = projects.filter((p) => p.owner_tenant_id !== actor.actingTenantId);
+  const stewarded = new Set<string>();
+  if (foreign.length) {
+    const owners = [...new Set(foreign.map((p) => p.owner_tenant_id))];
+    for (const t of await tx.selectFrom("core.tenants").select("id").where("id", "in", owners).where("lifecycle", "=", "provisional").where("steward_tenant_id", "=", actor.actingTenantId).execute()) stewarded.add(t.id);
+  }
+  const viaGrant = foreign.filter((p) => !stewarded.has(p.owner_tenant_id)).map((p) => p.id);
+  const grants = viaGrant.length
+    ? await tx
+        .selectFrom("core.external_grants")
+        .select(["project_id", "role", "can_download"])
+        .where("project_id", "in", viaGrant)
+        .where("recipient_tenant_id", "=", actor.actingTenantId)
+        .where("revoked_at", "is", null)
+        .where("expires_at", ">", new Date())
+        .execute()
+    : [];
+  for (const p of projects)
+    for (const action of actions) {
+      if (!memberCan(role, action)) continue;
+      if (p.owner_tenant_id === actor.actingTenantId || stewarded.has(p.owner_tenant_id)) out[action].add(p.id);
+      else {
+        const g = grants.find((x) => x.project_id === p.id);
+        if (g && grantCan(g.role as GrantRole, action, g.can_download)) out[action].add(p.id);
+      }
+    }
+  return out;
+}
+
 // ---------------------------------------------------------------- onboarding (paths A and B)
 
 export async function createTenant(id: Identity, input: { name: string; kind: TenantKind; termsVersion: string }): Promise<string> {

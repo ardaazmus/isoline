@@ -1,8 +1,7 @@
 import { cookies } from "next/headers";
 import { PlatformShell, type ShellContext } from "@/platform/shell";
-import { getSession } from "@/server/http/dal";
+import { getMemberships, getSession } from "@/server/http/dal";
 import { TENANT_COOKIE } from "@/server/http/api";
-import { myMemberships } from "@/server/tenancy/service";
 import { unreadCount } from "@/server/data/service";
 
 /**
@@ -13,7 +12,7 @@ export default async function PlatformLayout({ children }: LayoutProps<"/[lang]/
   const session = await getSession();
   let ctx: ShellContext = { user: null, memberships: [], current: null };
   if (session) {
-    const memberships = await myMemberships(session.identity.userId);
+    const memberships = await getMemberships(session.identity.userId);
     const chosen = (await cookies()).get(TENANT_COOKIE)?.value;
     ctx = { user: { name: session.name, email: session.identity.email }, memberships, current: memberships.find((m) => m.tenantId === chosen) ?? null, unread: await unreadCount(session.identity.userId) };
   }

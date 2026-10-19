@@ -29,10 +29,13 @@ export default async function TaskPage({ params }: PageProps<"/[lang]/app/tasks/
         title={t(`req.items.${task.metric.code}`)}
         lead={
           <>
-            <Link href={`/${lang}/app/projects/${task.request.project_id}/data`} className="text-[var(--b-700)]">
+            <Link href={`/${lang}/app/projects/${task.request.project_id}/data`} className="text-[var(--b-700)] underline">
               {task.request.project_name}
             </Link>{" "}
-            · {task.request.cycle_label} · {task.request.facility_name ?? t("pf.data.organisationLevel")} · <StatusBadge status={task.request.status} />
+            · {task.request.cycle_label} · {task.request.facility_name ?? t("pf.data.organisationLevel")} ·{" "}
+            <span id="task-status" role="status" tabIndex={-1} className="rounded-full">
+              <StatusBadge status={task.request.status} />
+            </span>
             {task.request.due_on && <span className="ml-2 text-[13px] text-[var(--ink-3)]">{t("pf.task.dueOn", { date: dateOnly(lang, task.request.due_on) })}</span>}
             {task.request.returns > 0 && (
               <span className="ml-2">

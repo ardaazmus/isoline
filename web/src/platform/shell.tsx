@@ -88,7 +88,7 @@ function ContextBar({ ctx, onMenu }: { ctx: ShellContext; onMenu: () => void }) 
         </div>
 
         {ctx.current && (
-          <div className="glass flex h-12 min-w-0 flex-1 items-center gap-2.5 rounded-[16px] px-3.5 sm:flex-none" aria-label={t("pf.shell.context")}>
+          <div role="group" className="glass flex h-12 min-w-0 flex-1 items-center gap-2.5 rounded-[16px] px-3.5 sm:flex-none" aria-label={t("pf.shell.context")}>
             <Building2 size={16} aria-hidden className="shrink-0 text-[var(--accent-ink)]" />
             <label htmlFor="ws-switch" className="sr-only">
               {t("pf.shell.workspace")}
@@ -138,7 +138,7 @@ function ContextBar({ ctx, onMenu }: { ctx: ShellContext; onMenu: () => void }) 
             className="rounded-lg border border-[var(--rule)] bg-[var(--paper)] px-2 py-1 text-[12.5px] font-semibold uppercase tracking-[0.04em] text-[var(--ink)]"
           >
             {LOCALES.map((l) => (
-              <option key={l.code} value={l.code} aria-label={l.nativeName}>
+              <option key={l.code} value={l.code} lang={l.code} aria-label={`${l.code.toUpperCase()} – ${l.nativeName}`}>
                 {l.code.toUpperCase()}
               </option>
             ))}

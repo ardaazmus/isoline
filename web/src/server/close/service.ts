@@ -15,7 +15,7 @@ import { audit, canonicalJson } from "../audit/audit";
 import { withActor, type Actor, type Tx } from "../db/client";
 import { plainDecimal } from "../data/units";
 import { forbidden, HttpError, notFound, type Action } from "../policy/policy";
-import { requireProjectAction } from "../tenancy/service";
+import { projectsAllowing, reachableProjectIds, requireProjectAction } from "../tenancy/service";
 import { issueCounts, recordIssues, supersedeOpenIssues, writeFacts, type RunRef } from "../calc/service";
 import { consolidateRevenue } from "./consolidation";
 import { reconcile, RECONCILE_VERSION } from "./reconcile";
@@ -448,6 +448,8 @@ export async function reopenRequest(actor: Actor, requestId: string, reason: str
 /** Everything waiting for this person's decision — never their own work. */
 export async function reviewQueue(actor: Actor) {
   return withActor(actor, async (tx) => {
+    // metrics, warnings and revenue inputs are listed per project the workspace can reach, not across the database
+    const reachable = await reachableProjectIds(tx, actor);
     const requests = await tx
       .selectFrom("core.data_requests as r")
       .innerJoin("core.projects as p", "p.id", "r.project_id")
@@ -458,6 +460,7 @@ export async function reviewQueue(actor: Actor) {
       .where("r.status", "in", ["submitted", "reviewing"])
       .orderBy("r.submitted_at")
       .execute();
+    if (!reachable.length) return { requests, facts: [], issues: [], inputs: [] };
     const facts = await tx
       .selectFrom("core.metric_fact_versions as f")
       .innerJoin("core.calculation_runs as run", "run.id", "f.run_id")
@@ -465,6 +468,7 @@ export async function reviewQueue(actor: Actor) {
       .leftJoin("core.facilities as fa", "fa.id", "f.facility_id")
       .leftJoin("user as u", "u.id", "run.performed_by")
       .select(["f.id", "f.metric_key", "f.value_num", "f.value_text", "f.unit", "f.revision", "f.run_id", "f.supersedes_id", "p.id as project_id", "p.name as project_name", "fa.name as facility_name", "u.name as performed_by_name", "run.kind"])
+      .where("f.project_id", "in", reachable)
       .where("f.status", "=", "ready_for_review")
       .where("run.performed_by", "!=", actor.userId)
       .where("f.facility_id", "is", null)
@@ -474,6 +478,7 @@ export async function reviewQueue(actor: Actor) {
       .selectFrom("core.quality_issues as i")
       .innerJoin("core.projects as p", "p.id", "i.project_id")
       .select(["i.id", "i.rule_id", "i.severity", "i.target_id", "i.run_id", "p.id as project_id", "p.name as project_name", "i.created_at"])
+      .where("i.project_id", "in", reachable)
       .where("i.status", "=", "open")
       .where("i.severity", "=", "warning")
       .where("i.detected_by", "!=", actor.userId)
@@ -484,36 +489,21 @@ export async function reviewQueue(actor: Actor) {
       .innerJoin("core.legal_entities as e", "e.id", "f.legal_entity_id")
       .innerJoin("core.projects as p", "p.id", "f.project_id")
       .select(["f.id", "f.cycle_id", "f.net_sales", "e.name as entity_name", "p.id as project_id", "p.name as project_name"])
+      .where("f.project_id", "in", reachable)
       .where("f.status", "=", "submitted")
       .where("f.entered_by", "!=", actor.userId)
       .execute();
-    // keep only projects where this person may review (role and grant), checked once per project
-    const can = new Map<string, boolean>();
-    const allowed = async (projectId: string, action: Action) => {
-      const k = `${projectId}:${action}`;
-      if (!can.has(k))
-        can.set(
-          k,
-          await requireProjectAction(tx, actor, projectId, action).then(
-            () => true,
-            () => false,
-          ),
-        );
-      return can.get(k)!;
-    };
-    const keep = async <T extends { project_id: string }>(rows: T[], action: Action) => {
-      const out: T[] = [];
-      for (const r of rows) if (await allowed(r.project_id, action)) out.push(r);
-      return out;
-    };
+    // keep only projects where this person may review (role and grant), checked in one batch for every project
+    const allowed = await projectsAllowing(tx, actor, [...facts, ...issues, ...inputs].map((r) => r.project_id), ["quality.review", "data.review"]);
+    const keep = <T extends { project_id: string }>(rows: T[], action: "quality.review" | "data.review") => rows.filter((r) => allowed[action].has(r.project_id));
     // previous approved value next to a new revision (CTRL-07 diff)
     const prevIds = facts.map((f) => f.supersedes_id).filter(Boolean) as string[];
     const prev = prevIds.length ? await tx.selectFrom("core.metric_fact_versions").select(["id", "value_num", "value_text", "status"]).where("id", "in", prevIds).execute() : [];
     return {
       requests,
-      facts: (await keep(facts, "quality.review")).map((f) => ({ ...f, previous: prev.find((p) => p.id === f.supersedes_id) ?? null })),
-      issues: await keep(issues, "quality.review"),
-      inputs: await keep(inputs, "data.review"),
+      facts: keep(facts, "quality.review").map((f) => ({ ...f, previous: prev.find((p) => p.id === f.supersedes_id) ?? null })),
+      issues: keep(issues, "quality.review"),
+      inputs: keep(inputs, "data.review"),
     };
   });
 }

@@ -10,7 +10,7 @@ import { withActor, withSystem, type Actor, type Tx } from "../db/client";
 import { canonicalJson } from "../audit/audit";
 import { suggestBoundaryOverPeriod, type BoundaryKind, type Control } from "../orgs/boundary";
 import { forbidden, HttpError, notFound } from "../policy/policy";
-import { requireMemberAction, requireProjectAction } from "../tenancy/service";
+import { reachableProjectIds, requireMemberAction, requireProjectAction } from "../tenancy/service";
 import { addDays, criticalSet, GATE_TEMPLATE, iso, reaches, schedule, WP_TRANSITIONS, type WpStatus } from "./plan";
 
 const pg = (e: unknown): never => {
@@ -586,10 +586,13 @@ export async function listEngagements(actor: Actor) {
 /** Every project the acting workspace can see, with its latest cycle and the plan's next due, late and blocked items. */
 export async function portfolio(actor: Actor) {
   return withActor(actor, async (tx) => {
+    const reachable = await reachableProjectIds(tx, actor);
+    if (!reachable.length) return [];
     const projects = await tx
       .selectFrom("core.projects as p")
       .innerJoin("core.tenants as t", "t.id", "p.owner_tenant_id")
       .select(["p.id", "p.name", "p.status", "p.owner_tenant_id", "t.name as owner_name", "t.lifecycle as owner_lifecycle", "t.steward_tenant_id"])
+      .where("p.id", "in", reachable)
       .orderBy("t.name")
       .orderBy("p.name")
       .execute();

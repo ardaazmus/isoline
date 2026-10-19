@@ -53,7 +53,7 @@ export function ChooseWorkspace({ lang, memberships }: { lang: string; membershi
           </li>
         ))}
       </ul>
-      <Link href={`/${lang}/app/onboarding`} className="text-[13.5px] font-medium text-[var(--b-700)]">
+      <Link href={`/${lang}/app/onboarding`} className="on-ground text-[13.5px] font-medium text-[var(--b-700)] underline">
         {t("pf.choose.newWorkspace")}
       </Link>
     </div>

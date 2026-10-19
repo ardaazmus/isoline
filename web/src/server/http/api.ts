@@ -13,9 +13,9 @@ import { sql } from "kysely";
 import { z, type ZodType } from "zod";
 import { auth } from "../auth/auth";
 import { withActor, type Actor } from "../db/client";
-import { HttpError } from "../policy/policy";
+import { HttpError, notFound } from "../policy/policy";
 import type { MemberRole } from "../policy/policy";
-import { actorFor, type Identity } from "../tenancy/service";
+import type { Identity } from "../tenancy/service";
 
 export const TENANT_HEADER = "x-isoline-tenant";
 export const TENANT_COOKIE = "isoline_tenant";
@@ -82,13 +82,28 @@ export async function sessionFrom(headers: Headers): Promise<Session | null> {
   return { identity: { userId: u.id, email: u.email, emailVerified: u.emailVerified }, name: u.name, sessionId: s.session.id, twoFactorEnabled: Boolean(u.twoFactorEnabled) };
 }
 
-/** Membership check plus the tenant's MFA rule. */
+/**
+ * Membership check plus the tenant's MFA rule, in one query (every API request and page runs it: G8-07 load test).
+ * Same outcome as actorFor + the tenant lookup: no live membership is a 404, whatever the requested id looks like.
+ */
 export async function tenantActor(session: Session, requested: string | null, requestId: string): Promise<TenantActor> {
-  const a = await actorFor(session.identity.userId, requested, requestId);
-  if (!a.actingTenantId) return { ...a, requireMfa: false };
-  const t = await withActor(a, (tx) => tx.selectFrom("core.tenants").select("require_mfa").where("id", "=", a.actingTenantId!).executeTakeFirstOrThrow());
-  if (t.require_mfa && !session.twoFactorEnabled) throw new HttpError(403, "mfa_required");
-  return { ...a, requireMfa: t.require_mfa };
+  const userId = session.identity.userId;
+  if (!requested) return { userId, actingTenantId: null, requestId, role: null, requireMfa: false };
+  if (!UUID.test(requested)) throw notFound("tenant_not_found");
+  const m = await withActor({ userId, actingTenantId: null }, (tx) =>
+    tx
+      .selectFrom("core.memberships as m")
+      .innerJoin("core.tenants as t", "t.id", "m.tenant_id")
+      .select(["m.tenant_id", "m.role", "t.require_mfa"])
+      .where("m.user_id", "=", userId)
+      .where("m.tenant_id", "=", requested)
+      .where("m.revoked_at", "is", null)
+      .executeTakeFirst(),
+  );
+  if (!m) throw notFound("tenant_not_found");
+  if (m.require_mfa && !session.twoFactorEnabled) throw new HttpError(403, "mfa_required");
+  // the id as stored (lower case): callers compare it with ids from the database
+  return { userId, actingTenantId: m.tenant_id, requestId, role: m.role as MemberRole, requireMfa: m.require_mfa };
 }
 
 export const requestedTenant = (req: Request) => req.headers.get(TENANT_HEADER) ?? readCookie(req, TENANT_COOKIE);

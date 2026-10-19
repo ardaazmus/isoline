@@ -142,7 +142,7 @@ function TopBar({ onMenu }: { onMenu: () => void }) {
             className="rounded-lg border border-[var(--rule)] bg-[var(--paper)] px-2 py-1 text-[12.5px] font-semibold uppercase tracking-[0.04em] text-[var(--ink)]"
           >
             {LOCALES.map((l) => (
-              <option key={l.code} value={l.code} aria-label={l.nativeName}>
+              <option key={l.code} value={l.code} lang={l.code} aria-label={`${l.code.toUpperCase()} – ${l.nativeName}`}>
                 {l.code.toUpperCase()}
               </option>
             ))}

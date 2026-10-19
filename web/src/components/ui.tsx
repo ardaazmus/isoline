@@ -272,7 +272,7 @@ export function SampleFlag({ text, onBand }: { text: string; onBand?: boolean })
     <span
       className={cn(
         "inline-flex items-center gap-1.5 rounded-full border border-dashed px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-[0.08em]",
-        onBand ? "border-white/60 text-white" : "border-[var(--warn)] text-[var(--warn)]",
+        onBand ? "border-white/60 text-white" : "border-[var(--warn)] bg-[var(--paper)] text-[var(--warn)]",
       )}
     >
       {text}
