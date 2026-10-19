@@ -32,6 +32,8 @@ async function main() {
     const { syncCatalog } = await import("../../src/server/data/catalog-sync");
     const { closeDb } = await import("../../src/server/db/client");
     console.log(`metric catalogue: ${(await syncCatalog()).inserted} new definition(s)`);
+    const { syncBuiltinFactors } = await import("../../src/server/calc/factors");
+    console.log(`factor library: ${(await syncBuiltinFactors()).sets} built-in set(s) checked`);
     await closeDb();
   } else if (cmd === "rollback") {
     const r = await migrateDown(need("DATABASE_OWNER_URL"));

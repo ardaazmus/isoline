@@ -14,7 +14,7 @@
 | G1 | bitti | Kimlik, kiracı, RLS, dış erişim izni, kanıt deposu, denetim+outbox, araç seti aktarımı; 34 entegrasyon testi |
 | G2 | bitti | Organizasyon ağacı ve tarihli sahiplik, beş tür raporlama sınırı, iş/teslimat, dönem, uygulanabilirlik kararı ve müşteri onayı, ekip/RACI, 13 kapılı plan ve kritik yol, portföy |
 | G3 | bitti | Sürümlü metrik kataloğu, şablondan kampanya üreteci, kişi+tesis kapsamlı atama, 4 adımlı katılımcı formu, iade/yeniden gönderim, sürümlü gözlemler, kanıt bağlantıları, XLSX/CSV içe aktarma, hatırlatmalar, tedarikçi izni |
-| G4 | başlamadı | |
+| G4 | bitti | Sürümlü faktör sicili ve lisans, idempotent hesap çalışmaları (girdi/faktör/çıktı özetleri), çok tesisli Kapsam 1/2/3, çevre/işgücü/finans/SKDM/ETS sarmalayıcıları, engelleyici/uyarı kalite kuralları, dört göz onayı, metrik sürümleri ve kaynak izi, yeniden üretim |
 | G5 | başlamadı | |
 | G6 | başlamadı | |
 | G7 | başlamadı | |
@@ -88,7 +88,30 @@
 
 **G3 kapısı:** `g3.db.test.ts` — 3 kişi (Zeynep Gebze, Kemal Dilovası, Mehmet veri sahibi), 2 tesis, iki veri türü (sera gazı ve enerji/finans), bir iade ve yeniden gönderim, kaynak belge, dosyadan içe aktarma, hatırlatma ve tedarikçi yalıtımı gerçek PostgreSQL ve SeaweedFS ile.
 
-## G4–G8
+## G4 — Hesap ve kalite katmanı
+
+| ID | Durum | Kanıt |
+|---|---|---|
+| G4-01 | bitti | `core.factor_sets` / `factor_values` (migration 0006): yerleşik setler (IPCC 2006, ETKB 2020–2023, AR6 GWP, TÜİK NIR 2026, DESNZ 2026, EEA, AB SKDM varsayılanları) yayıncı, lisans, yayın yılı ve içerik SHA-256 özetiyle; değişen değer yeni satır. Kurumun kendi seti CSV ile, lisanslı veri yalnız hak onayıyla (DB CHECK). Çözümleme `calc/factors.ts` `resolveFactors`: proje seçimi önce; yoksa raporlama yılının ETKB yayını, yoksa önceki son yayın + `factor_edition_fallback` bulgusu; kapsam 3 için sessiz varsayılan yok. Ekran: `app/factors` (DATA-19), proje seçimleri `projects/[id]/calculations` |
+| G4-02 | bitti | `calc/service.ts` `runCalculation`: onaylı sınır + yalnız kabul edilmiş gözlem sürümleri; girdi özeti (açık talepler dahil), faktör özeti (hedefe göre sıralı), motor sürümü (`ISOLINE_BUILD_SHA` ile commit'e bağlanır); aynı özetler aynı çalışmayı döndürür (benzersiz indeks). `run_inputs`: gözlem sürümü, kanıt dosyası ve faktör değeri satırları |
+| G4-03 | bitti | `calc/ghg-engine.ts`: araç setinin `computeInventory` motoru değiştirilmeden tesis başına çalışır, sınır payıyla ölçeklenir; lokasyon ve piyasa bazlı kapsam 2 ayrı, sertifikalar tüketime oranla dağıtılır, Türkiye için kalıntı karışımı yok uyarısı (Scope 2 Guidance), yurt dışı tesiste EEA ülke faktörü, soğutucularda çözümlenen GWP. Eşdeğerlik ve özellik testleri `ghg-engine.test.ts` (v1 ile 200 rastgele vaka, doğrusal ölçek, sertifika sınırı) |
+| G4-04 | bitti | `calc/engines.ts`: enerji/yenilenebilir/su/atık ve yoğunluk; çalışan sayısı, eğitim, LTIFR; 5 kişiden küçük grupta kadın oranı gizlenir (KVKK md. 6). Her metrik çalışmaya, çalışma gözlem sürümüne ve kanıta bağlı |
+| G4-05 | bitti | Finans: kabul edilmiş mizan dosyası (kanıt deposu, SHA-256 doğrulamalı) araç setinin TDHP okuyucusuyla okunur; net satış 600–602 eksi 610–612; yıl uyuşmazlığı ve dengesiz mizan engelleyici, beyan edilen tutarla %0,5 üstü fark uyarı. Yeniden üretim dosyanın kendisinden yapılır |
+| G4-06 | bitti | SKDM: Ek I kapsam kontrolü (GTİP), doğrulanmış gerçek SEE yoksa menşe ülke tablosundan AB varsayılan değeri + yılın ek oranı (2026/1740), bulgu olarak işaretlenir. TR-ETS: tesis başına İklim Kanunu kategorisi, pay ile ölçeklenmez |
+| G4-07 | bitti | Kalite kuralları (`RULE_VERSION`): engelleyici (faktör yok, kabul edilmemiş girdi, mükerrer girdi, mizan yılı/dengesi, imkânsız değerler) ve uyarı (yayın geri düşüşü, yoğunluk varsayımı, kalıntı karışımı, %20 üstü tahmini pay, yıllık %30 üstü değişim, mizan farkı). Engelleyici elle kapanmaz, girdi düzeltilip yeniden hesaplanır; uyarı başka bir kişi tarafından gerekçeyle (≥ 10 karakter) açıklanır ya da istisna kabul edilir |
+| G4-08 | bitti | `core.metric_fact_versions`: her sonuç yeni revizyon; engel varken `validating`, yoksa `ready_for_review`; onay hesabı çalıştırandan başka biri tarafından ve açık bulgu yokken; onaylı revizyon yenisi onaylanana dek geçerli. Kaynak izi ekranı `app/facts/[id]` (DATA-20): çalışma → gözlem sürümleri (giren/kabul eden) → kanıt dosyaları → faktörler (yayıncı, yayın, lisans, özet) → revizyon geçmişi |
+| G4-09 | bitti | 20 birim/özellik testi (`ghg-engine.test.ts`, `engines.test.ts`) ve araç setinin mevcut testleri değişmeden geçiyor; DB kapı testi `g4.db.test.ts` |
+
+**G4 kapısı:** `g4.db.test.ts` — iki tesisli (iletim/dağıtım bağlantılı) şirket, onaylı operasyonel kontrol sınırı, kabul edilmiş yakıt/elektrik/soğutucu/sertifika verisi ve mizan dosyası. Emisyon metriği (Kapsam 2 lokasyon bazlı = 8 000 MWh × ETKB 2023 iletim + 2 000 MWh × dağıtım) ve finans metriği (net satış 1 237 500 000 TL, mizandan) `reproduceRun` ile kayıtlı gözlem sürümleri, faktör değerleri ve dosya baytlarından yeniden üretildi; köken kaydı faktörün set kodunu, yayın yılını, lisansını, yayıncısını ve içerik özetini gösteriyor. Aynı girdiyle ikinci çalışma aynı kaydı döndürüyor; proje faktör seçimi (TÜİK) yeni çalışma ve yeni revizyon açıyor, onaylı revizyon yerinde kalıyor. Tarayıcıda: Selin hesapladı, Mehmet'in toplu onayı açık bulgu varken reddedildi, üç uyarı gerekçeyle kabul edildi, 17 metrik onaylandı, yeniden üretim aynı çıktıyı verdi.
+
+**Bu kapıda verilen ek kararlar:**
+- Kurum sahibi (`owner`) rolü veri inceleme, hesaplama ve kalite inceleme yetkisi aldı (küçük şirkette işi sahibi yürütür); dört göz kuralı nesne bazında zorunlu kalır. Atamada gözden geçirenin üyelik rolü incelemeye izin vermiyorsa atama reddedilir (`reviewer_cannot_review`); G3 demosunda kabul edilemeyen görev hatası böylece kapandı.
+- Tesislere şebeke bağlantı noktası (iletim/dağıtım) alanı eklendi; ETKB tüketim noktası faktörü buna göre seçilir.
+- Taranmakta olan bir dosya yalnız yükleyene görünür (G1 kuralı); demo verisi bu yüzden dosyaları hesaptan önce tarar.
+
+**Açık risk:** Sayı girişinde tek ayırıcı ondalık sayılır (v1 kuralı, "900.000" = 900). Türkçe kullanıcı binlik ayırıcı niyetiyle yazabilir; G8 form turunda belirsiz biçim (tek ayırıcı + tam üç hane) için onay uyarısı eklenecek.
+
+## G5–G8
 
 Kapı başladıkça buraya ayrıntılı tablo eklenir. Görev listeleri plan 13'te.
 
@@ -103,4 +126,4 @@ Kapı başladıkça buraya ayrıntılı tablo eklenir. Görev listeleri plan 13'
   - depo SeaweedFS (ADR-005; MinIO imajları kaldırıldığı için);
   - modüler monolit (ADR-007);
   - v1 araç seti `(toolkit)` rota grubunda korunuyor (ADR-008).
-- **Açık / sıradaki:** G4 (sürümlü faktör sicili ve lisans, hesap bağlamı sarmalayıcısı, çok tesisli Scope 1/2/3, çevre/işgücü, mizan, SKDM/ETS, doğrulama/anomali politikası, MetricFactVersion + soy ağacı, eşdeğerlik testleri).
+- **Açık / sıradaki:** G5 (GHG ve finansal konsolidasyon kural setleri, U1..U10 tutarlılık kuralları, ayrı gözden geçiren kuyruğu, anlık görüntü ve yeniden açma, kapanış kontrol listesi; kapı: 2 bağlı ortaklık + 2 tesis / 2 dönem, kapalı görüntü değişmez).

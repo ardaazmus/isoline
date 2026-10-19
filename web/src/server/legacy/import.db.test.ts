@@ -119,7 +119,8 @@ describe("legacy workspace import (G1-11)", () => {
     const up = await uploadEvidence(owner, pid, { filename: "yakit-2025.csv", bytes: csv });
     expect(up.id).toBe(placeholder.id);
     expect(up.scanStatus).toBe("scanning");
-    await runOnce(50);
+    // drain the queue: earlier test files may have left notification and mail events ahead of the scan
+    while ((await runOnce(100)).handled > 0);
     const done = await systemDb().selectFrom("core.evidence_objects").select("scan_status").where("id", "=", placeholder.id).executeTakeFirstOrThrow();
     expect(done.scan_status).toBe("available");
     // real work now exists: the import can no longer be rolled back

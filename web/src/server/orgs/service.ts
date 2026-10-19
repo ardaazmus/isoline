@@ -12,6 +12,8 @@ import type { Control } from "./boundary";
 
 export type EntityType = "listed" | "bank" | "bank_tmsf" | "nonbank_fi" | "insurer" | "capital_markets_fi" | "precious_metals" | "unlisted_company" | "public_body";
 export type FacilityKind = "plant" | "office" | "warehouse" | "store" | "site" | "mine" | "vessel" | "other";
+/** Where the site draws electricity: the ETKB consumption-point factor differs (transmission = high voltage). */
+export type GridConnection = "transmission" | "distribution";
 
 /** The tenant whose tree is changed: the acting tenant, or a provisional client the actor's tenant stewards. */
 export async function ownerFor(tx: Tx, actor: Actor, ownerTenantId?: string): Promise<string> {
@@ -157,7 +159,7 @@ export async function endOwnershipEdge(actor: Actor, edgeId: string, validTo: st
 
 export async function createFacility(
   actor: Actor,
-  input: { legalEntityId: string; name: string; kind?: FacilityKind; countryCode?: string; city?: string | null; naceCode?: string | null; operated?: boolean; cbamInstallation?: boolean; responsibleUserId?: string | null; validFrom?: string | null; validTo?: string | null; legacySiteId?: string | null },
+  input: { legalEntityId: string; name: string; kind?: FacilityKind; countryCode?: string; city?: string | null; naceCode?: string | null; operated?: boolean; cbamInstallation?: boolean; responsibleUserId?: string | null; validFrom?: string | null; validTo?: string | null; legacySiteId?: string | null; gridConnection?: GridConnection },
 ): Promise<string> {
   return withActor(actor, async (tx) => {
     const ent = await tx.selectFrom("core.legal_entities").select("owner_tenant_id").where("id", "=", input.legalEntityId).executeTakeFirst();
@@ -175,6 +177,7 @@ export async function createFacility(
         nace_code: input.naceCode ?? null,
         operated: input.operated ?? true,
         cbam_installation: input.cbamInstallation ?? false,
+        grid_connection: input.gridConnection ?? "distribution",
         responsible_user_id: input.responsibleUserId ?? null,
         valid_from: input.validFrom ?? null,
         valid_to: input.validTo ?? null,
@@ -189,7 +192,7 @@ export async function createFacility(
   });
 }
 
-export async function updateFacility(actor: Actor, id: string, patch: { name?: string; kind?: FacilityKind; city?: string | null; operated?: boolean; cbamInstallation?: boolean; responsibleUserId?: string | null; validTo?: string | null }, expectedVersion?: number): Promise<number> {
+export async function updateFacility(actor: Actor, id: string, patch: { name?: string; kind?: FacilityKind; city?: string | null; operated?: boolean; cbamInstallation?: boolean; gridConnection?: GridConnection; responsibleUserId?: string | null; validTo?: string | null }, expectedVersion?: number): Promise<number> {
   return withActor(actor, async (tx) => {
     const cur = await tx.selectFrom("core.facilities").selectAll().where("id", "=", id).forUpdate().executeTakeFirst();
     if (!cur) throw notFound();
@@ -203,6 +206,7 @@ export async function updateFacility(actor: Actor, id: string, patch: { name?: s
         ...(patch.city !== undefined ? { city: patch.city } : {}),
         ...(patch.operated !== undefined ? { operated: patch.operated } : {}),
         ...(patch.cbamInstallation !== undefined ? { cbam_installation: patch.cbamInstallation } : {}),
+        ...(patch.gridConnection !== undefined ? { grid_connection: patch.gridConnection } : {}),
         ...(patch.responsibleUserId !== undefined ? { responsible_user_id: patch.responsibleUserId } : {}),
         ...(patch.validTo !== undefined ? { valid_to: patch.validTo } : {}),
       })

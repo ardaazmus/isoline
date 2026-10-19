@@ -11,8 +11,11 @@ import { sql } from "kysely";
 import { withSystem } from "../db/client";
 import { acceptInvitation, createProvisionalClient, createTenant, grantProjectAccess, inviteMember, type Identity } from "../tenancy/service";
 import { addOwnershipEdge, createFacility, createLegalEntity, createOrganization } from "../orgs/service";
-import { addDeliverable, addParticipant, createEngagement, createProjectWizard, listPlan, proposeBoundary, updateWorkPackage } from "../projects/service";
-import { assignRequests, createCampaign, listRequests, saveDraft, sendRequests } from "../data/service";
+import { addDeliverable, addParticipant, approveBoundary, createEngagement, createProjectWizard, listPlan, proposeBoundary, updateWorkPackage } from "../projects/service";
+import { acceptTask, assignRequests, closeRequest, createCampaign, linkEvidence, listRequests, saveDraft, sendRequests, submitTask, type DraftInput } from "../data/service";
+import { processScan, uploadEvidence } from "../evidence/service";
+import { ensureBucket } from "../evidence/storage";
+import { runCalculation } from "../calc/service";
 import type { MemberRole } from "../policy/policy";
 
 export const DEMO_DOMAIN = "ornek.test";
@@ -24,6 +27,7 @@ export const PEOPLE = {
   can: { name: "Can Öztürk", email: `can@${DEMO_DOMAIN}` },
   deniz: { name: "Deniz Arslan", email: `deniz@${DEMO_DOMAIN}` },
   elif: { name: "Elif Şahin", email: `elif@${DEMO_DOMAIN}` },
+  selin: { name: "Selin Aksoy", email: `selin@${DEMO_DOMAIN}` },
 } as const;
 export type Person = keyof typeof PEOPLE;
 
@@ -70,6 +74,12 @@ export async function resetDemo(): Promise<void> {
       const users = sql`(select id from "user" where email like ${"%@" + DEMO_DOMAIN})`;
       // demo tenants: flagged sample, or created by a demo person (a run that stopped before flagging)
       const ids = sql`(select id from core.tenants where sample or created_by in ${users})`;
+      // children before parents: G4 facts and runs, G3 observations and requests, then the G1/G2 tables
+      await sql`delete from core.factor_choices where owner_tenant_id in ${ids}`.execute(tx);
+      await sql`delete from core.factor_values where set_id in (select id from core.factor_sets where owner_tenant_id in ${ids})`.execute(tx);
+      const byOwnerFirst = ["quality_issues", "metric_fact_versions", "run_inputs", "calculation_runs", "factor_sets", "notifications", "request_comments", "evidence_links", "observation_versions", "source_imports", "data_requests", "data_campaigns"];
+      for (const t of byOwnerFirst) await sql`delete from ${sql.table(`core.${t}`)} where owner_tenant_id in ${ids}`.execute(tx);
+      await sql`delete from core.notifications where user_id in ${users}`.execute(tx);
       const byOwner = ["evidence_access_log", "evidence_objects", "consent_records", "outbox_events", "retention_rules", "work_package_deps", "work_packages", "project_participants", "applicability_assessments", "boundary_members", "reporting_boundaries", "reporting_cycles", "deliverables"];
       for (const t of byOwner) await sql`delete from ${sql.table(`core.${t}`)} where owner_tenant_id in ${ids}`.execute(tx);
       await sql`delete from core.external_grants where owner_tenant_id in ${ids} or recipient_tenant_id in ${ids}`.execute(tx);
@@ -110,22 +120,25 @@ export async function seedDemo(opts: { reset?: boolean; credentialsFile?: string
   await invite("mehmet", "data_owner");
   await invite("zeynep", "contributor");
   await invite("elif", "management_signer");
+  await invite("selin", "project_lead");
   // G0-06 journey 1 step 3: holding → one legal entity → two plants (Gebze, Dilovası)
   const org = await createOrganization(ayse, { name: "Anadolu Gıda Grubu (örnek)", sectorCode: "C10", fiscalYearStartMonth: 1 });
   const holding = await createLegalEntity(ayse, { organizationId: org, name: "Anadolu Gıda Holding A.Ş.", entityType: "listed", isReportingParent: true });
   const uretim = await createLegalEntity(ayse, { organizationId: org, name: "Anadolu Gıda Üretim A.Ş." });
   await addOwnershipEdge(ayse, { parentEntityId: holding, childEntityId: uretim, sharePct: 100, control: "financial", validFrom: "2020-01-01", sourceNote: "Örnek veri" });
-  await createFacility(ayse, { legalEntityId: uretim, name: "Gebze Fabrikası", kind: "plant", city: "Kocaeli" });
+  await createFacility(ayse, { legalEntityId: uretim, name: "Gebze Fabrikası", kind: "plant", city: "Kocaeli", gridConnection: "transmission" });
   await createFacility(ayse, { legalEntityId: uretim, name: "Dilovası Fabrikası", kind: "plant", city: "Kocaeli" });
   const eng = await createEngagement(ayse, { title: "2026 raporlama (örnek)", startsOn: "2026-03-01", endsOn: "2027-06-30" });
   const wiz = await createProjectWizard(ayse, { name: "2026 TSRS + Faaliyet Raporu", organizationId: org, engagementId: eng, cycle: { reportingYear: 2026, publishDue: "2027-05-31" }, planStart: "2026-03-01" });
   const companyProject = wiz.projectId;
   await addDeliverable(ayse, eng, { title: "TSRS sürdürülebilirlik raporu", reportKind: "tsrs", dueOn: "2027-05-31", projectId: companyProject });
   await addDeliverable(ayse, eng, { title: "Yıllık faaliyet raporu", reportKind: "annual_report", dueOn: "2027-03-31", projectId: companyProject });
-  await proposeBoundary(ayse, wiz.cycleId, "ghg_operational_control");
+  const boundary = await proposeBoundary(ayse, wiz.cycleId, "ghg_operational_control");
+  await approveBoundary(ayse, boundary.boundaryId);
   await addParticipant(ayse, companyProject, { userId: people.mehmet, memberTenantId: companyTenant, raciRole: "data_owner", responsibilities: "Enerji ve yakıt verileri" });
   await addParticipant(ayse, companyProject, { userId: people.zeynep, memberTenantId: companyTenant, raciRole: "contributor", responsibilities: "Gebze fabrikası verileri" });
   await addParticipant(ayse, companyProject, { userId: people.elif, memberTenantId: companyTenant, raciRole: "management_signer" });
+  await addParticipant(ayse, companyProject, { userId: people.selin, memberTenantId: companyTenant, raciRole: "project_lead", responsibilities: "Hesaplama ve metodoloji" });
   // G3: a climate data campaign — Gebze to Zeynep, Dilovası and organisation-wide items to Mehmet
   const cmp = await createCampaign(ayse, wiz.cycleId, { title: "2026 iklim verisi (örnek)", templateIds: ["tsrs_climate_first"], dueOn: "2027-01-31" });
   const reqs = await listRequests(ayse, cmp.campaignId);
@@ -134,8 +147,37 @@ export async function seedDemo(opts: { reset?: boolean; credentialsFile?: string
   await assignRequests(ayse, reqs.filter((r) => r.facility_id !== gebzeFac).map((r) => r.id), { assigneeUserId: people.mehmet, reviewerUserId: people.ayse });
   await sendRequests(ayse, reqs.map((r) => r.id));
   const zeynepActor = { userId: people.zeynep, actingTenantId: companyTenant };
-  const el = reqs.find((r) => r.facility_id === gebzeFac && r.metric_code === "ghg_electricity");
-  if (el) await saveDraft(zeynepActor, el.id, { value: "1.250.000", unit: "kWh", quality: "measured", sourceRef: "Örnek fatura özeti" });
+  const mehmetActor = { userId: people.mehmet, actingTenantId: companyTenant };
+  // G3 → G4: the year's climate data entered with a source document and accepted by the other person (sample values)
+  await ensureBucket();
+  // each person attaches their own file: a file still being scanned is visible to its uploader only
+  const pdf = (label: string) => new TextEncoder().encode(`%PDF-1.4\n% ${label} (kurgusal)\n%%EOF\n`);
+  const proofZ = await uploadEvidence(zeynepActor, companyProject, { filename: "gebze-fatura-ozeti-2026.pdf", bytes: pdf("Gebze fatura özeti") });
+  const proofM = await uploadEvidence(mehmetActor, companyProject, { filename: "dilovasi-ve-filo-2026.pdf", bytes: pdf("Dilovası ve filo özeti") });
+  const dil = reqs.find((r) => r.facility_name === "Dilovası Fabrikası")?.facility_id ?? null;
+  const entries: [string, string | null, DraftInput][] = [
+    ["ghg_stationary", gebzeFac ?? null, { lines: [{ key: "natural_gas", value: "1.200.000", unit: "m3" }, { key: "diesel", value: "15000", unit: "L" }], quality: "measured", sourceRef: "BOTAŞ faturaları (örnek)" }],
+    ["ghg_electricity", gebzeFac ?? null, { value: "1.250.000", unit: "kWh", quality: "measured", sourceRef: "Örnek fatura özeti" }],
+    ["ghg_refrigerants", gebzeFac ?? null, { lines: [{ key: "R-410A", value: "8", unit: "kg" }], quality: "estimated", methodNote: "Servis formlarındaki ilave dolum miktarı" }],
+    ["ghg_stationary", dil, { lines: [{ key: "natural_gas", value: "600000", unit: "m3" }], quality: "measured" }],
+    ["ghg_electricity", dil, { value: "900000", unit: "kWh", quality: "measured" }],
+    ["ghg_mobile", null, { lines: [{ key: "diesel", value: "42000", unit: "L" }], quality: "calculated", methodNote: "Akaryakıt kartı dökümü" }],
+    ["ghg_certificates", null, { value: "300", unit: "MWh", quality: "measured", sourceRef: "YEK-G belgesi (örnek)" }],
+  ];
+  for (const [metric, fac, d] of entries) {
+    const r = reqs.find((x) => x.metric_code === metric && x.facility_id === fac);
+    if (!r) continue;
+    const enterer = r.facility_id === gebzeFac ? zeynepActor : mehmetActor;
+    await saveDraft(enterer, r.id, d);
+    await linkEvidence(enterer, r.id, enterer === zeynepActor ? proofZ.id : proofM.id);
+    await submitTask(enterer, r.id);
+    await acceptTask(enterer === zeynepActor ? mehmetActor : ayse, r.id);
+  }
+  for (const r of await listRequests(ayse, cmp.campaignId)) if (["created", "assigned", "sent"].includes(r.status)) await closeRequest(ayse, r.id, "not_applicable", "Örnek şirkette bu kalem 2026 için yok.");
+  // the files are scanned before the calculation so the run's lineage lists them (the worker would do it shortly)
+  for (const e of [proofZ.id, proofM.id]) await processScan(e);
+  // Selin runs the GHG calculation; Mehmet reviews it in the app (four eyes)
+  await runCalculation({ userId: people.selin, actingTenantId: companyTenant }, wiz.cycleId, { kind: "ghg" });
   // the first three gates are behind the team already (intake, organisation, scope decision)
   for (const gate of ["G0", "G1", "G2"]) {
     const wp = (await listPlan(ayse, wiz.cycleId)).find((w) => w.gate === gate)!;

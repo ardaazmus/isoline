@@ -47,8 +47,8 @@ export const CreateEntity = z.object({ organizationId: uuid, name, countryCode: 
 export const UpdateEntity = CreateEntity.omit({ organizationId: true, countryCode: true, tradeRegistryNo: true }).partial();
 export const OwnershipEdge = z.object({ parentEntityId: uuid, childEntityId: uuid, sharePct: z.number().gt(0).max(100), control: z.enum(CONTROLS), validFrom: isoDate, validTo: isoDate.nullable().optional(), sourceNote: z.string().max(500).nullable().optional() });
 export const EndEdge = z.object({ validTo: isoDate });
-export const CreateFacility = z.object({ legalEntityId: uuid, name, kind: z.enum(FACILITY_KINDS).optional(), countryCode: country.optional(), city: z.string().max(100).nullable().optional(), naceCode: z.string().max(10).nullable().optional(), operated: z.boolean().optional(), cbamInstallation: z.boolean().optional(), responsibleUserId: uuid.nullable().optional(), validFrom: isoDate.nullable().optional(), validTo: isoDate.nullable().optional() });
-export const UpdateFacility = z.object({ name: name.optional(), kind: z.enum(FACILITY_KINDS).optional(), city: z.string().max(100).nullable().optional(), operated: z.boolean().optional(), cbamInstallation: z.boolean().optional(), responsibleUserId: uuid.nullable().optional(), validTo: isoDate.nullable().optional() });
+export const CreateFacility = z.object({ legalEntityId: uuid, name, kind: z.enum(FACILITY_KINDS).optional(), countryCode: country.optional(), city: z.string().max(100).nullable().optional(), naceCode: z.string().max(10).nullable().optional(), operated: z.boolean().optional(), cbamInstallation: z.boolean().optional(), gridConnection: z.enum(["transmission", "distribution"]).optional(), responsibleUserId: uuid.nullable().optional(), validFrom: isoDate.nullable().optional(), validTo: isoDate.nullable().optional() });
+export const UpdateFacility = z.object({ name: name.optional(), kind: z.enum(FACILITY_KINDS).optional(), city: z.string().max(100).nullable().optional(), operated: z.boolean().optional(), cbamInstallation: z.boolean().optional(), gridConnection: z.enum(["transmission", "distribution"]).optional(), responsibleUserId: uuid.nullable().optional(), validTo: isoDate.nullable().optional() });
 export const TreeQuery = z.object({ asOf: isoDate.optional(), ownerTenantId: uuid.optional() });
 
 export const Cycle = z.object({ label: z.string().trim().max(120).optional(), reportingYear: z.number().int().min(2000).max(2100), periodStart: isoDate.optional(), periodEnd: isoDate.optional(), publishDue: isoDate.nullable().optional(), isBaseYear: z.boolean().optional(), planStart: isoDate.optional() });
@@ -127,3 +127,24 @@ export const UpdateCampaign = z.object({
   reminderPolicy: z.object({ beforeDays: z.array(z.number().int()).max(5), afterDays: z.array(z.number().int()).max(5), criticalOnlyDays: z.array(z.number().int()).max(5) }).optional(),
   status: z.enum(["active", "closed"]).optional(),
 });
+
+// ---------------------------------------------------------------- G4
+export const RunCalculation = z.object({
+  kind: z.enum(["ghg", "environment", "workforce", "finance", "cbam", "ets"]),
+  boundaryKind: z.enum(["ghg_operational_control", "ghg_financial_control", "ghg_equity_share", "financial_reporting", "cbam_facility_product"]).nullable().optional(),
+  mode: z.enum(["preview", "final"]).optional(),
+});
+export const ChooseFactor = z.object({ target: z.string().regex(/^(grid|fuel|gwp|scope3|cbam):[a-z0-9_:./-]+$/).max(120), factorValueId: uuid, reason: z.string().trim().max(500).nullable().optional() });
+export const AddFactorSet = z.object({
+  code: z.string().regex(/^[a-z0-9_]{3,40}$/),
+  name,
+  publisher: z.string().trim().min(1).max(200),
+  licence: z.enum(["open", "public_sector", "user_licensed"]),
+  url: z.string().url().max(500).nullable().optional(),
+  year: z.number().int().min(1990).max(2100).nullable().optional(),
+  csv: z.string().min(1).max(2_000_000),
+  rightsConfirmed: z.boolean(),
+});
+export const ResolveIssue = z.object({ decision: z.enum(["resolved", "accepted_exception"]), resolution: z.string().trim().min(10).max(2000) });
+export const IssuesQuery = z.object({ status: z.enum(["open", "all"]).optional() });
+export const RunsQuery = z.object({ cycleId: uuid.optional() });

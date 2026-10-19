@@ -26,5 +26,7 @@ export default async function setup() {
   const { syncCatalog } = await import("../data/catalog-sync");
   const { closeDb } = await import("./client");
   await syncCatalog();
+  const { syncBuiltinFactors } = await import("../calc/factors");
+  await syncBuiltinFactors();
   await closeDb();
 }

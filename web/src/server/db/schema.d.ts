@@ -100,6 +100,26 @@ export interface CoreBoundaryMembers {
   suggested_pct: Numeric | null;
 }
 
+export interface CoreCalculationRuns {
+  boundary_id: string | null;
+  cycle_id: string;
+  engine_version: string;
+  factor_digest: string;
+  factors: Json;
+  id: Generated<string>;
+  input_digest: string;
+  inputs: Json;
+  kind: string;
+  mode: Generated<string>;
+  output_digest: string;
+  owner_tenant_id: string;
+  performed_at: Generated<Timestamp>;
+  performed_by: string;
+  project_id: string;
+  result: Json;
+  rule_version: string;
+}
+
 export interface CoreConsentRecords {
   created_at: Generated<Timestamp>;
   data_classes: string[];
@@ -256,6 +276,7 @@ export interface CoreFacilities {
   country_code: Generated<string>;
   created_at: Generated<Timestamp>;
   created_by: string;
+  grid_connection: Generated<string>;
   id: Generated<string>;
   kind: Generated<string>;
   legacy_site_id: string | null;
@@ -269,6 +290,57 @@ export interface CoreFacilities {
   updated_at: Generated<Timestamp>;
   valid_from: string | null;
   valid_to: string | null;
+}
+
+export interface CoreFactorChoices {
+  chosen_by: string;
+  created_at: Generated<Timestamp>;
+  factor_value_id: string;
+  id: Generated<string>;
+  owner_tenant_id: string;
+  project_id: string;
+  reason: string | null;
+  revoked_at: Timestamp | null;
+  target: string;
+}
+
+export interface CoreFactorSets {
+  as_of: string | null;
+  code: string;
+  content_sha256: string;
+  created_at: Generated<Timestamp>;
+  created_by: string | null;
+  edition_year: number | null;
+  family: string | null;
+  id: Generated<string>;
+  licence: string;
+  licence_note: string | null;
+  name: string;
+  owner_tenant_id: string | null;
+  published_on: string | null;
+  publisher: string;
+  rights_confirmed: Generated<boolean>;
+  rights_confirmed_at: Timestamp | null;
+  rights_confirmed_by: string | null;
+  status: Generated<string>;
+  url: string | null;
+}
+
+export interface CoreFactorValues {
+  categories: Generated<number[]>;
+  ch4: Numeric | null;
+  direct: Numeric | null;
+  id: Generated<string>;
+  indirect: Numeric | null;
+  key: string;
+  kind: string;
+  label: string | null;
+  n2o: Numeric | null;
+  ncv: Numeric | null;
+  set_id: string;
+  unit: string | null;
+  value: Numeric;
+  year: number | null;
 }
 
 export interface CoreFrameworkVersions {
@@ -375,6 +447,29 @@ export interface CoreMetricDefinitions {
   sensitive: Generated<boolean>;
   unit_key: string;
   version: number;
+}
+
+export interface CoreMetricFactVersions {
+  approved_at: Timestamp | null;
+  approved_by: string | null;
+  boundary_kind: string | null;
+  created_at: Generated<Timestamp>;
+  cycle_id: string;
+  estimated_share: Numeric | null;
+  facility_id: string | null;
+  id: Generated<string>;
+  locked_at: Timestamp | null;
+  metric_key: string;
+  owner_tenant_id: string;
+  project_id: string;
+  revision: number;
+  run_id: string;
+  status: Generated<string>;
+  supersedes_id: string | null;
+  suppressed: Generated<boolean>;
+  unit: string;
+  value_num: Numeric | null;
+  value_text: string | null;
 }
 
 export interface CoreNotifications {
@@ -488,6 +583,28 @@ export interface CoreProjects {
   updated_at: Generated<Timestamp>;
 }
 
+export interface CoreQualityIssues {
+  created_at: Generated<Timestamp>;
+  cycle_id: string;
+  detected_by: string | null;
+  expected: Json | null;
+  id: Generated<string>;
+  observed: Json | null;
+  owner_tenant_id: string;
+  project_id: string;
+  resolution: string | null;
+  resolved_at: Timestamp | null;
+  resolved_by: string | null;
+  rule_id: string;
+  rule_version: string;
+  run_id: string | null;
+  severity: string;
+  status: Generated<string>;
+  target_id: string;
+  target_type: string;
+  tolerance: string | null;
+}
+
 export interface CoreReportingBoundaries {
   approved_at: Timestamp | null;
   approved_by: string | null;
@@ -541,6 +658,16 @@ export interface CoreRetentionRules {
   keep_years: number;
   note: string | null;
   owner_tenant_id: string;
+}
+
+export interface CoreRunInputs {
+  evidence_id: string | null;
+  factor_value_id: string | null;
+  observation_version_id: string | null;
+  owner_tenant_id: string;
+  project_id: string;
+  role: string;
+  run_id: string;
 }
 
 export interface CoreSourceImports {
@@ -660,6 +787,7 @@ export interface DB {
   "core.applicability_assessments": CoreApplicabilityAssessments;
   "core.audit_events": CoreAuditEvents;
   "core.boundary_members": CoreBoundaryMembers;
+  "core.calculation_runs": CoreCalculationRuns;
   "core.consent_records": CoreConsentRecords;
   "core.data_campaigns": CoreDataCampaigns;
   "core.data_requests": CoreDataRequests;
@@ -670,6 +798,9 @@ export interface DB {
   "core.evidence_objects": CoreEvidenceObjects;
   "core.external_grants": CoreExternalGrants;
   "core.facilities": CoreFacilities;
+  "core.factor_choices": CoreFactorChoices;
+  "core.factor_sets": CoreFactorSets;
+  "core.factor_values": CoreFactorValues;
   "core.framework_versions": CoreFrameworkVersions;
   "core.idempotency_keys": CoreIdempotencyKeys;
   "core.invitations": CoreInvitations;
@@ -677,6 +808,7 @@ export interface DB {
   "core.legal_entities": CoreLegalEntities;
   "core.memberships": CoreMemberships;
   "core.metric_definitions": CoreMetricDefinitions;
+  "core.metric_fact_versions": CoreMetricFactVersions;
   "core.notifications": CoreNotifications;
   "core.observation_versions": CoreObservationVersions;
   "core.organizations": CoreOrganizations;
@@ -684,10 +816,12 @@ export interface DB {
   "core.ownership_edges": CoreOwnershipEdges;
   "core.project_participants": CoreProjectParticipants;
   "core.projects": CoreProjects;
+  "core.quality_issues": CoreQualityIssues;
   "core.reporting_boundaries": CoreReportingBoundaries;
   "core.reporting_cycles": CoreReportingCycles;
   "core.request_comments": CoreRequestComments;
   "core.retention_rules": CoreRetentionRules;
+  "core.run_inputs": CoreRunInputs;
   "core.source_imports": CoreSourceImports;
   "core.tenants": CoreTenants;
   "core.work_package_deps": CoreWorkPackageDeps;

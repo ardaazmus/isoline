@@ -13,7 +13,7 @@ import { generateRequests, suggestTemplates } from "@/lib/requests";
 import type { Finding, Profile } from "@/lib/calc/applicability";
 import { audit, enqueue } from "../audit/audit";
 import { withActor, withSystem, type Actor, type Tx } from "../db/client";
-import { forbidden, HttpError, notFound } from "../policy/policy";
+import { forbidden, HttpError, memberCan, notFound, type MemberRole } from "../policy/policy";
 import { requireProjectAction } from "../tenancy/service";
 import { METRIC, type MetricDef } from "./catalog";
 import { dimensionOf, normalizeUnit, plainDecimal, toCanonical } from "./units";
@@ -204,6 +204,11 @@ export async function assignRequests(actor: Actor, requestIds: string[], input: 
     const rRoles = input.reviewerUserId ? await participant(tx, projectId, input.reviewerUserId) : [];
     if (input.assigneeUserId && !aRoles.some((p) => ASSIGNEE_ROLES.includes(p.raci_role))) throw new HttpError(422, "assignee_not_on_team");
     if (input.reviewerUserId && !rRoles.some((p) => REVIEWER_ROLES.includes(p.raci_role))) throw new HttpError(422, "reviewer_not_on_team");
+    // the RACI role is the plan; the reviewer's membership must also allow reviewing, or the task could never be accepted
+    if (input.reviewerUserId) {
+      const m = await tx.selectFrom("core.memberships").select("role").where("tenant_id", "=", rows[0].owner_tenant_id).where("user_id", "=", input.reviewerUserId).executeTakeFirst();
+      if (m && !memberCan(m.role as MemberRole, "data.review")) throw new HttpError(422, "reviewer_cannot_review");
+    }
     const scope = aRoles.flatMap((p) => p.facility_ids);
     let changed = 0;
     for (const r of rows) {

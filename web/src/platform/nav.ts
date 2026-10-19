@@ -21,6 +21,7 @@ export const PLATFORM_NAV: NavGroup[] = [
       { id: "notifications", href: "/app/notifications" },
       { id: "engagements", href: "/app/engagements", roles: [...ADMINS, "project_lead", "preparer"] },
       { id: "organization", href: "/app/organization", roles: [...ADMINS, "project_lead", "preparer"] },
+      { id: "factors", href: "/app/factors", roles: [...ADMINS, "project_lead", "preparer", "data_owner", "reviewer"] },
     ],
   },
   {

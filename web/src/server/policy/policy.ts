@@ -39,7 +39,8 @@ export type Action = (typeof ACTIONS)[number];
 const ALL_READ: Action[] = ["project.read"];
 
 const MEMBER: Record<MemberRole, Action[]> = {
-  owner: ["tenant.manage", "grant.manage", "audit.read", "client.create", "project.create", "project.update", "project.read", "org.manage", "scope.decide", "plan.update", "data.request", "data.submit", "evidence.upload", "evidence.download", "report.write", "report.review", "cycle.close"],
+  // a small company's owner often leads the work; four-eyes rules still apply per object (reviewer ≠ enterer, approver ≠ performer)
+  owner: ["tenant.manage", "grant.manage", "audit.read", "client.create", "project.create", "project.update", "project.read", "org.manage", "scope.decide", "plan.update", "data.request", "data.submit", "data.review", "evidence.upload", "evidence.download", "calc.run", "quality.review", "report.write", "report.review", "cycle.close"],
   admin: ["tenant.manage", "grant.manage", "audit.read", "client.create", "project.create", "project.update", "project.read", "org.manage", "scope.decide", "plan.update", "data.request", "evidence.download"],
   project_lead: ["project.create", "project.update", "project.read", "org.manage", "scope.decide", "plan.update", "data.request", "data.submit", "data.review", "evidence.upload", "evidence.download", "calc.run", "quality.review", "cycle.close", "report.write", "report.review"],
   data_owner: ["project.read", "data.submit", "data.review", "evidence.upload", "evidence.download", "quality.review"],

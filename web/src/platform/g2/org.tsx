@@ -67,10 +67,10 @@ export function EntityForm({ organizationId, hasParent }: { organizationId: stri
 export function FacilityForm({ entities }: { entities: { id: string; name: string }[] }) {
   const { t } = useI18n();
   const router = useRouter();
-  const blank = { legalEntityId: entities[0]?.id ?? "", name: "", kind: "plant", city: "", operated: true, cbam: false };
+  const blank = { legalEntityId: entities[0]?.id ?? "", name: "", kind: "plant", city: "", operated: true, cbam: false, grid: "distribution" };
   const [f, setF] = useState(blank);
   const s = useSubmit(
-    () => api("POST", "/api/v1/facilities", { legalEntityId: f.legalEntityId, name: f.name, kind: f.kind, city: f.city.trim() || null, operated: f.operated, cbamInstallation: f.cbam }),
+    () => api("POST", "/api/v1/facilities", { legalEntityId: f.legalEntityId, name: f.name, kind: f.kind, city: f.city.trim() || null, operated: f.operated, cbamInstallation: f.cbam, gridConnection: f.grid }),
     () => {
       setF({ ...blank, legalEntityId: f.legalEntityId });
       router.refresh();
@@ -83,6 +83,7 @@ export function FacilityForm({ entities }: { entities: { id: string; name: strin
       <Input label={t("pf.org.facilityName")} name="f-name" required value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} />
       <Select label={t("pf.org.facilityKind")} name="f-kind" value={f.kind} onChange={(e) => setF({ ...f, kind: e.target.value })} options={FACILITY_KINDS.map((x) => ({ value: x, label: t(`pf.org.kind.${x}`) }))} />
       <Input label={t("pf.org.city")} name="f-city" value={f.city} onChange={(e) => setF({ ...f, city: e.target.value })} />
+      <Select label={t("pf.org.grid")} name="f-grid" value={f.grid} onChange={(e) => setF({ ...f, grid: e.target.value })} options={["distribution", "transmission"].map((x) => ({ value: x, label: t(`pf.org.gridKind.${x}`) }))} hint={t("pf.org.gridHint")} />
       <Check id="f-operated" checked={f.operated} onChange={(v) => setF({ ...f, operated: v })} label={t("pf.org.operated")} />
       <Check id="f-cbam" checked={f.cbam} onChange={(v) => setF({ ...f, cbam: v })} label={t("pf.org.cbamInstallation")} />
       <div className="flex flex-col gap-2 md:col-span-2">
@@ -211,13 +212,13 @@ export function EntityEditForm({ id, initial, etag }: { id: string; initial: { n
   );
 }
 
-export function FacilityEditForm({ id, initial, etag }: { id: string; initial: { name: string; kind: string; city: string | null; operated: boolean; cbam: boolean; validTo: string | null }; etag: number }) {
+export function FacilityEditForm({ id, initial, etag }: { id: string; initial: { name: string; kind: string; city: string | null; operated: boolean; cbam: boolean; grid: string; validTo: string | null }; etag: number }) {
   const { t } = useI18n();
   const router = useRouter();
   const [f, setF] = useState({ ...initial, city: initial.city ?? "", validTo: initial.validTo ?? "" });
   const [saved, setSaved] = useState(false);
   const s = useSubmit(
-    () => api("PATCH", `/api/v1/facilities/${id}`, { name: f.name, kind: f.kind, city: f.city.trim() || null, operated: f.operated, cbamInstallation: f.cbam, validTo: f.validTo || null }, { ifMatch: `"${etag}"` }),
+    () => api("PATCH", `/api/v1/facilities/${id}`, { name: f.name, kind: f.kind, city: f.city.trim() || null, operated: f.operated, cbamInstallation: f.cbam, gridConnection: f.grid, validTo: f.validTo || null }, { ifMatch: `"${etag}"` }),
     () => {
       setSaved(true);
       router.refresh();
@@ -228,6 +229,7 @@ export function FacilityEditForm({ id, initial, etag }: { id: string; initial: {
       <Input label={t("pf.org.facilityName")} name="fe-name" required value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} />
       <Select label={t("pf.org.facilityKind")} name="fe-kind" value={f.kind} onChange={(e) => setF({ ...f, kind: e.target.value })} options={FACILITY_KINDS.map((x) => ({ value: x, label: t(`pf.org.kind.${x}`) }))} />
       <Input label={t("pf.org.city")} name="fe-city" value={f.city} onChange={(e) => setF({ ...f, city: e.target.value })} />
+      <Select label={t("pf.org.grid")} name="fe-grid" value={f.grid} onChange={(e) => setF({ ...f, grid: e.target.value })} options={["distribution", "transmission"].map((x) => ({ value: x, label: t(`pf.org.gridKind.${x}`) }))} hint={t("pf.org.gridHint")} />
       <Input label={t("pf.org.validTo")} name="fe-to" type="date" value={f.validTo} onChange={(e) => setF({ ...f, validTo: e.target.value })} hint={t("pf.org.closedHint")} />
       <Check id="fe-operated" checked={f.operated} onChange={(v) => setF({ ...f, operated: v })} label={t("pf.org.operated")} />
       <Check id="fe-cbam" checked={f.cbam} onChange={(v) => setF({ ...f, cbam: v })} label={t("pf.org.cbamInstallation")} />

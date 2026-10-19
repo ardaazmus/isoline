@@ -32,7 +32,7 @@ export default async function FacilityPage({ params }: PageProps<"/[lang]/app/or
       <div className="flex flex-col gap-6">
         {canEdit ? (
           <Section title={t("pf.org.profile")}>
-            <FacilityEditForm id={f.id} etag={f.row_version} initial={{ name: f.name, kind: f.kind, city: f.city, operated: f.operated, cbam: f.cbam_installation, validTo: f.valid_to }} />
+            <FacilityEditForm id={f.id} etag={f.row_version} initial={{ name: f.name, kind: f.kind, city: f.city, operated: f.operated, cbam: f.cbam_installation, grid: f.grid_connection, validTo: f.valid_to }} />
           </Section>
         ) : (
           <Section title={t("pf.org.profile")}>

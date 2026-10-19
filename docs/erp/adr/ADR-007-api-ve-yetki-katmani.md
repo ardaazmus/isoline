@@ -33,3 +33,8 @@ Her modülde `service.ts` (iş kuralı), `repo.ts` (Kysely) ve `*.test.ts` bulun
 
 - **Sektör:** Modüler monolit, 2–5 kişilik ekipte mikroservisten daha ucuz işler. Plan da 12 mikroservisi açıkça reddediyor.
 - **OWASP API Top 10:** API1 (BOLA), API3 (nesne özelliği yetkisi) ve API5 (fonksiyon düzeyi yetki) için her uçta aynı kontrol zinciri gerekir.
+
+## Güncelleme (G4, 19.10.2026)
+
+- `owner` rolü `data.review`, `calc.run` ve `quality.review` eylemlerini aldı: küçük şirkette işi kurum sahibi yürütür. Görev ayrılığı rol düzeyinde değil nesne düzeyinde sağlanır: veriyi giren kabul edemez (DB CHECK), hesabı çalıştıran onaylayamaz ve bulgusunu kapatamaz (servis).
+- Atamada gözden geçirenin RACI rolü yetmez; kurumdaki üyelik rolü de incelemeye izin vermelidir (`reviewer_cannot_review`).
