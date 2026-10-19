@@ -17,7 +17,7 @@
 | G4 | bitti | Sürümlü faktör sicili ve lisans, idempotent hesap çalışmaları (girdi/faktör/çıktı özetleri), çok tesisli Kapsam 1/2/3, çevre/işgücü/finans/SKDM/ETS sarmalayıcıları, engelleyici/uyarı kalite kuralları, dört göz onayı, metrik sürümleri ve kaynak izi, yeniden üretim |
 | G5 | bitti | Dönem içi gün ağırlıklı sınır, GHG yaklaşımları yan yana, TFRS 10 hasılat konsolidasyonu ve grup içi eliminasyon (kesin kuruş aritmetiği), U1–U10 mutabakat, kişiye bağlı inceleme kuyruğu, kapanış kontrol listesi, değişmez anlık görüntü, gerekçeli yeniden açma ve yeniden düzenleme listesi |
 | G6 | bitti | Şablondan rapor ve bölümler, metrik belirteçli sürümlü metin, kapsama, tek biçimle DOCX/CSV/XLSX/SVG, teknik → müşteri → yönetim onayı (aday özetine bağlı), değişmez yayın paketi ve devir ZIP'i, tasarım ajansı yalnız yayını görür, ek yayın, raporlar arası mutabakat, yeşil iddia engeli |
-| G7 | başlamadı | |
+| G7 | bitti (G7-07 kısmi) | Portföy operasyon göstergeleri (ESG notu yok), izin kapsamı/süre/iptal, güvence odası (soru-yanıt-kanıt, veri değişmez), sürümlü sektör paketi çerçevesi, demir-çelik/çimento ve lojistik/hizmet pilot paketleri; tekstil/tarım paketi ihtiyaca bağlı |
 | G8 | başlamadı | |
 
 ## G0 — Analiz, karar, envanter
@@ -147,7 +147,23 @@
 
 **G6 kapısı:** `g6.db.test.ts` — şirket elektrik verisini yükler ve hesaplar; iki rapor (TSRS önce iklim, GRI İngilizce); danışman (hazırlayıcı izniyle) bütün bölümleri yazar, proje lideri onaylar; teknik → müşteri → yönetim imzası; yayın paketi 8 dosya, rakam DOCX/CSV/SVG'de aynı; tasarım ajansı proje verisini göremez (404), yalnız yayını görür ve prova yükler; GRI'deki "carbon neutral" iddiası yayını durdurur; kaynak sonradan düzeltilince referans eskir, ek yayın gerekçesiz reddedilir, gerekçeyle sürüm 2 çıkar — **sürüm 1'in manifest özeti ve tüm dosya özetleri değişmez.** Tarayıcıda demo raporunun stüdyosu ve bağlı metrikleri doğrulandı.
 
-## G7–G8
+## G7 — Danışmanlık ölçeği, sektör, dış inceleme
+
+| ID | Durum | Kanıt |
+|---|---|---|
+| G7-01 | bitti | `app/portfolio` (PORT-01): danışmanın gördüğü bütün müşteri projeleri; dönem, sıradaki iş paketi, gecikme/engel ve operasyon sütunu |
+| G7-02 | bitti | Dış uzman/danışman erişimi G1 izinleriyle: rol, amaç, süre, indirme hakkı, onay kaydı ve iptal (`grantProjectAccess`, `revokeGrant`, `app/relationships`); kapı testi iptalin raporu bozmadığını doğrular |
+| G7-03 | bitti | `core.assurance_engagements` / `assurance_questions` (migration 0009); `projects/[id]/assurance` (CTRL-10/11): güvence sağlayıcı dondurulmuş metrikleri ve kaynak izini görür, soru sorar; şirket metin ve kanıtla yanıtlar; soran kapatır. Güvence izni hiçbir veriyi değiştiremez (RLS + servis: hesap, onay, bölüm 403). Güvence raporunu platform vermez; şirket sağlayıcının dosyasını kanıt olarak kaydeder |
+| G7-04 | bitti | `industry/packs.ts`: sürümlü, deklaratif paketler (NACE eşlemesi, standart durumu, veri kalemleri "zorunlu" yalnız mevzuat dayanağıyla, formüller, önemli konular, rapor blokları); `core.project_industry_packs` ile bir projede birden çok paket, her biri kendi tesisleri için; paket veri kalemleri metrik kataloğuna eklenir, kampanyaya izli talep olarak girer. Ekran `projects/[id]/industry` |
+| G7-05 | bitti | Demir-çelik (hurda oranı, ham çelik başına sera gazı yoğunluğu; worldsteel esası) ve çimento (klinker/çimento oranı; ölçülmüş proses CO₂/klinker ya da IPCC 2006 Tier 1 kalsinasyon 0,52 × 1,02, tahmini olarak işaretli ve Tier 2 uyarılı); SKDM kalemleri mevzuat dayanağıyla zorunlu |
+| G7-06 | bitti | Lojistik (ton-km ve gCO₂e/tkm; ISO 14083 / GLEC, depo-tekerlek esası uyarısı) ve hizmet/perakende (m² başına kWh); `industry` hesap türü, özellik testleri `industry.test.ts` |
+| G7-07 | kısmi | Tekstil/tarım tedarikçi paketi plan gereği "ihtiyaca göre": çerçeve ve tedarikçi izni (G3-10) hazır, paket tanımı ilk müşteri ihtiyacıyla eklenecek |
+| G7-08 | bitti | `portfolio/kpis.ts`: veri kalemi tamamlama, gecikmiş talep, kanıt oranı, açık engelleyici, inceleme bekleyen iş, yayımlanan rapor; ESG puanı/notu bilinçli olarak yok (test bunu denetler) |
+| G7-09 | bitti | İç ve dış inceleme ayrı yetkiler: veri incelemesi (`data.review`), kalite/metrik onayı (`quality.review`), müşteri incelemesi ve yönetim imzası (yalnız sahip şirket üyesi), güvence (`assurance.query`, salt okuma + soru) |
+
+**G7 kapısı:** `g7.db.test.ts` — danışman (Yeşil Eşik) iki müşteriyi tek portföyde görür: raporunu kendisi başlatan Ege Çimento (hazırlayıcı izni) ve danışmanın geçici müşteri olarak açtığı Kuzey Lojistik (vekâlet). Ege Çimento'da çimento paketi NACE 23.51'den önerilir, açılır, klinker 800 000 t ve çimento 1 000 000 t kabul edilir: klinker oranı 0,8, Tier 1 kalsinasyon 424 320 tCO₂ (tahmini). Bağımsız denetçi soru sorar, şirket kantar kayıtlarıyla yanıtlar, denetçi kapatır; denetçi hesap/onay yapamaz. Danışman Ege Çimento raporunun bir bölümünü yazar; Ege Çimento izni iptal eder: danışman erişimini kaybeder, yazdığı bölüm aynen kalır ve şirket onu onaylar; Kuzey Lojistik raporu etkilenmez. Tarayıcıda sektör paketleri, güvence odası ve portföy operasyon sütunu doğrulandı.
+
+## G8
 
 Kapı başladıkça buraya ayrıntılı tablo eklenir. Görev listeleri plan 13'te.
 
@@ -162,4 +178,4 @@ Kapı başladıkça buraya ayrıntılı tablo eklenir. Görev listeleri plan 13'
   - depo SeaweedFS (ADR-005; MinIO imajları kaldırıldığı için);
   - modüler monolit (ADR-007);
   - v1 araç seti `(toolkit)` rota grubunda korunuyor (ADR-008).
-- **Açık / sıradaki:** G7 (20 müşterili portföy panosu, dış uzman daveti, güvence odası, sektör paketi çerçevesi, metal/çimento ve hizmet/lojistik pilot paketleri).
+- **Açık / sıradaki:** G8 (entegrasyonlar, ölçek/performans, erişilebilirlik, güvenlik sertleştirme, izometrik/3D görünüm, konteyner dağıtımı, OIDC testi).

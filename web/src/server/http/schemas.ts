@@ -163,3 +163,11 @@ export const ReviewSection = z.object({ decision: z.enum(["approve", "reject"]),
 export const StageDecision = z.object({ decision: z.enum(["approved", "changes_requested"]), comment: z.string().max(2000).nullable().optional() });
 export const Release = z.object({ amendmentReason: z.string().trim().max(2000).nullable().optional() });
 export const ProofDecision = z.object({ decision: z.enum(["approved", "changes_requested"]), note: z.string().max(2000).nullable().optional() });
+
+// ---------------------------------------------------------------- G7
+export const EnablePack = z.object({ packId: z.string().regex(/^[a-z0-9_]+$/), facilityIds: z.array(uuid).max(500) });
+export const DisablePack = z.object({ packId: z.string().regex(/^[a-z0-9_]+$/) });
+export const AskQuestion = z.object({ targetType: z.enum(["fact", "evidence", "report", "general"]), targetId: z.string().max(100).nullable().optional(), question: z.string().trim().min(10).max(4000) });
+export const AnswerQuestion = z.object({ answer: z.string().trim().min(10).max(8000), evidenceIds: z.array(uuid).max(20).optional() });
+export const CreateAssuranceEngagement = z.object({ standard: z.enum(["isae3000", "isae3410", "issa5000", "kgk_gds", "other"]), level: z.enum(["limited", "reasonable"]), providerTenantId: uuid.nullable().optional() });
+export const EngagementStatus = z.object({ status: z.enum(["preparing", "ready", "in_progress", "opinion_received", "withdrawn"]), opinionEvidenceId: uuid.nullable().optional() });

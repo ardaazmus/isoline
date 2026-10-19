@@ -485,16 +485,19 @@ async function yoyIssues(tx: Tx, actor: Actor, run: RunRef & { year: number }, w
 // ---------------------------------------------------------------- review
 
 async function factForReview(tx: Tx, actor: Actor, factId: string) {
+  // read first and check the right (a row lock needs write access under RLS, which would hide the row as 404)
+  const seen = await tx.selectFrom("core.metric_fact_versions").select(["project_id"]).where("id", "=", factId).executeTakeFirst();
+  if (!seen) throw notFound();
+  await requireProjectAction(tx, actor, seen.project_id, "quality.review");
   const f = await tx
     .selectFrom("core.metric_fact_versions as f")
     .innerJoin("core.calculation_runs as r", "r.id", "f.run_id")
     .innerJoin("core.reporting_cycles as c", "c.id", "f.cycle_id")
     .select(["f.id", "f.owner_tenant_id", "f.project_id", "f.cycle_id", "f.metric_key", "f.facility_id", "f.boundary_kind", "f.status", "f.run_id", "f.revision", "f.value_num", "f.value_text", "r.performed_by", "c.status as cycle_status"])
     .where("f.id", "=", factId)
-    .forUpdate()
+    .forUpdate("f")
     .executeTakeFirst();
   if (!f) throw notFound();
-  await requireProjectAction(tx, actor, f.project_id, "quality.review");
   if (["frozen", "released"].includes(f.cycle_status)) throw new HttpError(409, "cycle_frozen");
   return f;
 }

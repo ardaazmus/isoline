@@ -13,6 +13,7 @@ import * as m0005 from "./migrations/0005_data";
 import * as m0006 from "./migrations/0006_calc";
 import * as m0007 from "./migrations/0007_close";
 import * as m0008 from "./migrations/0008_reports";
+import * as m0009 from "./migrations/0009_industry_assurance";
 
 export const MIGRATIONS: Record<string, Migration> = {
   "0001_auth": m0001,
@@ -23,6 +24,7 @@ export const MIGRATIONS: Record<string, Migration> = {
   "0006_calc": m0006,
   "0007_close": m0007,
   "0008_reports": m0008,
+  "0009_industry_assurance": m0009,
 };
 
 class StaticProvider implements MigrationProvider {

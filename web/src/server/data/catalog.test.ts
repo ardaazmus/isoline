@@ -1,11 +1,14 @@
 import { describe, expect, it } from "vitest";
 import { DATA_POINTS } from "@/lib/requests";
-import { METRICS } from "./catalog";
+import { METRIC, METRICS } from "./catalog";
 import { CANONICAL, unitsFor } from "./units";
 
 describe("metric catalogue (G3-01)", () => {
-  it("covers every toolkit data point exactly once", () => {
-    expect(METRICS.map((m) => m.code).sort()).toEqual(DATA_POINTS.map((d) => d.id).sort());
+  it("covers every toolkit data point exactly once, then the industry pack items (G7-04)", () => {
+    const codes = METRICS.map((m) => m.code);
+    expect(new Set(codes).size).toBe(codes.length);
+    expect(codes.filter((c) => !c.startsWith("ind_")).sort()).toEqual(DATA_POINTS.map((d) => d.id).sort());
+    expect(codes.filter((c) => c.startsWith("ind_")).every((c) => METRIC.get(c)!.section === "industry")).toBe(true);
   });
 
   it("every numeric dimension has a canonical unit and at least one input unit", () => {

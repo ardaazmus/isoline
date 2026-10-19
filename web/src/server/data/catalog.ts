@@ -8,6 +8,7 @@
 import { DATA_POINTS, type DataPoint } from "@/lib/requests";
 import { FUELS } from "@/lib/calc/ghg";
 import type { Dimension } from "./units";
+import { PACK_METRICS } from "../industry/packs";
 
 export type Aggregation = "sum" | "last" | "average" | "none";
 export type Grain = "facility" | "organization";
@@ -98,5 +99,6 @@ function define(dp: DataPoint): MetricDef {
   };
 }
 
-export const METRICS: MetricDef[] = DATA_POINTS.map(define);
+// industry packs add their own data items after the toolkit's (G7-04); the toolkit list itself is unchanged
+export const METRICS: MetricDef[] = [...DATA_POINTS.map(define), ...PACK_METRICS];
 export const METRIC = new Map(METRICS.map((m) => [m.code, m]));

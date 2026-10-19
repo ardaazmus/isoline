@@ -4,7 +4,7 @@
  * exact rational factors, so 1 kWh is 0.0036 GJ exactly and never 0.0035999999.
  * Money is not converted here (currency, FX type and date belong to the finance layer).
  */
-export type Dimension = "energy" | "volume" | "mass" | "emissions" | "distance_mass" | "distance_people" | "money" | "people" | "hours" | "count" | "percent" | "score" | "fuel" | "intensity" | "none";
+export type Dimension = "energy" | "volume" | "mass" | "emissions" | "distance_mass" | "distance_people" | "distance" | "area" | "money" | "people" | "hours" | "count" | "percent" | "score" | "fuel" | "intensity" | "none";
 
 type UnitDef = { dimension: Dimension; /** canonical = value × num / den */ num: bigint; den: bigint };
 
@@ -34,6 +34,11 @@ const U: Record<string, UnitDef> = {
   // transport
   tkm: { dimension: "distance_mass", num: 1n, den: 1n },
   pkm: { dimension: "distance_people", num: 1n, den: 1n },
+  // distance → km, floor area → m²
+  km: { dimension: "distance", num: 1n, den: 1n },
+  m: { dimension: "distance", num: 1n, den: 1000n },
+  m2: { dimension: "area", num: 1n, den: 1n },
+  ha: { dimension: "area", num: 10000n, den: 1n },
   // others (single unit each)
   TRY: { dimension: "money", num: 1n, den: 1n },
   "mTRY": { dimension: "money", num: 1000000n, den: 1n },
@@ -55,12 +60,13 @@ const ALIASES: Record<string, string> = {
   t: "t", ton: "t", tonne: "t", tonnes: "t", kg: "kg", kt: "kt",
   tco2e: "tCO2e", "tco₂e": "tCO2e", kgco2e: "kgCO2e", ktco2e: "ktCO2e",
   tkm: "tkm", "t-km": "tkm", "ton-km": "tkm", pkm: "pkm", "kişi-km": "pkm",
+  km: "km", m: "m", m2: "m2", "m²": "m2", ha: "ha", hektar: "ha",
   try: "TRY", tl: "TRY", "₺": "TRY", mtry: "mTRY", "milyon tl": "mTRY", eur: "EUR", "€": "EUR",
   persons: "persons", kişi: "persons", people: "persons", h: "h", saat: "h", hours: "h", cases: "cases", vaka: "cases", "%": "%", percent: "%", score: "score", puan: "score",
 };
 
 export const CANONICAL: Record<Dimension, string> = {
-  energy: "GJ", volume: "m3", mass: "t", emissions: "tCO2e", distance_mass: "tkm", distance_people: "pkm", money: "TRY", people: "persons", hours: "h", count: "cases", percent: "%", score: "score", fuel: "fuel-unit", intensity: "tCO2e/t", none: "",
+  energy: "GJ", volume: "m3", mass: "t", emissions: "tCO2e", distance_mass: "tkm", distance_people: "pkm", distance: "km", area: "m2", money: "TRY", people: "persons", hours: "h", count: "cases", percent: "%", score: "score", fuel: "fuel-unit", intensity: "tCO2e/t", none: "",
 };
 
 export function normalizeUnit(raw: string): string | null {

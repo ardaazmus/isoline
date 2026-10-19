@@ -2543,7 +2543,9 @@
       "hours": "hours",
       "cases": "cases",
       "evidence": "documents",
-      "various": "various"
+      "various": "various",
+      "km": "km",
+      "m2": "m²"
     },
     "items": {
       "ghg_stationary": "Stationary combustion fuels (natural gas, coal, fuel oil…)",
@@ -2584,7 +2586,14 @@
       "tax_activities": "Turnover, CapEx and OpEx by activity",
       "tax_screening": "Taxonomy alignment evidence",
       "tb_export": "Year-end trial balance",
-      "rec_prior": "Values reported last year"
+      "rec_prior": "Values reported last year",
+      "ind_steel_crude_production": "Crude steel production",
+      "ind_steel_scrap_input": "Scrap input",
+      "ind_clinker_production": "Clinker production",
+      "ind_cement_production": "Cement production",
+      "ind_transport_tkm": "Transport activity (tonne-km by mode)",
+      "ind_fleet_distance": "Fleet distance (by vehicle class)",
+      "ind_floor_area": "Floor area (m²)"
     },
     "docs": {
       "ghg_stationary": "Fuel invoices and meter readings, monthly",
@@ -2912,7 +2921,15 @@
       "amendment_reason_required": "An amended release needs a reason of at least 20 characters.",
       "pdf_required": "The proof must be a PDF.",
       "malware_detected": "The file contains malicious content.",
-      "too_large": "The file is too large."
+      "too_large": "The file is too large.",
+      "unknown_pack": "Industry pack not found.",
+      "facility_not_in_project": "The facility is not in this project's organisation.",
+      "no_packs": "No industry pack is switched on for this project.",
+      "question_too_short": "The question needs at least 10 characters.",
+      "answer_too_short": "The answer needs at least 10 characters.",
+      "opinion_file_required": "Choose the assurance report file to record it as received.",
+      "assurance_only": "Only a person with an assurance grant can ask.",
+      "not_asker": "Only the person who asked can close the question."
     },
     "auth": {
       "email": "E-mail",
@@ -3339,7 +3356,9 @@
         "consolidation": "Consolidation",
         "controls": "Controls",
         "close": "Close",
-        "reports": "Reports"
+        "reports": "Reports",
+        "industry": "Industry packs",
+        "assurance": "Assurance room"
       }
     },
     "cycle": {
@@ -3613,7 +3632,14 @@
       "issues": "Attention",
       "lateN": "{n} late",
       "criticalN": "{n} critical",
-      "blockedN": "{n} blocked"
+      "blockedN": "{n} blocked",
+      "ops": "Operations",
+      "collection": "{a}/{n} data items done",
+      "evidence": "evidence rate {p}",
+      "overdueN": "{n} overdue requests",
+      "blockersN": "{n} blocking",
+      "reviewN": "{n} awaiting review",
+      "reports": "{r}/{n} reports released"
     },
     "data": {
       "title": "Data",
@@ -3844,7 +3870,8 @@
         "cbam": "CBAM embedded emissions",
         "ets": "TR-ETS category",
         "consolidation": "Financial consolidation",
-        "reconciliation": "Reconciliation"
+        "reconciliation": "Reconciliation",
+        "industry": "Industry pack"
       },
       "kindHint": {
         "ghg": "Accepted facility data are summed with their share in the approved boundary; location- and market-based scope 2 are kept apart. Scope 3 is not calculated until the project chooses a factor.",
@@ -3977,7 +4004,14 @@
         "u7_annual_report": "U7 · Annual report investments ↔ energy/emission change",
         "u8_yoy": "U8 · Year-on-year change",
         "u9_estimated": "U9 · Estimated data share",
-        "u10_claims": "U10 · Green claims"
+        "u10_claims": "U10 · Green claims",
+        "pack_input_missing": "A data item the pack needs is missing",
+        "pack_ghg_missing": "No GHG result for the pack indicator (calculate GHG first)",
+        "scrap_share_implausible": "Scrap share above the plausible range",
+        "clinker_ratio_out_of_range": "Clinker ratio outside the usual range (50–97 %)",
+        "calcination_factor_out_of_range": "Measured process CO₂ per clinker outside the usual range (0.4–0.6)",
+        "tier1_calcination": "Calcination estimated with IPCC Tier 1; Tier 2 with plant CaO content recommended",
+        "ttw_basis": "Intensity on a tank-to-wheel basis; ISO 14083 also asks for well-to-wheel"
       },
       "m": {
         "ghg_scope1": "Scope 1",
@@ -4012,7 +4046,15 @@
         "cbam_embedded_total": "CBAM embedded emissions, total",
         "ets_verified_emissions": "TR-ETS verified emissions",
         "ets_category": "TR-ETS category",
-        "finance_consolidated_net_sales": "Consolidated net sales"
+        "finance_consolidated_net_sales": "Consolidated net sales",
+        "ind_steel_scrap_share": "Scrap share (per tonne of crude steel)",
+        "ind_steel_ghg_intensity": "GHG intensity (per tonne of crude steel)",
+        "ind_cement_clinker_ratio": "Clinker-to-cement ratio",
+        "ind_cement_calcination_tco2": "Calcination CO₂ (IPCC Tier 1)",
+        "ind_cement_process_intensity": "Process CO₂ (per tonne of clinker)",
+        "ind_logistics_tkm": "Transport activity",
+        "ind_logistics_intensity": "Transport emission intensity",
+        "ind_services_electricity_intensity": "Electricity intensity (per m²)"
       }
     },
     "lineage": {
@@ -4370,6 +4412,95 @@
         "page": "Page",
         "pageNote": "Page numbers are added after the layout is final."
       }
+    },
+    "ind": {
+      "title": "Industry packs",
+      "lead": "Industry packs add data items, formulas and checks on top of the common engine. A group can have several packs, each switched on for the facilities concerned. Packs are ISOLINE methodology templates, not official GRI sector standards; \"mandatory\" appears only where a regulation requires it.",
+      "pack": {
+        "steel": "Iron and steel",
+        "cement": "Cement and clinker",
+        "logistics": "Transport and logistics",
+        "services": "Retail, services and tourism"
+      },
+      "suggested": "suggested by activity code",
+      "on": "on",
+      "status": {
+        "methodology": "methodology template",
+        "official": "official standard",
+        "under_development": "under development"
+      },
+      "metricStatus": {
+        "mandatory": "mandatory",
+        "recommended": "recommended"
+      },
+      "facilities": "Facilities covered",
+      "enable": "Switch on",
+      "update": "Update facilities",
+      "disable": "Switch off",
+      "requestsTitle": "Add the pack data items to a campaign",
+      "campaign": "Campaign",
+      "addRequests": "Add requests",
+      "added": "{n} data requests added.",
+      "noCampaign": "Create a campaign on the Data tab first.",
+      "kpis": "Pack indicators — {label}",
+      "run": "Calculate pack indicators",
+      "noKpis": "No pack indicator calculated yet",
+      "estimated": "estimated (Tier 1)"
+    },
+    "as": {
+      "title": "Assurance room",
+      "engagement": "Assurance engagement — {label}",
+      "noEngagement": "No assurance engagement recorded for this cycle.",
+      "standard": "Standard",
+      "standards": {
+        "isae3000": "ISAE 3000 (Revised)",
+        "isae3410": "ISAE 3410 (GHG statements)",
+        "issa5000": "ISSA 5000",
+        "kgk_gds": "KGK assurance standard",
+        "other": "Other"
+      },
+      "level": "Level of assurance",
+      "levels": {
+        "limited": "Limited assurance",
+        "reasonable": "Reasonable assurance"
+      },
+      "createEngagement": "Record the engagement",
+      "status": "Status",
+      "statuses": {
+        "preparing": "Preparing",
+        "ready": "Ready for assurance",
+        "in_progress": "In progress",
+        "opinion_received": "Assurance report received",
+        "withdrawn": "Withdrawn"
+      },
+      "opinionFile": "Assurance report file",
+      "saveStatus": "Save status",
+      "opinionNote": "The assurance report is issued by the independent provider; only the file the company received is recorded here.",
+      "snapshotFacts": "Frozen metrics (version {v})",
+      "approvedFacts": "Approved metrics",
+      "noFacts": "No approved metric yet.",
+      "about": "About",
+      "general": "General question",
+      "question": "Question",
+      "ask": "Send question",
+      "questions": "Questions ({n})",
+      "noQuestions": "No questions yet.",
+      "qStatus": {
+        "open": "Awaiting answer",
+        "answered": "Answered",
+        "closed": "Closed"
+      },
+      "target": {
+        "fact": "metric",
+        "evidence": "evidence",
+        "report": "report",
+        "general": "general"
+      },
+      "answer": "Answer",
+      "attach": "Attach evidence",
+      "sendAnswer": "Send answer",
+      "files": "{n} files",
+      "close": "Close question"
     }
   }
 }

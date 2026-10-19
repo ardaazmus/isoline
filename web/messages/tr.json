@@ -2543,7 +2543,9 @@
       "hours": "saat",
       "cases": "olay",
       "evidence": "belge",
-      "various": "çeşitli"
+      "various": "çeşitli",
+      "km": "km",
+      "m2": "m²"
     },
     "items": {
       "ghg_stationary": "Sabit yanma yakıtları (doğal gaz, kömür, fuel-oil…)",
@@ -2584,7 +2586,14 @@
       "tax_activities": "Faaliyet bazında hasılat, yatırım ve gider",
       "tax_screening": "Taksonomi uyum kanıtları",
       "tb_export": "Dönem sonu mizanı",
-      "rec_prior": "Önceki yıl raporlanan değerler"
+      "rec_prior": "Önceki yıl raporlanan değerler",
+      "ind_steel_crude_production": "Ham çelik üretimi",
+      "ind_steel_scrap_input": "Hurda girdisi",
+      "ind_clinker_production": "Klinker üretimi",
+      "ind_cement_production": "Çimento üretimi",
+      "ind_transport_tkm": "Taşıma faaliyeti (ton-km, türe göre)",
+      "ind_fleet_distance": "Filo kat edilen mesafe (araç sınıfına göre)",
+      "ind_floor_area": "Kapalı alan (m²)"
     },
     "docs": {
       "ghg_stationary": "Yakıt faturaları ve sayaç okumaları, aylık",
@@ -2912,7 +2921,15 @@
       "amendment_reason_required": "Düzeltilmiş yayın için en az 20 karakterlik gerekçe gerekli.",
       "pdf_required": "Prova PDF olmalı.",
       "malware_detected": "Dosyada zararlı içerik bulundu.",
-      "too_large": "Dosya çok büyük."
+      "too_large": "Dosya çok büyük.",
+      "unknown_pack": "Sektör paketi bulunamadı.",
+      "facility_not_in_project": "Seçilen tesis bu projenin organizasyonunda değil.",
+      "no_packs": "Bu projede açık sektör paketi yok.",
+      "question_too_short": "Soru en az 10 karakter olmalı.",
+      "answer_too_short": "Yanıt en az 10 karakter olmalı.",
+      "opinion_file_required": "Güvence raporu alındı demek için rapor dosyası seçilmeli.",
+      "assurance_only": "Soruyu yalnız güvence izni olan kişi sorabilir.",
+      "not_asker": "Soruyu yalnız soran kişi kapatabilir."
     },
     "auth": {
       "email": "E-posta",
@@ -3339,7 +3356,9 @@
         "consolidation": "Konsolidasyon",
         "controls": "Kontroller",
         "close": "Kapanış",
-        "reports": "Raporlar"
+        "reports": "Raporlar",
+        "industry": "Sektör paketleri",
+        "assurance": "Güvence odası"
       }
     },
     "cycle": {
@@ -3613,7 +3632,14 @@
       "issues": "Dikkat",
       "lateN": "{n} gecikti",
       "criticalN": "{n} kritik",
-      "blockedN": "{n} engelli"
+      "blockedN": "{n} engelli",
+      "ops": "Operasyon",
+      "collection": "{a}/{n} veri kalemi tamam",
+      "evidence": "kanıt oranı {p}",
+      "overdueN": "{n} gecikmiş talep",
+      "blockersN": "{n} engelleyici",
+      "reviewN": "{n} inceleme bekliyor",
+      "reports": "{r}/{n} rapor yayımlandı"
     },
     "data": {
       "title": "Veri",
@@ -3844,7 +3870,8 @@
         "cbam": "SKDM gömülü emisyon",
         "ets": "TR-ETS kategori",
         "consolidation": "Finansal konsolidasyon",
-        "reconciliation": "Mutabakat"
+        "reconciliation": "Mutabakat",
+        "industry": "Sektör paketi"
       },
       "kindHint": {
         "ghg": "Kabul edilmiş tesis verileri onaylı sınırdaki paylarıyla toplanır; lokasyon ve piyasa bazlı kapsam 2 ayrı hesaplanır. Kapsam 3 faktörü projede seçilmeden hesaplanmaz.",
@@ -3977,7 +4004,14 @@
         "u7_annual_report": "U7 · Faaliyet raporu yatırımları ↔ enerji/emisyon değişimi",
         "u8_yoy": "U8 · Yıllık değişim",
         "u9_estimated": "U9 · Tahmini veri payı",
-        "u10_claims": "U10 · Yeşil iddialar"
+        "u10_claims": "U10 · Yeşil iddialar",
+        "pack_input_missing": "Paket için gereken veri kalemi yok",
+        "pack_ghg_missing": "Paket göstergesi için sera gazı sonucu yok (önce sera gazını hesaplayın)",
+        "scrap_share_implausible": "Hurda oranı makul aralığın üstünde",
+        "clinker_ratio_out_of_range": "Klinker oranı olağan aralığın (%50–97) dışında",
+        "calcination_factor_out_of_range": "Ölçülen proses CO₂ / klinker olağan aralığın (0,4–0,6) dışında",
+        "tier1_calcination": "Kalsinasyon IPCC Tier 1 ile tahmin edildi; tesis CaO içeriğiyle Tier 2 önerilir",
+        "ttw_basis": "Yoğunluk depo-tekerlek (TTW) esaslı; ISO 14083 kuyu-tekerlek (WTW) de ister"
       },
       "m": {
         "ghg_scope1": "Kapsam 1",
@@ -4012,7 +4046,15 @@
         "cbam_embedded_total": "SKDM gömülü emisyon toplamı",
         "ets_verified_emissions": "TR-ETS doğrulanmış emisyon",
         "ets_category": "TR-ETS kategorisi",
-        "finance_consolidated_net_sales": "Konsolide net satışlar"
+        "finance_consolidated_net_sales": "Konsolide net satışlar",
+        "ind_steel_scrap_share": "Hurda oranı (ham çelik başına)",
+        "ind_steel_ghg_intensity": "Sera gazı yoğunluğu (ton ham çelik başına)",
+        "ind_cement_clinker_ratio": "Klinker / çimento oranı",
+        "ind_cement_calcination_tco2": "Kalsinasyon CO₂ (IPCC Tier 1)",
+        "ind_cement_process_intensity": "Proses CO₂ (ton klinker başına)",
+        "ind_logistics_tkm": "Taşıma faaliyeti",
+        "ind_logistics_intensity": "Taşıma emisyon yoğunluğu",
+        "ind_services_electricity_intensity": "Elektrik yoğunluğu (m² başına)"
       }
     },
     "lineage": {
@@ -4370,6 +4412,95 @@
         "page": "Sayfa",
         "pageNote": "Sayfa numaraları sayfa düzeni tamamlandıktan sonra eklenir."
       }
+    },
+    "ind": {
+      "title": "Sektör paketleri",
+      "lead": "Sektör paketleri ortak hesap motorunun üzerine veri kalemi, formül ve kontrol ekler. Bir grup birden çok pakete sahip olabilir; her paket ilgili tesisler için açılır. Paketler ISOLINE yöntem şablonlarıdır, resmî GRI sektör standardı değildir; \"zorunlu\" yalnız bir mevzuat gerektirdiğinde yazılır.",
+      "pack": {
+        "steel": "Demir-çelik",
+        "cement": "Çimento ve klinker",
+        "logistics": "Ulaştırma ve lojistik",
+        "services": "Perakende, hizmet ve turizm"
+      },
+      "suggested": "faaliyet koduna göre önerilir",
+      "on": "açık",
+      "status": {
+        "methodology": "yöntem şablonu",
+        "official": "resmî standart",
+        "under_development": "geliştiriliyor"
+      },
+      "metricStatus": {
+        "mandatory": "zorunlu",
+        "recommended": "önerilir"
+      },
+      "facilities": "Kapsadığı tesisler",
+      "enable": "Paketi aç",
+      "update": "Tesisleri güncelle",
+      "disable": "Paketi kapat",
+      "requestsTitle": "Paket veri kalemlerini kampanyaya ekle",
+      "campaign": "Kampanya",
+      "addRequests": "Talepleri ekle",
+      "added": "{n} veri talebi eklendi.",
+      "noCampaign": "Önce Veri sekmesinden bir kampanya oluşturun.",
+      "kpis": "Paket göstergeleri — {label}",
+      "run": "Paket göstergelerini hesapla",
+      "noKpis": "Henüz paket göstergesi hesaplanmadı",
+      "estimated": "tahmini (Tier 1)"
+    },
+    "as": {
+      "title": "Güvence odası",
+      "engagement": "Güvence işi — {label}",
+      "noEngagement": "Bu dönem için kayıtlı bir güvence işi yok.",
+      "standard": "Standart",
+      "standards": {
+        "isae3000": "ISAE 3000 (Revize)",
+        "isae3410": "ISAE 3410 (sera gazı)",
+        "issa5000": "ISSA 5000",
+        "kgk_gds": "KGK Güvence Denetimi Standardı",
+        "other": "Diğer"
+      },
+      "level": "Güvence düzeyi",
+      "levels": {
+        "limited": "Sınırlı güvence",
+        "reasonable": "Makul güvence"
+      },
+      "createEngagement": "Güvence işini kaydet",
+      "status": "Durum",
+      "statuses": {
+        "preparing": "Hazırlık",
+        "ready": "Güvenceye hazır",
+        "in_progress": "Güvence sürüyor",
+        "opinion_received": "Güvence raporu alındı",
+        "withdrawn": "Geri çekildi"
+      },
+      "opinionFile": "Güvence raporu dosyası",
+      "saveStatus": "Durumu kaydet",
+      "opinionNote": "Güvence raporunu bağımsız güvence sağlayıcısı verir; burada yalnız kurumun aldığı rapor dosyası kaydedilir.",
+      "snapshotFacts": "Dondurulmuş metrikler (sürüm {v})",
+      "approvedFacts": "Onaylı metrikler",
+      "noFacts": "Henüz onaylı metrik yok.",
+      "about": "Konu",
+      "general": "Genel soru",
+      "question": "Soru",
+      "ask": "Soruyu gönder",
+      "questions": "Sorular ({n})",
+      "noQuestions": "Henüz soru yok.",
+      "qStatus": {
+        "open": "Yanıt bekliyor",
+        "answered": "Yanıtlandı",
+        "closed": "Kapandı"
+      },
+      "target": {
+        "fact": "metrik",
+        "evidence": "kanıt",
+        "report": "rapor",
+        "general": "genel"
+      },
+      "answer": "Yanıt",
+      "attach": "Kanıt ekle",
+      "sendAnswer": "Yanıtı gönder",
+      "files": "{n} dosya",
+      "close": "Soruyu kapat"
     }
   }
 }

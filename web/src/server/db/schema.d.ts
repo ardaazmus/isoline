@@ -69,6 +69,43 @@ export interface CoreApplicabilityAssessments {
   updated_at: Generated<Timestamp>;
 }
 
+export interface CoreAssuranceEngagements {
+  created_at: Generated<Timestamp>;
+  created_by: string;
+  cycle_id: string;
+  id: Generated<string>;
+  level: string;
+  opinion_evidence_id: string | null;
+  opinion_recorded_at: Timestamp | null;
+  opinion_recorded_by: string | null;
+  owner_tenant_id: string;
+  project_id: string;
+  provider_tenant_id: string | null;
+  standard: string;
+  status: Generated<string>;
+}
+
+export interface CoreAssuranceQuestions {
+  answer: string | null;
+  answer_evidence_ids: Generated<string[]>;
+  answered_at: Timestamp | null;
+  answered_by: string | null;
+  asked_at: Generated<Timestamp>;
+  asked_by: string;
+  asked_tenant_id: string | null;
+  closed_at: Timestamp | null;
+  closed_by: string | null;
+  cycle_id: string;
+  engagement_id: string | null;
+  id: Generated<string>;
+  owner_tenant_id: string;
+  project_id: string;
+  question: string;
+  status: Generated<string>;
+  target_id: string | null;
+  target_type: string;
+}
+
 export interface CoreAuditEvents {
   acting_tenant_id: string | null;
   action: string;
@@ -643,6 +680,19 @@ export interface CoreOwnershipEdges {
   valid_to: string | null;
 }
 
+export interface CoreProjectIndustryPacks {
+  disabled_at: Timestamp | null;
+  disabled_by: string | null;
+  enabled_at: Generated<Timestamp>;
+  enabled_by: string;
+  facility_ids: Generated<string[]>;
+  id: Generated<string>;
+  owner_tenant_id: string;
+  pack_id: string;
+  pack_version: string;
+  project_id: string;
+}
+
 export interface CoreProjectParticipants {
   added_by: string;
   created_at: Generated<Timestamp>;
@@ -982,6 +1032,8 @@ export interface Verification {
 export interface DB {
   account: Account;
   "core.applicability_assessments": CoreApplicabilityAssessments;
+  "core.assurance_engagements": CoreAssuranceEngagements;
+  "core.assurance_questions": CoreAssuranceQuestions;
   "core.audit_events": CoreAuditEvents;
   "core.boundary_members": CoreBoundaryMembers;
   "core.calculation_runs": CoreCalculationRuns;
@@ -1017,6 +1069,7 @@ export interface DB {
   "core.organizations": CoreOrganizations;
   "core.outbox_events": CoreOutboxEvents;
   "core.ownership_edges": CoreOwnershipEdges;
+  "core.project_industry_packs": CoreProjectIndustryPacks;
   "core.project_participants": CoreProjectParticipants;
   "core.projects": CoreProjects;
   "core.quality_issues": CoreQualityIssues;
